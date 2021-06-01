@@ -1,4 +1,4 @@
-package com.adventureit.userservice.Responses;
+package com.adventureit.adventureservice.Responses;
 
 public class AddUserToAdventureResponse {
     private boolean success;
