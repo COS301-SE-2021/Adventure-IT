@@ -11,4 +11,19 @@ public class AddUserToAdventureResponse {
         this.message = message;
         this.token =token;
     }
+
+    public boolean isSuccess()
+    {
+        return this.success;
+    }
+
+    public String getMessage()
+    {
+        return this.message;
+    }
+
+    public String getToken()
+    {
+        return this.token;
+    }
 }
