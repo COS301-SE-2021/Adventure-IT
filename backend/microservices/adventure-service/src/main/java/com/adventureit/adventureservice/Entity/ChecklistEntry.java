@@ -13,27 +13,44 @@ public class ChecklistEntry {
     private String title;
     private Boolean completed;
 
-    // Default constructor
+    /**
+     * Default constructor
+     */
     public ChecklistEntry(){}
 
-    // Parameterized constructor: with only title
+    /**
+     * Create a checklist entry with only a title, defaulting its completion status to false
+     *
+     * @param title
+     * The title of the checklist entry
+     */
     public ChecklistEntry(String title){
         this.title = title;
         this.completed = false;
     }
 
-    // Parameterized constructor: with title and completed
+    /**
+     * Create a checklist entry with a title and status of completion
+     * @param title
+     * The title of the checklist entry
+     * @param completed
+     * The status of the completion of the checklist entry
+     */
     public ChecklistEntry(String title, Boolean completed) {
         this.title = title;
         this.completed = completed;
     }
 
-    // Method to toggle completed value
+    /**
+     * Toggles the value of the completion state of the checklist entry
+     */
     public void toggleCompleted(){
         this.completed = !this.completed;
     }
 
-    // Getters and setters
+    /**
+     * Getters and setters
+     */
 
     public String getTitle() {
         return title;

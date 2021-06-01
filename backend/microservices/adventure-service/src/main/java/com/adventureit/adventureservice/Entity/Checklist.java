@@ -14,34 +14,66 @@ public class Checklist {
     @OneToMany
     private List<ChecklistEntry> items;
 
-    // Default constructor
+    /**
+     * Default constructor
+     */
     public Checklist(){}
 
-    // Parameterized constructor: without prepopulated checklist entry list
+    /**
+     * Parameterised constructor
+     *
+     * @param title
+     * The title of the checklist
+     * @param description
+     * The description of the checklist
+     */
     public Checklist(String title, String description) {
         this.title = title;
         this.description = description;
         this.items = new ArrayList<ChecklistEntry>();
     }
 
-    // Parameterized constructor: with prepopulated checklist entry list
+    /**
+     * Parameterised constructor
+     *
+     * @param title
+     * The title of the checklist
+     * @param description
+     * The description of the checklist
+     * @param items
+     * A prepopulated list of checklist entries to be added to this list
+     */
     public Checklist(String title, String description, List<ChecklistEntry> items) {
         this.title = title;
         this.description = description;
         this.items = items;
     }
 
-    // Method for getting a checklist item at a provided index
+    /**
+     * Get a checklist entry at a provided index
+     *
+     * @param index
+     * The index of the checklist entry to be retrieved
+     * @return
+     * The checklist entry corresponding to the provided index
+     */
     public ChecklistEntry getItem(int index) {
         return this.items.get(index);
     }
 
-    // Method for adding a single checklist item
+    /**
+     * Add a single checklist entry to the checklist
+     *
+     * @param item
+     * The single item to be added to the checklist
+     */
     public void addItem(ChecklistEntry item) {
         this.items.add(item);
     }
 
-    // Getters and setters
+    /**
+     * Getters and setters
+     */
 
     public String getTitle() {
         return this.title;
