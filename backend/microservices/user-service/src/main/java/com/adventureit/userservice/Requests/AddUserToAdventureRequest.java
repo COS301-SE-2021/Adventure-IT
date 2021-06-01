@@ -1,16 +1,16 @@
 package com.adventureit.userservice.Requests;
 
+import java.util.UUID;
+
 public class AddUserToAdventureRequest {
-    private String fname;
-    private String lname;
-    private String phoneNum;
+    private UUID id;
     private String adventureName;
 
-    public AddUserToAdventureRequest(String fname, String lname, String phoneNum, String adventureName)
+    public AddUserToAdventureRequest(UUID id, String adventureName)
     {
-        this.fname = fname;
-        this.lname = lname;
-        this.phoneNum = phoneNum;
+        this.id = id;
         this.adventureName = adventureName;
+
+        //getUser(this.id)
     }
 }
