@@ -10,11 +10,29 @@ public class CreateAdventureResponse {
     private Adventure adventure;
 
 
-    CreateAdventureResponse(){}
+    public CreateAdventureResponse(){}
 
     public Adventure getAdventure() {
         return adventure;
     }
 
+    public boolean isSuccess() {
+        return success;
+    }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setAdventure(Adventure adventure) {
+        this.adventure = adventure;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
 }

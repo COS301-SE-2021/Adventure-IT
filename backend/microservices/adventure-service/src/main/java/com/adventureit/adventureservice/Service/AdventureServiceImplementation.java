@@ -13,6 +13,8 @@ public class AdventureServiceImplementation implements AdventureService{
 
     @Override
     public CreateAdventureResponse createAdventure(CreateAdventureRequest req) {
+
+        CreateAdventureResponse response = new CreateAdventureResponse();
         return null;
     }
 
