@@ -7,6 +7,14 @@ public class RegisterUserRequest {
     private String password;
     private String phoneNum;
 
+    /**
+     * Constructor for request object which takes in the following parameters:
+     * @param fName = user first name
+     * @param lName = user last name
+     * @param email = user email
+     * @param password = user password
+     * @param phoneNum =use phone number
+     */
 
     public RegisterUserRequest(String fName,String lName,String email,String password,String phoneNum){
         this.fName = fName;
@@ -15,36 +23,95 @@ public class RegisterUserRequest {
         this.phoneNum = phoneNum;
         this.password = password;
     }
-    /*GETTERS*/
+
+
+    /**********************GETTERS**********************/
+
+
+
+    /**
+     * RegisterUserRequest service to retrieve request first name
+     * @return fName
+     */
     public String getfName() {
         return fName;
     }
+
+    /**
+     * RegisterUserRequest service to retrieve request last name
+     * @return lName
+     */
     public String getlName() {
         return lName;
     }
+
+    /**
+     * RegisterUserRequest service to retrieve request phone number
+     * @return phoneNum
+     */
     public String getPhoneNum() {
         return phoneNum;
     }
+
+    /**
+     * RegisterUserRequest service to retrieve request email
+     * @return email
+     */
     public String getEmail() {
         return email;
     }
+
+    /**
+     * RegisterUserRequest service to retrieve request password
+     * @return password
+     */
     public String getPassword() {
         return password;
     }
-    /*SETTERS*/
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public void setlName(String lName) {
-        this.lName = lName;
-    }
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
-    }
+
+    /*******************SETTERS********************/
+
+    /**
+     * User service to set request first name
+     * @param fName
+     */
     public void setfName(String fName) {
         this.fName = fName;
     }
+
+    /**
+     * User service to set request last name
+     * @param lName
+     */
+    public void setlName(String lName) {
+        this.lName = lName;
+    }
+
+    /**
+     * User service to set request phone number
+     * @param phoneNum
+     */
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
+    /**
+     * User service to set request email
+     * @param email
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * User service to set request password
+     * @param password
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
+
+
 }

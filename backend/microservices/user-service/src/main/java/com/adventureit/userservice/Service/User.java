@@ -13,6 +13,15 @@ public class User {
     private String password;
     private String phoneNumber;
 
+    /**
+     * User model Constructor which takes in the following parameters:
+     * @param userID
+     * @param firstname
+     * @param lastname
+     * @param email
+     * @param password
+     * @param phoneNumber
+     */
 
     public User(UUID userID, String firstname, String lastname, String email, String password, String phoneNumber) {
         this.userID = userID;
