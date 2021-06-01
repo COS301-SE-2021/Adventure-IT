@@ -1,4 +1,4 @@
-package com.adventureit.userservice;
+package com.adventureit.adventureservice;
 
 import java.util.Random;
 import java.util.UUID;
