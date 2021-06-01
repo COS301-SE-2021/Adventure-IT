@@ -1,8 +1,6 @@
 <component name="libraryTable">
   <library name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.5.0">
-    <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/2.5.0/spring-boot-autoconfigure-2.5.0.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/2.5.0/spring-boot-autoconfigure-2.5.0-javadoc.jar!/" />
     </JAVADOC>

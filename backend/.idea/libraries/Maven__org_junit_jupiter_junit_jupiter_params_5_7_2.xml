@@ -1,8 +1,6 @@
 <component name="libraryTable">
   <library name="Maven: org.junit.jupiter:junit-jupiter-params:5.7.2">
-    <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-params/5.7.2/junit-jupiter-params-5.7.2.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-params/5.7.2/junit-jupiter-params-5.7.2-javadoc.jar!/" />
     </JAVADOC>

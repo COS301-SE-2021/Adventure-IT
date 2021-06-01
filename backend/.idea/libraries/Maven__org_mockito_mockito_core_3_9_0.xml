@@ -1,8 +1,6 @@
 <component name="libraryTable">
   <library name="Maven: org.mockito:mockito-core:3.9.0">
-    <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-core/3.9.0/mockito-core-3.9.0.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-core/3.9.0/mockito-core-3.9.0-javadoc.jar!/" />
     </JAVADOC>
