@@ -4,13 +4,31 @@ import java.util.UUID;
 
 public class AddUserToAdventureRequest {
     private UUID id;
-    private String adventureName;
+    private UUID advID;
 
-    public AddUserToAdventureRequest(UUID id, String adventureName)
+    public AddUserToAdventureRequest(UUID id, UUID advID)
     {
         this.id = id;
-        this.adventureName = adventureName;
+        this.advID = advID;
+    }
 
-        //getUser(this.id)
+    public UUID getUserID()
+    {
+        return this.id;
+    }
+
+    public UUID getAdventureID()
+    {
+        return this.advID;
+    }
+
+    public void setUserID(UUID id)
+    {
+        this.id = id;
+    }
+
+    public void setAdventureID(UUID advID)
+    {
+        this.advID = advID;
     }
 }
