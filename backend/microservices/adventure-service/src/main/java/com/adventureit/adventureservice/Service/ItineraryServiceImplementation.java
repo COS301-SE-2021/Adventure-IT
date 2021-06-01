@@ -1,5 +1,11 @@
 package com.adventureit.adventureservice.Service;
 
+import com.adventureit.adventureservice.Entity.Adventure;
+import com.adventureit.adventureservice.Entity.Itinerary;
+import com.adventureit.adventureservice.Requests.CreateItineraryRequest;
+import com.adventureit.adventureservice.Requests.RemoveItineraryRequest;
+import com.adventureit.adventureservice.Responses.CreateItineraryResponse;
+import com.adventureit.adventureservice.Responses.RemoveItineraryResponse;
 import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
@@ -31,7 +37,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
      * @return CreateItineraryResponse Object which will return the itinerary ID
      */
     @Override
-    public CreateItineraryResponse CreateItinerary( CreateItineraryRequest req) throws InvalidRequestException {
+    public CreateItineraryResponse createItinerary(CreateItineraryRequest req) throws InvalidRequestException {
 
         /*Exception handling for invalid Request*/
         if(req==null||req.getTitle()==null||req.getDescription()==null&&req.getAdventureID()==null||req.getUserID()==null){
@@ -42,15 +48,14 @@ public class ItineraryServiceImplementation implements ItineraryService {
         return new CreateItineraryResponse(newItinerary.getId());
     }
 
-    
-    public RemoveItineraryResponse RemoveItinerary(RemoveItineraryRequest req) throws InvalidRequestException
+    @Override
+    public RemoveItineraryResponse removeItinerary(RemoveItineraryRequest req) throws InvalidRequestException
     {
         /*Exception handling for invalid Request*/
-        if(req==null||req.getAdventureID()==null||req.getUserID()==null&&req.getId()==null){
+        if(req==null||req.getAdventureID()==null||req.getUserID()==null&&req.getId()==0){
             throw new InvalidRequestException("404 Bad Request");
         }
         Adventure adv=getAdventureById(req.getAdventureID());
-        EntryContainer x;
         int i=0;
         for(;i<adv.getContainers().size();i++)
         {
@@ -59,7 +64,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
                 break;
             }
         }
-        if(adv.getOwner.getUserID==req.getUserID()||adv.getContainers().get(i).getCreatorID()==req.getUserID())
+        if(adv.getOwner().getUserID()==req.getUserID()||adv.getContainers().get(i).getCreatorID()==req.getUserID())
         {
             adv.getContainers().remove(i);
             return new RemoveItineraryResponse(true);

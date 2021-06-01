@@ -1,4 +1,5 @@
 package com.adventureit.adventureservice.Entity;
+import com.adventureit.userservice.Service.User;
 
 import javax.persistence.*;
 import java.util.ArrayList;
