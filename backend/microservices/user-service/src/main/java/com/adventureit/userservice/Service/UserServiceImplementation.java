@@ -4,9 +4,7 @@ import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
-import com.adventureit.userservice.Requests.AddUserToAdventureRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
-import com.adventureit.userservice.Responses.AddUserToAdventureResponse;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
@@ -84,9 +82,5 @@ public class UserServiceImplementation implements UserService {
         return new RegisterUserResponse(true,"200 OK" ,"User "+firstName+" "+lastName+" successfully Registered");
     }
 
-    @Override
-    public AddUserToAdventureResponse AddUserToAdventure(AddUserToAdventureRequest req)
-    {
-        return new AddUserToAdventureResponse(true, " has been added to adventure: ");
-    }
+
 }

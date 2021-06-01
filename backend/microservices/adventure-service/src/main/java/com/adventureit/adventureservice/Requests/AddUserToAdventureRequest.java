@@ -1,4 +1,4 @@
-package com.adventureit.userservice.Requests;
+package com.adventureit.adventureservice.Requests;
 
 import java.util.UUID;
 
