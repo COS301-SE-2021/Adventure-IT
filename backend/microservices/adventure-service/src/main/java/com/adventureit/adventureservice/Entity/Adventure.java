@@ -11,18 +11,17 @@ public class Adventure {
     private UUID id;
     private User owner;
     private ArrayList<String> group;
-    private ArrayList<EntryContainer> itinerary;
-    private ArrayList<EntryContainer> checklists;
+    private ArrayList<EntryContainer> Containers;
 
 
+    public Adventure(){}
 
-    public Adventure(String name, UUID id, User owner , ArrayList<String> group ,ArrayList<EntryContainer> itinerary, ArrayList<EntryContainer> checklists){
+    public Adventure(String name, UUID id, User owner , ArrayList<String> group ,ArrayList<EntryContainer> containers){
         this.name=name;
         this.id=id;
         this.owner = owner;
         this.group = group;
-        this.itinerary = itinerary;
-        this.checklists = checklists;
+        this.Containers = containers;
     }
 
     public String getName() {
@@ -57,20 +56,12 @@ public class Adventure {
         this.group = group;
     }
 
-    public ArrayList<EntryContainer> getChecklists() {
-        return checklists;
+    public ArrayList<EntryContainer> getContainers() {
+        return Containers;
     }
 
-    public void setChecklists(ArrayList<EntryContainer> checklists) {
-        this.checklists = checklists;
-    }
-
-    public ArrayList<EntryContainer> getItinerary() {
-        return itinerary;
-    }
-
-    public void setItinerary(ArrayList<EntryContainer> itinerary) {
-        this.itinerary = itinerary;
+    public void setContainers(ArrayList<EntryContainer> containers) {
+        this.Containers = containers;
     }
 
 }
