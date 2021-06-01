@@ -35,7 +35,7 @@ public class UserServiceImplementation implements UserService {
      *
      *
      * @return RegisterUserResponse Object which will indicate whether
-     * registration was successful or if an error occured
+     * registration was successful or if an error occurred
      */
     @Override
     public RegisterUserResponse RegisterUser(RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPasswordException, InvalidUserPhoneNumberException, InvalidRequestException {

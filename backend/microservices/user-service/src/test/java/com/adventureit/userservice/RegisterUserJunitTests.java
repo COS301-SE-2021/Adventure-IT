@@ -89,7 +89,7 @@ public class RegisterUserJunitTests {
     }
 
     @Test
-    @Description("This test tests whether the request objectis null and throws correct exception")
+    @Description("This test tests whether the request object is null and throws correct exception")
      void TestInvalidRequest() throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException {
         RegisterUserRequest req = null;
         Throwable thrown = assertThrows(InvalidRequestException.class , ()-> user.RegisterUser(req));
