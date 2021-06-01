@@ -1,12 +1,13 @@
 package com.adventureit.userservice.Service;
 
+import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
 import org.springframework.stereotype.Service;
-
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,19 +30,27 @@ public class UserServiceImplementation implements UserService {
      * 3. Validate user phone number
      * 4. Check that user isn't already stored in the database
      * 5. Encrypt User password
-     * 6. Create and add new User to database
+     * 6. New UserId will be generated
+     * 7. Create and add new User to database
      *
      *
      * @return RegisterUserResponse Object which will indicate whether
      * registration was successful or if an error occured
      */
     @Override
-    public RegisterUserResponse RegisterUser(RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPasswordException, InvalidUserPhoneNumberException {
+    public RegisterUserResponse RegisterUser(RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPasswordException, InvalidUserPhoneNumberException, InvalidRequestException {
+
+        /*Exception handling for invalid Request*/
+        if(req==null){
+            throw new InvalidRequestException("404 Bad Request");
+        }
+        UUID userId = UUID.randomUUID();
         String firstName = req.getfName();
         String lastName = req.getlName();
         String email = req.getEmail();
         String password = req.getPassword();
         String phoneNum = req.getPhoneNum();
+        /*generate Regex for email, password and phone number*/
         String emailRegex = "^(.+)@(.+)$";
         String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–{}:;',?/*~$^+=<>]).{8,20}$";
         String phoneNumRegex = "^(\\+27|0)[6-8][0-9]{8}$";
@@ -55,6 +64,7 @@ public class UserServiceImplementation implements UserService {
         Pattern phoneNumPattern = Pattern.compile(phoneNumRegex);
         Matcher phoneNumMatcher = phoneNumPattern.matcher(phoneNum);
 
+        /*Exception handling for invalid email,password or phone number*/
         if(!emailMatcher.matches()){
             throw new InvalidUserEmailException("User email is incorrect - Unable to process registration");
         }
@@ -64,6 +74,10 @@ public class UserServiceImplementation implements UserService {
         if(!phoneNumMatcher.matches()){
             throw new InvalidUserPhoneNumberException("User phone number is incorrect - Unable to process registration");
         }
+        //TODO Decide on password encryption method
+
+        /*New User has been created*/
+        User newUser = new User(userId,firstName,lastName,email,password,phoneNum);
 
         return new RegisterUserResponse(true,"200 OK" ,"User "+firstName+" "+lastName+" successfully Registered");
     }
