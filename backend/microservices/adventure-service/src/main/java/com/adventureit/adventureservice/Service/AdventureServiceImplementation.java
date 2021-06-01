@@ -27,7 +27,7 @@ public class AdventureServiceImplementation implements AdventureService{
         if(res.isSuccess())
         {   userToBeAdded = res.getUser();  }
 
-        return new AddUserToAdventureResponse(true, userToBeAdded.getFirstname()+" "+userToBeAdded.getLastname+" has been added to adventure: ");
+        return new AddUserToAdventureResponse(true, userToBeAdded.getFirstname()+" "+userToBeAdded.getLastname()+" has been added to adventure: ");
         */
         return new AddUserToAdventureResponse(true, " has been added to adventure: ");
     }
