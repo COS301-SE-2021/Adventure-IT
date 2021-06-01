@@ -43,7 +43,7 @@ public class UserServiceImplementation implements UserService {
         String password = req.getPassword();
         String phoneNum = req.getPhoneNum();
         String emailRegex = "^(.+)@(.+)$";
-        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
+        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–{}:;',?/*~$^+=<>]).{8,20}$";
         String phoneNumRegex = "^(\\+27|0)[6-8][0-9]{8}$";
 
         Pattern emailPattern = Pattern.compile(emailRegex);
@@ -56,16 +56,16 @@ public class UserServiceImplementation implements UserService {
         Matcher phoneNumMatcher = phoneNumPattern.matcher(phoneNum);
 
         if(!emailMatcher.matches()){
-            throw new InvalidUserEmailException("User email is incorrect");
+            throw new InvalidUserEmailException("User email is incorrect - Unable to process registration");
         }
         if(!passwordMatcher.matches()){
-            throw new InvalidUserPasswordException("User password is incorrect");
+            throw new InvalidUserPasswordException("User password is incorrect - Unable to process registration");
         }
         if(!phoneNumMatcher.matches()){
-            throw new InvalidUserPhoneNumberException("User phone number is incorrect");
+            throw new InvalidUserPhoneNumberException("User phone number is incorrect - Unable to process registration");
         }
 
-        return new RegisterUserResponse(true, "User"+firstName+" "+lastName+" Succesfully Registered");
+        return new RegisterUserResponse(true,"200 OK" ,"User "+firstName+" "+lastName+" successfully Registered");
     }
 
 }
