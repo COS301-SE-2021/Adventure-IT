@@ -44,9 +44,7 @@ public class AdventureServiceImplementation implements AdventureService{
         else {
             adventure.setOwner(req.getOwner());
         }
-
-
-
+        
         return new CreateAdventureResponse(true, adventure);
     }
 
