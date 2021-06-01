@@ -3,13 +3,11 @@ package com.adventureit.userservice.Responses;
 public class AddUserToAdventureResponse {
     private boolean success;
     private String message;
-    private String token;
 
-    public AddUserToAdventureResponse(boolean success,String token, String message)
+    public AddUserToAdventureResponse(boolean success, String message)
     {
         this.success = success;
         this.message = message;
-        this.token =token;
     }
 
     public boolean isSuccess()
@@ -22,11 +20,6 @@ public class AddUserToAdventureResponse {
         return this.message;
     }
 
-    public String getToken()
-    {
-        return this.token;
-    }
-
     public void setSuccess(boolean success)
     {
         this.success = success;
@@ -35,10 +28,5 @@ public class AddUserToAdventureResponse {
     public void setMessage(String message)
     {
         this.message = message;
-    }
-
-    public void setToken(String token)
-    {
-        this.token = token;
     }
 }
