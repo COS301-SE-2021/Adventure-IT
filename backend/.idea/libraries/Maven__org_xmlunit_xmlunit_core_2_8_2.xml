@@ -1,6 +1,8 @@
 <component name="libraryTable">
   <library name="Maven: org.xmlunit:xmlunit-core:2.8.2">
-    <CLASSES />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/xmlunit/xmlunit-core/2.8.2/xmlunit-core-2.8.2.jar!/" />
+    </CLASSES>
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/org/xmlunit/xmlunit-core/2.8.2/xmlunit-core-2.8.2-javadoc.jar!/" />
     </JAVADOC>
