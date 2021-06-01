@@ -4,7 +4,9 @@ import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
+import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
+import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
@@ -80,6 +82,38 @@ public class UserServiceImplementation implements UserService {
         User newUser = new User(userId,firstName,lastName,email,password,phoneNum);
 
         return new RegisterUserResponse(true,"200 OK" ,"User "+firstName+" "+lastName+" successfully Registered");
+    }
+
+    /**
+     *
+     * @param req
+     * Attributes which will be attained from the req param will include:
+     * UserID the user Id of the user tha they want to retrieve.
+     *
+     * Using the request object the RegisterUser Service will:
+     * 1. Retrieve the UserID from the request object
+     * 2. Create a new User object with a set name, surname,phone number, password and email
+     * 3. Then create a response object which will hold the User object and will send it through.
+     *
+     * NB: This is only for integration testing!!!! The implementation will change as we progress
+     * with the project.
+     *
+     *
+     * @return GetUserByUUIDResponse object will hold a boolean value to state whether the
+     * service was successful as well as a current mock user used for integration testing
+     */
+    public GetUserByUUIDResponse GetUserByUUID(GetUserByUUIDRequest req){
+
+
+        UUID userID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
+        String name = "Michael";
+        String surname = "Kevington";
+        String email = "u19068767@.co.za";
+        String phoneNum = "0794083122";
+        String password = "AstrongPassword123!";
+        User newUser = new User(userID,name,surname,email,password,phoneNum);
+
+        return new GetUserByUUIDResponse(newUser, true);
     }
 
 }
