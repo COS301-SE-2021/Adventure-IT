@@ -3,12 +3,10 @@ package com.adventureit.adventureservice.Entity;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
-public class Checklist {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+public class Checklist extends EntryContainer {
     private String title;
     private String description;
     @OneToMany
@@ -26,11 +24,17 @@ public class Checklist {
      * The title of the checklist
      * @param description
      * The description of the checklist
+     * @param creatorID
+     * The UUID of the user who is creating the checklist
+     * @param adventureID
+     * The UUID of the adventure to which the checklist belongs
      */
-    public Checklist(String title, String description) {
+    public Checklist(String title, String description, UUID creatorID, UUID adventureID) {
         this.title = title;
         this.description = description;
         this.items = new ArrayList<ChecklistEntry>();
+        this.setCreatorID(creatorID);
+        this.setAdventureID(adventureID);
     }
 
     /**
@@ -42,11 +46,17 @@ public class Checklist {
      * The description of the checklist
      * @param items
      * A prepopulated list of checklist entries to be added to this list
+     * @param creatorID
+     * The UUID of the user who is creating the checklist
+     * @param adventureID
+     * The UUID of the adventure to which the checklist belongs
      */
-    public Checklist(String title, String description, List<ChecklistEntry> items) {
+    public Checklist(String title, String description, List<ChecklistEntry> items, UUID creatorID, UUID adventureID) {
         this.title = title;
         this.description = description;
         this.items = items;
+        this.setCreatorID(creatorID);
+        this.setAdventureID(adventureID);
     }
 
     /**

@@ -6,10 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class ChecklistEntry {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+public class ChecklistEntry extends Entry{
     private String title;
     private Boolean completed;
 
@@ -23,10 +20,13 @@ public class ChecklistEntry {
      *
      * @param title
      * The title of the checklist entry
+     * @param entryContainerID
+     * The ID of the checklist to which this entry belongs
      */
-    public ChecklistEntry(String title){
+    public ChecklistEntry(String title,  long entryContainerID){
         this.title = title;
         this.completed = false;
+        this.setEntryContainerID(entryContainerID);
     }
 
     /**
@@ -35,10 +35,13 @@ public class ChecklistEntry {
      * The title of the checklist entry
      * @param completed
      * The status of the completion of the checklist entry
+     * @param entryContainerID
+     * The ID of the checklist to which this entry belongs
      */
-    public ChecklistEntry(String title, Boolean completed) {
+    public ChecklistEntry(String title, Boolean completed,  long entryContainerID) {
         this.title = title;
         this.completed = completed;
+        this.setEntryContainerID(entryContainerID);
     }
 
     /**
