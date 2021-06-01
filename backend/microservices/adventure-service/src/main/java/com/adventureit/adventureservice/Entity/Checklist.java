@@ -10,7 +10,7 @@ public class Checklist extends EntryContainer {
     private String title;
     private String description;
     @OneToMany
-    private List<ChecklistEntry> items;
+    private List<ChecklistEntry> entries;
 
     /**
      * Default constructor
@@ -32,7 +32,7 @@ public class Checklist extends EntryContainer {
     public Checklist(String title, String description, UUID creatorID, UUID adventureID) {
         this.title = title;
         this.description = description;
-        this.items = new ArrayList<ChecklistEntry>();
+        this.entries = new ArrayList<ChecklistEntry>();
         this.setCreatorID(creatorID);
         this.setAdventureID(adventureID);
     }
@@ -44,17 +44,17 @@ public class Checklist extends EntryContainer {
      * The title of the checklist
      * @param description
      * The description of the checklist
-     * @param items
+     * @param entries
      * A prepopulated list of checklist entries to be added to this list
      * @param creatorID
      * The UUID of the user who is creating the checklist
      * @param adventureID
      * The UUID of the adventure to which the checklist belongs
      */
-    public Checklist(String title, String description, List<ChecklistEntry> items, UUID creatorID, UUID adventureID) {
+    public Checklist(String title, String description, List<ChecklistEntry> entries, UUID creatorID, UUID adventureID) {
         this.title = title;
         this.description = description;
-        this.items = items;
+        this.entries = entries;
         this.setCreatorID(creatorID);
         this.setAdventureID(adventureID);
     }
@@ -67,18 +67,18 @@ public class Checklist extends EntryContainer {
      * @return
      * The checklist entry corresponding to the provided index
      */
-    public ChecklistEntry getItem(int index) {
-        return this.items.get(index);
+    public ChecklistEntry getEntry(int index) {
+        return this.entries.get(index);
     }
 
     /**
      * Add a single checklist entry to the checklist
      *
-     * @param item
-     * The single item to be added to the checklist
+     * @param entry
+     * The single entry to be added to the checklist
      */
-    public void addItem(ChecklistEntry item) {
-        this.items.add(item);
+    public void addEntry(ChecklistEntry entry) {
+        this.entries.add(entry);
     }
 
     /**
@@ -93,8 +93,8 @@ public class Checklist extends EntryContainer {
         return this.description;
     }
 
-    public List<ChecklistEntry> getItems() {
-        return this.items;
+    public List<ChecklistEntry> getEntries() {
+        return this.entries;
     }
 
     public void setTitle(String title) {
@@ -105,8 +105,8 @@ public class Checklist extends EntryContainer {
         this.description = description;
     }
 
-    public void setItems(List<ChecklistEntry> items) {
-        this.items = items;
+    public void setEntries(List<ChecklistEntry> entries) {
+        this.entries = entries;
     }
 
 }
