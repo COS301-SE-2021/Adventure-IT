@@ -1,11 +1,10 @@
 package com.adventureit.adventureservice.Requests;
 
 import com.adventureit.adventureservice.Entity.EntryContainer;
+import com.adventureit.userservice.Entities.User;
 import com.adventureit.userservice.Service.User;
 
-import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class CreateAdventureRequest {
