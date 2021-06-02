@@ -78,8 +78,10 @@ public class AdventureServiceImplementation implements AdventureService{
     public AddUserToAdventureResponse AddUserToAdventure(AddUserToAdventureRequest req)
     {
         Adventure adventure = new Adventure();
-        /*UUID userID = req.getUserID();
         UUID advID = req.getAdventureID();
+        GetAdventureByUUIDRequest request0 = new GetAdventureByUUIDRequest(advID);
+        //GetAdventureByUUIDResponse res0 = adventure.getAdventureByUUID(request0);
+        /*UUID userID = req.getUserID();
         GetUserByUUIDRequest request = new GetUserByUUIDRequest(userID);
         GetUserByUUIDResponse res = user.GetUserByUUID(request);
         User userToBeAdded = null;
