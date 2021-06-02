@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.UUID;
 
+@Service("AdventureServiceImplementation")
 public class AdventureServiceImplementation implements AdventureService{
     //private UserServiceImplementation user;
 
