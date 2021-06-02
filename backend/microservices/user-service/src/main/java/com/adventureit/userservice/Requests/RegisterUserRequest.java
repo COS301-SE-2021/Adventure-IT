@@ -1,5 +1,7 @@
 package com.adventureit.userservice.Requests;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class RegisterUserRequest {
     private String fName;
     private String lName;
@@ -16,7 +18,7 @@ public class RegisterUserRequest {
      * @param phoneNum =use phone number
      */
 
-    public RegisterUserRequest(String fName,String lName,String email,String password,String phoneNum){
+    public RegisterUserRequest( @JsonProperty("fname") String fName,@JsonProperty("lname") String lName,@JsonProperty("email") String email,@JsonProperty("password") String password,@JsonProperty("phoneN") String phoneNum){
         this.fName = fName;
         this.lName = lName;
         this.email = email;
