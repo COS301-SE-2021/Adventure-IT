@@ -12,27 +12,38 @@ public class CreateAdventureResponse {
 
     public CreateAdventureResponse(){}
 
-    public Adventure getAdventure() {
-        return adventure;
+    public CreateAdventureResponse(boolean success){
+        this.success = success;
+        this.message = "Adventure was not successfully created";
     }
 
-    public boolean isSuccess() {
-        return success;
+    public CreateAdventureResponse(boolean success, Adventure adventure){
+        success = true;
+        this.message = "Adventure was successfully created";
+
+    }
+
+    public Adventure getAdventure() {
+        return adventure;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public void setAdventure(Adventure adventure) {
-        this.adventure = adventure;
-    }
-
     public void setMessage(String message) {
         this.message = message;
     }
 
+    public void setAdventure(Adventure adventure) {
+        this.adventure = adventure;
+    }
+
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public boolean isSuccess() {
+        return success;
     }
 }

@@ -3,7 +3,9 @@ package com.adventureit.adventureservice.Requests;
 import com.adventureit.adventureservice.Entity.EntryContainer;
 import com.adventureit.adventureservice.Entity.User;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CreateAdventureRequest {
@@ -12,18 +14,15 @@ public class CreateAdventureRequest {
     private UUID id;
     private User owner;
     private ArrayList<String> group;
-    private ArrayList<EntryContainer> itinerary;
-    private ArrayList<EntryContainer> checklists;
+    private ArrayList<EntryContainer> Containers;
 
 
-
-    public CreateAdventureRequest(String name, UUID id, User owner , ArrayList<String> group ,ArrayList<EntryContainer> itinerary, ArrayList<EntryContainer> checklists){
+    public CreateAdventureRequest(String name, UUID id, User owner , ArrayList<String> group ,ArrayList<EntryContainer> containers){
         this.name=name;
         this.id=id;
         this.owner = owner;
         this.group = group;
-        this.itinerary = itinerary;
-        this.checklists = checklists;
+        this.Containers = containers;
     }
 
     public String getName() {
@@ -58,19 +57,12 @@ public class CreateAdventureRequest {
         this.group = group;
     }
 
-    public ArrayList<EntryContainer> getChecklists() {
-        return checklists;
+    public ArrayList<EntryContainer> getContainers() {
+        return Containers;
     }
 
-    public void setChecklists(ArrayList<EntryContainer> checklists) {
-        this.checklists = checklists;
+    public void setContainers(ArrayList<EntryContainer> containers) {
+        this.Containers = containers;
     }
 
-    public ArrayList<EntryContainer> getItinerary() {
-        return itinerary;
-    }
-
-    public void setItinerary(ArrayList<EntryContainer> itinerary) {
-        this.itinerary = itinerary;
-    }
 }

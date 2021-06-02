@@ -1,11 +1,18 @@
 package com.adventureit.adventureservice.Service;
 
+import com.adventureit.adventureservice.Entity.Adventure;
+import com.adventureit.adventureservice.Entity.EntryContainer;
+import com.adventureit.adventureservice.Entity.User;
 import com.adventureit.adventureservice.Requests.AddUserToAdventureRequest;
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
+import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
 import com.adventureit.adventureservice.Responses.AddUserToAdventureResponse;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 //import com.adventureit.userservice.Service.UserServiceImplementation;
+import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class AdventureServiceImplementation implements AdventureService{
@@ -14,8 +21,50 @@ public class AdventureServiceImplementation implements AdventureService{
     @Override
     public CreateAdventureResponse createAdventure(CreateAdventureRequest req) {
 
+        Adventure adventure = new Adventure();
         CreateAdventureResponse response = new CreateAdventureResponse();
-        return null;
+        adventure.setId(UUID.randomUUID());
+
+        if(req.getName() == "" || req.getName() ==  null){
+            return new CreateAdventureResponse(false);
+        }else {
+            adventure.setName(req.getName());
+        }
+
+        if(req.getContainers() ==  null){
+            return new CreateAdventureResponse(false);
+        }else {
+            adventure.setContainers(req.getContainers());
+        }
+
+        if(req.getGroup() ==  null){
+            return new CreateAdventureResponse(false);
+        }
+        else {
+            adventure.setGroup(req.getGroup());
+        }
+
+        if(req.getOwner() ==  null){
+            return new CreateAdventureResponse(false);
+        }
+        else {
+            adventure.setOwner(req.getOwner());
+        }
+
+        return new CreateAdventureResponse(true, adventure);
+    }
+
+    @Override
+    public GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req){
+
+        UUID id = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
+        String name = "Adventure1";
+        User owner = new User();
+        ArrayList<EntryContainer> container = new ArrayList();
+        ArrayList<String> group = new ArrayList();
+        Adventure adventure = new Adventure(name,id,owner,group,container);
+        return new GetAdventureByUUIDResponse(true,adventure);
+
     }
 
     @Override
