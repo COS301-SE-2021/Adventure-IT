@@ -68,6 +68,26 @@ public class ItineraryServiceJUnitTests {
     }
 
     @Test
+    @Description ("Request is null")
+    public void NullRequestForCreate()
+    {
+        CreateItineraryRequest req = null;
+        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.createItinerary(req));
+        assertNull(req);
+        assertEquals("404 Bad Request", thrown.getMessage());
+    }
+
+    @Test
+    @Description ("Request is null")
+    public void NullRequestForRemove()
+    {
+        RemoveItineraryRequest req = null;
+        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.removeItinerary(req));
+        assertNull(req);
+        assertEquals("404 Bad Request", thrown.getMessage());
+    }
+
+    @Test
     @Description("Tests whether or not the Itinerary service integrates with the User service")
     public void UserIntegrationTest() {
         final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
