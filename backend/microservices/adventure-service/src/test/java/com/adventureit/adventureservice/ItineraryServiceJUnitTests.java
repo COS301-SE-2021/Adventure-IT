@@ -85,7 +85,6 @@ public class ItineraryServiceJUnitTests {
         final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
         CreateItineraryRequest req = new CreateItineraryRequest(null,"description",validAdventureID,validUserID);
         Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.createItinerary(req));
-        assertNull(req);
         assertEquals("404 Bad Request", thrown.getMessage());
     }
 
@@ -97,7 +96,6 @@ public class ItineraryServiceJUnitTests {
         final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
         CreateItineraryRequest req = new CreateItineraryRequest("Title",null,validAdventureID,validUserID);
         Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.createItinerary(req));
-        assertNull(req);
         assertEquals("404 Bad Request", thrown.getMessage());
     }
 
@@ -109,7 +107,6 @@ public class ItineraryServiceJUnitTests {
         final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
         CreateItineraryRequest req = new CreateItineraryRequest("Title","description",null,validUserID);
         Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.createItinerary(req));
-        assertNull(req);
         assertEquals("404 Bad Request", thrown.getMessage());
     }
 
@@ -121,7 +118,6 @@ public class ItineraryServiceJUnitTests {
         final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
         CreateItineraryRequest req = new CreateItineraryRequest("Title","description",validAdventureID,null);
         Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.createItinerary(req));
-        assertNull(req);
         assertEquals("404 Bad Request", thrown.getMessage());
     }
 
@@ -143,7 +139,6 @@ public class ItineraryServiceJUnitTests {
         final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
         RemoveItineraryRequest req = new RemoveItineraryRequest(1,null,validUserID);
         Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.removeItinerary(req));
-        assertNull(req);
         assertEquals("404 Bad Request", thrown.getMessage());
     }
 
@@ -155,7 +150,6 @@ public class ItineraryServiceJUnitTests {
         final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
         RemoveItineraryRequest req = new RemoveItineraryRequest(1,validAdventureID,null);
         Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.removeItinerary(req));
-        assertNull(req);
         assertEquals("404 Bad Request", thrown.getMessage());
     }
 

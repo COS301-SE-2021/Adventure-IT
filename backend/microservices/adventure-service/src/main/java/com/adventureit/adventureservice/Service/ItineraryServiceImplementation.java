@@ -48,7 +48,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
     public CreateItineraryResponse createItinerary(CreateItineraryRequest req) throws InvalidRequestException {
 
         /*Exception handling for invalid Request*/
-        if(req==null||req.getTitle()==null||req.getDescription()==null&&req.getAdventureID()==null||req.getUserID()==null){
+        if(req==null||req.getTitle()==null||req.getDescription()==null||req.getAdventureID()==null||req.getUserID()==null){
             throw new InvalidRequestException("404 Bad Request");
         }
         Itinerary newItinerary=new Itinerary(req.getTitle(),req.getDescription(),req.getAdventureID(), req.getUserID());
@@ -68,7 +68,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
     public RemoveItineraryResponse removeItinerary(RemoveItineraryRequest req) throws InvalidRequestException
     {
         /*Exception handling for invalid Request*/
-        if(req==null||req.getAdventureID()==null||req.getUserID()==null&&req.getId()==0){
+        if(req==null||req.getAdventureID()==null||req.getUserID()==null||req.getId()==0){
             throw new InvalidRequestException("404 Bad Request");
         }
         GetAdventureByUUIDRequest advreq = new GetAdventureByUUIDRequest(req.getAdventureID());
