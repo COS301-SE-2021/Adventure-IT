@@ -15,15 +15,22 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
 
-
-    private UserServiceImplementation service;
+    private final UserServiceImplementation service;
 
     @Autowired
     public UserController(UserServiceImplementation service){
         this.service = service;
     }
 
-
+    /**
+     * Register User that is mapped from our mock controller for testing purposes
+     * @param req will take in a RegisterUserRequest object
+     * @return a RegisterUserResponse object in json format to front end
+     * @throws InvalidUserEmailException if the user email is invalid
+     * @throws InvalidUserPhoneNumberException if the user phone number is invalid
+     * @throws InvalidUserPasswordException if the user password is invalid
+     * @throws InvalidRequestException if the request body is null
+     */
     @PostMapping(value = "api/RegisterUser", consumes = "application/json", produces = "application/json")
     public RegisterUserResponse RegisterUser(@RequestBody RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
         return service.RegisterUser(req);
