@@ -22,7 +22,7 @@ public class AddUserToAdventureJunitTests {
     {
         AddUserToAdventureRequest req = new AddUserToAdventureRequest(userID, advID);
         assertNotNull(req);
-        assertEquals(userID, req.getUserID());
+        assertEquals(userID, req.getUserid());
         assertEquals(advID, req.getAdventureID());
     }
 
