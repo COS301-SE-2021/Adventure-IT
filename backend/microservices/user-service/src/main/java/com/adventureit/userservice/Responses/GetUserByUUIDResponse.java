@@ -1,6 +1,6 @@
 package com.adventureit.userservice.Responses;
 
-import com.adventureit.userservice.Service.User;
+import com.adventureit.userservice.Entities.User;
 
 public class GetUserByUUIDResponse {
     private boolean success;

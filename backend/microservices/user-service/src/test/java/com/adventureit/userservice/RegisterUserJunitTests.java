@@ -36,7 +36,7 @@ public class RegisterUserJunitTests {
      * invalidPhoneNum : Mock invalid phone number for testing
      */
 
-    String userName1 = "User1";
+    String userName1 = "User1"; 
     String userlName1 = "Surname1";
 
     String validEmail = "u19024143@tuks.co.za";

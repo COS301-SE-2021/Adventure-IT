@@ -1,4 +1,4 @@
-package com.adventureit.userservice.Service;
+package com.adventureit.userservice.Entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
