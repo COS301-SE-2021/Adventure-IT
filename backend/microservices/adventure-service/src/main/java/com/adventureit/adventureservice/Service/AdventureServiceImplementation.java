@@ -2,7 +2,6 @@ package com.adventureit.adventureservice.Service;
 
 import com.adventureit.adventureservice.Entity.Adventure;
 import com.adventureit.adventureservice.Entity.EntryContainer;
-import com.adventureit.adventureservice.Entity.User;
 import com.adventureit.adventureservice.Requests.AddUserToAdventureRequest;
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
@@ -10,6 +9,7 @@ import com.adventureit.adventureservice.Responses.AddUserToAdventureResponse;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 //import com.adventureit.userservice.Service.UserServiceImplementation;
 import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
+import com.adventureit.userservice.Service.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package com.adventureit.adventureservice.Requests;
 
 import com.adventureit.adventureservice.Entity.EntryContainer;
-import com.adventureit.adventureservice.Entity.User;
+import com.adventureit.userservice.Service.User;
 
 import javax.persistence.*;
 import java.util.ArrayList;
