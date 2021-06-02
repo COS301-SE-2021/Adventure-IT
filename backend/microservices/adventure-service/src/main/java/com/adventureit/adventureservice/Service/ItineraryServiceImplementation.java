@@ -4,8 +4,10 @@ import com.adventureit.adventureservice.Entity.Adventure;
 import com.adventureit.adventureservice.Entity.Itinerary;
 import com.adventureit.adventureservice.Entity.EntryContainer;
 import com.adventureit.adventureservice.Requests.CreateItineraryRequest;
+import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
 import com.adventureit.adventureservice.Requests.RemoveItineraryRequest;
 import com.adventureit.adventureservice.Responses.CreateItineraryResponse;
+import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
 import com.adventureit.adventureservice.Responses.RemoveItineraryResponse;
 import com.adventureit.userservice.Service.UserServiceImplementation;
 import com.adventureit.userservice.Exceptions.InvalidRequestException;
@@ -54,8 +56,8 @@ public class ItineraryServiceImplementation implements ItineraryService {
         boolean success=false;
         GetAdventureByUUIDRequest advreq = new GetAdventureByUUIDRequest(req.getAdventureID());
         GetAdventureByUUIDResponse advres = this.adventureServiceImplementation.getAdventureByUUID(advreq);
-        if(advres.getSuccess()) {
-            List<EntryContainers> temp = advres.getAdventure().getContainers();
+        if(advres.isSuccess()) {
+            List<EntryContainer> temp = advres.getAdventure().getContainers();
             temp.add(newEC);
             success=true;
         }
