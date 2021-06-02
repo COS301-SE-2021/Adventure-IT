@@ -18,12 +18,13 @@ public class Entry {
 
     // Getters and setters
 
-
-
     public long getEntryContainerID() {
         return entryContainerID;
     }
 
-
     public void setEntryContainerID(long entryConID){this.entryContainerID=entryConID;}
+
+    public long getId() {
+        return id;
+    }
 }

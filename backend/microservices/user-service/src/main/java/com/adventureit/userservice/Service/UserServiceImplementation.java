@@ -4,7 +4,9 @@ import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
+import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
+import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
@@ -81,5 +83,18 @@ public class UserServiceImplementation implements UserService {
 
         return new RegisterUserResponse(true,"200 OK" ,"User "+firstName+" "+lastName+" successfully Registered");
     }
+
+    public GetUserByUUIDResponse GetUserByUUID(GetUserByUUIDRequest req){
+        UUID userId = req.getUserID();
+        String name = "Kevin";
+        String surname = "Potter";
+        String email = "u19024143@tuks.co.za";
+        String password = "AstrongPassword123!!";
+        String phoneNum = "0794083122";
+        User newUser = new User(userId,name,surname,email,password,phoneNum);
+        UUID userID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
+        return new GetUserByUUIDResponse(true, newUser);
+    }
+
 
 }

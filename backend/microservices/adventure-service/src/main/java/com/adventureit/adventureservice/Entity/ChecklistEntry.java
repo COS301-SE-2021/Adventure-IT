@@ -6,34 +6,54 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class ChecklistEntry {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+public class ChecklistEntry extends Entry{
     private String title;
     private Boolean completed;
 
-    // Default constructor
+    /**
+     * Default constructor
+     */
     public ChecklistEntry(){}
 
-    // Parameterized constructor: with only title
-    public ChecklistEntry(String title){
+    /**
+     * Create a checklist entry with only a title, defaulting its completion status to false
+     *
+     * @param title
+     * The title of the checklist entry
+     * @param entryContainerID
+     * The ID of the checklist to which this entry belongs
+     */
+    public ChecklistEntry(String title,  long entryContainerID){
         this.title = title;
         this.completed = false;
+        this.setEntryContainerID(entryContainerID);
     }
 
-    // Parameterized constructor: with title and completed
-    public ChecklistEntry(String title, Boolean completed) {
+    /**
+     * Create a checklist entry with a title and status of completion
+     * @param title
+     * The title of the checklist entry
+     * @param completed
+     * The status of the completion of the checklist entry
+     * @param entryContainerID
+     * The ID of the checklist to which this entry belongs
+     */
+    public ChecklistEntry(String title, Boolean completed,  long entryContainerID) {
         this.title = title;
         this.completed = completed;
+        this.setEntryContainerID(entryContainerID);
     }
 
-    // Method to toggle completed value
+    /**
+     * Toggles the value of the completion state of the checklist entry
+     */
     public void toggleCompleted(){
         this.completed = !this.completed;
     }
 
-    // Getters and setters
+    /**
+     * Getters and setters
+     */
 
     public String getTitle() {
         return title;

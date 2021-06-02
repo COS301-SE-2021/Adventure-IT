@@ -1,4 +1,5 @@
 package com.adventureit.adventureservice.Entity;
+
 import com.adventureit.userservice.Service.User;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public class Adventure {
     private ArrayList<EntryContainer> Containers;
 
 
+    public Adventure(){}
 
     public Adventure(String name, UUID id, User owner , ArrayList<String> group ,ArrayList<EntryContainer> containers){
         this.name=name;
@@ -63,6 +65,5 @@ public class Adventure {
     public void setContainers(ArrayList<EntryContainer> containers) {
         this.Containers = containers;
     }
-
 
 }
