@@ -2,7 +2,7 @@ package com.adventureit.adventureservice.Requests;
 
 import com.adventureit.adventureservice.Entity.EntryContainer;
 import com.adventureit.userservice.Entities.User;
-import com.adventureit.userservice.Service.User;
+
 
 import java.util.ArrayList;
 import java.util.UUID;

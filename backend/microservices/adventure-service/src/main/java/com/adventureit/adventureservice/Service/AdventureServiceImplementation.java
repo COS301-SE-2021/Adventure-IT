@@ -26,7 +26,9 @@ public class AdventureServiceImplementation implements AdventureService{
         Adventure adventure = new Adventure();
         CreateAdventureResponse response = new CreateAdventureResponse();
         adventure.setId(UUID.randomUUID());
-
+        if(req.getId() == null) {
+            return new CreateAdventureResponse(false);
+        }
         if(req.getName() == "" || req.getName() ==  null){
             return new CreateAdventureResponse(false);
         }else {

@@ -18,17 +18,17 @@ public class CreateAdventureResponse {
     }
 
     public CreateAdventureResponse(boolean success, Adventure adventure){
-        success = true;
+        this.success = true;
         this.message = "Adventure was successfully created";
 
     }
 
     public Adventure getAdventure() {
-        return adventure;
+        return this.adventure;
     }
 
     public String getMessage() {
-        return message;
+        return this.message;
     }
 
     public void setMessage(String message) {
@@ -44,6 +44,6 @@ public class CreateAdventureResponse {
     }
 
     public boolean isSuccess() {
-        return success;
+        return this.success;
     }
 }

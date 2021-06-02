@@ -9,6 +9,10 @@ import com.adventureit.adventureservice.Requests.RemoveChecklistRequest;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.Responses.RemoveChecklistResponse;
 import com.adventureit.adventureservice.Service.AdventureServiceImplementation;
+import com.adventureit.userservice.Entities.User;
+import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
+import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
+import com.adventureit.userservice.Service.UserServiceImplementation;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -81,12 +85,12 @@ public class CreateAdventureTests {
     @Test
     @Description("Tests whether or not the Adventure service integrates with the User service")
     public void UserIntegrationTest() {
-        final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
+        UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
         GetUserByUUIDRequest req = new GetUserByUUIDRequest(validUserID);
         GetUserByUUIDResponse res = userServiceImplementation.GetUserByUUID(req);
         User owner = res.getUser();
         CreateAdventureRequest request = new CreateAdventureRequest("Adventure1", UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b"), owner, new ArrayList<String>(), new ArrayList<EntryContainer>());
         CreateAdventureResponse response = adventureServiceImplementation.createAdventure(request);
-        assertEquals(response.isSuccess(), false);
+        assertEquals(response.isSuccess(), true);
     }
     }
