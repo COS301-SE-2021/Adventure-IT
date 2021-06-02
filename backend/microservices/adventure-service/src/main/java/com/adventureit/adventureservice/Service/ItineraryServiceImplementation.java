@@ -6,6 +6,7 @@ import com.adventureit.adventureservice.Requests.CreateItineraryRequest;
 import com.adventureit.adventureservice.Requests.RemoveItineraryRequest;
 import com.adventureit.adventureservice.Responses.CreateItineraryResponse;
 import com.adventureit.adventureservice.Responses.RemoveItineraryResponse;
+import com.adventureit.userservice.Service.UserServiceImplementation;
 import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
@@ -20,6 +21,8 @@ import java.util.regex.Pattern;
 @Service("ItineraryServiceImplementation")
 public class ItineraryServiceImplementation implements ItineraryService {
 
+    private com.adventureit.adventureservice.Service.AdventureServiceImplementation adventureServiceImplementation = new AdventureServiceImplementation();
+    private UserServiceImplementation userServiceImplementation = new UserServiceImplementation();
     /**
      *
      * @param req
