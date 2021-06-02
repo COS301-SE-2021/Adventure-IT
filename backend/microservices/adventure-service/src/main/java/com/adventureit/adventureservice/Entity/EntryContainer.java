@@ -25,4 +25,9 @@ public class EntryContainer {
     public void setAdventureID(UUID aID){this.adventureID=aID;}
 
     public long getId() {return id;}
+
+    // TODO: Remove this function, only here for demo purposes
+    public void setId(long id) {
+        this.id = id;
+    }
 }
