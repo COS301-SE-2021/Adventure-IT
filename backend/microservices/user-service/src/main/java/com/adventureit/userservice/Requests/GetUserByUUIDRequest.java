@@ -9,7 +9,6 @@ public class GetUserByUUIDRequest {
         this.userID = userID;
     }
 
-
     public UUID getUserID() {
         return userID;
     }
@@ -17,4 +16,6 @@ public class GetUserByUUIDRequest {
     public void setUserID(UUID userID) {
         this.userID = userID;
     }
+
+
 }

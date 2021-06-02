@@ -3,20 +3,20 @@ package com.adventureit.userservice.Responses;
 import com.adventureit.userservice.Service.User;
 
 public class GetUserByUUIDResponse {
+    private boolean success;
     private User user;
-    private boolean sucess;
 
-    public GetUserByUUIDResponse(User user, boolean sucess) {
+    public GetUserByUUIDResponse(boolean success, User user) {
+        this.success = success;
         this.user = user;
-        this.sucess = sucess;
     }
 
-    public boolean isSucess() {
-        return sucess;
+    public boolean isSuccess() {
+        return success;
     }
 
-    public void setSucess(boolean sucess) {
-        this.sucess = sucess;
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 
     public User getUser() {

@@ -1,12 +1,16 @@
 package com.adventureit.userservice.Service;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.UUID;
 
+@Entity
 public class User {
 
+    @Id
     private UUID userID;
+
     private String firstname;
     private String lastname;
     private String email;
@@ -30,6 +34,13 @@ public class User {
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * Default constructor for User Model
+     */
+    public User() {
+
     }
 
     /**
