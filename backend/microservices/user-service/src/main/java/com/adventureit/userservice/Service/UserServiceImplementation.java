@@ -1,5 +1,6 @@
 package com.adventureit.userservice.Service;
 
+import com.adventureit.userservice.Entities.User;
 import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
@@ -84,6 +85,17 @@ public class UserServiceImplementation implements UserService {
         return new RegisterUserResponse(true,"200 OK" ,"User "+firstName+" "+lastName+" successfully Registered");
     }
 
+    /**
+     * Get User By UUID currently a mock service with returns a set user until a persistence layer is created
+     * The service will acquire the UserId from the request object then return a user with a set name, password, email
+     * phone number.
+     *
+     * NB: This currently only for testing purposes.
+     *
+     * When the persistence layer is created the Service will search the databae for a specific User.
+     * @param req
+     * @return
+     */
     public GetUserByUUIDResponse GetUserByUUID(GetUserByUUIDRequest req){
         UUID userId = req.getUserID();
         String name = "Kevin";
@@ -92,7 +104,7 @@ public class UserServiceImplementation implements UserService {
         String password = "AstrongPassword123!!";
         String phoneNum = "0794083122";
         User newUser = new User(userId,name,surname,email,password,phoneNum);
-        UUID userID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
+        //UUID userID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
         return new GetUserByUUIDResponse(true, newUser);
     }
 

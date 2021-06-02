@@ -77,6 +77,7 @@ public class AdventureServiceImplementation implements AdventureService{
     @Override
     public AddUserToAdventureResponse AddUserToAdventure(AddUserToAdventureRequest req)
     {
+        Adventure adventure = new Adventure();
         /*UUID userID = req.getUserID();
         UUID advID = req.getAdventureID();
         GetUserByUUIDRequest request = new GetUserByUUIDRequest(userID);
@@ -85,7 +86,7 @@ public class AdventureServiceImplementation implements AdventureService{
         if(res.isSuccess())
         {   userToBeAdded = res.getUser();  }
 
-        return new AddUserToAdventureResponse(true, userToBeAdded.getFirstname()+" "+userToBeAdded.getLastname()+" has been added to adventure: ");
+        return new AddUserToAdventureResponse(true, userToBeAdded.getFirstname()+" "+userToBeAdded.getLastname()+" has been added to adventure: "+adventure.name);
         */
         return new AddUserToAdventureResponse(true, " has been added to adventure: ");
     }
