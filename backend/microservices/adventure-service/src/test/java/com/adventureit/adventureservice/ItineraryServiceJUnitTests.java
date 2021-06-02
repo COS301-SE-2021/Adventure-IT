@@ -78,6 +78,54 @@ public class ItineraryServiceJUnitTests {
     }
 
     @Test
+    @Description ("Title is null")
+    public void NullTitleForCreate()
+    {
+        final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
+        final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
+        CreateItineraryRequest req = new CreateItineraryRequest(null,"description",validAdventureID,validUserID);
+        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.createItinerary(req));
+        assertNull(req);
+        assertEquals("404 Bad Request", thrown.getMessage());
+    }
+
+    @Test
+    @Description ("Description is null")
+    public void NullDescriptionForCreate()
+    {
+        final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
+        final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
+        CreateItineraryRequest req = new CreateItineraryRequest("Title",null,validAdventureID,validUserID);
+        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.createItinerary(req));
+        assertNull(req);
+        assertEquals("404 Bad Request", thrown.getMessage());
+    }
+
+    @Test
+    @Description ("Adventure id is null")
+    public void NullAdventureIDForCreate()
+    {
+        final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
+        final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
+        CreateItineraryRequest req = new CreateItineraryRequest("Title","description",null,validUserID);
+        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.createItinerary(req));
+        assertNull(req);
+        assertEquals("404 Bad Request", thrown.getMessage());
+    }
+
+    @Test
+    @Description ("user id is null")
+    public void NullUserIDForCreate()
+    {
+        final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
+        final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
+        CreateItineraryRequest req = new CreateItineraryRequest("Title","description",validAdventureID,null);
+        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.createItinerary(req));
+        assertNull(req);
+        assertEquals("404 Bad Request", thrown.getMessage());
+    }
+
+    @Test
     @Description ("Request is null")
     public void NullRequestForRemove()
     {
