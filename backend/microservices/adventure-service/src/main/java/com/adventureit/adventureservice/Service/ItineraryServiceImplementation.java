@@ -2,6 +2,7 @@ package com.adventureit.adventureservice.Service;
 
 import com.adventureit.adventureservice.Entity.Adventure;
 import com.adventureit.adventureservice.Entity.Itinerary;
+import com.adventureit.adventureservice.Entity.EntryContainer;
 import com.adventureit.adventureservice.Requests.CreateItineraryRequest;
 import com.adventureit.adventureservice.Requests.RemoveItineraryRequest;
 import com.adventureit.adventureservice.Responses.CreateItineraryResponse;
@@ -14,6 +15,8 @@ import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,8 +50,16 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new InvalidRequestException("404 Bad Request");
         }
         Itinerary newItinerary=new Itinerary(req.getTitle(),req.getDescription(),req.getAdventureID(), req.getUserID());
-
-        return new CreateItineraryResponse(newItinerary.getId());
+        EntryContainer newEC= (EntryContainer) newItinerary;
+        boolean success=false;
+        GetAdventureByUUIDRequest advreq = new GetAdventureByUUIDRequest(req.getAdventureID());
+        GetAdventureByUUIDResponse advres = this.adventureServiceImplementation.getAdventureByUUID(advreq);
+        if(advres.getSuccess()) {
+            List<EntryContainers> temp = advres.getAdventure().getContainers();
+            temp.add(newEC);
+            success=true;
+        }
+        return new CreateItineraryResponse(newItinerary.getId(),success);
     }
 
     @Override
@@ -58,16 +69,20 @@ public class ItineraryServiceImplementation implements ItineraryService {
         if(req==null||req.getAdventureID()==null||req.getUserID()==null&&req.getId()==0){
             throw new InvalidRequestException("404 Bad Request");
         }
-        Adventure adv=getAdventureById(req.getAdventureID());
+        GetAdventureByUUIDRequest advreq = new GetAdventureByUUIDRequest(req.getAdventureID());
+        GetAdventureByUUIDResponse advres = this.adventureServiceImplementation.getAdventureByUUID(advreq);
+        Adventure adv=advres.getAdventure();
+        boolean remove=false;
         int i=0;
         for(;i<adv.getContainers().size();i++)
         {
             if(adv.getContainers().get(i).getId()==req.getId())
             {
+                remove=true;
                 break;
             }
         }
-        if(adv.getOwner().getUserID()==req.getUserID()||adv.getContainers().get(i).getCreatorID()==req.getUserID())
+        if(remove&&adv.getOwner().getUserID()==req.getUserID()||adv.getContainers().get(i).getCreatorID()==req.getUserID())
         {
             adv.getContainers().remove(i);
             return new RemoveItineraryResponse(true);
