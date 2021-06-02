@@ -10,7 +10,7 @@ import com.adventureit.adventureservice.Responses.AddUserToAdventureResponse;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 //import com.adventureit.userservice.Service.UserServiceImplementation;
 import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
-import com.adventureit.userservice.Service.User;
+import com.adventureit.userservice.Entities.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

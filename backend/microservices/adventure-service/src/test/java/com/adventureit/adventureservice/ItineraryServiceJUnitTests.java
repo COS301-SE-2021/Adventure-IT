@@ -10,7 +10,7 @@ import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
-import com.adventureit.userservice.Service.User;
+import com.adventureit.userservice.Entities.User;
 import com.adventureit.userservice.Service.UserServiceImplementation;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Test;
