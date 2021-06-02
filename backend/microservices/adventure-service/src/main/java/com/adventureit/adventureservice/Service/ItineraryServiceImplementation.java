@@ -73,27 +73,26 @@ public class ItineraryServiceImplementation implements ItineraryService {
         }
         GetAdventureByUUIDRequest advreq = new GetAdventureByUUIDRequest(req.getAdventureID());
         GetAdventureByUUIDResponse advres = this.adventureServiceImplementation.getAdventureByUUID(advreq);
-        Adventure adv=advres.getAdventure();
+
         boolean remove=false;
         int i=0;
-        for(;i<adv.getContainers().size();i++)
-        {
-            if(adv.getContainers().get(i).getId()==req.getId())
-            {
-                remove=true;
-                break;
+        if(advres.isSuccess()) {
+            Adventure adv=advres.getAdventure();
+            for (; i < adv.getContainers().size(); i++) {
+                if (adv.getContainers().get(i).getId() == req.getId()) {
+                    remove = true;
+                    break;
+                }
+            }
+            if (remove && adv.getOwner().getUserID() == req.getUserID() || adv.getContainers().get(i).getCreatorID() == req.getUserID()) {
+                adv.getContainers().remove(i);
+                return new RemoveItineraryResponse(true);
+            } else {
+                return new RemoveItineraryResponse(false);
             }
         }
-        if(remove&&adv.getOwner().getUserID()==req.getUserID()||adv.getContainers().get(i).getCreatorID()==req.getUserID())
-        {
-            adv.getContainers().remove(i);
-            return new RemoveItineraryResponse(true);
-        }
 
-        else
-        {
-            return new RemoveItineraryResponse(false);
-        }
+        return new RemoveItineraryResponse(false);
     }
 
 }
