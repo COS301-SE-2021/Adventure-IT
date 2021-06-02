@@ -24,11 +24,5 @@ public class EntryContainer {
 
     public void setAdventureID(UUID aID){this.adventureID=aID;}
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+    public long getId() {return id;}
 }
