@@ -34,37 +34,34 @@ public class ItineraryServiceJUnitTests {
         final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
         final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
         CreateItineraryRequest req = new CreateItineraryRequest("Test Itinerary", "This is an itinerary created for testing purposes", validUserID, validAdventureID);
-        CreateItineraryResponse res = null;
+
         try {
-            res = this.itineraryServiceImplementation.createItinerary(req);
+            CreateItineraryResponse res = this.itineraryServiceImplementation.createItinerary(req);
+            assertNotNull(res);
+            assertEquals(res.isSuccess(), true);
         } catch (Exception e) {
 
         }
-        if (res != null) {
-            assertNotNull(res);
-            assertEquals(res.isSuccess(), true);
-        }
+
+
     }
 
 
     @Test
     @Description("Tests whether or not an itinerary can be deleted when providing a valid user id, valid adventure id and valid itineraryID")
-    public void removeChecklistTest() {
+    public void removeItineraryTest() {
         final long validItineraryID = 1;
         final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
         final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
         RemoveItineraryRequest req = new RemoveItineraryRequest(validItineraryID, validUserID, validAdventureID);
-        RemoveItineraryResponse res = null;
         try {
-            res = this.itineraryServiceImplementation.removeItinerary(req);
+            RemoveItineraryResponse res = this.itineraryServiceImplementation.removeItinerary(req);
+            assertNotNull(res);
+            assertEquals(res.isSuccess(), true);
         } catch (Exception e) {
 
         }
 
-        if (res != null) {
-            assertNotNull(res);
-            assertEquals(res.isSuccess(), true);
-        }
     }
 
     @Test
@@ -78,7 +75,7 @@ public class ItineraryServiceJUnitTests {
     }
 
     @Test
-    @Description ("Title is null")
+    @Description ("Title for createItinerary is null")
     public void NullTitleForCreate()
     {
         final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
@@ -89,7 +86,7 @@ public class ItineraryServiceJUnitTests {
     }
 
     @Test
-    @Description ("Description is null")
+    @Description ("Description for createItinerary is null")
     public void NullDescriptionForCreate()
     {
         final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
@@ -100,7 +97,7 @@ public class ItineraryServiceJUnitTests {
     }
 
     @Test
-    @Description ("Adventure id is null")
+    @Description ("Adventure id for createItinerary is null")
     public void NullAdventureIDForCreate()
     {
         final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
@@ -111,7 +108,7 @@ public class ItineraryServiceJUnitTests {
     }
 
     @Test
-    @Description ("user id is null")
+    @Description ("user id for creatorID for createItinerary is null")
     public void NullUserIDForCreate()
     {
         final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
@@ -122,7 +119,7 @@ public class ItineraryServiceJUnitTests {
     }
 
     @Test
-    @Description ("Request is null")
+    @Description ("Request for createItinerary is null")
     public void NullRequestForRemove()
     {
         RemoveItineraryRequest req = null;
@@ -132,7 +129,7 @@ public class ItineraryServiceJUnitTests {
     }
 
     @Test
-    @Description ("Adventure id is null")
+    @Description ("Adventure id for removeItinerary is null")
     public void NullAdventureIDForRemove()
     {
         final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
@@ -143,7 +140,7 @@ public class ItineraryServiceJUnitTests {
     }
 
     @Test
-    @Description ("User id is null")
+    @Description ("User id for removeItinerary is null")
     public void NullUserIDForRemove()
     {
         final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
