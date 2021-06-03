@@ -4,6 +4,16 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import com.adventureit.adventureservice.Entity.Entry;
+
+/**
+ *
+ * The params taken in by constructor and what they represent:
+ * 1. long Id: the id of the EntryContainer
+ * 2. UUID creatorID: the id of the user that creates the entryContainer and, therefore, gets special permissions
+ * 3. UUID adventureID: the id of the adventure of that this EntryContainer is attached to
+ *
+ */
 
 @Entity
 public class EntryContainer {
