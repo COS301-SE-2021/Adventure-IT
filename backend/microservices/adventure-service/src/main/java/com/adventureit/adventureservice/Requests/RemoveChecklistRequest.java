@@ -3,7 +3,7 @@ package com.adventureit.adventureservice.Requests;
 import java.util.UUID;
 
 public class RemoveChecklistRequest {
-    private long id;
+    private Long id;
     private UUID adventureID;
     private UUID ownerID;
 
@@ -17,13 +17,13 @@ public class RemoveChecklistRequest {
      * The UUID of the adventure from which the checklist must be removed
      */
 
-    public RemoveChecklistRequest(long id, UUID ownerID, UUID adventureID){
+    public RemoveChecklistRequest(Long id, UUID ownerID, UUID adventureID){
         this.id = id;
         this.adventureID = adventureID;
         this.ownerID = ownerID;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
