@@ -2,6 +2,16 @@ package com.adventureit.adventureservice.Requests;
 
 import java.util.UUID;
 
+/**
+ *
+ * The params taken in by constructor and what they represent:
+ * 1. String title: the title of the itinerary
+ * 2. String description: a small description of the itinerary
+ * 3. UUID adventureID: the ID of the adventure that the itinerary will be attached to if it's added successfully
+ * 4. UUID userID: the ID of the user that wishes to add the itinerary to the adventure
+ *
+ */
+
 public class CreateItineraryRequest {
     private String title;
     private String description;

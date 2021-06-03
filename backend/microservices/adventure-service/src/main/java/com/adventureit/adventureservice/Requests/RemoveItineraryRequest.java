@@ -1,6 +1,14 @@
 package com.adventureit.adventureservice.Requests;
 
 import java.util.UUID;
+/**
+ *
+ * The params taken in by constructor and what they represent:
+ * 1. long ItineraryId: the id of the Itinerary the user wishes to remove
+ * 2. UUID adventureID: the id of the adventure that the itienrary is attached to
+ * 3. UUID userID: the ID of the user that wishes to remove the itinerary
+ *
+ */
 
 public class RemoveItineraryRequest {
     private long id;
