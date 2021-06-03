@@ -11,6 +11,9 @@ import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 //import com.adventureit.userservice.Service.UserServiceImplementation;
 import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
 import com.adventureit.userservice.Entities.User;
+import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
+import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
+import com.adventureit.userservice.Service.UserServiceImplementation;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,7 +21,7 @@ import java.util.UUID;
 
 @Service("AdventureServiceImplementation")
 public class AdventureServiceImplementation implements AdventureService{
-    //private UserServiceImplementation user;
+    private UserServiceImplementation user = new UserServiceImplementation();
 
     /**
      *
@@ -123,16 +126,14 @@ public class AdventureServiceImplementation implements AdventureService{
         UUID advID = req.getAdventureID();
         GetAdventureByUUIDRequest request0 = new GetAdventureByUUIDRequest(advID);
         //GetAdventureByUUIDResponse res0 = adventure.getAdventureByUUID(request0);
-        /*UUID userID = req.getUserid();
+        UUID userID = req.getUserid();
         GetUserByUUIDRequest request = new GetUserByUUIDRequest(userID);
         GetUserByUUIDResponse res = user.GetUserByUUID(request);
         User userToBeAdded = null;
         if(res.isSuccess())
         {   userToBeAdded = res.getUser();  }
+        return new AddUserToAdventureResponse(true, userToBeAdded.getFirstname()+" "+userToBeAdded.getLastname()+" has been added to adventure: Adventure1");
 
-        return new AddUserToAdventureResponse(true, userToBeAdded.getFirstname()+" "+userToBeAdded.getLastname()+" has been added to adventure: "+adventure.name);
-        */
-        return new AddUserToAdventureResponse(true, " has been added to adventure: ");
     }
 
 
