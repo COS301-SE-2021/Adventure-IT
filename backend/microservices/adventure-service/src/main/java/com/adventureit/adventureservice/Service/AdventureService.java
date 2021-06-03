@@ -8,7 +8,7 @@ import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
 import org.springframework.stereotype.Service;
 
-public interface AdventureService {
+public interface AdventureService{
 
     public CreateAdventureResponse createAdventure(CreateAdventureRequest req);
     public GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req);
