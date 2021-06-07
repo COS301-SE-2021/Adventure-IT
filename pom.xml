@@ -8,26 +8,12 @@
         <version>2.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <profiles>
-        <profile>
-            <id>aggregate-all</id>
-            <modules>
-                <module>backend/microservices/adventure-service</module>
-                <module>backend/microservices/budget-service</module>
-                <module>backend/microservices/location-service</module>
-                <module>backend/microservices/media-service</module>
-                <module>backend/microservices/notification-service</module>
-                <module>backend/microservices/sharing-service</module>
-                <module>backend/microservices/user-service</module>
-
-            </modules>
-        </profile>
-    </profiles>
+    <packaging>pom</packaging>
     <groupId>com.adventure-it</groupId>
-    <artifactId>adventure-service</artifactId>
+    <artifactId>adventure-it-application</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>adventure-service</name>
-    <description>The adventure service for the Adventure-IT application</description>
+    <name>adventure-it-application</name>
+    <description>The Adventure-IT toplevel application</description>
     <properties>
         <java.version>11</java.version>
     </properties>
@@ -53,11 +39,22 @@
         </dependency>
     </dependencies>
 
+    <modules>
+        <module>backend/microservices/adventure-service</module>
+        <module>backend/microservices/budget-service</module>
+        <module>backend/microservices/location-service</module>
+        <module>backend/microservices/media-service</module>
+        <module>backend/microservices/notification-service</module>
+        <module>backend/microservices/sharing-service</module>
+        <module>backend/microservices/user-service</module>
+    </modules>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${project.parent.version}</version>
             </plugin>
         </plugins>
     </build>
