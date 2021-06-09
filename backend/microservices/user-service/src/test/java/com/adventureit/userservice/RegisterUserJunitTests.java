@@ -7,8 +7,10 @@ import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
+import com.adventureit.userservice.Service.UserService;
 import com.adventureit.userservice.Service.UserServiceImplementation;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Description;
 
@@ -18,7 +20,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class RegisterUserJunitTests {
 
-    private UserServiceImplementation user = new UserServiceImplementation();
+    private UserServiceImplementation user;
+
+    @Autowired
+    public RegisterUserJunitTests(UserServiceImplementation user) {
+        this.user = user;
+    }
+
     /**
      * Generate mock data to handle Junit testing with
      * Mock data includes:
