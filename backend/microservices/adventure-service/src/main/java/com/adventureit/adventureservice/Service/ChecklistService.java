@@ -12,6 +12,7 @@ import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
 import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
 import com.adventureit.userservice.Service.UserServiceImplementation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,8 +20,11 @@ import java.util.List;
 
 @Service
 public class ChecklistService {
-    private AdventureServiceImplementation adventureServiceImplementation = new AdventureServiceImplementation();
-    private UserServiceImplementation userServiceImplementation = new UserServiceImplementation();
+    @Autowired
+    private AdventureServiceImplementation adventureServiceImplementation;
+
+    // TODO: This needs to use the controller & not the autowired service
+    private UserServiceImplementation userServiceImplementation;
 
     /**
      * Creating a checklist

@@ -15,6 +15,7 @@ import com.adventureit.adventureservice.Responses.RemoveChecklistResponse;
 import com.adventureit.adventureservice.Service.ChecklistService;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,10 +23,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.UUID;
 
 @SpringBootTest
-public class ChecklistServiceTests {
+public class ChecklistServiceUnitTests {
 
-    private ChecklistService checklistService = new ChecklistService();
-    private UserServiceImplementation userServiceImplementation = new UserServiceImplementation();
+    @Autowired
+    private ChecklistService checklistService;;
 
    @Test
    @Description("Tests whether or not a new checklist can be added when providing a valid user id and valid adventure id")
@@ -130,20 +131,4 @@ public class ChecklistServiceTests {
         Throwable thrown = assertThrows(InvalidRequestException.class, ()->this.checklistService.removeChecklist(req));
         assertEquals(thrown.getMessage(),"Error: Malformed RemoveChecklistRequest (one or more null values)");
     }
-
-   @Test
-   @Description("Tests whether or not the Checklist service integrates with the User service")
-   public void UserIntegrationTest(){
-       final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
-       GetUserByUUIDRequest req = new GetUserByUUIDRequest(validUserID);
-       GetUserByUUIDResponse res = userServiceImplementation.GetUserByUUID(req);
-       assertNotNull(res);
-       assertEquals(res.getUser().getFirstname(), "Kevin");
-       assertEquals(res.getUser().getLastname(), "Potter");
-       assertEquals(res.getUser().getEmail(), "u19024143@tuks.co.za");
-       assertEquals(res.getUser().getPhoneNumber(), "0794083122");
-       assertEquals(res.getUser().getUserID(), UUID.fromString("933c0a14-a837-4789-991a-15006778f465"));
-
-   }
-
 }
