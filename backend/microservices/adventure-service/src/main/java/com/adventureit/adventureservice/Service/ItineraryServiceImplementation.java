@@ -16,6 +16,7 @@ import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +27,8 @@ import java.util.regex.Pattern;
 @Service("ItineraryServiceImplementation")
 public class ItineraryServiceImplementation implements ItineraryService {
 
-    private com.adventureit.adventureservice.Service.AdventureServiceImplementation adventureServiceImplementation = new AdventureServiceImplementation();
+    @Autowired
+    private com.adventureit.adventureservice.Service.AdventureServiceImplementation adventureServiceImplementation;
     private UserServiceImplementation userServiceImplementation = new UserServiceImplementation();
     /**
      *

@@ -152,34 +152,6 @@ public class ItineraryServiceJUnitTests {
 
 
 
-    @Test
-    @Description("Tests whether or not the Itinerary service integrates with the User service")
-    public void UserIntegrationTest() {
-        final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
-        GetUserByUUIDRequest req = new GetUserByUUIDRequest(validUserID);
-        GetUserByUUIDResponse res = userServiceImplementation.GetUserByUUID(req);
-        assertNotNull(res);
-        assertEquals(res.getUser().getFirstname(), "Kevin");
-        assertEquals(res.getUser().getLastname(), "Potter");
-        assertEquals(res.getUser().getEmail(), "u19024143@tuks.co.za");
-        assertEquals(res.getUser().getPhoneNumber(), "0794083122");
-        assertEquals(res.getUser().getUserID(), UUID.fromString("933c0a14-a837-4789-991a-15006778f465"));
-
-    }
-
-    @Test
-    @Description("Tests whether or not the Itinerary service integrates with the Adventure service")
-    public void AdventureIntegrationTest() {
-        final UUID validAdventureID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
-        GetAdventureByUUIDRequest req = new GetAdventureByUUIDRequest(validAdventureID);
-        GetAdventureByUUIDResponse res = adventureServiceImplementation.getAdventureByUUID(req);
-        assertNotNull(res);
-        assertEquals(res.getAdventure().getName(), "Adventure1");
-        assertEquals(res.getAdventure().getOwner().getUserID(), validAdventureID);
-
-
-    }
-
 
 }
 
