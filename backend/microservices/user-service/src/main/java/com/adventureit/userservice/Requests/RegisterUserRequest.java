@@ -26,11 +26,6 @@ public class RegisterUserRequest {
         this.password = password;
     }
 
-
-    /**********************GETTERS**********************/
-
-
-
     /**
      * RegisterUserRequest service to retrieve request first name
      * @return fName
@@ -71,11 +66,11 @@ public class RegisterUserRequest {
         return password;
     }
 
-    /*******************SETTERS********************/
+
 
     /**
      * User service to set request first name
-     * @param fName
+     * @param fName first name of user to set
      */
     public void setfName(String fName) {
         this.fName = fName;
@@ -83,7 +78,7 @@ public class RegisterUserRequest {
 
     /**
      * User service to set request last name
-     * @param lName
+     * @param lName last name of user to set
      */
     public void setlName(String lName) {
         this.lName = lName;
@@ -91,7 +86,7 @@ public class RegisterUserRequest {
 
     /**
      * User service to set request phone number
-     * @param phoneNum
+     * @param phoneNum phone number of user to set
      */
     public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
@@ -99,7 +94,7 @@ public class RegisterUserRequest {
 
     /**
      * User service to set request email
-     * @param email
+     * @param email email of user to set
      */
     public void setEmail(String email) {
         this.email = email;
@@ -107,7 +102,7 @@ public class RegisterUserRequest {
 
     /**
      * User service to set request password
-     * @param password
+     * @param password password of user to set
      */
     public void setPassword(String password) {
         this.password = password;

@@ -41,8 +41,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
      * 1. Create an itinerary
      * 2. Add the created itinerary to the adventure
      *
-     *
-     * @return CreateItineraryResponse Object which will return the itinerary ID
+     * @return CreateItineraryResponse Object which will return the itinerary ID and a boolean indicating the success of the creation
      */
     @Override
     public CreateItineraryResponse createItinerary(CreateItineraryRequest req) throws InvalidRequestException {
@@ -63,6 +62,23 @@ public class ItineraryServiceImplementation implements ItineraryService {
         }
         return new CreateItineraryResponse(newItinerary.getId(),success);
     }
+
+    /**
+     *
+     * @param req
+     * Attributes which will be attained from the req param will include:
+     * ID of the adventure (adventureID)
+     * ID of the user wishing to do the removing (userID)
+     * ID of the itinerary (ItineraryID)
+     *
+     * Using the request object the RemoveItinerary Service will:
+     * 1. Find the adventure referenced by the adventureID
+     * 2. Find the itinerary attached to said adventure
+     * 3. Check that the user wishing to remove the adventure is either the creator of the itinerary or creator of the adventure
+     * 4. If the user is allowed to remove the itinerary, it will be removed
+     *
+     * @return RemoveItineraryResponse Object which will return a boolean to show the success of the deletion
+     */
 
     @Override
     public RemoveItineraryResponse removeItinerary(RemoveItineraryRequest req) throws InvalidRequestException

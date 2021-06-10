@@ -92,9 +92,9 @@ public class UserServiceImplementation implements UserService {
      *
      * NB: This currently only for testing purposes.
      *
-     * When the persistence layer is created the Service will search the databae for a specific User.
-     * @param req
-     * @return
+     * When the persistence layer is created the Service will search the database for a specific User.
+     * @param req a GetUserByUUID request will be sent in with the user Id of the user that should be retrieved
+     * @return returns a GetUserByUUID response which currently is a set user for testing purposes
      */
     public GetUserByUUIDResponse GetUserByUUID(GetUserByUUIDRequest req){
         UUID userId = req.getUserID();
@@ -104,7 +104,6 @@ public class UserServiceImplementation implements UserService {
         String password = "AstrongPassword123!!";
         String phoneNum = "0794083122";
         User newUser = new User(userId,name,surname,email,password,phoneNum);
-        //UUID userID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
         return new GetUserByUUIDResponse(true, newUser);
     }
 
