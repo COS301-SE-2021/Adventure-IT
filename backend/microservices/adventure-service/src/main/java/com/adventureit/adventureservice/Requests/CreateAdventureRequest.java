@@ -2,6 +2,8 @@ package com.adventureit.adventureservice.Requests;
 
 import com.adventureit.adventureservice.Entity.EntryContainer;
 import com.adventureit.userservice.Entities.User;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -19,9 +21,9 @@ public class CreateAdventureRequest{
      * @param id ID of the Adventure
      * @param owner owner of the Adventure
      * @param group groups of the Adventure
-     * @param Containers Containers of the Adventure
+     * @param containers Containers of the Adventure
      */
-    public CreateAdventureRequest(String name, UUID id, User owner , ArrayList<String> group ,ArrayList<EntryContainer> containers){
+    public CreateAdventureRequest(@JsonProperty("name") String name, @JsonProperty("id") UUID id, @JsonProperty("owner") User owner , @JsonProperty("group") ArrayList<String> group , @JsonProperty("containers") ArrayList<EntryContainer> containers){
         this.name=name;
         this.id=id;
         this.owner = owner;

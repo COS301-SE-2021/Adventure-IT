@@ -4,14 +4,20 @@ import com.adventureit.userservice.Entities.User;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
+@Entity
+@Table(name = "\"adventure\"")
 public class Adventure{
 
-    private String name;
+    @Id
     private UUID id;
+
+    private String name;
     private User owner;
     private ArrayList<String> group;
+    @OneToMany
     private ArrayList<EntryContainer> Containers;
 
     /**
@@ -25,7 +31,7 @@ public class Adventure{
      * @param id
      * @param owner
      * @param group
-     * @param Containers
+     * @param containers
      */
     public Adventure(String name, UUID id, User owner , ArrayList<String> group ,ArrayList<EntryContainer> containers){
         this.name=name;
@@ -39,6 +45,8 @@ public class Adventure{
      * Adventure service to retrieve adventure's name
      * @return name
      */
+    @Basic
+    @Column(name = "name")
     public String getName(){
         return name;
     }
@@ -55,6 +63,8 @@ public class Adventure{
      * Adventure service to retrieve adventure's id
      * @return id
      */
+    @Id
+    @Column(name = "id")
     public UUID getId(){
         return id;
     }
@@ -71,6 +81,8 @@ public class Adventure{
      * Adventure service to retrieve adventure's owner
      * @return owner
      */
+
+    @Column(name = "owner")
     public User getOwner(){
         return owner;
     }
@@ -87,6 +99,8 @@ public class Adventure{
      * Adventure service to retrieve adventure's group
      * @return group
      */
+
+    @Column(name = "group")
     public ArrayList<String> getGroup(){
         return group;
     }
@@ -103,13 +117,15 @@ public class Adventure{
      * Adventure service to retrieve adventure's Containers
      * @return Containers
      */
+    @OneToMany
+    @Column(name = "containers")
     public ArrayList<EntryContainer> getContainers(){
         return Containers;
     }
 
     /**
      * Adventure service to set adventure's Containers
-     * @param  Containers
+     * @param  containers
      */
     public void setContainers(ArrayList<EntryContainer> containers){
         this.Containers = containers;
