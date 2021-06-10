@@ -81,16 +81,4 @@ public class CreateAdventureTests {
         CreateAdventureResponse res = adventureServiceImplementation.createAdventure(req);
         assertEquals(res.isSuccess(), false);
     }
-
-    @Test
-    @Description("Tests whether or not the Adventure service integrates with the User service")
-    public void UserIntegrationTest() {
-        UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
-        GetUserByUUIDRequest req = new GetUserByUUIDRequest(validUserID);
-        GetUserByUUIDResponse res = userServiceImplementation.GetUserByUUID(req);
-        User owner = res.getUser();
-        CreateAdventureRequest request = new CreateAdventureRequest("Adventure1", UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b"), owner, new ArrayList<String>(), new ArrayList<EntryContainer>());
-        CreateAdventureResponse response = adventureServiceImplementation.createAdventure(request);
-        assertEquals(response.isSuccess(), true);
-    }
-    }
+}
