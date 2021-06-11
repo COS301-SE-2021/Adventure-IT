@@ -5,6 +5,7 @@ all the functionality required. This project will introduce a cross platform mob
 application that can be used to plan group activities. Core features will include group chats,
 itinerary planning, check lists, expense tracking, media sharing and more.
 
+[![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2021/Adventure-IT)](https://github.com/COS301-SE-2021/Adventure-IT/issues)
 ---
 ##Branching Strategy
 master(build)<br>
