@@ -5,5 +5,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/backend/microservices/adventure-service/src" isTestSource="false" />
     </content>
+    <orderEntry type="jdk" jdkName="corretto-11" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
