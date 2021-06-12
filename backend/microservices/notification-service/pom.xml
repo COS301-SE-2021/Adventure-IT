@@ -6,7 +6,7 @@
 		<groupId>com.adventure-it</groupId>
 		<artifactId>adventure-backend</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath/> <!-- lookup parent locally -->
+		<relativePath>../../pom.xml</relativePath> <!-- lookup parent locally -->
 	</parent>
 	<artifactId>notification-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
