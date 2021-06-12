@@ -8,7 +8,6 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath/> <!-- lookup parent locally -->
 	</parent>
-	<groupId>com.adventure-it</groupId>
 	<artifactId>sharing-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>sharing-service</name>

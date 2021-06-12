@@ -8,7 +8,6 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath/> <!-- lookup parent locally -->
 	</parent>
-	<groupId>com.adventure-it</groupId>
 	<artifactId>adventure-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>adventure-service</name>
@@ -38,9 +37,8 @@
 		</dependency>
         <dependency>
             <groupId>com.adventure-it</groupId>
-            <artifactId>user-service</artifactId>
+            <artifactId>adventure-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 

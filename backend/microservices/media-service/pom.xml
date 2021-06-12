@@ -8,7 +8,6 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath/> <!-- lookup parent locally -->
 	</parent>
-	<groupId>com.adventure-it</groupId>
 	<artifactId>media-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>media-service</name>
