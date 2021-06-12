@@ -6,11 +6,12 @@ import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
 import com.adventureit.adventureservice.Responses.AddUserToAdventureResponse;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
+import main.java.com.adventureit.adventureservice.Exceptions.NullFieldException;
 import org.springframework.stereotype.Service;
 
 public interface AdventureService{
 
-    public CreateAdventureResponse createAdventure(CreateAdventureRequest req);
+    public CreateAdventureResponse createAdventure(CreateAdventureRequest req) throws NullFieldException;
     public GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req);
     public AddUserToAdventureResponse AddUserToAdventure(AddUserToAdventureRequest req);
 }
