@@ -1,6 +1,7 @@
 package com.adventureit.adventureservice.Entity;
 
 import com.adventureit.userservice.Entities.User;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class Adventure{
      * @param id
      * @param owner
      * @param group
-     * @param Containers
+     * @param containers
      */
     public Adventure(String name, UUID id, User owner , ArrayList<String> group ,ArrayList<EntryContainer> containers){
         this.name=name;
