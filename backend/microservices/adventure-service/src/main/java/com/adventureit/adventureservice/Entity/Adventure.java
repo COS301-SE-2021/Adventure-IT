@@ -25,7 +25,7 @@ public class Adventure{
      * @param id
      * @param owner
      * @param group
-     * @param Containers
+     * @param containers
      */
     public Adventure(String name, UUID id, User owner , ArrayList<String> group ,ArrayList<EntryContainer> containers){
         this.name=name;
@@ -109,7 +109,7 @@ public class Adventure{
 
     /**
      * Adventure service to set adventure's Containers
-     * @param  Containers
+     * @param  containers
      */
     public void setContainers(ArrayList<EntryContainer> containers){
         this.Containers = containers;

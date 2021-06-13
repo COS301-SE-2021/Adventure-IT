@@ -119,6 +119,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-jcl:5.3.7" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:5.3.7" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.8.2" level="project" />
-    <orderEntry type="library" name="Maven: com.adventure-it:user-service:0.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="user-service" />
   </component>
 </module>

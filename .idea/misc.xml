@@ -5,6 +5,11 @@
       <list>
         <option value="$PROJECT_DIR$/backend/microservices/notification-service/pom.xml" />
         <option value="$PROJECT_DIR$/backend/microservices/adventure-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/microservices/user-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/microservices/sharing-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/microservices/location-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/microservices/budget-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/microservices/media-service/pom.xml" />
       </list>
     </option>
   </component>
