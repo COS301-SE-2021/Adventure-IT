@@ -1,9 +1,8 @@
 package com.adventureit.locationservice.Controller;
 
 
-import com.adventureit.userservice.Requests.RegisterUserRequest;
-import com.adventureit.userservice.Responses.RegisterUserResponse;
-import com.adventureit.userservice.Service.UserServiceImplementation;
+
+import com.adventureit.locationservice.Service.LocationServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +16,11 @@ public class LocationController {
     @Autowired
     public LocationController(LocationServiceImplementation service){
         this.service = service;
+    }
+
+    @PostMapping(value = "api/LocationTest", consumes = "application/json", produces = "application/json")
+    public String test(){
+        return "working";
     }
 
 

@@ -3,7 +3,13 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Adventure-IT.iml" filepath="$PROJECT_DIR$/.idea/Adventure-IT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/microservices/adventure-service/adventure-service.iml" filepath="$PROJECT_DIR$/backend/microservices/adventure-service/adventure-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/microservices/budget-service/budget-service.iml" filepath="$PROJECT_DIR$/backend/microservices/budget-service/budget-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/microservices/location-service/location-service.iml" filepath="$PROJECT_DIR$/backend/microservices/location-service/location-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/microservices/media-service/media-service.iml" filepath="$PROJECT_DIR$/backend/microservices/media-service/media-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/microservices/notification-service/notification-service.iml" filepath="$PROJECT_DIR$/backend/microservices/notification-service/notification-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/microservices/sharing-service/sharing-service.iml" filepath="$PROJECT_DIR$/backend/microservices/sharing-service/sharing-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/microservices/user-service/user-service.iml" filepath="$PROJECT_DIR$/backend/microservices/user-service/user-service.iml" />
     </modules>
   </component>
 </project>
