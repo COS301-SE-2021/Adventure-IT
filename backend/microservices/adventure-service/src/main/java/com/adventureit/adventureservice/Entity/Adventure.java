@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Entity
+@Table(name = "\"adventure\"")
 public class Adventure{
 
     private String name;
@@ -40,6 +42,8 @@ public class Adventure{
      * Adventure service to retrieve adventure's name
      * @return name
      */
+    @Basic
+    @Column(name = "name")
     public String getName(){
         return name;
     }
@@ -56,6 +60,8 @@ public class Adventure{
      * Adventure service to retrieve adventure's id
      * @return id
      */
+    @Id
+    @Column(name = "id")
     public UUID getId(){
         return id;
     }
@@ -104,6 +110,8 @@ public class Adventure{
      * Adventure service to retrieve adventure's Containers
      * @return Containers
      */
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Column
     public ArrayList<EntryContainer> getContainers(){
         return Containers;
     }
