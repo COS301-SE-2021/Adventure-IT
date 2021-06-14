@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class NotificationController {
 	@GetMapping("/test")
 	String test(){
-		return "Budget Controller is functional";
+		return "Budget Controller is functioning";
 	}
 }
