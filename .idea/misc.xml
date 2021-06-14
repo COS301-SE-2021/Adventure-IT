@@ -3,11 +3,17 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/microservices/notification-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/microservices/adventure-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/microservices/user-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/microservices/sharing-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/microservices/location-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/microservices/budget-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/microservices/media-service/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_13" default="true" project-jdk-name="13.0.2" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_16" default="true" project-jdk-name="16" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

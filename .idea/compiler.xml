@@ -6,7 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="adventure-service" />
         <module name="Adventure-IT" />
+        <module name="location-service" />
+        <module name="media-service" />
+        <module name="user-service" />
+        <module name="budget-service" />
+        <module name="sharing-service" />
+        <module name="notification-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
