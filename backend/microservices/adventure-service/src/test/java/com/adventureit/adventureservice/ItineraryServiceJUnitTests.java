@@ -1,32 +1,36 @@
 package com.adventureit.adventureservice;
 
-import com.adventureit.adventureservice.Entity.Checklist;
-import com.adventureit.adventureservice.Requests.*;
-import com.adventureit.adventureservice.Responses.*;
+import com.adventureit.adventureservice.Repository.AdventureRepository;
+import com.adventureit.userservice.Service.UserServiceImplementation;
+import main.java.com.adventureit.adventureservice.Repository.ItineraryRepository
+import com.adventureit.adventureservice.Requests.CreateItineraryRequest;
+import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
+import com.adventureit.adventureservice.Requests.RemoveItineraryRequest;
+import com.adventureit.adventureservice.Responses.CreateItineraryResponse;
+import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
+import com.adventureit.adventureservice.Responses.RemoveItineraryResponse;
 import com.adventureit.adventureservice.Service.AdventureServiceImplementation;
-import com.adventureit.adventureservice.Service.ChecklistService;
 import com.adventureit.adventureservice.Service.ItineraryServiceImplementation;
 import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
-import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
-import com.adventureit.userservice.Entities.User;
-import com.adventureit.userservice.Service.UserServiceImplementation;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.Mockito;
 
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
-@SpringBootTest
 public class ItineraryServiceJUnitTests {
 
-    private ItineraryServiceImplementation itineraryServiceImplementation = new ItineraryServiceImplementation();
-    private UserServiceImplementation userServiceImplementation = new UserServiceImplementation();
-    private AdventureServiceImplementation adventureServiceImplementation = new AdventureServiceImplementation();
+    private AdventureRepository adventureRepository = Mockito.mock(AdventureRepository.class);
+    private AdventureServiceImplementation adventureServiceImpl = new AdventureServiceImplementation();
+    private ItineraryRepository ItineraryRepository = Mockito.mock(ItineraryRepository.class);
+    private ItineraryServiceImplementation ItineraryService = new ItineraryServiceImplementation();
+    private UserRepository UserRepository = Mockito.mock(UserRepository.class);
+    private UserServiceImplementation UserService = new UserServiceImplementation();
+
 
     @Test
     @Description("Tests whether or not a new itinerary can be added when providing a valid user id and valid adventure id")
@@ -36,7 +40,7 @@ public class ItineraryServiceJUnitTests {
         CreateItineraryRequest req = new CreateItineraryRequest("Test Itinerary", "This is an itinerary created for testing purposes", validUserID, validAdventureID);
 
         try {
-            CreateItineraryResponse res = this.itineraryServiceImplementation.createItinerary(req);
+            CreateItineraryResponse res = this.ItineraryService.createItinerary(req);
             assertNotNull(res);
             assertEquals(res.isSuccess(), true);
         } catch (Exception e) {
@@ -55,7 +59,7 @@ public class ItineraryServiceJUnitTests {
         final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
         RemoveItineraryRequest req = new RemoveItineraryRequest(validItineraryID, validUserID, validAdventureID);
         try {
-            RemoveItineraryResponse res = this.itineraryServiceImplementation.removeItinerary(req);
+            RemoveItineraryResponse res = this.ItineraryService.removeItinerary(req);
             assertNotNull(res);
             assertEquals(res.isSuccess(), true);
         } catch (Exception e) {
@@ -69,9 +73,9 @@ public class ItineraryServiceJUnitTests {
     public void NullRequestForCreate()
     {
         CreateItineraryRequest req = null;
-        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.createItinerary(req));
+        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> ItineraryService.createItinerary(req));
         assertNull(req);
-        assertEquals("404 Bad Request", thrown.getMessage());
+        assertEquals("Error! Bad Request", thrown.getMessage());
     }
 
     @Test
@@ -81,8 +85,8 @@ public class ItineraryServiceJUnitTests {
         final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
         final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
         CreateItineraryRequest req = new CreateItineraryRequest(null,"description",validAdventureID,validUserID);
-        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.createItinerary(req));
-        assertEquals("404 Bad Request", thrown.getMessage());
+        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> ItineraryService.createItinerary(req));
+        assertEquals("Error! Bad Request", thrown.getMessage());
     }
 
     @Test
@@ -92,8 +96,8 @@ public class ItineraryServiceJUnitTests {
         final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
         final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
         CreateItineraryRequest req = new CreateItineraryRequest("Title",null,validAdventureID,validUserID);
-        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.createItinerary(req));
-        assertEquals("404 Bad Request", thrown.getMessage());
+        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> ItineraryService.createItinerary(req));
+        assertEquals("Error! Bad Request", thrown.getMessage());
     }
 
     @Test
@@ -103,8 +107,8 @@ public class ItineraryServiceJUnitTests {
         final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
         final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
         CreateItineraryRequest req = new CreateItineraryRequest("Title","description",null,validUserID);
-        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.createItinerary(req));
-        assertEquals("404 Bad Request", thrown.getMessage());
+        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> ItineraryService.createItinerary(req));
+        assertEquals("Error! Bad Request", thrown.getMessage());
     }
 
     @Test
@@ -114,8 +118,8 @@ public class ItineraryServiceJUnitTests {
         final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
         final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
         CreateItineraryRequest req = new CreateItineraryRequest("Title","description",validAdventureID,null);
-        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.createItinerary(req));
-        assertEquals("404 Bad Request", thrown.getMessage());
+        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> ItineraryService.createItinerary(req));
+        assertEquals("Error! Bad Request", thrown.getMessage());
     }
 
     @Test
@@ -123,9 +127,9 @@ public class ItineraryServiceJUnitTests {
     public void NullRequestForRemove()
     {
         RemoveItineraryRequest req = null;
-        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.removeItinerary(req));
+        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> ItineraryService.removeItinerary(req));
         assertNull(req);
-        assertEquals("404 Bad Request", thrown.getMessage());
+        assertEquals("Error! Bad Request", thrown.getMessage());
     }
 
     @Test
@@ -135,8 +139,8 @@ public class ItineraryServiceJUnitTests {
         final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
         final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
         RemoveItineraryRequest req = new RemoveItineraryRequest(1,null,validUserID);
-        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.removeItinerary(req));
-        assertEquals("404 Bad Request", thrown.getMessage());
+        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> ItineraryService.removeItinerary(req));
+        assertEquals("Error! Bad Request", thrown.getMessage());
     }
 
     @Test
@@ -146,39 +150,13 @@ public class ItineraryServiceJUnitTests {
         final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
         final UUID validAdventureID = UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b");
         RemoveItineraryRequest req = new RemoveItineraryRequest(1,validAdventureID,null);
-        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> itineraryServiceImplementation.removeItinerary(req));
-        assertEquals("404 Bad Request", thrown.getMessage());
+        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> ItineraryService.removeItinerary(req));
+        assertEquals("Error! Bad Request", thrown.getMessage());
     }
 
 
 
-    @Test
-    @Description("Tests whether or not the Itinerary service integrates with the User service")
-    public void UserIntegrationTest() {
-        final UUID validUserID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
-        GetUserByUUIDRequest req = new GetUserByUUIDRequest(validUserID);
-        GetUserByUUIDResponse res = userServiceImplementation.GetUserByUUID(req);
-        assertNotNull(res);
-        assertEquals(res.getUser().getFirstname(), "Kevin");
-        assertEquals(res.getUser().getLastname(), "Potter");
-        assertEquals(res.getUser().getEmail(), "u19024143@tuks.co.za");
-        assertEquals(res.getUser().getPhoneNumber(), "0794083122");
-        assertEquals(res.getUser().getUserID(), UUID.fromString("933c0a14-a837-4789-991a-15006778f465"));
 
-    }
-
-    @Test
-    @Description("Tests whether or not the Itinerary service integrates with the Adventure service")
-    public void AdventureIntegrationTest() {
-        final UUID validAdventureID = UUID.fromString("933c0a14-a837-4789-991a-15006778f465");
-        GetAdventureByUUIDRequest req = new GetAdventureByUUIDRequest(validAdventureID);
-        GetAdventureByUUIDResponse res = adventureServiceImplementation.getAdventureByUUID(req);
-        assertNotNull(res);
-        assertEquals(res.getAdventure().getName(), "Adventure1");
-        assertEquals(res.getAdventure().getOwner().getUserID(), validAdventureID);
-
-
-    }
 
 
 }
