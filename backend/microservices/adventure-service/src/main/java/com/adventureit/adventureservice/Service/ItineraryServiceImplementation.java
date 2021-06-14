@@ -78,7 +78,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
         }
         GetAdventureByUUIDRequest advreq = new GetAdventureByUUIDRequest(req.getAdventureID());
         GetAdventureByUUIDResponse advres = this.adventureServiceImplementation.getAdventureByUUID(advreq);
-        Itinerary it=ItineraryRepository.getById(req.getId());
+        Itinerary it=ItineraryRepository.findByID(req.getId());
         Adventure adv=advres.getAdventure();
 
         if(advres.isSuccess()) {
