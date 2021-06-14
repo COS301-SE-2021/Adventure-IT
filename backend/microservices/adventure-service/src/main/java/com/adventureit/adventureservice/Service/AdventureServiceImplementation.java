@@ -14,13 +14,14 @@ import com.adventureit.userservice.Entities.User;
 import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
 import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
 import com.adventureit.userservice.Service.UserServiceImplementation;
+import main.java.com.adventureit.adventureservice.Exceptions.NullFieldException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 @Service("AdventureServiceImplementation")
-public class AdventureServiceImplementation implements AdventureService{
+public class AdventureServiceImplementation implements com.adventureit.adventureservice.Service.AdventureService {
     private UserServiceImplementation user = new UserServiceImplementation();
 
     /**
@@ -45,32 +46,32 @@ public class AdventureServiceImplementation implements AdventureService{
      * registration was successful or if an error occurred
      */
     @Override
-    public CreateAdventureResponse createAdventure(CreateAdventureRequest req){
+    public CreateAdventureResponse createAdventure(CreateAdventureRequest req) throws NullFieldException{
 
         Adventure adventure = new Adventure();
         CreateAdventureResponse response = new CreateAdventureResponse();
         adventure.setId(UUID.randomUUID());
         if(req.getId() == null){
-            return new CreateAdventureResponse(false);
+            throw new NullFieldException("ID field is null - failed to create adventure");
         }
         if(req.getName() == "" || req.getName() ==  null){
-            return new CreateAdventureResponse(false);
+            throw new NullFieldException("Name field is null - failed to create adventure");
         }else {
             adventure.setName(req.getName());
         }
         if(req.getContainers() ==  null){
-            return new CreateAdventureResponse(false);
+            throw new NullFieldException("Containers field is null - failed to create adventure");
         }else{
             adventure.setContainers(req.getContainers());
         }
         if(req.getGroup() ==  null){
-            return new CreateAdventureResponse(false);
+            throw new NullFieldException("Group field is null - failed to create adventure");
         }
         else{
             adventure.setGroup(req.getGroup());
         }
         if(req.getOwner() ==  null){
-            return new CreateAdventureResponse(false);
+            throw new NullFieldException("Owner field is null - failed to create adventure");
         }
         else{
             adventure.setOwner(req.getOwner());

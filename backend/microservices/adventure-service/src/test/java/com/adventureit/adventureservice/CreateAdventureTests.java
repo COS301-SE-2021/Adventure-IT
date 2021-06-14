@@ -14,12 +14,15 @@ import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
 import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
 import com.adventureit.userservice.Service.UserServiceImplementation;
 import jdk.jfr.Description;
+import main.java.com.adventureit.adventureservice.Exceptions.NullFieldException;
+import org.junit.Test;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
+import static junit.framework.TestCase.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -42,8 +45,13 @@ public class CreateAdventureTests {
     public void createAdventureNameNullReturnsFalse(){
         String name = null;
         CreateAdventureRequest req = new CreateAdventureRequest(name,UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b"),new User(), new ArrayList<String>(),new ArrayList<EntryContainer>());
-        CreateAdventureResponse res = adventureServiceImplementation.createAdventure(req);
-        assertEquals(res.isSuccess(), false);
+        boolean thrown = false;
+        try {
+            CreateAdventureResponse res = adventureServiceImplementation.createAdventure(req);
+        } catch (NullFieldException e) {
+            thrown = true;
+        }
+        assertEquals(thrown,true);
     }
 
     @Test
@@ -51,8 +59,13 @@ public class CreateAdventureTests {
     public void createAdventureUUIDNullReturnsFalse(){
         UUID id = null;
         CreateAdventureRequest req = new CreateAdventureRequest("Adventure1",id,new User(), new ArrayList<String>(),new ArrayList<EntryContainer>());
-        CreateAdventureResponse res = adventureServiceImplementation.createAdventure(req);
-        assertEquals(res.isSuccess(), false);
+        boolean thrown = false;
+        try {
+            CreateAdventureResponse res = adventureServiceImplementation.createAdventure(req);
+        } catch (NullFieldException e) {
+            thrown = true;
+        }
+        assertEquals(thrown,true);
     }
 
     @Test
@@ -60,8 +73,13 @@ public class CreateAdventureTests {
     public void createAdventureOwnerNullReturnsFalse(){
         User owner = null;
         CreateAdventureRequest req = new CreateAdventureRequest("Adventure1",UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b"),owner, new ArrayList<String>(),new ArrayList<EntryContainer>());
-        CreateAdventureResponse res = adventureServiceImplementation.createAdventure(req);
-        assertEquals(res.isSuccess(), false);
+        boolean thrown = false;
+        try {
+            CreateAdventureResponse res = adventureServiceImplementation.createAdventure(req);
+        } catch (NullFieldException e) {
+            thrown = true;
+        }
+        assertEquals(thrown,true);
     }
 
     @Test
@@ -69,8 +87,13 @@ public class CreateAdventureTests {
     public void createAdventureGroupNullReturnsFalse(){
         ArrayList<String> group = null;
         CreateAdventureRequest req = new CreateAdventureRequest("Adventure1",UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b"),new User(), group,new ArrayList<EntryContainer>());
-        CreateAdventureResponse res = adventureServiceImplementation.createAdventure(req);
-        assertEquals(res.isSuccess(), false);
+        boolean thrown = false;
+        try {
+            CreateAdventureResponse res = adventureServiceImplementation.createAdventure(req);
+        } catch (NullFieldException e) {
+            thrown = true;
+        }
+        assertEquals(thrown,true);
     }
 
     @Test
@@ -78,7 +101,12 @@ public class CreateAdventureTests {
     public void createAdventureContainerNullReturnsFalse(){
         ArrayList<EntryContainer> containers = null;
         CreateAdventureRequest req = new CreateAdventureRequest("Adventure1",UUID.fromString("e9b19e5c-4197-4f88-814a-5e51ff305f7b"),new User(), new ArrayList<String>() ,containers);
-        CreateAdventureResponse res = adventureServiceImplementation.createAdventure(req);
-        assertEquals(res.isSuccess(), false);
+        boolean thrown = false;
+        try {
+            CreateAdventureResponse res = adventureServiceImplementation.createAdventure(req);
+        } catch (NullFieldException e) {
+            thrown = true;
+        }
+        assertEquals(thrown,true);
     }
 }
