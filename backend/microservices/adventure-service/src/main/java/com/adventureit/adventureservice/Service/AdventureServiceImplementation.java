@@ -17,6 +17,7 @@ import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
 import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
 import com.adventureit.userservice.Service.UserServiceImplementation;
 import main.java.com.adventureit.adventureservice.Exceptions.NullFieldException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,8 +25,11 @@ import java.util.UUID;
 
 @Service("AdventureServiceImplementation")
 public class AdventureServiceImplementation implements com.adventureit.adventureservice.Service.AdventureService {
+
     private UserServiceImplementation user = new UserServiceImplementation();
+
     private AdventureRepository adventureRepository;
+
 
     /**
      *
