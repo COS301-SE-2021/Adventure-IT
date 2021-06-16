@@ -1,11 +1,13 @@
 package com.adventureit.notificationservice.Requests;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class sendEmailRequest {
     private final String email;
     private final String subject;
     private final String body;
 
-    public sendEmailRequest(String email, String subject, String body) {
+    public sendEmailRequest(@JsonProperty("email")String email,@JsonProperty("subject") String subject,@JsonProperty("body") String body) {
         this.email = email;
         this.subject = subject;
         this.body = body;

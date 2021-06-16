@@ -1,12 +1,10 @@
 package com.adventureit.notificationservice.Controllers;
 
+import com.adventureit.notificationservice.Requests.sendEmailRequest;
 import com.adventureit.notificationservice.Service.notificationService;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/notification")
@@ -26,7 +24,8 @@ public class NotificationController {
 
 
     @PostMapping("/sendemail")
-    void sendEmail(@JsonProperty("email")String email,@JsonProperty("subject") String subject, @JsonProperty("body") String message ){
-        notification.sendEmail(email,subject,message);
+    String sendEmail(@RequestBody sendEmailRequest req){
+        notification.sendEmail(req.getEmail() ,req.getSubject(), req.getBody());
+        return"success";
     }
 }
