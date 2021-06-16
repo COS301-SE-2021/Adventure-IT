@@ -28,4 +28,10 @@ public class NotificationController {
         notification.sendEmail(req.getEmail() ,req.getSubject(), req.getBody());
         return"success";
     }
+
+    @PostMapping("/test2")
+    String test2(){
+        notification.createNotification();
+        return "create works";
+    }
 }

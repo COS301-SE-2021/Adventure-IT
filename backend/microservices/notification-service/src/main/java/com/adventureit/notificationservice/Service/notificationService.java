@@ -2,6 +2,8 @@ package com.adventureit.notificationservice.Service;
 
 
 import com.adventureit.notificationservice.Entity.Notification;
+import com.adventureit.notificationservice.Repos.NotificationRepository;
+import com.adventureit.notificationservice.Responses.sendEmailNotificationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,10 +17,12 @@ import java.util.UUID;
 @Service
 public class notificationService {
     private JavaMailSender mailSender;
+    private NotificationRepository repo;
 
     @Autowired
-    public notificationService(JavaMailSender mailSender) {
+    public notificationService(JavaMailSender mailSender, NotificationRepository repo) {
         this.mailSender = mailSender;
+        this.repo=repo;
     }
 
     public void sendEmail(String email,String subject,String message){
@@ -38,7 +42,12 @@ public class notificationService {
         UUID Notificationid = UUID.randomUUID();
         UUID Userid = UUID.randomUUID();
         Notification newNote = new Notification(Notificationid,Userid,"random message",currentDate,null);
+        repo.save(newNote);
+
+    }
+    public sendEmailNotificationResponse sendEmailNotification(){
 
 
+        return null;
     }
 }
