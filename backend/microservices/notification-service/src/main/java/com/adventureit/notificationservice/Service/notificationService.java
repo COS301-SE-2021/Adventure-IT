@@ -45,7 +45,7 @@ public class notificationService {
         repo.save(newNote);
 
     }
-    public sendEmailNotificationResponse sendEmailNotification(){
+    public sendEmailNotificationResponse sendEmailNotification(sendEmailNotificationResponse req){
 
 
         return null;
