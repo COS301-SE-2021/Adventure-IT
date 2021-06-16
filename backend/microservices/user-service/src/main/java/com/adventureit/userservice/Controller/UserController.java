@@ -35,4 +35,9 @@ public class UserController {
     public RegisterUserResponse RegisterUser(@RequestBody RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
         return service.RegisterUser(req);
     }
+
+    @GetMapping(value="/user/test")
+    public String test(){
+        return "User controller is working";
+    }
 }

@@ -1,11 +1,14 @@
 package com.adventureit.adventureservice.Entity;
 
 import com.adventureit.userservice.Entities.User;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Entity
+@Table(name = "\"adventure\"")
 public class Adventure{
 
     private String name;
@@ -25,7 +28,7 @@ public class Adventure{
      * @param id
      * @param owner
      * @param group
-     * @param Containers
+     * @param containers
      */
     public Adventure(String name, UUID id, User owner , ArrayList<String> group ,ArrayList<EntryContainer> containers){
         this.name=name;
@@ -39,6 +42,8 @@ public class Adventure{
      * Adventure service to retrieve adventure's name
      * @return name
      */
+    @Basic
+    @Column(name = "name")
     public String getName(){
         return name;
     }
@@ -55,6 +60,8 @@ public class Adventure{
      * Adventure service to retrieve adventure's id
      * @return id
      */
+    @Id
+    @Column(name = "id")
     public UUID getId(){
         return id;
     }
@@ -103,13 +110,15 @@ public class Adventure{
      * Adventure service to retrieve adventure's Containers
      * @return Containers
      */
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Column
     public ArrayList<EntryContainer> getContainers(){
         return Containers;
     }
 
     /**
      * Adventure service to set adventure's Containers
-     * @param  Containers
+     * @param  containers
      */
     public void setContainers(ArrayList<EntryContainer> containers){
         this.Containers = containers;
