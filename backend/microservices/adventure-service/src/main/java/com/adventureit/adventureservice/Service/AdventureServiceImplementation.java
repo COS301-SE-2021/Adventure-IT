@@ -1,8 +1,10 @@
 package com.adventureit.adventureservice.Service;
 
 import com.adventureit.adventureservice.Entity.Adventure;
+import com.adventureit.adventureservice.Repository.AdventureRepository;
 import com.adventureit.adventureservice.Entity.Checklist;
 import com.adventureit.adventureservice.Entity.EntryContainer;
+import com.adventureit.adventureservice.Repository.ChecklistRepository;
 import com.adventureit.adventureservice.Requests.AddUserToAdventureRequest;
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
@@ -23,6 +25,7 @@ import java.util.UUID;
 @Service("AdventureServiceImplementation")
 public class AdventureServiceImplementation implements com.adventureit.adventureservice.Service.AdventureService {
     private UserServiceImplementation user = new UserServiceImplementation();
+    private AdventureRepository adventureRepository;
 
     /**
      *
@@ -76,6 +79,8 @@ public class AdventureServiceImplementation implements com.adventureit.adventure
         else{
             adventure.setOwner(req.getOwner());
         }
+
+        adventureRepository.save(new Adventure(req.getName(),req.getId(),req.getOwner(),req.getGroup(),req.getContainers()));
 
         return new CreateAdventureResponse(true, adventure);
     }
