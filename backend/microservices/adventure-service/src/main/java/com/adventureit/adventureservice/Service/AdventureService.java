@@ -1,17 +1,13 @@
 package com.adventureit.adventureservice.Service;
 
-import com.adventureit.adventureservice.Requests.AddUserToAdventureRequest;
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
-import com.adventureit.adventureservice.Responses.AddUserToAdventureResponse;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
-import main.java.com.adventureit.adventureservice.Exceptions.NullFieldException;
-import org.springframework.stereotype.Service;
 
 public interface AdventureService{
 
-    public CreateAdventureResponse createAdventure(CreateAdventureRequest req) throws NullFieldException;
+    public CreateAdventureResponse createAdventure(CreateAdventureRequest req) throws Exception;
     public GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req);
-    public AddUserToAdventureResponse AddUserToAdventure(AddUserToAdventureRequest req);
+//    public AddUserToAdventureResponse AddUserToAdventure(AddUserToAdventureRequest req);
 }
