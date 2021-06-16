@@ -1,49 +1,44 @@
 package com.adventureit.adventureservice.Entity;
 
-import com.adventureit.userservice.Entities.User;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "\"adventure\"")
 public class Adventure{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     private String name;
-    private UUID id;
-    private User owner;
-    private ArrayList<String> group;
-    private ArrayList<EntryContainer> Containers;
+    private UUID adventureId;
+    private UUID ownerId;
+    @OneToMany
+    private List<EntryContainer> Containers;
+
 
     /**
-     * Default constructor for User Model
+     * Default constructor
      */
     public Adventure(){}
 
     /**
      * Adventure model Constructor which takes in the following parameters:
      * @param name
-     * @param id
-     * @param owner
-     * @param group
-     * @param containers
+     * @param adventureId
+     * @param ownerId
      */
-    public Adventure(String name, UUID id, User owner , ArrayList<String> group ,ArrayList<EntryContainer> containers){
+    public Adventure(String name, UUID adventureId, UUID ownerId){
         this.name=name;
-        this.id=id;
-        this.owner = owner;
-        this.group = group;
-        this.Containers = containers;
+        this.adventureId=adventureId;
+        this.ownerId = ownerId;
     }
 
     /**
      * Adventure service to retrieve adventure's name
      * @return name
      */
-    @Basic
-    @Column(name = "name")
     public String getName(){
         return name;
     }
@@ -60,59 +55,31 @@ public class Adventure{
      * Adventure service to retrieve adventure's id
      * @return id
      */
-    @Id
-    @Column(name = "id")
-    public UUID getId(){
-        return id;
-    }
-
-    /**
-     * Adventure service to set adventure's id
-     * @param  id
-     */
-    public void setId(UUID id){
-        this.id = id;
+    public UUID getAdventureId(){
+        return adventureId;
     }
 
     /**
      * Adventure service to retrieve adventure's owner
      * @return owner
      */
-    public User getOwner(){
-        return owner;
+    public UUID getOwnerId(){
+        return ownerId;
     }
 
     /**
      * Adventure service to set adventure's owner
-     * @param  owner
+     * @param  ownerId
      */
-    public void setOwner(User owner){
-        this.owner = owner;
-    }
-
-    /**
-     * Adventure service to retrieve adventure's group
-     * @return group
-     */
-    public ArrayList<String> getGroup(){
-        return group;
-    }
-
-    /**
-     * Adventure service to set adventure's group
-     * @param  group
-     */
-    public void setGroup(ArrayList<String> group){
-        this.group = group;
+    public void setOwnerId(UUID ownerId){
+        this.ownerId = ownerId;
     }
 
     /**
      * Adventure service to retrieve adventure's Containers
      * @return Containers
      */
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Column
-    public ArrayList<EntryContainer> getContainers(){
+    public List<EntryContainer> getContainers(){
         return Containers;
     }
 
@@ -120,7 +87,7 @@ public class Adventure{
      * Adventure service to set adventure's Containers
      * @param  containers
      */
-    public void setContainers(ArrayList<EntryContainer> containers){
+    public void setContainers(List<EntryContainer> containers){
         this.Containers = containers;
     }
 
