@@ -11,6 +11,8 @@ import java.util.UUID;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, UUID> {
      List<Notification> getNotificationByUserIDAndReadDateTime(UUID userId,Date date);
+     List<Notification> getNotificationByUserID(UUID userId);
+     void removeAllByUserID(UUID userId);
 
 
 }

@@ -64,10 +64,7 @@ public class notificationService {
         if(unreadonly){
             return  repo.getNotificationByUserIDAndReadDateTime(userID,null);
         }else{
-
+            return repo.getNotificationByUserID(userID);
         }
-
-
-    return null;
     }
 }
