@@ -1,11 +1,11 @@
 package com.adventureit.notificationservice.Responses;
 
-public class sendEmailNotificationResponse {
+public class SendEmailNotificationResponse {
     private final boolean success;
     private final String returnmessage;
 
 
-    public sendEmailNotificationResponse(boolean success, String returnmessage) {
+    public SendEmailNotificationResponse(boolean success, String returnmessage) {
         this.success = success;
         this.returnmessage = returnmessage;
     }

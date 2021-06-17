@@ -3,8 +3,11 @@ package com.adventureit.notificationservice.Service;
 
 import com.adventureit.notificationservice.Entity.Notification;
 import com.adventureit.notificationservice.Repos.NotificationRepository;
-import com.adventureit.notificationservice.Requests.sendEmailNotificationRequest;
-import com.adventureit.notificationservice.Responses.sendEmailNotificationResponse;
+import com.adventureit.notificationservice.Requests.CreateNotificationRequest;
+import com.adventureit.notificationservice.Requests.RetrieveNotificationRequest;
+import com.adventureit.notificationservice.Requests.SendEmailNotificationRequest;
+import com.adventureit.notificationservice.Responses.CreateNotificationResponse;
+import com.adventureit.notificationservice.Responses.SendEmailNotificationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,8 +21,8 @@ import java.util.UUID;
 
 @Service
 public class notificationService {
-    private JavaMailSender mailSender;
-    private NotificationRepository repo;
+    private final JavaMailSender mailSender;
+    private final NotificationRepository repo;
 
     @Autowired
     public notificationService(JavaMailSender mailSender, NotificationRepository repo) {
@@ -30,7 +33,6 @@ public class notificationService {
     public void sendEmail(String email,String subject,String message){
         Properties props =new Properties();
         props.put("mail.smtp.ssl.trust", "*");
-
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(email);
         mailMessage.setSubject(subject);
@@ -38,26 +40,34 @@ public class notificationService {
         mailSender.send(mailMessage);
     }
 
-    public void createNotification(){
+    public CreateNotificationResponse createNotification(CreateNotificationRequest req){
         Date currentDate = new Date();
-
-        UUID Notificationid = UUID.randomUUID();
-        UUID Userid = UUID.randomUUID();
-        Notification newNote = new Notification(Notificationid,Userid,"random message",currentDate,null);
+        UUID notificationId = UUID.randomUUID();
+        UUID userid = req.getUserId();
+        String message = req.getMessage();
+        Notification newNote = new Notification(notificationId,userid,message,currentDate,null);
         repo.save(newNote);
+        return new CreateNotificationResponse("Notification No. "+notificationId+" has been added",true);
 
     }
-    public sendEmailNotificationResponse sendEmailNotification(sendEmailNotificationRequest req){
+    public SendEmailNotificationResponse sendEmailNotification(SendEmailNotificationRequest req){
         UUID userID = req.getUserId();
         String subject = req.getSubject();
         String body = req.getBody();
-
-
-
+        sendEmail(body,subject,body);
         return null;
     }
 
-    public List<Notification> retrieveNotifications(UUID userID){
-        return repo.getNotificationByNotificationIDAndReadDateTime(userID,null);
+    public List<Notification> retrieveNotifications(RetrieveNotificationRequest req){
+        boolean unreadonly = req.isUnreadOnly();
+        UUID userID = UUID.fromString("9d2a50a0-3648-41f2-b344-08a4459a7f27");
+        if(unreadonly){
+            return  repo.getNotificationByUserIDAndReadDateTime(userID,null);
+        }else{
+
+        }
+
+
+    return null;
     }
 }

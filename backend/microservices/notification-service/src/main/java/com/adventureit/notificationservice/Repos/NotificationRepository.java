@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, UUID> {
-     List<Notification> getNotificationByNotificationIDAndReadDateTime(UUID userId, Date date);
+     List<Notification> getNotificationByUserIDAndReadDateTime(UUID userId,Date date);
 
 
 }

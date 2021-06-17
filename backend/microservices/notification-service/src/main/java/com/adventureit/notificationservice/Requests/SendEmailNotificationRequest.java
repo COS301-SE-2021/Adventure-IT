@@ -2,12 +2,12 @@ package com.adventureit.notificationservice.Requests;
 
 import java.util.UUID;
 
-public class sendEmailNotificationRequest {
+public class SendEmailNotificationRequest {
     private final UUID userId;
     private final String subject;
     private final String body;
 
-    public sendEmailNotificationRequest(UUID userId, String subject, String body) {
+    public SendEmailNotificationRequest(UUID userId, String subject, String body) {
         this.userId = userId;
         this.subject = subject;
         this.body = body;

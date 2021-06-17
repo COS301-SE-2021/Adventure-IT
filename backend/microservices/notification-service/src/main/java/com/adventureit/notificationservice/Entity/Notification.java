@@ -9,10 +9,10 @@ import java.util.UUID;
 public class Notification{
 
     @Id
-    private UUID NotificationID;
+    private UUID notificationID;
 
     @Column
-    private UUID UserID;
+    private UUID userID;
 
     @Column
     private String payload;
@@ -38,8 +38,8 @@ public class Notification{
                                  Date createdDateTime,
                                  Date readDateTime){
 
-        this.NotificationID = notificationID;
-        this.UserID = userID;
+        this.notificationID = notificationID;
+        this.userID = userID;
         this.payload = payload;
         this.createdDateTime = createdDateTime;
         this.readDateTime = readDateTime;
@@ -47,11 +47,11 @@ public class Notification{
     }
 
     public UUID getUserID(){
-        return this.UserID;
+        return this.userID;
     }
 
     public UUID getNotificationID(){
-        return this.NotificationID;
+        return this.notificationID;
     }
 
 
