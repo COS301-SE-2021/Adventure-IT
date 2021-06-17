@@ -10,13 +10,39 @@ import java.util.UUID;
 public class Budget {
     @Id
     private UUID id;
+    private UUID adventureID;
     @OneToMany
     ArrayList<BudgetEntry> transactions;
 
     public Budget(){}
 
-    public Budget(UUID id,ArrayList<BudgetEntry> transactions){
+    public Budget(UUID id,UUID adventureID,ArrayList<BudgetEntry> transactions){
         this.id = id;
+        this.adventureID = adventureID;
         this.transactions = transactions;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setAdventureID(UUID adventureID) {
+        this.adventureID = adventureID;
+    }
+
+    public UUID getAdventureID() {
+        return adventureID;
+    }
+
+    public void setTransactions(ArrayList<BudgetEntry> transactions) {
+        this.transactions = transactions;
+    }
+
+    public ArrayList<BudgetEntry> getTransactions() {
+        return transactions;
     }
 }

@@ -8,13 +8,15 @@ import java.util.UUID;
 
 public class CreateBudgetRequest {
     private UUID id;
+    private UUID adventureID;
     ArrayList<BudgetEntry> transactions;
 
     public CreateBudgetRequest() {
     }
 
-    public CreateBudgetRequest(UUID id, ArrayList<BudgetEntry> transactions) {
+    public CreateBudgetRequest(UUID id, UUID adventureID, ArrayList<BudgetEntry> transactions) {
         this.id = id;
+        this.adventureID = adventureID;
         this.transactions = transactions;
     }
 
@@ -24,6 +26,14 @@ public class CreateBudgetRequest {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public UUID getAdventureID() {
+        return adventureID;
+    }
+
+    public void setAdventureID(UUID adventureID) {
+        this.adventureID = adventureID;
     }
 
     public ArrayList<BudgetEntry> getTransactions() {
