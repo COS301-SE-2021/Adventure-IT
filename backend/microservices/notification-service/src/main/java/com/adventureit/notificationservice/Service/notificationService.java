@@ -27,7 +27,7 @@ public class notificationService {
     @Autowired
     public notificationService(JavaMailSender mailSender, NotificationRepository repo) {
         this.mailSender = mailSender;
-        this.repo=repo;
+        this.repo = repo;
     }
 
     public void sendEmail(String email,String subject,String message){
