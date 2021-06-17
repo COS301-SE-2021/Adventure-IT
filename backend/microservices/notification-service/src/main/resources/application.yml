@@ -1,9 +1,9 @@
 server:
-  port: 9999
+  port: 9004
 
 spring:
   application:
-    name: MAIN-CONTROLLER
+    name: NOTIFICATION-SERVICE
 
 eureka:
   client:

@@ -1,15 +1,16 @@
-package com.adventureit.mediaservice;
+package com.adventureit.serviceregistry;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 @SpringBootApplication
-@EnableEurekaClient
-public class MediaServiceApplication {
+@EnableEurekaServer
+public class ServiceRegistryApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MediaServiceApplication.class, args);
+		SpringApplication.run(ServiceRegistryApplication.class, args);
 	}
 
 }

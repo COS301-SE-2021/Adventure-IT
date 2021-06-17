@@ -1,9 +1,9 @@
 server:
-  port: 9999
+  port: 9006
 
 spring:
   application:
-    name: MAIN-CONTROLLER
+    name: LOCATION-SERVICE
 
 eureka:
   client:

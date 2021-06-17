@@ -1,9 +1,9 @@
 server:
-  port: 9999
+  port: 9003
 
 spring:
   application:
-    name: MAIN-CONTROLLER
+    name: SHARING-SERVICE
 
 eureka:
   client:
