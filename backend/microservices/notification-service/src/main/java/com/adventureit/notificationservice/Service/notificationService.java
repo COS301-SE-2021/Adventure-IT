@@ -59,10 +59,17 @@ public class notificationService {
     }
 
     public List<Notification> retrieveNotifications(RetrieveNotificationRequest req){
-        boolean unreadonly = req.isUnreadOnly();
+        Date currentDate = new Date();
+        boolean unread_only = req.isUnreadOnly();
         UUID userID = UUID.fromString("9d2a50a0-3648-41f2-b344-08a4459a7f27");
-        if(unreadonly){
-            return  repo.getNotificationByUserIDAndReadDateTime(userID,null);
+        if(unread_only){
+            List<Notification> list = repo.getNotificationByUserIDAndReadDateTime(userID,null);
+            for (Notification notification : list) {
+                notification.setReadDateTime(currentDate);
+            }
+            repo.removeAllByUserIDAndReadDateTime(userID,null);
+            repo.saveAll(list);
+            return list;
         }else{
             return repo.getNotificationByUserID(userID);
         }
