@@ -9,6 +9,7 @@ import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.Exceptions.NullFieldException;
 import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
+import com.adventureit.adventureservice.Responses.GetAdventuresByUserUUIDResponse;
 import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -117,7 +118,7 @@ public class AdventureServiceImplementation implements AdventureService {
 //    }
 
     @Override
-    public GetAllAdventuresResponse getAllAdventures() throws Exception{
+    public GetAllAdventuresResponse getAllAdventures(){
         List<Adventure> allAdventures = adventureRepository.findAll();
         if(allAdventures.size() == 0){
             AdventureNotFoundException notFound = new AdventureNotFoundException("Get All Adventure: No adventures found");
@@ -127,10 +128,34 @@ public class AdventureServiceImplementation implements AdventureService {
     };
 
     @Override
+    public GetAdventuresByUserUUIDResponse getAdventureByOwnerUUID(UUID ownerID){
+        List<Adventure> userAdventures = adventureRepository.findByOwnerId(ownerID);
+        if(userAdventures.size() == 0){
+            AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
+            throw notFound;
+        }
+        return new GetAdventuresByUserUUIDResponse(userAdventures);
+    }
+
+    @Override
+    public GetAdventuresByUserUUIDResponse getAdventureByAttendeeUUID(UUID attendeeID) {
+        List<Adventure> userAdventures = adventureRepository.findByAttendees(attendeeID);
+        if (userAdventures.size() == 0) {
+            AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
+            throw notFound;
+        }
+        return new GetAdventuresByUserUUIDResponse(userAdventures);
+
+    }
+
+    @Override
     public void mockPopulate(){
-        this.adventureRepository.save(new Adventure("Mock Adventure 1", UUID.randomUUID(), UUID.randomUUID()));
-        this.adventureRepository.save(new Adventure("Mock Adventure 2", UUID.randomUUID(), UUID.randomUUID()));
-        this.adventureRepository.save(new Adventure("Mock Adventure 3", UUID.randomUUID(), UUID.randomUUID()));
+        final UUID mockOwnerID = UUID.fromString("1660bd85-1c13-42c0-955c-63b1eda4e90b");
+        final UUID mockAttendeeID = UUID.fromString("7a984756-16a5-422e-a377-89e1772dd71e");
+
+        this.adventureRepository.save(new Adventure("Mock Adventure 1", UUID.randomUUID(), mockOwnerID)).addAttendee(mockAttendeeID);
+        this.adventureRepository.save(new Adventure("Mock Adventure 2", UUID.randomUUID(), mockOwnerID)).addAttendee(mockAttendeeID);
+        this.adventureRepository.save(new Adventure("Mock Adventure 3", UUID.randomUUID(), mockOwnerID)).addAttendee(mockAttendeeID);
     }
 
 }
