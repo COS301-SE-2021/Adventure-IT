@@ -14,7 +14,7 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
     public CreateBudgetResponse createBudget(CreateBudgetRequest req) throws Exception {
-        if(budgetRepository.findById(req.getId()) != null){
+        if(budgetRepository.findBudgetById(req.getId()) != null){
             throw new Exception("Budget already exists.");
         }
         if(req.getId() == null){
@@ -31,13 +31,13 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
     public ViewBudgetResponse viewBudget(ViewBudgetRequest req) throws Exception {
-        if(budgetRepository.findById(req.getId()) == null){
+        if(budgetRepository.findBudgetById(req.getId()) == null){
             throw new Exception("Budget does not exist.");
         }
         if(req.getId() == null){
             throw new Exception("Budget id was not provided.");
         }
-        
-        return new ViewBudgetResponse(budgetRepository.findById(req.getId()),true);
+
+        return new ViewBudgetResponse(budgetRepository.findBudgetById(req.getId()),true);
     }
 }
