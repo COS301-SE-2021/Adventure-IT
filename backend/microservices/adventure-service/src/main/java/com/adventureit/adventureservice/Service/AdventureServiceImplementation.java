@@ -21,6 +21,10 @@ public class AdventureServiceImplementation implements AdventureService {
 
     @Autowired
     private AdventureRepository adventureRepository;
+
+    public AdventureServiceImplementation(AdventureRepository adventureRepository){
+        this.adventureRepository = adventureRepository;
+    }
     /**
      *
      * @param req
