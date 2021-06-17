@@ -8,6 +8,6 @@ import java.util.UUID;
 
 @Repository
 public interface BudgetRepository extends JpaRepository<Budget,Long> {
-        Budget findByID(UUID id);
+        Budget findBudgetById(UUID id);
 }
 

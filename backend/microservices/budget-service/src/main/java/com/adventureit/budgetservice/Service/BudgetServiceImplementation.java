@@ -12,7 +12,7 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
     public CreateBudgetResponse createBudget(CreateBudgetRequest req) throws Exception {
-        if(budgetRepository.findByID(req.getId()) != null){
+        if(budgetRepository.findById(req.getId()) != null){
             throw new Exception("Budget already exists.");
         }
         if(req.getId() == null){
