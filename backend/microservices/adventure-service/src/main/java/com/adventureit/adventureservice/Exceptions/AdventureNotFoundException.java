@@ -1,6 +1,6 @@
 package com.adventureit.adventureservice.Exceptions;
 
-public class AdventureNotFoundException extends Exception {
+public class AdventureNotFoundException extends RuntimeException {
 
     public AdventureNotFoundException(String message) {
         super(message);
