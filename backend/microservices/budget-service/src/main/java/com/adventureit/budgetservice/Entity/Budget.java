@@ -13,5 +13,10 @@ public class Budget {
     @OneToMany
     ArrayList<BudgetEntry> transactions;
 
-    
+    public Budget(){}
+
+    public Budget(UUID id,ArrayList<BudgetEntry> transactions){
+        this.id = id;
+        this.transactions = transactions;
+    }
 }

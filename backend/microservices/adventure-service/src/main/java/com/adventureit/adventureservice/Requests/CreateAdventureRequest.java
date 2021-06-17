@@ -19,7 +19,7 @@ public class CreateAdventureRequest{
      * @param id ID of the Adventure
      * @param owner owner of the Adventure
      * @param group groups of the Adventure
-     * @param Containers Containers of the Adventure
+     * @param containers Containers of the Adventure
      */
     public CreateAdventureRequest(String name, UUID id, User owner , ArrayList<String> group ,ArrayList<EntryContainer> containers){
         this.name=name;
