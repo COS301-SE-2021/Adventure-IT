@@ -1,7 +1,10 @@
 package com.adventureit.adventureservice.Entity;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,6 +17,8 @@ public class Adventure{
     private String name;
     private UUID adventureId;
     private UUID ownerId;
+    @ElementCollection
+    private List<UUID> attendees;
     @OneToMany
     private List<EntryContainer> Containers;
 
@@ -33,6 +38,7 @@ public class Adventure{
         this.name=name;
         this.adventureId=adventureId;
         this.ownerId = ownerId;
+        this.attendees = new ArrayList<UUID>();
     }
 
     /**
@@ -89,6 +95,14 @@ public class Adventure{
      */
     public void setContainers(List<EntryContainer> containers){
         this.Containers = containers;
+    }
+
+    public void addAttendee(UUID attendeeID){
+        this.attendees.add(attendeeID);
+    }
+
+    public List<UUID> getAttendees(){
+        return this.attendees;
     }
 
 }
