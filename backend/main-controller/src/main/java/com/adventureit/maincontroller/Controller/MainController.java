@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-
 @RestController
 public class MainController {
 
@@ -16,8 +15,6 @@ public class MainController {
 
     private RestTemplate restTemplate = new RestTemplate();
 
-
-
     @RequestMapping("/adventure/test")
     public String adventureTest(){
         InstanceInfo adventureInstance =eurekaClient.getApplication("ADVENTURE-SERVICE").getInstances().get(0);
@@ -25,8 +22,6 @@ public class MainController {
         int adventurePort = adventureInstance.getPort();
         return restTemplate.getForObject("http://"+ adventureIP + ":" + adventurePort + "/adventure/test", String.class);
     }
-
-
 }
 
 
