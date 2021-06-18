@@ -45,4 +45,15 @@ public class Budget {
     public ArrayList<BudgetEntry> getTransactions() {
         return transactions;
     }
+
+    public boolean CheckIfEntryExists(ArrayList<BudgetEntry> trans, UUID id) {
+        boolean result = false;
+        for (BudgetEntry b : trans) {
+            if (b.getId().equals(id)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
 }
