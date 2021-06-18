@@ -124,4 +124,21 @@ public class BudgetServiceImplementation implements BudgetService {
 
         return new AddExpenseEntryResponse(true);
     }
+
+    @Override
+    public RemoveExpenseEntryResponse removeExpenseEntry(RemoveExpenseEntryRequest req) throws Exception {
+        if(budgetRepository.findBudgetById(req.getBudgetID()) == null){
+            throw new Exception("Budget does not exist.");
+        }
+        if(req.getId() == null){
+            throw new Exception("Expense Entry not successfully added");
+        }
+        Budget budget = budgetRepository.findBudgetById(req.getBudgetID());
+        if(!budget.CheckIfEntryExists(budget.getTransactions(),req.getId())){
+            throw new Exception("Expense Entry does not exist.");
+        }
+        budget.getTransactions().removeIf(transaction -> transaction.getId() == req.getId());
+        budgetRepository.save(budget);
+        return new RemoveExpenseEntryResponse(true);
+    }
 }
