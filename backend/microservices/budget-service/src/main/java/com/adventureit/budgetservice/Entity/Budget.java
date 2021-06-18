@@ -56,4 +56,15 @@ public class Budget {
         }
         return result;
     }
+
+    public BudgetEntry getEntry(ArrayList<BudgetEntry> trans, UUID id) {
+        BudgetEntry result = null;
+        for (BudgetEntry b : trans) {
+            if (b.getId().equals(id)) {
+                result = b;
+                break;
+            }
+        }
+        return result;
+    }
 }

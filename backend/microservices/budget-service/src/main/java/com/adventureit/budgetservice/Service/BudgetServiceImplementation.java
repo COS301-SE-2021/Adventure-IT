@@ -2,6 +2,7 @@ package com.adventureit.budgetservice.Service;
 
 import com.adventureit.adventureservice.Repository.AdventureRepository;
 import com.adventureit.budgetservice.Entity.Budget;
+import com.adventureit.budgetservice.Entity.BudgetEntry;
 import com.adventureit.budgetservice.Entity.Expense;
 import com.adventureit.budgetservice.Entity.Income;
 import com.adventureit.budgetservice.Repository.BudgetRepository;
@@ -139,5 +140,39 @@ public class BudgetServiceImplementation implements BudgetService {
         budget.getTransactions().removeIf(transaction -> transaction.getId() == req.getId());
         budgetRepository.save(budget);
         return new RemoveExpenseEntryResponse(true);
+    }
+
+    @Override
+    public EditBudgetResponse editBudget(EditBudgetRequest req) throws Exception {
+        if(req.getId() == null){
+            throw new Exception("Budget not successfully edited");
+        }
+        if(req.getBudgetID() == null){
+            throw new Exception("Budget does not exist");
+        }
+        if(req.getTitle() == null){
+            throw new Exception("Budget not successfully edited");
+        }
+        if(req.getDescription() == null){
+            throw new Exception("Budget not successfully edited");
+        }
+        Budget budget = budgetRepository.findBudgetById(req.getBudgetID());
+        if(!budget.CheckIfEntryExists(budget.getTransactions(),req.getId())){
+            throw new Exception("Expense Entry does not exist.");
+        }
+        BudgetEntry entry = budget.getEntry(budget.getTransactions(),req.getId());
+        int x = budget.getTransactions().indexOf(entry);
+        if(req.getAmount() != 0.0){
+            entry.setAmount(req.getAmount());
+        }
+        if(req.getDescription() != ""){
+               entry.setDescription(req.getDescription());
+        }
+        if(req.getTitle() != ""){
+            entry.setTitle(req.getTitle());
+        }
+        budget.getTransactions().set(x,entry);
+        budgetRepository.save(budget);
+        return new EditBudgetResponse(true);
     }
 }
