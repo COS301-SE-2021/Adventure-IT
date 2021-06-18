@@ -3,15 +3,11 @@ package com.adventureit.budgetservice.Service;
 import com.adventureit.adventureservice.Repository.AdventureRepository;
 import com.adventureit.budgetservice.Entity.Budget;
 import com.adventureit.budgetservice.Entity.BudgetEntry;
+import com.adventureit.budgetservice.Entity.Expense;
+import com.adventureit.budgetservice.Entity.Income;
 import com.adventureit.budgetservice.Repository.BudgetRepository;
-import com.adventureit.budgetservice.Requests.AddIncomeEntryRequest;
-import com.adventureit.budgetservice.Requests.CreateBudgetRequest;
-import com.adventureit.budgetservice.Requests.RemoveIncomeEntryRequest;
-import com.adventureit.budgetservice.Requests.ViewBudgetRequest;
-import com.adventureit.budgetservice.Responses.AddIncomeEntryResponse;
-import com.adventureit.budgetservice.Responses.CreateBudgetResponse;
-import com.adventureit.budgetservice.Responses.RemoveIncomeEntryResponse;
-import com.adventureit.budgetservice.Responses.ViewBudgetResponse;
+import com.adventureit.budgetservice.Requests.*;
+import com.adventureit.budgetservice.Responses.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class BudgetServiceImplementation implements BudgetService {
@@ -54,7 +50,7 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
-    public AddIncomeEntryResponse AddIncomeEntry(AddIncomeEntryRequest req) throws Exception {
+    public AddIncomeEntryResponse addIncomeEntry(AddIncomeEntryRequest req) throws Exception {
         if(budgetRepository.findBudgetById(req.getBudgetID()) == null){
             throw new Exception("Budget does not exist.");
         }
@@ -78,14 +74,14 @@ public class BudgetServiceImplementation implements BudgetService {
             throw new Exception("Income Entry does not exist.");
         }
 
-        budget.getTransactions().add(new BudgetEntry(req.getId(),req.getAmount(),req.getTitle(),req.getDescription()));
+        budget.getTransactions().add(new Income(req.getId(),req.getAmount(),req.getTitle(),req.getDescription()));
         budgetRepository.save(budget);
 
         return new AddIncomeEntryResponse(true);
     }
 
     @Override
-    public RemoveIncomeEntryResponse AddIncomeEntry(RemoveIncomeEntryRequest req) throws Exception {
+    public RemoveIncomeEntryResponse removeIncomeEntry(RemoveIncomeEntryRequest req) throws Exception {
         if(budgetRepository.findBudgetById(req.getBudgetID()) == null){
             throw new Exception("Budget does not exist.");
         }
@@ -99,5 +95,33 @@ public class BudgetServiceImplementation implements BudgetService {
         budget.getTransactions().removeIf(transaction -> transaction.getId() == req.getId());
         budgetRepository.save(budget);
         return new RemoveIncomeEntryResponse(true);
+    }
+
+    @Override
+    public AddExpenseEntryResponse addExpenseEntry(AddExpenseEntryRequest req) throws Exception {
+        if(req.getId() == null){
+            throw new Exception("Expense Entry not successfully added");
+        }
+        if(req.getBudgetID() == null){
+            throw new Exception("Expense Entry not successfully added");
+        }
+        if(req.getAmount() == 0.0){
+            throw new Exception("Expense Entry not successfully added");
+        }
+        if(req.getTitle() == null || req.getTitle() == "" ){
+            throw new Exception("Expense Entry not successfully added");
+        }
+        if(req.getDescription() == null || req.getDescription() == "" ){
+            throw new Exception("Expense Entry not successfully added");
+        }
+        Budget budget = budgetRepository.findBudgetById(req.getBudgetID());
+        if(!budget.CheckIfEntryExists(budget.getTransactions(),req.getId())){
+            throw new Exception("Expense Entry does not exist.");
+        }
+
+        budget.getTransactions().add(new Expense(req.getId(),req.getAmount(),req.getTitle(),req.getDescription()));
+        budgetRepository.save(budget);
+
+        return new AddExpenseEntryResponse(true);
     }
 }
