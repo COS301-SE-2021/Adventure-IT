@@ -46,7 +46,7 @@ class _Login extends State<Login> {
   @override
   Widget build(BuildContext context) {
     final emailField = TextField(
-      obscureText: true,
+      obscureText: false,
       //style: style,
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
