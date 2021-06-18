@@ -41,7 +41,7 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
     public ViewBudgetResponse viewBudget(ViewBudgetRequest req) throws Exception {
-        if(budgetRepository.findBudgetById(req.getId()) == null){
+        if(budgetRepository.findBudgetByIdAndDeletedEquals(req.getId(),false) == null){
             throw new Exception("Budget does not exist.");
         }
         if(req.getId() == null){
@@ -182,5 +182,35 @@ public class BudgetServiceImplementation implements BudgetService {
         budgetRepository.save(budget);
         budgetEntryRepository.save(entry);
         return new EditBudgetResponse(true);
+    }
+
+    @Override
+    public SoftDeleteResponse softDelete(SoftDeleteRequest req) throws Exception {
+        if(req.getId() == null){
+            throw new Exception("Budget could not be moved to bin.");
+        }
+        Budget budget = budgetRepository.findBudgetByIdAndDeletedEquals(req.getId(),false);
+        if(budget == null){
+            throw new Exception("Budget does not exist.");
+        }
+        budget.setDeleted(true);
+        budgetRepository.save(budget);
+        return new SoftDeleteResponse(true);
+    }
+
+    @Override
+    public HardDeleteResponse hardDelete(HardDeleteRequest req) throws Exception {
+        if(req.getId() == null){
+            throw new Exception("Budget could not be deleted.");
+        }
+        Budget budget = budgetRepository.findBudgetByIdAndDeletedEquals(req.getId(),true);
+        if(budget == null){
+            throw new Exception("Budget could not be deleted.");
+        }
+        for (BudgetEntry b : budget.getTransactions()) {
+            budgetEntryRepository.delete(b);
+        }
+        budgetRepository.delete(budget);
+        return new HardDeleteResponse(true);
     }
 }

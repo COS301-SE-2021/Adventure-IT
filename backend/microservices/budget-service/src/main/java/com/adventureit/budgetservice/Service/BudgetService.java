@@ -12,5 +12,7 @@ public interface BudgetService {
     public AddExpenseEntryResponse addExpenseEntry(AddExpenseEntryRequest req) throws Exception;
     public RemoveExpenseEntryResponse removeExpenseEntry(RemoveExpenseEntryRequest req) throws Exception;
     public EditBudgetResponse editBudget(EditBudgetRequest req) throws Exception;
+    public SoftDeleteResponse softDelete(SoftDeleteRequest req) throws Exception;
+    public HardDeleteResponse hardDelete(HardDeleteRequest req) throws Exception;
 
 }

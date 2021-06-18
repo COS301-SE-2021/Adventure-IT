@@ -13,6 +13,7 @@ public class Budget {
     private UUID adventureID;
     @OneToMany
     ArrayList<BudgetEntry> transactions;
+    boolean deleted;
 
     public Budget(){}
 
@@ -20,6 +21,7 @@ public class Budget {
         this.id = id;
         this.adventureID = adventureID;
         this.transactions = transactions;
+        deleted = false;
     }
 
     public void setId(UUID id) {
@@ -44,6 +46,14 @@ public class Budget {
 
     public ArrayList<BudgetEntry> getTransactions() {
         return transactions;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 
     public boolean CheckIfEntryExists(ArrayList<BudgetEntry> trans, UUID id) {
