@@ -1,10 +1,12 @@
 package com.adventureit.notificationservice.Entity;
 
+import org.aspectj.lang.annotation.RequiredTypes;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
-@Table(name="notifications")
+
 @Entity(name="Notifications")
 public class Notification{
 
@@ -23,15 +25,6 @@ public class Notification{
     @Column
     private Date readDateTime;
 
-
-
-
-
-    public Notification(){
-
-    }
-
-
     public  Notification(UUID notificationID,
                                  UUID userID,
                                  String payload,
@@ -45,6 +38,11 @@ public class Notification{
         this.readDateTime = readDateTime;
 
     }
+
+    public Notification() {
+
+    }
+
 
     public UUID getUserID(){
         return this.userID;

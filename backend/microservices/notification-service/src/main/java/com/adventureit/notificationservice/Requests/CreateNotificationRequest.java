@@ -7,7 +7,7 @@ public class CreateNotificationRequest {
     private final String message;
 
 
-    public CreateNotificationRequest(UUID userId, String subject, String message) {
+    public CreateNotificationRequest(UUID userId, String message) {
         this.userId = userId;
         this.message = message;
     }

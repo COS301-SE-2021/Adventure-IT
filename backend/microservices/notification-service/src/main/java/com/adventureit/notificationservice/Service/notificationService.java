@@ -47,7 +47,7 @@ public class notificationService {
         String message = req.getMessage();
         Notification newNote = new Notification(notificationId,userid,message,currentDate,null);
         repo.save(newNote);
-        return new CreateNotificationResponse("Notification No. "+notificationId+" has been added",true);
+        return new CreateNotificationResponse("Notification saved for user no. "+userid,true);
 
     }
     public SendEmailNotificationResponse sendEmailNotification(SendEmailNotificationRequest req){

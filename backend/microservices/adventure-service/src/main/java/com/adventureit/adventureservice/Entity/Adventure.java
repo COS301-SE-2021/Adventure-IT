@@ -14,7 +14,7 @@ public class Adventure{
     private String name;
     private UUID id;
     private User owner;
-    private ArrayList<String> group;
+    //private ArrayList<String> group;
     private ArrayList<EntryContainer> Containers;
 
     /**
@@ -34,7 +34,7 @@ public class Adventure{
         this.name=name;
         this.id=id;
         this.owner = owner;
-        this.group = group;
+        //this.group = group;
         this.Containers = containers;
     }
 
@@ -78,9 +78,9 @@ public class Adventure{
      * Adventure service to retrieve adventure's owner
      * @return owner
      */
-    public User getOwner(){
-        return owner;
-    }
+//    public User getOwner(){
+//        return owner;
+//    }
 
     /**
      * Adventure service to set adventure's owner
@@ -94,17 +94,17 @@ public class Adventure{
      * Adventure service to retrieve adventure's group
      * @return group
      */
-    public ArrayList<String> getGroup(){
-        return group;
-    }
+//    public ArrayList<String> getGroup(){
+//        return group;
+//    }
 
     /**
      * Adventure service to set adventure's group
      * @param  group
      */
-    public void setGroup(ArrayList<String> group){
-        this.group = group;
-    }
+//    public void setGroup(ArrayList<String> group){
+//        this.group = group;
+//    }
 
     /**
      * Adventure service to retrieve adventure's Containers
