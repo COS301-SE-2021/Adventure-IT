@@ -14,5 +14,6 @@ public interface BudgetService {
     public EditBudgetResponse editBudget(EditBudgetRequest req) throws Exception;
     public SoftDeleteResponse softDelete(SoftDeleteRequest req) throws Exception;
     public HardDeleteResponse hardDelete(HardDeleteRequest req) throws Exception;
+    public ViewTrashResponse viewTrash() throws Exception;
 
 }

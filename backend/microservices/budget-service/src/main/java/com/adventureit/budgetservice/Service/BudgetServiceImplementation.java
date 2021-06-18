@@ -214,5 +214,8 @@ public class BudgetServiceImplementation implements BudgetService {
         return new HardDeleteResponse(true);
     }
 
-
+    @Override
+    public ViewTrashResponse viewTrash() throws Exception {
+        return new ViewTrashResponse(true,budgetRepository.findAllByDeletedEquals(true));
+    }
 }
