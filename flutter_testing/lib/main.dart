@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_testing/API/adventureAPI.dart';
+import 'package:flutter_testing/API/adventures.dart';
 
 void main() => runApp(const MyApp());
 
@@ -7,7 +9,7 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   static const String _login = 'Login';
-  static String? _username;
+
 
 
   @override
@@ -45,14 +47,16 @@ class _Login extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    String? _username;
     final emailField = TextField(
       obscureText: false,
+      onSubmitted: (String value) {_username=value; },
       //style: style,
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Username",
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+          OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)))
     );
 
     final passwordField = TextField(
