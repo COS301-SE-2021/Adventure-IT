@@ -12,22 +12,26 @@ import com.adventureit.budgetservice.Responses.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class BudgetServiceImplementation implements BudgetService {
+    private BudgetRepository budgetRepository;
+    private AdventureRepository adventureRepository;
+    private BudgetEntryRepository budgetEntryRepository;
+
     @Autowired
-    BudgetRepository budgetRepository;
-    AdventureRepository adventureRepository;
-    BudgetEntryRepository budgetEntryRepository;
+    public void BudgetRepository(BudgetRepository budgetRepository){
+        this.budgetRepository = budgetRepository;
+    }
 
     @Override
     public CreateBudgetResponse createBudget(CreateBudgetRequest req) throws Exception {
         if(budgetRepository.findBudgetById(req.getId()) != null){
             throw new Exception("Budget already exists.");
         }
-        if(req.getAdventureID() != null){
+        if(req.getAdventureID() == null){
             throw new Exception("Adventure ID not provided.");
         }
-        if(adventureRepository.findByID(req.getId()) != null){
-            throw new Exception("Adventure does not exist.");
-        }
+//        if(adventureRepository.findByID(req.getId()) != null){
+//            throw new Exception("Adventure does not exist.");
+//        }
         if(req.getId() == null){
             throw new Exception("Budget was not created.");
         }
