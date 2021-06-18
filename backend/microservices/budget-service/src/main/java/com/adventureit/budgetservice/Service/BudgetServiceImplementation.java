@@ -2,7 +2,6 @@ package com.adventureit.budgetservice.Service;
 
 import com.adventureit.adventureservice.Repository.AdventureRepository;
 import com.adventureit.budgetservice.Entity.Budget;
-import com.adventureit.budgetservice.Entity.BudgetEntry;
 import com.adventureit.budgetservice.Entity.Expense;
 import com.adventureit.budgetservice.Entity.Income;
 import com.adventureit.budgetservice.Repository.BudgetRepository;
