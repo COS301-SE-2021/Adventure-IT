@@ -41,7 +41,7 @@ public class UserServiceImplementation implements UserService {
      * registration was successful or if an error occurred
      */
     @Override
-    public RegisterUserResponse RegisterUser(RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPasswordException, InvalidUserPhoneNumberException, InvalidRequestException {
+    public RegisterUserResponse RegisterUser(RegisterUserRequest req) {
 
         /*Exception handling for invalid Request*/
         if(req==null){

@@ -8,7 +8,7 @@ import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
 
 public interface UserService {
-    RegisterUserResponse RegisterUser(RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPasswordException, InvalidUserPhoneNumberException, InvalidRequestException;
+    RegisterUserResponse RegisterUser(RegisterUserRequest req);
 
 
 }
