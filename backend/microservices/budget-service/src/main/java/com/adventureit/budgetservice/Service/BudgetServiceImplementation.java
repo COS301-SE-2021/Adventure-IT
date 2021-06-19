@@ -27,6 +27,12 @@ public class BudgetServiceImplementation implements BudgetService {
         this.budgetEntryRepository = budgetEntryRepository;
     }
 
+    /**
+     * @param req CreateBudgetRequest object
+     *
+     * @return CreateBudgetResponse Object which will indicate whether
+     * creation was successful or if an error occurred
+     */
     @Override
     public CreateBudgetResponse createBudget(CreateBudgetRequest req) throws Exception {
         if(budgetRepository.findBudgetById(req.getId()) != null){
@@ -46,6 +52,12 @@ public class BudgetServiceImplementation implements BudgetService {
         return new CreateBudgetResponse(true);
     }
 
+    /**
+     * @param req ViewBudgetRequest object
+     *
+     * @return ViewBudgetResponse Object which will indicate whether
+     * the request was successful or if an error occurred and return the Budget object
+     */
     @Override
     public ViewBudgetResponse viewBudget(ViewBudgetRequest req) throws Exception {
         if(budgetRepository.findBudgetByIdAndDeletedEquals(req.getId(),false) == null){
@@ -58,6 +70,12 @@ public class BudgetServiceImplementation implements BudgetService {
         return new ViewBudgetResponse(budgetRepository.findBudgetById(req.getId()),true);
     }
 
+    /**
+     * @param req AddIncomeEntryRequest object
+     *
+     * @return AddIncomeEntryResponse Object which will indicate whether
+     * the request was successful or if an error occurred and return a message
+     */
     @Override
     public AddIncomeEntryResponse addIncomeEntry(AddIncomeEntryRequest req) throws Exception {
         if(budgetRepository.findBudgetById(req.getBudgetID()) == null){
@@ -90,6 +108,12 @@ public class BudgetServiceImplementation implements BudgetService {
         return new AddIncomeEntryResponse(true);
     }
 
+    /**
+     * @param req RemoveEntryRequest object
+     *
+     * @return RemoveEntryResponse Object which will indicate whether
+     * the request was successful or if an error occurred and return a message
+     */
     @Override
     public RemoveEntryResponse removeEntry(RemoveEntryRequest req) throws Exception {
         if(budgetRepository.findBudgetById(req.getBudgetID()) == null){
@@ -110,6 +134,12 @@ public class BudgetServiceImplementation implements BudgetService {
         return new RemoveEntryResponse(true);
     }
 
+    /**
+     * @param req AddExpenseEntryRequest object
+     *
+     * @return AddExpenseEntryResponse Object which will indicate whether
+     * the request was successful or if an error occurred and return a message
+     */
     @Override
     public AddExpenseEntryResponse addExpenseEntry(AddExpenseEntryRequest req) throws Exception {
         if(budgetRepository.findBudgetById(req.getBudgetID()) == null){
@@ -142,6 +172,12 @@ public class BudgetServiceImplementation implements BudgetService {
         return new AddExpenseEntryResponse(true);
     }
 
+    /**
+     * @param req EditBudgetRequest object
+     *
+     * @return EditBudgetResponse Object which will indicate whether
+     * the request was successful or if an error occurred and return a message
+     */
     @Override
     public EditBudgetResponse editBudget(EditBudgetRequest req) throws Exception {
         if(budgetRepository.findBudgetById(req.getBudgetID()) == null){
@@ -185,6 +221,12 @@ public class BudgetServiceImplementation implements BudgetService {
         return new EditBudgetResponse(true);
     }
 
+    /**
+     * @param req SoftDeleteRequest object
+     *
+     * @return SoftDeleteResponse Object which will indicate whether
+     * the request was successful or if an error occurred and return a message
+     */
     @Override
     public SoftDeleteResponse softDelete(SoftDeleteRequest req) throws Exception {
         if(req.getId() == null){
@@ -202,6 +244,12 @@ public class BudgetServiceImplementation implements BudgetService {
         return new SoftDeleteResponse(true);
     }
 
+    /**
+     * @param req HardDeleteRequest object
+     *
+     * @return HardDeleteResponse Object which will indicate whether
+     * the request was successful or if an error occurred and return a message
+     */
     @Override
     public HardDeleteResponse hardDelete(HardDeleteRequest req) throws Exception {
         if(req.getId() == null){
@@ -223,6 +271,10 @@ public class BudgetServiceImplementation implements BudgetService {
         return new HardDeleteResponse(true);
     }
 
+    /**
+     * @return  ViewTrashResponse Object which will indicate whether
+     * the request was successful or if an error occurred and return all Budget objects in the trash
+     */
     @Override
     public ViewTrashResponse viewTrash() throws Exception {
         return new ViewTrashResponse(true,budgetRepository.findAllByDeletedEquals(true));

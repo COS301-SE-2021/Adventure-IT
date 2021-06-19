@@ -14,8 +14,17 @@ public class Budget {
     List<BudgetEntry> transactions;
     boolean deleted;
 
+    /**
+     * Default Constructor
+     */
     public Budget(){}
 
+    /**
+     * Budget model Constructor which takes in the following parameters:
+     * @param id Budget id
+     * @param adventureID id of Adventure the Budget belongs to
+     * @param transactions List of all Entries
+     */
     public Budget(UUID id,UUID adventureID,ArrayList<BudgetEntry> transactions){
         this.id = id;
         this.adventureID = adventureID;
@@ -23,6 +32,9 @@ public class Budget {
         deleted = false;
     }
 
+    /**
+     * Getters and Setters
+     */
     public void setId(UUID id) {
         this.id = id;
     }
@@ -55,6 +67,9 @@ public class Budget {
         return deleted;
     }
 
+    /**
+     * Helper functions
+     */
     public boolean CheckIfEntryExists(List<BudgetEntry> trans, UUID id) {
         boolean result = false;
         for (BudgetEntry b : trans) {

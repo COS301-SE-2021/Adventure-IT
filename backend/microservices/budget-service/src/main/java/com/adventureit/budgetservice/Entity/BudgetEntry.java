@@ -16,6 +16,13 @@ public class BudgetEntry {
     String description;
 //    ArrayList<Media> attachments;
 
+    /**
+     * BudgetEntry model Constructor which takes in the following parameters:
+     * @param id BudgetEntry id
+     * @param amount amount used in specific entry
+     * @param title title of entry
+     * @param description short description of entry
+     */
     public BudgetEntry(UUID id,double amount,String title,String description){
         this.id = id;
         this.amount = amount;
@@ -24,10 +31,16 @@ public class BudgetEntry {
 //        this.attachments = attachments;
     }
 
+    /**
+     * Default Constructors
+     */
     public BudgetEntry() {
 
     }
 
+    /**
+     * Getters and Setters
+     */
     public UUID getId() {
         return id;
     }
