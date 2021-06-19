@@ -1,10 +1,7 @@
 package com.adventureit.userservice.Service;
 
 import com.adventureit.userservice.Entities.User;
-import com.adventureit.userservice.Exceptions.InvalidRequestException;
-import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
-import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
-import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
+import com.adventureit.userservice.Exceptions.*;
 import com.adventureit.userservice.Repository.UserRepository;
 import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
@@ -100,6 +97,10 @@ public class UserServiceImplementation implements UserService {
     public GetUserByUUIDResponse GetUserByUUID(GetUserByUUIDRequest req){
         UUID userId = req.getUserID();
         User newUser = repo.getUserByUserID(userId);
+
+        if(newUser == null) {
+            throw new InvalidUserException("User does not exist - user is not registered as an Adventure-IT member");
+        }
         return new GetUserByUUIDResponse(true, newUser);
     }
 
