@@ -131,22 +131,65 @@ class _Login extends State<Login> {
 
 class _ViewAdventure extends State<ViewAdventure> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  Future<List<Adventure>>? adventuresFuture;
+
+  @override
+  void initState() {
+    super.initState();
+
+    adventuresFuture = AdventureApi.getAllAdventures();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('View Adventure'),
-      ),
-      body: Center(
-        child: RaisedButton(
-          child: Text('Go back to Home Screen'),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-    );
+    final backbutton = Material(
+        elevation: 5.0,
+        borderRadius: BorderRadius.circular(30.0),
+        color: const Color(0xff01A0C7),
+        child: MaterialButton(
+            minWidth: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+            onPressed: () {
+              Navigator.pop(
+                context
+              );
+            },
+            child: const Text("Logout",
+              textAlign: TextAlign.center,)));
+    return FutureBuilder(
+        future: adventuresFuture,
+        builder: (context, snapshot) {
+          print(snapshot);
+          if(snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if(snapshot.hasData) {
+            var adventures = snapshot.data as List<Adventure>;
+            return Scaffold(
+              appBar: AppBar(
+                title: Text("View Adventures"),
+              ),
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          ...List.generate(adventures.length, (index) => Text(adventures.elementAt(index).description))
+                        ],
+                      ),
+                    ),            backbutton,
 
+                  ]
+              ),
+                // This trailing comma makes auto-formatting nicer for build methods.
+            )
+            );
+          } else
+            return Center(child: Text("Something went wrong"));
+        }
+    );
   }
 }
