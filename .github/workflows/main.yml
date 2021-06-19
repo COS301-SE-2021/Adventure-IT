@@ -8,12 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout project
-        uses: action/checkout@v2
       - name: Checkout sprint_Three_MicroController
         uses: action/checkout@v2
         with:
           ref: sprint_Three_MicroController
+          token: ${{secrets.ACTION_SECRET}}
       - name: Set Up JDK 11
         uses: actions/setup-java@v2
         with:
