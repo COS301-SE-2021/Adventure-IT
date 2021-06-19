@@ -16,6 +16,6 @@ jobs:
       - name: Build with Maven
         working-directory: ./backend
         run: 
-          mvn --batch-mode test
+          mvn --batch-mode --update-snapshots verify
           
         
