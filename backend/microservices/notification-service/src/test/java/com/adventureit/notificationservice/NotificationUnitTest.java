@@ -9,40 +9,27 @@ import com.adventureit.notificationservice.Requests.SendEmailRequest;
 import com.adventureit.notificationservice.Responses.CreateNotificationResponse;
 import com.adventureit.notificationservice.Responses.SendEmailNotificationResponse;
 import com.adventureit.notificationservice.Service.notificationService;
-import net.bytebuddy.asm.Advice;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
-
-import javax.persistence.Entity;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 
-@ExtendWith(MockitoExtension.class)
-public class RetrieveNotificationJunitTest {
+
+public class NotificationUnitTest {
 
     @Mock
-    private NotificationRepository mockNotificationRepository;
+    private NotificationRepository mockNotificationRepository = Mockito.mock(NotificationRepository.class);
 
 
     @Mock
-    private JavaMailSender mail;
+    private JavaMailSender mail = Mockito.mock(JavaMailSender.class);
 
     private notificationService notificationSUT = new notificationService(mail, mockNotificationRepository);
 
@@ -54,45 +41,14 @@ public class RetrieveNotificationJunitTest {
     String mockSubject1 = "Test Subject";
 
     String mockMessage1 = "Test message 1";
-    String mockMessage2 = "Test message 2";
     String mockMessage3 = "Test message 3";
 
     String userId1S = "9d2a50a0-3648-41f2-b344-08a4459a7f27";
-    String userId2S = "1e9c9cef-6587-449c-8e02-b765fd9a63ae";
-    String userId3S = "191d1285-7d7e-4904-b918-8f58b4c24631";
-
     UUID userId1U = UUID.fromString("9d2a50a0-3648-41f2-b344-08a4459a7f27");
-    UUID userId2U = UUID.fromString("1e9c9cef-6587-449c-8e02-b765fd9a63ae");
-    UUID userId3U = UUID.fromString("191d1285-7d7e-4904-b918-8f58b4c24631");
-
     UUID notificationId1U = UUID.fromString("6042edfd-a908-4364-a5ef-69f060bdf3da");
-    UUID notificationId2U = UUID.fromString("d1657bab-3509-417f-ae8a-956b1b2cad38");
-    UUID notificationId3U = UUID.fromString("79b608e7-d303-4ef4-a5ea-b88cce924619");
-
     Notification note1 = new Notification(notificationId1U,userId1U,mockMessage1,date1,null);
     Notification note4 = new Notification(notificationId1U,userId1U,mockMessage1,date1,date1);
 
-    @BeforeEach
-    void setup() {
-        List<Notification> list1 = new ArrayList<>();
-        List<Notification> list2 = new ArrayList<>();
-        List<Notification> list3 = new ArrayList<>();
-        List<Notification> list4 = new ArrayList<>();
-        List<Notification> list5 = new ArrayList<>();
-        List<Notification> list6 = new ArrayList<>();
-
-
-        Notification note2 = new Notification(notificationId2U,userId2U,mockMessage2,date1,null);
-        Notification note3 = new Notification(notificationId3U,userId3U,mockMessage3,date1,null);
-        Notification note5 = new Notification(notificationId2U,userId2U,mockMessage2,date1,date1);
-        Notification note6 = new Notification(notificationId3U,userId3U,mockMessage3,date1,date1);
-
-        //doReturn(list4).when(mockNotificationRepository).getNotificationByUserID(notificationId2U);
-        //doReturn(list6).when(mockNotificationRepository).getNotificationByUserID(notificationId3U);
-        //doReturn(list1).when(mockNotificationRepository).getNotificationByUserIDAndReadDateTime(notificationId1U,null);
-        //doReturn(list3).when(mockNotificationRepository).getNotificationByUserIDAndReadDateTime(notificationId2U,null);
-        //doReturn(list5).when(mockNotificationRepository).getNotificationByUserIDAndReadDateTime(notificationId3U,null);
-    }
 
 
     @Test
@@ -170,20 +126,21 @@ public class RetrieveNotificationJunitTest {
 
     @Test
     public void testRetrieveNotificationServiceGetAllNotifications(){
-        Mockito.when(mockNotificationRepository.getNotificationByUserID(notificationId1U)).thenReturn(List.of(note1, note4));
-
-        RetrieveNotificationRequest testRequest = new RetrieveNotificationRequest(userId1S, false);
+        Mockito.when(mockNotificationRepository.getNotificationByUserID(userId1U)).thenReturn(List.of(note1, note4));
+        RetrieveNotificationRequest testRequest = new RetrieveNotificationRequest(userId1U, false);
         List<Notification> list = notificationSUT.retrieveNotifications(testRequest);
-        verify(mockNotificationRepository).getNotificationByUserID(userId1U);
+        assertEquals(2,list.size());
     }
 
 
     @Test
     public void testRetrieveNotificationServiceGetUnreadNotifications(){
-        RetrieveNotificationRequest testRequest = new RetrieveNotificationRequest(userId1S, true);
+        Mockito.when(mockNotificationRepository.getNotificationByUserIDAndReadDateTime(userId1U,null)).thenReturn(List.of(note1));
+        RetrieveNotificationRequest testRequest = new RetrieveNotificationRequest(userId1U, true);
         List<Notification> list = notificationSUT.retrieveNotifications(testRequest);
         verify(mockNotificationRepository).getNotificationByUserIDAndReadDateTime(userId1U,null);
         verify(mockNotificationRepository).removeAllByUserIDAndReadDateTime(userId1U,null);
+        assertEquals(1,list.size());
     }
 
     @Test
