@@ -1,9 +1,9 @@
-
+import 'dart:async';
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 
-part 'adventures.g.dart';
-
-@JsonSerializable(explicitToJson: true)
 class Adventure {
   final String id;
   final String name;
@@ -15,8 +15,11 @@ class Adventure {
     this.description = ""
   });
 
-  factory Adventure.fromJson(Map<String, dynamic> json) =>
-      _$AdventureFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AdventureToJson(this);
+  factory Adventure.fromJson(Map<String, dynamic> json) {
+    return Adventure(
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+    );
+  }
 }
