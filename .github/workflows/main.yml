@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Backend - Java CI with Maven
 
 on:
   push:
@@ -21,3 +21,4 @@ jobs:
           distribution: 'adopt'
       - name: Build with Maven
         run: mvn --batch-mode test
+        working-directory: backend
