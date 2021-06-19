@@ -10,10 +10,6 @@ jobs:
     steps:
       - name: Checkout Project
         uses: action/checkout@v2
-        with: 
-          repository: COS301-SE-2021/Adventure-IT
-          ref: sprint_Three_MainController
-          token: ${{secrets.GithubAactions}}
       - name: Set Up JDK 11
         uses: actions/setup-java@v2
         with:
