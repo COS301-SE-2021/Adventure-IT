@@ -14,11 +14,9 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Build with Maven
+        working-directory: backend/
         run: |
-          pwd
-          ls
-          cd ./backend
           chmod +x mvnw
-          mvn --batch-mode test
+          ./mvnw --batch-mode test
           
         
