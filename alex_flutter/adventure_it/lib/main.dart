@@ -20,8 +20,13 @@ class Login extends StatelessWidget {
         appBar: AppBar(
             title: Center(child: Text("Login"))
         ),
-        body: Center(
-            child: ElevatedButton(
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              TextField(decoration: InputDecoration( border: OutlineInputBorder(), hintText: 'Email')),
+              TextField(obscureText: true, decoration: InputDecoration( border: OutlineInputBorder(), hintText: 'Password')),
+              ElevatedButton(
                 child: Text("Log In"),
                 onPressed: () {
                   Navigator.push(
@@ -29,7 +34,8 @@ class Login extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => HomePage()),
                   );
                 }
-            )
+              )
+            ]
         )
     );
   }
