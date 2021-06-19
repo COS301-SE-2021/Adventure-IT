@@ -8,13 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Get Repository
+        uses: actions/checkout@v2
       - name: Set Up JDK 11
         uses: actions/setup-java@v2
         with:
           java-version: '11'
           distribution: 'adopt'
       - name: Build with Maven
-        uses: actions/checkout@v2
+        
         working-directory: Adventure-IT/backend/
         run: |
           chmod +x ./mvnw
