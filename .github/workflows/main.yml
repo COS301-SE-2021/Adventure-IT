@@ -8,7 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: action/checkout@v2
+      - name: Checkout sprint_Three_Maincontroller
+        uses: action/checkout@v2
         with:
           ref: sprint_Three_MainController
       - name: Set Up JDK 11
