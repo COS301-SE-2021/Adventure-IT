@@ -1,6 +1,12 @@
 name: Backend - Java CI with Maven
 
 on:
+  push:
+    branches: 
+    - master
+    - development
+    - sprint*
+    - Sprint*
   workflow_dispatch:
   
 jobs:
