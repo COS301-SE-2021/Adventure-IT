@@ -16,7 +16,7 @@ jobs:
       - name: Build with Maven
         working-directory: backend/
         run: |
-          chmod +x mvnw
+          chmod +x ./mvnw
           ./mvnw --batch-mode test
           
         
