@@ -30,13 +30,13 @@ public class NotificationController {
     @PostMapping("/sendemail")
     String sendEmail(@RequestBody SendEmailRequest req){
         notification.sendEmail(req.getEmail() ,req.getSubject(), req.getBody());
-        return"success";
+        return"Send Email Successful";
     }
 
     @PostMapping("/createNotification")
     String createNotification(@RequestBody CreateNotificationRequest req){
         notification.createNotification(req);
-        return "create works";
+        return "Create Notifictaion Successful";
     }
 
     @GetMapping("/retrieveNotification")

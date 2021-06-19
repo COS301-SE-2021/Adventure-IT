@@ -172,11 +172,13 @@ public class RetrieveNotificationJuinitTest {
         verify(mockNotificationRepository).getNotificationByUserID(userId1U);
     }
 
+
     @Test
     public void testRetrieveNotificationServiceGetUnreadNotifications(){
         RetrieveNotificationRequest testRequest = new RetrieveNotificationRequest(userId1S, true);
         List<Notification> list = mockService.retrieveNotifications(testRequest);
         verify(mockNotificationRepository).getNotificationByUserIDAndReadDateTime(userId1U,null);
+        verify(mockNotificationRepository).removeAllByUserIDAndReadDateTime(userId1U,null);
     }
 
     @Test
@@ -185,6 +187,15 @@ public class RetrieveNotificationJuinitTest {
         CreateNotificationResponse testResponse = mockService.createNotification(testRequest);
         assertNotNull(testResponse);
         assertEquals("Notification saved for user no. "+userId1U,testResponse.getResponseMessage());
+        assertEquals(true,testResponse.isSuccess());
+    }
+
+    @Test
+    public void testSendEmailNotificationService(){
+        SendEmailNotificationRequest testRequest = new SendEmailNotificationRequest(userId1U,mockSubject1,mockMessage1);
+        SendEmailNotificationResponse testResponse = mockService.sendEmailNotification(testRequest);
+        assertNotNull(testResponse);
+        assertEquals("Email sent to user no. "+userId1U,testResponse.getReturnmessage());
         assertEquals(true,testResponse.isSuccess());
     }
 
