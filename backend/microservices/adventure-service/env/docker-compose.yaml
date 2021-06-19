@@ -1,0 +1,20 @@
+version: '3.7'
+
+volumes:
+  postgres_data:
+    name: "adventure-service-postgres-volume"
+
+services:
+  postgres:
+    container_name: "adventure-service-postgres"
+    image: postgres:10
+    restart: always
+    environment:
+      - POSTGRES_USER=adventure_service_user
+      - POSTGRES_PASSWORD=adventure_password
+      - POSTGRES_DB=adventureservice
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data"
+      - "./postgres/db_scripts:/docker-entrypoint-initdb.d"
+    ports:
+      - 9945:5432
