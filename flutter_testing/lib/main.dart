@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_testing/API/adventureAPI.dart';
+import 'package:flutter_testing/API/adventures.dart';
 
 void main() => runApp(const MyApp());
 
@@ -6,42 +8,55 @@ void main() => runApp(const MyApp());
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  static const String _title = 'Login';
+  static const String _login = 'Login';
+
+
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: _title,
-      home: Scaffold(
-        appBar: AppBar(title: const Text(_title)),
-        body: const MyStatefulWidget(),
-      ),
-    );
+
+
+      return MaterialApp(
+        title: _login,
+        home: Scaffold(
+          appBar: AppBar(title: const Text(_login)),
+          body: const Login(),
+        ),
+      );
   }
 }
 
 /// This is the stateful widget that the main application instantiates.
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
 
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+  State<Login> createState() => _Login();
+}
+
+class ViewAdventure extends StatefulWidget {
+  const ViewAdventure({Key? key}) : super(key: key);
+
+  @override
+  State<ViewAdventure> createState() => _ViewAdventure();
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+class _Login extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    String? _username;
     final emailField = TextField(
-      obscureText: true,
+      obscureText: false,
+      onSubmitted: (String value) {_username=value; },
       //style: style,
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Username",
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+          OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)))
     );
 
     final passwordField = TextField(
@@ -61,7 +76,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ViewAdventure()),
+      );
+    },
         child: const Text("Login",
             textAlign: TextAlign.center,
             //style: style.copyWith(
@@ -106,5 +126,27 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     ),
     ),
     );
+  }
+}
+
+class _ViewAdventure extends State<ViewAdventure> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('View Adventure'),
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text('Go back to Home Screen'),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    );
+
   }
 }
