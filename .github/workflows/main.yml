@@ -17,7 +17,7 @@ jobs:
           distribution: 'adopt'
       - name: Build with Maven
         
-        working-directory: Adventure-IT/backend/
+        working-directory: backend/
         run: |
           chmod +x ./mvnw
           ./mvnw --batch-mode test
