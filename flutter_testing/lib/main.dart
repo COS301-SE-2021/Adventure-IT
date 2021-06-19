@@ -133,7 +133,6 @@ class _Login extends State<Login> {
 
 class _ViewAdventure extends State<ViewAdventure> {
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final backbutton = Material(
@@ -156,17 +155,49 @@ class _ViewAdventure extends State<ViewAdventure> {
     List<Adventure>? owner;
     List<Adventure>? attendee;
     List <Adventure>? complete;
-    AdventureApi.getOwnerAdventures().then((result){
-      owner=result;
-      if(owner!=null) {
+    AdventureApi.getOwnerAdventures().then((result) {
+      owner = result;
+      if (owner != null) {
         complete?.addAll(owner!);
       }
     });
-    AdventureApi.getAttendeeAdventures().then((result){
-      attendee=result;
-      if(attendee!=null) {
+    AdventureApi.getAttendeeAdventures().then((result) {
+      attendee = result;
+      if (attendee != null) {
         complete?.addAll(attendee!);
       }
     });
+    return Scaffold(
+      appBar: AppBar(title: const Text("Your Adventures")),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        ...List.generate(complete!.length, (index) => Text(complete.elementAt(index).name))
+                      ],
+                    ),
+                  ),
+                  backbutton,
+                  const SizedBox(
+                    height: 15.0,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  }
 
 
