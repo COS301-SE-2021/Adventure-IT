@@ -13,34 +13,37 @@ import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import javax.persistence.Entity;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
-public class RetrieveNotificationJuinitTest {
+
+@ExtendWith(MockitoExtension.class)
+public class RetrieveNotificationJunitTest {
     @Mock
     private NotificationRepository mockNotificationRepository;
 
-    private AutoCloseable autoCloseable;
 
     @Mock
     private JavaMailSender mail;
 
-    @Mock
-    private notificationService mockService;
+    private notificationService notificationSUT = new notificationService(mail, mockNotificationRepository);
 
     Date date1 = new Date();
 
@@ -67,26 +70,38 @@ public class RetrieveNotificationJuinitTest {
 
     @BeforeEach
     void setup() {
-        autoCloseable = MockitoAnnotations.openMocks(this);
-        mockService= new notificationService(mail,mockNotificationRepository);
+        List<Notification> list1 = new ArrayList<>();
+        List<Notification> list2 = new ArrayList<>();
+        List<Notification> list3 = new ArrayList<>();
+        List<Notification> list4 = new ArrayList<>();
+        List<Notification> list5 = new ArrayList<>();
+        List<Notification> list6 = new ArrayList<>();
+
+
         Notification note1 = new Notification(notificationId1U,userId1U,mockMessage1,date1,null);
         Notification note2 = new Notification(notificationId2U,userId2U,mockMessage2,date1,null);
         Notification note3 = new Notification(notificationId3U,userId3U,mockMessage3,date1,null);
         Notification note4 = new Notification(notificationId1U,userId1U,mockMessage1,date1,date1);
         Notification note5 = new Notification(notificationId2U,userId2U,mockMessage2,date1,date1);
         Notification note6 = new Notification(notificationId3U,userId3U,mockMessage3,date1,date1);
-        mockNotificationRepository.save(note1);
-        mockNotificationRepository.save(note2);
-        mockNotificationRepository.save(note3);
-        mockNotificationRepository.save(note4);
-        mockNotificationRepository.save(note5);
-        mockNotificationRepository.save(note6);
+        list1.add(note1);
+        list2.add(note1);
+        list2.add(note4);
+        list3.add(note2);
+        list4.add(note2);
+        list4.add(note5);
+        list5.add(note3);
+        list6.add(note3);
+        list6.add(note6);
+
+        //doReturn(list2).when(mockNotificationRepository.getNotificationByUserID(notificationId1U));
+        //doReturn(list4).when(mockNotificationRepository).getNotificationByUserID(notificationId2U);
+        //doReturn(list6).when(mockNotificationRepository).getNotificationByUserID(notificationId3U);
+        //doReturn(list1).when(mockNotificationRepository).getNotificationByUserIDAndReadDateTime(notificationId1U,null);
+        //doReturn(list3).when(mockNotificationRepository).getNotificationByUserIDAndReadDateTime(notificationId2U,null);
+        //doReturn(list5).when(mockNotificationRepository).getNotificationByUserIDAndReadDateTime(notificationId3U,null);
     }
 
-    @AfterEach
-    void tearDown() throws Exception {
-        autoCloseable.close();
-    }
 
     @Test
     public void testRetrieveNotificationRequestObjectS(){
@@ -161,14 +176,10 @@ public class RetrieveNotificationJuinitTest {
     }
 
 
-
-
-
-
     @Test
     public void testRetrieveNotificationServiceGetAllNotifications(){
         RetrieveNotificationRequest testRequest = new RetrieveNotificationRequest(userId1S, false);
-        List<Notification> list = mockService.retrieveNotifications(testRequest);
+        List<Notification> list = notificationSUT.retrieveNotifications(testRequest);
         verify(mockNotificationRepository).getNotificationByUserID(userId1U);
     }
 
@@ -176,7 +187,7 @@ public class RetrieveNotificationJuinitTest {
     @Test
     public void testRetrieveNotificationServiceGetUnreadNotifications(){
         RetrieveNotificationRequest testRequest = new RetrieveNotificationRequest(userId1S, true);
-        List<Notification> list = mockService.retrieveNotifications(testRequest);
+        List<Notification> list = notificationSUT.retrieveNotifications(testRequest);
         verify(mockNotificationRepository).getNotificationByUserIDAndReadDateTime(userId1U,null);
         verify(mockNotificationRepository).removeAllByUserIDAndReadDateTime(userId1U,null);
     }
@@ -184,7 +195,7 @@ public class RetrieveNotificationJuinitTest {
     @Test
     public void testCreateNotificationService(){
         CreateNotificationRequest testRequest = new CreateNotificationRequest(userId1U,mockMessage1);
-        CreateNotificationResponse testResponse = mockService.createNotification(testRequest);
+        CreateNotificationResponse testResponse = notificationSUT.createNotification(testRequest);
         assertNotNull(testResponse);
         assertEquals("Notification saved for user no. "+userId1U,testResponse.getResponseMessage());
         assertEquals(true,testResponse.isSuccess());
@@ -193,7 +204,7 @@ public class RetrieveNotificationJuinitTest {
     @Test
     public void testSendEmailNotificationService(){
         SendEmailNotificationRequest testRequest = new SendEmailNotificationRequest(userId1U,mockSubject1,mockMessage1);
-        SendEmailNotificationResponse testResponse = mockService.sendEmailNotification(testRequest);
+        SendEmailNotificationResponse testResponse = notificationSUT.sendEmailNotification(testRequest);
         assertNotNull(testResponse);
         assertEquals("Email sent to user no. "+userId1U,testResponse.getReturnmessage());
         assertEquals(true,testResponse.isSuccess());

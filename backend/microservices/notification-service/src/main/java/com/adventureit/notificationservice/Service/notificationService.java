@@ -24,7 +24,7 @@ public class notificationService {
     private final JavaMailSender mailSender;
     private final NotificationRepository repo;
 
-    @Autowired
+
     public notificationService(JavaMailSender mailSender, NotificationRepository repo) {
         this.mailSender = mailSender;
         this.repo = repo;
