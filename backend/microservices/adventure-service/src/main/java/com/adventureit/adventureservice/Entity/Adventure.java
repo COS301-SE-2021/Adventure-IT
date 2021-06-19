@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "\"adventure\"")
 public class Adventure{
 
     private String name;
