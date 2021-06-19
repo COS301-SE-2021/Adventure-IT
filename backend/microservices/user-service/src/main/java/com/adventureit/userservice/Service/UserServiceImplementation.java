@@ -5,6 +5,7 @@ import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
+import com.adventureit.userservice.Repository.UserRepository;
 import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
@@ -16,7 +17,7 @@ import java.util.regex.Pattern;
 
 @Service("UserServiceImplementation")
 public class UserServiceImplementation implements UserService {
-
+    private UserRepository repo;
     /**
      *
      * @param req
@@ -98,12 +99,7 @@ public class UserServiceImplementation implements UserService {
      */
     public GetUserByUUIDResponse GetUserByUUID(GetUserByUUIDRequest req){
         UUID userId = req.getUserID();
-        String name = "Kevin";
-        String surname = "Potter";
-        String email = "u19024143@tuks.co.za";
-        String password = "AstrongPassword123!!";
-        String phoneNum = "0794083122";
-        User newUser = new User(userId,name,surname,email,password,phoneNum);
+        User newUser = repo.getUserByUserID(userId);
         return new GetUserByUUIDResponse(true, newUser);
     }
 
