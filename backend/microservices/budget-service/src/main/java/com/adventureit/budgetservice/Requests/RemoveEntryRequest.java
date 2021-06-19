@@ -2,13 +2,13 @@ package com.adventureit.budgetservice.Requests;
 
 import java.util.UUID;
 
-public class RemoveIncomeEntryRequest {
+public class RemoveEntryRequest {
     private UUID id;
     private UUID budgetID;
 
-    public RemoveIncomeEntryRequest(){}
+    public RemoveEntryRequest(){}
 
-    public RemoveIncomeEntryRequest(UUID id, UUID budgetID){
+    public RemoveEntryRequest(UUID id, UUID budgetID){
         this.id = id;
         this.budgetID = budgetID;
     }

@@ -1,6 +1,5 @@
 package com.adventureit.budgetservice.Service;
 
-import com.adventureit.adventureservice.Repository.AdventureRepository;
 import com.adventureit.budgetservice.Entity.Budget;
 import com.adventureit.budgetservice.Entity.BudgetEntry;
 import com.adventureit.budgetservice.Entity.Expense;
@@ -73,41 +72,42 @@ public class BudgetServiceImplementation implements BudgetService {
         if(req.getAmount() == 0.0){
             throw new Exception("Amount not provided");
         }
-        if(req.getTitle() == null || req.getTitle() == "" ){
+        if(req.getTitle() == null || req.getTitle().equals("")){
             throw new Exception("Title not provided");
         }
-        if(req.getDescription() == null || req.getDescription() == "" ){
+        if(req.getDescription() == null || req.getDescription().equals("")){
             throw new Exception("Description not provided");
         }
         Budget budget = budgetRepository.findBudgetById(req.getBudgetID());
         if(budget.CheckIfEntryExists(budget.getTransactions(),req.getId())){
             throw new Exception("Income Entry already exists.");
         }
+
         BudgetEntry budgetEntry = new Income(req.getId(),req.getAmount(),req.getTitle(),req.getDescription());
         budgetEntryRepository.save(budgetEntry);
         budget.getTransactions().add(budgetEntry);
         budgetRepository.save(budget);
-
         return new AddIncomeEntryResponse(true);
     }
 
     @Override
-    public RemoveIncomeEntryResponse removeIncomeEntry(RemoveIncomeEntryRequest req) throws Exception {
+    public RemoveEntryResponse removeEntry(RemoveEntryRequest req) throws Exception {
         if(budgetRepository.findBudgetById(req.getBudgetID()) == null){
             throw new Exception("Budget does not exist.");
         }
         if(req.getId() == null){
-            throw new Exception("Income Entry ID not provided.");
+            throw new Exception("Entry ID not provided.");
         }
         Budget budget = budgetRepository.findBudgetById(req.getBudgetID());
         if(!budget.CheckIfEntryExists(budget.getTransactions(),req.getId())){
-            throw new Exception("Income Entry does not exist.");
+            throw new Exception("Entry does not exist.");
         }
+
         BudgetEntry budgetEntry = budget.getEntry(budget.getTransactions(),req.getId());
         budget.getTransactions().remove(budgetEntry);
         budgetRepository.save(budget);
         budgetEntryRepository.delete(budgetEntry);
-        return new RemoveIncomeEntryResponse(true);
+        return new RemoveEntryResponse(true);
     }
 
     @Override
@@ -124,10 +124,10 @@ public class BudgetServiceImplementation implements BudgetService {
         if(req.getAmount() == 0.0){
             throw new Exception("Amount not provided");
         }
-        if(req.getTitle() == null || req.getTitle() == "" ){
+        if(req.getTitle() == null || req.getTitle().equals("")){
             throw new Exception("Title not provided.");
         }
-        if(req.getDescription() == null || req.getDescription() == "" ){
+        if(req.getDescription() == null || req.getDescription().equals("")){
             throw new Exception("Description not provided.");
         }
         Budget budget = budgetRepository.findBudgetById(req.getBudgetID());
@@ -139,27 +139,7 @@ public class BudgetServiceImplementation implements BudgetService {
         budgetEntryRepository.save(budgetEntry);
         budget.getTransactions().add(budgetEntry);
         budgetRepository.save(budget);
-
         return new AddExpenseEntryResponse(true);
-    }
-
-    @Override
-    public RemoveExpenseEntryResponse removeExpenseEntry(RemoveExpenseEntryRequest req) throws Exception {
-        if(budgetRepository.findBudgetById(req.getBudgetID()) == null){
-            throw new Exception("Budget does not exist.");
-        }
-        if(req.getId() == null){
-            throw new Exception("Expense Entry ID not provided.");
-        }
-        Budget budget = budgetRepository.findBudgetById(req.getBudgetID());
-        if(!budget.CheckIfEntryExists(budget.getTransactions(),req.getId())){
-            throw new Exception("Expense Entry does not exist.");
-        }
-        BudgetEntry budgetEntry = budget.getEntry(budget.getTransactions(),req.getId());
-        budget.getTransactions().remove(budgetEntry);
-        budgetRepository.save(budget);
-        budgetEntryRepository.delete(budgetEntry);
-        return new RemoveExpenseEntryResponse(true);
     }
 
     @Override
@@ -179,21 +159,26 @@ public class BudgetServiceImplementation implements BudgetService {
         if(req.getDescription() == null){
             throw new Exception("Description Field is null.");
         }
+
         Budget budget = budgetRepository.findBudgetById(req.getBudgetID());
+
         if(!budget.CheckIfEntryExists(budget.getTransactions(),req.getId())){
             throw new Exception("Entry does not exist.");
         }
+
         BudgetEntry entry = budgetEntryRepository.findBudgetEntryById(req.getId());
         int x = budget.getIndex(budget.getTransactions(),req.getId());
+
         if(req.getAmount() != 0.0){
             entry.setAmount(req.getAmount());
         }
-        if(req.getDescription() != ""){
+        if(!req.getDescription().equals("")){
                entry.setDescription(req.getDescription());
         }
-        if(req.getTitle() != ""){
+        if(!req.getTitle().equals("")){
             entry.setTitle(req.getTitle());
         }
+
         budget.getTransactions().set(x,entry);
         budgetRepository.save(budget);
         budgetEntryRepository.save(entry);
@@ -205,10 +190,13 @@ public class BudgetServiceImplementation implements BudgetService {
         if(req.getId() == null){
             throw new Exception("Budget ID not provided.");
         }
+
         Budget budget = budgetRepository.findBudgetByIdAndDeletedEquals(req.getId(),false);
+
         if(budget == null){
             throw new Exception("Budget does not exist.");
         }
+
         budget.setDeleted(true);
         budgetRepository.save(budget);
         return new SoftDeleteResponse(true);
@@ -219,15 +207,19 @@ public class BudgetServiceImplementation implements BudgetService {
         if(req.getId() == null){
             throw new Exception("Budget ID not provided.");
         }
+
         Budget budget = budgetRepository.findBudgetByIdAndDeletedEquals(req.getId(),true);
+
         if(budget == null){
             throw new Exception("Budget is not in trash.");
         }
+
         ArrayList<BudgetEntry> entries = new ArrayList<>(budget.getTransactions());
         budgetRepository.delete(budget);
         for (BudgetEntry b : entries) {
             budgetEntryRepository.delete(b);
         }
+
         return new HardDeleteResponse(true);
     }
 

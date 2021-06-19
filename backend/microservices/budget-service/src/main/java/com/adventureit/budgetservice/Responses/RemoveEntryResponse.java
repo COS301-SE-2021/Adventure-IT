@@ -1,14 +1,14 @@
 package com.adventureit.budgetservice.Responses;
 
-public class RemoveExpenseEntryResponse {
+public class RemoveEntryResponse {
     private boolean success;
     private String message;
 
-    public RemoveExpenseEntryResponse(){}
+    public RemoveEntryResponse(){}
 
-    public RemoveExpenseEntryResponse(boolean success){
+    public RemoveEntryResponse(boolean success){
         this.success = success;
-        this.message = "Expense Entry successfully removed.";
+        this.message = "Income Entry successfully removed.";
     }
 
     public String getMessage() {
