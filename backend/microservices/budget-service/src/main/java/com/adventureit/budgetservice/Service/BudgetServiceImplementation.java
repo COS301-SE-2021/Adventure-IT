@@ -10,15 +10,18 @@ import com.adventureit.budgetservice.Repository.BudgetRepository;
 import com.adventureit.budgetservice.Requests.*;
 import com.adventureit.budgetservice.Responses.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service()
 public class BudgetServiceImplementation implements BudgetService {
     private BudgetRepository budgetRepository;
-    private AdventureRepository adventureRepository;
     private BudgetEntryRepository budgetEntryRepository;
 
+
     @Autowired
-    public void BudgetRepository(BudgetRepository budgetRepository){
+    public BudgetServiceImplementation(BudgetRepository budgetRepository, BudgetEntryRepository budgetEntryRepository){
         this.budgetRepository = budgetRepository;
+        this.budgetEntryRepository = budgetEntryRepository;
     }
 
     @Override
@@ -29,9 +32,6 @@ public class BudgetServiceImplementation implements BudgetService {
         if(req.getAdventureID() == null){
             throw new Exception("Adventure ID not provided.");
         }
-//        if(adventureRepository.findByID(req.getId()) != null){
-//            throw new Exception("Adventure does not exist.");
-//        }
         if(req.getId() == null){
             throw new Exception("Budget was not created.");
         }
@@ -169,7 +169,7 @@ public class BudgetServiceImplementation implements BudgetService {
         }
         Budget budget = budgetRepository.findBudgetById(req.getBudgetID());
         if(!budget.CheckIfEntryExists(budget.getTransactions(),req.getId())){
-            throw new Exception("Expense Entry does not exist.");
+            throw new Exception("Entry does not exist.");
         }
         BudgetEntry entry = budgetEntryRepository.findBudgetEntryById(req.getId());
         int x = budget.getTransactions().indexOf(entry);
