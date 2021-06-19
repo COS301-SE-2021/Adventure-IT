@@ -36,6 +36,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class RetrieveNotificationJunitTest {
+
     @Mock
     private NotificationRepository mockNotificationRepository;
 
@@ -68,6 +69,9 @@ public class RetrieveNotificationJunitTest {
     UUID notificationId2U = UUID.fromString("d1657bab-3509-417f-ae8a-956b1b2cad38");
     UUID notificationId3U = UUID.fromString("79b608e7-d303-4ef4-a5ea-b88cce924619");
 
+    Notification note1 = new Notification(notificationId1U,userId1U,mockMessage1,date1,null);
+    Notification note4 = new Notification(notificationId1U,userId1U,mockMessage1,date1,date1);
+
     @BeforeEach
     void setup() {
         List<Notification> list1 = new ArrayList<>();
@@ -78,23 +82,11 @@ public class RetrieveNotificationJunitTest {
         List<Notification> list6 = new ArrayList<>();
 
 
-        Notification note1 = new Notification(notificationId1U,userId1U,mockMessage1,date1,null);
         Notification note2 = new Notification(notificationId2U,userId2U,mockMessage2,date1,null);
         Notification note3 = new Notification(notificationId3U,userId3U,mockMessage3,date1,null);
-        Notification note4 = new Notification(notificationId1U,userId1U,mockMessage1,date1,date1);
         Notification note5 = new Notification(notificationId2U,userId2U,mockMessage2,date1,date1);
         Notification note6 = new Notification(notificationId3U,userId3U,mockMessage3,date1,date1);
-        list1.add(note1);
-        list2.add(note1);
-        list2.add(note4);
-        list3.add(note2);
-        list4.add(note2);
-        list4.add(note5);
-        list5.add(note3);
-        list6.add(note3);
-        list6.add(note6);
 
-        //doReturn(list2).when(mockNotificationRepository.getNotificationByUserID(notificationId1U));
         //doReturn(list4).when(mockNotificationRepository).getNotificationByUserID(notificationId2U);
         //doReturn(list6).when(mockNotificationRepository).getNotificationByUserID(notificationId3U);
         //doReturn(list1).when(mockNotificationRepository).getNotificationByUserIDAndReadDateTime(notificationId1U,null);
@@ -178,6 +170,8 @@ public class RetrieveNotificationJunitTest {
 
     @Test
     public void testRetrieveNotificationServiceGetAllNotifications(){
+        Mockito.when(mockNotificationRepository.getNotificationByUserID(notificationId1U)).thenReturn(List.of(note1, note4));
+
         RetrieveNotificationRequest testRequest = new RetrieveNotificationRequest(userId1S, false);
         List<Notification> list = notificationSUT.retrieveNotifications(testRequest);
         verify(mockNotificationRepository).getNotificationByUserID(userId1U);
