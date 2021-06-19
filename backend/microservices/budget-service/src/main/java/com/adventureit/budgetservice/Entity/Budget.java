@@ -1,9 +1,8 @@
 package com.adventureit.budgetservice.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -11,8 +10,8 @@ public class Budget {
     @Id
     private UUID id;
     private UUID adventureID;
-    @OneToMany
-    ArrayList<BudgetEntry> transactions;
+    @OneToMany (fetch=FetchType.EAGER)
+    List<BudgetEntry> transactions;
     boolean deleted;
 
     public Budget(){}
@@ -44,7 +43,7 @@ public class Budget {
         this.transactions = transactions;
     }
 
-    public ArrayList<BudgetEntry> getTransactions() {
+    public List<BudgetEntry> getTransactions() {
         return transactions;
     }
 
@@ -56,7 +55,7 @@ public class Budget {
         return deleted;
     }
 
-    public boolean CheckIfEntryExists(ArrayList<BudgetEntry> trans, UUID id) {
+    public boolean CheckIfEntryExists(List<BudgetEntry> trans, UUID id) {
         boolean result = false;
         for (BudgetEntry b : trans) {
             if (b.getId().equals(id)) {
@@ -67,7 +66,7 @@ public class Budget {
         return result;
     }
 
-    public BudgetEntry getEntry(ArrayList<BudgetEntry> trans, UUID id) {
+    public BudgetEntry getEntry(List<BudgetEntry> trans, UUID id) {
         BudgetEntry result = null;
         for (BudgetEntry b : trans) {
             if (b.getId().equals(id)) {
@@ -77,4 +76,16 @@ public class Budget {
         }
         return result;
     }
+
+    public int getIndex(List<BudgetEntry> trans, UUID id) {
+        int result = 0;
+        for (BudgetEntry b : trans) {
+            if (b.getId().equals(id)) {
+                break;
+            }
+            result++;
+        }
+        return result;
+    }
+
 }

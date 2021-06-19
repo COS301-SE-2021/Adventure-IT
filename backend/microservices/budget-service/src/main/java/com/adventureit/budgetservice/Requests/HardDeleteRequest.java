@@ -5,9 +5,9 @@ import java.util.UUID;
 public class HardDeleteRequest {
     private UUID id;
 
-    HardDeleteRequest(){}
+    public HardDeleteRequest(){}
 
-    HardDeleteRequest(UUID id){
+    public HardDeleteRequest(UUID id){
         this.id = id;
     }
 
