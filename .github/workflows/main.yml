@@ -1,9 +1,6 @@
 name: Backend - Java CI with Maven (TESTING sprint_Three_MainController only)
 
 on:
-  push:
-    branches: 
-      - develop
   workflow_dispatch:
   
 jobs:
