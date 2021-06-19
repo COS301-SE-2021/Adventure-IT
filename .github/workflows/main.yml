@@ -14,8 +14,8 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Build with Maven
+        working-directory: ./backend
         run: 
-          cd backend
-          mvn --batch-mode test
+          mvn --batch-mode --update-snapshots verify
           
         
