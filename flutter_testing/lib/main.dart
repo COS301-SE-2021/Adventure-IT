@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_testing/API/adventureAPI.dart';
 import 'package:flutter_testing/API/adventures.dart';
@@ -131,13 +132,16 @@ class _Login extends State<Login> {
 
 class _ViewAdventure extends State<ViewAdventure> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  Future<List<Adventure>>? adventuresFuture;
+  Future<List<Adventure>>? adventuresOwner;
+  Future<List<Adventure>>? adventuresAttendees;
+
 
   @override
   void initState() {
     super.initState();
 
-    adventuresFuture = AdventureApi.getAllAdventures();
+    adventuresOwner = AdventureApi.getOwnerAdventures();
+    adventuresAttendees = AdventureApi.getAttendeeAdventures();
   }
 
 
@@ -158,7 +162,7 @@ class _ViewAdventure extends State<ViewAdventure> {
             child: const Text("Logout",
               textAlign: TextAlign.center,)));
     return FutureBuilder(
-        future: adventuresFuture,
+        future: adventuresOwner,
         builder: (context, snapshot) {
           print(snapshot);
           if(snapshot.connectionState == ConnectionState.waiting) {
@@ -180,7 +184,8 @@ class _ViewAdventure extends State<ViewAdventure> {
                           ...List.generate(adventures.length, (index) => Text(adventures.elementAt(index).description))
                         ],
                       ),
-                    ),            backbutton,
+                    ),
+                    backbutton,
 
                   ]
               ),
