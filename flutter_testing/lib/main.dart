@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_testing/API/adventureAPI.dart';
 import 'package:flutter_testing/API/adventures.dart';
@@ -18,13 +19,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
 
-      return MaterialApp(
-        title: _login,
-        home: Scaffold(
-          appBar: AppBar(title: const Text(_login)),
-          body: const Login(),
-        ),
-      );
+    return MaterialApp(
+      title: _login,
+      home: Scaffold(
+        appBar: AppBar(title: const Text(_login)),
+        body: const Login(),
+      ),
+    );
   }
 }
 
@@ -38,7 +39,6 @@ class Login extends StatefulWidget {
 
 class ViewAdventure extends StatefulWidget {
   const ViewAdventure({Key? key}) : super(key: key);
-
   @override
   State<ViewAdventure> createState() => _ViewAdventure();
 }
@@ -51,14 +51,14 @@ class _Login extends State<Login> {
   Widget build(BuildContext context) {
     String? _username;
     final emailField = TextField(
-      obscureText: false,
-      onSubmitted: (String value) {_username=value; },
-      //style: style,
-      decoration: InputDecoration(
-          contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Username",
-          border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)))
+        obscureText: false,
+        onSubmitted: (String value) {_username=value; },
+        //style: style,
+        decoration: InputDecoration(
+            contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+            hintText: "Username",
+            border:
+            OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)))
     );
 
     final passwordField = TextField(
@@ -78,55 +78,55 @@ class _Login extends State<Login> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-    onPressed: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ViewAdventure()),
-      );
-    },
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ViewAdventure()),
+          );
+        },
         child: const Text("Login",
-            textAlign: TextAlign.center,
-            //style: style.copyWith(
-              //  color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
+          textAlign: TextAlign.center,
+          //style: style.copyWith(
+          //  color: Colors.white, fontWeight: FontWeight.bold)),
+        ),
       ),
     );
 
     return Scaffold(
       body: SingleChildScrollView(
-      child: Center(
-      child: Container(
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(36.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              height: 155.0,
-              child: Image.asset(
-                "assets/adventure.PNG",
-                fit: BoxFit.contain,
+        child: Center(
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 155.0,
+                    child: Image.asset(
+                      "assets/adventure.PNG",
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  const SizedBox(height: 45.0),
+                  emailField,
+                  const SizedBox(height: 25.0),
+                  passwordField,
+                  const SizedBox(
+                    height: 35.0,
+                  ),
+                  loginButton,
+                  const SizedBox(
+                    height: 15.0,
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 45.0),
-            emailField,
-            const SizedBox(height: 25.0),
-            passwordField,
-            const SizedBox(
-              height: 35.0,
-            ),
-            loginButton,
-            const SizedBox(
-              height: 15.0,
-            ),
-          ],
+          ),
         ),
       ),
-    ),
-    ),
-    ),
     );
   }
 }
@@ -134,7 +134,6 @@ class _Login extends State<Login> {
 class _ViewAdventure extends State<ViewAdventure> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final AdventureApi API=new AdventureApi();
   @override
   Widget build(BuildContext context) {
     final backbutton = Material(
@@ -154,52 +153,20 @@ class _ViewAdventure extends State<ViewAdventure> {
             },
             child: const Text("Logout",
               textAlign: TextAlign.center,)));
-      List<Adventure>? owner;
+    List<Adventure>? owner;
     List<Adventure>? attendee;
     List <Adventure>? complete;
-      AdventureApi.getOwnerAdventures().then((result){
-          owner=result;
-          complete?.addAll(owner!);
+    AdventureApi.getOwnerAdventures().then((result){
+      owner=result;
+      if(owner!=null) {
+        complete?.addAll(owner!);
+      }
     });
     AdventureApi.getAttendeeAdventures().then((result){
       attendee=result;
-      complete?.addAll(attendee!);
+      if(attendee!=null) {
+        complete?.addAll(attendee!);
+      }
     });
 
-
-
-
-    return Scaffold(
-      appBar: AppBar(title: const Text("Your Adventures")),
-        body: SingleChildScrollView(
-        child: Center(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        ...List.generate(complete!.length, (index) => Text(complete.elementAt(index).name))
-                      ],
-                    ),
-                  ),
-                  backbutton,
-                  const SizedBox(
-                    height: 15.0,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-}
 
