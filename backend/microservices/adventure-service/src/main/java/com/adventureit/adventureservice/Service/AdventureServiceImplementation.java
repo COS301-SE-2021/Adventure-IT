@@ -153,9 +153,9 @@ public class AdventureServiceImplementation implements AdventureService {
         final UUID mockOwnerID = UUID.fromString("1660bd85-1c13-42c0-955c-63b1eda4e90b");
         final UUID mockAttendeeID = UUID.fromString("7a984756-16a5-422e-a377-89e1772dd71e");
 
-          this.adventureRepository.save(new Adventure("Mock Adventure 1", UUID.randomUUID(), mockOwnerID)).addAttendee(mockAttendeeID);
-        this.adventureRepository.save(new Adventure("Mock Adventure 2", UUID.randomUUID(), mockOwnerID)).addAttendee(mockAttendeeID);
-        this.adventureRepository.save(new Adventure("Mock Adventure 3", UUID.randomUUID(), mockAttendeeID)).addAttendee(mockOwnerID);
+        Adventure mockAdventure1 = new Adventure("Mock Adventure 1", UUID.randomUUID(), mockOwnerID);
+        Adventure mockAdventure2 = new Adventure("Mock Adventure 2", UUID.randomUUID(), mockOwnerID);
+        Adventure mockAdventure3 = new Adventure("Mock Adventure 3", UUID.randomUUID(), mockAttendeeID);
 
         mockAdventure1.addContainer(UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8"));
         mockAdventure1.addContainer(UUID.fromString("26356837-f076-41ec-85fa-f578df7e3717"));
@@ -164,10 +164,13 @@ public class AdventureServiceImplementation implements AdventureService {
         mockAdventure3.addContainer(UUID.fromString("27f68e13-c8b9-4db8-915b-766e71efc16a"));
         mockAdventure3.addContainer(UUID.fromString("dcee3250-c653-4cd4-9edc-f77bd6b6eb3f"));
 
+        mockAdventure1.addAttendee(mockAttendeeID);
+        mockAdventure2.addAttendee(mockAttendeeID);
+        mockAdventure3.addAttendee(mockOwnerID);
+
         this.adventureRepository.save(mockAdventure1);
         this.adventureRepository.save(mockAdventure2);
         this.adventureRepository.save(mockAdventure3);
-
 
     }
 

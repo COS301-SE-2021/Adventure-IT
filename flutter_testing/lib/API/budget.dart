@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import '/API/transactions.dart';
+import 'package: /API/adventures.dart'
 
 part 'budget.g.dart';
 
@@ -7,7 +7,7 @@ part 'budget.g.dart';
 class Budget {
   final String id;
   final String name;
-  final List<Transaction> transactions;
+  final List<Transactions> transactions;
   final String deleted;
 
 
@@ -17,7 +17,7 @@ class Budget {
         required this.transactions,
         required this.deleted});
 
-  factory Budget.fromJson(dynamic json) =>
+  factory Budget.fromJson(Map<String, dynamic> json) =>
       _$BudgetFromJson(json);
 
   Map<String, dynamic> toJson() => _$BudgetToJson(this);
