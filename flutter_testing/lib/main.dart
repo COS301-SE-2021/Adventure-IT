@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_testing/API/adventureAPI.dart';
 import 'package:flutter_testing/API/adventures.dart';
-import 'package:flutter_testing/API/adventureAPI.dart';
 
 void main() => runApp(const MyApp());
 
@@ -133,8 +132,30 @@ class _Login extends State<Login> {
 class _ViewAdventure extends State<ViewAdventure> {
   Future<List<Adventure>>? ownerAdventures;
   Future<List<Adventure>>? attendeeAdventures;
-  _ViewAdventure({@required this.ownerAdventures,@required this.attendeeAdventures});
 
+  void initState() {
+    super.initState();
+    ownerAdventures = AdventureApi.getOwnerAdventures();
+    attendeeAdventures = AdventureApi.getAttendeeAdventures();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        theme: Theme.of(context),
+        home: Scaffold(
+            appBar: AppBar(
+                title: Text("Adventures")),
+            body: _AdventureList(
+                ownerAdventures: ownerAdventures,
+                attendeeAdventures: attendeeAdventures)));
+  }
+}
+
+class _AdventureList extends StatelessWidget {
+  Future<List<Adventure>>? ownerAdventures;
+  Future<List<Adventure>>? attendeeAdventures;
+  _AdventureList({@required this.ownerAdventures,@required this.attendeeAdventures});
   @override
   Widget build(BuildContext context) {
     final backbutton = Material(
@@ -148,8 +169,9 @@ class _ViewAdventure extends State<ViewAdventure> {
                 .width,
             padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {
-              Navigator.pop(
-                  context
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyApp()),
               );
             },
             child: const Text("Logout",
@@ -173,7 +195,9 @@ class _ViewAdventure extends State<ViewAdventure> {
           child: Text("Shared Adventures",
               style: TextStyle(fontSize: 20))),
       AdventureFutureBuilder(adventuresFuture: attendeeAdventures),
-    backbutton]);
+    SizedBox(
+    height: 20,
+    ),backbutton]);
   }
   }
 
@@ -201,7 +225,6 @@ class AdventureFutureBuilder extends StatelessWidget {
                           child: ListTile(
                               trailing: Icon(Icons.more_vert),
                               dense: true,
-                              hoverColor: Colors.blue,
                               title: Text(adventures.elementAt(index).name))))
                 ]));
           } else {

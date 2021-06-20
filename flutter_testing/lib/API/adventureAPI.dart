@@ -8,7 +8,7 @@ import 'dart:convert';
 class AdventureApi {
 
   static Future<List<Adventure>> getOwnerAdventures() async {
-    http.Response response = await _getAdventureOwnerResponse("1660bd85-1c13-42c0-955c-63b1eda4e90b"");
+    http.Response response = await _getAdventureOwnerResponse("1660bd85-1c13-42c0-955c-63b1eda4e90b");
     if (response.statusCode == 200) {
       List<Adventure> ownerlist;
       ownerlist = (json.decode(response.body) as List)
@@ -21,8 +21,8 @@ class AdventureApi {
     }
   }
 
-  static Future<List<Adventure>?> getAttendeeAdventures() async {
-    http.Response response = await _getAdventureAttendeesResponse("1660bd85-1c13-42c0-955c-63b1eda4e90b"");
+  static Future<List<Adventure>> getAttendeeAdventures() async {
+    http.Response response = await _getAdventureAttendeesResponse("1660bd85-1c13-42c0-955c-63b1eda4e90b");
     if (response.statusCode == 200) {
       List<Adventure>? attendeelist;
       attendeelist = (json.decode(response.body) as List)
