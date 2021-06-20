@@ -26,19 +26,17 @@ public class BudgetServiceUnitTests {
         final UUID validBudgetID2 = UUID.randomUUID();
         final UUID validEntryID1 = UUID.randomUUID();
         final UUID validEntryID2 = UUID.randomUUID();
-        final UUID validAdventureID1 = UUID.randomUUID();
-        final UUID validAdventureID2 = UUID.randomUUID();
 
         BudgetEntry mockEntry1 = new Income(validEntryID1,20.0,"Mock Entry 1","Mock Income");
         BudgetEntry mockEntry2 = new Expense(validEntryID2,20.0,"Mock Entry 2","Mock Expense");
         ArrayList<BudgetEntry> trans = new ArrayList<>(Arrays.asList(mockEntry1,mockEntry2));
-        Budget mockBudget1 = new Budget(validBudgetID1,validAdventureID1,trans);
-        Budget mockBudget2 = new Budget(validBudgetID2,validAdventureID2,trans);
+        Budget mockBudget1 = new Budget(validBudgetID1,"Mock Budget 1",trans);
+        Budget mockBudget2 = new Budget(validBudgetID2,"Mock Budget 2",trans);
 
         @Test
         /* Ensuring a user can create a budget */
         public void createAdventureValid_ReturnTrue() throws Exception {
-                CreateBudgetRequest createBudgetRequest = new CreateBudgetRequest(UUID.randomUUID(),UUID.randomUUID(),new ArrayList<BudgetEntry>());
+                CreateBudgetRequest createBudgetRequest = new CreateBudgetRequest(UUID.randomUUID(),"Mock Name",new ArrayList<BudgetEntry>());
                 CreateBudgetResponse createBudgetResponse = sut.createBudget(createBudgetRequest);
                 Assertions.assertTrue(createBudgetResponse.isSuccess());
         }
@@ -47,7 +45,7 @@ public class BudgetServiceUnitTests {
         /* createBudget will throw an exception if a budget with the same ID already exists */
         public void createBudgetExistingID_ThrowException() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetById(validBudgetID1)).thenReturn(mockBudget1);
-                CreateBudgetRequest createBudgetRequest = new CreateBudgetRequest(validBudgetID1,UUID.randomUUID(),trans);
+                CreateBudgetRequest createBudgetRequest = new CreateBudgetRequest(validBudgetID1,"Mock Name",trans);
                 Assertions.assertThrows(Exception.class, ()->{
                        sut.createBudget(createBudgetRequest);
                 });
@@ -56,7 +54,7 @@ public class BudgetServiceUnitTests {
         @Test
         /* createBudget will throw an exception if any of the request object fields are null */
         public void createBudgetNullField_ThrowException() throws Exception {
-                CreateBudgetRequest createBudgetRequest = new CreateBudgetRequest(null,UUID.randomUUID(),trans);
+                CreateBudgetRequest createBudgetRequest = new CreateBudgetRequest(null,"Mock Name",trans);
                 Assertions.assertThrows(Exception.class, ()->{
                         sut.createBudget(createBudgetRequest);
                 });

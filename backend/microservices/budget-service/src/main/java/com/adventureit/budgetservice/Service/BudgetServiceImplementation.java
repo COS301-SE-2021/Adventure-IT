@@ -1,5 +1,6 @@
 package com.adventureit.budgetservice.Service;
 
+import com.adventureit.adventureservice.Entity.Adventure;
 import com.adventureit.budgetservice.Entity.Budget;
 import com.adventureit.budgetservice.Entity.BudgetEntry;
 import com.adventureit.budgetservice.Entity.Expense;
@@ -12,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 
 @Service()
@@ -38,8 +42,8 @@ public class BudgetServiceImplementation implements BudgetService {
         if(budgetRepository.findBudgetById(req.getId()) != null){
             throw new Exception("Budget already exists.");
         }
-        if(req.getAdventureID() == null){
-            throw new Exception("Adventure ID not provided.");
+        if(req.getName() == null){
+            throw new Exception("Budget name not provided.");
         }
         if(req.getId() == null){
             throw new Exception("Budget ID not provided.");
@@ -48,7 +52,7 @@ public class BudgetServiceImplementation implements BudgetService {
             throw new Exception("Transactions Array is null");
         }
 
-        budgetRepository.save(new Budget(req.getId(),req.getAdventureID(),req.getTransactions()));
+        budgetRepository.save(new Budget(req.getId(),req.getName(),req.getTransactions()));
         return new CreateBudgetResponse(true);
     }
 
@@ -278,5 +282,38 @@ public class BudgetServiceImplementation implements BudgetService {
     @Override
     public ViewTrashResponse viewTrash() throws Exception {
         return new ViewTrashResponse(true,budgetRepository.findAllByDeletedEquals(true));
+    }
+
+    @Override
+    public void mockPopulate(){
+        final UUID mockBudgetID1 = UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8");
+        final UUID mockBudgetID2 = UUID.fromString("26356837-f076-41ec-85fa-f578df7e3717");
+        final UUID mockBudgetID3 = UUID.fromString("2bb5e28c-90de-4830-ae83-f4f459898e6a");
+        final UUID mockBudgetID4 = UUID.fromString("1b4534b4-65e6-4dc7-9961-65743940c86f");
+        final UUID mockBudgetID5 = UUID.fromString("27f68e13-c8b9-4db8-915b-766e71efc16a");
+        final UUID mockBudgetID6 = UUID.fromString("dcee3250-c653-4cd4-9edc-f77bd6b6eb3f");
+
+        final UUID mockEntryID1 = UUID.fromString("4c31ac61-832e-454c-8efb-a3fc16ef97a0");
+        final UUID mockEntryID2 = UUID.fromString("200959c2-7bd9-4c43-ae1c-c3e6776e3b33");
+
+        Income mockEntry1 = new Income(mockEntryID1,200.0,"Mock Entry 1","Mock Income Entry");
+        Expense mockEntry2 = new Expense(mockEntryID2,300.0,"Mock Entry 2","Mock Expense Entry");
+
+        this.budgetEntryRepository.save(mockEntry1);
+        this.budgetEntryRepository.save(mockEntry2);
+
+        ArrayList<BudgetEntry> mockEntries = new ArrayList<BudgetEntry>(Arrays.asList(mockEntry1,mockEntry2));
+
+        this.budgetRepository.save(new Budget(mockBudgetID1, "Mock Budget 1",mockEntries));
+        this.budgetRepository.save(new Budget(mockBudgetID2, "Mock Budget 2",mockEntries));
+        this.budgetRepository.save(new Budget(mockBudgetID3, "Mock Budget 3",mockEntries));
+        this.budgetRepository.save(new Budget(mockBudgetID4, "Mock Budget 4",mockEntries));
+        this.budgetRepository.save(new Budget(mockBudgetID5, "Mock Budget 5",mockEntries));
+        this.budgetRepository.save(new Budget(mockBudgetID6, "Mock Budget 6",mockEntries));
+    }
+
+    @Override
+    public void mockCreateBudget(String name){
+        budgetRepository.save(new Budget(UUID.randomUUID(),name,new ArrayList<BudgetEntry>()));
     }
 }

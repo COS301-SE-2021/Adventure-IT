@@ -9,7 +9,7 @@ import java.util.UUID;
 public class Budget {
     @Id
     private UUID id;
-    private UUID adventureID;
+    String name;
     @OneToMany (fetch=FetchType.EAGER)
     List<BudgetEntry> transactions;
     boolean deleted;
@@ -22,12 +22,12 @@ public class Budget {
     /**
      * Budget model Constructor which takes in the following parameters:
      * @param id Budget id
-     * @param adventureID id of Adventure the Budget belongs to
+     * @param name Name of the budget
      * @param transactions List of all Entries
      */
-    public Budget(UUID id,UUID adventureID,ArrayList<BudgetEntry> transactions){
+    public Budget(UUID id,String name,ArrayList<BudgetEntry> transactions){
         this.id = id;
-        this.adventureID = adventureID;
+        this.name = name;
         this.transactions = transactions;
         deleted = false;
     }
@@ -43,12 +43,12 @@ public class Budget {
         return id;
     }
 
-    public void setAdventureID(UUID adventureID) {
-        this.adventureID = adventureID;
+    public String getName() {
+        return name;
     }
 
-    public UUID getAdventureID() {
-        return adventureID;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setTransactions(ArrayList<BudgetEntry> transactions) {
