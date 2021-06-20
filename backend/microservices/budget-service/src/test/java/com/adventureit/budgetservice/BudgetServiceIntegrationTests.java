@@ -51,23 +51,10 @@ public class BudgetServiceIntegrationTests {
         Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/budget/mockCreate/{name}", String.class,"Budget 1"),"Budget Successfully created");
     }
 
-    @Test
-    @Description("Ensure that the view function works")
-    public void httpView_returnResponse(){
-        UUID id = UUID.randomUUID();
-        Budget budget1 = new Budget(id,"Test Budget 1",new ArrayList<>());
-        budgetRepository.save(budget1);
-        Budget response = this.restTemplate.getForObject("http://localhost:" + port + "/budget/viewBudget/{id}", Budget.class, id);
-        Assertions.assertEquals(response.getName(), budget1.getName());
-    }
-
 //    @Test
-//    @Description("Ensure that the view function works")
-//    public void httpView_softDelete(){
-//        UUID id = UUID.randomUUID();
-//        Budget budget1 = new Budget(id,"Test Budget 2",new ArrayList<>());
-//        budget1.setDeleted(true);
-//        budgetRepository.save(budget1);
-//        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/budget/softDelete/{id}", String.class, id), "Budget successfully moved to bin.");
+//    @Description("Ensure that the create function works")
+//    public void httpView_returnResponse(){
+//        UUID budgetID = UUID.randomUUID();
+//        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/budget/mockCreate/{id}", Budget.class, budgetID).getId(),budgetID);
 //    }
 }
