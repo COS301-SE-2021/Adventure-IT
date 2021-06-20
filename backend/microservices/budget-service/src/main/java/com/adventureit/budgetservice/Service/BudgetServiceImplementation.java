@@ -313,6 +313,25 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
+    public void mockPopulateTrash(){
+        final UUID mockBudgetID1 = UUID.fromString("86224c30-fb96-4b02-9aca-ca7b61c6bede");
+        final UUID mockBudgetID2 = UUID.fromString("83a2bb60-69c9-486f-bb55-8a3e55cb891d");
+        final UUID mockBudgetID3 = UUID.fromString("ab500ee3-a069-4a89-a5b3-3aa9e10330e6");
+
+        Budget budget1 = new Budget(mockBudgetID1, "Mock Deleted Budget 1",new ArrayList<BudgetEntry>());
+        Budget budget2 = new Budget(mockBudgetID2, "Mock Deleted Budget 2",new ArrayList<BudgetEntry>());
+        Budget budget3 = new Budget(mockBudgetID3, "Mock Deleted Budget 2",new ArrayList<BudgetEntry>());
+
+        budget1.setDeleted(true);
+        budget2.setDeleted(true);
+        budget3.setDeleted(true);
+
+        this.budgetRepository.save(budget1);
+        this.budgetRepository.save(budget2);
+        this.budgetRepository.save(budget3);
+    }
+
+    @Override
     public void mockCreateBudget(String name){
         final UUID mockBudgetID = UUID.fromString("4f5c23e8-b552-47ae-908c-859e9cb94580");
         budgetRepository.save(new Budget(mockBudgetID,name,new ArrayList<BudgetEntry>()));

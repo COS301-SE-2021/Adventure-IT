@@ -28,6 +28,12 @@ public class BudgetController {
 		return "Mock budgets populated \n";
 	}
 
+	@GetMapping("/populateTrash")
+	public String populateTrash(){
+		budgetServiceImplementation.mockPopulateTrash();
+		return "Trash populated \n";
+	}
+
 	@GetMapping("/mockCreate/{name}")
 	public String createMockBudget(@PathVariable String name){
 		budgetServiceImplementation.mockCreateBudget(name);
