@@ -43,9 +43,16 @@ public class BudgetController {
 		return "Budget Successfully created";
 	}
 
+	@GetMapping("/viewBudgetsByAdventure/{id}")
+	public List<Budget> viewBudgetsByAdventure(@PathVariable UUID id) throws Exception {
+		return budgetRepository.findAllByAdventureID(id);
+	}
+
 	@GetMapping("/viewBudget/{id}")
-	public List<Budget> viewBudget(@PathVariable UUID id) throws Exception {
-		return budgetRepository.findAllByAdvetureID(id);
+	public Budget viewBudget(@PathVariable UUID id) throws Exception {
+		ViewBudgetRequest request = new ViewBudgetRequest(id);
+		ViewBudgetResponse response = budgetServiceImplementation.viewBudget(request);
+		return response.getBudget();
 	}
 
 	@GetMapping("/softDelete/{id}")

@@ -54,10 +54,13 @@ public class BudgetServiceIntegrationTests {
     @Test
     @Description("Ensure that the view function works")
     public void httpView_returnResponse(){
-        UUID id = UUID.randomUUID();
-        Budget budget1 = new Budget(id,"Test Budget 1",new ArrayList<>());
+        UUID budgetId = UUID.randomUUID();
+        UUID adventureId = UUID.randomUUID();
+        Budget budget1 = new Budget(budgetId,"Test Budget 1",new ArrayList<>());
+        budget1.setAdvetureID(adventureId);
         budgetRepository.save(budget1);
-        Budget response = this.restTemplate.getForObject("http://localhost:" + port + "/budget/viewBudget/{id}", Budget.class, id);
+        budgetRepository.save(budget1);
+        Budget response = this.restTemplate.getForObject("http://localhost:" + port + "/budget/viewBudget/{id}", Budget.class, adventureId);
         Assertions.assertEquals(response.getName(), budget1.getName());
     }
 
