@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package: /API/transactions.dart'
+import 'package: /API/transactions.dart';
 
 part 'budget.g.dart';
 
