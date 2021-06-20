@@ -1,12 +1,13 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package: /API/transactions.dart'
 
 part 'budget.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Budget {
   final String id;
-  String name;
-  final List<String> transactions;
+  final String name;
+  final List<Transaction> transactions;
   final String deleted;
 
 
