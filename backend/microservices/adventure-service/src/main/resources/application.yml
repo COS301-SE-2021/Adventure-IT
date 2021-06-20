@@ -4,18 +4,22 @@ server:
 spring:
   application:
     name: ADVENTURE-SERVICE
-  jpa:
-    database: POSTGRESQL
-    show-sql: true
-    hibernate:
-      ddl-auto: create-drop
+#  jpa:
+#    database: POSTGRESQL
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: create-drop
 
+#  server.port = 9001
+#  spring.application.name = adventure-microservice
+#  spring.datasource.url=jdbc:postgresql://localhost:5000/postgres
+#  spring.datasource.username=postgres
+#  spring.datasource.password=password
+#  spring.jpa.hibernate.ddl-auto=update
+#  spring.jpa.show-sql=false
+#  spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+#  spring.jpa.properties.hibernate.format_sql=true
 
-#  datasource:
-#    driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost:9945/mydb
-#    username: adventure_service_user
-#    password: adventure_password
 
 eureka:
   client:
