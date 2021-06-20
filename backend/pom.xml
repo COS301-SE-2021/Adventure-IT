@@ -22,6 +22,8 @@
         <module>microservices/notification-service</module>
         <module>microservices/sharing-service</module>
         <module>microservices/user-service</module>
+        <module>service-registry</module>
+        <module>main-controller</module>
     </modules>
     <properties>
         <java.version>11</java.version>
