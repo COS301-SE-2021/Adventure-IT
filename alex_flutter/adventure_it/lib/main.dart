@@ -3,8 +3,11 @@ import 'dart:html';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
+import 'package:adventure_it/api/budgetAPI.dart';
 
 import 'package:flutter/material.dart';
+
+import 'api/budget.dart';
 
 void main() => runApp(MyApp());
 
@@ -122,32 +125,6 @@ class HomePage_Pages_Adventures extends StatelessWidget {
           child: Text("adventures I have created",
               style: TextStyle(fontSize: 20))),
       AdventureFutureBuilder(adventuresFuture: ownerAdventuresFuture),
-      // Row(children: <Widget>[
-      //   Expanded(
-      //     child: Container(
-      //         margin: EdgeInsets.all(10.0),
-      //         padding: EdgeInsets.all(10.0),
-      //         height: 50,
-      //         color: Colors.blue,
-      //         alignment: Alignment.centerLeft,
-      //         child: Text("Test",
-      //             style: TextStyle(
-      //                 fontWeight: FontWeight.bold, color: Colors.white))),
-      //   ),
-      // ]),
-      // Row(children: <Widget>[
-      //   Expanded(
-      //     child: Container(
-      //         margin: EdgeInsets.only(bottom: 5.0, left: 10.0, right: 10.0),
-      //         padding: EdgeInsets.all(10.0),
-      //         height: 50,
-      //         color: Colors.blue,
-      //         alignment: Alignment.centerLeft,
-      //         child: Text("Test",
-      //             style: TextStyle(
-      //                 fontWeight: FontWeight.bold, color: Colors.white))),
-      //   ),
-      // ]),
       SizedBox(height: 50),
       Container(
           alignment: Alignment.centerLeft,
@@ -155,32 +132,6 @@ class HomePage_Pages_Adventures extends StatelessWidget {
           child: Text("adventures I am attending",
               style: TextStyle(fontSize: 20))),
       AdventureFutureBuilder(adventuresFuture: attendeeAdventuresFuture),
-      // Row(children: <Widget>[
-      //   Expanded(
-      //     child: Container(
-      //         margin: EdgeInsets.all(10.0),
-      //         padding: EdgeInsets.all(10.0),
-      //         height: 50,
-      //         color: Colors.blue,
-      //         alignment: Alignment.centerLeft,
-      //         child: Text("Test",
-      //             style: TextStyle(
-      //                 fontWeight: FontWeight.bold, color: Colors.white))),
-      //   ),
-      // ]),
-      // Row(children: <Widget>[
-      //   Expanded(
-      //     child: Container(
-      //         margin: EdgeInsets.only(bottom: 5.0, left: 10.0, right: 10.0),
-      //         padding: EdgeInsets.all(10.0),
-      //         height: 50,
-      //         color: Colors.blue,
-      //         alignment: Alignment.centerLeft,
-      //         child: Text("Test",
-      //             style: TextStyle(
-      //                 fontWeight: FontWeight.bold, color: Colors.white))),
-      //   ),
-      // ]),
     ]);
   }
 }
@@ -206,10 +157,131 @@ class AdventureFutureBuilder extends StatelessWidget {
                   adventures.length,
                   (index) => Card(
                       child: ListTile(
-                          title: Text(adventures.elementAt(index).name))))
+                          title: Text(adventures.elementAt(index).name),
+                          trailing: IconButton(
+                            icon: Icon(Icons.more_vert),
+                            onPressed: () {
+                              Future<List<Budget>> budgetsFuture =
+                                  BudgetApi.getBudgets(
+                                      adventures.elementAt(index));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Adventure_Budgets(
+                                          budgetsFuture: budgetsFuture,
+                                          adventureName: adventures
+                                              .elementAt(index)
+                                              .name)));
+                            },
+                          ))))
             ]));
           } else {
             return Center(child: Text("Something went wrong"));
+          }
+        });
+  }
+}
+
+class Adventure_Budgets extends StatelessWidget {
+  Future<List<Budget>> budgetsFuture;
+  String adventureName;
+  Adventure_Budgets({required this.budgetsFuture, required this.adventureName});
+
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: budgetsFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasData) {
+            var budgets = snapshot.data as List<Budget>;
+            return Scaffold(
+                appBar: AppBar(
+                    title: Text('Budgets for ' + adventureName),
+                    leading: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.arrow_back))),
+                body: ListView(children: [
+                  ...List.generate(
+                      budgets.length,
+                      (index) => Card(
+                          child: ListTile(
+                              title: Text(budgets.elementAt(index).name),
+                              trailing: IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {},
+                              ))))
+                ]),
+                floatingActionButton: FloatingActionButton(
+                    onPressed: () {
+                      Future<List<Budget>>? deletedBudgets =
+                          BudgetApi.getDeletedBudgets();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DeletedBudgets(
+                                  budgetsFuture: deletedBudgets)));
+                    },
+                    child: Icon(Icons.delete)));
+          } else {
+            return Scaffold(
+                appBar: AppBar(
+                    title: Text('No budgets found'),
+                    leading: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.arrow_back))));
+          }
+        });
+  }
+}
+
+class DeletedBudgets extends StatelessWidget {
+  Future<List<Budget>> budgetsFuture;
+  DeletedBudgets({required this.budgetsFuture});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: budgetsFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasData) {
+            var budgets = snapshot.data as List<Budget>;
+            return Scaffold(
+                appBar: AppBar(
+                    title: Text('Deleted Budgets'),
+                    leading: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.arrow_back))),
+                body: ListView(children: [
+                  ...List.generate(
+                      budgets.length,
+                      (index) => Card(
+                          child: ListTile(
+                              title: Text(budgets.elementAt(index).name),
+                              trailing: IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {},
+                              ))))
+                ]));
+          } else {
+            return Scaffold(
+                appBar: AppBar(
+                    title: Text('No budgets found'),
+                    leading: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.arrow_back))));
           }
         });
   }
