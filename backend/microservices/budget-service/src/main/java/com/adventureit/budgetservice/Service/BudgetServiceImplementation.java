@@ -314,6 +314,7 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
     public void mockCreateBudget(String name){
-        budgetRepository.save(new Budget(UUID.randomUUID(),name,new ArrayList<BudgetEntry>()));
+        final UUID mockBudgetID = UUID.fromString("4f5c23e8-b552-47ae-908c-859e9cb94580");
+        budgetRepository.save(new Budget(mockBudgetID,name,new ArrayList<BudgetEntry>()));
     }
 }
