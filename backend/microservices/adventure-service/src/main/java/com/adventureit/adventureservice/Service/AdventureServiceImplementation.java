@@ -155,7 +155,7 @@ public class AdventureServiceImplementation implements AdventureService {
 
         this.adventureRepository.save(new Adventure("Mock Adventure 1", UUID.randomUUID(), mockOwnerID)).addAttendee(mockAttendeeID);
         this.adventureRepository.save(new Adventure("Mock Adventure 2", UUID.randomUUID(), mockOwnerID)).addAttendee(mockAttendeeID);
-        this.adventureRepository.save(new Adventure("Mock Adventure 3", UUID.randomUUID(), mockOwnerID)).addAttendee(mockAttendeeID);
+        this.adventureRepository.save(new Adventure("Mock Adventure 3", UUID.randomUUID(), mockAttendeeID)).addAttendee(mockOwnerID);
     }
 
 }
