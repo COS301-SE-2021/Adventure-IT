@@ -17,5 +17,5 @@ public interface AdventureService{
     public GetAdventuresByUserUUIDResponse getAdventureByOwnerUUID(UUID ownerID);
     public GetAdventuresByUserUUIDResponse getAdventureByAttendeeUUID(UUID attendeeID);
     public void mockPopulate();
-//    public AddUserToAdventureResponse AddUserToAdventure(AddUserToAdventureRequest req);
+//   public AddUserToAdventureResponse AddUserToAdventure(AddUserToAdventureRequest req);
 }
