@@ -30,13 +30,15 @@ public class NotificationService {
         this.repo = repo;
     }
 
-    public void sendEmail(String email,String subject,String message){
+    public void sendEmail(String email){
         Properties props =new Properties();
         props.put("mail.smtp.ssl.trust", "*");
         SimpleMailMessage mailMessage = new SimpleMailMessage();
+        String sub1 = "Budget Notification";
+        String message1 = "Your budget has been removed";
         mailMessage.setTo(email);
-        mailMessage.setSubject(subject);
-        mailMessage.setText(message);
+        mailMessage.setSubject(sub1);
+        mailMessage.setText(message1);
         mailSender.send(mailMessage);
     }
 
@@ -55,7 +57,7 @@ public class NotificationService {
         String email = "kevin9716cui@gmail.com";
         String subject = req.getSubject();
         String body = req.getBody();
-        sendEmail(email,subject,body);
+        sendEmail(email);
         return new SendEmailNotificationResponse(true,"Email sent to user no. "+userID);
     }
 

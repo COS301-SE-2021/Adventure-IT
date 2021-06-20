@@ -2,27 +2,38 @@ package com.adventureit.notificationservice;
 
 import com.adventureit.notificationservice.Entity.Notification;
 import com.adventureit.notificationservice.Repos.NotificationRepository;
+import com.adventureit.notificationservice.Requests.RetrieveNotificationRequest;
 import com.adventureit.notificationservice.Service.NotificationService;
 import com.adventureit.userservice.Entities.User;
 import com.adventureit.userservice.Service.UserService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class NotificationIntegrationTest {
 
 
-    @Mock
-    NotificationRepository mockRepo;
 
-    @Mock
-    //UserRepository mockUserRepo;
+
+
+    @LocalServerPort
+    private int port;
 
     @Autowired
-    UserService userSUT;
+    private TestRestTemplate restTemplate;
 
     @Autowired
     NotificationService noteSUT;
@@ -44,7 +55,8 @@ public class NotificationIntegrationTest {
 
 
     @Test
-    void testIntegrationwithUser(){
+    public void httpTest_returnResponse(){
+        //Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/notification/test", String.class),"Notification Controller is functional \n");
 
     }
 

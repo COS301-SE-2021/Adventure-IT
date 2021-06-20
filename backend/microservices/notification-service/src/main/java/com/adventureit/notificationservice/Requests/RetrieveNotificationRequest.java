@@ -11,15 +11,9 @@ public class RetrieveNotificationRequest {
     private UUID userId_U = null;
     private final boolean unreadOnly;
 
-    public RetrieveNotificationRequest(@JsonProperty("userid") UUID userId_U,@JsonProperty("unreadonly") boolean unreadOnly) {
+    public RetrieveNotificationRequest(@JsonProperty("userid_U") UUID userId_U,@JsonProperty("unreadonly") boolean unreadOnly) {
         this.userId_U = userId_U;
         this.userId_S = this.userId_U.toString();
-        this.unreadOnly = unreadOnly;
-    }
-
-    public RetrieveNotificationRequest(@JsonProperty("userid") String userId_S,@JsonProperty("unreadonly") boolean unreadOnly) {
-        this.userId_S = userId_S;
-        this.userId_U = UUID.fromString(this.userId_S);
         this.unreadOnly = unreadOnly;
     }
 

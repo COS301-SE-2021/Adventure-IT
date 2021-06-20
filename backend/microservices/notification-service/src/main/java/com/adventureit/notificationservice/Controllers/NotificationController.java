@@ -27,9 +27,9 @@ public class NotificationController {
 
 
 
-    @PostMapping("/sendemail")
-    String sendEmail(@RequestBody SendEmailRequest req){
-        notification.sendEmail(req.getEmail() ,req.getSubject(), req.getBody());
+    @GetMapping("/sendemail/{email}")
+    String sendEmail(@PathVariable(value = "email") String email){
+        notification.sendEmail(email);
         return"Send Email Successful";
     }
 

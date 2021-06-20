@@ -52,15 +52,6 @@ public class NotificationUnitTest {
 
 
     @Test
-    public void testRetrieveNotificationRequestObjectS(){
-        RetrieveNotificationRequest testRequest = new RetrieveNotificationRequest(userId1S, true);
-        assertNotNull(testRequest);
-        assertEquals(userId1S,testRequest.getUserId_S());
-        assertEquals(userId1U,testRequest.getUserId_U());
-        assertEquals(true,testRequest.isUnreadOnly());
-    }
-
-    @Test
     public void testRetrieveNotificationRequestObjectU(){
         RetrieveNotificationRequest testRequest = new RetrieveNotificationRequest(userId1U, true);
         assertNotNull(testRequest);
