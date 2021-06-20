@@ -36,12 +36,7 @@ class Login extends StatefulWidget {
   State<Login> createState() => _Login();
 }
 
-class ViewAdventure extends StatefulWidget {
-  const ViewAdventure({Key? key}) : super(key: key);
-  @override
-  State<ViewAdventure> createState() => _ViewAdventure();
-}
-
+////////////////////////////////////////////////////////////////////////////////////////////////////Login
 /// This is the private State class that goes with MyStatefulWidget.
 class _Login extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -127,6 +122,12 @@ class _Login extends State<Login> {
       ),
     );
   }
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////viewAdventure
+class ViewAdventure extends StatefulWidget {
+  const ViewAdventure({Key? key}) : super(key: key);
+  @override
+  State<ViewAdventure> createState() => _ViewAdventure();
 }
 
 class _ViewAdventure extends State<ViewAdventure> {
@@ -221,19 +222,55 @@ class AdventureFutureBuilder extends StatelessWidget {
                   ...List.generate(
                       adventures.length,
                           (index) => Card(
-
+                          child: InkWell(
+                            onTap:  (){},
                           child: ListTile(
-                              trailing: Icon(Icons.more_vert),
+                              trailing: IconButton(
+                                  icon: Icon(Icons.more_vert),
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => ViewContainers(adventures.elementAt(index))),
+                                  )),
                               dense: true,
-                              title: Text(adventures.elementAt(index).name))))
-                ]));
+                              title: Text(adventures.elementAt(index).name)),
+                              hoverColor: Colors.blue)))
+
+
+
+          ]));
           } else {
-            return Center(child: Text("Something went wrong"));
+            return Center(child: Text("It seems you're not very adventurous..."));
           }
         });
   }
 }
+////////////////////////////////////////////////////////////////////////////////Containers
+class ViewContainers extends StatefulWidget {
+  const ViewContainers({Key? key, Adventure? a}) : super(key: key);
+  @override
+  State<ViewContainers> createState() => _ViewContainers();
+}
 
+class _ViewContainers extends State<ViewContainers> {
+  Future<Budget>? BudgetsForAdventure;
+
+  void initState() {
+    super.initState();
+    ownerAdventures = AdventureApi.getOwnerAdventures();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        theme: Theme.of(context),
+        home: Scaffold(
+            appBar: AppBar(
+                title: Text("Adventures")),
+            body: _AdventureList(
+                ownerAdventures: ownerAdventures,
+                attendeeAdventures: attendeeAdventures)));
+  }
+}
 
 
 
