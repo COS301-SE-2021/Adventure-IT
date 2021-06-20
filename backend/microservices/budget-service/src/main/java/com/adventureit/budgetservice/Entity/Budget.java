@@ -10,7 +10,7 @@ public class Budget {
     @Id
     private UUID id;
     String name;
-    @OneToMany (fetch=FetchType.EAGER)
+    @ManyToMany (fetch=FetchType.EAGER)
     List<BudgetEntry> transactions;
     boolean deleted;
 
