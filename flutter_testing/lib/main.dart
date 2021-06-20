@@ -344,7 +344,6 @@ class _ContainerList extends StatelessWidget {
           padding: EdgeInsets.only(left: 20.0),
           child: Text("Itineraries",
               style: TextStyle(fontSize: 20))),
-      ContainerFutureBuilder(budgetFuture: null),
       SizedBox(
         height: 20,
       ),
@@ -353,7 +352,7 @@ class _ContainerList extends StatelessWidget {
           padding: EdgeInsets.only(left: 20.0),
           child: Text("Checklists",
               style: TextStyle(fontSize: 20))),
-      ContainerFutureBuilder(budgetFuture: null),makeBudget,backbutton]);
+    makeBudget,backbutton]);
   }
 }
 
