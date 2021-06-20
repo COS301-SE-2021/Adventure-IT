@@ -45,13 +45,13 @@ public class BudgetController {
 	public String softDelete(@PathVariable UUID id) throws Exception {
 		SoftDeleteRequest request = new SoftDeleteRequest(id);
 		budgetServiceImplementation.softDelete(request);
-		return "Budget successfully moved to bin";
+		return "Budget successfully moved to bin.";
 	}
 
 	@GetMapping("/viewTrash")
-	public String viewTrash() throws Exception {
-		budgetServiceImplementation.viewTrash();
-		return "Budget successfully moved to bin";
+	public List<Budget> viewTrash() throws Exception {
+		ViewTrashResponse response = budgetServiceImplementation.viewTrash();
+		return response.getBudgets();
 	}
 
 //	@PostMapping("/create")
