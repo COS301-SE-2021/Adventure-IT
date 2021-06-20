@@ -35,10 +35,10 @@ public class BudgetController {
 	}
 
 	@GetMapping("/viewBudget/{id}")
-	public List<BudgetEntry> viewBudget(@PathVariable UUID id) throws Exception {
+	public Budget viewBudget(@PathVariable UUID id) throws Exception {
 		ViewBudgetRequest request = new ViewBudgetRequest(id);
 		ViewBudgetResponse response = budgetServiceImplementation.viewBudget(request);
-		return response.getBudget().getTransactions();
+		return response.getBudget();
 	}
 
 	@GetMapping("/softDelete/{id}")
