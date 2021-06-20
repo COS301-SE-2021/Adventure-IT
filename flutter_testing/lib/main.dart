@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import '/API/adventureAPI.dart';
 import '/API/adventures.dart';
+import '/API/budgetAPI.dart';
+import '/API/budget.dart';
 
 void main() => runApp(const MyApp());
 
@@ -177,6 +179,18 @@ class _AdventureList extends StatelessWidget {
             },
             child: const Text("Logout",
               textAlign: TextAlign.center,)));
+    final checkTrash=MaterialButton(
+        color: Colors.blue,
+        shape: CircleBorder(),
+        onPressed: () {},
+        child: Padding(
+            padding: const EdgeInsets.all(100),
+            child: Text(
+              'Trash',
+              style: TextStyle(color: Colors.white, fontSize: 24),
+            )
+        )
+    );
     return Column(children: <Widget>[
       Container(
           alignment: Alignment.center,
@@ -198,7 +212,7 @@ class _AdventureList extends StatelessWidget {
       AdventureFutureBuilder(adventuresFuture: attendeeAdventures),
     SizedBox(
     height: 20,
-    ),backbutton]);
+    ),checkTrash, backbutton]);
   }
   }
 
@@ -229,7 +243,7 @@ class AdventureFutureBuilder extends StatelessWidget {
                                   icon: Icon(Icons.more_vert),
                                   onPressed: () => Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => ViewContainers(adventures.elementAt(index))),
+                                    MaterialPageRoute(builder: (context) => ViewContainers(key,adventures.elementAt(index))),
                                   )),
                               dense: true,
                               title: Text(adventures.elementAt(index).name)),
@@ -246,17 +260,28 @@ class AdventureFutureBuilder extends StatelessWidget {
 }
 ////////////////////////////////////////////////////////////////////////////////Containers
 class ViewContainers extends StatefulWidget {
-  const ViewContainers({Key? key, Adventure? a}) : super(key: key);
+  Adventure? a;
+  ViewContainers(Key? key, Adventure? a) : super(key: key)
+  {
+    this.a=a;
+  }
   @override
-  State<ViewContainers> createState() => _ViewContainers();
+  State<ViewContainers> createState() => _ViewContainers(a);
 }
 
 class _ViewContainers extends State<ViewContainers> {
-  Future<Budget>? BudgetsForAdventure;
+  Adventure? a;
+  Future<List<Budget>>? BudgetsForAdventure;
+
+  _ViewContainers(Adventure? a)
+  {
+    this.a=a;
+  }
+
 
   void initState() {
     super.initState();
-    ownerAdventures = AdventureApi.getOwnerAdventures();
+    BudgetsForAdventure = BudgetApi.getBudgets(a);
   }
 
   @override
@@ -265,10 +290,106 @@ class _ViewContainers extends State<ViewContainers> {
         theme: Theme.of(context),
         home: Scaffold(
             appBar: AppBar(
-                title: Text("Adventures")),
-            body: _AdventureList(
-                ownerAdventures: ownerAdventures,
-                attendeeAdventures: attendeeAdventures)));
+                title: Text("Items")),
+            body: _ContainerList(
+                BudgetsForAdventure: BudgetsForAdventure)));
+  }
+}
+
+class _ContainerList extends StatelessWidget {
+  Future<List<Budget>>? BudgetsForAdventure;
+  _ContainerList({@required this.BudgetsForAdventure});
+  final makeBudget=MaterialButton(
+      color: Colors.blue,
+      shape: CircleBorder(),
+      onPressed: () {},
+      child: Padding(
+          padding: const EdgeInsets.all(100),
+          child: Text(
+            'Create Budget',
+            style: TextStyle(color: Colors.white, fontSize: 24),
+          )
+      )
+  );
+  @override
+  Widget build(BuildContext context) {
+    final backbutton = Material(
+        elevation: 5.0,
+        borderRadius: BorderRadius.circular(30.0),
+        color: const Color(0xff01A0C7),
+        child: MaterialButton(
+            minWidth: MediaQuery
+                .of(context)
+                .size
+                .width,
+            padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ViewAdventure()),
+              );
+            },
+            child: const Text("Back To Adventures",
+              textAlign: TextAlign.center,)));
+    return Column(children: <Widget>[
+      Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.only(left: 20.0),
+          child: Text("Budgets",
+              style: TextStyle(fontSize: 20))),
+      ContainerFutureBuilder(budgetFuture: BudgetsForAdventure),
+      SizedBox(height: 50),
+      Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.only(left: 20.0),
+          child: Text("Itineraries",
+              style: TextStyle(fontSize: 20))),
+      ContainerFutureBuilder(budgetFuture: null),
+      SizedBox(
+        height: 20,
+      ),
+      Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.only(left: 20.0),
+          child: Text("Checklists",
+              style: TextStyle(fontSize: 20))),
+      ContainerFutureBuilder(budgetFuture: null),makeBudget,backbutton]);
+  }
+}
+
+class ContainerFutureBuilder extends StatelessWidget {
+  Future<List<Budget>>? budgetFuture;
+  ContainerFutureBuilder({@required this.budgetFuture});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: budgetFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasData) {
+            var budgets = snapshot.data as List<Budget>;
+            print(budgets);
+            return Expanded(
+                child: ListView(children: [
+                  ...List.generate(
+                      budgets.length,
+                          (index) => Card(
+                          child: InkWell(
+                              onTap:  (){},
+                              child: ListTile(
+                                  trailing: Icon(Icons.more_vert),
+                                  dense: true,
+                                  title: Text(budgets.elementAt(index).name)),
+                              hoverColor: Colors.blue)))
+
+                ]));
+          } else {
+            return Center(child: Text("There's nothing here"));
+          }
+        });
   }
 }
 
