@@ -1,7 +1,6 @@
 package com.adventureit.budgetservice;
 import com.adventureit.budgetservice.Controllers.BudgetController;
 import com.adventureit.budgetservice.Entity.Budget;
-import com.adventureit.budgetservice.Entity.BudgetEntry;
 import com.adventureit.budgetservice.Repository.BudgetRepository;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
@@ -54,23 +53,29 @@ public class BudgetServiceIntegrationTests {
     @Test
     @Description("Ensure that the view function works")
     public void httpView_returnResponse(){
-        UUID budgetId = UUID.randomUUID();
-        UUID adventureId = UUID.randomUUID();
-        Budget budget1 = new Budget(budgetId,"Test Budget 1",new ArrayList<>());
-        budget1.setAdvetureID(adventureId);
+        UUID id = UUID.randomUUID();
+        Budget budget1 = new Budget(id,"Test Budget 1",new ArrayList<>());
         budgetRepository.save(budget1);
-        budgetRepository.save(budget1);
-        Budget response = this.restTemplate.getForObject("http://localhost:" + port + "/budget/viewBudget/{id}", Budget.class, adventureId);
+        Budget response = this.restTemplate.getForObject("http://localhost:" + port + "/budget/viewBudget/{id}", Budget.class, id);
         Assertions.assertEquals(response.getName(), budget1.getName());
     }
 
-//    @Test
-//    @Description("Ensure that the view function works")
-//    public void httpView_softDelete(){
-//        UUID id = UUID.randomUUID();
-//        Budget budget1 = new Budget(id,"Test Budget 2",new ArrayList<>());
-//        budget1.setDeleted(true);
-//        budgetRepository.save(budget1);
-//        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/budget/softDelete/{id}", String.class, id), "Budget successfully moved to bin.");
-//    }
+    @Test
+    @Description("Ensure that the softDelete function works")
+    public void httpSoftDelete_returnResponse(){
+        UUID id = UUID.randomUUID();
+        Budget budget1 = new Budget(id,"Test Budget 2",new ArrayList<>());
+        budgetRepository.save(budget1);
+        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/budget/softDelete/{id}", String.class, id), "Budget successfully moved to bin.");
+    }
+
+    @Test
+    @Description("Ensure that the viewTrash function works")
+    public void httpViewTrash_returnResponse(){
+        UUID id = UUID.randomUUID();
+        Budget budget1 = new Budget(id,"Test Budget 3",new ArrayList<>());
+        budget1.setDeleted(true);
+        budgetRepository.save(budget1);
+        this.restTemplate.getForObject("http://localhost:" + port + "/budget/viewTrash",String.class);
+    }
 }
