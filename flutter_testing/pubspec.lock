@@ -23,7 +23,7 @@ packages:
     source: hosted
     version: "2.1.1"
   async:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: async
       url: "https://pub.dartlang.org"
@@ -142,7 +142,7 @@ packages:
     source: hosted
     version: "1.15.0"
   convert:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: convert
       url: "https://pub.dartlang.org"
@@ -195,13 +195,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_lints:
-    dependency: "direct dev"
-    description:
-      name: flutter_lints
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -264,19 +257,19 @@ packages:
     source: hosted
     version: "0.6.3"
   json_annotation:
-    dependency: "direct dev"
+    dependency: transitive
     description:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.1"
-  lints:
-    dependency: transitive
+  json_serializable:
+    dependency: "direct dev"
     description:
-      name: lints
+      name: json_serializable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "4.1.3"
   logging:
     dependency: transitive
     description:
@@ -366,6 +359,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  source_gen:
+    dependency: transitive
+    description:
+      name: source_gen
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   source_span:
     dependency: transitive
     description:

@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:flutter_testing/constants.dart';
-import 'package:flutter_testing/API/adventures.dart';
+import '/constants.dart';
+import '/API/adventures.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -22,7 +22,7 @@ class AdventureApi {
   }
 
   static Future<List<Adventure>> getAttendeeAdventures() async {
-    http.Response response = await _getAdventureAttendeesResponse("1660bd85-1c13-42c0-955c-63b1eda4e90b");
+    http.Response response = await _getAdventureAttendeesResponse("7a984756-16a5-422e-a377-89e1772dd71e");
     if (response.statusCode == 200) {
       List<Adventure>? attendeelist;
       attendeelist = (json.decode(response.body) as List)

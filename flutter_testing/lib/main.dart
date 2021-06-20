@@ -1,8 +1,8 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter_testing/API/adventureAPI.dart';
-import 'package:flutter_testing/API/adventures.dart';
+import '/API/adventureAPI.dart';
+import '/API/adventures.dart';
 
 void main() => runApp(const MyApp());
 
