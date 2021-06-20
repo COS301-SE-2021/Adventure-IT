@@ -6,14 +6,14 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-class AdventureApi {
+class BudgetApi {
 
-  static Future<List<Budget>> getBudgets(Adventure a) async {
-    List <Budget> b;
-    for(int i = 0; i <a.containers.length; i++)
+  static Future<List<Budget>> getBudgets(Adventure? a) async {
+    List <Budget> b = [];
+    for(int i = 0; i <a!.containers.length; i++)
     {
 
-      http.Response response = await _getBudgetResponse(a.containers.elementAt(i));
+      http.Response response = await _getBudgetResponse(a!.containers.elementAt(i));
       if (response.statusCode == 200) {
 
         b.add(json.decode(response.body) as Budget);
@@ -29,6 +29,6 @@ class AdventureApi {
 
   static Future<http.Response> _getBudgetResponse(budgetID) async {
 
-    return http.get(Uri.http(adventureApi, '/budget//'+budgetID));
+    return http.get(Uri.http(budgetApi, '/viewBudget/'+budgetID));
   }
 }
