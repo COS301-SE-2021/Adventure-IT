@@ -28,7 +28,7 @@ class BudgetApi {
 
 
   static Future<http.Response> _getBudgetResponse(budgetID) async {
-
-    return http.get(Uri.http(budgetApi, '/viewBudget/'+budgetID));
+    print("look!"+budgetID);
+    return http.get(Uri.http(budgetApi, '/budget/viewBudget/'+budgetID));
   }
 }
