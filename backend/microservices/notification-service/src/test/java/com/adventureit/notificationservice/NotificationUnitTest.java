@@ -8,7 +8,7 @@ import com.adventureit.notificationservice.Requests.SendEmailNotificationRequest
 import com.adventureit.notificationservice.Requests.SendEmailRequest;
 import com.adventureit.notificationservice.Responses.CreateNotificationResponse;
 import com.adventureit.notificationservice.Responses.SendEmailNotificationResponse;
-import com.adventureit.notificationservice.Service.notificationService;
+import com.adventureit.notificationservice.Service.NotificationService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -31,7 +31,7 @@ public class NotificationUnitTest {
     @Mock
     private JavaMailSender mail = Mockito.mock(JavaMailSender.class);
 
-    private notificationService notificationSUT = new notificationService(mail, mockNotificationRepository);
+    private NotificationService notificationSUT = new NotificationService(mail, mockNotificationRepository);
 
     Date date1 = new Date();
 

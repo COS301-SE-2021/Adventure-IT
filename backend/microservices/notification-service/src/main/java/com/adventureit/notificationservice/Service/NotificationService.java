@@ -20,12 +20,12 @@ import java.util.UUID;
 
 
 @Service
-public class notificationService {
+public class NotificationService {
     private final JavaMailSender mailSender;
     private final NotificationRepository repo;
 
 
-    public notificationService(JavaMailSender mailSender, NotificationRepository repo) {
+    public NotificationService(JavaMailSender mailSender, NotificationRepository repo) {
         this.mailSender = mailSender;
         this.repo = repo;
     }

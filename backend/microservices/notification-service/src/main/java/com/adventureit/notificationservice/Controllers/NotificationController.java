@@ -4,7 +4,7 @@ import com.adventureit.notificationservice.Entity.Notification;
 import com.adventureit.notificationservice.Requests.CreateNotificationRequest;
 import com.adventureit.notificationservice.Requests.RetrieveNotificationRequest;
 import com.adventureit.notificationservice.Requests.SendEmailRequest;
-import com.adventureit.notificationservice.Service.notificationService;
+import com.adventureit.notificationservice.Service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +13,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/notification")
 public class NotificationController {
-    private notificationService notification;
+    private NotificationService notification;
 
     @Autowired
-    public NotificationController(notificationService notification) {
+    public NotificationController(NotificationService notification) {
         this.notification = notification;
     }
 
