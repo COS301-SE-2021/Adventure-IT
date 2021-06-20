@@ -212,7 +212,9 @@ class Adventure_Budgets extends StatelessWidget {
                               title: Text(budgets.elementAt(index).name),
                               trailing: IconButton(
                                 icon: Icon(Icons.delete),
-                                onPressed: () {},
+                                onPressed: () {
+                                  budgetApi.
+                                },
                               ))))
                 ]),
                 floatingActionButton: FloatingActionButton(
@@ -266,12 +268,9 @@ class DeletedBudgets extends StatelessWidget {
                   ...List.generate(
                       budgets.length,
                       (index) => Card(
-                          child: ListTile(
-                              title: Text(budgets.elementAt(index).name),
-                              trailing: IconButton(
-                                icon: Icon(Icons.delete),
-                                onPressed: () {},
-                              ))))
+                              child: ListTile(
+                            title: Text(budgets.elementAt(index).name),
+                          )))
                 ]));
           } else {
             return Scaffold(
