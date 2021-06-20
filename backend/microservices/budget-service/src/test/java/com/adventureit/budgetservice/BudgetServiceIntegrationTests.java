@@ -30,4 +30,12 @@ public class BudgetServiceIntegrationTests {
     public void httpTest_returnResponse(){
         Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/budget/test", String.class),"Budget Controller is functioning");
     }
+
+    @Test
+//    @Description("Ensure that the controller is accepting traffic and responding")
+    public void http_returnResponse(){
+        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/budget/test", String.class),"Budget Controller is functioning");
+    }
+
+
 }

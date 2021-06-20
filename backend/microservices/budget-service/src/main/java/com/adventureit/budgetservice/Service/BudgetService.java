@@ -14,5 +14,7 @@ public interface BudgetService {
     public SoftDeleteResponse softDelete(SoftDeleteRequest req) throws Exception;
     public HardDeleteResponse hardDelete(HardDeleteRequest req) throws Exception;
     public ViewTrashResponse viewTrash() throws Exception;
+    public void mockPopulate();
+    public void mockCreateBudget(String name);
 
 }

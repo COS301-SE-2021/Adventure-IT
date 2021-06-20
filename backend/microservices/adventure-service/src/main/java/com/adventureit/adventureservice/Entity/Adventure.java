@@ -19,8 +19,8 @@ public class Adventure{
     private UUID ownerId;
     @ElementCollection
     private List<UUID> attendees;
-    @OneToMany
-    private List<EntryContainer> Containers;
+    @ElementCollection
+    private List<UUID> Containers;
 
 
     /**
@@ -39,6 +39,7 @@ public class Adventure{
         this.adventureId=adventureId;
         this.ownerId = ownerId;
         this.attendees = new ArrayList<UUID>();
+        this.Containers = new ArrayList<UUID>();
     }
 
     /**
@@ -85,7 +86,7 @@ public class Adventure{
      * Adventure service to retrieve adventure's Containers
      * @return Containers
      */
-    public List<EntryContainer> getContainers(){
+    public List<UUID> getContainers(){
         return Containers;
     }
 
@@ -93,8 +94,12 @@ public class Adventure{
      * Adventure service to set adventure's Containers
      * @param  containers
      */
-    public void setContainers(List<EntryContainer> containers){
+    public void setContainers(List<UUID> containers){
         this.Containers = containers;
+    }
+
+    public void addContainer(UUID container){
+        this.Containers.add(container);
     }
 
     public void addAttendee(UUID attendeeID){
