@@ -17,8 +17,8 @@ import java.util.UUID;
 public class BudgetController {
 	@Autowired
 	BudgetServiceImplementation budgetServiceImplementation;
-	@Autowired
-	BudgetRepository budgetRepository;
+//	@Autowired
+//	BudgetRepository budgetRepository;
 
 	@GetMapping("/test")
 	String test(){
@@ -43,10 +43,10 @@ public class BudgetController {
 		return "Budget Successfully created";
 	}
 
-	@GetMapping("/viewBudgetsByAdventure/{id}")
-	public List<Budget> viewBudgetsByAdventure(@PathVariable UUID id) throws Exception {
-		return budgetRepository.findAllByAdventureID(id);
-	}
+//	@GetMapping("/viewBudgetsByAdventure/{id}")
+//	public List<Budget> viewBudgetsByAdventure(@PathVariable UUID id) throws Exception {
+//		return budgetRepository.findAllByAdventureID(id);
+//	}
 
 	@GetMapping("/viewBudget/{id}")
 	public Budget viewBudget(@PathVariable UUID id) throws Exception {
