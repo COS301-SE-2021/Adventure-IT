@@ -284,6 +284,9 @@ public class BudgetServiceImplementation implements BudgetService {
         return new ViewTrashResponse(true,budgetRepository.findAllByDeletedEquals(true));
     }
 
+    /**
+     * Functions for mock purposes
+     */
     @Override
     public void mockPopulate(){
         final UUID mockBudgetID1 = UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8");
@@ -304,12 +307,26 @@ public class BudgetServiceImplementation implements BudgetService {
 
         ArrayList<BudgetEntry> mockEntries = new ArrayList<BudgetEntry>(Arrays.asList(mockEntry1,mockEntry2));
 
-        this.budgetRepository.save(new Budget(mockBudgetID1, "Mock Budget 1",mockEntries));
-        this.budgetRepository.save(new Budget(mockBudgetID2, "Mock Budget 2",mockEntries));
-        this.budgetRepository.save(new Budget(mockBudgetID3, "Mock Budget 3",mockEntries));
-        this.budgetRepository.save(new Budget(mockBudgetID4, "Mock Budget 4",mockEntries));
-        this.budgetRepository.save(new Budget(mockBudgetID5, "Mock Budget 5",mockEntries));
-        this.budgetRepository.save(new Budget(mockBudgetID6, "Mock Budget 6",mockEntries));
+        Budget budget1 = new Budget(mockBudgetID1, "Mock Budget 1",mockEntries);
+        Budget budget2 = new Budget(mockBudgetID2, "Mock Budget 2",mockEntries);
+        Budget budget3 = new Budget(mockBudgetID3, "Mock Budget 3",mockEntries);
+        Budget budget4 = new Budget(mockBudgetID4, "Mock Budget 4",mockEntries);
+        Budget budget5 = new Budget(mockBudgetID5, "Mock Budget 5",mockEntries);
+        Budget budget6 = new Budget(mockBudgetID6, "Mock Budget 6",mockEntries);
+
+        budget1.setAdvetureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
+        budget1.setAdvetureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
+        budget1.setAdvetureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
+        budget1.setAdvetureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
+        budget1.setAdvetureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
+        budget1.setAdvetureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
+
+        this.budgetRepository.save(budget1);
+        this.budgetRepository.save(budget2);
+        this.budgetRepository.save(budget3);
+        this.budgetRepository.save(budget4);
+        this.budgetRepository.save(budget5);
+        this.budgetRepository.save(budget6);
     }
 
     @Override
