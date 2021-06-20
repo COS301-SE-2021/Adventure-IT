@@ -131,6 +131,9 @@ class _Login extends State<Login> {
 }
 
 class _ViewAdventure extends State<ViewAdventure> {
+  Future<List<Adventure>>? ownerAdventures;
+  Future<List<Adventure>>? attendeeAdventures;
+  _ViewAdventure({@required this.ownerAdventures,@required this.attendeeAdventures});
 
   @override
   Widget build(BuildContext context) {
@@ -151,52 +154,65 @@ class _ViewAdventure extends State<ViewAdventure> {
             },
             child: const Text("Logout",
               textAlign: TextAlign.center,)));
-    List<Adventure>? owner;
-    List<Adventure>? attendee;
-    List <Adventure>? complete;
-    AdventureApi.getOwnerAdventures().then((result) {
-      owner = result;
-      if (owner != null) {
-        complete?.addAll(owner!);
-      }
-    });
-    AdventureApi.getAttendeeAdventures().then((result) {
-      attendee = result;
-      if (attendee != null) {
-        complete?.addAll(attendee!);
-      }
-    });
-    return Scaffold(
-      appBar: AppBar(title: const Text("Your Adventures")),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        ...List.generate(complete!.length, (index) => Text(complete.elementAt(index).name))
-                      ],
-                    ),
-                  ),
-                  backbutton,
-                  const SizedBox(
-                    height: 15.0,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+    return Column(children: <Widget>[
+      Container(
+          alignment: Alignment.center,
+          height: 100,
+          child: Text("Your Adventures",
+              style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold))),
+      Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.only(left: 20.0),
+          child: Text("Created Adventures",
+              style: TextStyle(fontSize: 20))),
+      AdventureFutureBuilder(adventuresFuture: ownerAdventures),
+      SizedBox(height: 50),
+      Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.only(left: 20.0),
+          child: Text("Shared Adventures",
+              style: TextStyle(fontSize: 20))),
+      AdventureFutureBuilder(adventuresFuture: attendeeAdventures),
+    backbutton]);
   }
   }
+
+class AdventureFutureBuilder extends StatelessWidget {
+  Future<List<Adventure>>? adventuresFuture;
+  AdventureFutureBuilder({@required this.adventuresFuture});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: adventuresFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasData) {
+            var adventures = snapshot.data as List<Adventure>;
+            print(adventures);
+            return Expanded(
+                child: ListView(children: [
+                  ...List.generate(
+                      adventures.length,
+                          (index) => Card(
+
+                          child: ListTile(
+                              trailing: Icon(Icons.more_vert),
+                              dense: true,
+                              hoverColor: Colors.blue,
+                              title: Text(adventures.elementAt(index).name))))
+                ]));
+          } else {
+            return Center(child: Text("Something went wrong"));
+          }
+        });
+  }
+}
+
+
+
+
 
 
