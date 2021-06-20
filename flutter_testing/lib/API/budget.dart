@@ -5,13 +5,13 @@ part 'budget.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Budget {
   final String id;
-  final String adventureID;
+  String name;
   final List<String> transactions;
   final String deleted;
 
 
   Budget(
-      {required this.adventureID,
+      {required this.name,
         required this.id,
         required this.transactions,
         required this.deleted});
