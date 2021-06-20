@@ -37,10 +37,11 @@ class AdventureApi {
 
   static Future<http.Response> _getAdventureAttendeesResponse(attendeeID) async {
 
+    print("here1");
     return http.get(Uri.http(adventureApi, '/adventure/attendee/'+attendeeID));
   }
   static Future<http.Response> _getAdventureOwnerResponse(ownerID) async {
-
+    print("here2");
     return http.get(Uri.http(adventureApi, '/adventure/owner/'+ownerID));
   }
 }
