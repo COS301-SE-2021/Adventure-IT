@@ -4,6 +4,18 @@ server:
 spring:
   application:
     name: ADVENTURE-SERVICE
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+
+
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:9945/mydb
+#    username: adventure_service_user
+#    password: adventure_password
 
 eureka:
   client:
