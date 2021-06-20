@@ -1,7 +1,6 @@
 package com.adventureit.adventureservice.Responses;
 
 import com.adventureit.adventureservice.Entity.Adventure;
-import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
 
 public class GetAdventureByUUIDResponse {
     private boolean success;

@@ -1,10 +1,8 @@
 package com.adventureit.adventureservice.Entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import com.adventureit.adventureservice.Entity.Entry;
 
 /**
  *
@@ -22,6 +20,13 @@ public class EntryContainer {
     private long id;
     private UUID creatorID;
     private UUID adventureID;
+    @OneToMany
+    private List<Entry> entries;
+
+    public EntryContainer(UUID adventureID, UUID creatorID){
+        this.adventureID = adventureID;
+        this.creatorID = creatorID;
+    }
 
     // Default constructor
     public EntryContainer(){}
@@ -36,8 +41,7 @@ public class EntryContainer {
 
     public long getId() {return id;}
 
-    // TODO: Remove this function, only here for demo purposes
-    public void setId(long id) {
-        this.id = id;
+    public List<Entry> getEntries(){
+        return this.entries;
     }
 }
