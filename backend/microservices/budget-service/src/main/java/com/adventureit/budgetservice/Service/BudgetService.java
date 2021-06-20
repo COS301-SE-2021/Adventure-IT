@@ -16,5 +16,6 @@ public interface BudgetService {
     public ViewTrashResponse viewTrash() throws Exception;
     public void mockPopulate();
     public void mockCreateBudget(String name);
+    public void mockPopulateTrash();
 
 }
