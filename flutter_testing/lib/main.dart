@@ -1,5 +1,4 @@
-
-
+import 'package:adventure_it/constants.dart';
 import 'package:flutter/material.dart';
 import '/API/adventureAPI.dart';
 import '/API/adventures.dart';
@@ -14,12 +13,8 @@ class MyApp extends StatelessWidget {
 
   static const String _login = 'Login';
 
-
-
   @override
   Widget build(BuildContext context) {
-
-
     return MaterialApp(
       title: _login,
       home: Scaffold(
@@ -48,14 +43,15 @@ class _Login extends State<Login> {
     String? _username;
     final emailField = TextField(
         obscureText: false,
-        onSubmitted: (String value) {_username=value; },
+        onSubmitted: (String value) {
+          _username = value;
+        },
         //style: style,
         decoration: InputDecoration(
             contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             hintText: "Username",
             border:
-            OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)))
-    );
+                OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))));
 
     final passwordField = TextField(
       obscureText: true,
@@ -64,7 +60,7 @@ class _Login extends State<Login> {
           contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Password",
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
 
     final loginButton = Material(
@@ -80,7 +76,8 @@ class _Login extends State<Login> {
             MaterialPageRoute(builder: (context) => ViewAdventure()),
           );
         },
-        child: const Text("Login",
+        child: const Text(
+          "Login",
           textAlign: TextAlign.center,
           //style: style.copyWith(
           //  color: Colors.white, fontWeight: FontWeight.bold)),
@@ -102,7 +99,7 @@ class _Login extends State<Login> {
                   SizedBox(
                     child: Image.asset(
                       "assets/adventure.PNG",
-                        scale: 1.0,
+                      scale: 1.0,
                     ),
                   ),
                   const SizedBox(height: 45.0),
@@ -125,6 +122,7 @@ class _Login extends State<Login> {
     );
   }
 }
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////viewAdventure
 class ViewAdventure extends StatefulWidget {
   const ViewAdventure({Key? key}) : super(key: key);
@@ -147,8 +145,7 @@ class _ViewAdventure extends State<ViewAdventure> {
     return MaterialApp(
         theme: Theme.of(context),
         home: Scaffold(
-            appBar: AppBar(
-                title: Text("Adventures")),
+            appBar: AppBar(title: Text("Adventures")),
             body: _AdventureList(
                 ownerAdventures: ownerAdventures,
                 attendeeAdventures: attendeeAdventures)));
@@ -158,7 +155,8 @@ class _ViewAdventure extends State<ViewAdventure> {
 class _AdventureList extends StatelessWidget {
   Future<List<Adventure>>? ownerAdventures;
   Future<List<Adventure>>? attendeeAdventures;
-  _AdventureList({@required this.ownerAdventures,@required this.attendeeAdventures});
+  _AdventureList(
+      {@required this.ownerAdventures, @required this.attendeeAdventures});
   @override
   Widget build(BuildContext context) {
     final backbutton = Material(
@@ -166,10 +164,7 @@ class _AdventureList extends StatelessWidget {
         borderRadius: BorderRadius.circular(30.0),
         color: const Color(0xff01A0C7),
         child: MaterialButton(
-            minWidth: MediaQuery
-                .of(context)
-                .size
-                .width,
+            minWidth: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {
               Navigator.push(
@@ -177,20 +172,27 @@ class _AdventureList extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => MyApp()),
               );
             },
-            child: const Text("Logout",
-              textAlign: TextAlign.center,)));
-    final checkTrash=MaterialButton(
+            child: const Text(
+              "Logout",
+              textAlign: TextAlign.center,
+            )));
+    final checkTrash = MaterialButton(
         color: Colors.blue,
         shape: CircleBorder(),
-        onPressed: () {},
+        onPressed: () {
+          Future<List<Budget>>? deletedBudgets = BudgetApi.getDeletedBudgets();
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      DeletedBudgets(budgetsFuture: deletedBudgets)));
+        },
         child: Padding(
             padding: const EdgeInsets.all(100),
             child: Text(
               'Trash',
               style: TextStyle(color: Colors.white, fontSize: 24),
-            )
-        )
-    );
+            )));
     return Column(children: <Widget>[
       Container(
           alignment: Alignment.center,
@@ -200,21 +202,22 @@ class _AdventureList extends StatelessWidget {
       Container(
           alignment: Alignment.center,
           padding: EdgeInsets.only(left: 20.0),
-          child: Text("Created Adventures",
-              style: TextStyle(fontSize: 20))),
+          child: Text("Created Adventures", style: TextStyle(fontSize: 20))),
       AdventureFutureBuilder(adventuresFuture: ownerAdventures),
       SizedBox(height: 50),
       Container(
           alignment: Alignment.center,
           padding: EdgeInsets.only(left: 20.0),
-          child: Text("Shared Adventures",
-              style: TextStyle(fontSize: 20))),
+          child: Text("Shared Adventures", style: TextStyle(fontSize: 20))),
       AdventureFutureBuilder(adventuresFuture: attendeeAdventures),
-    SizedBox(
-    height: 20,
-    ),checkTrash, backbutton]);
+      SizedBox(
+        height: 20,
+      ),
+      checkTrash,
+      backbutton
+    ]);
   }
-  }
+}
 
 class AdventureFutureBuilder extends StatelessWidget {
   Future<List<Adventure>>? adventuresFuture;
@@ -233,37 +236,40 @@ class AdventureFutureBuilder extends StatelessWidget {
             print(adventures);
             return Expanded(
                 child: ListView(children: [
-                  ...List.generate(
-                      adventures.length,
-                          (index) => Card(
-                          child: InkWell(
-                            onTap:  (){},
+              ...List.generate(
+                  adventures.length,
+                  (index) => Card(
+                      child: InkWell(
+                          onTap: () {},
                           child: ListTile(
                               trailing: IconButton(
                                   icon: Icon(Icons.more_vert),
                                   onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => ViewContainers(key,adventures.elementAt(index))),
-                                  )),
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ViewContainers(
+                                                    key,
+                                                    adventures
+                                                        .elementAt(index))),
+                                      )),
                               dense: true,
                               title: Text(adventures.elementAt(index).name)),
-                              hoverColor: Colors.blue)))
-
-
-
-          ]));
+                          hoverColor: Colors.blue)))
+            ]));
           } else {
-            return Center(child: Text("It seems you're not very adventurous..."));
+            return Center(
+                child: Text("It seems you're not very adventurous..."));
           }
         });
   }
 }
+
 ////////////////////////////////////////////////////////////////////////////////Containers
 class ViewContainers extends StatefulWidget {
   Adventure? a;
-  ViewContainers(Key? key, Adventure? a) : super(key: key)
-  {
-    this.a=a;
+  ViewContainers(Key? key, Adventure? a) : super(key: key) {
+    this.a = a;
   }
   @override
   State<ViewContainers> createState() => _ViewContainers(a);
@@ -273,11 +279,9 @@ class _ViewContainers extends State<ViewContainers> {
   Adventure? a;
   Future<List<Budget>>? BudgetsForAdventure;
 
-  _ViewContainers(Adventure? a)
-  {
-    this.a=a;
+  _ViewContainers(Adventure? a) {
+    this.a = a;
   }
-
 
   void initState() {
     super.initState();
@@ -289,17 +293,15 @@ class _ViewContainers extends State<ViewContainers> {
     return MaterialApp(
         theme: Theme.of(context),
         home: Scaffold(
-            appBar: AppBar(
-                title: Text("Items")),
-            body: _ContainerList(
-                BudgetsForAdventure: BudgetsForAdventure)));
+            appBar: AppBar(title: Text("Items")),
+            body: _ContainerList(BudgetsForAdventure: BudgetsForAdventure)));
   }
 }
 
 class _ContainerList extends StatelessWidget {
   Future<List<Budget>>? BudgetsForAdventure;
   _ContainerList({@required this.BudgetsForAdventure});
-  final makeBudget=MaterialButton(
+  final makeBudget = MaterialButton(
       color: Colors.blue,
       shape: CircleBorder(),
       onPressed: () {},
@@ -308,9 +310,7 @@ class _ContainerList extends StatelessWidget {
           child: Text(
             'Create Budget',
             style: TextStyle(color: Colors.white, fontSize: 24),
-          )
-      )
-  );
+          )));
   @override
   Widget build(BuildContext context) {
     final backbutton = Material(
@@ -318,10 +318,7 @@ class _ContainerList extends StatelessWidget {
         borderRadius: BorderRadius.circular(30.0),
         color: const Color(0xff01A0C7),
         child: MaterialButton(
-            minWidth: MediaQuery
-                .of(context)
-                .size
-                .width,
+            minWidth: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {
               Navigator.push(
@@ -329,30 +326,31 @@ class _ContainerList extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => ViewAdventure()),
               );
             },
-            child: const Text("Back To Adventures",
-              textAlign: TextAlign.center,)));
+            child: const Text(
+              "Back To Adventures",
+              textAlign: TextAlign.center,
+            )));
     return Column(children: <Widget>[
       Container(
           alignment: Alignment.center,
           padding: EdgeInsets.only(left: 20.0),
-          child: Text("Budgets",
-              style: TextStyle(fontSize: 20))),
+          child: Text("Budgets", style: TextStyle(fontSize: 20))),
       ContainerFutureBuilder(budgetFuture: BudgetsForAdventure),
       SizedBox(height: 50),
       Container(
           alignment: Alignment.center,
           padding: EdgeInsets.only(left: 20.0),
-          child: Text("Itineraries",
-              style: TextStyle(fontSize: 20))),
+          child: Text("Itineraries", style: TextStyle(fontSize: 20))),
       SizedBox(
         height: 20,
       ),
       Container(
           alignment: Alignment.center,
           padding: EdgeInsets.only(left: 20.0),
-          child: Text("Checklists",
-              style: TextStyle(fontSize: 20))),
-    makeBudget,backbutton]);
+          child: Text("Checklists", style: TextStyle(fontSize: 20))),
+      makeBudget,
+      backbutton
+    ]);
   }
 }
 
@@ -371,20 +369,21 @@ class ContainerFutureBuilder extends StatelessWidget {
           if (snapshot.hasData) {
             var budgets = snapshot.data as List<Budget>;
             print(budgets);
-            return Expanded(
-                child: ListView(children: [
-                  ...List.generate(
-                      budgets.length,
-                          (index) => Card(
-                          child: InkWell(
-                              onTap:  (){},
-                              child: ListTile(
-                                  trailing: Icon(Icons.more_vert),
-                                  dense: true,
-                                  title: Text(budgets.elementAt(index).name)),
-                              hoverColor: Colors.blue)))
-
-                ]));
+            return Column(children: [
+              Expanded(
+                  child: ListView(children: [
+                ...List.generate(
+                    budgets.length,
+                    (index) => Card(
+                        child: InkWell(
+                            onTap: () {},
+                            child: ListTile(
+                                trailing: Icon(Icons.more_vert),
+                                dense: true,
+                                title: Text(budgets.elementAt(index).name)),
+                            hoverColor: Colors.blue)))
+              ]))
+            ]);
           } else {
             return Center(child: Text("There's nothing here"));
           }
@@ -392,7 +391,12 @@ class ContainerFutureBuilder extends StatelessWidget {
   }
 }
 
+class DeletedBudgets extends StatelessWidget {
+  Future<List<Budget>>? budgetsFuture;
+  DeletedBudgets({@required this.budgetsFuture});
 
-
-
-
+  @override
+  Widget build(BuildContext context) {
+    return ContainerFutureBuilder(budgetFuture: budgetsFuture);
+  }
+}
