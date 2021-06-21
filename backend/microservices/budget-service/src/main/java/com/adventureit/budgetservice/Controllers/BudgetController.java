@@ -2,6 +2,7 @@ package com.adventureit.budgetservice.Controllers;
 
 import com.adventureit.budgetservice.Entity.Budget;
 import com.adventureit.budgetservice.Entity.BudgetEntry;
+import com.adventureit.budgetservice.Repository.BudgetRepository;
 import com.adventureit.budgetservice.Requests.*;
 import com.adventureit.budgetservice.Responses.*;
 import com.adventureit.budgetservice.Service.BudgetServiceImplementation;
@@ -16,6 +17,8 @@ import java.util.UUID;
 public class BudgetController {
 	@Autowired
 	BudgetServiceImplementation budgetServiceImplementation;
+//	@Autowired
+//	BudgetRepository budgetRepository;
 
 	@GetMapping("/test")
 	String test(){
@@ -40,6 +43,11 @@ public class BudgetController {
 		return "Budget Successfully created";
 	}
 
+//	@GetMapping("/viewBudgetsByAdventure/{id}")
+//	public List<Budget> viewBudgetsByAdventure(@PathVariable UUID id) throws Exception {
+//		return budgetRepository.findAllByAdventureID(id);
+//	}
+
 	@GetMapping("/viewBudget/{id}")
 	public Budget viewBudget(@PathVariable UUID id) throws Exception {
 		ViewBudgetRequest request = new ViewBudgetRequest(id);
@@ -54,10 +62,15 @@ public class BudgetController {
 		return "Budget successfully moved to bin.";
 	}
 
-	@GetMapping("/viewTrash")
-	public List<Budget> viewTrash() throws Exception {
-		ViewTrashResponse response = budgetServiceImplementation.viewTrash();
+	@GetMapping("/viewTrash/{id}")
+	public List<Budget> viewTrash(@PathVariable UUID id) throws Exception {
+		ViewTrashResponse response = budgetServiceImplementation.viewTrash(id);
 		return response.getBudgets();
+	}
+
+	@GetMapping("/restoreBudget/{id}")
+	public String restoreBudget(@PathVariable UUID id) throws Exception {
+		return budgetServiceImplementation.restoreBudget(id);
 	}
 
 //	@PostMapping("/create")

@@ -16,7 +16,10 @@ class BudgetApi {
       if (response.statusCode == 200) {
         print("polly");
         Map<String, dynamic> budgetMap = json.decode(response.body);
-        b.add(Budget.fromJson(budgetMap));
+        var budget = Budget.fromJson(budgetMap);
+        if (!budget.deleted) {
+          b.add(Budget.fromJson(budgetMap));
+        }
         print("in here in here in here in here in here");
       } else {
         print(response.statusCode);
@@ -41,6 +44,11 @@ class BudgetApi {
     } else {
       throw Exception('Cannot load deleted budgets');
     }
+  }
+
+  static void restoreBudget(budgetID) async {
+    print('Inside get restore budgets');
+    await _restoreBudgetRequest(budgetID);
   }
 
   static void softDeleteBudget(budgetID) async {
@@ -69,5 +77,10 @@ class BudgetApi {
   static Future<http.Response> _createBudgetRequest(budgetName) async {
     print('Inside create budget api call');
     return http.get(Uri.http(budgetApi, '/budget/mockCreate/' + budgetName));
+  }
+
+  static Future<http.Response> _restoreBudgetRequest(budgetID) async {
+    print('Inside restore budget api call');
+    return http.get(Uri.http(budgetApi, '/budget/restoreBudget/' + budgetID));
   }
 }
