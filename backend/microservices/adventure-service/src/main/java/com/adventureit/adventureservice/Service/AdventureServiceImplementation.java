@@ -155,7 +155,7 @@ public class AdventureServiceImplementation implements AdventureService {
 
         Adventure mockAdventure1 = new Adventure("Mock Adventure 1", UUID.randomUUID(), mockOwnerID);
         Adventure mockAdventure2 = new Adventure("Mock Adventure 2", UUID.randomUUID(), mockOwnerID);
-        Adventure mockAdventure3 = new Adventure("Mock Adventure 3", UUID.randomUUID(), mockOwnerID);
+        Adventure mockAdventure3 = new Adventure("Mock Adventure 3", UUID.randomUUID(), mockAttendeeID);
 
         mockAdventure1.addContainer(UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8"));
         mockAdventure1.addContainer(UUID.fromString("26356837-f076-41ec-85fa-f578df7e3717"));
@@ -166,6 +166,7 @@ public class AdventureServiceImplementation implements AdventureService {
 
         mockAdventure1.addAttendee(mockAttendeeID);
         mockAdventure2.addAttendee(mockAttendeeID);
+        mockAdventure3.addAttendee(mockOwnerID);
 
         this.adventureRepository.save(mockAdventure1);
         this.adventureRepository.save(mockAdventure2);

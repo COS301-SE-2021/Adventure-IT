@@ -28,6 +28,12 @@ class Login extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              SizedBox(
+                child: Image.asset(
+                  "assets/adventure.PNG",
+                  scale: 1.0,
+                ),
+              ),
               TextField(
                   decoration: InputDecoration(
                       border: OutlineInputBorder(), hintText: 'Email')),
