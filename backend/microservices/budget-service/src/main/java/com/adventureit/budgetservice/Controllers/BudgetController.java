@@ -62,10 +62,15 @@ public class BudgetController {
 		return "Budget successfully moved to bin.";
 	}
 
-	@GetMapping("/viewTrash")
-	public List<Budget> viewTrash() throws Exception {
-		ViewTrashResponse response = budgetServiceImplementation.viewTrash();
+	@GetMapping("/viewTrash/{id}")
+	public List<Budget> viewTrash(@PathVariable UUID id) throws Exception {
+		ViewTrashResponse response = budgetServiceImplementation.viewTrash(id);
 		return response.getBudgets();
+	}
+
+	@GetMapping("/restoreBudget/{id}")
+	public String restoreBudget(@PathVariable UUID id) throws Exception {
+		return budgetServiceImplementation.restoreBudget(id);
 	}
 
 //	@PostMapping("/create")

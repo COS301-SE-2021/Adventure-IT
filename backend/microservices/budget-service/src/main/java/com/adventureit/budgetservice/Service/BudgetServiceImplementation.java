@@ -64,7 +64,7 @@ public class BudgetServiceImplementation implements BudgetService {
      */
     @Override
     public ViewBudgetResponse viewBudget(ViewBudgetRequest req) throws Exception {
-        if(budgetRepository.findBudgetByIdAndDeletedEquals(req.getId(),false) == null){
+        if(budgetRepository.findBudgetById(req.getId()) == null){
             throw new Exception("Budget does not exist.");
         }
         if(req.getId() == null){
@@ -280,8 +280,19 @@ public class BudgetServiceImplementation implements BudgetService {
      * the request was successful or if an error occurred and return all Budget objects in the trash
      */
     @Override
-    public ViewTrashResponse viewTrash() throws Exception {
-        return new ViewTrashResponse(true,budgetRepository.findAllByDeletedEquals(true));
+    public ViewTrashResponse viewTrash(UUID id) throws Exception {
+        return new ViewTrashResponse(true,budgetRepository.findAllByAdventureIDAndDeletedEquals(id,true));
+    }
+
+    public String restoreBudget(UUID id) throws Exception {
+        if(budgetRepository.findBudgetById(id) == null){
+            throw new Exception("Budget does not exist.");
+        }
+
+        Budget budget = budgetRepository.findBudgetById(id);
+        budget.setDeleted(false);
+        budgetRepository.save(budget);
+        return "Budget was restored";
     }
 
     /**
@@ -343,6 +354,10 @@ public class BudgetServiceImplementation implements BudgetService {
         budget2.setDeleted(true);
         budget3.setDeleted(true);
 
+        budget1.setAdvetureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
+        budget2.setAdvetureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
+        budget3.setAdvetureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
+
         this.budgetRepository.save(budget1);
         this.budgetRepository.save(budget2);
         this.budgetRepository.save(budget3);
@@ -351,6 +366,8 @@ public class BudgetServiceImplementation implements BudgetService {
     @Override
     public void mockCreateBudget(String name){
         final UUID mockBudgetID = UUID.fromString("4f5c23e8-b552-47ae-908c-859e9cb94580");
-        budgetRepository.save(new Budget(mockBudgetID,name,new ArrayList<BudgetEntry>()));
+        Budget budget = new Budget(mockBudgetID,name,new ArrayList<BudgetEntry>());
+        budget.setAdvetureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
+        budgetRepository.save(budget);
     }
 }
