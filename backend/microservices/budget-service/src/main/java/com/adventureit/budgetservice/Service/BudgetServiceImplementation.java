@@ -323,11 +323,11 @@ public class BudgetServiceImplementation implements BudgetService {
         Budget budget6 = new Budget(mockBudgetID6, "Mock Budget 6",mockEntries);
 
         budget1.setAdventureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
-        budget1.setAdventureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
-        budget1.setAdventureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
-        budget1.setAdventureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
-        budget1.setAdventureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
-        budget1.setAdventureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
+        budget2.setAdventureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
+        budget3.setAdventureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
+        budget4.setAdventureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
+        budget5.setAdventureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
+        budget6.setAdventureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
 
         this.budgetRepository.save(budget1);
         this.budgetRepository.save(budget2);
