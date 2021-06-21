@@ -23,7 +23,7 @@ class AdventureApi {
 
   static Future<List<Adventure>> getAdventuresByAttendee() async {
     http.Response response =
-        await _getAdventuresByAttendee("7a984756-16a5-422e-a377-89e1772dd71e");
+        await _getAdventuresByAttendee("1660bd85-1c13-42c0-955c-63b1eda4e90b");
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load list of adventures: ${response.body}');
