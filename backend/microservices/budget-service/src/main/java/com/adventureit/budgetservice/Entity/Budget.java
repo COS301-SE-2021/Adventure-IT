@@ -13,6 +13,8 @@ public class Budget {
     @ManyToMany (fetch=FetchType.EAGER)
     List<BudgetEntry> transactions;
     boolean deleted;
+    UUID adventureID;
+
 
     /**
      * Default Constructor
@@ -66,6 +68,16 @@ public class Budget {
     public boolean isDeleted() {
         return deleted;
     }
+
+
+    public UUID getAdventureID() {
+        return adventureID;
+    }
+
+    public void setAdventureID(UUID adventureID) {
+        this.adventureID = adventureID;
+    }
+
 
     /**
      * Helper functions
