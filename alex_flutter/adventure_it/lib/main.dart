@@ -209,7 +209,7 @@ class Adventure_Budgets extends StatelessWidget {
             var budgets = snapshot.data as List<Budget>;
             return Scaffold(
                 appBar: AppBar(
-                    title: Text('Budgets for ' + adventure.name),
+                    title: Text('Budgets'),
                     leading: IconButton(
                         onPressed: () {
                           Navigator.pop(context);
@@ -241,6 +241,15 @@ class Adventure_Budgets extends StatelessWidget {
                 child: Text("Create Budget"),
                 onPressed: () {
                   BudgetApi.createBudget("New Budget");
+
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Adventure_Budgets(
+                              budgetsFuture: budgetsFuture,
+                              adventure: this.adventure)));
+                  ;
+
                 }))]),
                 floatingActionButton: FloatingActionButton(
                     onPressed: () {
