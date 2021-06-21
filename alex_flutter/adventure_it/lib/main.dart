@@ -213,7 +213,18 @@ class Adventure_Budgets extends StatelessWidget {
                               trailing: IconButton(
                                 icon: Icon(Icons.delete),
                                 onPressed: () {
-                                  budgetApi.
+                                  BudgetApi.softDeleteBudget(
+                                      budgets.elementAt(index).id);
+                                  budgets.remove(budgets.elementAt(index));
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Adventure_Budgets(
+                                                  budgetsFuture:
+                                                      Future.value(budgets),
+                                                  adventureName:
+                                                      this.adventureName)));
                                 },
                               ))))
                 ]),
@@ -225,7 +236,9 @@ class Adventure_Budgets extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => DeletedBudgets(
-                                  budgetsFuture: deletedBudgets)));
+                                    budgetsFuture: deletedBudgets,
+                                    adventureName: this.adventureName,
+                                  )));
                     },
                     child: Icon(Icons.delete)));
           } else {
@@ -244,7 +257,8 @@ class Adventure_Budgets extends StatelessWidget {
 
 class DeletedBudgets extends StatelessWidget {
   Future<List<Budget>> budgetsFuture;
-  DeletedBudgets({required this.budgetsFuture});
+  String adventureName;
+  DeletedBudgets({required this.budgetsFuture, required this.adventureName});
 
   @override
   Widget build(BuildContext context) {
@@ -258,7 +272,7 @@ class DeletedBudgets extends StatelessWidget {
             var budgets = snapshot.data as List<Budget>;
             return Scaffold(
                 appBar: AppBar(
-                    title: Text('Deleted Budgets'),
+                    title: Text('Deleted Budgets for ' + this.adventureName),
                     leading: IconButton(
                         onPressed: () {
                           Navigator.pop(context);
@@ -268,9 +282,11 @@ class DeletedBudgets extends StatelessWidget {
                   ...List.generate(
                       budgets.length,
                       (index) => Card(
-                              child: ListTile(
-                            title: Text(budgets.elementAt(index).name),
-                          )))
+                          child: ListTile(
+                              title: Text(budgets.elementAt(index).name),
+                              trailing: IconButton(
+                                  icon: Icon(Icons.restore_outlined),
+                                  onPressed: () {}))))
                 ]));
           } else {
             return Scaffold(
