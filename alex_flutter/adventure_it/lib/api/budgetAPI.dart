@@ -29,10 +29,10 @@ class BudgetApi {
     return b;
   }
 
-  static Future<List<Budget>> getDeletedBudgets() async {
+  static Future<List<Budget>> getDeletedBudgets(adventureId) async {
     print('Inside get deleted budgets');
     List<Budget> b = [];
-    http.Response response = await _getDeletedBudgetsResponse();
+    http.Response response = await _getDeletedBudgetsResponse(adventureId);
     print('get deleted budgets api call successful');
     if (response.statusCode == 200) {
       print('response code: 200, mapping response: ' + response.body);
@@ -64,9 +64,9 @@ class BudgetApi {
     return http.get(Uri.http(budgetApi, '/budget/viewBudget/' + budgetID));
   }
 
-  static Future<http.Response> _getDeletedBudgetsResponse() async {
+  static Future<http.Response> _getDeletedBudgetsResponse(adventureId) async {
     print('Inside get deleted budgets api call');
-    return http.get(Uri.http(budgetApi, '/budget/viewTrash/'));
+    return http.get(Uri.http(budgetApi, '/budget/viewTrash/' + adventureId));
   }
 
   static Future<http.Response> _deleteBudgetRequest(budgetID) async {

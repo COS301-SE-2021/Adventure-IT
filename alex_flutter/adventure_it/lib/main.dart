@@ -37,20 +37,20 @@ class Login extends StatelessWidget {
               SizedBox(
                 width: 400.0,
                 child: TextField(
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(), hintText: 'Email')),
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(), hintText: 'Email')),
               ),
               SizedBox(
                 width: 400.0,
                 child: TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(), hintText: 'Password')),
+                    obscureText: true,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(), hintText: 'Password')),
               ),
               ElevatedButton(
                   child: Text("Log In"),
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => HomepageStartupCaller()),
@@ -85,7 +85,9 @@ class HomePage extends State<HomepageStartupCaller> {
                 title: Text("Home Page"),
                 leading: IconButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => Login()));
+                      ;
                     },
                     icon: const Icon(Icons.logout))),
             body: HomePage_Pages(
@@ -134,15 +136,13 @@ class HomePage_Pages_Adventures extends StatelessWidget {
       Container(
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.only(left: 20.0),
-          child: Text("Created Adventures",
-              style: TextStyle(fontSize: 20))),
+          child: Text("Created Adventures", style: TextStyle(fontSize: 20))),
       AdventureFutureBuilder(adventuresFuture: ownerAdventuresFuture),
       SizedBox(height: 50),
       Container(
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.only(left: 20.0),
-          child: Text("Shared Adventures",
-              style: TextStyle(fontSize: 20))),
+          child: Text("Shared Adventures", style: TextStyle(fontSize: 20))),
       AdventureFutureBuilder(adventuresFuture: attendeeAdventuresFuture),
     ]);
   }
@@ -176,7 +176,7 @@ class AdventureFutureBuilder extends StatelessWidget {
                               Future<List<Budget>> budgetsFuture =
                                   BudgetApi.getBudgets(
                                       adventures.elementAt(index));
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => Adventure_Budgets(
@@ -215,47 +215,53 @@ class Adventure_Budgets extends StatelessWidget {
                           Navigator.pop(context);
                         },
                         icon: Icon(Icons.arrow_back))),
-                body: Stack( children: <Widget> [ListView(children: [
-                  ...List.generate(
-                      budgets.length,
-                      (index) => Card(
-                          child: ListTile(
-                              title: Text(budgets.elementAt(index).name),
-                              trailing: IconButton(
-                                icon: Icon(Icons.delete),
-                                onPressed: () {
-                                  BudgetApi.softDeleteBudget(
-                                      budgets.elementAt(index).id);
-                                  budgets.remove(budgets.elementAt(index));
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              Adventure_Budgets(
-                                                  budgetsFuture:
-                                                      Future.value(budgets),
-                                                  adventure: this.adventure)));
-                                },
-                              ))))
-                ]), Align(alignment: Alignment.bottomCenter,child:ElevatedButton(
-                child: Text("Create Budget"),
-                onPressed: () {
-                  BudgetApi.createBudget("New Budget");
+                body: Stack(children: <Widget>[
+                  ListView(children: [
+                    ...List.generate(
+                        budgets.length,
+                        (index) => Card(
+                            child: ListTile(
+                                title: Text(budgets.elementAt(index).name),
+                                trailing: IconButton(
+                                  icon: Icon(Icons.delete),
+                                  onPressed: () {
+                                    BudgetApi.softDeleteBudget(
+                                        budgets.elementAt(index).id);
+                                    budgets.remove(budgets.elementAt(index));
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Adventure_Budgets(
+                                                    budgetsFuture:
+                                                        Future.value(budgets),
+                                                    adventure:
+                                                        this.adventure)));
+                                  },
+                                ))))
+                  ]),
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: ElevatedButton(
+                          child: Text("Create Budget"),
+                          onPressed: () {
+                            BudgetApi.createBudget("New Budget");
 
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Adventure_Budgets(
-                              budgetsFuture: budgetsFuture,
-                              adventure: this.adventure)));
-                  ;
-
-                }))]),
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Adventure_Budgets(
+                                        budgetsFuture: budgetsFuture,
+                                        adventure: this.adventure)));
+                            ;
+                          }))
+                ]),
                 floatingActionButton: FloatingActionButton(
                     onPressed: () {
                       Future<List<Budget>>? deletedBudgets =
-                          BudgetApi.getDeletedBudgets();
-                      Navigator.push(
+                          BudgetApi.getDeletedBudgets(
+                              this.adventure.adventureId);
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => DeletedBudgets(
@@ -295,7 +301,7 @@ class DeletedBudgets extends StatelessWidget {
             var budgets = snapshot.data as List<Budget>;
             return Scaffold(
                 appBar: AppBar(
-                    title: Text('Deleted Budgets'),
+                    title: Text('Recycle Bin for ' + this.adventure.name),
                     leading: IconButton(
                         onPressed: () {
                           Future<List<Budget>> budgetsFuture2 =

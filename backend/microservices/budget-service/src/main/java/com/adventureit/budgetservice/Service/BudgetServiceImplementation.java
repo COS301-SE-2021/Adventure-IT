@@ -281,7 +281,7 @@ public class BudgetServiceImplementation implements BudgetService {
      */
     @Override
     public ViewTrashResponse viewTrash(UUID id) throws Exception {
-        return new ViewTrashResponse(true,budgetRepository.findAllByAdventureIDAndDeletedEquals(id,true));
+        return new ViewTrashResponse(true,budgetRepository.findAllByDeletedEquals(true));
     }
 
     public String restoreBudget(UUID id) throws Exception {
