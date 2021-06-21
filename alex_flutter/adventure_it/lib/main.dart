@@ -212,7 +212,11 @@ class Adventure_Budgets extends StatelessWidget {
                     title: Text('Budgets'),
                     leading: IconButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      HomepageStartupCaller()));
                         },
                         icon: Icon(Icons.arrow_back))),
                 body: Stack(children: <Widget>[
