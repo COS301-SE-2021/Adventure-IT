@@ -50,6 +50,13 @@ public class BudgetServiceIntegrationTests {
         Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/budget/mockCreate/{name}", String.class,"Budget 1"),"Budget Successfully created");
     }
 
+//    @Test
+//    @Description("Ensure that the create function works")
+//    public void httpView_returnResponse(){
+//        UUID budgetID = UUID.randomUUID();
+//        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/budget/mockCreate/{id}", Budget.class, budgetID).getId(),budgetID);
+//    }
+
     @Test
     @Description("Ensure that the view function works")
     public void httpView_returnResponse(){

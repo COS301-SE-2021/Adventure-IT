@@ -15,6 +15,7 @@ public class Budget {
     boolean deleted;
     UUID adventureID;
 
+
     /**
      * Default Constructor
      */
@@ -68,6 +69,7 @@ public class Budget {
         return deleted;
     }
 
+
     public UUID getAdventureID() {
         return adventureID;
     }
@@ -75,6 +77,7 @@ public class Budget {
     public void setAdventureID(UUID adventureID) {
         this.adventureID = adventureID;
     }
+
 
     /**
      * Helper functions

@@ -295,9 +295,6 @@ public class BudgetServiceImplementation implements BudgetService {
         return "Budget was restored";
     }
 
-    /**
-     * Functions for mock purposes
-     */
     @Override
     public void mockPopulate(){
         final UUID mockBudgetID1 = UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8");
@@ -338,6 +335,7 @@ public class BudgetServiceImplementation implements BudgetService {
         this.budgetRepository.save(budget4);
         this.budgetRepository.save(budget5);
         this.budgetRepository.save(budget6);
+
     }
 
     @Override
