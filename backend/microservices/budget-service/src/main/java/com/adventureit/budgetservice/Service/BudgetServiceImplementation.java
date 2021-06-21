@@ -295,9 +295,6 @@ public class BudgetServiceImplementation implements BudgetService {
         return "Budget was restored";
     }
 
-    /**
-     * Functions for mock purposes
-     */
     @Override
     public void mockPopulate(){
         final UUID mockBudgetID1 = UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8");
@@ -325,12 +322,12 @@ public class BudgetServiceImplementation implements BudgetService {
         Budget budget5 = new Budget(mockBudgetID5, "Mock Budget 5",mockEntries);
         Budget budget6 = new Budget(mockBudgetID6, "Mock Budget 6",mockEntries);
 
-        budget1.setAdvetureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
-        budget1.setAdvetureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
-        budget1.setAdvetureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
-        budget1.setAdvetureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
-        budget1.setAdvetureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
-        budget1.setAdvetureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
+        budget1.setAdventureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
+        budget2.setAdventureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
+        budget3.setAdventureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
+        budget4.setAdventureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
+        budget5.setAdventureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
+        budget6.setAdventureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
 
         this.budgetRepository.save(budget1);
         this.budgetRepository.save(budget2);
@@ -338,6 +335,7 @@ public class BudgetServiceImplementation implements BudgetService {
         this.budgetRepository.save(budget4);
         this.budgetRepository.save(budget5);
         this.budgetRepository.save(budget6);
+
     }
 
     @Override
@@ -354,9 +352,9 @@ public class BudgetServiceImplementation implements BudgetService {
         budget2.setDeleted(true);
         budget3.setDeleted(true);
 
-        budget1.setAdvetureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
-        budget2.setAdvetureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
-        budget3.setAdvetureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
+        budget1.setAdventureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
+        budget2.setAdventureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
+        budget3.setAdventureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
 
         this.budgetRepository.save(budget1);
         this.budgetRepository.save(budget2);
@@ -367,7 +365,7 @@ public class BudgetServiceImplementation implements BudgetService {
     public void mockCreateBudget(String name){
         final UUID mockBudgetID = UUID.fromString("4f5c23e8-b552-47ae-908c-859e9cb94580");
         Budget budget = new Budget(mockBudgetID,name,new ArrayList<BudgetEntry>());
-        budget.setAdvetureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
+        budget.setAdventureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
         budgetRepository.save(budget);
     }
 }
