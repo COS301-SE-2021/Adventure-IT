@@ -13,7 +13,7 @@ public class Budget {
     @ManyToMany (fetch=FetchType.EAGER)
     List<BudgetEntry> transactions;
     boolean deleted;
-    UUID AdventureID;
+    UUID adventureID;
 
     /**
      * Default Constructor
@@ -68,12 +68,12 @@ public class Budget {
         return deleted;
     }
 
-    public UUID getAdvetureID() {
-        return AdventureID;
+    public UUID getAdventureID() {
+        return adventureID;
     }
 
-    public void setAdvetureID(UUID advetureID) {
-        AdventureID = advetureID;
+    public void setAdventureID(UUID adventureID) {
+        this.adventureID = adventureID;
     }
 
     /**
