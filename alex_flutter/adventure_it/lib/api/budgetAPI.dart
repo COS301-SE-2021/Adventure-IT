@@ -47,6 +47,10 @@ class BudgetApi {
     await _deleteBudgetRequest(budgetID);
   }
 
+  static void createBudget(budgetName) async {
+    await _createBudgetRequest(budgetName);
+  }
+
   static Future<http.Response> _getBudgetResponse(budgetID) async {
     print("look!" + budgetID);
     return http.get(Uri.http(budgetApi, '/budget/viewBudget/' + budgetID));
@@ -60,5 +64,10 @@ class BudgetApi {
   static Future<http.Response> _deleteBudgetRequest(budgetID) async {
     print('Inside delete budget api call');
     return http.get(Uri.http(budgetApi, '/budget/softDelete/' + budgetID));
+  }
+
+  static Future<http.Response> _createBudgetRequest(budgetName) async {
+    print('Inside create budget api call');
+    return http.get(Uri.http(budgetApi, '/budget/mockCreate/' + budgetName));
   }
 }

@@ -122,14 +122,14 @@ class HomePage_Pages_Adventures extends StatelessWidget {
       Container(
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.only(left: 20.0),
-          child: Text("adventures I have created",
+          child: Text("Created Adventures",
               style: TextStyle(fontSize: 20))),
       AdventureFutureBuilder(adventuresFuture: ownerAdventuresFuture),
       SizedBox(height: 50),
       Container(
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.only(left: 20.0),
-          child: Text("adventures I am attending",
+          child: Text("Shared Adventures",
               style: TextStyle(fontSize: 20))),
       AdventureFutureBuilder(adventuresFuture: attendeeAdventuresFuture),
     ]);
@@ -204,7 +204,7 @@ class Adventure_Budgets extends StatelessWidget {
                           Navigator.pop(context);
                         },
                         icon: Icon(Icons.arrow_back))),
-                body: ListView(children: [
+                body: Stack( children: <Widget> [ListView(children: [
                   ...List.generate(
                       budgets.length,
                       (index) => Card(
@@ -227,7 +227,11 @@ class Adventure_Budgets extends StatelessWidget {
                                                       this.adventureName)));
                                 },
                               ))))
-                ]),
+                ]), Align(alignment: Alignment.bottomCenter,child:ElevatedButton(
+                child: Text("Create Budget"),
+                onPressed: () {
+                  BudgetApi.createBudget("New Budget");
+                }))]),
                 floatingActionButton: FloatingActionButton(
                     onPressed: () {
                       Future<List<Budget>>? deletedBudgets =
@@ -272,7 +276,7 @@ class DeletedBudgets extends StatelessWidget {
             var budgets = snapshot.data as List<Budget>;
             return Scaffold(
                 appBar: AppBar(
-                    title: Text('Deleted Budgets for ' + this.adventureName),
+                    title: Text('Deleted Budgets'),
                     leading: IconButton(
                         onPressed: () {
                           Navigator.pop(context);
