@@ -1,10 +1,8 @@
 package com.adventureit.userservice.Service;
 
 import com.adventureit.userservice.Entities.User;
-import com.adventureit.userservice.Exceptions.InvalidRequestException;
-import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
-import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
-import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
+import com.adventureit.userservice.Exceptions.*;
+import com.adventureit.userservice.Repository.UserRepository;
 import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
@@ -16,7 +14,7 @@ import java.util.regex.Pattern;
 
 @Service("UserServiceImplementation")
 public class UserServiceImplementation implements UserService {
-
+    private UserRepository repo;
     /**
      *
      * @param req
@@ -41,7 +39,7 @@ public class UserServiceImplementation implements UserService {
      * registration was successful or if an error occurred
      */
     @Override
-    public RegisterUserResponse RegisterUser(RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPasswordException, InvalidUserPhoneNumberException, InvalidRequestException {
+    public RegisterUserResponse RegisterUser(RegisterUserRequest req) {
 
         /*Exception handling for invalid Request*/
         if(req==null){
@@ -98,12 +96,11 @@ public class UserServiceImplementation implements UserService {
      */
     public GetUserByUUIDResponse GetUserByUUID(GetUserByUUIDRequest req){
         UUID userId = req.getUserID();
-        String name = "Kevin";
-        String surname = "Potter";
-        String email = "u19024143@tuks.co.za";
-        String password = "AstrongPassword123!!";
-        String phoneNum = "0794083122";
-        User newUser = new User(userId,name,surname,email,password,phoneNum);
+        User newUser = repo.getUserByUserID(userId);
+
+        if(newUser == null) {
+            throw new InvalidUserException("User does not exist - user is not registered as an Adventure-IT member");
+        }
         return new GetUserByUUIDResponse(true, newUser);
     }
 

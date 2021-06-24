@@ -1,6 +1,6 @@
 package com.adventureit.userservice.Exceptions;
 
-public class UserExceptions extends Exception{
+public class UserExceptions extends RuntimeException {
 
     /**
      * Constructs a new user exception with {@code null} as its detail message.

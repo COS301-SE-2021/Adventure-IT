@@ -1,18 +1,31 @@
-name: Backend - Java CI with Maven (TESTING sprint_Three_MainController only)
+name: Backend - Java CI with Maven
 
 on:
+  push:
+    branches: 
+    - master
+    - development
+    - sprint*
+    - Sprint*
   workflow_dispatch:
-
+  
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
+      - name: Get Repository
+        uses: actions/checkout@v2
       - name: Set Up JDK 11
         uses: actions/setup-java@v2
         with:
-          java-version: "11"
-          distribution: "adopt"
+          java-version: '11'
+          distribution: 'adopt'
       - name: Build with Maven
-        working-directory: backend
-        run: mvn --batch-mode test
+        
+        working-directory: backend/
+        run: |
+          chmod +x ./mvnw
+          ./mvnw --batch-mode test
+          
+        
