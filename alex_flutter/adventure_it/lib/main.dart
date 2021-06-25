@@ -18,6 +18,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: ThemeData(), home: Login());
+        textColor: Color(0xffA7AAB9);
+        lightBackground: Color(0xff808080);
+        medBackground: Color(0xff484D64);
+        darkBackground: Color(0xff323647);
+        swatch: Color(0xff6A7AC7);
   }
 }
 
