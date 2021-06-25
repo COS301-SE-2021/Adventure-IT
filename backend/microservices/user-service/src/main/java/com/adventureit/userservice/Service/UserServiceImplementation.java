@@ -4,9 +4,14 @@ import com.adventureit.userservice.Entities.User;
 import com.adventureit.userservice.Exceptions.*;
 import com.adventureit.userservice.Repository.UserRepository;
 import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
+import com.adventureit.userservice.Requests.LoginUserRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
+import com.adventureit.userservice.Responses.LoginUserDTO;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -14,6 +19,11 @@ import java.util.regex.Pattern;
 
 @Service("UserServiceImplementation")
 public class UserServiceImplementation implements UserService {
+
+
+
+
+    @Autowired
     private UserRepository repo;
     /**
      *
@@ -76,10 +86,12 @@ public class UserServiceImplementation implements UserService {
             throw new InvalidUserPhoneNumberException("User phone number is incorrect - Unable to process registration");
         }
         //TODO Decide on password encryption method
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(15);
+        String passwordHashed = passwordEncoder.encode(password);
 
         /*New User has been created*/
-        User newUser = new User(userId,firstName,lastName,email,password,phoneNum);
-
+        User newUser = new User(userId,firstName,lastName,email,passwordHashed,phoneNum);
+        repo.save(newUser);
         return new RegisterUserResponse(true,"200 OK" ,"User "+firstName+" "+lastName+" successfully Registered");
     }
 
@@ -104,5 +116,11 @@ public class UserServiceImplementation implements UserService {
         return new GetUserByUUIDResponse(true, newUser);
     }
 
+
+    public LoginUserDTO LoginUser(LoginUserRequest req){
+
+
+        return null;
+    }
 
 }
