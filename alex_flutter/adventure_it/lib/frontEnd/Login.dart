@@ -30,13 +30,17 @@ class Login extends StatelessWidget {
                 width: 400.0,
                 child: TextField(
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(), hintText: 'Email')),
+                        filled: true,
+                        fillColor: Theme.of(context).primaryColorLight,
+                        border: OutlineInputBorder(), hintText: 'Username')),
               ),
               SizedBox(
                 width: 400.0,
                 child: TextField(
                     obscureText: true,
                     decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Theme.of(context).primaryColorLight,
                         border: OutlineInputBorder(), hintText: 'Password')),
               ),
               ElevatedButton(
