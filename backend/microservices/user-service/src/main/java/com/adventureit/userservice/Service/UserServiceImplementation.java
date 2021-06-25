@@ -128,6 +128,10 @@ public class UserServiceImplementation implements UserService {
         if(user.equals(null)){
             /*throw user does not exist exception*/
         }
+        else if(!passwordEncoder.matches(password, user.getPassword())){
+            /*password spelt incorrectly*/
+        }
+
 
 
 
