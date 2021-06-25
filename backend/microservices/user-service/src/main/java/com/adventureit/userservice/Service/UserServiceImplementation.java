@@ -118,6 +118,20 @@ public class UserServiceImplementation implements UserService {
 
 
     public LoginUserDTO LoginUser(LoginUserRequest req){
+        String email = req.getEmail();
+        String password = req.getPassword();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(15);
+
+
+        assert repo != null;
+        User user = repo.getUserByEmail(email);
+        if(user.equals(null)){
+            /*throw user does not exist exception*/
+        }
+
+
+
+
 
 
         return null;
