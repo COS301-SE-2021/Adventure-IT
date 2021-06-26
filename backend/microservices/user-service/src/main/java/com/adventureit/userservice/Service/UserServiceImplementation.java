@@ -10,6 +10,9 @@ import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
 import com.adventureit.userservice.Responses.LoginUserDTO;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,7 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service("UserServiceImplementation")
-public class UserServiceImplementation implements UserService {
+public class UserServiceImplementation implements UserDetailsService {
 
 
 
@@ -53,7 +56,7 @@ public class UserServiceImplementation implements UserService {
      * @return RegisterUserResponse Object which will indicate whether
      * registration was successful or if an error occurred
      */
-    @Override
+
     public RegisterUserResponse RegisterUser(RegisterUserRequest req) {
 
         /*Exception handling for invalid Request*/
@@ -140,4 +143,8 @@ public class UserServiceImplementation implements UserService {
         return null;
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return null;
+    }
 }
