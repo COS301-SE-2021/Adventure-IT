@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           textSelectionTheme: TextSelectionThemeData(selectionColor: Color(0xffA7AAB9)),
           textTheme: TextTheme(
             bodyText1: TextStyle(color: Color(0xffA7AAB9)),
-            bodyText2: TextStyle(color:Color(0xff323647))
+            bodyText2: TextStyle(color:Color(0xff20222D))
           )),
         home: Login());
   }
