@@ -16,14 +16,15 @@ class Login extends StatelessWidget {
     return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(title: Center(child: Text("Login")), backgroundColor: Theme.of(context).primaryColorDark),
-        body: Column(
+        body: Center(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(
                 child: Image.asset(
                   "assets/adventure.PNG",
-                  scale: 1.0,
+                  scale: 2.0,
                 ),
               ),
               SizedBox(
@@ -45,6 +46,10 @@ class Login extends StatelessWidget {
               ),
               ElevatedButton(
                   child: Text("Log In"),
+                  style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).primaryColor,
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  ),
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
@@ -52,6 +57,7 @@ class Login extends StatelessWidget {
                           builder: (context) => HomepageStartupCaller()),
                     );
                   })
-            ]));
+            ])
+        ));
   }
 }
