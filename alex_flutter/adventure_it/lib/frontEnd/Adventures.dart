@@ -11,12 +11,10 @@ import 'Budgets.dart';
 import '../api/budget.dart';
 
 class HomePage_Pages extends StatelessWidget {
-  Future<List<Adventure>>? ownerAdventuresFuture;
-  Future<List<Adventure>>? attendeeAdventuresFuture;
+  Future<List<Adventure>>? adventuresFuture;
 
   HomePage_Pages(
-      {@required this.ownerAdventuresFuture,
-        @required this.attendeeAdventuresFuture});
+      {@required this.adventuresFuture,});
   @override
   Widget build(BuildContext context) {
     final PageController controller = PageController(initialPage: 0);
@@ -25,18 +23,15 @@ class HomePage_Pages extends StatelessWidget {
         controller: controller,
         children: <Widget>[
           HomePage_Pages_Adventures(
-              ownerAdventuresFuture: ownerAdventuresFuture,
-              attendeeAdventuresFuture: attendeeAdventuresFuture),
+              adventuresFuture: adventuresFuture),
         ]);
   }
 }
 
 class HomePage_Pages_Adventures extends StatelessWidget {
-  Future<List<Adventure>>? ownerAdventuresFuture;
-  Future<List<Adventure>>? attendeeAdventuresFuture;
+  Future<List<Adventure>>? adventuresFuture;
   HomePage_Pages_Adventures(
-      {@required this.ownerAdventuresFuture,
-        @required this.attendeeAdventuresFuture});
+      {@required this.adventuresFuture});
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
@@ -48,7 +43,12 @@ class HomePage_Pages_Adventures extends StatelessWidget {
       Container(
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.only(left: 20.0),),
-      AdventureFutureBuilder(adventuresFuture: ownerAdventuresFuture),
+      AdventureFutureBuilder(adventuresFuture: adventuresFuture),
+      Container(
+          decoration: BoxDecoration(
+              color: Theme.of(context).accentColor,
+              shape: BoxShape.circle
+      ), child:IconButton(onPressed: (){}, icon: const Icon(Icons.add), color: Theme.of(context).primaryColorDark))
     ]);
   }
 }
@@ -65,39 +65,82 @@ class AdventureFutureBuilder extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator( valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor)));
           }
-          if (snapshot.hasData) {
+          if (snapshot.hasData)
+          {
             var adventures = snapshot.data as List<Adventure>;
             print(adventures);
-            return Expanded(
+            if(adventures.length>0)
+            {
+              return Expanded(
                 child: ListView(children: [
                   ...List.generate(
                       adventures.length,
-                          (index) => Card(
-                            child:Ink(
-                              color: Theme.of(context).primaryColorDark,
-                          child: ListTile(
-                            leading: CircleAvatar(),
-                              title: Text(adventures.elementAt(index).name, style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
-                             // subtitle:Text(adventures.elementAt(index).description),
-                              trailing: IconButton(
-                                icon: Icon(Icons.more_vert),
-                                onPressed: () {
-                                  Future<List<Budget>> budgetsFuture =
-                                  BudgetApi.getBudgets(
-                                      adventures.elementAt(index));
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Adventure_Budgets(
-                                              budgetsFuture: budgetsFuture,
-                                              adventure:
-                                              adventures.elementAt(index))));
-                                },
-                              )))))
-                ]));
-          } else {
-            return Center(child: Text("Something went wrong"));
+                          (index) =>
+                              Card(
+                                child: InkWell(
+                                  hoverColor: Theme.of(context).primaryColorLight,
+                                    onTap: () {
+                                      Future<List<Budget>> budgetsFuture =
+                                      BudgetApi.getBudgets(
+                                          adventures.elementAt(index));
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Adventure_Budgets(
+                                                  budgetsFuture: budgetsFuture,
+                                                  adventure:
+                                                  adventures.elementAt(index))));
+                                    },
+                                child: Container(
+                                  decoration: new BoxDecoration(
+                                      color: Theme.of(context).primaryColorDark
+                                  ),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        flex: 1,
+                                        child: Container(
+                                          height:90,
+                                          child: CircleAvatar(
+                                            radius: 50,
+                                            backgroundImage: AssetImage('assets/adventure.PNG'),
+                                          ),
+                                          decoration: new BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: new Border.all(
+                                              color: Theme.of(context).accentColor,
+                                              width: 3.0,
+                                            ),
+                                          ),
+                                        ),
+                                        ),
+                                      Expanded(
+                                        flex: 4,
+                                        child: ListTile(
+                                          title: Text(adventures.elementAt(index).name, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Theme.of(context).textTheme.bodyText1!.color)),
+                                          // subtitle:Text(adventures.elementAt(index).description),
+                                          subtitle: Text("Subtitle subtitle subtitle subtitle subtitle subtitle subtitle subtitle", style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Text("Date", style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
+                                        ),
+                                    ],
+                                  ),
+                              ))))]));
+
+            }
+            else
+            {
+              return Center(child: Text("It seems you're not very adventurous...", style: TextStyle(fontSize: 30, color:Theme.of(context).textTheme.bodyText1!.color)));
+            }
           }
-        });
+          else
+          {
+            return Center(child: Text("Something went wrong",style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)));
+          }
+        }
+    );
   }
 }
