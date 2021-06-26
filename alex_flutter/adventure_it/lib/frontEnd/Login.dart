@@ -28,6 +28,7 @@ class Login extends StatelessWidget {
                   scale: 2.0,
                 ),
               ),
+              SizedBox(height: 50),
               SizedBox(
                 width: 400.0,
                 child: TextField(
@@ -36,6 +37,7 @@ class Login extends StatelessWidget {
                         fillColor: Theme.of(context).primaryColorLight,
                         border: OutlineInputBorder(), hintText: 'Username')),
               ),
+              SizedBox(height: 20),
               SizedBox(
                 width: 400.0,
                 child: TextField(
@@ -45,6 +47,7 @@ class Login extends StatelessWidget {
                         fillColor: Theme.of(context).primaryColorLight,
                         border: OutlineInputBorder(), hintText: 'Password')),
               ),
+              SizedBox(height: 20),
               ElevatedButton(
                   child: Text("Log In"),
                   style: ElevatedButton.styleFrom(
@@ -58,11 +61,12 @@ class Login extends StatelessWidget {
                           builder: (context) => HomepageStartupCaller()),
                     );
                   }),
+              SizedBox(height: 50),
               RichText(
                 text: new TextSpan(
                   children: [
                   new TextSpan(
-                    text: 'Don\'t have an account?',
+                    text: 'Don\'t have an account?  ',
                     style: new TextStyle(color: Colors.black),
                   ),
                 new TextSpan(
