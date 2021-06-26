@@ -48,7 +48,7 @@ public class AdventureServiceImplementation implements AdventureService {
      * registration was successful or if an error occurred
      */
     @Override
-    public CreateAdventureResponse createAdventure(CreateAdventureRequest req) throws NullFieldException {
+    public CreateAdventureResponse createAdventure(CreateAdventureRequest req) {
         if(req.getOwnerId() == null ){
             throw new NullFieldException("Create Adventure Request: Owner Id NULL");
         }
