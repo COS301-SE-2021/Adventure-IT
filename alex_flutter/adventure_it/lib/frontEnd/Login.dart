@@ -4,6 +4,7 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:flutter/gestures.dart';
 
 import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
@@ -56,8 +57,26 @@ class Login extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => HomepageStartupCaller()),
                     );
-                  })
-            ])
-        ));
+                  }),
+              RichText(
+                text: new TextSpan(
+                  children: [
+                  new TextSpan(
+                    text: 'Don\'t have an account?',
+                    style: new TextStyle(color: Colors.black),
+                  ),
+                new TextSpan(
+                  text: 'Register here!',
+                  style: new TextStyle(color: Colors.blue),
+                  recognizer: new TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomepageStartupCaller()),
+                    );
+                  })])
+              )]
+        )));
   }
 }
