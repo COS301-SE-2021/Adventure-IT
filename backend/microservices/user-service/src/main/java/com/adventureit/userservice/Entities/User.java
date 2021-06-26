@@ -1,11 +1,13 @@
 package com.adventureit.userservice.Entities;
 
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
+@Table(name="User")
 public class User {
 
     @Id
@@ -16,7 +18,7 @@ public class User {
     private String email;
     private String password;
     private String phoneNumber;
-    private UserType type;
+
 
 
 
@@ -37,9 +39,8 @@ public class User {
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.type = UserType.USER;
-    }
 
+    }
 
     /**
      * Default constructor for User Model
@@ -48,9 +49,7 @@ public class User {
 
     }
 
-    public UserType getType() {
-        return type;
-    }
+
 
     /**
      * User service to retrieve users User ID
