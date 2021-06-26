@@ -10,13 +10,16 @@ import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
+import 'Register.dart';
 
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBar: AppBar(title: Center(child: Text("Login")), backgroundColor: Theme.of(context).primaryColorDark),
+        appBar: AppBar(title: Center(child: Text("Login",
+          style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)
+        )), backgroundColor: Theme.of(context).primaryColorDark),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +52,8 @@ class Login extends StatelessWidget {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                  child: Text("Log In"),
+                  child: Text("Log In",
+                    style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                   style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).primaryColor,
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
@@ -67,17 +71,17 @@ class Login extends StatelessWidget {
                   children: [
                   new TextSpan(
                     text: 'Don\'t have an account?  ',
-                    style: new TextStyle(color: Colors.black),
+                    style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color),
                   ),
                 new TextSpan(
                   text: 'Register here!',
-                  style: new TextStyle(color: Colors.blue),
+                  style: new TextStyle(color: Theme.of(context).accentColor),
                   recognizer: new TapGestureRecognizer()
                   ..onTap = () {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => HomepageStartupCaller()),
+                          builder: (context) => RegisterCaller()),
                     );
                   })])
               )]
