@@ -109,9 +109,8 @@ public class UserServiceImplementation implements UserService {
     public GetUserByUUIDResponse GetUserByUUID(GetUserByUUIDRequest req){
         UUID userId = req.getUserID();
         User newUser = repo.getUserByUserID(userId);
-
         if(newUser == null) {
-            throw new InvalidUserException("User does not exist - user is not registered as an Adventure-IT member");
+            throw new UserDoesNotExistException("User does not exist - user is not registered as an Adventure-IT member");
         }
         return new GetUserByUUIDResponse(true, newUser);
     }
@@ -125,17 +124,12 @@ public class UserServiceImplementation implements UserService {
 
         assert repo != null;
         User user = repo.getUserByEmail(email);
-        if(user.equals(null)){
-            /*throw user does not exist exception*/
+        if(user==null){
+            throw new UserDoesNotExistException("User with email: "+email+" does not exist");
         }
         else if(!passwordEncoder.matches(password, user.getPassword())){
-            /*password spelt incorrectly*/
+            throw new InvalidUserPasswordException("User password does not match email");
         }
-
-
-
-
-
 
 
         return null;

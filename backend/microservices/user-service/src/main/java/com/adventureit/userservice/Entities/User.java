@@ -16,6 +16,9 @@ public class User {
     private String email;
     private String password;
     private String phoneNumber;
+    private UserType type;
+
+
 
     /**
      * User model Constructor which takes in the following parameters:
@@ -34,13 +37,19 @@ public class User {
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
+        this.type = UserType.USER;
     }
+
 
     /**
      * Default constructor for User Model
      */
     public User() {
 
+    }
+
+    public UserType getType() {
+        return type;
     }
 
     /**
