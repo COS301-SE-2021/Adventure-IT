@@ -26,13 +26,6 @@ class Register extends State<RegisterCaller> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                    child: Image.asset(
-                      "assets/adventure.PNG",
-                      scale: 2.0,
-                    ),
-                  ),
-                  SizedBox(height: 50),
-                  SizedBox(
                     width: 400.0,
                     child: TextField(
                         decoration: InputDecoration(
@@ -62,6 +55,24 @@ class Register extends State<RegisterCaller> {
                   SizedBox(
                     width: 400.0,
                     child: TextField(
+                        decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Theme.of(context).primaryColorLight,
+                            border: OutlineInputBorder(), hintText: 'Email')),
+                  ),
+                  SizedBox(height: 20),
+                  SizedBox(
+                    width: 400.0,
+                    child: TextField(
+                        decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Theme.of(context).primaryColorLight,
+                            border: OutlineInputBorder(), hintText: 'Phone number')),
+                  ),
+                  SizedBox(height: 20),
+                  SizedBox(
+                    width: 400.0,
+                    child: TextField(
                         obscureText: true,
                         decoration: InputDecoration(
                             filled: true,
@@ -70,7 +81,7 @@ class Register extends State<RegisterCaller> {
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
-                      child: Text("Log In",
+                      child: Text("Register",
                           style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                       style: ElevatedButton.styleFrom(
                         primary: Theme.of(context).primaryColor,
