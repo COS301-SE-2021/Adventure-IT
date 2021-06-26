@@ -1,12 +1,11 @@
 package com.adventureit.adventureservice.Controllers;
 
 import com.adventureit.adventureservice.Entity.Adventure;
+import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
+import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.Service.AdventureServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -42,6 +41,11 @@ public class AdventureController {
     @GetMapping("/attendee/{id}")
     public List<Adventure> getAdventuresByAttendeeUUID(@PathVariable UUID id){
         return adventureServiceImplementation.getAdventureByAttendeeUUID(id).getAdventures();
+    }
+
+    @PostMapping("/create")
+    public CreateAdventureResponse createAdventure(@RequestBody CreateAdventureRequest req){
+        return adventureServiceImplementation.createAdventure(req);
     }
 
 

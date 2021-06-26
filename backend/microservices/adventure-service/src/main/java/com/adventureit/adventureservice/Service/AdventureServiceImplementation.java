@@ -59,7 +59,9 @@ public class AdventureServiceImplementation implements AdventureService {
             throw new NullFieldException("Create Adventure Request: Adventure Name NULL");
         }
         Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(), req.getId(), req.getOwnerId()));
-        return new CreateAdventureResponse(true);
+        CreateAdventureResponse response = new CreateAdventureResponse(true);
+        response.setAdventure(persistedAdventure);
+        return response;
     }
 
     /**
