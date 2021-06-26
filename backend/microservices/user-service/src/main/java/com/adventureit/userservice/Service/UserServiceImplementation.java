@@ -23,8 +23,13 @@ public class UserServiceImplementation implements UserService {
 
 
 
+    private final UserRepository repo;
+
     @Autowired
-    private UserRepository repo;
+    public UserServiceImplementation(UserRepository repo) {
+        this.repo = repo;
+    }
+
     /**
      *
      * @param req
