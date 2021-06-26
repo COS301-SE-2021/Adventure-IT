@@ -27,8 +27,6 @@ class HomePage_Pages extends StatelessWidget {
           HomePage_Pages_Adventures(
               ownerAdventuresFuture: ownerAdventuresFuture,
               attendeeAdventuresFuture: attendeeAdventuresFuture),
-          Text("Some Other Page 1"),
-          Text("Some Other Page 2")
         ]);
   }
 }
@@ -46,18 +44,11 @@ class HomePage_Pages_Adventures extends StatelessWidget {
           alignment: Alignment.center,
           height: 100,
           child: Text("Adventures",
-              style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold))),
+              style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyText1!.color))),
       Container(
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.only(left: 20.0),
-          child: Text("Created Adventures", style: TextStyle(fontSize: 20))),
+          padding: EdgeInsets.only(left: 20.0),),
       AdventureFutureBuilder(adventuresFuture: ownerAdventuresFuture),
-      SizedBox(height: 50),
-      Container(
-          alignment: Alignment.centerLeft,
-          padding: EdgeInsets.only(left: 20.0),
-          child: Text("Shared Adventures", style: TextStyle(fontSize: 20))),
-      AdventureFutureBuilder(adventuresFuture: attendeeAdventuresFuture),
     ]);
   }
 }
@@ -72,7 +63,7 @@ class AdventureFutureBuilder extends StatelessWidget {
         future: adventuresFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator( valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor)));
           }
           if (snapshot.hasData) {
             var adventures = snapshot.data as List<Adventure>;
@@ -82,8 +73,12 @@ class AdventureFutureBuilder extends StatelessWidget {
                   ...List.generate(
                       adventures.length,
                           (index) => Card(
+                            child:Ink(
+                              color: Theme.of(context).primaryColorDark,
                           child: ListTile(
-                              title: Text(adventures.elementAt(index).name),
+                            leading: CircleAvatar(),
+                              title: Text(adventures.elementAt(index).name, style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
+                             // subtitle:Text(adventures.elementAt(index).description),
                               trailing: IconButton(
                                 icon: Icon(Icons.more_vert),
                                 onPressed: () {
@@ -98,7 +93,7 @@ class AdventureFutureBuilder extends StatelessWidget {
                                               adventure:
                                               adventures.elementAt(index))));
                                 },
-                              ))))
+                              )))))
                 ]));
           } else {
             return Center(child: Text("Something went wrong"));
