@@ -17,7 +17,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(), home: Login());
+        theme:  ThemeData(
+    primaryColorLight: Color(0xff808080),
+    primaryColorDark: Color(0xff484D64),
+    scaffoldBackgroundColor: Color(0xff323647),
+    accentColor: Color(0xff6A7AC7),
+    textSelectionTheme: TextSelectionThemeData(selectionColor: Color(0xffA7AAB9)),
+        textTheme: TextTheme(
+          bodyText1: TextStyle(color: Color(0xffA7AAB9)),
+          bodyText2: TextStyle(color:Color(0xff323647))
+        )),
+        home: Login());
   }
 }
 
