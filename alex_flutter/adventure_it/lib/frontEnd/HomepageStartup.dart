@@ -32,8 +32,9 @@ class HomePage extends State<HomepageStartupCaller> {
         theme: Theme.of(context),
         home: Scaffold(
             appBar: AppBar(
+                backgroundColor: Theme.of(context).primaryColorDark,
                 centerTitle: true,
-                title: Text("Home Page"),
+                title: Text("Adventure-IT"),
                 leading: IconButton(
                     onPressed: () {
                       Navigator.pushReplacement(context,
