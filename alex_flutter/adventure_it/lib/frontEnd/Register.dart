@@ -38,6 +38,24 @@ class Register extends State<RegisterCaller> {
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).primaryColorLight,
+                            border: OutlineInputBorder(), hintText: 'First name')),
+                  ),
+                  SizedBox(height: 20),
+                  SizedBox(
+                    width: 400.0,
+                    child: TextField(
+                        decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Theme.of(context).primaryColorLight,
+                            border: OutlineInputBorder(), hintText: 'Last name')),
+                  ),
+                  SizedBox(height: 20),
+                  SizedBox(
+                    width: 400.0,
+                    child: TextField(
+                        decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Username')),
                   ),
                   SizedBox(height: 20),
