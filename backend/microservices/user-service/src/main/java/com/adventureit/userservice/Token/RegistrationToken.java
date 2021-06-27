@@ -29,8 +29,8 @@ public class RegistrationToken {
     @ManyToOne
     private User user;
 
-    public RegistrationToken(UUID id, String token, LocalDateTime timeCreated, LocalDateTime timeExpires, LocalDateTime timeConfirmed, User user) {
-        this.id = id;
+    public RegistrationToken( String token, LocalDateTime timeCreated, LocalDateTime timeExpires, LocalDateTime timeConfirmed, User user) {
+
         this.token = token;
         this.timeCreated = timeCreated;
         this.timeExpires = timeExpires;

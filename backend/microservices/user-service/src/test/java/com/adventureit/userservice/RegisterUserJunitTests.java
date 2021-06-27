@@ -5,6 +5,7 @@ import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
+import com.adventureit.userservice.Repository.RegistrationTokenRepository;
 import com.adventureit.userservice.Repository.UserRepository;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
@@ -23,8 +24,11 @@ public class RegisterUserJunitTests {
     @Mock
     UserRepository repo;
 
+    @Mock
+    RegistrationTokenRepository tokenRepo;
 
-    private UserServiceImplementation user = new UserServiceImplementation(repo);
+
+    private UserServiceImplementation user = new UserServiceImplementation(repo,tokenRepo);
     /**
      * Generate mock data to handle Junit testing with
      * Mock data includes:

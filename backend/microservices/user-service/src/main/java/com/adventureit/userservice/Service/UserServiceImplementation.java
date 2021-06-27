@@ -2,6 +2,7 @@ package com.adventureit.userservice.Service;
 
 import com.adventureit.userservice.Entities.User;
 import com.adventureit.userservice.Exceptions.*;
+import com.adventureit.userservice.Repository.RegistrationTokenRepository;
 import com.adventureit.userservice.Repository.UserRepository;
 import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
 import com.adventureit.userservice.Requests.LoginUserRequest;
@@ -9,6 +10,7 @@ import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
 import com.adventureit.userservice.Responses.LoginUserDTO;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
+import com.adventureit.userservice.Token.RegistrationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +18,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,10 +31,12 @@ public class UserServiceImplementation implements UserDetailsService {
 
     private  BCryptPasswordEncoder encoder;
     private final UserRepository repo;
+    private final RegistrationTokenRepository tokenrepo;
 
     @Autowired
-    public UserServiceImplementation(UserRepository repo) {
+    public UserServiceImplementation(UserRepository repo, RegistrationTokenRepository tokenrepo) {
         this.repo = repo;
+        this.tokenrepo = tokenrepo;
     }
 
     /**
@@ -104,7 +110,22 @@ public class UserServiceImplementation implements UserDetailsService {
         /*New User has been created*/
         User newUser = new User(userId,username,firstName,lastName,email,passwordHashed,phoneNum);
         repo.save(newUser);
-        return new RegisterUserResponse(true,"200 OK" ,"User "+firstName+" "+lastName+" successfully Registered");
+
+        String token = UUID.randomUUID().toString();
+        RegistrationToken regToken = new RegistrationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(30),
+                null,
+                newUser);
+
+        tokenrepo.save(regToken);
+
+
+
+
+
+        return new RegisterUserResponse(true,regToken ,"User "+firstName+" "+lastName+" successfully Registered");
     }
 
     /**
@@ -151,4 +172,8 @@ public class UserServiceImplementation implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return null;
     }
+
+
+
+
 }

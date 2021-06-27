@@ -1,9 +1,11 @@
 package com.adventureit.userservice.Responses;
 
+import com.adventureit.userservice.Token.RegistrationToken;
+
 public class RegisterUserResponse {
     private boolean success;
     private String message;
-    private String token;
+    private RegistrationToken token;
 
     /**
      * RegisterUserResponse constructor which takes the following parameters:
@@ -11,7 +13,7 @@ public class RegisterUserResponse {
      * @param token
      * @param message
      */
-    public RegisterUserResponse(boolean success,String token, String message) {
+    public RegisterUserResponse(boolean success, RegistrationToken token, String message) {
         this.success = success;
         this.message = message;
         this.token =token;
@@ -38,7 +40,7 @@ public class RegisterUserResponse {
      * RegisterUserResponse service to retrieve response token
      * @return token
      */
-    public String getToken() {
+    public RegistrationToken getToken() {
         return token;
     }
 
@@ -55,7 +57,7 @@ public class RegisterUserResponse {
      * RegisterUserResponse service to set response token
      * @param token
      */
-    public void setToken(String token) {
+    public void setToken(RegistrationToken token) {
         this.token = token;
     }
 
