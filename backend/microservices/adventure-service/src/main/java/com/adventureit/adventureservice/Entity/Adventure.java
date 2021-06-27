@@ -4,6 +4,7 @@ package com.adventureit.adventureservice.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +22,8 @@ public class Adventure{
     private List<UUID> attendees;
     @ElementCollection
     private List<UUID> Containers;
+    private LocalDate date;
+    private String description;
 
 
     /**
@@ -34,12 +37,14 @@ public class Adventure{
      * @param adventureId
      * @param ownerId
      */
-    public Adventure(String name, UUID adventureId, UUID ownerId){
+    public Adventure(String name, String description, UUID adventureId, UUID ownerId, LocalDate date){
         this.name=name;
+        this.description = description;
         this.adventureId=adventureId;
         this.ownerId = ownerId;
         this.attendees = new ArrayList<UUID>();
         this.Containers = new ArrayList<UUID>();
+        this.date = date;
     }
 
     /**
@@ -110,4 +115,11 @@ public class Adventure{
         return this.attendees;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }
