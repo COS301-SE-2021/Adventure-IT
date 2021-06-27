@@ -18,6 +18,7 @@ public class User {
     private String email;
     private String password;
     private String phoneNumber;
+    private Boolean enabled = false;
 
 
 
@@ -51,6 +52,14 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     /**

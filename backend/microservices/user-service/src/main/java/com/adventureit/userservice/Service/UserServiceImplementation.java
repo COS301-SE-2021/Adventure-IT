@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -173,7 +174,29 @@ public class UserServiceImplementation implements UserDetailsService {
         return null;
     }
 
+    public String confirmToken(String token){
+        RegistrationToken regToken = tokenrepo.findByToken(token);
 
+        if(regToken == null){
+            /*Throw token not found*/
+        }
+
+        if(regToken.getTimeConfirmed()!=null){
+            /*throw email already confirmed*/
+        }
+
+        LocalDateTime expiredAt = regToken.getTimeExpires();
+
+        if (expiredAt.isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("token expired");
+        }
+
+
+        tokenrepo.updateConfirmedAt(regToken.getToken(), LocalDateTime.now());
+        regToken.getUser().setEnabled(true);
+
+        return "confirmed";
+    }
 
 
 }
