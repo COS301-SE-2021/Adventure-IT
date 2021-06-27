@@ -12,7 +12,12 @@ import 'HomepageStartup.dart';
 import '../api/budget.dart';
 import 'Register.dart';
 
-class Login extends StatelessWidget {
+class LoginCaller extends StatefulWidget {
+  @override
+  Login createState() => Login();
+}
+
+class Login extends State<LoginCaller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

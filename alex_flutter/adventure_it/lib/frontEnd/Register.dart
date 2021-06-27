@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
+import 'Login.dart';
 
 class RegisterCaller extends StatefulWidget {
   @override
@@ -99,18 +100,18 @@ class Register extends State<RegisterCaller> {
                       text: new TextSpan(
                           children: [
                             new TextSpan(
-                              text: 'Don\'t have an account?  ',
+                              text: 'Already have an account?  ',
                               style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color),
                             ),
                             new TextSpan(
-                                text: 'Register here!',
+                                text: 'Login here!',
                                 style: new TextStyle(color: Theme.of(context).accentColor),
                                 recognizer: new TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => HomepageStartupCaller()),
+                                          builder: (context) => LoginCaller()),
                                     );
                                   })])
                   )]

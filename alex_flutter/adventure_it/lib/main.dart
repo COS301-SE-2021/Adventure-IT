@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
             bodyText1: TextStyle(color: Color(0xffA7AAB9)),
             bodyText2: TextStyle(color:Color(0xff323647))
           )),
-        home: Login());
+        home: LoginCaller());
   }
 }
 
