@@ -10,13 +10,21 @@ import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
+import 'Register.dart';
 
-class Login extends StatelessWidget {
+class LoginCaller extends StatefulWidget {
+  @override
+  Login createState() => Login();
+}
+
+class Login extends State<LoginCaller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBar: AppBar(title: Center(child: Text("Login")), backgroundColor: Theme.of(context).primaryColorDark),
+        appBar: AppBar(title: Center(child: Text("Login",
+          style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)
+        )), backgroundColor: Theme.of(context).primaryColorDark),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +46,6 @@ class Login extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10),
-
               SizedBox(
                 width: 400.0,
                 child: TextField(
@@ -63,7 +70,8 @@ class Login extends StatelessWidget {
               ),
               SizedBox(height: 10),
               ElevatedButton(
-                  child: Text("Log In"),
+                  child: Text("Log In",
+                    style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                   style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).accentColor,
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
@@ -80,18 +88,18 @@ class Login extends StatelessWidget {
                 text: new TextSpan(
                   children: [
                   new TextSpan(
-                    text: 'Don\'t have an account?',
+                    text: 'Don\'t have an account?  ',
                     style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color),
                   ),
                 new TextSpan(
-                  text: ' Register here!',
+                  text: 'Register here!',
                   style: new TextStyle(color: Theme.of(context).accentColor),
                   recognizer: new TapGestureRecognizer()
                   ..onTap = () {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => HomepageStartupCaller()),
+                          builder: (context) => RegisterCaller()),
                     );
                   })])
               )]
