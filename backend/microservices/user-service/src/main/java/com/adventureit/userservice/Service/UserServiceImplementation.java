@@ -25,7 +25,7 @@ public class UserServiceImplementation implements UserDetailsService {
 
 
 
-
+    private  BCryptPasswordEncoder encoder;
     private final UserRepository repo;
 
     @Autowired
@@ -69,6 +69,7 @@ public class UserServiceImplementation implements UserDetailsService {
         String email = req.getEmail();
         String password = req.getPassword();
         String phoneNum = req.getPhoneNum();
+        String username = req.getUsername();
         /*generate Regex for email, password and phone number*/
         String emailRegex = "^(.+)@(.+)$";
         String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–{}:;',?/*~$^+=<>]).{8,20}$";
@@ -93,12 +94,15 @@ public class UserServiceImplementation implements UserDetailsService {
         if(!phoneNumMatcher.matches()){
             throw new InvalidUserPhoneNumberException("User phone number is incorrect - Unable to process registration");
         }
+        if(repo.getUserByEmail(email)!=null){
+            throw new InvalidRequestException("User already exists");
+        }
         //TODO Decide on password encryption method
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(15);
-        String passwordHashed = passwordEncoder.encode(password);
+
+        String passwordHashed = encoder.encode(password);
 
         /*New User has been created*/
-        User newUser = new User(userId,firstName,lastName,email,passwordHashed,phoneNum);
+        User newUser = new User(userId,username,firstName,lastName,email,passwordHashed,phoneNum);
         repo.save(newUser);
         return new RegisterUserResponse(true,"200 OK" ,"User "+firstName+" "+lastName+" successfully Registered");
     }

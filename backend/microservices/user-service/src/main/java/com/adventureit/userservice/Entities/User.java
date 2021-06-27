@@ -12,7 +12,7 @@ public class User {
 
     @Id
     private UUID userID;
-
+    private String username;
     private String firstname;
     private String lastname;
     private String email;
@@ -32,14 +32,14 @@ public class User {
      * @param phoneNumber
      */
 
-    public User(UUID userID, String firstname, String lastname, String email, String password, String phoneNumber) {
+    public User(UUID userID,String username, String firstname, String lastname, String email, String password, String phoneNumber) {
         this.userID = userID;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
-
+        this.username = username;
     }
 
     /**
@@ -49,7 +49,9 @@ public class User {
 
     }
 
-
+    public String getUsername() {
+        return username;
+    }
 
     /**
      * User service to retrieve users User ID
