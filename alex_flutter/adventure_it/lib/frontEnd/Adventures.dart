@@ -77,9 +77,12 @@ class AdventureFutureBuilder extends StatelessWidget {
                       adventures.length,
                           (index) =>
                               Card(
-                                child: InkWell(
-                                  hoverColor: Theme.of(context).primaryColorLight,
-                                    onTap: () {
+                                color: Theme.of(context).primaryColorDark,
+                                child: InkWell
+                                  (
+                                    hoverColor: Theme.of(context).primaryColorLight,
+                                    onTap: ()
+                                    {
                                       Future<List<Budget>> budgetsFuture =
                                       BudgetApi.getBudgets(
                                           adventures.elementAt(index));
@@ -91,15 +94,13 @@ class AdventureFutureBuilder extends StatelessWidget {
                                                   adventure:
                                                   adventures.elementAt(index))));
                                     },
-                                child: Container(
-                                  decoration: new BoxDecoration(
-                                      color: Theme.of(context).primaryColorDark
-                                  ),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        flex: 1,
-                                        child: Container(
+                                    child: Container
+                                      (
+                                      child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 1,
+                                          child: Container(
                                           height:90,
                                           child: CircleAvatar(
                                             radius: 50,
@@ -114,17 +115,17 @@ class AdventureFutureBuilder extends StatelessWidget {
                                           ),
                                         ),
                                         ),
-                                      Expanded(
-                                        flex: 4,
-                                        child: ListTile(
-                                          title: Text(adventures.elementAt(index).name, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Theme.of(context).textTheme.bodyText1!.color)),
-                                          // subtitle:Text(adventures.elementAt(index).description),
-                                          subtitle: Text("Subtitle subtitle subtitle subtitle subtitle subtitle subtitle subtitle", style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
+                                        Expanded(
+                                          flex: 4,
+                                          child: ListTile(
+                                            title: Text(adventures.elementAt(index).name, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Theme.of(context).textTheme.bodyText1!.color)),
+                                            // subtitle:Text(adventures.elementAt(index).description),
+                                            subtitle: Text("Subtitle subtitle subtitle subtitle subtitle subtitle subtitle subtitle", style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
                                         ),
                                       ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Text("Date", style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Text("Date", style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
                                         ),
                                     ],
                                   ),
