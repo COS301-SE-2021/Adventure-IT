@@ -74,7 +74,7 @@ public class AdventureServiceImplementation implements AdventureService {
      * @return returns a GetAdventureByUUID response which currently is a set adventure for testing purposes
      */
     @Override
-    public GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req) throws Exception{
+    public GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req) {
 
         if(req.getId() == null){
             throw new NullFieldException("Get Adventure By UUID Request: Adventure ID NULL");
