@@ -6,14 +6,12 @@ import com.adventureit.adventureservice.Exceptions.AdventureNotFoundException;
 import com.adventureit.adventureservice.Repository.AdventureRepository;
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
-import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
+import com.adventureit.adventureservice.Responses.*;
 import com.adventureit.adventureservice.Exceptions.NullFieldException;
-import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
-import com.adventureit.adventureservice.Responses.GetAdventuresByUserUUIDResponse;
-import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,7 +46,7 @@ public class AdventureServiceImplementation implements AdventureService {
      * registration was successful or if an error occurred
      */
     @Override
-    public CreateAdventureResponse createAdventure(CreateAdventureRequest req) throws NullFieldException {
+    public CreateAdventureResponse createAdventure(CreateAdventureRequest req) {
         if(req.getOwnerId() == null ){
             throw new NullFieldException("Create Adventure Request: Owner Id NULL");
         }
@@ -59,7 +57,9 @@ public class AdventureServiceImplementation implements AdventureService {
             throw new NullFieldException("Create Adventure Request: Adventure Name NULL");
         }
         Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(), req.getId(), req.getOwnerId()));
-        return new CreateAdventureResponse(true);
+        CreateAdventureResponse response = new CreateAdventureResponse(true);
+        response.setAdventure(persistedAdventure);
+        return response;
     }
 
     /**
@@ -74,7 +74,7 @@ public class AdventureServiceImplementation implements AdventureService {
      * @return returns a GetAdventureByUUID response which currently is a set adventure for testing purposes
      */
     @Override
-    public GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req) throws Exception{
+    public GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req) {
 
         if(req.getId() == null){
             throw new NullFieldException("Get Adventure By UUID Request: Adventure ID NULL");
@@ -146,6 +146,16 @@ public class AdventureServiceImplementation implements AdventureService {
         }
         return new GetAdventuresByUserUUIDResponse(userAdventures);
 
+    }
+
+    @Transactional
+    public RemoveAdventureResponse removeAdventure(UUID id){
+        Adventure retrievedAdventure = adventureRepository.findAdventureByAdventureId(id);
+        if(retrievedAdventure == null){
+            throw new AdventureNotFoundException("Remove Adventure: Adventure not found");
+        }
+        adventureRepository.deleteAdventureByAdventureId(id);
+        return new RemoveAdventureResponse(true, "Adventure successfully removed");
     }
 
     @Override

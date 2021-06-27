@@ -30,37 +30,50 @@ class Login extends State<LoginCaller> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(
-                child: Image.asset(
-                  "assets/adventure.PNG",
-                  scale: 2.0,
+              Container(
+                width: 500,
+                height: 250,
+                child: CircleAvatar(
+                  radius: 90,
+                  backgroundImage: ExactAssetImage('assets/adventure.PNG'),
+                ),
+                decoration: new BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: new Border.all(
+                    color: Theme.of(context).accentColor,
+                    width: 3.0,
+                  ),
                 ),
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 10),
               SizedBox(
                 width: 400.0,
                 child: TextField(
+                    style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
                     decoration: InputDecoration(
+                        hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
                         filled: true,
                         fillColor: Theme.of(context).primaryColorLight,
-                        border: OutlineInputBorder(), hintText: 'Username')),
+                        focusedBorder: OutlineInputBorder( borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Username')),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               SizedBox(
                 width: 400.0,
                 child: TextField(
+                    style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
                     obscureText: true,
                     decoration: InputDecoration(
+                        hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
                         filled: true,
                         fillColor: Theme.of(context).primaryColorLight,
-                        border: OutlineInputBorder(), hintText: 'Password')),
+                        focusedBorder: OutlineInputBorder(borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Password')),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               ElevatedButton(
                   child: Text("Log In",
                     style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                   style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
+                    primary: Theme.of(context).accentColor,
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                   ),
                   onPressed: () {
@@ -70,7 +83,7 @@ class Login extends State<LoginCaller> {
                           builder: (context) => HomepageStartupCaller()),
                     );
                   }),
-              SizedBox(height: 50),
+              SizedBox(height: 10),
               RichText(
                 text: new TextSpan(
                   children: [

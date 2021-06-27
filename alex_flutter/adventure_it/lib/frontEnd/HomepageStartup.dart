@@ -17,13 +17,11 @@ class HomepageStartupCaller extends StatefulWidget {
 }
 
 class HomePage extends State<HomepageStartupCaller> {
-  Future<List<Adventure>>? ownerAdventuresFuture;
-  Future<List<Adventure>>? attendeeAdventuresFuture;
+  Future<List<Adventure>>? adventuresFuture;
 
   void initState() {
     super.initState();
-    ownerAdventuresFuture = AdventureApi.getAdventuresByOwner();
-    attendeeAdventuresFuture = AdventureApi.getAdventuresByAttendee();
+    adventuresFuture = AdventureApi.getAdventuresByOwner();
   }
 
   @override
@@ -43,7 +41,6 @@ class HomePage extends State<HomepageStartupCaller> {
                     },
                     icon: const Icon(Icons.logout))),
             body: HomePage_Pages(
-                ownerAdventuresFuture: ownerAdventuresFuture,
-                attendeeAdventuresFuture: attendeeAdventuresFuture)));
+              adventuresFuture: adventuresFuture,)));
   }
 }
