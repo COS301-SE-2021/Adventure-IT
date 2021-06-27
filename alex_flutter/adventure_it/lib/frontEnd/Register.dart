@@ -34,7 +34,7 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'First name')),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   SizedBox(
                     width: 400.0,
                     child: TextField(
@@ -43,7 +43,7 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Last name')),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   SizedBox(
                     width: 400.0,
                     child: TextField(
@@ -52,7 +52,7 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Username')),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   SizedBox(
                     width: 400.0,
                     child: TextField(
@@ -61,7 +61,7 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Email')),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   SizedBox(
                     width: 400.0,
                     child: TextField(
@@ -70,7 +70,7 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Phone number')),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   SizedBox(
                     width: 400.0,
                     child: TextField(
@@ -80,12 +80,12 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Password')),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   ElevatedButton(
                       child: Text("Register",
                           style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                       style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor,
+                        primary: Theme.of(context).accentColor,
                         padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                       ),
                       onPressed: () {
@@ -95,7 +95,7 @@ class Register extends State<RegisterCaller> {
                               builder: (context) => HomepageStartupCaller()),
                         );
                       }),
-                  SizedBox(height: 50),
+                  SizedBox(height: 10),
                   RichText(
                       text: new TextSpan(
                           children: [
