@@ -21,7 +21,7 @@ class HomePage extends State<HomepageStartupCaller> {
 
   void initState() {
     super.initState();
-    adventuresFuture = AdventureApi.getAdventuresByOwner();
+    adventuresFuture = AdventureApi.getAdventuresByUUID();
   }
 
   @override

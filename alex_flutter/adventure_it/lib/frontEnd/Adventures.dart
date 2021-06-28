@@ -65,6 +65,7 @@ class AdventureFutureBuilder extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator( valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor)));
           }
+          print(snapshot.data);
           if (snapshot.hasData)
           {
             var adventures = snapshot.data as List<Adventure>;
@@ -120,12 +121,12 @@ class AdventureFutureBuilder extends StatelessWidget {
                                           child: ListTile(
                                             title: Text(adventures.elementAt(index).name, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Theme.of(context).textTheme.bodyText1!.color)),
                                             // subtitle:Text(adventures.elementAt(index).description),
-                                            subtitle: Text("Subtitle subtitle subtitle subtitle subtitle subtitle subtitle subtitle", style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
+                                            subtitle: Text(adventures.elementAt(index).description, style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
                                         ),
                                       ),
                                         Expanded(
                                           flex: 1,
-                                          child: Text("Date", style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
+                                          child: Text(adventures.elementAt(index).date.toString(), style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
                                         ),
                                     ],
                                   ),
