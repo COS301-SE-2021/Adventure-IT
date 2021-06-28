@@ -1,4 +1,4 @@
-package com.adventureit.adventureservice.Controllers;
+package com.adventureit.checklist.Controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

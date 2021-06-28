@@ -4,7 +4,7 @@
 //import com.adventureit.adventureservice.Entity.EntryContainer;
 //import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 //
-//import com.adventureit.adventureservice.Requests.RemoveChecklistRequest;
+//import com.adventureit.checklist.Requests.RemoveChecklistRequest;
 //
 //import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 //import com.adventureit.adventureservice.Responses.RemoveChecklistResponse;

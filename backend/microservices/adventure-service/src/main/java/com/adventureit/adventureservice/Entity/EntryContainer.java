@@ -17,7 +17,7 @@ import java.util.UUID;
 public class EntryContainer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private UUID id;
     private UUID creatorID;
     private UUID adventureID;
     @OneToMany
@@ -39,7 +39,15 @@ public class EntryContainer {
 
     public void setAdventureID(UUID aID){this.adventureID=aID;}
 
-    public long getId() {return id;}
+    public UUID getId() {return id;}
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
+    }
 
     public List<Entry> getEntries(){
         return this.entries;

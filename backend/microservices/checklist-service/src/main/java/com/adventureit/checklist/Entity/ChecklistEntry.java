@@ -1,12 +1,15 @@
-package com.adventureit.adventureservice.Entity;
+package com.adventureit.checklist.Entity;
+
+import com.adventureit.adventureservice.Entity.Entry;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.UUID;
 
 @Entity
-public class ChecklistEntry extends Entry{
+public class ChecklistEntry extends Entry {
     private String title;
     private Boolean completed;
 
@@ -23,24 +26,10 @@ public class ChecklistEntry extends Entry{
      * @param entryContainerID
      * The ID of the checklist to which this entry belongs
      */
-    public ChecklistEntry(String title,  long entryContainerID){
+    public ChecklistEntry(String title, UUID id, UUID entryContainerID){
         this.title = title;
         this.completed = false;
-        this.setEntryContainerID(entryContainerID);
-    }
-
-    /**
-     * Create a checklist entry with a title and status of completion
-     * @param title
-     * The title of the checklist entry
-     * @param completed
-     * The status of the completion of the checklist entry
-     * @param entryContainerID
-     * The ID of the checklist to which this entry belongs
-     */
-    public ChecklistEntry(String title, Boolean completed,  long entryContainerID) {
-        this.title = title;
-        this.completed = completed;
+        this.setId(id);
         this.setEntryContainerID(entryContainerID);
     }
 
@@ -70,4 +59,5 @@ public class ChecklistEntry extends Entry{
     public void setCompleted(Boolean completed){
         this.completed = completed;
     }
+
 }
