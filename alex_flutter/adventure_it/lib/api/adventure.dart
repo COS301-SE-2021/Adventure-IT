@@ -9,13 +9,17 @@ class Adventure {
   final List<String> containers;
   final String name;
   final String ownerId;
+  final DateTime date;
+  final String description;
 
   Adventure(
       {required this.adventureId,
       required this.ownerId,
       required this.attendees,
       required this.containers,
-      required this.name});
+      required this.name,
+      required this.date,
+      required this.description});
 
   factory Adventure.fromJson(Map<String, dynamic> json) =>
       _$AdventureFromJson(json);
