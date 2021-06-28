@@ -1,6 +1,7 @@
 package com.adventureit.userservice.Service;
 
-import com.adventureit.userservice.Entities.User;
+
+import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Exceptions.*;
 import com.adventureit.userservice.Repository.RegistrationTokenRepository;
 import com.adventureit.userservice.Repository.UserRepository;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,7 +32,7 @@ public class UserServiceImplementation implements UserDetailsService {
 
 
 
-    private  BCryptPasswordEncoder encoder;
+    private  BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     private final UserRepository repo;
     private final RegistrationTokenRepository tokenrepo;
 
@@ -109,7 +111,7 @@ public class UserServiceImplementation implements UserDetailsService {
         String passwordHashed = encoder.encode(password);
 
         /*New User has been created*/
-        User newUser = new User(userId,username,firstName,lastName,email,passwordHashed,phoneNum);
+        Users newUser = new Users(userId,username,firstName,lastName,email,passwordHashed,phoneNum);
         repo.save(newUser);
 
         String token = UUID.randomUUID().toString();
@@ -142,7 +144,7 @@ public class UserServiceImplementation implements UserDetailsService {
      */
     public GetUserByUUIDResponse GetUserByUUID(GetUserByUUIDRequest req){
         UUID userId = req.getUserID();
-        User newUser = repo.getUserByUserID(userId);
+        Users newUser = repo.getUserByUserID(userId);
         if(newUser == null) {
             throw new UserDoesNotExistException("User does not exist - user is not registered as an Adventure-IT member");
         }
@@ -157,7 +159,7 @@ public class UserServiceImplementation implements UserDetailsService {
 
 
         assert repo != null;
-        User user = repo.getUserByEmail(email);
+        Users user = repo.getUserByEmail(email);
         if(user==null){
             throw new UserDoesNotExistException("User with email: "+email+" does not exist");
         }
@@ -166,14 +168,22 @@ public class UserServiceImplementation implements UserDetailsService {
         }
 
 
-        return null;
+        return new LoginUserDTO(true,"Login Successful: Welcome to Adventure-it");
     }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return null;
+        Users user =  repo.getByUsername(s);
+        if(user ==null){
+           throw new UsernameNotFoundException("User not found");
+        }
+
+        return user;
+
     }
 
+
+    @Transactional
     public String confirmToken(String token){
         RegistrationToken regToken = tokenrepo.findByToken(token);
 

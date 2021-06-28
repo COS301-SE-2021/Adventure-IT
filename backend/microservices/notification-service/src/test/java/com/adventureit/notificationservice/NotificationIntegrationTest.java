@@ -3,7 +3,7 @@ package com.adventureit.notificationservice;
 import com.adventureit.notificationservice.Entity.Notification;
 import com.adventureit.notificationservice.Repos.NotificationRepository;
 import com.adventureit.notificationservice.Service.NotificationService;
-import com.adventureit.userservice.Entities.User;
+import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Service.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
