@@ -23,8 +23,8 @@ class AdventureApi {
   }
 
 
-  static Future<http.Response> _getAdventuresByUUID(ownerID) async {
-    return http.get(Uri.http(kApi, '/adventure/all/' + ownerID));
+  static Future<http.Response> _getAdventuresByUUID(iD) async {
+    return http.get(Uri.http(adventureApi, '/adventure/all/' + iD));
   }
 
 }
