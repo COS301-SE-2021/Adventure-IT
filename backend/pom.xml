@@ -23,6 +23,7 @@
         <module>microservices/sharing-service</module>
         <module>microservices/user-service</module>
         <module>microservices/checklist-service</module>
+        <module>microservices/itinerary-service</module>
         <module>service-registry</module>
         <module>main-controller</module>
     </modules>
