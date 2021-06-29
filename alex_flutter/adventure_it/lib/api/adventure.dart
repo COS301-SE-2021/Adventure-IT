@@ -10,7 +10,7 @@ class Adventure {
   final List<String> containers;
   final String name;
   final String ownerId;
-  final LocalDate date;
+  final String date;
   final String description;
 
   Adventure(
