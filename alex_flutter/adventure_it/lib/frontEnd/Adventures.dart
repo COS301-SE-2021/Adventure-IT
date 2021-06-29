@@ -7,6 +7,7 @@ import 'package:adventure_it/api/budgetAPI.dart';
 
 import 'package:flutter/material.dart';
 import 'Budgets.dart';
+import 'CreateAdventure.dart';
 
 import '../api/budget.dart';
 
@@ -48,7 +49,11 @@ class HomePage_Pages_Adventures extends StatelessWidget {
           decoration: BoxDecoration(
               color: Theme.of(context).accentColor,
               shape: BoxShape.circle
-      ), child:IconButton(onPressed: (){}, icon: const Icon(Icons.add), color: Theme.of(context).primaryColorDark))
+      ), child:IconButton(onPressed: (){{
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => CreateAdventureCaller()));
+        ;
+      }}, icon: const Icon(Icons.add), color: Theme.of(context).primaryColorDark))
     ]);
   }
 }
