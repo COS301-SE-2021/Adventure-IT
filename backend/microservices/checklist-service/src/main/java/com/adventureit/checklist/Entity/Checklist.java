@@ -14,7 +14,7 @@ public class Checklist extends EntryContainer {
     private String title;
     private String description;
     @OneToMany
-    private List<Entry> entries;
+    private List<Entry> entries = new ArrayList<Entry>();
 
     /**
      * Default constructor
