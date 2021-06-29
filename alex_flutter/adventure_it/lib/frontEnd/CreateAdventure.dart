@@ -5,6 +5,7 @@ import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/gestures.dart';
+import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 
 import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
@@ -83,6 +84,23 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                           builder: (context) => HomepageStartupCaller()),
                     );
                   }),
+              SizedBox(height: 10),
+              MaterialButton(
+                  color: Theme.of(context).accentColor,
+                  onPressed: () async {
+                    final List<DateTime> picked = await DateRangePicker.showDatePicker(
+                        context: context,
+                        initialFirstDate: new DateTime.now(),
+                        initialLastDate: (new DateTime.now()).add(new Duration(days: 7)),
+                        firstDate: new DateTime(DateTime.now().year - 5),
+                        lastDate: new DateTime(DateTime.now().year + 5)
+                    );
+                    if (picked != null && picked.length == 2) {
+                      print(picked);
+                    }
+                  },
+                  child: new Text("Pick Date")
+              )
 
               ])));
 
