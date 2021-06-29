@@ -20,7 +20,7 @@ public class EntryContainer {
     private UUID id;
     private UUID creatorID;
     private UUID adventureID;
-    @OneToMany
+    @OneToMany (fetch=FetchType.EAGER)
     private List<Entry> entries;
 
     public EntryContainer(UUID adventureID, UUID creatorID){

@@ -13,8 +13,8 @@ import java.util.UUID;
 public class Checklist extends EntryContainer {
     private String title;
     private String description;
-    @OneToMany
-    private List<Entry> entries = new ArrayList<Entry>();
+//    @OneToMany (fetch=FetchType.EAGER)
+//    private List<Entry> entries = new ArrayList<Entry>();
 
     /**
      * Default constructor
@@ -36,7 +36,7 @@ public class Checklist extends EntryContainer {
     public Checklist(String title, String description, UUID id, UUID creatorID, UUID adventureID) {
         this.title = title;
         this.description = description;
-        this.entries = new ArrayList<Entry>();
+        this.setEntries(new ArrayList<Entry>());
         this.setCreatorID(creatorID);
         this.setAdventureID(adventureID);
         this.setId(id);
@@ -56,12 +56,13 @@ public class Checklist extends EntryContainer {
      * @param adventureID
      * The UUID of the adventure to which the checklist belongs
      */
-    public Checklist(String title, String description, List<Entry> entries, UUID creatorID, UUID adventureID) {
+    public Checklist(String title, String description, List<Entry> entries, UUID id, UUID creatorID, UUID adventureID) {
         this.title = title;
         this.description = description;
-        this.entries = entries;
+        this.setEntries(entries);
         this.setCreatorID(creatorID);
         this.setAdventureID(adventureID);
+        this.setId(id);
     }
 
     /**
@@ -72,9 +73,9 @@ public class Checklist extends EntryContainer {
      * @return
      * The checklist entry corresponding to the provided index
      */
-    public ChecklistEntry getEntry(int index) {
-        return (ChecklistEntry)this.entries.get(index);
-    }
+//    public ChecklistEntry getEntry(int index) {
+//        return (ChecklistEntry)this.entries.get(index);
+//    }
 
     /**
      * Add a single checklist entry to the checklist
@@ -82,9 +83,9 @@ public class Checklist extends EntryContainer {
      * @param entry
      * The single entry to be added to the checklist
      */
-    public void addEntry(ChecklistEntry entry) {
-        this.entries.add(entry);
-    }
+//    public void addEntry(ChecklistEntry entry) {
+//        this.entries.add(entry);
+//    }
 
     /**
      * Getters and setters

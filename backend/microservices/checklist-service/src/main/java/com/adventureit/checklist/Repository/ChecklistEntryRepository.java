@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface ChecklistEntryRepository extends JpaRepository<ChecklistEntry,Long> {
-    ChecklistEntry findChecklistById(UUID id);
+    ChecklistEntry findChecklistEntryById(UUID id);
 }

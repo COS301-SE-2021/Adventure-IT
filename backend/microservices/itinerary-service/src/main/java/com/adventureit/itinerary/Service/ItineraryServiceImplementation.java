@@ -1,8 +1,7 @@
 package com.adventureit.itinerary.Service;
 
-
-import com.adventureit.adventureservice.Entity.ItineraryEntry;
 import com.adventureit.itinerary.Entity.Itinerary;
+import com.adventureit.itinerary.Entity.ItineraryEntry;
 import com.adventureit.itinerary.Repository.ItineraryEntryRepository;
 import com.adventureit.itinerary.Repository.ItineraryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +10,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-@Service("ItineraryServiceImplementation")
+@Service
 public class ItineraryServiceImplementation implements ItineraryService {
 
     @Autowired
     private ItineraryRepository itineraryRepository;
+    @Autowired
     private ItineraryEntryRepository itineraryEntryRepository;
 
     @Autowired

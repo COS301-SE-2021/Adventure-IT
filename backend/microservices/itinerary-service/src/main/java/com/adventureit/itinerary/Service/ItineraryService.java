@@ -1,8 +1,6 @@
 package com.adventureit.itinerary.Service;
 
 
-import com.adventureit.adventureservice.Entity.ItineraryEntry;
-
 import java.util.List;
 import java.util.UUID;
 

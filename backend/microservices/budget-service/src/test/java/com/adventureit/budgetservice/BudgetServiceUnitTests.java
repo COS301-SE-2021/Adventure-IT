@@ -35,7 +35,7 @@ public class BudgetServiceUnitTests {
 
         @Test
         /* Ensuring a user can create a budget */
-        public void createAdventureValid_ReturnTrue() throws Exception {
+        public void createBudgetValid_ReturnTrue() throws Exception {
                 CreateBudgetRequest createBudgetRequest = new CreateBudgetRequest(UUID.randomUUID(),"Mock Name",new ArrayList<BudgetEntry>());
                 CreateBudgetResponse createBudgetResponse = sut.createBudget(createBudgetRequest);
                 Assertions.assertTrue(createBudgetResponse.isSuccess());

@@ -1,4 +1,6 @@
-package com.adventureit.adventureservice.Entity;
+package com.adventureit.itinerary.Entity;
+
+import com.adventureit.adventureservice.Entity.Entry;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +17,7 @@ import java.util.UUID;
  * 3. Long entryContainerID: The id of the entryContainer (The itinerary, in this instance) that the entry is attached to
  *
  */
+@Entity
 public class ItineraryEntry extends Entry {
     private String title;
     private String description;
