@@ -98,8 +98,8 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                   onPressed: () async {
                     List<DateTime>? picked = await DateRangePicker.showDatePicker(
                         context: context,
-                        initialFirstDate: new DateTime.now(),
-                        initialLastDate: (new DateTime.now()).add(new Duration(days: 7)),
+                        initialFirstDate: dates?.elementAt(0) ?? new DateTime.now(),
+                        initialLastDate: dates?.elementAt(1)??(new DateTime.now()).add(new Duration(days: 7)),
                         firstDate: new DateTime(DateTime.now().year - 5),
                         lastDate: new DateTime(DateTime.now().year + 5)
                     );
