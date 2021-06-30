@@ -32,7 +32,7 @@ class HomePage extends State<HomepageStartupCaller> {
             appBar: AppBar(
                 backgroundColor: Theme.of(context).primaryColorDark,
                 centerTitle: true,
-                title: Text("Adventure-IT"),
+                title: Text("Adventure-IT", style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                 leading: IconButton(
                     onPressed: () {
                       Navigator.pushReplacement(context,

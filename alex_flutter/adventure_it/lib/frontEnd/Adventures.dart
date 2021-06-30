@@ -45,6 +45,7 @@ class HomePage_Pages_Adventures extends StatelessWidget {
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.only(left: 20.0),),
       AdventureFutureBuilder(adventuresFuture: adventuresFuture),
+      SizedBox(height: 10),
       Container(
           decoration: BoxDecoration(
               color: Theme.of(context).accentColor,
@@ -53,7 +54,8 @@ class HomePage_Pages_Adventures extends StatelessWidget {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => CreateAdventureCaller()));
         ;
-      }}, icon: const Icon(Icons.add), color: Theme.of(context).primaryColorDark))
+      }}, icon: const Icon(Icons.add), color: Theme.of(context).primaryColorDark)),
+      SizedBox(height: 10),
     ]);
   }
 }
@@ -131,7 +133,7 @@ class AdventureFutureBuilder extends StatelessWidget {
                                       ),
                                         Expanded(
                                           flex: 1,
-                                          child: Text(adventures.elementAt(index).date.toString(), style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
+                                          child: Text("In "+DateTime.now().difference(DateTime.parse(adventures.elementAt(index).date)).inDays.toString() +" days", style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
                                         ),
                                     ],
                                   ),

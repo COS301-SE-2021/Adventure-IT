@@ -14,13 +14,30 @@ import '../api/budget.dart';
 import 'Register.dart';
 
 class CreateAdventureCaller extends StatefulWidget {
+
+
   @override
   CreateAdventure createState() => CreateAdventure();
 }
 
 class CreateAdventure extends State<CreateAdventureCaller> {
+  List<DateTime>? dates;
+  String getText()
+  {
+    if (dates==null)
+    {
+      return "Select Date";
+    }
+    else
+    {
+      String x=dates!.elementAt(0).day.toString()+"/"+dates!.elementAt(0).month.toString()+"/"+dates!.elementAt(0).year.toString()+" to "+dates!.elementAt(1).day.toString()+"/"+dates!.elementAt(1).month.toString()+"/"+dates!.elementAt(1).year.toString();
+      return x;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(title: Center(child: Text("Create Adventure",
@@ -62,17 +79,40 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                 width: 400.0,
                 child: TextField(
                     style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
-                    obscureText: true,
                     decoration: InputDecoration(
                         hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
                         filled: true,
                         fillColor: Theme.of(context).primaryColorLight,
                         focusedBorder: OutlineInputBorder(borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Adventure Description')),
               ),
+
               SizedBox(height: 10),
+              MaterialButton(
+                  color: Theme.of(context).accentColor,
+                  onPressed: () async {
+                    List<DateTime>? picked = await DateRangePicker.showDatePicker(
+                        context: context,
+                        initialFirstDate: new DateTime.now(),
+                        initialLastDate: (new DateTime.now()).add(new Duration(days: 7)),
+                        firstDate: new DateTime(DateTime.now().year - 5),
+                        lastDate: new DateTime(DateTime.now().year + 5)
+                    );
+                    if (picked!.length == 2) {
+                      print(picked);
+                      setState(()=>dates=picked);
+
+                    }
+                  },
+                  child: Text(getText(),style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color))
+              ),
+              SizedBox(height: 10),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    SizedBox(width: 100),
               ElevatedButton(
                   child: Text("Add",
-                    style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
+                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                   style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).accentColor,
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
@@ -84,23 +124,21 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                           builder: (context) => HomepageStartupCaller()),
                     );
                   }),
-              SizedBox(height: 10),
-              MaterialButton(
-                  color: Theme.of(context).accentColor,
-                  onPressed: () async {
-                    final List<DateTime> picked = await DateRangePicker.showDatePicker(
-                        context: context,
-                        initialFirstDate: new DateTime.now(),
-                        initialLastDate: (new DateTime.now()).add(new Duration(days: 7)),
-                        firstDate: new DateTime(DateTime.now().year - 5),
-                        lastDate: new DateTime(DateTime.now().year + 5)
-                    );
-                    if (picked != null && picked.length == 2) {
-                      print(picked);
-                    }
-                  },
-                  child: new Text("Pick Date")
-              )
+                ElevatedButton(
+                    child: Text("Cancel",
+                        style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).accentColor,
+                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HomepageStartupCaller()),
+                      );
+                    }),
+                    SizedBox(width: 100),])
 
               ])));
 
