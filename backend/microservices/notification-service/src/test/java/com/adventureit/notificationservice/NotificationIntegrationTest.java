@@ -40,7 +40,6 @@ public class NotificationIntegrationTest {
 
 
     Notification note1 = new Notification(notificationId1U,userId1U,mockMessage1,date1,null);
-    User validUser1 = new User( userId1U,userName1,userlName1, validEmail,validPassword,validPhoneNum);
 
 
     @Test

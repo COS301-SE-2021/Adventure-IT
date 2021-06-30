@@ -2,19 +2,44 @@ package com.adventureit.userservice.Service;
 
 import com.adventureit.userservice.Entities.User;
 import com.adventureit.userservice.Exceptions.*;
+import com.adventureit.userservice.Repository.RegistrationTokenRepository;
 import com.adventureit.userservice.Repository.UserRepository;
 import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
+import com.adventureit.userservice.Requests.LoginUserRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
+import com.adventureit.userservice.Responses.LoginUserDTO;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
+import com.adventureit.userservice.Token.RegistrationToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service("UserServiceImplementation")
-public class UserServiceImplementation implements UserService {
-    private UserRepository repo;
+public class UserServiceImplementation implements UserDetailsService {
+
+
+
+    private  BCryptPasswordEncoder encoder;
+    private final UserRepository repo;
+    private final RegistrationTokenRepository tokenrepo;
+
+    @Autowired
+    public UserServiceImplementation(UserRepository repo, RegistrationTokenRepository tokenrepo) {
+        this.repo = repo;
+        this.tokenrepo = tokenrepo;
+    }
+
     /**
      *
      * @param req
@@ -38,7 +63,7 @@ public class UserServiceImplementation implements UserService {
      * @return RegisterUserResponse Object which will indicate whether
      * registration was successful or if an error occurred
      */
-    @Override
+
     public RegisterUserResponse RegisterUser(RegisterUserRequest req) {
 
         /*Exception handling for invalid Request*/
@@ -51,6 +76,7 @@ public class UserServiceImplementation implements UserService {
         String email = req.getEmail();
         String password = req.getPassword();
         String phoneNum = req.getPhoneNum();
+        String username = req.getUsername();
         /*generate Regex for email, password and phone number*/
         String emailRegex = "^(.+)@(.+)$";
         String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–{}:;',?/*~$^+=<>]).{8,20}$";
@@ -75,12 +101,32 @@ public class UserServiceImplementation implements UserService {
         if(!phoneNumMatcher.matches()){
             throw new InvalidUserPhoneNumberException("User phone number is incorrect - Unable to process registration");
         }
+        if(repo.getUserByEmail(email)!=null){
+            throw new InvalidRequestException("User already exists");
+        }
         //TODO Decide on password encryption method
 
-        /*New User has been created*/
-        User newUser = new User(userId,firstName,lastName,email,password,phoneNum);
+        String passwordHashed = encoder.encode(password);
 
-        return new RegisterUserResponse(true,"200 OK" ,"User "+firstName+" "+lastName+" successfully Registered");
+        /*New User has been created*/
+        User newUser = new User(userId,username,firstName,lastName,email,passwordHashed,phoneNum);
+        repo.save(newUser);
+
+        String token = UUID.randomUUID().toString();
+        RegistrationToken regToken = new RegistrationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(30),
+                null,
+                newUser);
+
+        tokenrepo.save(regToken);
+
+
+
+
+
+        return new RegisterUserResponse(true,regToken ,"User "+firstName+" "+lastName+" successfully Registered");
     }
 
     /**
@@ -97,11 +143,59 @@ public class UserServiceImplementation implements UserService {
     public GetUserByUUIDResponse GetUserByUUID(GetUserByUUIDRequest req){
         UUID userId = req.getUserID();
         User newUser = repo.getUserByUserID(userId);
-
         if(newUser == null) {
-            throw new InvalidUserException("User does not exist - user is not registered as an Adventure-IT member");
+            throw new UserDoesNotExistException("User does not exist - user is not registered as an Adventure-IT member");
         }
         return new GetUserByUUIDResponse(true, newUser);
+    }
+
+
+    public LoginUserDTO LoginUser(LoginUserRequest req){
+        String email = req.getEmail();
+        String password = req.getPassword();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(15);
+
+
+        assert repo != null;
+        User user = repo.getUserByEmail(email);
+        if(user==null){
+            throw new UserDoesNotExistException("User with email: "+email+" does not exist");
+        }
+        else if(!passwordEncoder.matches(password, user.getPassword())){
+            throw new InvalidUserPasswordException("User password does not match email");
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return null;
+    }
+
+    public String confirmToken(String token){
+        RegistrationToken regToken = tokenrepo.findByToken(token);
+
+        if(regToken == null){
+            /*Throw token not found*/
+        }
+
+        if(regToken.getTimeConfirmed()!=null){
+            /*throw email already confirmed*/
+        }
+
+        LocalDateTime expiredAt = regToken.getTimeExpires();
+
+        if (expiredAt.isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("token expired");
+        }
+
+
+        tokenrepo.updateConfirmedAt(regToken.getToken(), LocalDateTime.now());
+        regToken.getUser().setEnabled(true);
+
+        return "confirmed";
     }
 
 

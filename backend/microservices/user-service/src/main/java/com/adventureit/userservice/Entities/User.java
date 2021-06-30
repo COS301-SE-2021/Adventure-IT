@@ -1,21 +1,27 @@
 package com.adventureit.userservice.Entities;
 
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
+@Table(name="User")
 public class User {
 
     @Id
     private UUID userID;
-
+    private String username;
     private String firstname;
     private String lastname;
     private String email;
     private String password;
     private String phoneNumber;
+    private Boolean enabled = false;
+
+
+
 
     /**
      * User model Constructor which takes in the following parameters:
@@ -27,13 +33,14 @@ public class User {
      * @param phoneNumber
      */
 
-    public User(UUID userID, String firstname, String lastname, String email, String password, String phoneNumber) {
+    public User(UUID userID,String username, String firstname, String lastname, String email, String password, String phoneNumber) {
         this.userID = userID;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
+        this.username = username;
     }
 
     /**
@@ -41,6 +48,18 @@ public class User {
      */
     public User() {
 
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     /**
