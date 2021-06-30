@@ -55,6 +55,7 @@ public class AdventureController {
                 return o1.getDate().compareTo(o2.getDate());
             }
         });
+        Collections.reverse(allAdventures);
         return allAdventures;
 
     }
