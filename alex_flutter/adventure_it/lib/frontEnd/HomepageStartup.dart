@@ -39,7 +39,7 @@ class HomePage extends State<HomepageStartupCaller> {
                           MaterialPageRoute(builder: (context) => LoginCaller()));
                       ;
                     },
-                    icon: const Icon(Icons.logout))),
+                    icon: const Icon(Icons.logout, color: Color(0xffA7AAB9),))),
             body: HomePage_Pages(
               adventuresFuture: adventuresFuture,)));
   }
