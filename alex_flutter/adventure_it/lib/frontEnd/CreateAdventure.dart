@@ -22,6 +22,7 @@ class CreateAdventureCaller extends StatefulWidget {
 
 class CreateAdventure extends State<CreateAdventureCaller> {
   List<DateTime>? dates;
+  List<String> months=["January","February", "March", "April","May", "June", "July", "August", "September","October", "November", "December"];
   String getText()
   {
     if (dates==null)
@@ -30,7 +31,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
     }
     else
     {
-      String x=dates!.elementAt(0).day.toString()+"/"+dates!.elementAt(0).month.toString()+"/"+dates!.elementAt(0).year.toString()+" to "+dates!.elementAt(1).day.toString()+"/"+dates!.elementAt(1).month.toString()+"/"+dates!.elementAt(1).year.toString();
+      String x=dates!.elementAt(0).day.toString()+" "+months.elementAt(dates!.elementAt(0).month-1)+" "+dates!.elementAt(0).year.toString()+" to "+dates!.elementAt(1).day.toString()+" "+months.elementAt(dates!.elementAt(1).month-1)+" "+dates!.elementAt(1).year.toString();
       return x;
     }
   }
