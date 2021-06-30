@@ -29,6 +29,11 @@ class CreateAdventure extends State<CreateAdventureCaller> {
     {
       return "Select Date";
     }
+    else if (dates!.elementAt(0)==dates!.elementAt(1))
+    {
+      String x=dates!.elementAt(0).day.toString()+" "+months.elementAt(dates!.elementAt(0).month-1)+" "+dates!.elementAt(0).year.toString();
+      return x;
+    }
     else
     {
       String x=dates!.elementAt(0).day.toString()+" "+months.elementAt(dates!.elementAt(0).month-1)+" "+dates!.elementAt(0).year.toString()+" to "+dates!.elementAt(1).day.toString()+" "+months.elementAt(dates!.elementAt(1).month-1)+" "+dates!.elementAt(1).year.toString();
