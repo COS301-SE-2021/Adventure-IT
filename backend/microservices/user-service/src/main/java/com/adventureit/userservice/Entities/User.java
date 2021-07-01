@@ -1,13 +1,13 @@
 package com.adventureit.userservice.Entities;
 
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
-@Table(name="User")
+@Table(name="user", schema = "public")
 public class User {
 
     @Id
@@ -19,8 +19,8 @@ public class User {
     private String password;
     private String phoneNumber;
     private Boolean enabled = false;
-
-
+    @Lob
+    private byte [] profilePicture;
 
 
     /**
@@ -147,5 +147,13 @@ public class User {
      */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }

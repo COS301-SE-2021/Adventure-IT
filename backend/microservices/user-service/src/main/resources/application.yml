@@ -5,10 +5,10 @@ spring:
   application:
     name: USER-SERVICE
   datasource:
-    url: http://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: 310PB!Gq%f&J
-    name: adventureit
+    password: Shivek01
+    name: postgres
   jpa:
     hibernate:
       ddl-auto: update
