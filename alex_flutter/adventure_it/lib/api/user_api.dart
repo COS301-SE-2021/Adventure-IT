@@ -11,7 +11,7 @@ import 'loginUser.dart';
 class UserApi {
   Future<RegisterUser> createUser(String firstName,String lastName,String username,String email,String phoneNumber,String password) async {
     final response = await http.post(
-      Uri.parse('https://jsonplaceholder.typicode.com/albums'), //get uri
+      Uri.parse('http://localhost:9002/api/RegisterUser'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -23,11 +23,15 @@ class UserApi {
         'phoneNumber': phoneNumber,
         'password': password,
       }),
+
+
     );
 
     if (response.statusCode == 201) {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
       return RegisterUser(firstName: firstName, lastName: lastName, username: username, email: email, phoneNumber: phoneNumber, password: password);
     } else {
       // If the server did not return a 201 CREATED response,
@@ -38,7 +42,7 @@ class UserApi {
 
   Future<LoginUser> loginUser(String username, String password) async {
     final response = await http.post(
-      Uri.parse('https://jsonplaceholder.typicode.com/albums'), //get uri
+      Uri.parse('http://localhost:9002/api/LoginUser'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
