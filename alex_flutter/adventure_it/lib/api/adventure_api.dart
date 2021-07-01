@@ -6,9 +6,9 @@ import 'package:adventure_it/constants.dart';
 import 'package:http/http.dart' as http;
 
 class AdventureApi {
-  static Future<List<Adventure>> getAdventuresByUUID() async {
+  static Future<List<Adventure>> getAdventuresByUUID(String userId) async {
     http.Response response =
-        await _getAdventuresByUUID("1660bd85-1c13-42c0-955c-63b1eda4e90b");
+        await _getAdventuresByUUID(userId);
 
 
     if (response.statusCode != 200) {
@@ -23,8 +23,23 @@ class AdventureApi {
   }
 
 
-  static Future<http.Response> _getAdventuresByUUID(iD) async {
-    return http.get(Uri.http(adventureApi, '/adventure/all/' + iD));
+  static Future<http.Response> _getAdventuresByUUID(userID) async {
+    return http.get(Uri.http(adventureApi, '/adventure/all/' + userID));
+  }
+
+  static void removeAdventure(String adventureId) async {
+    http.Response response = await _removeAdventure(adventureId);
+    print("Tried to delete");
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to remove adventure: ${response.body}');
+    }
+  }
+
+
+  static Future<http.Response> _removeAdventure(adventureID) async {
+    return http.delete(Uri.http(adventureApi, '/adventure/remove/' + adventureID));
   }
 
 }
