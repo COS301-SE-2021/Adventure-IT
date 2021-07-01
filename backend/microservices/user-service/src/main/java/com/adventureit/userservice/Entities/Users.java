@@ -1,21 +1,36 @@
 package com.adventureit.userservice.Entities;
 
-import javax.persistence.Column;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Collection;
 import java.util.UUID;
 
+
+@Getter
+@Setter
 @Entity
-public class User {
+public class Users implements UserDetails {
 
     @Id
     private UUID userID;
 
+    private String username;
     private String firstname;
     private String lastname;
     private String email;
     private String password;
     private String phoneNumber;
+    private Boolean enabled = false;
+    private Boolean locked = false;
+
+
+
 
     /**
      * User model Constructor which takes in the following parameters:
@@ -27,20 +42,55 @@ public class User {
      * @param phoneNumber
      */
 
-    public User(UUID userID, String firstname, String lastname, String email, String password, String phoneNumber) {
+    public Users(UUID userID, String username, String firstname, String lastname, String email, String password, String phoneNumber) {
         this.userID = userID;
+        this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
+        this.enabled =false;
     }
 
     /**
      * Default constructor for User Model
      */
-    public User() {
+    public Users() {
 
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+
+        return !this.locked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     /**
@@ -101,6 +151,12 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
     /**
      * User service to retrieve users User password
      * @return password
