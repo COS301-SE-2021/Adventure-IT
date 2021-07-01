@@ -1,11 +1,7 @@
 import 'dart:html';
 
-import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/loginUser.dart';
 import 'package:adventure_it/api/user_api.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/gestures.dart';
 
 import 'package:flutter/material.dart';
@@ -87,6 +83,9 @@ class Login extends State<LoginCaller> {
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                   ),
                   onPressed: () {
+                    setState(() {
+                      _futureUser = api.loginUser(usernameController.text, passwordController.text);
+                    });
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
