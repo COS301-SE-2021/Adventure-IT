@@ -14,6 +14,20 @@ class RegisterCaller extends StatefulWidget {
 }
 
 class Register extends State<RegisterCaller> {
+  String firstName = "";
+  String userName = "";
+  String lastName = "";
+  String phoneNumber = "";
+  String email = "";
+  String password = "";
+
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+  final usernameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +43,7 @@ class Register extends State<RegisterCaller> {
                   SizedBox(
                     width: 400.0,
                     child: TextField(
+                        controller: firstNameController,
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).primaryColorLight,
@@ -38,6 +53,7 @@ class Register extends State<RegisterCaller> {
                   SizedBox(
                     width: 400.0,
                     child: TextField(
+                        controller: lastNameController,
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).primaryColorLight,
@@ -47,6 +63,7 @@ class Register extends State<RegisterCaller> {
                   SizedBox(
                     width: 400.0,
                     child: TextField(
+                        controller: usernameController,
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).primaryColorLight,
@@ -56,6 +73,7 @@ class Register extends State<RegisterCaller> {
                   SizedBox(
                     width: 400.0,
                     child: TextField(
+                        controller: emailController,
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).primaryColorLight,
@@ -65,6 +83,7 @@ class Register extends State<RegisterCaller> {
                   SizedBox(
                     width: 400.0,
                     child: TextField(
+                        controller: phoneNumberController,
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).primaryColorLight,
@@ -74,6 +93,7 @@ class Register extends State<RegisterCaller> {
                   SizedBox(
                     width: 400.0,
                     child: TextField(
+                        controller: passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
                             filled: true,

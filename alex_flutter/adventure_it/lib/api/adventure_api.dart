@@ -10,7 +10,6 @@ class AdventureApi {
     http.Response response =
         await _getAdventuresByOwner("1660bd85-1c13-42c0-955c-63b1eda4e90b");
 
-
     if (response.statusCode != 200) {
       throw Exception('Failed to load list of adventures: ${response.body}');
     }
