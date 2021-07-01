@@ -25,7 +25,7 @@ master(build)<br>
 ## Project Management Tools
 
 - open_book: [GitHub](https://github.com/COS301-SE-2021/Adventure-IT)
-- [SRS document](https://drive.google.com/file/d/1LPZtS6qBy6Foezpoy15aoF5_OKYFg4UK/view?usp=sharing)
+- [SRS document](https://drive.google.com/drive/folders/1sQUlE15YyczM-9B1tND1MvfDTMd3MoID)
 
 ## Badges
 [![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2021/Adventure-IT)](https://github.com/COS301-SE-2021/Adventure-IT/issues)
