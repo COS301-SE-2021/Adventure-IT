@@ -1,7 +1,8 @@
 package com.adventureit.userservice.Token;
 
 
-import com.adventureit.userservice.Entities.User;
+
+import com.adventureit.userservice.Entities.Users;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,14 +32,15 @@ public class RegistrationToken {
     private LocalDateTime timeConfirmed;
 
     @ManyToOne
-    private User user;
+    private Users user;
 
-    public RegistrationToken( String token, LocalDateTime timeCreated, LocalDateTime timeExpires, LocalDateTime timeConfirmed, User user) {
+    public RegistrationToken( String token, LocalDateTime timeCreated, LocalDateTime timeExpires, LocalDateTime timeConfirmed, Users user) {
 
         this.token = token;
         this.timeCreated = timeCreated;
         this.timeExpires = timeExpires;
         this.timeConfirmed = timeConfirmed;
-        this.user = getUser();
+        this.user = user;
+        this.id = UUID.randomUUID();
     }
 }

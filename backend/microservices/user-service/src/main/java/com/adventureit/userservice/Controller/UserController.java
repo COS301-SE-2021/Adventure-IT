@@ -4,7 +4,9 @@ import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
+import com.adventureit.userservice.Requests.LoginUserRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
+import com.adventureit.userservice.Responses.LoginUserDTO;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
 import com.adventureit.userservice.Service.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +38,19 @@ public class UserController {
         return service.RegisterUser(req);
     }
 
-    @GetMapping(value="/user/test")
+    @GetMapping(value="/api/test")
     public String test(){
         return "User controller is working";
+    }
+
+
+    @GetMapping(value="/api/ConfirmToken")
+    public String ConfirmToken(@RequestParam("token") String token){
+        return service.confirmToken(token);
+    }
+
+    @PostMapping(value = "api/LoginUser", consumes = "application/json", produces = "application/json")
+    public LoginUserDTO Login(@RequestBody LoginUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
+        return service.LoginUser(req);
     }
 }
