@@ -159,7 +159,7 @@ public class UserServiceImplementation implements UserDetailsService {
 
 
         assert repo != null;
-        Users user = repo.getByUsername(username);
+        Users user = repo.getUserByUsername(username);
         if(user==null){
             throw new UserDoesNotExistException("User with username: "+username+" does not exist");
         }
@@ -173,7 +173,7 @@ public class UserServiceImplementation implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Users user =  repo.getByUsername(s);
+        Users user =  repo.getUserByUsername(s);
         if(user ==null){
            throw new UsernameNotFoundException("User not found");
         }
