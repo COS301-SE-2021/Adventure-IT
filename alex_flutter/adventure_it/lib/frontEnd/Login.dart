@@ -111,7 +111,21 @@ class Login extends State<LoginCaller> {
                           builder: (context) => RegisterCaller()),
                     );
                   })])
-              )]
+              ),
+              SizedBox(height: 10),
+              RichText(
+                text: new TextSpan(
+                  text: 'Forgot Password?',
+                  style: new TextStyle(color: Theme.of(context).accentColor),
+                  recognizer: new TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RegisterCaller()),
+                  );
+                }))
+            ],
         )));
   }
 }
