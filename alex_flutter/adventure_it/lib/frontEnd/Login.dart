@@ -57,6 +57,7 @@ class Login extends State<LoginCaller> {
               SizedBox(
                 width: 400.0,
                 child: TextField(
+                    controller: usernameController,
                     style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
                     decoration: InputDecoration(
                         hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
@@ -68,6 +69,7 @@ class Login extends State<LoginCaller> {
               SizedBox(
                 width: 400.0,
                 child: TextField(
+                    controller: passwordController,
                     style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
                     obscureText: true,
                     decoration: InputDecoration(
