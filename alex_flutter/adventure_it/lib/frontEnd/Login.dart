@@ -2,6 +2,8 @@ import 'dart:html';
 
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
+import 'package:adventure_it/api/loginUser.dart';
+import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/gestures.dart';
@@ -18,6 +20,12 @@ class LoginCaller extends StatefulWidget {
 }
 
 class Login extends State<LoginCaller> {
+  Future<LoginUser>? _futureUser;
+  final UserApi api = new UserApi();
+
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

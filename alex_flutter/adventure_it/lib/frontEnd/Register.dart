@@ -10,18 +10,12 @@ import 'HomepageStartup.dart';
 import '../api/budget.dart';
 import 'Login.dart';
 
-
-
-
-
-
 class RegisterCaller extends StatefulWidget {
   @override
   Register createState() => Register();
 }
 
 class Register extends State<RegisterCaller> {
-
   Future<RegisterUser>? _futureUser;
   final UserApi api = new UserApi();
 
