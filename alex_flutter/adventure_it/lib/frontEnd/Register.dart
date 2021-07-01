@@ -1,3 +1,5 @@
+import 'package:adventure_it/api/registerUser.dart';
+import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/gestures.dart';
@@ -8,18 +10,20 @@ import 'HomepageStartup.dart';
 import '../api/budget.dart';
 import 'Login.dart';
 
+
+
+
+
+
 class RegisterCaller extends StatefulWidget {
   @override
   Register createState() => Register();
 }
 
 class Register extends State<RegisterCaller> {
-  String firstName = "";
-  String userName = "";
-  String lastName = "";
-  String phoneNumber = "";
-  String email = "";
-  String password = "";
+
+  Future<RegisterUser>? _futureUser;
+  final UserApi api = new UserApi();
 
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -109,6 +113,9 @@ class Register extends State<RegisterCaller> {
                         padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                       ),
                       onPressed: () {
+                        setState(() {
+                          _futureUser = api.createUser(firstNameController.text,lastNameController.text,usernameController.text,emailController.text,phoneNumberController.text,passwordController.text);
+                        });
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

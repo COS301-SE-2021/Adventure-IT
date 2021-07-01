@@ -23,4 +23,8 @@ class RegisterUser {
       _$RegisterUserFromJson(json);
 
   Map<String, dynamic> toJson() => _$RegisterUserToJson(this);
+
+
+
+
 }
