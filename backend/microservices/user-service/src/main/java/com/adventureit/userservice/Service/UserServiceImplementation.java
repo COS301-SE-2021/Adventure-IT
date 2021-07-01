@@ -153,15 +153,15 @@ public class UserServiceImplementation implements UserDetailsService {
 
 
     public LoginUserDTO LoginUser(LoginUserRequest req){
-        String email = req.getEmail();
+        String username = req.getUsername();
         String password = req.getPassword();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(15);
 
 
         assert repo != null;
-        Users user = repo.getUserByEmail(email);
+        Users user = repo.getByUsername(username);
         if(user==null){
-            throw new UserDoesNotExistException("User with email: "+email+" does not exist");
+            throw new UserDoesNotExistException("User with username: "+username+" does not exist");
         }
         else if(!passwordEncoder.matches(password, user.getPassword())){
             throw new InvalidUserPasswordException("User password does not match email");
