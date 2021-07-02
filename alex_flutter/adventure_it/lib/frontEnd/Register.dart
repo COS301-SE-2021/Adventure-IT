@@ -25,6 +25,7 @@ class Register extends State<RegisterCaller> {
   final passwordController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final usernameController = TextEditingController();
+  final passwordCheckController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +98,17 @@ class Register extends State<RegisterCaller> {
                             filled: true,
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Password')),
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    width: 400.0,
+                    child: TextField(
+                        controller: passwordCheckController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Theme.of(context).primaryColorLight,
+                            border: OutlineInputBorder(), hintText: 'Confirm Password')),
                   ),
                   SizedBox(height: 10),
                   ElevatedButton(
