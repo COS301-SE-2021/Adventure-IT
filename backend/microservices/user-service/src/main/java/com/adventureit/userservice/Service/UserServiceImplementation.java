@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.transaction.Transactional;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -230,7 +231,7 @@ public class UserServiceImplementation implements UserDetailsService {
     }
 
     @Transactional
-    public void viewImage(UUID id) throws Exception {
+    public Image viewImage(UUID id) throws Exception {
         if(id ==null){
             throw new Exception("User ID not provided");
         }
@@ -242,7 +243,8 @@ public class UserServiceImplementation implements UserDetailsService {
 
         ByteArrayInputStream bis = new ByteArrayInputStream(user.getProfilePicture());
         BufferedImage bImage = ImageIO.read(bis);
-        ImageIO.write(bImage, "jpg", new File("C:\\Users\\sgood\\Documents\\CS\\SEM 1\\COS301\\Capstone\\Pictures\\output.jpg"));
+        return bImage;
+//        ImageIO.write(bImage, "jpg", new File("C:\\Users\\sgood\\Documents\\CS\\SEM 1\\COS301\\Capstone\\Pictures\\output.jpg"));
     }
 
 

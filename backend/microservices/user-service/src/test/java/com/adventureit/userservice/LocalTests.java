@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 
+import javax.swing.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -36,8 +37,16 @@ public class LocalTests {
         userServiceImplementation.updateProfilePicture(file,UUID.fromString("77b2c3c3-0ea7-4ac8-b91e-b73606c533d6"));
     }
 
-    @Test
-    public void viewPicture() throws Exception {
-        userServiceImplementation.viewImage(UUID.fromString("6abd17be-0a43-47ef-b16c-9881fb6f54f1"));
-    }
+//    @Test
+//    public void viewPicture() throws Exception {
+//        System.setProperty("java.awt.headless", "false");
+//        JFrame frame = new JFrame();
+//        ImageIcon icon = new ImageIcon(userServiceImplementation.viewImage(UUID.fromString("bee628e8-b4d2-4953-9e04-c9b5989e8396")));
+//        JLabel label = new JLabel(icon);
+//        frame.add(label);
+//        frame.setDefaultCloseOperation
+//                (JFrame.EXIT_ON_CLOSE);
+//        frame.pack();
+//        frame.setVisible(true);
+//    }
 }
