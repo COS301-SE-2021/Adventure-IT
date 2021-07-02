@@ -37,14 +37,7 @@ public class UserServiceIntegrationTests {
     @Order(2)
     @Description("Ensure that the controller is accepting traffic and responding")
     public void httpTest_returnResponse(){
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/user/test", String.class),"User controller is working");
-    }
-
-    @Test
-    @Order(3)
-    @Description("Ensure that the update picture method is working")
-    public void updatePictureTest_returnResponse(){
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/user/updatePicture/{path}/{id}", String.class,"C:\\Users\\sgood\\Documents\\CS\\SEM 1\\COS301\\Capstone\\Pictures\\images.jpg", UUID.fromString("3c2a6d14-73dd-424f-a902-3a2550cb7cc0")),"Profile Picture successfully updated!");
+        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/api/test", String.class),"User controller is working");
     }
 
 }
