@@ -22,6 +22,11 @@ public class MainController {
         int adventurePort = adventureInstance.getPort();
         return restTemplate.getForObject("http://"+ adventureIP + ":" + adventurePort + "/adventure/test", String.class);
     }
+
+    @RequestMapping("/test")
+    public String mainControllerTest(){
+        return "Main controller is working";
+    }
 }
 
 
