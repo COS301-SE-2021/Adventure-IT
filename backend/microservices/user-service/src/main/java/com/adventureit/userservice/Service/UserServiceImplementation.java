@@ -242,10 +242,7 @@ public class UserServiceImplementation implements UserDetailsService {
         }
 
         ByteArrayInputStream bis = new ByteArrayInputStream(user.getProfilePicture());
-        BufferedImage bImage = ImageIO.read(bis);
-        return bImage;
-//        ImageIO.write(bImage, "jpg", new File("C:\\Users\\sgood\\Documents\\CS\\SEM 1\\COS301\\Capstone\\Pictures\\output.jpg"));
+        return ImageIO.read(bis);
     }
-
-
+    
 }
