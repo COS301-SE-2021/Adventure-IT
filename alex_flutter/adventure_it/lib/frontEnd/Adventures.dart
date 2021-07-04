@@ -13,10 +13,8 @@ import 'package:flutter/foundation.dart';
 import '../api/budget.dart';
 
 class HomePage_Pages extends StatelessWidget {
-  Future<List<Adventure>>? adventuresFuture;
 
-  HomePage_Pages(
-      {@required this.adventuresFuture,});
+  HomePage_Pages();
   @override
   Widget build(BuildContext context) {
     final PageController controller = PageController(initialPage: 0);
@@ -24,16 +22,13 @@ class HomePage_Pages extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         controller: controller,
         children: <Widget>[
-          HomePage_Pages_Adventures(
-              adventuresFuture: adventuresFuture),
+          HomePage_Pages_Adventures(),
         ]);
   }
 }
 
 class HomePage_Pages_Adventures extends StatelessWidget {
-  Future<List<Adventure>>? adventuresFuture;
-  HomePage_Pages_Adventures(
-      {@required this.adventuresFuture});
+  HomePage_Pages_Adventures();
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
@@ -45,7 +40,7 @@ class HomePage_Pages_Adventures extends StatelessWidget {
       Container(
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.only(left: 20.0),),
-      AdventureFutureBuilder(adventuresFuture: adventuresFuture),
+      AdventureFutureBuilder(),
       SizedBox(height: 10),
       Container(
           decoration: BoxDecoration(
@@ -54,17 +49,29 @@ class HomePage_Pages_Adventures extends StatelessWidget {
       ), child:IconButton(onPressed: (){{
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => CreateAdventureCaller()));
-        ;
       }}, icon: const Icon(Icons.add), color: Theme.of(context).primaryColorDark)),
       SizedBox(height: 10),
     ]);
   }
 }
 
+class AdventureFutureBuilder extends StatefulWidget {
 
-class AdventureFutureBuilder extends StatelessWidget {
+  @override
+  _AdventureFutureBuilder createState() => _AdventureFutureBuilder();
+}
+
+
+class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
   Future<List<Adventure>>? adventuresFuture;
-  AdventureFutureBuilder({@required this.adventuresFuture});
+  _AdventureFutureBuilder();
+
+  @override
+  void initState() {
+    super.initState();
+    adventuresFuture = AdventureApi.getAdventuresByUUID("1660bd85-1c13-42c0-955c-63b1eda4e90b");
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,16 +84,17 @@ class AdventureFutureBuilder extends StatelessWidget {
           print(snapshot.data);
           if (snapshot.hasData)
           {
+
             var adventures = snapshot.data as List<Adventure>;
+
             print(adventures);
-            if(adventures.length>0)
+            if(adventures!.length>0)
             {
               return Expanded(
                 child: ListView(children: [
                   ...List.generate(
-                      adventures.length,
+                      adventures!.length,
                           (index) =>
-
                              Dismissible(
                                   background: Container(
                                // color: Theme.of(context).primaryColor,
@@ -161,19 +169,22 @@ class AdventureFutureBuilder extends StatelessWidget {
                                   ),
                               ))),
                                   onDismissed: (direction) {
-                                      AdventureApi.removeAdventure(adventures.elementAt(index).adventureId);
-                                      adventures.removeAt(index);
+                                        AdventureApi.removeAdventure(adventures.elementAt(index).adventureId);
+                                        adventures.removeAt(index);
+                                        setState(() {});
                                     }))]));
 
             }
+
             else
             {
               return Center(child: Text("It seems you're not very adventurous...", style: TextStyle(fontSize: 30, color:Theme.of(context).textTheme.bodyText1!.color)));
             }
+
           }
           else
           {
-            return Center(child: Text("Something went wrong",style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)));
+            return Center(child: Text("It seems you're not very adventurous...", style: TextStyle(fontSize: 30, color:Theme.of(context).textTheme.bodyText1!.color)));
           }
         }
     );

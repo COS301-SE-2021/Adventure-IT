@@ -17,12 +17,12 @@ class HomepageStartupCaller extends StatefulWidget {
 }
 
 class HomePage extends State<HomepageStartupCaller> {
-  Future<List<Adventure>>? adventuresFuture;
-
-  void initState() {
-    super.initState();
-    adventuresFuture = AdventureApi.getAdventuresByUUID("1660bd85-1c13-42c0-955c-63b1eda4e90b");
-  }
+  // Future<List<Adventure>>? adventuresFuture;
+  //
+  // void initState() {
+  //   super.initState();
+  //   adventuresFuture = AdventureApi.getAdventuresByUUID("1660bd85-1c13-42c0-955c-63b1eda4e90b");
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +41,6 @@ class HomePage extends State<HomepageStartupCaller> {
                     },
                     icon: const Icon(Icons.logout, color: Color(0xffA7AAB9),))),
             body: HomePage_Pages(
-              adventuresFuture: adventuresFuture,)));
+             )));
   }
 }
