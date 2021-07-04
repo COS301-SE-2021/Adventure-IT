@@ -7,14 +7,14 @@ import 'package:adventure_it/api/budgetAPI.dart';
 
 import 'package:flutter/material.dart';
 import 'Budgets.dart';
+import 'CreateAdventure.dart';
+import 'package:flutter/foundation.dart';
 
 import '../api/budget.dart';
 
 class HomePage_Pages extends StatelessWidget {
-  Future<List<Adventure>>? adventuresFuture;
 
-  HomePage_Pages(
-      {@required this.adventuresFuture,});
+  HomePage_Pages();
   @override
   Widget build(BuildContext context) {
     final PageController controller = PageController(initialPage: 0);
@@ -22,16 +22,13 @@ class HomePage_Pages extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         controller: controller,
         children: <Widget>[
-          HomePage_Pages_Adventures(
-              adventuresFuture: adventuresFuture),
+          HomePage_Pages_Adventures(),
         ]);
   }
 }
 
 class HomePage_Pages_Adventures extends StatelessWidget {
-  Future<List<Adventure>>? adventuresFuture;
-  HomePage_Pages_Adventures(
-      {@required this.adventuresFuture});
+  HomePage_Pages_Adventures();
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
@@ -43,19 +40,38 @@ class HomePage_Pages_Adventures extends StatelessWidget {
       Container(
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.only(left: 20.0),),
-      AdventureFutureBuilder(adventuresFuture: adventuresFuture),
+      AdventureFutureBuilder(),
+      SizedBox(height: 10),
       Container(
           decoration: BoxDecoration(
               color: Theme.of(context).accentColor,
               shape: BoxShape.circle
-      ), child:IconButton(onPressed: (){}, icon: const Icon(Icons.add), color: Theme.of(context).primaryColorDark))
+      ), child:IconButton(onPressed: (){{
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => CreateAdventureCaller()));
+      }}, icon: const Icon(Icons.add), color: Theme.of(context).primaryColorDark)),
+      SizedBox(height: 10),
     ]);
   }
 }
 
-class AdventureFutureBuilder extends StatelessWidget {
+class AdventureFutureBuilder extends StatefulWidget {
+
+  @override
+  _AdventureFutureBuilder createState() => _AdventureFutureBuilder();
+}
+
+
+class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
   Future<List<Adventure>>? adventuresFuture;
-  AdventureFutureBuilder({@required this.adventuresFuture});
+  _AdventureFutureBuilder();
+
+  @override
+  void initState() {
+    super.initState();
+    adventuresFuture = AdventureApi.getAdventuresByUUID("1660bd85-1c13-42c0-955c-63b1eda4e90b");
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -65,35 +81,57 @@ class AdventureFutureBuilder extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator( valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor)));
           }
+          print(snapshot.data);
           if (snapshot.hasData)
           {
+
             var adventures = snapshot.data as List<Adventure>;
+
             print(adventures);
-            if(adventures.length>0)
+            if(adventures!.length>0)
             {
               return Expanded(
                 child: ListView(children: [
                   ...List.generate(
-                      adventures.length,
+                      adventures!.length,
                           (index) =>
-                              Card(
-                                color: Theme.of(context).primaryColorDark,
-                                child: InkWell
-                                  (
-                                    hoverColor: Theme.of(context).primaryColorLight,
-                                    onTap: ()
-                                    {
-                                      Future<List<Budget>> budgetsFuture =
-                                      BudgetApi.getBudgets(
-                                          adventures.elementAt(index));
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Adventure_Budgets(
+                             Dismissible(
+                                  background: Container(
+                               // color: Theme.of(context).primaryColor,
+                               //   margin: const EdgeInsets.all(5),
+                                 padding: const EdgeInsets.all(15),
+                                 child: Row(
+
+                                   children: [
+                                     new Spacer(),
+                                    Icon(
+                                      Icons.delete,
+                                      color: Theme.of(context).accentColor,
+                                      size: 35
+                                    ),
+                                   ],
+                                 ),
+                             ),
+                                  direction: DismissDirection.endToStart,
+                                  key:Key(adventures.elementAt(index).adventureId),
+                                  child: Card(
+                                    color: Theme.of(context).primaryColorDark,
+                                    child: InkWell
+                                    (
+                                      hoverColor: Theme.of(context).primaryColorLight,
+                                      onTap: ()
+                                      {
+                                        Future<List<Budget>> budgetsFuture =
+                                        BudgetApi.getBudgets(
+                                            adventures.elementAt(index));
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => Adventure_Budgets(
                                                   budgetsFuture: budgetsFuture,
                                                   adventure:
                                                   adventures.elementAt(index))));
-                                    },
+                                        },
                                     child: Container
                                       (
                                       child: Row(
@@ -120,26 +158,33 @@ class AdventureFutureBuilder extends StatelessWidget {
                                           child: ListTile(
                                             title: Text(adventures.elementAt(index).name, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Theme.of(context).textTheme.bodyText1!.color)),
                                             // subtitle:Text(adventures.elementAt(index).description),
-                                            subtitle: Text("Subtitle subtitle subtitle subtitle subtitle subtitle subtitle subtitle", style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
+                                            subtitle: Text(adventures.elementAt(index).description, style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
                                         ),
                                       ),
                                         Expanded(
                                           flex: 1,
-                                          child: Text("Date", style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
+                                          child: Text("In "+DateTime.parse(adventures.elementAt(index).date).difference(DateTime.now()).inDays.toString() +" days", style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
                                         ),
                                     ],
                                   ),
-                              ))))]));
+                              ))),
+                                  onDismissed: (direction) {
+                                        AdventureApi.removeAdventure(adventures.elementAt(index).adventureId);
+                                        adventures.removeAt(index);
+                                        setState(() {});
+                                    }))]));
 
             }
+
             else
             {
               return Center(child: Text("It seems you're not very adventurous...", style: TextStyle(fontSize: 30, color:Theme.of(context).textTheme.bodyText1!.color)));
             }
+
           }
           else
           {
-            return Center(child: Text("Something went wrong",style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)));
+            return Center(child: Text("It seems you're not very adventurous...", style: TextStyle(fontSize: 30, color:Theme.of(context).textTheme.bodyText1!.color)));
           }
         }
     );

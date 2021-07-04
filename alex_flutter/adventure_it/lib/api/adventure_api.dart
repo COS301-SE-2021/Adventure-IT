@@ -6,9 +6,9 @@ import 'package:adventure_it/constants.dart';
 import 'package:http/http.dart' as http;
 
 class AdventureApi {
-  static Future<List<Adventure>> getAdventuresByOwner() async {
+  static Future<List<Adventure>> getAdventuresByUUID(String userId) async {
     http.Response response =
-        await _getAdventuresByOwner("1660bd85-1c13-42c0-955c-63b1eda4e90b");
+        await _getAdventuresByUUID(userId);
 
 
     if (response.statusCode != 200) {
@@ -22,26 +22,24 @@ class AdventureApi {
     return adventures;
   }
 
-  static Future<List<Adventure>> getAdventuresByAttendee() async {
-    http.Response response =
-        await _getAdventuresByAttendee("1660bd85-1c13-42c0-955c-63b1eda4e90b");
+
+  static Future<http.Response> _getAdventuresByUUID(userID) async {
+    return http.get(Uri.http(adventureApi, '/adventure/all/' + userID));
+  }
+
+  static void removeAdventure(String adventureId) async {
+    http.Response response = await _removeAdventure(adventureId);
+    print("Tried to delete");
+
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to load list of adventures: ${response.body}');
+      throw Exception('Failed to remove adventure: ${response.body}');
     }
-
-    List<Adventure> adventures = (jsonDecode(response.body) as List)
-        .map((x) => Adventure.fromJson(x))
-        .toList();
-
-    return adventures;
   }
 
-  static Future<http.Response> _getAdventuresByOwner(ownerID) async {
-    return http.get(Uri.http(kApi, '/adventure/owner/' + ownerID));
+
+  static Future<http.Response> _removeAdventure(adventureID) async {
+    return http.delete(Uri.http(adventureApi, '/adventure/remove/' + adventureID));
   }
 
-  static Future<http.Response> _getAdventuresByAttendee(attendeeID) async {
-    return http.get(Uri.http(kApi, '/adventure/attendee/' + attendeeID));
-  }
 }
