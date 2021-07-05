@@ -53,6 +53,17 @@ class Profile extends State<ProfileCaller> {
               width: 400.0,
               child: Text("Username",
                 style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 20)),
+            ),
+            SizedBox(height: 25),
+            SizedBox(
+              width: 400.0,
+              child: Text("Email address",
+                style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
+            ),
+            SizedBox(
+              width: 400.0,
+              child: Text("Phone number",
+                  style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
             )
         ])]
       )
