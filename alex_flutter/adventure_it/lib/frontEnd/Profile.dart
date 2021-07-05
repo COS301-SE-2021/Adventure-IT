@@ -19,7 +19,10 @@ class Profile extends State<ProfileCaller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(title: Center(child: Text("Profile",
+          style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)
+      )), backgroundColor: Theme.of(context).primaryColorDark),
     );
   }
 }
