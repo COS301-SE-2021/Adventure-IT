@@ -1,9 +1,7 @@
 package com.adventureit.mediaservice.Service;
 
 import com.adventureit.mediaservice.Entity.Media;
-import com.adventureit.mediaservice.Enumeration.MediaType;
 import com.adventureit.mediaservice.Repository.MediaRepository;
-import com.adventureit.mediaservice.Requests.AddMediaRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,7 +21,7 @@ public class MediaServiceImplementation implements MediaService{
     }
 
     @Override
-    public String addMedia(UUID id, MediaType type, String name, String description, UUID adventureID, UUID owner, MultipartFile file) throws Exception{
+    public String addMedia(UUID id, String type, String name, String description, UUID adventureID, UUID owner, MultipartFile file) throws Exception{
         if(id == null){
             throw new Exception("ID not provided");
         }
@@ -73,22 +71,22 @@ public class MediaServiceImplementation implements MediaService{
             throw new Exception("Media does not exist");
         }
 
-        if(media.getType() == MediaType.Video){
+        if(media.getType().equals("Video")){
             FileOutputStream out = new FileOutputStream("C:\\Users\\sgood\\Documents\\CS\\SEM 1\\COS301\\Capstone\\Media\\videooutput.mp4");
             out.write(media.getData());
             out.close();
         }
-        if(media.getType() == MediaType.Audio){
+        if(media.getType().equals("Audio")){
             FileOutputStream out = new FileOutputStream("C:\\Users\\sgood\\Documents\\CS\\SEM 1\\COS301\\Capstone\\Media\\audiooutput.mp3");
             out.write(media.getData());
             out.close();
         }
-        if(media.getType() == MediaType.Document){
-            FileOutputStream out = new FileOutputStream("C:\\Users\\sgood\\Documents\\CS\\SEM 1\\COS301\\Capstone\\Media\\docoutput.pdf");
+        if(media.getType().equals("Document")){
+            FileOutputStream out = new FileOutputStream("C:\\Users\\sgood\\Documents\\CS\\SEM 1\\COS301\\Capstone\\Media\\documentoutput.pdf");
             out.write(media.getData());
             out.close();
         }
-        if(media.getType() == MediaType.Image){
+        if(media.getType().equals("Image")){
             FileOutputStream out = new FileOutputStream("C:\\Users\\sgood\\Documents\\CS\\SEM 1\\COS301\\Capstone\\Media\\imageoutput.jpg");
             out.write(media.getData());
             out.close();

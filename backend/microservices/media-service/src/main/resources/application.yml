@@ -4,12 +4,11 @@ server:
 spring:
   application:
     name: MEDIA-SERVICE
-
-datasource:
-  url: jdbc:postgresql://localhost:5432/postgres
-  username: postgres
-  password: Shivek01
-  name: postgres
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: Shivek01
+    name: postgres
   jpa:
     hibernate:
       ddl-auto: update

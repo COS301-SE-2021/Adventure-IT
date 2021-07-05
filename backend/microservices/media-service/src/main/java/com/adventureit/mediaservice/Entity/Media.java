@@ -1,11 +1,6 @@
 package com.adventureit.mediaservice.Entity;
 
-import com.adventureit.mediaservice.Enumeration.MediaType;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -13,7 +8,7 @@ import java.util.UUID;
 public class Media {
     @Id
     private UUID id;
-    private MediaType type;
+    private String type;
     private String name;
     private String description;
     private UUID adventureID;
@@ -23,12 +18,13 @@ public class Media {
 
     public Media(){}
 
-    public Media(UUID id, MediaType type, String name, String description, UUID adventureID, UUID owner){
+    public Media(UUID id, String type, String name, String description, UUID adventureID, UUID owner){
         this.id = id;
         this.name = name;
         this.description = description;
         this.adventureID = adventureID;
         this.owner = owner;
+        this.type = type;
     }
 
     public void setId(UUID id) {
@@ -79,11 +75,11 @@ public class Media {
         return owner;
     }
 
-    public void setType(MediaType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public MediaType getType() {
+    public String getType() {
         return type;
     }
 
