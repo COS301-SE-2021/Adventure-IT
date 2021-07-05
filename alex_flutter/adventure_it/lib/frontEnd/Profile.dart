@@ -42,7 +42,7 @@ class Profile extends State<ProfileCaller> {
             ),),),
           ]),
         Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             SizedBox(
             width: 400.0,
@@ -64,9 +64,57 @@ class Profile extends State<ProfileCaller> {
               width: 400.0,
               child: Text("Phone number",
                   style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
-            )
-        ])]
-      )
+            ),
+            SizedBox(height: 20),
+        ]),
+        Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              ElevatedButton(
+                  child: Text("My Documents",
+                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
+                  style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).accentColor,
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomepageStartupCaller()),
+                    );
+              }),
+              SizedBox(height: 20),
+              ElevatedButton(
+                  child: Text("Upload Document",
+                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
+                  style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).accentColor,
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomepageStartupCaller()),
+                    );
+                  }),
+              FlatButton(
+                  onPressed: () => {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) => HomepageStartupCaller()),
+                  )},
+                  color: Theme.of(context).accentColor,
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.settings, color: Theme.of(context).textTheme.bodyText1!.color),
+                      Text("Edit Profile",
+                        style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)) ],
+                  ))]
+        ),])
     );
   }
 }
