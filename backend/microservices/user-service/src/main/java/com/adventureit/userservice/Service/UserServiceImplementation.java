@@ -153,15 +153,15 @@ public class UserServiceImplementation implements UserDetailsService {
 
 
     public LoginUserDTO LoginUser(LoginUserRequest req){
-        String email = req.getEmail();
+        String username = req.getUsername();
         String password = req.getPassword();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(15);
 
 
         assert repo != null;
-        Users user = repo.getUserByEmail(email);
+        Users user = repo.getUserByUsername(username);
         if(user==null){
-            throw new UserDoesNotExistException("User with email: "+email+" does not exist");
+            throw new UserDoesNotExistException("User with username: "+username+" does not exist");
         }
         else if(!passwordEncoder.matches(password, user.getPassword())){
             throw new InvalidUserPasswordException("User password does not match email");
@@ -173,7 +173,7 @@ public class UserServiceImplementation implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Users user =  repo.getByUsername(s);
+        Users user =  repo.getUserByUsername(s);
         if(user ==null){
            throw new UsernameNotFoundException("User not found");
         }
