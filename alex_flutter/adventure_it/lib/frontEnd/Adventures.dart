@@ -171,7 +171,7 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
                                       ),
                                         Expanded(
                                           flex: 1,
-                                          child: Text("In "+DateTime.parse(adventures.elementAt(index).date).difference(DateTime.now()).inDays.toString() +" days", style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
+                                          child: Text("In "+DateTime.parse(adventures.elementAt(index).startDate).difference(DateTime.now()).inDays.toString() +" days", style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
                                         ),
                                     ],
                                   ),
