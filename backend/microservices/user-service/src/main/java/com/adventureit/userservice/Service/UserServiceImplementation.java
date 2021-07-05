@@ -201,7 +201,6 @@ public class UserServiceImplementation implements UserDetailsService {
         return "confirmed";
     }
 
-    @Transactional
     public String updateProfilePicture(MultipartFile file, UUID id) throws Exception {
         if(file ==null){
             throw new Exception("File is null");
