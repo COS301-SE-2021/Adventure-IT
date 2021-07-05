@@ -46,9 +46,14 @@ class Profile extends State<ProfileCaller> {
           children: <Widget>[
             SizedBox(
             width: 400.0,
-            child: Text("Username",
+            child: Text("Full name",
                 style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 30)),
-          ),
+            ),
+            SizedBox(
+              width: 400.0,
+              child: Text("Username",
+                style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 20)),
+            )
         ])]
       )
     );
