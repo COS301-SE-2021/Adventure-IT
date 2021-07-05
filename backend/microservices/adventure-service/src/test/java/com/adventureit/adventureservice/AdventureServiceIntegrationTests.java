@@ -82,7 +82,7 @@ public class AdventureServiceIntegrationTests {
     @Description("Ensure controller can create a new adventure")
     public void httpCreateAdventure_ReturnCreatedAdventure(){
 
-        CreateAdventureRequest req = new CreateAdventureRequest("Test Adventure","Test Adventure Description", mockAdventureID, mockUserID, LocalDate.of(2021, 1, 1));
+        CreateAdventureRequest req = new CreateAdventureRequest("Test Adventure","Test Adventure Description", mockAdventureID, mockUserID, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 2));
         CreateAdventureResponse res = this.restTemplate.postForEntity("http://localhost:" + port + "/adventure/create", req, CreateAdventureResponse.class).getBody();
         Assertions.assertEquals(mockAdventureID, res.getAdventure().getAdventureId());
         Assertions.assertEquals(mockUserID, res.getAdventure().getOwnerId());
