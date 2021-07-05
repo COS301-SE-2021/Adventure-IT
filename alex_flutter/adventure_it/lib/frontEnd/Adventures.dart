@@ -4,6 +4,7 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:adventure_it/frontEnd/AdventurePage.dart';
 
 import 'package:flutter/material.dart';
 import 'Budgets.dart';
@@ -121,15 +122,22 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
                                       hoverColor: Theme.of(context).primaryColorLight,
                                       onTap: ()
                                       {
-                                        Future<List<Budget>> budgetsFuture =
-                                        BudgetApi.getBudgets(
-                                            adventures.elementAt(index));
+                                        // Future<List<Budget>> budgetsFuture =
+                                        // BudgetApi.getBudgets(
+                                        //     adventures.elementAt(index));
+                                        //     Navigator.pushReplacement(
+                                        //         context,
+                                        //         MaterialPageRoute(
+                                        //           builder: (context) => Adventure_Budgets(
+                                        //           budgetsFuture: budgetsFuture,
+                                        //           adventure:
+                                        //           adventures.elementAt(index))));
+
+
                                             Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) => Adventure_Budgets(
-                                                  budgetsFuture: budgetsFuture,
-                                                  adventure:
+                                                  builder: (context) => AdventurePage(
                                                   adventures.elementAt(index))));
                                         },
                                     child: Container
