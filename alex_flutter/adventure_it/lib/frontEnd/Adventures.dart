@@ -4,9 +4,9 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
-import 'package:adventure_it/frontEnd/AdventurePage.dart';
 
 import 'package:flutter/material.dart';
+import 'AdventurePage.dart';
 import 'Budgets.dart';
 import 'CreateAdventure.dart';
 import 'package:flutter/foundation.dart';
@@ -137,8 +137,7 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
                                             Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) => AdventurePage(
-                                                  adventures.elementAt(index))));
+                                                  builder: (context) => AdventurePage(adventures.elementAt(index))));
                                         },
                                     child: Container
                                       (

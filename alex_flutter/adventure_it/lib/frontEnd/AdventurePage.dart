@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:html';
 
 import 'package:adventure_it/api/adventure.dart';
@@ -5,6 +6,7 @@ import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/frontEnd/HomepageStartup.dart';
+import 'package:date_count_down/date_count_down.dart';
 
 import 'package:flutter/material.dart';
 import 'Budgets.dart';
@@ -13,21 +15,79 @@ import 'package:flutter/foundation.dart';
 
 import '../api/budget.dart';
 
-class AdventurePage extends StatefulWidget {
+class AdventureTimer extends StatefulWidget
+{
   Adventure? a;
+  AdventureTimer(Adventure? a)
+  {
+    this.a=a;
+  }
+  @override
+  _AdventureTimer createState() => _AdventureTimer(a);
+}
 
-  AdventurePage(Adventure? ad) {
-    this.a = ad;
+class _AdventureTimer extends State<AdventureTimer>
+{
+  late Timer  _timer;
+  Adventure? currentAdventure;
+  @override
+
+  void initState ()
+  {
+    super.initState();
+    _timer=Timer.periodic(const Duration(seconds: 1),(_timer) {
+      setState(() {});
+    });
+  }
+
+  _AdventureTimer(Adventure? a)
+  {
+      this.currentAdventure=a;
+  }
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
   }
 
   @override
-  _AdventurePage createState() => _AdventurePage(a);
+  Widget build(BuildContext context)
+  {
+    if(DateTime.now().difference(DateTime.parse(currentAdventure!.startDate)).isNegative) {
+      return Container(
+          child: Text(
+              CountDown().timeLeft(DateTime.parse(currentAdventure!.startDate), "Currently on adventure!", longDateName: true),
+            style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)
+          ),
+      );
+    }
+    else if(DateTime.parse(currentAdventure!.startDate).difference(DateTime.now()).isNegative && DateTime.now().difference(DateTime.parse(currentAdventure!.endDate)).isNegative) {
+      return Container(
+        child: Text(
+            CountDown().timeLeft(DateTime.parse(currentAdventure!.endDate), "Adventure has ended!", longDateName: true),
+            style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)
+        ),
+      );
+    }
+    else
+      {
+        return Container(
+          child: Text("It seems you've already gone on this adventure!",
+              style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)
+          ),
+        );
+      }
+  }
+
+
 }
 
-class _AdventurePage extends State<AdventurePage> {
+class AdventurePage extends StatelessWidget {
   Adventure? currentAdventure;
 
-  _AdventurePage(Adventure? a) {
+  AdventurePage(Adventure a) {
     this.currentAdventure = a;
   }
 
@@ -61,6 +121,7 @@ class _AdventurePage extends State<AdventurePage> {
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
                   children: [
+                    AdventureTimer(currentAdventure),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
