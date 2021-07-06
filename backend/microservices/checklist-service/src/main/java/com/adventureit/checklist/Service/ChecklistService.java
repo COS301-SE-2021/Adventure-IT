@@ -11,5 +11,7 @@ public interface ChecklistService {
     public String removeChecklist(UUID id) throws Exception;
     public String addChecklistEntry(String title, UUID id, UUID entryContainerID) throws Exception;
     public String removeChecklistEntry(UUID id, UUID entryContainerID) throws Exception;
+    public String editChecklistEntry(UUID id, UUID entryContainerID, String description) throws Exception;
+    public void markChecklistEntry(UUID id, UUID entryContainerID) throws Exception;
 
 }

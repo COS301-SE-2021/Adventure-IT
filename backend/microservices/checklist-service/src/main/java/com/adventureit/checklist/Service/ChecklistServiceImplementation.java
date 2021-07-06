@@ -112,4 +112,65 @@ public class ChecklistServiceImplementation implements ChecklistService {
         checklistEntryRepository.delete(checklistEntry);
         return "Checklist Entry successfully removed";
     }
+
+    @Override
+    public String editChecklistEntry(UUID id, UUID entryContainerID, String title) throws Exception {
+        if(checklistRepository.findChecklistById(entryContainerID) == null){
+            throw new Exception("Checklist does not exist.");
+        }
+        if(id == null){
+            throw new Exception("Entry ID not provided.");
+        }
+        if(entryContainerID == null){
+            throw new Exception("Itinerary ID not provided");
+        }
+        if(title == null){
+            throw new Exception("Description Field is null.");
+        }
+
+        Checklist checklist = checklistRepository.findChecklistById(entryContainerID);
+
+        if(!checklist.CheckIfEntryExists(checklist.getEntries(),id)){
+            throw new Exception("Entry does not exist.");
+        }
+
+        ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
+        int x = checklist.getIndex(checklist.getEntries(),id);
+
+        if(!title.equals("")){
+            entry.setTitle(title);
+        }
+
+        checklist.getEntries().set(x,entry);
+        checklistRepository.save(checklist);
+        checklistEntryRepository.save(entry);
+        return "Entry successfully updated";
+    }
+
+    @Override
+    public void markChecklistEntry(UUID id, UUID entryContainerID) throws Exception {
+        if(checklistRepository.findChecklistById(entryContainerID) == null){
+            throw new Exception("Checklist does not exist.");
+        }
+        if(id == null){
+            throw new Exception("Entry ID not provided.");
+        }
+        if(entryContainerID == null){
+            throw new Exception("Itinerary ID not provided");
+        }
+
+        Checklist checklist = checklistRepository.findChecklistById(entryContainerID);
+
+        if(!checklist.CheckIfEntryExists(checklist.getEntries(),id)){
+            throw new Exception("Entry does not exist.");
+        }
+
+        ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
+        int x = checklist.getIndex(checklist.getEntries(),id);
+
+        entry.setCompleted(!entry.getCompleted());
+        checklist.getEntries().set(x,entry);
+        checklistRepository.save(checklist);
+        checklistEntryRepository.save(entry);
+    }
 }

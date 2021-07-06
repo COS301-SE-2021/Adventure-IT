@@ -118,4 +118,44 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
         return "Itinerary Entry successfully removed";
     }
+
+    @Override
+    public String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description) throws Exception {
+        if(itineraryRepository.findItineraryById(entryContainerID) == null){
+            throw new Exception("Itinerary does not exist.");
+        }
+        if(id == null){
+            throw new Exception("Entry ID not provided.");
+        }
+        if(entryContainerID == null){
+            throw new Exception("Itinerary ID not provided");
+        }
+        if(title == null){
+            throw new Exception("Title Field is null.");
+        }
+        if(description == null){
+            throw new Exception("Description Field is null.");
+        }
+
+        Itinerary itinerary = itineraryRepository.findItineraryById(entryContainerID);
+
+        if(!itinerary.CheckIfEntryExists(itinerary.getEntries(),id)){
+            throw new Exception("Entry does not exist.");
+        }
+
+        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryById(id);
+        int x = itinerary.getIndex(itinerary.getEntries(),id);
+
+        if(!description.equals("")){
+            entry.setDescription(description);
+        }
+        if(!title.equals("")){
+            entry.setTitle(title);
+        }
+
+        itinerary.getEntries().set(x,entry);
+        itineraryRepository.save(itinerary);
+        itineraryEntryRepository.save(entry);
+        return "Entry successfully updated";
+    }
 }

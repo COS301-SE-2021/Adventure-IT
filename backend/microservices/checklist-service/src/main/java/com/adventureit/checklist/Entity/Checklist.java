@@ -128,4 +128,15 @@ public class Checklist extends EntryContainer {
         }
         return result;
     }
+
+    public int getIndex(List<Entry> entries, UUID id) {
+        int result = 0;
+        for (Entry b : entries) {
+            if (b.getId().equals(id)) {
+                break;
+            }
+            result++;
+        }
+        return result;
+    }
 }
