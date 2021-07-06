@@ -239,4 +239,18 @@ public class UserServiceImplementation implements UserDetailsService {
         return ImageIO.read(bis);
     }
 
+    public String removeImage(UUID id) throws Exception {
+        if(id ==null){
+            throw new Exception("User ID not provided");
+        }
+
+        User user = repo.getUserByUserID(id);
+        if(user == null){
+            throw new Exception("User does not exist");
+        }
+
+        user.setProfilePicture(null);
+        repo.save(user);
+        return "Picture successfully removed";
+    }
 }
