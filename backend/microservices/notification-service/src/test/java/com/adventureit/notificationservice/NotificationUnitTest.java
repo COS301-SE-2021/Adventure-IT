@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -29,7 +31,7 @@ public class NotificationUnitTest {
 
 
     @Mock
-    private JavaMailSender mail = Mockito.mock(JavaMailSender.class);
+    private JavaMailSenderImpl mail = Mockito.mock(JavaMailSenderImpl.class);
 
     private NotificationService notificationSUT = new NotificationService(mail, mockNotificationRepository);
 
@@ -37,7 +39,6 @@ public class NotificationUnitTest {
 
 
     String mockEmail = "u19024143@gmail.com";
-
     String mockSubject1 = "Test Subject";
 
     String mockMessage1 = "Test message 1";

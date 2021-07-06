@@ -11,6 +11,7 @@ import com.adventureit.notificationservice.Responses.SendEmailNotificationRespon
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -21,24 +22,40 @@ import java.util.UUID;
 
 @Service
 public class NotificationService {
-    private final JavaMailSender mailSender;
+    private final JavaMailSenderImpl mailSender;
     private final NotificationRepository repo;
 
-
-    public NotificationService(JavaMailSender mailSender, NotificationRepository repo) {
+    @Autowired
+    public NotificationService(JavaMailSenderImpl mailSender, NotificationRepository repo) {
         this.mailSender = mailSender;
         this.repo = repo;
     }
 
+    /**
+     *This use case will be used to send the email out to the recipient
+     *It will mainly be used as a helper function to for the sendEmailNotification use case
+     *
+     *
+     * @param email the email address of the person who the email is going to be sent to
+     * @param subject The subject of the email
+     * @param message The email body
+     **/
     public void sendEmail(String email,String subject,String message){
-        Properties props =new Properties();
+        Properties props = mailSender.getJavaMailProperties();
         props.put("mail.smtp.ssl.trust", "*");
+        props.put("mail.smtp.starttls.enable","true");
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(email);
         mailMessage.setSubject(subject);
         mailMessage.setText(message);
         mailSender.send(mailMessage);
     }
+
+    /**
+     * This use case will be responsible for creating a notification for a specific user
+     * @param req This is a CreateNotificationRequest object which will hold
+     * @return
+     **/
 
     public CreateNotificationResponse createNotification(CreateNotificationRequest req){
         Date currentDate = new Date();
@@ -63,7 +80,6 @@ public class NotificationService {
         Date currentDate = new Date();
         boolean unread_only = req.isUnreadOnly();
         UUID userID =req.getUserId_U();
-        //UUID userID = UUID.fromString("9d2a50a0-3648-41f2-b344-08a4459a7f27");
         if(unread_only){
             List<Notification> list = repo.getNotificationByUserIDAndReadDateTime(userID,null);
             for (Notification notification : list) {

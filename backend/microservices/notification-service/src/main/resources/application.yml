@@ -31,9 +31,9 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    user: thesmartpointers@gmail.com
-    password: TSPAAKSS21
-    stmp:
+    username: thesmartpointers@gmail.com
+    password: sqwtejpmgfrtgecc
+    properties.mail.stmp:
       auth: true
       connectionTimeout: 5000
       timeout: 5000

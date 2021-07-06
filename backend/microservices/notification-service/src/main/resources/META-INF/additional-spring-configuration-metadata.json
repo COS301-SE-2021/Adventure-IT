@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "spring.mail.stmp.STARTTTLS.enable",
+      "type": "java.lang.String",
+      "description": "Description for spring.mail.stmp.STARTTTLS.enable."
+    },
+    {
+      "name": "spring.mail.user",
+      "type": "java.lang.String",
+      "description": "Description for spring.mail.user."
+    }
+  ] }
