@@ -13,8 +13,8 @@ public class Expense extends BudgetEntry{
      * @param title title of entry
      * @param description short description of entry
      */
-    public Expense(UUID id, double amount, String title, String description){
-        super(id,amount,title,description);
+    public Expense(UUID id, UUID entryContatinerID, double amount, String title, String description){
+        super(id,entryContatinerID,amount,title,description);
     }
 
     /**

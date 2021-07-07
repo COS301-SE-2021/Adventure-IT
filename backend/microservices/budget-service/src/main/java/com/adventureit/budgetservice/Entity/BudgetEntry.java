@@ -1,16 +1,15 @@
 package com.adventureit.budgetservice.Entity;
 
+import com.adventureit.adventureservice.Entity.Entry;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.ArrayList;
+
 import java.util.UUID;
 
 @Entity
-public class BudgetEntry {
+public class BudgetEntry extends Entry {
     @Id
-    private UUID id;
     double amount;
     String title;
     String description;
@@ -23,8 +22,9 @@ public class BudgetEntry {
      * @param title title of entry
      * @param description short description of entry
      */
-    public BudgetEntry(UUID id,double amount,String title,String description){
-        this.id = id;
+    public BudgetEntry(UUID id,UUID entryContainerID,double amount,String title,String description){
+        this.setId(id);
+        this.setEntryContainerID(entryContainerID);
         this.amount = amount;
         this.title = title;
         this.description = description;
@@ -41,13 +41,6 @@ public class BudgetEntry {
     /**
      * Getters and Setters
      */
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public void setDescription(String description) {
         this.description = description;

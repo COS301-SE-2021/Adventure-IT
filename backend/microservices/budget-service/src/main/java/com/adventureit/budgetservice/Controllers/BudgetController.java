@@ -49,30 +49,30 @@ public class BudgetController {
 //		return budgetRepository.findAllByAdventureID(id);
 //	}
 
-	@GetMapping("/viewBudget/{id}")
-	public Budget viewBudget(@PathVariable UUID id) throws Exception {
-		ViewBudgetRequest request = new ViewBudgetRequest(id);
-		ViewBudgetResponse response = budgetServiceImplementation.viewBudget(request);
-		return response.getBudget();
-	}
-
-	@GetMapping("/softDelete/{id}")
-	public String softDelete(@PathVariable UUID id) throws Exception {
-		SoftDeleteRequest request = new SoftDeleteRequest(id);
-		budgetServiceImplementation.softDelete(request);
-		return "Budget successfully moved to bin.";
-	}
-
-	@GetMapping("/viewTrash/{id}")
-	public List<Budget> viewTrash(@PathVariable UUID id) throws Exception {
-		ViewTrashResponse response = budgetServiceImplementation.viewTrash(id);
-		return response.getBudgets();
-	}
-
-	@GetMapping("/restoreBudget/{id}")
-	public String restoreBudget(@PathVariable UUID id) throws Exception {
-		return budgetServiceImplementation.restoreBudget(id);
-	}
+//	@GetMapping("/viewBudget/{id}")
+//	public Budget viewBudget(@PathVariable UUID id) throws Exception {
+//		ViewBudgetRequest request = new ViewBudgetRequest(id);
+//		ViewBudgetResponse response = budgetServiceImplementation.viewBudget(request);
+//		return response.getBudget();
+//	}
+//
+//	@GetMapping("/softDelete/{id}")
+//	public String softDelete(@PathVariable UUID id) throws Exception {
+//		SoftDeleteRequest request = new SoftDeleteRequest(id);
+//		budgetServiceImplementation.softDelete(request);
+//		return "Budget successfully moved to bin.";
+//	}
+//
+//	@GetMapping("/viewTrash/{id}")
+//	public List<Budget> viewTrash(@PathVariable UUID id) throws Exception {
+//		ViewTrashResponse response = budgetServiceImplementation.viewTrash(id);
+//		return response.getBudgets();
+//	}
+//
+//	@GetMapping("/restoreBudget/{id}")
+//	public String restoreBudget(@PathVariable UUID id) throws Exception {
+//		return budgetServiceImplementation.restoreBudget(id);
+//	}
 
 //	@PostMapping("/create")
 //	public String createBudget(@RequestBody CreateBudgetRequest req) throws Exception {

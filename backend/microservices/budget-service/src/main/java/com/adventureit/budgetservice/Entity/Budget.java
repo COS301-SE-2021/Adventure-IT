@@ -1,49 +1,45 @@
 package com.adventureit.budgetservice.Entity;
 
+import com.adventureit.adventureservice.Entity.Entry;
+import com.adventureit.adventureservice.Entity.EntryContainer;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-public class Budget {
+public class Budget extends EntryContainer {
     @Id
-    private UUID id;
     String name;
-    @ManyToMany (fetch=FetchType.EAGER)
-    List<BudgetEntry> transactions;
     boolean deleted;
-    UUID adventureID;
-
 
     /**
      * Default Constructor
      */
     public Budget(){}
 
-    /**
-     * Budget model Constructor which takes in the following parameters:
-     * @param id Budget id
-     * @param name Name of the budget
-     * @param transactions List of all Entries
-     */
-    public Budget(UUID id,String name,ArrayList<BudgetEntry> transactions){
-        this.id = id;
-        this.name = name;
-        this.transactions = transactions;
+
+    public Budget(UUID id,String name,UUID creatorID, UUID adventureID){
+        this.setId(id);
+        this.name = name;;
+        this.setCreatorID(creatorID);
+        this.setAdventureID(adventureID);
+        deleted = false;
+    }
+
+    public Budget(UUID id,String name,UUID creatorID, UUID adventureID, List<Entry> entries){
+        this.setId(id);
+        this.name = name;;
+        this.setCreatorID(creatorID);
+        this.setAdventureID(adventureID);
+        this.setEntries(entries);
         deleted = false;
     }
 
     /**
      * Getters and Setters
      */
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public UUID getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
@@ -51,14 +47,6 @@ public class Budget {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setTransactions(ArrayList<BudgetEntry> transactions) {
-        this.transactions = transactions;
-    }
-
-    public List<BudgetEntry> getTransactions() {
-        return transactions;
     }
 
     public void setDeleted(boolean deleted) {
@@ -69,22 +57,12 @@ public class Budget {
         return deleted;
     }
 
-
-    public UUID getAdventureID() {
-        return adventureID;
-    }
-
-    public void setAdventureID(UUID adventureID) {
-        this.adventureID = adventureID;
-    }
-
-
     /**
      * Helper functions
      */
-    public boolean CheckIfEntryExists(List<BudgetEntry> trans, UUID id) {
+    public boolean CheckIfEntryExists(List<Entry> entries, UUID id) {
         boolean result = false;
-        for (BudgetEntry b : trans) {
+        for (Entry b : entries) {
             if (b.getId().equals(id)) {
                 result = true;
                 break;
@@ -93,9 +71,9 @@ public class Budget {
         return result;
     }
 
-    public BudgetEntry getEntry(List<BudgetEntry> trans, UUID id) {
-        BudgetEntry result = null;
-        for (BudgetEntry b : trans) {
+    public Entry getEntry(List<Entry> entries, UUID id) {
+        Entry result = null;
+        for (Entry b : entries) {
             if (b.getId().equals(id)) {
                 result = b;
                 break;
@@ -104,9 +82,9 @@ public class Budget {
         return result;
     }
 
-    public int getIndex(List<BudgetEntry> trans, UUID id) {
+    public int getIndex(List<Entry> entries, UUID id) {
         int result = 0;
-        for (BudgetEntry b : trans) {
+        for (Entry b : entries) {
             if (b.getId().equals(id)) {
                 break;
             }
