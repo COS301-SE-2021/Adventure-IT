@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 /** This class implements the functionality of the UserAPI interface.*/
 @CrossOrigin("*")
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     private final UserServiceImplementation service;
@@ -33,23 +34,23 @@ public class UserController {
      * @throws InvalidUserPasswordException if the user password is invalid
      * @throws InvalidRequestException if the request body is null
      */
-    @PostMapping(value = "api/RegisterUser", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/RegisterUser", consumes = "application/json", produces = "application/json")
     public RegisterUserResponse RegisterUser(@RequestBody RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
         return service.RegisterUser(req);
     }
 
-    @GetMapping(value="/api/test")
+    @GetMapping(value="/test")
     public String test(){
         return "User controller is working";
     }
 
 
-    @GetMapping(value="/api/ConfirmToken")
+    @GetMapping(value="/ConfirmToken")
     public String ConfirmToken(@RequestParam("token") String token){
         return service.confirmToken(token);
     }
 
-    @PostMapping(value = "api/LoginUser", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/LoginUser", consumes = "application/json", produces = "application/json")
     public LoginUserDTO Login(@RequestBody LoginUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
         return service.LoginUser(req);
     }

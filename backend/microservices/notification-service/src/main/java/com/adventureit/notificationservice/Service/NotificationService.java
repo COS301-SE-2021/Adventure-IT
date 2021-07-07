@@ -54,7 +54,7 @@ public class NotificationService {
     /**
      * This use case will be responsible for creating a notification for a specific user
      * @param req This is a CreateNotificationRequest object which will hold
-     * @return
+     * @return it will simply return a response message as well as a response message
      **/
 
     public CreateNotificationResponse createNotification(CreateNotificationRequest req){
@@ -67,6 +67,15 @@ public class NotificationService {
         return new CreateNotificationResponse("Notification saved for user no. "+userid,true);
 
     }
+
+    /**
+     * This use case is responsible for sending a email to a user.
+     * @param req this request object hold the user Id of the user to whom the email must be sent to, as well as the Message subject
+     *            and message body
+     * @return The response object will simply hold a boolean to indicate whether the email was sent successfully as well as a return message
+     */
+
+
     public SendEmailNotificationResponse sendEmailNotification(SendEmailNotificationRequest req){
         UUID userID = req.getUserId();
         String email = "kevin9716cui@gmail.com";
