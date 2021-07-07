@@ -64,7 +64,7 @@ class UserApi {
     }
   }
 
-  Future<UserProfile> userProfile(String userID) async {
+  static Future<List<UserProfile>> getAdventuresByUUID(String userID) async {
     final response = await http.post(
       Uri.parse('http://localhost:9002/api/UserProfile'), //get uri
       headers: <String, String>{
@@ -75,14 +75,14 @@ class UserApi {
       }),
     );
 
-    if (response.statusCode == 201) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
-      return UserProfile(userID: userID);
-    } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      throw Exception('Failed to get user\'s profile.');
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load user information: ${response.body}');
     }
+
+    List<UserProfile> users = (jsonDecode(response.body) as List)
+        .map((x) => UserProfile.fromJson(x))
+        .toList();
+
+    return users;
   }
 }

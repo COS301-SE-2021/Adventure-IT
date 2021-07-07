@@ -1,6 +1,6 @@
 import 'dart:html';
 
-import 'package:adventure_it/api/loginUser.dart';
+import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/api/user_api.dart';
 import 'package:flutter/gestures.dart';
 
@@ -13,8 +13,14 @@ class ProfileCaller extends StatefulWidget {
 }
 
 class Profile extends State<ProfileCaller> {
-  Future<LoginUser>? _futureUser;
+  Future<List<UserProfile>>? userFuture;
   final UserApi api = new UserApi();
+
+  @override
+  void initState() {
+    super.initState();
+    userFuture = UserApi.getAdventuresByUUID("1660bd85-1c13-42c0-955c-63b1eda4e90b");
+  }
 
   @override
   Widget build(BuildContext context) {
