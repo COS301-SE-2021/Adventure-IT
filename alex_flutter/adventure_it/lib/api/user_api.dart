@@ -7,6 +7,7 @@ import 'package:adventure_it/constants.dart';
 import 'package:http/http.dart' as http;
 
 import 'loginUser.dart';
+import 'userProfile.dart';
 
 class UserApi {
   Future<RegisterUser> createUser(String firstName,String lastName,String username,String email,String phoneNumber,String password) async {
@@ -60,6 +61,28 @@ class UserApi {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       throw Exception('Failed to register user.');
+    }
+  }
+
+  Future<UserProfile> userProfile(String userID) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:9002/api/UserProfile'), //get uri
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'userID': userID,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      return UserProfile(userID: userID);
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to get user\'s profile.');
     }
   }
 }
