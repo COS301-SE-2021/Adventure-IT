@@ -26,23 +26,23 @@ public class BudgetController {
 		return "Budget Controller is functioning";
 	}
 
-	@GetMapping("/populate")
-	public String populate(){
-		budgetServiceImplementation.mockPopulate();
-		return "Mock budgets populated \n";
-	}
-
-	@GetMapping("/populateTrash")
-	public String populateTrash(){
-		budgetServiceImplementation.mockPopulateTrash();
-		return "Trash populated \n";
-	}
-
-	@GetMapping("/mockCreate/{name}")
-	public String createMockBudget(@PathVariable String name){
-		budgetServiceImplementation.mockCreateBudget(name);
-		return "Budget Successfully created";
-	}
+//	@GetMapping("/populate")
+//	public String populate(){
+//		budgetServiceImplementation.mockPopulate();
+//		return "Mock budgets populated \n";
+//	}
+//
+//	@GetMapping("/populateTrash")
+//	public String populateTrash(){
+//		budgetServiceImplementation.mockPopulateTrash();
+//		return "Trash populated \n";
+//	}
+//
+//	@GetMapping("/mockCreate/{name}")
+//	public String createMockBudget(@PathVariable String name){
+//		budgetServiceImplementation.mockCreateBudget(name);
+//		return "Budget Successfully created";
+//	}
 
 //	@GetMapping("/viewBudgetsByAdventure/{id}")
 //	public List<Budget> viewBudgetsByAdventure(@PathVariable UUID id) throws Exception {
