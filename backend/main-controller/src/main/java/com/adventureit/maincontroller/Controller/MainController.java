@@ -13,7 +13,7 @@ public class MainController {
     @Autowired
     private EurekaClient eurekaClient;
 
-    private RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate = new RestTemplate();
 
     @RequestMapping("/adventure/test")
     public String adventureTest(){
