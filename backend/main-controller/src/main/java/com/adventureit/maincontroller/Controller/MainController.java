@@ -22,6 +22,14 @@ public class MainController {
         int adventurePort = adventureInstance.getPort();
         return restTemplate.getForObject("http://"+ adventureIP + ":" + adventurePort + "/adventure/test", String.class);
     }
+
+    @RequestMapping("/user/test")
+    public String userTest(){
+        InstanceInfo userInstance =eurekaClient.getApplication("USER-SERVICE").getInstances().get(0);
+        String userIP = userInstance.getIPAddr();
+        int userPort = userInstance.getPort();
+        return restTemplate.getForObject("http://"+ userIP + ":" + userPort + "/user/test", String.class);
+    }
 }
 
 
