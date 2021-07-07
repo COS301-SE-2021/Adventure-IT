@@ -27,10 +27,7 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(
             bodyText1: TextStyle(color: Color(0xffA7AAB9)),
             bodyText2: TextStyle(color:Color(0xff20222D))
-          ),
-            elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ElevatedButton.styleFrom(
-                    primary: Color(0xff323647)))),
+          )),
         home: LoginCaller());
   }
 }

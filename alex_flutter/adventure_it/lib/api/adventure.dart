@@ -10,8 +10,7 @@ class Adventure {
   final List<String> containers;
   final String name;
   final String ownerId;
-  final String startDate;
-  final String endDate;
+  final String date;
   final String description;
 
   Adventure(
@@ -20,8 +19,7 @@ class Adventure {
       required this.attendees,
       required this.containers,
       required this.name,
-      required this.startDate,
-        required this.endDate,
+      required this.date,
       required this.description});
 
   factory Adventure.fromJson(Map<String, dynamic> json) =>

@@ -14,21 +14,19 @@ public class CreateAdventureRequest{
     private UUID ownerId;
     private ArrayList<String> group;
     private ArrayList<EntryContainer> Containers;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate date;
 
     /**
      * This service will be used to generate a CreateAdventure request
      * @param name name of the Adventure
      * @param id ID of the Adventure
      */
-    public CreateAdventureRequest(String name, String description, UUID id, UUID ownerId, LocalDate sd, LocalDate ed){
+    public CreateAdventureRequest(String name, String description, UUID id, UUID ownerId, LocalDate date){
         this.name=name;
         this.description = description;
         this.id=id;
         this.ownerId = ownerId;
-        this.startDate=sd;
-        this.endDate=ed;
+        this.date = date;
     }
 
     public String getName(){
@@ -59,12 +57,8 @@ public class CreateAdventureRequest{
         return this.description;
     }
 
-    public LocalDate getStartDate(){
-        return this.startDate;
-    }
-
-    public LocalDate getEndDate(){
-        return this.endDate;
+    public LocalDate getDate(){
+        return this.date;
     }
 
 }

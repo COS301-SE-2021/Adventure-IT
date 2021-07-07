@@ -6,6 +6,7 @@ on:
     - master
     - development
     - sprint*
+    - Sprint*
   workflow_dispatch:
   
 jobs:
