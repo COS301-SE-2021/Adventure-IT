@@ -186,7 +186,7 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
                                       ),
                                         Expanded(
                                           flex: 1,
-                                          child: Text(getDate(adventures.elementAt(index)), textAlign: TextAlign.center,style: TextStyle(fontSize: 10*MediaQuery.of(context).textScaleFactor,color:Theme.of(context).textTheme.bodyText1!.color)),
+                                          child: Text(getDate(adventures.elementAt(index)), textAlign: TextAlign.center,style: TextStyle(fontSize: 12*MediaQuery.of(context).textScaleFactor,color:Theme.of(context).textTheme.bodyText1!.color)),
                                         ),
                                     ],
                                   ),
