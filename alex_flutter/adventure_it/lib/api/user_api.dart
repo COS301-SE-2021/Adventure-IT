@@ -64,7 +64,7 @@ class UserApi {
     }
   }
 
-  static Future<List<UserProfile>> getAdventuresByUUID(String userID) async {
+  static Future<List<UserProfile>> getUserByUUID(String userID) async {
     final response = await http.post(
       Uri.parse('http://localhost:9002/api/UserProfile'), //get uri
       headers: <String, String>{
@@ -80,8 +80,7 @@ class UserApi {
     }
 
     List<UserProfile> users = (jsonDecode(response.body) as List)
-        .map((x) => UserProfile.fromJson(x))
-        .toList();
+        .map((x) => UserProfile.fromJson(x)).toList();
 
     return users;
   }

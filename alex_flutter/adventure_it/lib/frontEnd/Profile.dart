@@ -19,7 +19,7 @@ class Profile extends State<ProfileCaller> {
   @override
   void initState() {
     super.initState();
-    userFuture = UserApi.getAdventuresByUUID("1660bd85-1c13-42c0-955c-63b1eda4e90b");
+    userFuture = UserApi.getUserByUUID("1660bd85-1c13-42c0-955c-63b1eda4e90b");
   }
 
   @override
