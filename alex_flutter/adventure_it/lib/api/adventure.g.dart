@@ -15,7 +15,8 @@ Adventure _$AdventureFromJson(Map<String, dynamic> json) {
     containers:
         (json['containers'] as List<dynamic>).map((e) => e as String).toList(),
     name: json['name'] as String,
-    date: json['date'] as String,
+    startDate: json['startDate'] as String,
+    endDate: json['endDate'] as String,
     description: json['description'] as String,
   );
 }
@@ -26,6 +27,7 @@ Map<String, dynamic> _$AdventureToJson(Adventure instance) => <String, dynamic>{
       'containers': instance.containers,
       'name': instance.name,
       'ownerId': instance.ownerId,
-      'date': instance.date,
+      'startDate': instance.startDate,
+      'endDate': instance.endDate,
       'description': instance.description,
     };
