@@ -35,14 +35,14 @@ class HomePage_Pages_Adventures extends StatelessWidget {
     return Column(children: <Widget>[
       Container(
           alignment: Alignment.center,
-          height: 100,
+          height: MediaQuery.of(context).size.height/6,
           child: Text("Adventures",
-              style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyText1!.color))),
+              style: TextStyle(fontSize: 35*MediaQuery.of(context).textScaleFactor, fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyText1!.color))),
       Container(
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.only(left: 20.0),),
+          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/50,),),
       AdventureFutureBuilder(),
-      SizedBox(height: 10),
+      SizedBox(height: MediaQuery.of(context).size.height/60),
       Container(
           decoration: BoxDecoration(
               color: Theme.of(context).accentColor,
@@ -51,7 +51,7 @@ class HomePage_Pages_Adventures extends StatelessWidget {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => CreateAdventureCaller()));
       }}, icon: const Icon(Icons.add), color: Theme.of(context).primaryColorDark)),
-      SizedBox(height: 10),
+      SizedBox(height: MediaQuery.of(context).size.height/60),
     ]);
   }
 }
@@ -71,6 +71,22 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
   void initState() {
     super.initState();
     adventuresFuture = AdventureApi.getAdventuresByUUID("1660bd85-1c13-42c0-955c-63b1eda4e90b");
+  }
+
+  String getDate(Adventure a)
+  {
+    if(DateTime.parse(a.startDate).difference(DateTime.now()).inDays>0)
+    {
+        return "In "+DateTime.parse(a.startDate).difference(DateTime.now()).inDays.toString() +" days";
+    }
+    else if (DateTime.parse(a.endDate).difference(DateTime.now()).inDays>0&&DateTime.parse(a.startDate).difference(DateTime.now()).inDays<=0)
+      {
+        return "Currently On Adventure!";
+      }
+    else
+      {
+        return "Adventure Completed!";
+      }
   }
 
 
@@ -100,7 +116,7 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
                                   background: Container(
                                // color: Theme.of(context).primaryColor,
                                //   margin: const EdgeInsets.all(5),
-                                 padding: const EdgeInsets.all(15),
+                                 padding: EdgeInsets.all(MediaQuery.of(context).size.height/60),
                                  child: Row(
 
                                    children: [
@@ -108,7 +124,7 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
                                     Icon(
                                       Icons.delete,
                                       color: Theme.of(context).accentColor,
-                                      size: 35
+                                      size: 35*MediaQuery.of(context).textScaleFactor
                                     ),
                                    ],
                                  ),
@@ -146,7 +162,7 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
                                         Expanded(
                                           flex: 1,
                                           child: Container(
-                                          height:90,
+                                          height:MediaQuery.of(context).size.height/6,
                                           child: CircleAvatar(
                                             radius: 50,
                                             backgroundImage: AssetImage('assets/adventure.PNG'),
@@ -163,14 +179,14 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
                                         Expanded(
                                           flex: 4,
                                           child: ListTile(
-                                            title: Text(adventures.elementAt(index).name, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Theme.of(context).textTheme.bodyText1!.color)),
+                                            title: Text(adventures.elementAt(index).name, style: TextStyle(fontSize: 25*MediaQuery.of(context).textScaleFactor, fontWeight: FontWeight.bold,color: Theme.of(context).textTheme.bodyText1!.color)),
                                             // subtitle:Text(adventures.elementAt(index).description),
-                                            subtitle: Text(adventures.elementAt(index).description, style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
+                                            subtitle: Text(adventures.elementAt(index).description, style: TextStyle(fontSize: 15*MediaQuery.of(context).textScaleFactor,color:Theme.of(context).textTheme.bodyText1!.color)),
                                         ),
                                       ),
                                         Expanded(
                                           flex: 1,
-                                          child: Text("In "+DateTime.parse(adventures.elementAt(index).startDate).difference(DateTime.now()).inDays.toString() +" days", style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
+                                          child: Text(getDate(adventures.elementAt(index)), textAlign: TextAlign.center,style: TextStyle(fontSize: 10*MediaQuery.of(context).textScaleFactor,color:Theme.of(context).textTheme.bodyText1!.color)),
                                         ),
                                     ],
                                   ),
@@ -185,13 +201,13 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
 
             else
             {
-              return Center(child: Text("It seems you're not very adventurous...", style: TextStyle(fontSize: 30, color:Theme.of(context).textTheme.bodyText1!.color)));
+              return Center(child: Text("It seems you're not very adventurous...", style: TextStyle(fontSize: 30*MediaQuery.of(context).textScaleFactor, color:Theme.of(context).textTheme.bodyText1!.color)));
             }
 
           }
           else
           {
-            return Center(child: Text("It seems you're not very adventurous...", style: TextStyle(fontSize: 30, color:Theme.of(context).textTheme.bodyText1!.color)));
+            return Center(child: Text("It seems you're not very adventurous...", style: TextStyle(fontSize: 30*MediaQuery.of(context).textScaleFactor, color:Theme.of(context).textTheme.bodyText1!.color)));
           }
         }
     );
