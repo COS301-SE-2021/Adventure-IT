@@ -1,3 +1,4 @@
+import 'dart:html';
 
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
@@ -54,8 +55,8 @@ class CreateAdventure extends State<CreateAdventureCaller> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                width: MediaQuery.of(context).size.width/2,
-                height: MediaQuery.of(context).size.height/3,
+                width: 500,
+                height: 250,
                 child: CircleAvatar(
                   radius: 90,
                   backgroundImage: ExactAssetImage('assets/adventure.PNG'),
@@ -68,30 +69,30 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height*0.05),
+              SizedBox(height: 10),
               SizedBox(
-                width: 350,
+                width: 400.0,
                 child: TextField(
-                    style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color, fontSize: 15*MediaQuery.of(context).textScaleFactor),
+                    style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
                     decoration: InputDecoration(
-                        hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color,fontSize: 15*MediaQuery.of(context).textScaleFactor),
+                        hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
                         filled: true,
                         fillColor: Theme.of(context).primaryColorLight,
                         focusedBorder: OutlineInputBorder( borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Adventure Name')),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height*0.01),
+              SizedBox(height: 10),
               SizedBox(
-                width: 350,
+                width: 400.0,
                 child: TextField(
-                    style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color,fontSize: 15*MediaQuery.of(context).textScaleFactor),
+                    style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
                     decoration: InputDecoration(
-                        hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color,fontSize: 15*MediaQuery.of(context).textScaleFactor),
+                        hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
                         filled: true,
                         fillColor: Theme.of(context).primaryColorLight,
                         focusedBorder: OutlineInputBorder(borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Adventure Description')),
               ),
 
-              SizedBox(height: MediaQuery.of(context).size.height*0.05),
+              SizedBox(height: 10),
               MaterialButton(
                   color: Theme.of(context).accentColor,
                   onPressed: () async {
@@ -108,21 +109,19 @@ class CreateAdventure extends State<CreateAdventureCaller> {
 
                     }
                   },
-                  child: Text(getText(),style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color,fontSize: 15*MediaQuery.of(context).textScaleFactor))
+                  child: Text(getText(),style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color))
               ),
-              SizedBox(height: MediaQuery.of(context).size.height*0.05),
+              SizedBox(height: 10),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Spacer( flex: 2),
-              Expanded(
-                flex: 3,
-             child: ElevatedButton(
+                    SizedBox(width: 100),
+              ElevatedButton(
                   child: Text("Add",
                       style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                   style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).accentColor,
-                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.05, vertical: MediaQuery.of(context).size.height*0.03),
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                   ),
                   onPressed: () {
                     Navigator.pushReplacement(
@@ -130,16 +129,13 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                       MaterialPageRoute(
                           builder: (context) => HomepageStartupCaller()),
                     );
-                  })),
-                Spacer( flex: 2),
-                Expanded(
-                  flex: 3,
-                child: ElevatedButton(
+                  }),
+                ElevatedButton(
                     child: Text("Cancel",
                         style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).accentColor,
-                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.05, vertical: MediaQuery.of(context).size.height*0.03),
+                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                     ),
                     onPressed: () {
                       Navigator.pushReplacement(
@@ -147,10 +143,10 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                         MaterialPageRoute(
                             builder: (context) => HomepageStartupCaller()),
                       );
-                    })),
-                    Spacer( flex: 2),])
+                    }),
+                    SizedBox(width: 100),])
 
-    ])));
+              ])));
 
   }
 }
