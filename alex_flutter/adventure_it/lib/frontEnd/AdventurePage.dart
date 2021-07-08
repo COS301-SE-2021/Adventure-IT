@@ -166,7 +166,7 @@ class AdventurePage extends StatelessWidget {
                // color: Theme.of(context).primaryColorDark,
                width: MediaQuery.of(context).size.width,
                //  height: MediaQuery.of(context).size.height * 0.75,
-               padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.10, vertical: MediaQuery.of(context).size.height*0.10),
+               padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.10, vertical: MediaQuery.of(context).size.height*0.05),
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: NetworkImage(
@@ -185,7 +185,7 @@ class AdventurePage extends StatelessWidget {
                       children: [
 
                         Expanded(
-                          flex: 10,
+                          flex: 8,
                           child: ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(20.0)),
                             child: MaterialButton(
@@ -218,7 +218,7 @@ class AdventurePage extends StatelessWidget {
                           ),),
                         Spacer(),
                         Expanded(
-                          flex: 10,
+                          flex: 8,
                           child: ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(20.0)),
                             child: MaterialButton(
@@ -251,7 +251,7 @@ class AdventurePage extends StatelessWidget {
                           )),
                         Spacer(),
                         Expanded(
-                          flex: 10,
+                          flex: 8,
                           child: ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(20.0)),
                             child: MaterialButton(
@@ -289,7 +289,7 @@ class AdventurePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Expanded(
-                          flex: 10,
+                          flex: 8,
                           child: ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(20.0)),
                             child: MaterialButton(
@@ -322,7 +322,7 @@ class AdventurePage extends StatelessWidget {
                         ),),
                         Spacer(),
                         Expanded(
-                          flex: 10,
+                          flex: 8,
                           child: ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(20.0)),
                             child: MaterialButton(
@@ -355,7 +355,7 @@ class AdventurePage extends StatelessWidget {
                           ),),
                         Spacer(),
                         Expanded(
-                          flex: 10,
+                          flex: 8,
                           child: ClipRRect(
                               borderRadius: BorderRadius.all(Radius.circular(20.0)),
                               child: MaterialButton(
@@ -394,7 +394,7 @@ class AdventurePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
-                      flex: 10,
+                      flex: 8,
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         child: MaterialButton(
@@ -427,7 +427,7 @@ class AdventurePage extends StatelessWidget {
                     ),),
                     Spacer(),
                     Expanded(
-                      flex: 10,
+                      flex: 8,
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         child: MaterialButton(
@@ -460,7 +460,7 @@ class AdventurePage extends StatelessWidget {
                     ),),
                     Spacer(),
                     Expanded(
-                      flex: 10,
+                      flex: 8,
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         child: MaterialButton(

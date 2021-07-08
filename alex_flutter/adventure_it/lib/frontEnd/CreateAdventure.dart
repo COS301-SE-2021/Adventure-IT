@@ -116,7 +116,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                   children: <Widget>[
                     SizedBox(width: MediaQuery.of(context).size.width*0.1),
               Expanded(
-                flex: 3,
+                flex: 2,
              child: ElevatedButton(
                   child: Text("Add",
                       style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color,fontSize: 20*MediaQuery.of(context).textScaleFactor)),
@@ -133,7 +133,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                   })),
                 Spacer(),
                 Expanded(
-                  flex: 3,
+                  flex: 2,
                 child: ElevatedButton(
                     child: Text("Cancel",
                         style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 20*MediaQuery.of(context).textScaleFactor)),
