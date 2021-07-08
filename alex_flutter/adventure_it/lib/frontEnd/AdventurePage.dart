@@ -1,18 +1,24 @@
 import 'dart:async';
-
+import'ChecklistsList.dart';
+import 'FileList.dart';
+import 'GroupChat.dart';
+import 'ItinerariesList.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
+import 'BudgetList.dart';
 import 'package:adventure_it/frontEnd/HomepageStartup.dart';
 import 'package:date_count_down/date_count_down.dart';
 
 import 'package:flutter/material.dart';
-import 'Budgets.dart';
+import 'BudgetList.dart';
 import 'CreateAdventure.dart';
 import 'package:flutter/foundation.dart';
 
 import '../api/budget.dart';
+import 'MediaList.dart';
+import 'TimelinePage.dart';
 
 //Shows the page of an adventure and allows the user to look at budgets, itineraries etc
 class AdventureTimer extends StatefulWidget {
@@ -130,7 +136,7 @@ class _AdventureTimer extends State<AdventureTimer> {
 class AdventurePage extends StatelessWidget {
   Adventure? currentAdventure;
 
-  AdventurePage(Adventure a) {
+  AdventurePage(Adventure? a) {
     this.currentAdventure = a;
   }
 
@@ -186,9 +192,13 @@ class AdventurePage extends StatelessWidget {
                             child: MaterialButton(
                               hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                               padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
-                              onPressed: (){{
-
-                              }},
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Itineraries(currentAdventure)));
+                              },
                               child: Column(
                                 children: <Widget>[
                                   Icon(
@@ -220,9 +230,13 @@ class AdventurePage extends StatelessWidget {
                             child: MaterialButton(
                               hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                               padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
-                              onPressed: (){{
-
-                              }},
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                          Checklists(currentAdventure)));
+                              },
                               child: Column(
                                 children: <Widget>[
                                   Icon(
@@ -254,9 +268,17 @@ class AdventurePage extends StatelessWidget {
                             child: MaterialButton(
                               hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                               padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
-                              onPressed: (){{
+                              onPressed: () {
+                                Future<List<Budget>> budgetsFuture =
+                                BudgetApi.getBudgets(currentAdventure);
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Adventure_Budgets(
+                                          budgetsFuture: budgetsFuture,
+                                          adventure: currentAdventure)));
 
-                              }},
+                              },
                               child: Column(
                                 children: <Widget>[
                                   Icon(
@@ -293,9 +315,13 @@ class AdventurePage extends StatelessWidget {
                             child: MaterialButton(
                               hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                               padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
-                              onPressed: (){{
-
-                              }},
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            GroupChat(currentAdventure)));
+                              },
                             child: Column(
                               children: <Widget>[
                                 Icon(
@@ -327,9 +353,13 @@ class AdventurePage extends StatelessWidget {
                             child: MaterialButton(
                               hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                               padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
-                              onPressed: (){{
-
-                              }},
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Files(currentAdventure)));
+                              },
                               child: Column(
                                 children: <Widget>[
                                   Icon(
@@ -361,9 +391,13 @@ class AdventurePage extends StatelessWidget {
                               child: MaterialButton(
                                 hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                                 padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
-                                onPressed: (){{
-
-                                }},
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              MediaPage(currentAdventure)));
+                                },
                                 child:Column(
                                 children: <Widget>[
                                   Icon(
@@ -401,9 +435,13 @@ class AdventurePage extends StatelessWidget {
                         child: MaterialButton(
                           hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                           padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
-                          onPressed: (){{
-
-                          }},
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        TimePage(currentAdventure)));
+                          },
                         child: Column(
                           children: <Widget>[
                             Icon(
