@@ -1,5 +1,4 @@
-import 'dart:html';
-
+// @dart=2.9
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
@@ -10,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'api/budget.dart';
 import 'frontEnd/Login.dart';
 import 'frontEnd/HomepageStartup.dart';
+
 
 void main() => runApp(MyApp());
 
