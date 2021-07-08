@@ -1,6 +1,8 @@
 package com.adventureit.budgetservice.Repository;
 
 
+import com.adventureit.adventureservice.Entity.Entry;
+import com.adventureit.adventureservice.Repository.EntryRepository;
 import com.adventureit.budgetservice.Entity.BudgetEntry;
 
 import org.springframework.data.jpa.repository.JpaRepository;

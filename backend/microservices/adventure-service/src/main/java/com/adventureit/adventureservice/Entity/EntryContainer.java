@@ -20,8 +20,8 @@ public class EntryContainer {
     private UUID id;
     private UUID creatorID;
     private UUID adventureID;
-    @OneToMany (fetch=FetchType.EAGER)
-    private List<Entry> entries;
+    @ElementCollection (fetch=FetchType.EAGER)
+    private List<UUID> entries;
 
     public EntryContainer(UUID adventureID, UUID creatorID){
         this.adventureID = adventureID;
@@ -45,11 +45,11 @@ public class EntryContainer {
         this.id = id;
     }
 
-    public void setEntries(List<Entry> entries) {
+    public void setEntries(List<UUID> entries) {
         this.entries = entries;
     }
 
-    public List<Entry> getEntries(){
-        return this.entries;
+    public List<UUID> getEntries() {
+        return entries;
     }
 }

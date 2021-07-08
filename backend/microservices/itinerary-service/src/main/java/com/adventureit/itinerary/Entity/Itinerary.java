@@ -13,6 +13,7 @@ import java.util.UUID;
 public class Itinerary extends EntryContainer {
     private String title;
     private String description;
+    private Boolean deleted;
 //    @OneToMany
 //    private List<Entry> items = new ArrayList<Entry>();
 
@@ -23,20 +24,22 @@ public class Itinerary extends EntryContainer {
     public Itinerary(String title, String description, UUID id, UUID advID, UUID userID) {
         this.title = title;
         this.description = description;
-        this.setEntries(new ArrayList<Entry>());
+        this.setEntries(new ArrayList<UUID>());
         this.setAdventureID(advID);
         this.setCreatorID(userID);
         this.setId(id);
+        deleted = false;
     }
 
     // Parameterized constructor: with prepopulated itinerary entry list
-    public Itinerary(String title, String description, UUID id, UUID advID, UUID userID, List<Entry> items) {
+    public Itinerary(String title, String description, UUID id, UUID advID, UUID userID, List<UUID> items) {
         this.title = title;
         this.description = description;
         this.setEntries(items);
         this.setAdventureID(advID);
         this.setCreatorID(userID);
         this.setId(id);
+        deleted = false;
     }
 
     // Getters and setters
@@ -57,37 +60,11 @@ public class Itinerary extends EntryContainer {
         this.description = description;
     }
 
-    public boolean CheckIfEntryExists(List<Entry> entries, UUID id) {
-        boolean result = false;
-        for (Entry b : entries) {
-            if (b.getId().equals(id)) {
-                result = true;
-                break;
-            }
-        }
-        return result;
+    public Boolean getDeleted() {
+        return deleted;
     }
 
-    public Entry getEntry(List<Entry> entries, UUID id) {
-        Entry result = null;
-        for (Entry b : entries) {
-            if (b.getId().equals(id)) {
-                result = b;
-                break;
-            }
-        }
-        return result;
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
-
-    public int getIndex(List<Entry> entries, UUID id) {
-        int result = 0;
-        for (Entry b : entries) {
-            if (b.getId().equals(id)) {
-                break;
-            }
-            result++;
-        }
-        return result;
-    }
-
 }

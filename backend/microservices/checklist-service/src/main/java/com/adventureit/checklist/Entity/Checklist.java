@@ -13,6 +13,7 @@ import java.util.UUID;
 public class Checklist extends EntryContainer {
     private String title;
     private String description;
+    boolean deleted;
 //    @OneToMany (fetch=FetchType.EAGER)
 //    private List<Entry> entries = new ArrayList<Entry>();
 
@@ -36,10 +37,11 @@ public class Checklist extends EntryContainer {
     public Checklist(String title, String description, UUID id, UUID creatorID, UUID adventureID) {
         this.title = title;
         this.description = description;
-        this.setEntries(new ArrayList<Entry>());
+        this.setEntries(new ArrayList<UUID>());
         this.setCreatorID(creatorID);
         this.setAdventureID(adventureID);
         this.setId(id);
+        deleted = false;
     }
 
     /**
@@ -56,13 +58,14 @@ public class Checklist extends EntryContainer {
      * @param adventureID
      * The UUID of the adventure to which the checklist belongs
      */
-    public Checklist(String title, String description, List<Entry> entries, UUID id, UUID creatorID, UUID adventureID) {
+    public Checklist(String title, String description, List<UUID> entries, UUID id, UUID creatorID, UUID adventureID) {
         this.title = title;
         this.description = description;
         this.setEntries(entries);
         this.setCreatorID(creatorID);
         this.setAdventureID(adventureID);
         this.setId(id);
+        deleted = false;
     }
 
     /**
@@ -107,36 +110,11 @@ public class Checklist extends EntryContainer {
         this.description = description;
     }
 
-    public boolean CheckIfEntryExists(List<Entry> entries, UUID id) {
-        boolean result = false;
-        for (Entry b : entries) {
-            if (b.getId().equals(id)) {
-                result = true;
-                break;
-            }
-        }
-        return result;
+    public boolean isDeleted() {
+        return deleted;
     }
 
-    public Entry getEntry(List<Entry> entries, UUID id) {
-        Entry result = null;
-        for (Entry b : entries) {
-            if (b.getId().equals(id)) {
-                result = b;
-                break;
-            }
-        }
-        return result;
-    }
-
-    public int getIndex(List<Entry> entries, UUID id) {
-        int result = 0;
-        for (Entry b : entries) {
-            if (b.getId().equals(id)) {
-                break;
-            }
-            result++;
-        }
-        return result;
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

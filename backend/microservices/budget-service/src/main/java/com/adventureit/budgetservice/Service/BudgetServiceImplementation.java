@@ -1,7 +1,7 @@
 package com.adventureit.budgetservice.Service;
 
-import com.adventureit.adventureservice.Entity.Adventure;
 import com.adventureit.adventureservice.Entity.Entry;
+import com.adventureit.adventureservice.Repository.EntryRepository;
 import com.adventureit.budgetservice.Entity.Budget;
 import com.adventureit.budgetservice.Entity.BudgetEntry;
 import com.adventureit.budgetservice.Entity.Expense;
@@ -12,6 +12,9 @@ import com.adventureit.budgetservice.Requests.*;
 import com.adventureit.budgetservice.Responses.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +36,7 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
-    public CreateBudgetResponse createBudget(UUID id,String name,UUID creatorID, UUID adventureID, List<Entry> entries) throws Exception {
+    public CreateBudgetResponse createBudget(UUID id,String name,UUID creatorID, UUID adventureID, List<UUID> entries) throws Exception {
         if(budgetRepository.findBudgetById(id) != null){
             throw new Exception("Budget already exists.");
         }
@@ -64,6 +67,7 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
+//    @Transactional
     public AddIncomeEntryResponse addIncomeEntry(UUID id, UUID entryContainerID, double amount, String title, String description) throws Exception {
         if(budgetRepository.findBudgetById(entryContainerID) == null){
             throw new Exception("Budget does not exist.");
@@ -84,16 +88,33 @@ public class BudgetServiceImplementation implements BudgetService {
             throw new Exception("Description not provided");
         }
         Budget budget = budgetRepository.findBudgetById(entryContainerID);
-        if(budget.CheckIfEntryExists(budget.getEntries(),id)){
+        if(budget.getEntries().contains(id)){
             throw new Exception("Income Entry already exists.");
         }
 
         BudgetEntry budgetEntry = new Income(id,entryContainerID,amount,title,description);
         budgetEntryRepository.save(budgetEntry);
-        budget.getEntries().add(budgetEntry);
+        budget.getEntries().add(budgetEntry.getId());
         budgetRepository.save(budget);
         return new AddIncomeEntryResponse(true);
     }
+
+//    @Override
+//    @Transactional
+//    public String insertEntry(UUID id, UUID containerID) throws Exception {
+//        if(id == null){
+//            throw new Exception("ID not provided");
+//        }
+//        if(containerID == null){
+//            throw new Exception("Budget ID not provided");
+//        }
+//
+//        Budget budget = budgetRepository.findBudgetById(containerID);
+//        BudgetEntry budgetEntry = budgetEntryRepository.findBudgetEntryById(id);
+//        budget.getEntries().add(budgetEntry);
+//        budgetRepository.save(budget);
+//        return "Entry successfully added";
+//    }
 
     @Override
     public RemoveEntryResponse removeEntry(UUID id, UUID entryContainerID) throws Exception {
@@ -104,26 +125,27 @@ public class BudgetServiceImplementation implements BudgetService {
             throw new Exception("Entry ID not provided.");
         }
         Budget budget = budgetRepository.findBudgetById(entryContainerID);
-        if(!budget.CheckIfEntryExists(budget.getEntries(),id)){
+        if(!budget.getEntries().contains(id)){
             throw new Exception("Entry does not exist.");
         }
 
-        BudgetEntry budgetEntry = (BudgetEntry) budget.getEntry(budget.getEntries(),id);
-        budget.getEntries().remove(budgetEntry);
+        BudgetEntry budgetEntry = budgetEntryRepository.findBudgetEntryById(id);
+        budget.getEntries().remove(id);
         budgetRepository.save(budget);
         budgetEntryRepository.delete(budgetEntry);
         return new RemoveEntryResponse(true);
     }
 
     @Override
-    public AddExpenseEntryResponse addExpenseEntry(UUID id, UUID entryContatinerID, double amount, String title, String description) throws Exception {
-        if(budgetRepository.findBudgetById(entryContatinerID) == null){
+    @Transactional
+    public AddExpenseEntryResponse addExpenseEntry(UUID id, UUID entryContainerID, double amount, String title, String description) throws Exception {
+        if(budgetRepository.findBudgetById(entryContainerID) == null){
             throw new Exception("Budget does not exist.");
         }
         if(id == null){
             throw new Exception("Expense Entry ID not provided");
         }
-        if(entryContatinerID == null){
+        if(entryContainerID == null){
             throw new Exception("Budget ID not provided");
         }
         if(amount == 0.0){
@@ -135,14 +157,14 @@ public class BudgetServiceImplementation implements BudgetService {
         if(description == null || description.equals("")){
             throw new Exception("Description not provided.");
         }
-        Budget budget = budgetRepository.findBudgetById(entryContatinerID);
-        if(budget.CheckIfEntryExists(budget.getEntries(),id)){
+        Budget budget = budgetRepository.findBudgetById(entryContainerID);
+        if(budget.getEntries().contains(id)){
             throw new Exception("Expense Entry already exists.");
         }
 
-        BudgetEntry budgetEntry = new Expense(id,entryContatinerID,amount,title,description);
+        BudgetEntry budgetEntry = new Expense(id,entryContainerID,amount,title,description);
         budgetEntryRepository.save(budgetEntry);
-        budget.getEntries().add(budgetEntry);
+        budget.getEntries().add(budgetEntryRepository.findBudgetEntryById(id).getId());
         budgetRepository.save(budget);
         return new AddExpenseEntryResponse(true);
     }
@@ -173,12 +195,11 @@ public class BudgetServiceImplementation implements BudgetService {
 
         Budget budget = budgetRepository.findBudgetById(req.getBudgetID());
 
-        if(!budget.CheckIfEntryExists(budget.getEntries(),req.getId())){
+        if(!budget.getEntries().contains(req.getId())){
             throw new Exception("Entry does not exist.");
         }
 
         BudgetEntry entry = budgetEntryRepository.findBudgetEntryById(req.getId());
-        int x = budget.getIndex(budget.getEntries(),req.getId());
 
         if(req.getAmount() != 0.0){
             entry.setAmount(req.getAmount());
@@ -190,8 +211,6 @@ public class BudgetServiceImplementation implements BudgetService {
             entry.setTitle(req.getTitle());
         }
 
-        budget.getEntries().set(x,entry);
-        budgetRepository.save(budget);
         budgetEntryRepository.save(entry);
         return new EditBudgetResponse(true);
     }
@@ -237,10 +256,10 @@ public class BudgetServiceImplementation implements BudgetService {
             throw new Exception("Budget is not in trash.");
         }
 
-        ArrayList<Entry> entries = new ArrayList<>(budget.getEntries());
+        ArrayList<UUID> entries = new ArrayList<>(budget.getEntries());
         budgetRepository.delete(budget);
-        for (Entry b : entries) {
-            budgetEntryRepository.delete((BudgetEntry) b);
+        for (UUID b : entries) {
+            budgetEntryRepository.delete((budgetEntryRepository.findBudgetEntryById(b)));
         }
 
         return new HardDeleteResponse(true);
@@ -266,7 +285,34 @@ public class BudgetServiceImplementation implements BudgetService {
         return "Budget was restored";
     }
 
-//    @Override
+    @Override
+    public String calculateBudget(UUID id) throws Exception {
+        if(id == null){
+            throw new Exception("ID not provided");
+        }
+
+        Budget budget = budgetRepository.findBudgetById(id);
+        if(budget == null){
+            throw new Exception("Budget does not exist.");
+        }
+
+        double sum = 0.0;
+        BudgetEntry budgetEntry;
+
+        for (UUID entry:budget.getEntries()) {
+            budgetEntry = budgetEntryRepository.findBudgetEntryById(entry);
+            if(budgetEntry instanceof Income){
+                sum += budgetEntry.getAmount();
+            }
+            else {
+                sum -= budgetEntry.getAmount();
+            }
+        }
+
+        return Double.toString(sum);
+    }
+
+    //    @Override
 //    public void mockPopulate(){
 //        final UUID mockBudgetID1 = UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8");
 //        final UUID mockBudgetID2 = UUID.fromString("26356837-f076-41ec-85fa-f578df7e3717");

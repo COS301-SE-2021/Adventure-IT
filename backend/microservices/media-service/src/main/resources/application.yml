@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: MEDIA-SERVICE
+  datasource:
+    name:
 
 eureka:
   client:

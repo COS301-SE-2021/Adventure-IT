@@ -4,12 +4,13 @@ import com.adventureit.adventureservice.Entity.Entry;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 import java.util.UUID;
 
 @Entity
 public class BudgetEntry extends Entry {
-    @Id
     double amount;
     String title;
     String description;

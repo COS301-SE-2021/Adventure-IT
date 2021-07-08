@@ -14,8 +14,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/budget")
 public class BudgetController {
-	@Autowired
-	BudgetServiceImplementation budgetServiceImplementation;
+//	@Autowired
+//	BudgetServiceImplementation budgetServiceImplementation;
 	
 //	@Autowired
 //	BudgetRepository budgetRepository;

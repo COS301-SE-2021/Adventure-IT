@@ -1,8 +1,6 @@
 package com.adventureit.adventureservice.Entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.UUID;
 /**
@@ -16,7 +14,6 @@ import java.util.UUID;
 @Entity
 public class Entry {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private UUID entryContainerID;
 

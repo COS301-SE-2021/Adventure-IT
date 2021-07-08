@@ -10,7 +10,6 @@ import java.util.UUID;
 
 @Entity
 public class Budget extends EntryContainer {
-    @Id
     String name;
     boolean deleted;
 
@@ -28,7 +27,7 @@ public class Budget extends EntryContainer {
         deleted = false;
     }
 
-    public Budget(UUID id,String name,UUID creatorID, UUID adventureID, List<Entry> entries){
+    public Budget(UUID id,String name,UUID creatorID, UUID adventureID, List<UUID> entries){
         this.setId(id);
         this.name = name;;
         this.setCreatorID(creatorID);
@@ -55,42 +54,6 @@ public class Budget extends EntryContainer {
 
     public boolean isDeleted() {
         return deleted;
-    }
-
-    /**
-     * Helper functions
-     */
-    public boolean CheckIfEntryExists(List<Entry> entries, UUID id) {
-        boolean result = false;
-        for (Entry b : entries) {
-            if (b.getId().equals(id)) {
-                result = true;
-                break;
-            }
-        }
-        return result;
-    }
-
-    public Entry getEntry(List<Entry> entries, UUID id) {
-        Entry result = null;
-        for (Entry b : entries) {
-            if (b.getId().equals(id)) {
-                result = b;
-                break;
-            }
-        }
-        return result;
-    }
-
-    public int getIndex(List<Entry> entries, UUID id) {
-        int result = 0;
-        for (Entry b : entries) {
-            if (b.getId().equals(id)) {
-                break;
-            }
-            result++;
-        }
-        return result;
     }
 
 }
