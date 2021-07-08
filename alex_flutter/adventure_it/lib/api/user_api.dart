@@ -65,15 +65,7 @@ class UserApi {
   }
 
   static Future<List<UserProfile>> getUserByUUID(String userID) async {
-    final response = await http.post(
-      Uri.parse('http://localhost:9002/api/UserProfile'), //get uri
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'userID': userID,
-      }),
-    );
+    http.Response response = await http.get(Uri.parse('http://localhost:9002/api/LoginUser/' + userID));
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load user information: ${response.body}');
