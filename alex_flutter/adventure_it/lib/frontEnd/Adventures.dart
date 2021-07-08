@@ -12,6 +12,8 @@ import 'package:flutter/foundation.dart';
 
 import '../api/budget.dart';
 
+//Shows list of adventures
+
 class HomePage_Pages extends StatelessWidget {
 
   HomePage_Pages();

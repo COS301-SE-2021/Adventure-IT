@@ -13,6 +13,7 @@ import 'HomepageStartup.dart';
 import '../api/budget.dart';
 import 'Register.dart';
 
+//Shows page used to create a new adventure
 class CreateAdventureCaller extends StatefulWidget {
 
 
