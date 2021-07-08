@@ -148,7 +148,7 @@ public class UserServiceImplementation implements UserDetailsService {
         if(newUser == null) {
             throw new UserDoesNotExistException("User does not exist - user is not registered as an Adventure-IT member");
         }
-        return new GetUserByUUIDResponse(true, newUser);
+        return new GetUserByUUIDResponse(newUser);
     }
 
 
