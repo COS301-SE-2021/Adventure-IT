@@ -47,6 +47,9 @@ public class Adventure{
         this.date = date;
     }
 
+    public Adventure(String s, String s1, UUID randomUUID, UUID mockOwnerID, LocalDate of, LocalDate of1) {
+    }
+
     /**
      * Adventure service to retrieve adventure's name
      * @return name
