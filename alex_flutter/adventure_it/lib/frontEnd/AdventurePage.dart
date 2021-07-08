@@ -14,6 +14,7 @@ import 'package:flutter/foundation.dart';
 
 import '../api/budget.dart';
 
+//Shows the page of an adventure and allows the user to look at budgets, itineraries etc
 class AdventureTimer extends StatefulWidget {
   Adventure? a;
 
