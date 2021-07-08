@@ -52,20 +52,6 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public String removeItinerary(UUID id) throws Exception {
-        if(id == null){
-            throw new Exception("No ID provided");
-        }
-        if(itineraryRepository.findItineraryById(id) == null){
-            throw new Exception("Itinerary does not exist");
-        }
-
-        Itinerary itinerary = itineraryRepository.findItineraryById(id);
-        itineraryRepository.delete(itinerary);
-        return "Itinerary successfully removed";
-    }
-
-    @Override
     public String addItineraryEntry(String title, String description, UUID id, UUID entryContainerID) throws Exception {
         if(title == null){
             throw new Exception("No title provided");

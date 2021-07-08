@@ -137,7 +137,7 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public AddExpenseEntryResponse addExpenseEntry(UUID id, UUID entryContainerID, double amount, String title, String description) throws Exception {
         if(budgetRepository.findBudgetById(entryContainerID) == null){
             throw new Exception("Budget does not exist.");
@@ -164,7 +164,7 @@ public class BudgetServiceImplementation implements BudgetService {
 
         BudgetEntry budgetEntry = new Expense(id,entryContainerID,amount,title,description);
         budgetEntryRepository.save(budgetEntry);
-        budget.getEntries().add(budgetEntryRepository.findBudgetEntryById(id).getId());
+        budget.getEntries().add(budgetEntry.getId());
         budgetRepository.save(budget);
         return new AddExpenseEntryResponse(true);
     }

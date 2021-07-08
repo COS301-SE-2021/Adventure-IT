@@ -25,7 +25,7 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public String createChecklist(String title, String description, UUID id, UUID creatorID, UUID adventureID, ArrayList<UUID> entries) throws Exception {
+    public String createChecklist(String title, String description, UUID id, UUID creatorID, UUID adventureID) throws Exception {
         if(title == null){
             throw new Exception("No title provided");
         }
@@ -45,7 +45,7 @@ public class ChecklistServiceImplementation implements ChecklistService {
             throw new Exception("Checklist already exists");
         }
 
-        Checklist checklist = new Checklist(title,description,entries,id,creatorID,adventureID);
+        Checklist checklist = new Checklist(title,description,id,creatorID,adventureID);
         checklistRepository.save(checklist);
         return "Checklist successfully created";
     }
