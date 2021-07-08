@@ -70,7 +70,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
               ),
               SizedBox(height: MediaQuery.of(context).size.height*0.05),
               SizedBox(
-                width: MediaQuery.of(context).size.width/1.5,
+                width: 350,
                 child: TextField(
                     style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color, fontSize: 15*MediaQuery.of(context).textScaleFactor),
                     decoration: InputDecoration(
@@ -79,9 +79,9 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                         fillColor: Theme.of(context).primaryColorLight,
                         focusedBorder: OutlineInputBorder( borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Adventure Name')),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height*0.05),
+              SizedBox(height: MediaQuery.of(context).size.height*0.01),
               SizedBox(
-                width: MediaQuery.of(context).size.width/1.5,
+                width: 350,
                 child: TextField(
                     style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color,fontSize: 15*MediaQuery.of(context).textScaleFactor),
                     decoration: InputDecoration(
@@ -114,12 +114,12 @@ class CreateAdventure extends State<CreateAdventureCaller> {
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    SizedBox(width: MediaQuery.of(context).size.width*0.1),
+                    Spacer( flex: 2),
               Expanded(
-                flex: 2,
+                flex: 3,
              child: ElevatedButton(
                   child: Text("Add",
-                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color,fontSize: 20*MediaQuery.of(context).textScaleFactor)),
+                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                   style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).accentColor,
                     padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.05, vertical: MediaQuery.of(context).size.height*0.03),
@@ -131,12 +131,12 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                           builder: (context) => HomepageStartupCaller()),
                     );
                   })),
-                Spacer(),
+                Spacer( flex: 2),
                 Expanded(
-                  flex: 2,
+                  flex: 3,
                 child: ElevatedButton(
                     child: Text("Cancel",
-                        style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 20*MediaQuery.of(context).textScaleFactor)),
+                        style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).accentColor,
                       padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.05, vertical: MediaQuery.of(context).size.height*0.03),
@@ -148,7 +148,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                             builder: (context) => HomepageStartupCaller()),
                       );
                     })),
-                    SizedBox(width: MediaQuery.of(context).size.width*0.1),])
+                    Spacer( flex: 2),])
 
     ])));
 

@@ -183,6 +183,7 @@ class AdventurePage extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(20.0)),
                             child: MaterialButton(
+                              hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                               padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
                               onPressed: (){{
 
@@ -216,6 +217,7 @@ class AdventurePage extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(20.0)),
                             child: MaterialButton(
+                              hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                               padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
                               onPressed: (){{
 
@@ -249,6 +251,7 @@ class AdventurePage extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(20.0)),
                             child: MaterialButton(
+                              hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                               padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
                               onPressed: (){{
 
@@ -287,6 +290,7 @@ class AdventurePage extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(20.0)),
                             child: MaterialButton(
+                              hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                               padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
                               onPressed: (){{
 
@@ -320,6 +324,7 @@ class AdventurePage extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(20.0)),
                             child: MaterialButton(
+                              hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                               padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
                               onPressed: (){{
 
@@ -353,6 +358,7 @@ class AdventurePage extends StatelessWidget {
                           child: ClipRRect(
                               borderRadius: BorderRadius.all(Radius.circular(20.0)),
                               child: MaterialButton(
+                                hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                                 padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
                                 onPressed: (){{
 
@@ -392,6 +398,7 @@ class AdventurePage extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         child: MaterialButton(
+                          hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                           padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
                           onPressed: (){{
 
@@ -425,6 +432,7 @@ class AdventurePage extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         child: MaterialButton(
+                          hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                           padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
                           onPressed: (){{
 
@@ -458,6 +466,7 @@ class AdventurePage extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         child: MaterialButton(
+                          hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                           padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
                           onPressed: (){{
 
