@@ -142,8 +142,8 @@ public class UserServiceImplementation implements UserDetailsService {
      * @param req a GetUserByUUID request will be sent in with the user Id of the user that should be retrieved
      * @return returns a GetUserByUUID response which currently is a set user for testing purposes
      */
-    public GetUserByUUIDResponse GetUserByUUID(GetUserByUUIDRequest req){
-        UUID userId = req.getUserID();
+    public GetUserByUUIDResponse GetUserByUUID(UUID req){
+        UUID userId = req;
         Users newUser = repo.getUserByUserID(userId);
         if(newUser == null) {
             throw new UserDoesNotExistException("User does not exist - user is not registered as an Adventure-IT member");
