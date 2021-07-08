@@ -116,17 +116,11 @@ class _AdventureTimer extends State<AdventureTimer> {
                   padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.02),
                   color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                   child: Column(children: [
-        Text("Do you remember this adventure?",
+        Text("Completed",
                       textAlign: TextAlign.center,
             style: TextStyle(
                 color: Theme.of(context).textTheme.bodyText1!.color,
                 fontSize: 25 * MediaQuery.of(context).textScaleFactor)),
-                    SizedBox(height: MediaQuery.of(context).size.height*0.03),
-        Text("Completed", textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Theme.of(context).textTheme.bodyText1!.color,
-                fontWeight: FontWeight.bold,
-                fontSize: (45/1125)*MediaQuery.of(context).size.width)),
       ]))));
     }
   }
@@ -166,14 +160,14 @@ class AdventurePage extends StatelessWidget {
                // color: Theme.of(context).primaryColorDark,
                width: MediaQuery.of(context).size.width,
                //  height: MediaQuery.of(context).size.height * 0.75,
-               padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.10, vertical: MediaQuery.of(context).size.height*0.05),
+               padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.05, vertical: MediaQuery.of(context).size.height*0.05),
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: NetworkImage(
                             "https://lh5.googleusercontent.com/p/AF1QipM4-7EPQBFbTgOy5k7YXtJmLWtz7wwl-WwUq4jT=w408-h271-k-no"),
                         fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(
-                      Theme.of(context).backgroundColor.withOpacity(0.3),
+                      Theme.of(context).backgroundColor.withOpacity(0.25),
                       BlendMode.dstATop
                   ))),
                 child: Column(
