@@ -13,14 +13,6 @@ class ProfileCaller extends StatefulWidget {
 }
 
 class Profile extends State<ProfileCaller> {
-  Future<List<UserProfile>>? userFuture;
-  final UserApi api = new UserApi();
-
-  @override
-  void initState() {
-    super.initState();
-    userFuture = UserApi.getUserByUUID("1660bd85-1c13-42c0-955c-63b1eda4e90b");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +23,10 @@ class Profile extends State<ProfileCaller> {
       )), backgroundColor: Theme.of(context).primaryColorDark),
       body: Row(
         children: [ Column(
+          //ProfileFutureBuilderCaller();
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
+          ProfileFutureBuilderCaller(),
             Container(
               width: 200,
               height: 100,
@@ -47,7 +41,7 @@ class Profile extends State<ProfileCaller> {
               width: 3.0,
             ),),),
           ]),
-        Column(
+        /*Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             SizedBox(
@@ -119,8 +113,55 @@ class Profile extends State<ProfileCaller> {
                       Icon(Icons.settings, color: Theme.of(context).textTheme.bodyText1!.color),
                       Text("Edit Profile",
                         style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)) ],
-                  ))]
-        ),])
-    );
+                  ))*/]
+        ),);
   }
+}
+
+class ProfileFutureBuilderCaller extends StatefulWidget {
+  @override
+  ProfileFutureBuilder createState() => ProfileFutureBuilder();
+}
+
+class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
+    Future<UserProfile>? userFuture;
+  final UserApi api = new UserApi();
+
+  @override
+  void initState() {
+    super.initState();
+    userFuture = UserApi.getUserByUUID("69e8eb21-eb63-4c83-9187-181a648bb759");
+  }
+
+    @override
+    Widget build(BuildContext context) {
+      return FutureBuilder(
+          future: userFuture,
+          builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(Theme
+                  .of(context)
+                  .accentColor)));
+        }
+        print(snapshot.data);
+        if (snapshot.hasData) {
+          var user = snapshot.data as UserProfile;
+
+          return Expanded(
+            flex: 4,
+            child: ListTile(
+              title: Text(user.username, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Theme.of(context).textTheme.bodyText1!.color)),
+              // subtitle:Text(adventures.elementAt(index).description),
+              subtitle: Text(user.firstname, style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
+            ),
+          );
+        }
+
+        else
+        {
+          return Center(child: Text("Profile has not been created", style: TextStyle(fontSize: 30, color:Theme.of(context).textTheme.bodyText1!.color)));
+        }
+      });
+    }
 }

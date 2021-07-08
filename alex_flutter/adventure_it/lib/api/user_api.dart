@@ -64,15 +64,14 @@ class UserApi {
     }
   }
 
-  static Future<List<UserProfile>> getUserByUUID(String userID) async {
-    http.Response response = await http.get(Uri.parse('http://localhost:9002/api/LoginUser/' + userID));
+  static Future<UserProfile> getUserByUUID(String userID) async {
+    http.Response response = await http.get(Uri.parse('http://localhost:9002/api/GetUser/' + userID));
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load user information: ${response.body}');
     }
 
-    List<UserProfile> users = (jsonDecode(response.body) as List)
-        .map((x) => UserProfile.fromJson(x)).toList();
+    UserProfile users = (jsonDecode(response.body) as UserProfile);
 
     return users;
   }
