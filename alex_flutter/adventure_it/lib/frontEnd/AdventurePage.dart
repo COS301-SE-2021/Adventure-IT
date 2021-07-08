@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:html';
 
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
@@ -55,13 +54,18 @@ class _AdventureTimer extends State<AdventureTimer> {
             .inDays >
         0) {
       return Center(
+          child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(20.0)),
               child: Container(
+                  padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.02),
+                  color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                   child: Column(children: [
         Text("Countdown Until Adventure Begins",
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Theme.of(context).textTheme.bodyText1!.color,
                 fontSize: 25 * MediaQuery.of(context).textScaleFactor)),
+                    SizedBox(height: MediaQuery.of(context).size.height*0.03),
         Text(
             CountDown().timeLeft(DateTime.parse(currentAdventure!.startDate),
                 "Currently on adventure!", longDateName: true),
@@ -70,7 +74,7 @@ class _AdventureTimer extends State<AdventureTimer> {
                 color: Theme.of(context).textTheme.bodyText1!.color,
                 fontWeight: FontWeight.bold,
                 fontSize: (45/1125)*MediaQuery.of(context).size.width)),
-      ])));
+      ]))));
     } else if (DateTime.parse(currentAdventure!.startDate)
                 .difference(DateTime.now())
                 .inDays <=
@@ -80,13 +84,18 @@ class _AdventureTimer extends State<AdventureTimer> {
                 .inDays >
             0) {
       return Center(
+          child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
             child: Container(
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.02),
+                color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                 child: Column(children: [
           Text("Countdown Until Adventure Ends",
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Theme.of(context).textTheme.bodyText1!.color,
                   fontSize: 25 * MediaQuery.of(context).textScaleFactor)),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.03),
           Text(
             CountDown().timeLeft(DateTime.parse(currentAdventure!.endDate),
                 "Adventure has ended!",
@@ -97,23 +106,28 @@ class _AdventureTimer extends State<AdventureTimer> {
                 fontWeight: FontWeight.bold,
                 fontSize: (45/1125)*MediaQuery.of(context).size.width),
           ),
-        ])),
+        ]))),
       );
     } else {
       return Center(
+          child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
               child: Container(
+                  padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.02),
+                  color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                   child: Column(children: [
         Text("Do you remember this adventure?",
                       textAlign: TextAlign.center,
             style: TextStyle(
                 color: Theme.of(context).textTheme.bodyText1!.color,
                 fontSize: 25 * MediaQuery.of(context).textScaleFactor)),
+                    SizedBox(height: MediaQuery.of(context).size.height*0.03),
         Text("Completed", textAlign: TextAlign.center,
             style: TextStyle(
                 color: Theme.of(context).textTheme.bodyText1!.color,
                 fontWeight: FontWeight.bold,
                 fontSize: (45/1125)*MediaQuery.of(context).size.width)),
-      ])));
+      ]))));
     }
   }
 }
@@ -165,15 +179,20 @@ class AdventurePage extends StatelessWidget {
                 child: Column(
                   children: [
                     AdventureTimer(currentAdventure),
-                    SizedBox(height: MediaQuery.of(context).size.height / 40),
+                    SizedBox(height: MediaQuery.of(context).size.height*0.1),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
 
                         Expanded(
-                          flex: 1,
-                          child: MaterialButton(
-                            onPressed: null,
+                          flex: 10,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                            child: MaterialButton(
+                              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
+                              onPressed: (){{
+
+                              }},
                               child: Column(
                                 children: <Widget>[
                                   Icon(
@@ -191,16 +210,22 @@ class AdventurePage extends StatelessWidget {
                                         color: Theme.of(context)
                                             .textTheme
                                             .bodyText1!
-                                            .color, fontSize: (20/1125)*MediaQuery.of(context).size.width),
+                                            .color,),
                                   ),
                                 ],
                               ),
                             ),
-                          ),
+                          ),),
+                        Spacer(),
                         Expanded(
-                          flex: 1,
-                          child: MaterialButton(
-                            onPressed: null,
+                          flex: 10,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                            child: MaterialButton(
+                              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
+                              onPressed: (){{
+
+                              }},
                               child: Column(
                                 children: <Widget>[
                                   Icon(
@@ -218,16 +243,22 @@ class AdventurePage extends StatelessWidget {
                                         color: Theme.of(context)
                                             .textTheme
                                             .bodyText1!
-                                            .color, fontSize: (20/1125)*MediaQuery.of(context).size.width),
+                                            .color),
                                   ),
                                 ],
                               ),
                             ),
-                          ),
+                          )),
+                        Spacer(),
                         Expanded(
-                          flex: 1,
-                          child: MaterialButton(
-                            onPressed: null,
+                          flex: 10,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                            child: MaterialButton(
+                              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
+                              onPressed: (){{
+
+                              }},
                               child: Column(
                                 children: <Widget>[
                                   Icon(
@@ -245,39 +276,12 @@ class AdventurePage extends StatelessWidget {
                                         color: Theme.of(context)
                                             .textTheme
                                             .bodyText1!
-                                            .color, fontSize: (20/1125)*MediaQuery.of(context).size.width),
+                                            .color),
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                        Expanded(
-                          flex: 1,
-                            child: MaterialButton(
-                            onPressed: null,
-                              child: Column(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.chat_bubble,
-                                    size: 50,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color,
-                                  ),
-                                  Text(
-                                    'Group Chat',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color, fontSize: (20/1125)*MediaQuery.of(context).size.width),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          ),),
                       ],
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height / 40),
@@ -285,9 +289,47 @@ class AdventurePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Expanded(
-                          flex: 1,
-                        child: MaterialButton(
-                            onPressed: null,
+                          flex: 10,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                            child: MaterialButton(
+                              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
+                              onPressed: (){{
+
+                              }},
+                            child: Column(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.chat_bubble,
+                                  size: 50,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color,
+                                ),
+                                Text(
+                                  'Group Chat',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),),
+                        Spacer(),
+                        Expanded(
+                          flex: 10,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                            child: MaterialButton(
+                              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
+                              onPressed: (){{
+
+                              }},
                               child: Column(
                                 children: <Widget>[
                                   Icon(
@@ -299,28 +341,28 @@ class AdventurePage extends StatelessWidget {
                                         .color,
                                   ),
                                   Text(
-                                    'Documents',
+                                    'Files',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Theme.of(context)
                                             .textTheme
                                             .bodyText1!
-                                            .color, fontSize: (20/1125)*MediaQuery.of(context).size.width),
+                                            .color),
                                   ),
                                 ],
                               ),
                             ),
-                          ),
+                          ),),
+                        Spacer(),
                         Expanded(
-                          flex: 1,
+                          flex: 10,
                           child: ClipRRect(
-                              borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                        child: MaterialButton(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                            onPressed: (){{
+                              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                              child: MaterialButton(
+                                padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
+                                onPressed: (){{
 
-                            }},
-                          hoverColor: Theme.of(context).scaffoldBackgroundColor,
+                                }},
                                 child:Column(
                                 children: <Widget>[
                                   Icon(
@@ -338,69 +380,118 @@ class AdventurePage extends StatelessWidget {
                                         color: Theme.of(context)
                                             .textTheme
                                             .bodyText1!
-                                            .color, fontSize: (20/1125)*MediaQuery.of(context).size.width),
+                                            .color),
                                   ),
                                 ],
                               ),
                             ))),
 
-                        Expanded(
-                          flex: 1,
-                        child: MaterialButton(
-                            onPressed: null,
-                              child: Column(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.access_time_filled,
-                                    size: 50,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color,
-                                  ),
-                                  Text(
-                                    'Timeline',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color, fontSize: (20/1125)*MediaQuery.of(context).size.width),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        Expanded(
-                          flex: 1,
-                        child: MaterialButton(
-                            onPressed: null,
-                              child: Column(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.play_arrow,
-                                    size: 50,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color,
-                                  ),
-                                  Text(
-                                    'Play this song',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color, fontSize: (20/1125)*MediaQuery.of(context).size.width),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+
                       ],
                     ),
+                SizedBox(height: MediaQuery.of(context).size.height / 40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      flex: 10,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        child: MaterialButton(
+                          padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
+                          onPressed: (){{
+
+                          }},
+                        child: Column(
+                          children: <Widget>[
+                            Icon(
+                              Icons.access_time_filled,
+                              size: 50,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color,
+                            ),
+                            Text(
+                              'Timeline',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),),
+                    Spacer(),
+                    Expanded(
+                      flex: 10,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        child: MaterialButton(
+                          padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
+                          onPressed: (){{
+
+                          }},
+                        child: Column(
+                          children: <Widget>[
+                            Icon(
+                              Icons.play_arrow,
+                              size: 50,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color,
+                            ),
+                            Text(
+                              'Play this song',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),),
+                    Spacer(),
+                    Expanded(
+                      flex: 10,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        child: MaterialButton(
+                          padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
+                          onPressed: (){{
+
+                          }},
+                        child: Column(
+                          children: <Widget>[
+                            Icon(
+                              Icons.play_arrow,
+                              size: 50,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color,
+                            ),
+                            Text(
+                              'Play this song',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),),
                   ],
-                ))));
+                )]))));
   }
 }
