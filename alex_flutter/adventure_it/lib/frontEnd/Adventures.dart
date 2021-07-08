@@ -5,7 +5,7 @@ import 'package:adventure_it/api/budgetAPI.dart';
 
 import 'package:flutter/material.dart';
 import 'AdventurePage.dart';
-import 'Budgets.dart';
+import 'BudgetList.dart';
 import 'CreateAdventure.dart';
 import 'package:flutter/foundation.dart';
 
