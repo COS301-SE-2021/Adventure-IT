@@ -1,20 +1,49 @@
 package com.adventureit.userservice.Service;
 
-import com.adventureit.userservice.Entities.User;
+
+import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Exceptions.*;
+import com.adventureit.userservice.Repository.RegistrationTokenRepository;
 import com.adventureit.userservice.Repository.UserRepository;
-import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
+import com.adventureit.userservice.Requests.LoginUserRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
-import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
+import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
+import com.adventureit.userservice.Responses.LoginUserDTO;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
+import com.adventureit.userservice.Token.RegistrationToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.transaction.Transactional;
+import javax.imageio.ImageIO;
+import javax.transaction.Transactional;
+import java.awt.*;
+import java.io.ByteArrayInputStream;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service("UserServiceImplementation")
-public class UserServiceImplementation implements UserService {
-    private UserRepository repo;
+public class UserServiceImplementation implements UserDetailsService {
+
+
+
+    private  BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final UserRepository repo;
+    private final RegistrationTokenRepository tokenrepo;
+
+    @Autowired
+    public UserServiceImplementation(UserRepository repo, RegistrationTokenRepository tokenrepo) {
+        this.repo = repo;
+        this.tokenrepo = tokenrepo;
+    }
+
     /**
      *
      * @param req
@@ -38,7 +67,7 @@ public class UserServiceImplementation implements UserService {
      * @return RegisterUserResponse Object which will indicate whether
      * registration was successful or if an error occurred
      */
-    @Override
+
     public RegisterUserResponse RegisterUser(RegisterUserRequest req) {
 
         /*Exception handling for invalid Request*/
@@ -51,6 +80,7 @@ public class UserServiceImplementation implements UserService {
         String email = req.getEmail();
         String password = req.getPassword();
         String phoneNum = req.getPhoneNum();
+        String username = req.getUsername();
         /*generate Regex for email, password and phone number*/
         String emailRegex = "^(.+)@(.+)$";
         String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–{}:;',?/*~$^+=<>]).{8,20}$";
@@ -75,12 +105,32 @@ public class UserServiceImplementation implements UserService {
         if(!phoneNumMatcher.matches()){
             throw new InvalidUserPhoneNumberException("User phone number is incorrect - Unable to process registration");
         }
+        if(repo.getUserByEmail(email)!=null){
+            throw new InvalidRequestException("User already exists");
+        }
         //TODO Decide on password encryption method
 
-        /*New User has been created*/
-        User newUser = new User(userId,firstName,lastName,email,password,phoneNum);
+        String passwordHashed = encoder.encode(password);
 
-        return new RegisterUserResponse(true,"200 OK" ,"User "+firstName+" "+lastName+" successfully Registered");
+        /*New User has been created*/
+        Users newUser = new Users(userId,username,firstName,lastName,email,passwordHashed,phoneNum);
+        repo.save(newUser);
+
+        String token = UUID.randomUUID().toString();
+        RegistrationToken regToken = new RegistrationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(30),
+                null,
+                newUser);
+
+        tokenrepo.save(regToken);
+
+
+
+
+
+        return new RegisterUserResponse(true,regToken ,"User "+firstName+" "+lastName+" successfully Registered");
     }
 
     /**
@@ -94,15 +144,122 @@ public class UserServiceImplementation implements UserService {
      * @param req a GetUserByUUID request will be sent in with the user Id of the user that should be retrieved
      * @return returns a GetUserByUUID response which currently is a set user for testing purposes
      */
-    public GetUserByUUIDResponse GetUserByUUID(GetUserByUUIDRequest req){
-        UUID userId = req.getUserID();
-        User newUser = repo.getUserByUserID(userId);
-
+    public GetUserByUUIDDTO GetUserByUUID(UUID req){
+        UUID userId = req;
+        Users newUser = repo.getUserByUserID(userId);
         if(newUser == null) {
-            throw new InvalidUserException("User does not exist - user is not registered as an Adventure-IT member");
+            throw new UserDoesNotExistException("User does not exist - user is not registered as an Adventure-IT member");
         }
-        return new GetUserByUUIDResponse(true, newUser);
+        return new GetUserByUUIDDTO(newUser.getUserID(),newUser.getUsername(),newUser.getFirstname(), newUser.getLastname(), newUser.getEmail(), newUser.getPhoneNumber());
     }
 
 
+    public LoginUserDTO LoginUser(LoginUserRequest req){
+        String username = req.getUsername();
+        String password = req.getPassword();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(15);
+
+
+        assert repo != null;
+        Users user = repo.getUserByUsername(username);
+        if(user==null){
+            throw new UserDoesNotExistException("User with username: "+username+" does not exist");
+        }
+        else if(!passwordEncoder.matches(password, user.getPassword())){
+            throw new InvalidUserPasswordException("User password does not match email");
+        }
+
+
+        return new LoginUserDTO(true,"Login Successful: Welcome to Adventure-it");
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        Users user =  repo.getUserByUsername(s);
+        if(user ==null){
+           throw new UsernameNotFoundException("User not found");
+        }
+
+        return user;
+
+    }
+
+
+    @Transactional
+    public String confirmToken(String token){
+        RegistrationToken regToken = tokenrepo.findByToken(token);
+
+        if(regToken == null){
+            /*Throw token not found*/
+        }
+
+        if(regToken.getTimeConfirmed()!=null){
+            /*throw email already confirmed*/
+        }
+
+        LocalDateTime expiredAt = regToken.getTimeExpires();
+
+        if (expiredAt.isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("token expired");
+        }
+
+
+        tokenrepo.updateConfirmedAt(regToken.getToken(), LocalDateTime.now());
+        regToken.getUser().setEnabled(true);
+
+        return "confirmed";
+    }
+
+    public String updateProfilePicture(MultipartFile file, UUID id) throws Exception {
+        if(file ==null){
+            throw new Exception("File is null");
+        }
+        if(id ==null){
+            throw new Exception("User ID not provided");
+        }
+
+        Users user = repo.getUserByUserID(id);
+        if(user == null){
+            throw new Exception("User does not exist");
+        }
+
+        try {
+            user.setProfilePicture(file.getBytes());
+            repo.save(user);
+        } catch (Exception e) {
+            return "error";
+        }
+
+        return "Profile Picture successfully updated!";
+    }
+
+    @Transactional
+    public Image viewImage(UUID id) throws Exception {
+        if(id ==null){
+            throw new Exception("User ID not provided");
+        }
+
+        Users user = repo.getUserByUserID(id);
+        if(user == null){
+            throw new Exception("User does not exist");
+        }
+
+        ByteArrayInputStream bis = new ByteArrayInputStream(user.getProfilePicture());
+        return ImageIO.read(bis);
+    }
+
+    public String removeImage(UUID id) throws Exception {
+        if(id ==null){
+            throw new Exception("User ID not provided");
+        }
+
+        Users user = repo.getUserByUserID(id);
+        if(user == null){
+            throw new Exception("User does not exist");
+        }
+
+        user.setProfilePicture(null);
+        repo.save(user);
+        return "Picture successfully removed";
+    }
 }

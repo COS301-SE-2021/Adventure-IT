@@ -13,8 +13,8 @@ public class Income extends BudgetEntry {
      * @param title title of entry
      * @param description short description of entry
      */
-    public Income(UUID id, double amount, String title, String description){
-        super(id,amount,title,description);
+    public Income(UUID id, UUID entryContainerID, double amount, String title, String description){
+        super(id,entryContainerID,amount,title,description);
     }
 
     /**
