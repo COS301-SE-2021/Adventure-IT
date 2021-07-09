@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
+import 'Profile.dart';
 import 'Register.dart';
 
 class LoginCaller extends StatefulWidget {
@@ -122,7 +123,7 @@ class Login extends State<LoginCaller> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => RegisterCaller()),
+                          builder: (context) => ProfileCaller()),
                   );
                 }))
             ],

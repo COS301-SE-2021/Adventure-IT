@@ -85,7 +85,7 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
     adventuresFuture = AdventureApi.getAdventuresByUUID(
         "1660bd85-1c13-42c0-955c-63b1eda4e90b");
   }
-
+  
   String getDate(Adventure a) {
     if (DateTime.parse(a.startDate).difference(DateTime.now()).inDays > 0) {
       return "In " +
