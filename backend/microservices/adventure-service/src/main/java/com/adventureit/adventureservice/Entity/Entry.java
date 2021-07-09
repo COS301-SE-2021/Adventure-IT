@@ -1,8 +1,6 @@
 package com.adventureit.adventureservice.Entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.UUID;
 /**
@@ -16,22 +14,28 @@ import java.util.UUID;
 @Entity
 public class Entry {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    private long entryContainerID;
+    private UUID id;
+    private UUID entryContainerID;
 
     // Default constructor
     public Entry(){}
 
     // Getters and setters
 
-    public long getEntryContainerID() {
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getEntryContainerID() {
         return entryContainerID;
     }
 
-    public void setEntryContainerID(long entryConID){this.entryContainerID=entryConID;}
-
-    public long getId() {
-        return id;
+    public void setEntryContainerID(UUID entryContainerID) {
+        this.entryContainerID = entryContainerID;
     }
 }

@@ -16,12 +16,11 @@ import java.util.UUID;
 @Entity
 public class EntryContainer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private UUID id;
     private UUID creatorID;
     private UUID adventureID;
-    @OneToMany
-    private List<Entry> entries;
+    @ElementCollection (fetch=FetchType.EAGER)
+    private List<UUID> entries;
 
     public EntryContainer(UUID adventureID, UUID creatorID){
         this.adventureID = adventureID;
@@ -39,9 +38,17 @@ public class EntryContainer {
 
     public void setAdventureID(UUID aID){this.adventureID=aID;}
 
-    public long getId() {return id;}
+    public UUID getId() {return id;}
 
-    public List<Entry> getEntries(){
-        return this.entries;
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setEntries(List<UUID> entries) {
+        this.entries = entries;
+    }
+
+    public List<UUID> getEntries() {
+        return entries;
     }
 }

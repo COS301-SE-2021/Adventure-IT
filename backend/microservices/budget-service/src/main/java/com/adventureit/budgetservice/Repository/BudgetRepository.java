@@ -1,6 +1,8 @@
 package com.adventureit.budgetservice.Repository;
 
+import com.adventureit.adventureservice.Repository.EntryContainerRepository;
 import com.adventureit.budgetservice.Entity.Budget;
+import com.adventureit.budgetservice.Entity.BudgetEntry;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;

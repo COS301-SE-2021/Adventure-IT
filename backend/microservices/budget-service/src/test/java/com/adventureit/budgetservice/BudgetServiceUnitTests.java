@@ -27,17 +27,17 @@ public class BudgetServiceUnitTests {
         final UUID validEntryID1 = UUID.randomUUID();
         final UUID validEntryID2 = UUID.randomUUID();
 
-        BudgetEntry mockEntry1 = new Income(validEntryID1,20.0,"Mock Entry 1","Mock Income");
-        BudgetEntry mockEntry2 = new Expense(validEntryID2,20.0,"Mock Entry 2","Mock Expense");
-        ArrayList<BudgetEntry> trans = new ArrayList<>(Arrays.asList(mockEntry1,mockEntry2));
-        Budget mockBudget1 = new Budget(validBudgetID1,"Mock Budget 1",trans);
-        Budget mockBudget2 = new Budget(validBudgetID2,"Mock Budget 2",trans);
+        BudgetEntry mockEntry1 = new Income(validEntryID1,validBudgetID1,20.0,"Mock Entry 1","Mock Income");
+        BudgetEntry mockEntry2 = new Expense(validEntryID2,validBudgetID2,20.0,"Mock Entry 2","Mock Expense");
+        ArrayList<UUID> trans = new ArrayList<>(Arrays.asList(validEntryID1));
+        ArrayList<UUID> trans2 = new ArrayList<>(Arrays.asList(validEntryID2));
+        Budget mockBudget1 = new Budget(validBudgetID1,"Mock Budget 1",UUID.randomUUID(),UUID.randomUUID(),trans);
+        Budget mockBudget2 = new Budget(validBudgetID2,"Mock Budget 2",UUID.randomUUID(),UUID.randomUUID(),trans2);
 
         @Test
         /* Ensuring a user can create a budget */
-        public void createAdventureValid_ReturnTrue() throws Exception {
-                CreateBudgetRequest createBudgetRequest = new CreateBudgetRequest(UUID.randomUUID(),"Mock Name",new ArrayList<BudgetEntry>());
-                CreateBudgetResponse createBudgetResponse = sut.createBudget(createBudgetRequest);
+        public void createBudgetValid_ReturnTrue() throws Exception {
+                CreateBudgetResponse createBudgetResponse = sut.createBudget(UUID.randomUUID(),"Mock Name",UUID.randomUUID(),UUID.randomUUID(),new ArrayList<UUID>());
                 Assertions.assertTrue(createBudgetResponse.isSuccess());
         }
 
@@ -45,18 +45,16 @@ public class BudgetServiceUnitTests {
         /* createBudget will throw an exception if a budget with the same ID already exists */
         public void createBudgetExistingID_ThrowException() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetById(validBudgetID1)).thenReturn(mockBudget1);
-                CreateBudgetRequest createBudgetRequest = new CreateBudgetRequest(validBudgetID1,"Mock Name",trans);
                 Assertions.assertThrows(Exception.class, ()->{
-                       sut.createBudget(createBudgetRequest);
+                    sut.createBudget(validBudgetID1,"Mock Name",UUID.randomUUID(),UUID.randomUUID(),new ArrayList<UUID>());
                 });
         }
 
         @Test
         /* createBudget will throw an exception if any of the request object fields are null */
         public void createBudgetNullField_ThrowException() throws Exception {
-                CreateBudgetRequest createBudgetRequest = new CreateBudgetRequest(null,"Mock Name",trans);
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.createBudget(createBudgetRequest);
+                    sut.createBudget(null,"Mock Name",UUID.randomUUID(),UUID.randomUUID(),new ArrayList<UUID>());
                 });
         }
 
@@ -64,8 +62,7 @@ public class BudgetServiceUnitTests {
         /* Users should be able to add an Income Entry into an Existing Budget */
         public void addIncomeEntryValid_ReturnTrue() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetById(validBudgetID1)).thenReturn(mockBudget1);
-                AddIncomeEntryRequest request = new AddIncomeEntryRequest(UUID.randomUUID(),validBudgetID1,200.00,"Mock Income Entry","Mock Description");
-                AddIncomeEntryResponse response = sut.addIncomeEntry(request);
+                AddIncomeEntryResponse response = sut.addIncomeEntry(UUID.randomUUID(),validBudgetID1,200.00,"Mock Income Entry","Mock Description");
                 Assertions.assertTrue(response.isSuccess());
         }
 
@@ -73,27 +70,24 @@ public class BudgetServiceUnitTests {
         /* Add Income entry method will throw an exception if an Entry with the same ID already exists */
         public void addIncomeEntryExistingID_ThrowsException() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetById(validBudgetID1)).thenReturn(mockBudget1);
-                AddIncomeEntryRequest request = new AddIncomeEntryRequest(validEntryID1,validBudgetID1,200.00,"Mock Income Entry","Mock Description");
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.addIncomeEntry(request);
+                        sut.addIncomeEntry(validEntryID1,validBudgetID1,200.00,"Mock Income Entry","Mock Description");
                 });
         }
 
         @Test
         /* Add Income entry method will throw an exception if the budget does not exist */
         public void addIncomeEntryInvalidBudget_ThrowsException() throws Exception {
-                AddIncomeEntryRequest request = new AddIncomeEntryRequest(UUID.randomUUID(),UUID.randomUUID(),200.00,"Mock Income Entry","Mock Description");
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.addIncomeEntry(request);
+                        sut.addIncomeEntry(UUID.randomUUID(),UUID.randomUUID(),200.00,"Mock Income Entry","Mock Description");
                 });
         }
 
         @Test
         /* Add Income entry method will throw an exception if any of the fields in the request object is null */
         public void addIncomeEntryNullFields_ThrowsException() throws Exception {
-                AddIncomeEntryRequest request = new AddIncomeEntryRequest(null,UUID.randomUUID(),200.00,"Mock Income Entry","Mock Description");
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.addIncomeEntry(request);
+                        sut.addIncomeEntry(null,UUID.randomUUID(),200.00,"Mock Income Entry","Mock Description");
                 });
         }
 
@@ -101,36 +95,32 @@ public class BudgetServiceUnitTests {
         /* Users should be able to add an Expense Entry into an Existing Budget */
         public void addExpenseEntryValid_ReturnTrue() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetById(validBudgetID1)).thenReturn(mockBudget1);
-                AddExpenseEntryRequest request = new AddExpenseEntryRequest(UUID.randomUUID(),validBudgetID1,200.00,"Mock Expense Entry","Mock Description");
-                AddExpenseEntryResponse response = sut.addExpenseEntry(request);
+                AddExpenseEntryResponse response = sut.addExpenseEntry(UUID.randomUUID(),validBudgetID1,200.00,"Mock Expense Entry","Mock Description");
                 Assertions.assertTrue(response.isSuccess());
         }
 
         @Test
         /* Add Expense entry method will throw an exception if an Entry with the same ID already exists */
         public void addExpenseEntryExistingID_ThrowsException() throws Exception {
-                Mockito.when(mockBudgetRepository.findBudgetById(validBudgetID1)).thenReturn(mockBudget1);
-                AddExpenseEntryRequest request = new AddExpenseEntryRequest(validEntryID2,validBudgetID1,200.00,"Mock Expense Entry","Mock Description");
+                Mockito.when(mockBudgetRepository.findBudgetById(validBudgetID2)).thenReturn(mockBudget2);
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.addExpenseEntry(request);
+                        sut.addExpenseEntry(validEntryID2,validBudgetID1,200.00,"Mock Expense Entry","Mock Description");
                 });
         }
 
         @Test
         /* Add Expense entry method will throw an exception if the budget does not exist */
         public void addExpenseEntryInvalidBudget_ThrowsException() throws Exception {
-                AddExpenseEntryRequest request = new AddExpenseEntryRequest(UUID.randomUUID(),UUID.randomUUID(),200.00,"Mock Expense Entry","Mock Description");
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.addExpenseEntry(request);
+                        sut.addExpenseEntry(UUID.randomUUID(),UUID.randomUUID(),200.00,"Mock Expense Entry","Mock Description");
                 });
         }
 
         @Test
         /* Add Expense entry method will throw an exception if any of the fields in the request object is null */
         public void addExpenseEntryNullFields_ThrowsException() throws Exception {
-                AddExpenseEntryRequest request = new AddExpenseEntryRequest(null,UUID.randomUUID(),200.00,"Mock Expense Entry","Mock Description");
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.addExpenseEntry(request);
+                        sut.addExpenseEntry(null,UUID.randomUUID(),200.00,"Mock Expense Entry","Mock Description");
                 });
         }
 
@@ -138,35 +128,31 @@ public class BudgetServiceUnitTests {
         /* Remove an existing Entry */
         public void removeEntryValid_ReturnsTrue() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetById(validBudgetID1)).thenReturn(mockBudget1);
-                RemoveEntryRequest request = new RemoveEntryRequest(validEntryID1,validBudgetID1);
-                RemoveEntryResponse response = sut.removeEntry(request);
+                RemoveEntryResponse response = sut.removeEntry(validEntryID1,validBudgetID1);
                 Assertions.assertTrue(response.isSuccess());
         }
 
         @Test
         /* Remove Entry method throws exception if the Entry doesn't exist */
         public void removeEntryInvalidEntry_ThrowsException() throws Exception {
-                RemoveEntryRequest request = new RemoveEntryRequest(UUID.randomUUID(),validBudgetID1);
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.removeEntry(request);
+                        sut.removeEntry(UUID.randomUUID(),validBudgetID1);
                 });
         }
 
         @Test
         /* Remove Entry method throws exception if the Budget does not exist*/
         public void removeEntryInvalidBudget_ThrowsException() throws Exception {
-                RemoveEntryRequest request = new RemoveEntryRequest(validEntryID2,UUID.randomUUID());
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.removeEntry(request);
+                        sut.removeEntry(validEntryID2,UUID.randomUUID());
                 });
         }
 
         @Test
         /* Remove Entry method throws exception if any of the fields are null*/
         public void removeEntryNullField_ThrowsException() throws Exception {
-                RemoveEntryRequest request = new RemoveEntryRequest(validEntryID2,null);
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.removeEntry(request);
+                        sut.removeEntry(validEntryID2,null);
                 });
         }
 
@@ -175,8 +161,7 @@ public class BudgetServiceUnitTests {
         public void viewBudgetValid_ReturnsTrue() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetById(validBudgetID1)).thenReturn(mockBudget1);
                 Mockito.when(mockBudgetRepository.findBudgetByIdAndDeletedEquals(validBudgetID1,false)).thenReturn(mockBudget1);
-                ViewBudgetRequest request = new ViewBudgetRequest(validBudgetID1);
-                ViewBudgetResponse response = sut.viewBudget(request);
+                ViewBudgetResponse response = sut.viewBudget(validBudgetID1);
                 Assertions.assertTrue(response.isSuccess());
         }
 
@@ -185,18 +170,16 @@ public class BudgetServiceUnitTests {
         public void viewBudgetInvalidBudget_ThrowsException() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetById(validBudgetID1)).thenReturn(mockBudget1);
                 Mockito.when(mockBudgetRepository.findBudgetByIdAndDeletedEquals(validBudgetID1,false)).thenReturn(mockBudget1);
-                ViewBudgetRequest request = new ViewBudgetRequest(UUID.randomUUID());
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.viewBudget(request);
+                        sut.viewBudget(UUID.randomUUID());
                 });
         }
 
         @Test
         /* View budget method will throw an exception if the budget ID is null */
         public void viewBudgetNullBudgetID_ThrowsException() throws Exception {
-                ViewBudgetRequest request = new ViewBudgetRequest(null);
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.viewBudget(request);
+                        sut.viewBudget(null);
                 });
         }
 

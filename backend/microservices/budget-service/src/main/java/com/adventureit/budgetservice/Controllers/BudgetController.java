@@ -14,8 +14,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/budget")
 public class BudgetController {
-	@Autowired
-	BudgetServiceImplementation budgetServiceImplementation;
+//	@Autowired
+//	BudgetServiceImplementation budgetServiceImplementation;
 	
 //	@Autowired
 //	BudgetRepository budgetRepository;
@@ -26,53 +26,53 @@ public class BudgetController {
 		return "Budget Controller is functioning";
 	}
 
-	@GetMapping("/populate")
-	public String populate(){
-		budgetServiceImplementation.mockPopulate();
-		return "Mock budgets populated \n";
-	}
-
-	@GetMapping("/populateTrash")
-	public String populateTrash(){
-		budgetServiceImplementation.mockPopulateTrash();
-		return "Trash populated \n";
-	}
-
-	@GetMapping("/mockCreate/{name}")
-	public String createMockBudget(@PathVariable String name){
-		budgetServiceImplementation.mockCreateBudget(name);
-		return "Budget Successfully created";
-	}
+//	@GetMapping("/populate")
+//	public String populate(){
+//		budgetServiceImplementation.mockPopulate();
+//		return "Mock budgets populated \n";
+//	}
+//
+//	@GetMapping("/populateTrash")
+//	public String populateTrash(){
+//		budgetServiceImplementation.mockPopulateTrash();
+//		return "Trash populated \n";
+//	}
+//
+//	@GetMapping("/mockCreate/{name}")
+//	public String createMockBudget(@PathVariable String name){
+//		budgetServiceImplementation.mockCreateBudget(name);
+//		return "Budget Successfully created";
+//	}
 
 //	@GetMapping("/viewBudgetsByAdventure/{id}")
 //	public List<Budget> viewBudgetsByAdventure(@PathVariable UUID id) throws Exception {
 //		return budgetRepository.findAllByAdventureID(id);
 //	}
 
-	@GetMapping("/viewBudget/{id}")
-	public Budget viewBudget(@PathVariable UUID id) throws Exception {
-		ViewBudgetRequest request = new ViewBudgetRequest(id);
-		ViewBudgetResponse response = budgetServiceImplementation.viewBudget(request);
-		return response.getBudget();
-	}
-
-	@GetMapping("/softDelete/{id}")
-	public String softDelete(@PathVariable UUID id) throws Exception {
-		SoftDeleteRequest request = new SoftDeleteRequest(id);
-		budgetServiceImplementation.softDelete(request);
-		return "Budget successfully moved to bin.";
-	}
-
-	@GetMapping("/viewTrash/{id}")
-	public List<Budget> viewTrash(@PathVariable UUID id) throws Exception {
-		ViewTrashResponse response = budgetServiceImplementation.viewTrash(id);
-		return response.getBudgets();
-	}
-
-	@GetMapping("/restoreBudget/{id}")
-	public String restoreBudget(@PathVariable UUID id) throws Exception {
-		return budgetServiceImplementation.restoreBudget(id);
-	}
+//	@GetMapping("/viewBudget/{id}")
+//	public Budget viewBudget(@PathVariable UUID id) throws Exception {
+//		ViewBudgetRequest request = new ViewBudgetRequest(id);
+//		ViewBudgetResponse response = budgetServiceImplementation.viewBudget(request);
+//		return response.getBudget();
+//	}
+//
+//	@GetMapping("/softDelete/{id}")
+//	public String softDelete(@PathVariable UUID id) throws Exception {
+//		SoftDeleteRequest request = new SoftDeleteRequest(id);
+//		budgetServiceImplementation.softDelete(request);
+//		return "Budget successfully moved to bin.";
+//	}
+//
+//	@GetMapping("/viewTrash/{id}")
+//	public List<Budget> viewTrash(@PathVariable UUID id) throws Exception {
+//		ViewTrashResponse response = budgetServiceImplementation.viewTrash(id);
+//		return response.getBudgets();
+//	}
+//
+//	@GetMapping("/restoreBudget/{id}")
+//	public String restoreBudget(@PathVariable UUID id) throws Exception {
+//		return budgetServiceImplementation.restoreBudget(id);
+//	}
 
 //	@PostMapping("/create")
 //	public String createBudget(@RequestBody CreateBudgetRequest req) throws Exception {
