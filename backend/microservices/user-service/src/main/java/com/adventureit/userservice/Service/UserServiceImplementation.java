@@ -5,10 +5,9 @@ import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Exceptions.*;
 import com.adventureit.userservice.Repository.RegistrationTokenRepository;
 import com.adventureit.userservice.Repository.UserRepository;
-import com.adventureit.userservice.Requests.GetUserByUUIDRequest;
 import com.adventureit.userservice.Requests.LoginUserRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
-import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
+import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
 import com.adventureit.userservice.Responses.LoginUserDTO;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
 import com.adventureit.userservice.Token.RegistrationToken;
@@ -17,12 +16,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -142,13 +139,13 @@ public class UserServiceImplementation implements UserDetailsService {
      * @param req a GetUserByUUID request will be sent in with the user Id of the user that should be retrieved
      * @return returns a GetUserByUUID response which currently is a set user for testing purposes
      */
-    public GetUserByUUIDResponse GetUserByUUID(UUID req){
+    public GetUserByUUIDDTO GetUserByUUID(UUID req){
         UUID userId = req;
         Users newUser = repo.getUserByUserID(userId);
         if(newUser == null) {
             throw new UserDoesNotExistException("User does not exist - user is not registered as an Adventure-IT member");
         }
-        return new GetUserByUUIDResponse(newUser);
+        return new GetUserByUUIDDTO(newUser.getUserID(),newUser.getUsername(),newUser.getFirstname(), newUser.getLastname(), newUser.getEmail(), newUser.getPhoneNumber());
     }
 
 

@@ -2,7 +2,7 @@ package com.adventureit.userservice.Responses;
 
 import java.util.UUID;
 
-public class GetUserByUUIDResponse2 {
+public class GetUserByUUIDDTO {
     private final UUID userID;
     private final String username;
     private final String firstname;
@@ -10,7 +10,7 @@ public class GetUserByUUIDResponse2 {
     private final String email;
     private final String phoneNumber;
 
-    public GetUserByUUIDResponse2(UUID userID, String username, String firstname, String lastname, String email, String phoneNumber) {
+    public GetUserByUUIDDTO(UUID userID, String username, String firstname, String lastname, String email, String phoneNumber) {
         this.userID = userID;
         this.username = username;
         this.firstname = firstname;

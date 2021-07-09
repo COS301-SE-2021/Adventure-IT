@@ -7,7 +7,7 @@ import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
 import com.adventureit.userservice.Requests.LoginUserRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
-import com.adventureit.userservice.Responses.GetUserByUUIDResponse;
+import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
 import com.adventureit.userservice.Responses.LoginUserDTO;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
 import com.adventureit.userservice.Service.UserServiceImplementation;
@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @GetMapping(value="api/GetUser/{id}")
-    public Users getUserByUUID(@PathVariable UUID id){
-        return service.GetUserByUUID(id).getUser();
+    public GetUserByUUIDDTO getUserByUUID(@PathVariable UUID id){
+        return service.GetUserByUUID(id);
     }
 }
