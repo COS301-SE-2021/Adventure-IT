@@ -102,7 +102,7 @@ public class AdventureServiceUnitTests {
     @Description("Ensuring that when an existing adventure is retrieved using its UUID, the corresponding adventure is returned")
     public void getAdventureByUUIDExistingAdventure_ReturnAdventure(){
         final UUID mockId = UUID.randomUUID();
-        Mockito.when(adventureRepository.findById(mockId)).thenReturn(mockAdventure1);
+        Mockito.when(adventureRepository.findByAdventureId(mockId)).thenReturn(mockAdventure1);
         GetAdventureByUUIDRequest req = new GetAdventureByUUIDRequest(mockId);
         GetAdventureByUUIDResponse res = adventureService.getAdventureByUUID(req);
         Assertions.assertEquals(res.getAdventure(), mockAdventure1);

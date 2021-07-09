@@ -80,7 +80,7 @@ public class AdventureServiceImplementation implements AdventureService {
             throw new NullFieldException("Get Adventure By UUID Request: Adventure ID NULL");
         }
 
-        Adventure retrievedAdventure = this.adventureRepository.findById(req.getId());
+        Adventure retrievedAdventure = this.adventureRepository.findByAdventureId(req.getId());
 
         if(retrievedAdventure == null){
             throw new AdventureNotFoundException("Get Adventure by UUID: Adventure with UUID [" + req.getId() + "] not found");
@@ -188,7 +188,7 @@ public class AdventureServiceImplementation implements AdventureService {
 
     @Override
     public List<GetAdventuresByUserUUIDResponse> getallAdventuresByUUID(UUID id) {
-        List<Adventure> userAdventures = adventureRepository.findAllByOwnerIdOrAttendeesContains(id);
+        List<Adventure> userAdventures = adventureRepository.findAllByOwnerIdOrAttendeesContains(id,id);
         if (userAdventures.size() == 0) {
             AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
             throw notFound;

@@ -9,10 +9,10 @@ import java.util.UUID;
 
 @Repository
 public interface AdventureRepository extends JpaRepository<Adventure,Long>{
-    Adventure findById(UUID id);
+    Adventure findByAdventureId(UUID id);
     Adventure findAdventureByAdventureId(UUID id);
     List<Adventure> findByOwnerId(UUID ownerId);
     List<Adventure> findByAttendees(UUID attendeeId);
-    List<Adventure> findAllByOwnerIdOrAttendeesContains(UUID id);
+    List<Adventure> findAllByOwnerIdOrAttendeesContains(UUID id1,UUID id2);
     void deleteAdventureByAdventureId(UUID adventureId);
 }
