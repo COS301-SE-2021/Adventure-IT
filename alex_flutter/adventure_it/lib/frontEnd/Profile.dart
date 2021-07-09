@@ -41,33 +41,7 @@ class Profile extends State<ProfileCaller> {
               width: 3.0,
             ),),),
           ]),
-        /*Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            SizedBox(
-            width: 400.0,
-            child: Text("Full name",
-                style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 30)),
-            ),
-            SizedBox(
-              width: 400.0,
-              child: Text("Username",
-                style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 20)),
-            ),
-            SizedBox(height: 25),
-            SizedBox(
-              width: 400.0,
-              child: Text("Email address",
-                style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
-            ),
-            SizedBox(
-              width: 400.0,
-              child: Text("Phone number",
-                  style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
-            ),
-            SizedBox(height: 20),
-        ]),
-        Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               ElevatedButton(
@@ -113,8 +87,8 @@ class Profile extends State<ProfileCaller> {
                       Icon(Icons.settings, color: Theme.of(context).textTheme.bodyText1!.color),
                       Text("Edit Profile",
                         style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)) ],
-                  ))*/]
-        ),);
+                  ))]
+        ),]));
   }
 }
 
@@ -150,14 +124,32 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
         if (snapshot.hasData) {
           var user = snapshot.data as UserProfile;
 
-          return Expanded(
-            flex: 4,
-            child: ListTile(
-              title: Text(user.username, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Theme.of(context).textTheme.bodyText1!.color)),
-              // subtitle:Text(adventures.elementAt(index).description),
-              subtitle: Text(user.firstname, style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color)),
-            ),
-          );
+          return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                SizedBox(
+                  width: 400.0,
+                  child: Text(user.firstname + " " + user.lastname,
+                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 30)),
+                ),
+                SizedBox(
+                  width: 400.0,
+                  child: Text(user.username,
+                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 20)),
+                ),
+                SizedBox(height: 25),
+                SizedBox(
+                  width: 400.0,
+                  child: Text(user.email,
+                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
+                ),
+                SizedBox(
+                  width: 400.0,
+                  child: Text(user.phoneNumber,
+                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
+                ),
+                SizedBox(height: 20),
+              ]);
         }
 
         else
