@@ -17,9 +17,10 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@Table(name="users", schema = "public")
 public class Users implements UserDetails {
-@Table(name="user", schema = "public")
-public class User {
+
+
 
     @Id
     private UUID userID;

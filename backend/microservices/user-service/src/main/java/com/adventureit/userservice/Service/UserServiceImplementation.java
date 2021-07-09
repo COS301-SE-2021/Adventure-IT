@@ -218,7 +218,7 @@ public class UserServiceImplementation implements UserDetailsService {
             throw new Exception("User ID not provided");
         }
 
-        User user = repo.getUserByUserID(id);
+        Users user = repo.getUserByUserID(id);
         if(user == null){
             throw new Exception("User does not exist");
         }
@@ -239,7 +239,7 @@ public class UserServiceImplementation implements UserDetailsService {
             throw new Exception("User ID not provided");
         }
 
-        User user = repo.getUserByUserID(id);
+        Users user = repo.getUserByUserID(id);
         if(user == null){
             throw new Exception("User does not exist");
         }
@@ -253,7 +253,7 @@ public class UserServiceImplementation implements UserDetailsService {
             throw new Exception("User ID not provided");
         }
 
-        User user = repo.getUserByUserID(id);
+        Users user = repo.getUserByUserID(id);
         if(user == null){
             throw new Exception("User does not exist");
         }

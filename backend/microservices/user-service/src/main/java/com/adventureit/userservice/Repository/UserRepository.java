@@ -1,6 +1,7 @@
 package com.adventureit.userservice.Repository;
 
-import com.adventureit.userservice.Entities.User;
+
+import com.adventureit.userservice.Entities.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
