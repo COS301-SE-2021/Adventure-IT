@@ -50,6 +50,7 @@
 		</dependency>
         <dependency>
             <groupId>com.adventure-it</groupId>
+
             <artifactId>notification-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
@@ -57,6 +58,8 @@
         <dependency>
             <groupId>com.adventure-it</groupId>
             <artifactId>notification-service</artifactId>
+            <artifactId>user-service</artifactId>
+
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

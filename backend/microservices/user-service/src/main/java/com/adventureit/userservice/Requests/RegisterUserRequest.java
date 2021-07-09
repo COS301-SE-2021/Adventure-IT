@@ -19,7 +19,7 @@ public class RegisterUserRequest {
      * @param phoneNum =use phone number
      */
 
-    public RegisterUserRequest( @JsonProperty("fname") String fName,@JsonProperty("lname") String lName, @JsonProperty("uname") String uName,@JsonProperty("email") String email,@JsonProperty("password") String password,@JsonProperty("phoneN") String phoneNum){
+    public RegisterUserRequest( @JsonProperty("firstName") String fName,@JsonProperty("lastName") String lName, @JsonProperty("username") String uName,@JsonProperty("email") String email,@JsonProperty("password") String password,@JsonProperty("phoneNumber") String phoneNum){
         this.fName = fName;
         this.lName = lName;
         this.email = email;

@@ -1,16 +1,19 @@
 package com.adventureit.adventureservice.Controllers;
 
 import com.adventureit.adventureservice.Entity.Adventure;
+import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
+import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
+import com.adventureit.adventureservice.Responses.RemoveAdventureResponse;
 import com.adventureit.adventureservice.Service.AdventureServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/adventure")
@@ -31,7 +34,30 @@ public class AdventureController {
 
     @GetMapping("/all")
     public List<Adventure> getAllAdventures(){
-        return adventureServiceImplementation.getAllAdventures().getAdventures();
+        List<Adventure> allAdventures = adventureServiceImplementation.getAllAdventures().getAdventures();
+        Collections.sort(allAdventures, new Comparator<Adventure>() {
+            @Override
+            public int compare(Adventure o1, Adventure o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        });
+        return allAdventures;
+    }
+
+    @GetMapping("/all/{id}")
+    public List<Adventure> getAllAdventuresByUserUUID(@PathVariable UUID id){
+        List<Adventure> ownedAdventures = adventureServiceImplementation.getAdventureByOwnerUUID(id).getAdventures();
+        List<Adventure> attendingAdventures = adventureServiceImplementation.getAdventureByAttendeeUUID(id).getAdventures();
+        List<Adventure> allAdventures = Stream.concat(ownedAdventures.stream(), attendingAdventures.stream()).collect(Collectors.toList());
+        Collections.sort(allAdventures, new Comparator<Adventure>() {
+            @Override
+            public int compare(Adventure o1, Adventure o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        });
+        Collections.reverse(allAdventures);
+        return allAdventures;
+
     }
 
     @GetMapping("/owner/{id}")
@@ -44,5 +70,13 @@ public class AdventureController {
         return adventureServiceImplementation.getAdventureByAttendeeUUID(id).getAdventures();
     }
 
+    @PostMapping("/create")
+    public CreateAdventureResponse createAdventure(@RequestBody CreateAdventureRequest req){
+        return adventureServiceImplementation.createAdventure(req);
+    }
 
+    @DeleteMapping("/remove/{id}")
+    public RemoveAdventureResponse removeAdventure(@PathVariable UUID id){
+        return adventureServiceImplementation.removeAdventure(id);
+    }
 }

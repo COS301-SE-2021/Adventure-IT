@@ -6,14 +6,13 @@ import com.adventureit.adventureservice.Exceptions.AdventureNotFoundException;
 import com.adventureit.adventureservice.Repository.AdventureRepository;
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
-import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
+import com.adventureit.adventureservice.Responses.*;
 import com.adventureit.adventureservice.Exceptions.NullFieldException;
-import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
-import com.adventureit.adventureservice.Responses.GetAdventuresByUserUUIDResponse;
-import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,7 +47,7 @@ public class AdventureServiceImplementation implements AdventureService {
      * registration was successful or if an error occurred
      */
     @Override
-    public CreateAdventureResponse createAdventure(CreateAdventureRequest req) throws NullFieldException {
+    public CreateAdventureResponse createAdventure(CreateAdventureRequest req) {
         if(req.getOwnerId() == null ){
             throw new NullFieldException("Create Adventure Request: Owner Id NULL");
         }
@@ -58,8 +57,10 @@ public class AdventureServiceImplementation implements AdventureService {
         else if (req.getName() == null){
             throw new NullFieldException("Create Adventure Request: Adventure Name NULL");
         }
-        Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(), req.getId(), req.getOwnerId()));
-        return new CreateAdventureResponse(true);
+        Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(),req.getDescription(), req.getId(), req.getOwnerId(), req.getStartDate(), req.getEndDate()));
+        CreateAdventureResponse response = new CreateAdventureResponse(true);
+        response.setAdventure(persistedAdventure);
+        return response;
     }
 
     /**
@@ -74,7 +75,7 @@ public class AdventureServiceImplementation implements AdventureService {
      * @return returns a GetAdventureByUUID response which currently is a set adventure for testing purposes
      */
     @Override
-    public GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req) throws Exception{
+    public GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req) {
 
         if(req.getId() == null){
             throw new NullFieldException("Get Adventure By UUID Request: Adventure ID NULL");
@@ -148,14 +149,24 @@ public class AdventureServiceImplementation implements AdventureService {
 
     }
 
+    @Transactional
+    public RemoveAdventureResponse removeAdventure(UUID id){
+        Adventure retrievedAdventure = adventureRepository.findAdventureByAdventureId(id);
+        if(retrievedAdventure == null){
+            throw new AdventureNotFoundException("Remove Adventure: Adventure not found");
+        }
+        adventureRepository.deleteAdventureByAdventureId(id);
+        return new RemoveAdventureResponse(true, "Adventure successfully removed");
+    }
+
     @Override
     public void mockPopulate(){
         final UUID mockOwnerID = UUID.fromString("1660bd85-1c13-42c0-955c-63b1eda4e90b");
         final UUID mockAttendeeID = UUID.fromString("7a984756-16a5-422e-a377-89e1772dd71e");
 
-        Adventure mockAdventure1 = new Adventure("Mock Adventure 1", UUID.randomUUID(), mockOwnerID);
-        Adventure mockAdventure2 = new Adventure("Mock Adventure 2", UUID.randomUUID(), mockOwnerID);
-        Adventure mockAdventure3 = new Adventure("Mock Adventure 3", UUID.randomUUID(), mockAttendeeID);
+        Adventure mockAdventure1 = new Adventure("Mock Adventure 1","Mock Description 1", UUID.randomUUID(), mockOwnerID, LocalDate.of(2021, 7, 5),LocalDate.of(2021, 7, 9));
+        Adventure mockAdventure2 = new Adventure("Mock Adventure 2","Mock Description 2", UUID.randomUUID(), mockOwnerID, LocalDate.of(2021, 1, 3),LocalDate.of(2022, 1, 2));
+        Adventure mockAdventure3 = new Adventure("Mock Adventure 3", "Mock Description 3",UUID.randomUUID(), mockAttendeeID, LocalDate.of(2022, 1, 4),LocalDate.of(2022, 1, 22));
 
         mockAdventure1.addContainer(UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8"));
         mockAdventure1.addContainer(UUID.fromString("26356837-f076-41ec-85fa-f578df7e3717"));
