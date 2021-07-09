@@ -54,4 +54,5 @@ public class UserController {
     public LoginUserDTO Login(@RequestBody LoginUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
         return service.LoginUser(req);
     }
+
 }

@@ -1,5 +1,6 @@
 package com.adventureit.maincontroller.Controller;
 
+import com.adventureit.notificationservice.Responses.SendEmailNotificationResponse;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ public class MainController {
         int userPort = userInstance.getPort();
         return restTemplate.getForObject("http://"+ userIP + ":" + userPort + "/user/test", String.class);
     }
+
+
 }
 
 
