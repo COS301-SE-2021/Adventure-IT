@@ -1,4 +1,3 @@
-import 'dart:html';
 
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
@@ -12,7 +11,7 @@ import '../api/budget.dart';
 
 class Adventure_Budgets extends StatelessWidget {
   Future<List<Budget>> budgetsFuture;
-  Adventure adventure;
+  Adventure? adventure;
   Adventure_Budgets({required this.budgetsFuture, required this.adventure});
 
   Widget build(BuildContext context) {
@@ -81,7 +80,7 @@ class Adventure_Budgets extends StatelessWidget {
                     onPressed: () {
                       Future<List<Budget>>? deletedBudgets =
                       BudgetApi.getDeletedBudgets(
-                          this.adventure.adventureId);
+                          this.adventure!.adventureId);
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -107,7 +106,7 @@ class Adventure_Budgets extends StatelessWidget {
 
 class DeletedBudgets extends StatelessWidget {
   Future<List<Budget>> budgetsFuture;
-  Adventure adventure;
+  Adventure? adventure;
   DeletedBudgets({required this.budgetsFuture, required this.adventure});
 
   @override
@@ -122,7 +121,7 @@ class DeletedBudgets extends StatelessWidget {
             var budgets = snapshot.data as List<Budget>;
             return Scaffold(
                 appBar: AppBar(
-                    title: Text('Recycle Bin for ' + this.adventure.name),
+                    title: Text('Recycle Bin for ' + this.adventure!.name),
                     leading: IconButton(
                         onPressed: () {
                           Future<List<Budget>> budgetsFuture2 =
