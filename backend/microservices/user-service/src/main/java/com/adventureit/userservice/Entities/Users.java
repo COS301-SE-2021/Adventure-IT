@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -16,10 +18,11 @@ import java.util.UUID;
 @Setter
 @Entity
 public class Users implements UserDetails {
+@Table(name="user", schema = "public")
+public class User {
 
     @Id
     private UUID userID;
-
     private String username;
     private String firstname;
     private String lastname;
@@ -27,6 +30,8 @@ public class Users implements UserDetails {
     private String password;
     private String phoneNumber;
     private Boolean enabled = false;
+    @Lob
+    private byte [] profilePicture;
     private Boolean locked = false;
 
 
@@ -184,5 +189,13 @@ public class Users implements UserDetails {
      */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }

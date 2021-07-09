@@ -17,8 +17,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import javax.imageio.ImageIO;
+import javax.transaction.Transactional;
+import java.awt.*;
+import java.io.ByteArrayInputStream;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -205,5 +210,56 @@ public class UserServiceImplementation implements UserDetailsService {
         return "confirmed";
     }
 
+    public String updateProfilePicture(MultipartFile file, UUID id) throws Exception {
+        if(file ==null){
+            throw new Exception("File is null");
+        }
+        if(id ==null){
+            throw new Exception("User ID not provided");
+        }
 
+        User user = repo.getUserByUserID(id);
+        if(user == null){
+            throw new Exception("User does not exist");
+        }
+
+        try {
+            user.setProfilePicture(file.getBytes());
+            repo.save(user);
+        } catch (Exception e) {
+            return "error";
+        }
+
+        return "Profile Picture successfully updated!";
+    }
+
+    @Transactional
+    public Image viewImage(UUID id) throws Exception {
+        if(id ==null){
+            throw new Exception("User ID not provided");
+        }
+
+        User user = repo.getUserByUserID(id);
+        if(user == null){
+            throw new Exception("User does not exist");
+        }
+
+        ByteArrayInputStream bis = new ByteArrayInputStream(user.getProfilePicture());
+        return ImageIO.read(bis);
+    }
+
+    public String removeImage(UUID id) throws Exception {
+        if(id ==null){
+            throw new Exception("User ID not provided");
+        }
+
+        User user = repo.getUserByUserID(id);
+        if(user == null){
+            throw new Exception("User does not exist");
+        }
+
+        user.setProfilePicture(null);
+        repo.save(user);
+        return "Picture successfully removed";
+    }
 }
