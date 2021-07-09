@@ -1,5 +1,6 @@
 package com.adventureit.userservice.Controller;
 
+import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
@@ -58,7 +59,7 @@ public class UserController {
     }
 
     @GetMapping(value="api/GetUser/{id}")
-    public GetUserByUUIDResponse getUserByUUID(@PathVariable UUID id){
-        return service.GetUserByUUID(id);
+    public Users getUserByUUID(@PathVariable UUID id){
+        return service.GetUserByUUID(id).getUser();
     }
 }

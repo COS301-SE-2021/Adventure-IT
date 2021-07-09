@@ -1,5 +1,5 @@
 import 'dart:html';
-
+import 'dart:developer';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/api/user_api.dart';
 import 'package:flutter/gestures.dart';
@@ -130,7 +130,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
   @override
   void initState() {
     super.initState();
-    userFuture = UserApi.getUserByUUID("69e8eb21-eb63-4c83-9187-181a648bb759");
+    userFuture = UserApi.getUserByUUID("3f21ea6b-2288-42f3-9175-39adfafea9ab");
   }
 
     @override
@@ -145,6 +145,8 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                   .accentColor)));
         }
         print(snapshot.data);
+        print(userFuture);
+        log(snapshot.data.toString());
         if (snapshot.hasData) {
           var user = snapshot.data as UserProfile;
 
