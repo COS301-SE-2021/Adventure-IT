@@ -6,6 +6,7 @@ import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
+import 'Providers/adventure_model.dart';
 import 'api/budget.dart';
 import 'frontEnd/Login.dart';
 import 'frontEnd/HomepageStartup.dart';
