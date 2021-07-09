@@ -122,4 +122,28 @@ public class Adventure{
     public String getDescription() {
         return description;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setAdventureId(UUID adventureId) {
+        this.adventureId = adventureId;
+    }
+
+    public void setAttendees(List<UUID> attendees) {
+        this.attendees = attendees;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

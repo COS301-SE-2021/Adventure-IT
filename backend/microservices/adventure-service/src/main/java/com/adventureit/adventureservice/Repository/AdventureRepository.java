@@ -13,5 +13,6 @@ public interface AdventureRepository extends JpaRepository<Adventure,Long>{
     Adventure findAdventureByAdventureId(UUID id);
     List<Adventure> findByOwnerId(UUID ownerId);
     List<Adventure> findByAttendees(UUID attendeeId);
+    List<Adventure> findAllByOwnerIdOrAttendeesContains(UUID id);
     void deleteAdventureByAdventureId(UUID adventureId);
 }

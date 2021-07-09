@@ -13,8 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service()
 public class AdventureServiceImplementation implements AdventureService {
@@ -119,34 +118,95 @@ public class AdventureServiceImplementation implements AdventureService {
 //    }
 
     @Override
-    public GetAllAdventuresResponse getAllAdventures(){
+    public List<GetAllAdventuresResponse> getAllAdventures(){
         List<Adventure> allAdventures = adventureRepository.findAll();
         if(allAdventures.size() == 0){
             AdventureNotFoundException notFound = new AdventureNotFoundException("Get All Adventure: No adventures found");
             throw notFound;
         }
-        return new GetAllAdventuresResponse(allAdventures);
+
+        allAdventures.sort(new Comparator<Adventure>() {
+            @Override
+            public int compare(Adventure o1, Adventure o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        });
+
+        List<GetAllAdventuresResponse> list = new ArrayList<>();
+        for (Adventure a:allAdventures) {
+            list.add(new GetAllAdventuresResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getDate(),a.getDescription()));
+        }
+
+        return list;
     };
 
     @Override
-    public GetAdventuresByUserUUIDResponse getAdventureByOwnerUUID(UUID ownerID){
+    public List<GetAdventuresByUserUUIDResponse> getAdventureByOwnerUUID(UUID ownerID){
         List<Adventure> userAdventures = adventureRepository.findByOwnerId(ownerID);
         if(userAdventures.size() == 0){
             AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
             throw notFound;
         }
-        return new GetAdventuresByUserUUIDResponse(userAdventures);
+
+        userAdventures.sort(new Comparator<Adventure>() {
+            @Override
+            public int compare(Adventure o1, Adventure o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        });
+
+        List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
+        for (Adventure a:userAdventures) {
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getDate(),a.getDescription()));
+        }
+
+        return list;
     }
 
     @Override
-    public GetAdventuresByUserUUIDResponse getAdventureByAttendeeUUID(UUID attendeeID) {
+    public List<GetAdventuresByUserUUIDResponse> getAdventureByAttendeeUUID(UUID attendeeID) {
         List<Adventure> userAdventures = adventureRepository.findByAttendees(attendeeID);
         if (userAdventures.size() == 0) {
             AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
             throw notFound;
         }
-        return new GetAdventuresByUserUUIDResponse(userAdventures);
 
+        userAdventures.sort(new Comparator<Adventure>() {
+            @Override
+            public int compare(Adventure o1, Adventure o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        });
+
+        List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
+        for (Adventure a:userAdventures) {
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getDate(),a.getDescription()));
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<GetAdventuresByUserUUIDResponse> getallAdventuresByUUID(UUID id) {
+        List<Adventure> userAdventures = adventureRepository.findAllByOwnerIdOrAttendeesContains(id);
+        if (userAdventures.size() == 0) {
+            AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
+            throw notFound;
+        }
+
+        userAdventures.sort(new Comparator<Adventure>() {
+            @Override
+            public int compare(Adventure o1, Adventure o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        });
+
+        List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
+        for (Adventure a:userAdventures) {
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getDate(),a.getDescription()));
+        }
+
+        return list;
     }
 
     @Transactional
