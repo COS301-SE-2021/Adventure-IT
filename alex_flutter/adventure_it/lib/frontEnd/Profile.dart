@@ -22,25 +22,8 @@ class Profile extends State<ProfileCaller> {
           style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)
       )), backgroundColor: Theme.of(context).primaryColorDark),
       body: Row(
-        children: [ Column(
-          //ProfileFutureBuilderCaller();
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
+        children: [
           ProfileFutureBuilderCaller(),
-            Container(
-              width: 200,
-              height: 100,
-              child: CircleAvatar(
-                radius: 50,
-                backgroundImage: ExactAssetImage('assets/adventure.PNG'),
-              ),
-              decoration: new BoxDecoration(
-              shape: BoxShape.circle,
-              border: new Border.all(
-              color: Theme.of(context).accentColor,
-              width: 3.0,
-            ),),),
-          ]),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -59,20 +42,6 @@ class Profile extends State<ProfileCaller> {
                     );
               }),
               SizedBox(height: 20),
-              ElevatedButton(
-                  child: Text("Upload Document",
-                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
-                  style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).accentColor,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                  ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomepageStartupCaller()),
-                    );
-                  }),
               FlatButton(
                   onPressed: () => {
                     Navigator.pushReplacement(
@@ -124,32 +93,53 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
         if (snapshot.hasData) {
           var user = snapshot.data as UserProfile;
 
-          return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                SizedBox(
-                  width: 400.0,
-                  child: Text(user.firstname + " " + user.lastname,
-                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 30)),
-                ),
-                SizedBox(
-                  width: 400.0,
-                  child: Text(user.username,
-                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 20)),
-                ),
-                SizedBox(height: 25),
-                SizedBox(
-                  width: 400.0,
-                  child: Text(user.email,
-                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
-                ),
-                SizedBox(
-                  width: 400.0,
-                  child: Text(user.phoneNumber,
-                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
-                ),
-                SizedBox(height: 20),
-              ]);
+          return Card(
+              child: Row(
+                children: [
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                          width: 200,
+                          height: 100,
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundImage: ExactAssetImage('assets/adventure.PNG'),
+                          ),
+                          decoration: new BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: new Border.all(
+                              color: Theme.of(context).accentColor,
+                              width: 3.0,
+                            ),),),
+                      ]),
+                  Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 400.0,
+                      child: Text(user.firstname + " " + user.lastname,
+                          style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 30)),
+                    ),
+                    SizedBox(
+                      width: 400.0,
+                      child: Text(user.username,
+                          style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 20)),
+                    ),
+                    SizedBox(height: 25),
+                    SizedBox(
+                      width: 400.0,
+                      child: Text(user.email,
+                          style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
+                    ),
+                    SizedBox(
+                      width: 400.0,
+                      child: Text(user.phoneNumber,
+                          style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
+                    ),
+                    SizedBox(height: 20),
+                  ])
+              ]));
         }
 
         else
