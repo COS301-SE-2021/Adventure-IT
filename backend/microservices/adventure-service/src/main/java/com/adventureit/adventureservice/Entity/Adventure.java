@@ -22,7 +22,8 @@ public class Adventure{
     private List<UUID> attendees;
     @ElementCollection
     private List<UUID> Containers;
-    private LocalDate date;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String description;
 
 
@@ -37,17 +38,15 @@ public class Adventure{
      * @param adventureId
      * @param ownerId
      */
-    public Adventure(String name, String description, UUID adventureId, UUID ownerId, LocalDate date){
+    public Adventure(String name, String description, UUID adventureId, UUID ownerId, LocalDate sd, LocalDate ed) {
         this.name=name;
         this.description = description;
         this.adventureId=adventureId;
         this.ownerId = ownerId;
         this.attendees = new ArrayList<UUID>();
         this.Containers = new ArrayList<UUID>();
-        this.date = date;
-    }
-
-    public Adventure(String s, String s1, UUID randomUUID, UUID mockOwnerID, LocalDate of, LocalDate of1) {
+        this.endDate= ed;
+        this.startDate=sd;
     }
 
     /**
@@ -118,9 +117,11 @@ public class Adventure{
         return this.attendees;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getStartDate() {
+        return startDate;
     }
+
+    public LocalDate getEndDate(){return endDate;}
 
     public String getDescription() {
         return description;
