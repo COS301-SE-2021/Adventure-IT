@@ -24,11 +24,16 @@ class Profile extends State<ProfileCaller> {
       body: Row(
         children: [
           ProfileFutureBuilderCaller(),
-          SizedBox(
-            width: 400.0,
-            child: Text("Friend list",
-                style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
-          )]
+          Container(
+            padding: const EdgeInsets.only(left: 100.0, top: 0.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 400.0,
+                  child: Text("Friend list",
+                    style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
+            )])),]
         ));}
 }
 
@@ -69,7 +74,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
               child: Row(
                 children: [
                   Column(
-                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(height: 50),
                       Container(
@@ -85,65 +90,67 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                             color: Theme.of(context).accentColor,
                             width: 3.0,
                           ),),),
-                      SizedBox(height: 50),
+                      Container(
+                        padding: const EdgeInsets.only(left: 100.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 50),
+                            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            SizedBox(
+                              width: 400.0,
+                              child: Text("Name:  " + user.firstname + " " + user.lastname,
+                                  style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 30)),
+                            ),
+                            SizedBox(
+                              width: 400.0,
+                              child: Text("Username:  " + user.username,
+                                  style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 20)),
+                            ),
+                            SizedBox(height: 25),
+                            SizedBox(
+                              width: 400.0,
+                              child: Text(user.email,
+                                  style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
+                            ),
+                            SizedBox(
+                              width: 400.0,
+                              child: Text(user.phoneNumber,
+                                  style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
+                            ),
+                            SizedBox(height: 50),
+                          ],)),
                       ElevatedButton(
-                        child: Text("My Documents",
-                            style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
-                        style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context).accentColor,
+                          child: Text("My Documents",
+                              style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
+                          style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).accentColor,
+                            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                          ),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomepageStartupCaller()),
+                            );
+                          }),
+                      SizedBox(height: 20),
+                      FlatButton(
+                          onPressed: () => {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomepageStartupCaller()),
+                            )},
+                          color: Theme.of(context).accentColor,
                           padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomepageStartupCaller()),
-                          );
-                      }),
-                  SizedBox(height: 20),
-                    ]),
-                  Column(
-                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    SizedBox(height: 50),
-                    SizedBox(
-                      width: 400.0,
-                      child: Text(user.firstname + " " + user.lastname,
-                          style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 30)),
-                    ),
-                    SizedBox(
-                      width: 400.0,
-                      child: Text(user.username,
-                          style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 20)),
-                    ),
-                    SizedBox(height: 25),
-                    SizedBox(
-                      width: 400.0,
-                      child: Text(user.email,
-                          style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
-                    ),
-                    SizedBox(
-                      width: 400.0,
-                      child: Text(user.phoneNumber,
-                          style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
-                    ),
-                    SizedBox(height: 50),
-                    ]),
-                    FlatButton(
-                        onPressed: () => {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomepageStartupCaller()),
-                          )},
-                        color: Theme.of(context).accentColor,
-                        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(Icons.settings, color: Theme.of(context).textTheme.bodyText1!.color),
-                            Text("Edit Profile",
-                                style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)) ],
-                        ))
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.settings, color: Theme.of(context).textTheme.bodyText1!.color),
+                              Text("Edit Profile",
+                                  style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)) ],
+                          ))
+                      ])
                   ])
           );
         }
