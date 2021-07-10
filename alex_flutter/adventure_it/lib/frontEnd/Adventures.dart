@@ -214,6 +214,36 @@ class AdventureList extends StatelessWidget {
                                         ],
                                       ),
                                     ))),
+                                confirmDismiss: (DismissDirection direction) async {
+                                  return await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: Theme.of(context).accentColor,
+                                        title: Text(
+                                            "Confirmation", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color)),
+                                        content: Text(
+                                            "Are you sure you want to remove this adventure?", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color)),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                              onPressed: () =>
+                                                  Navigator.of(context).pop(
+                                                      true),
+                                              child: Text("Remove", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color))
+                                          ),
+                                          FlatButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(
+                                                    false),
+                                            child: Text("Cancel", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color)),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+
+
                             onDismissed: (direction) {
                               adventureModel.deleteAdventure(adventureModel.adventures.elementAt(index));
                             }))
