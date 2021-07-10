@@ -24,41 +24,12 @@ class Profile extends State<ProfileCaller> {
       body: Row(
         children: [
           ProfileFutureBuilderCaller(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              ElevatedButton(
-                  child: Text("My Documents",
-                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
-                  style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).accentColor,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                  ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomepageStartupCaller()),
-                    );
-              }),
-              SizedBox(height: 20),
-              FlatButton(
-                  onPressed: () => {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                      builder: (context) => HomepageStartupCaller()),
-                  )},
-                  color: Theme.of(context).accentColor,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.settings, color: Theme.of(context).textTheme.bodyText1!.color),
-                      Text("Edit Profile",
-                        style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)) ],
-                  ))]
-        ),]));
-  }
+          SizedBox(
+            width: 400.0,
+            child: Text("Friend list",
+                style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
+          )]
+        ));}
 }
 
 class ProfileFutureBuilderCaller extends StatefulWidget {
@@ -94,28 +65,47 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
           var user = snapshot.data as UserProfile;
 
           return Card(
+            color: Theme.of(context).primaryColorDark,
               child: Row(
                 children: [
                   Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          width: 200,
-                          height: 100,
-                          child: CircleAvatar(
-                            radius: 50,
-                            backgroundImage: ExactAssetImage('assets/adventure.PNG'),
-                          ),
-                          decoration: new BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: new Border.all(
-                              color: Theme.of(context).accentColor,
-                              width: 3.0,
-                            ),),),
-                      ]),
+                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      SizedBox(height: 50),
+                      Container(
+                        width: 200,
+                        height: 100,
+                        child: CircleAvatar(
+                          radius: 70,
+                          backgroundImage: ExactAssetImage('assets/adventure.PNG'),
+                        ),
+                        decoration: new BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: new Border.all(
+                            color: Theme.of(context).accentColor,
+                            width: 3.0,
+                          ),),),
+                      SizedBox(height: 50),
+                      ElevatedButton(
+                        child: Text("My Documents",
+                            style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
+                        style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context).accentColor,
+                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomepageStartupCaller()),
+                          );
+                      }),
+                  SizedBox(height: 20),
+                    ]),
                   Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
+                    SizedBox(height: 50),
                     SizedBox(
                       width: 400.0,
                       child: Text(user.firstname + " " + user.lastname,
@@ -137,9 +127,25 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                       child: Text(user.phoneNumber,
                           style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 50),
+                    ]),
+                    FlatButton(
+                        onPressed: () => {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomepageStartupCaller()),
+                          )},
+                        color: Theme.of(context).accentColor,
+                        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.settings, color: Theme.of(context).textTheme.bodyText1!.color),
+                            Text("Edit Profile",
+                                style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)) ],
+                        ))
                   ])
-              ]));
+          );
         }
 
         else
