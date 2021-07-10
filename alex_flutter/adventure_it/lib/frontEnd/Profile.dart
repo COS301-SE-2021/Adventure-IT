@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:developer';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/api/user_api.dart';
@@ -21,7 +20,7 @@ class Profile extends State<ProfileCaller> {
       appBar: AppBar(title: Center(child: Text("Profile",
           style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)
       )), backgroundColor: Theme.of(context).primaryColorDark),
-      body: Row(
+      body: Column(
         children: [
           ProfileFutureBuilderCaller(),
           Container(
@@ -33,8 +32,26 @@ class Profile extends State<ProfileCaller> {
                   width: 400.0,
                   child: Text("Friend list",
                     style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
-            )])),]
+                )
+                //_buildList()
+            ])),]
         ));}
+
+  /*Widget _buildList() => ListView(
+    children: [
+      _tile("Friend 1"),
+      _tile("Friend 2"),
+      _tile("Friend 3")
+    ]
+  );
+
+  ListTile _tile(String username) => ListTile(
+    title: Text(username,
+        style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 20,
+        ))
+  );*/
 }
 
 class ProfileFutureBuilderCaller extends StatefulWidget {
@@ -72,9 +89,11 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
           return Card(
             color: Theme.of(context).primaryColorDark,
               child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Center(
+                  child: Column(
                     children: <Widget>[
                       SizedBox(height: 50),
                       Container(
@@ -99,34 +118,33 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                             //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             SizedBox(
                               width: 400.0,
-                              child: Text("Name:  " + user.firstname + " " + user.lastname,
+                              child: Text(user.firstname + " " + user.lastname,
+                                  textAlign: TextAlign.center,
                                   style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 30)),
                             ),
                             SizedBox(
                               width: 400.0,
-                              child: Text("Username:  " + user.username,
+                              child: Text(user.username,
+                                  textAlign: TextAlign.center,
                                   style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 20)),
                             ),
                             SizedBox(height: 25),
                             SizedBox(
-                              width: 400.0,
-                              child: Text(user.email,
-                                  style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
-                            ),
-                            SizedBox(
-                              width: 400.0,
-                              child: Text(user.phoneNumber,
+                              width: 600.0,
+                              child: Text(user.email + "      " + user.phoneNumber,
+                                  textAlign: TextAlign.center,
                                   style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
                             ),
                             SizedBox(height: 50),
                           ],)),
-                      ElevatedButton(
+                      MaterialButton(
                           child: Text("My Documents",
                               style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
-                          style: ElevatedButton.styleFrom(
+                          /*style: ElevatedButton.styleFrom(
                             primary: Theme.of(context).accentColor,
                             padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                          ),
+                          ),*/
+                          color: Theme.of(context).accentColor,
                           onPressed: () {
                             Navigator.pushReplacement(
                               context,
@@ -134,8 +152,8 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                   builder: (context) => HomepageStartupCaller()),
                             );
                           }),
-                      SizedBox(height: 20),
-                      FlatButton(
+                      SizedBox(height: 10),
+                      MaterialButton(
                           onPressed: () => {
                             Navigator.pushReplacement(
                               context,
@@ -150,7 +168,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                               Text("Edit Profile",
                                   style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)) ],
                           ))
-                      ])
+                      ]))
                   ])
           );
         }
