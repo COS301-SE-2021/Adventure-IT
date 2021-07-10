@@ -53,6 +53,7 @@ class HomePage_Pages_Adventures extends StatelessWidget {
       AdventureList(),
       SizedBox(height: MediaQuery.of(context).size.height / 60),
       Expanded(
+        flex: 1,
           child: Align(
         alignment: FractionalOffset.bottomCenter,
         child: Container(
@@ -103,6 +104,7 @@ class AdventureList extends StatelessWidget {
                   Theme.of(context).accentColor)));
       if (adventureModel.adventures!.length > 0) {
         return Expanded(
+            flex: 2,
             child: ListView(children: [
           ...List.generate(
               adventureModel.adventures!.length,
