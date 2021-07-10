@@ -140,11 +140,9 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                       MaterialButton(
                           child: Text("My Documents",
                               style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
-                          /*style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).accentColor,
-                            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                          ),*/
                           color: Theme.of(context).accentColor,
+                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+
                           onPressed: () {
                             Navigator.pushReplacement(
                               context,
@@ -161,13 +159,14 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                   builder: (context) => HomepageStartupCaller()),
                             )},
                           color: Theme.of(context).accentColor,
-                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                           child: Row(
                             children: <Widget>[
                               Icon(Icons.settings, color: Theme.of(context).textTheme.bodyText1!.color),
                               Text("Edit Profile",
                                   style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)) ],
-                          ))
+                          )),
+                      SizedBox(height: 10)
                       ]))
                   ])
           );
