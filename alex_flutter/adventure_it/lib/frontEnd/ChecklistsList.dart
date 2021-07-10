@@ -1,10 +1,10 @@
-
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 
 import 'package:flutter/material.dart';
+import 'CreateChecklist.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
@@ -67,6 +67,31 @@ class Checklist_List extends StatelessWidget {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: Center());
+        body: Center(
+            child: Column(children: <Widget>[
+          SizedBox(height: MediaQuery.of(context).size.height / 60),
+          Expanded(
+              child: Align(
+            alignment: FractionalOffset.bottomCenter,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).accentColor,
+                    shape: BoxShape.circle),
+                child: IconButton(
+                    onPressed: () {
+                      {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ChecklistCreationCaller()));
+                      }
+                    },
+                    icon: const Icon(Icons.add),
+                    color: Theme.of(context).primaryColorDark)),
+          ) //Your widget here,
+              ),
+          SizedBox(height: MediaQuery.of(context).size.height / 60),
+        ])));
   }
 }

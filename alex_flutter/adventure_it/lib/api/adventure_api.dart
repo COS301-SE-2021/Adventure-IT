@@ -26,7 +26,7 @@ class AdventureApi {
     return http.get(Uri.http(adventureApi, '/adventure/all/' + userID));
   }
 
-  static void removeAdventure(String adventureId) async {
+  static Future removeAdventure(String adventureId) async {
     http.Response response = await _removeAdventure(adventureId);
     print("Tried to delete");
 

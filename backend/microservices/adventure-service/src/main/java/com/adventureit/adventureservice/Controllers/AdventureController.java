@@ -38,7 +38,7 @@ public class AdventureController {
         Collections.sort(allAdventures, new Comparator<Adventure>() {
             @Override
             public int compare(Adventure o1, Adventure o2) {
-                return o1.getDate().compareTo(o2.getDate());
+                return o1.getStartDate().compareTo(o2.getStartDate());
             }
         });
         return allAdventures;
@@ -52,10 +52,9 @@ public class AdventureController {
         Collections.sort(allAdventures, new Comparator<Adventure>() {
             @Override
             public int compare(Adventure o1, Adventure o2) {
-                return o1.getDate().compareTo(o2.getDate());
+                return o1.getStartDate().compareTo(o2.getStartDate());
             }
         });
-        Collections.reverse(allAdventures);
         return allAdventures;
 
     }
