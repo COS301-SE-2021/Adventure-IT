@@ -1,9 +1,11 @@
+import 'package:adventure_it/Providers/adventure_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'AdventurePage.dart';
 import 'BudgetList.dart';
 import 'CreateAdventure.dart';
@@ -48,43 +50,37 @@ class HomePage_Pages_Adventures extends StatelessWidget {
           left: MediaQuery.of(context).size.width / 50,
         ),
       ),
-      AdventureFutureBuilder(),
-      SizedBox(height: MediaQuery.of(context).size.height / 60),
-      Container(
-          decoration: BoxDecoration(
-              color: Theme.of(context).accentColor, shape: BoxShape.circle),
-          child: IconButton(
-              onPressed: () {
-                {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CreateAdventureCaller()));
-                }
-              },
-              icon: const Icon(Icons.add),
-              color: Theme.of(context).primaryColorDark)),
-      SizedBox(height: MediaQuery.of(context).size.height / 60),
+      AdventureList(),
+    Align(
+    alignment: FractionalOffset.bottomCenter,
+    child: Column(
+      children: [
+        SizedBox(height: MediaQuery.of(context).size.height / 60),
+        Container(
+            decoration: BoxDecoration(
+                color: Theme.of(context).accentColor, shape: BoxShape.circle),
+            child: IconButton(
+                onPressed: () {
+                  {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreateAdventureCaller()));
+                  }
+                },
+                icon: const Icon(Icons.add),
+                color: Theme.of(context).primaryColorDark)),
+        SizedBox(height: MediaQuery.of(context).size.height / 60),
+      ],
+    ) //Your widget here,
+    ),
+
     ]);
   }
 }
 
-class AdventureFutureBuilder extends StatefulWidget {
-  @override
-  _AdventureFutureBuilder createState() => _AdventureFutureBuilder();
-}
+class AdventureList extends StatelessWidget {
 
-class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
-  Future<List<Adventure>>? adventuresFuture;
-
-  _AdventureFutureBuilder();
-
-  @override
-  void initState() {
-    super.initState();
-    adventuresFuture = AdventureApi.getAdventuresByUUID(
-        "1660bd85-1c13-42c0-955c-63b1eda4e90b");
-  }
   
   String getDate(Adventure a) {
     if (DateTime.parse(a.startDate).difference(DateTime.now()).inDays > 0) {
@@ -105,25 +101,21 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: adventuresFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+    return Consumer<AdventuresModel>(
+        builder: (context, adventureModel, child) {
+
+
+            Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
-          }
-          print(snapshot.data);
-          if (snapshot.hasData) {
-            var adventures = snapshot.data as List<Adventure>;
 
-            print(adventures);
-            if (adventures!.length > 0) {
+
+            if (adventureModel.adventures!.length > 0) {
               return Expanded(
                   child: ListView(children: [
                     ...List.generate(
-                        adventures!.length,
+                        adventureModel.adventures!.length,
                             (index) => Dismissible(
                             background: Container(
                               // color: Theme.of(context).primaryColor,
@@ -141,7 +133,7 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
                               ),
                             ),
                             direction: DismissDirection.endToStart,
-                            key: Key(adventures.elementAt(index).adventureId),
+                            key: Key(adventureModel.adventures.elementAt(index).adventureId),
                             child: Card(
                                 color: Theme.of(context).primaryColorDark,
                                 child: InkWell(
@@ -162,7 +154,7 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => AdventurePage(
-                                                  adventures.elementAt(index))));
+                                                  adventureModel.adventures.elementAt(index))));
                                     },
                                     child: Container(
                                       decoration: new BoxDecoration(
@@ -180,7 +172,7 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
                                             flex: 4,
                                             child: ListTile(
                                               title: Text(
-                                                  adventures.elementAt(index).name,
+                                                  adventureModel.adventures.elementAt(index).name,
                                                   style: TextStyle(
                                                       fontSize: 25 *
                                                           MediaQuery.of(context)
@@ -192,8 +184,7 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
                                                           .color)),
                                               // subtitle:Text(adventures.elementAt(index).description),
                                               subtitle: Text(
-                                                  adventures
-                                                      .elementAt(index)
+                                                  adventureModel.adventures.elementAt(index)
                                                       .description,
                                                   style: TextStyle(
                                                       fontSize: 15 *
@@ -209,7 +200,7 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
                                             flex: 1,
                                             child: Text(
                                                 getDate(
-                                                    adventures.elementAt(index)),
+                                                    adventureModel.adventures.elementAt(index)),
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     fontSize: 12 *
@@ -224,10 +215,7 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
                                       ),
                                     ))),
                             onDismissed: (direction) {
-                              AdventureApi.removeAdventure(
-                                  adventures.elementAt(index).adventureId);
-                              adventures.removeAt(index);
-                              setState(() {});
+                              adventureModel.deleteAdventure(adventureModel.adventures.elementAt(index));
                             }))
                   ]));
             } else {
@@ -238,13 +226,7 @@ class _AdventureFutureBuilder extends State<AdventureFutureBuilder> {
                           color:
                           Theme.of(context).textTheme.bodyText1!.color)));
             }
-          } else {
-            return Center(
-                child: Text("It seems you're not very adventurous...",
-                    style: TextStyle(
-                        fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-                        color: Theme.of(context).textTheme.bodyText1!.color)));
-          }
+
         });
   }
 }
