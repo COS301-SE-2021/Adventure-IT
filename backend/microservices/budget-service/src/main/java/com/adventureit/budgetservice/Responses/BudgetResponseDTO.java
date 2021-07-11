@@ -1,27 +1,27 @@
-package com.adventureit.budgetservice.Requests;
+package com.adventureit.budgetservice.Responses;
 
-import com.adventureit.budgetservice.Entity.BudgetEntry;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class CreateBudgetRequest {
+public class BudgetResponseDTO {
     private UUID id;
     private String name;
     private UUID creatorID;
     private UUID adventureID;
+    private List<UUID> entries;
     private double limit;
+    private boolean deleted;
 
-    public CreateBudgetRequest() {
-    }
+    public BudgetResponseDTO(){}
 
-    public CreateBudgetRequest(UUID id, String name, UUID creatorID, UUID adventureID,double limit) {
+    public BudgetResponseDTO(UUID id, String name, UUID creatorID, UUID adventureID,List<UUID> entries,double limit,boolean deleted){
         this.id = id;
         this.name = name;;
         this.creatorID = creatorID;
         this.adventureID = adventureID;
+        this.entries = entries;
         this.limit = limit;
+        this.deleted = deleted;
     }
 
     public String getName() {
@@ -40,8 +40,20 @@ public class CreateBudgetRequest {
         this.id = id;
     }
 
+    public List<UUID> getEntries() {
+        return entries;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public double getLimit() {
         return limit;
+    }
+
+    public void setEntries(List<UUID> entries) {
+        this.entries = entries;
     }
 
     public void setAdventureID(UUID adventureID) {
@@ -64,4 +76,7 @@ public class CreateBudgetRequest {
         return creatorID;
     }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
 }
