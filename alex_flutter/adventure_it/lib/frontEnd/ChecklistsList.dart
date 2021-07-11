@@ -80,11 +80,87 @@ class Checklist_List extends StatelessWidget {
                 child: IconButton(
                     onPressed: () {
                       {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    ChecklistCreationCaller()));
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: Theme.of(context).primaryColorDark,
+                                content: Container(
+                                  height: MediaQuery.of(context).size.height*0.5,
+                                  child: Stack(
+                                  overflow: Overflow.visible,
+                                  children: <Widget>[
+                                    Positioned(
+                                      right: -40.0,
+                                      top: -40.0,
+                                      child: InkResponse(
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: CircleAvatar(
+                                          child: Icon(Icons.close, color: Theme.of(context).primaryColorDark),
+                                          backgroundColor: Theme.of(context).accentColor,
+                                        ),
+                                      ),
+                                    ),
+                                Center(
+                                child: Column(
+                                       // mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Text("Create Checklist", textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color,fontSize: 25 * MediaQuery.of(context).textScaleFactor,
+                                            fontWeight: FontWeight.bold,)),
+                                          SizedBox(
+                                            height: MediaQuery.of(context).size.height*0.08
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context).size.width*0.5,
+                                            padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.02),
+                                            child: TextField(
+                                                style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
+                                                decoration: InputDecoration(
+                                                    hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                                                    filled: true,
+                                                    enabledBorder: InputBorder.none,
+                                                    errorBorder: InputBorder.none,
+                                                    disabledBorder: InputBorder.none,
+                                                    fillColor: Theme.of(context).primaryColorLight,
+                                                    focusedBorder: OutlineInputBorder( borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Title')),
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context).size.width*0.5,
+                                            padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.02),
+                              child: TextField(
+                                  maxLines: 4,
+                              style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
+                              decoration: InputDecoration(
+                              hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                              filled: true,
+                              fillColor: Theme.of(context).primaryColorLight,
+                                  enabledBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                              focusedBorder: OutlineInputBorder( borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Description')),
+                              ),
+                                            Spacer(),
+
+                                            Padding(
+                                            padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.02),
+                                              child: Align(
+                                                alignment: FractionalOffset.bottomCenter,
+                                            child: RaisedButton(
+                                                  color: Theme.of(context).accentColor,
+                                                  child:Text("Create", style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          )
+                                            )],
+                                      ),
+                                )],
+                                ),
+                              ));
+                            });
                       }
                     },
                     icon: const Icon(Icons.add),
