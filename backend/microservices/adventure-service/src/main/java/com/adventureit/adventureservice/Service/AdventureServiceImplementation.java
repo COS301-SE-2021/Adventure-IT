@@ -125,16 +125,16 @@ public class AdventureServiceImplementation implements AdventureService {
             throw notFound;
         }
 
-        allAdventures.sort(new Comparator<Adventure>() {
+        Collections.sort(allAdventures, new Comparator<Adventure>() {
             @Override
             public int compare(Adventure o1, Adventure o2) {
-                return o1.getDate().compareTo(o2.getDate());
+                return o1.getStartDate().compareTo(o2.getStartDate());
             }
         });
 
         List<GetAllAdventuresResponse> list = new ArrayList<>();
         for (Adventure a:allAdventures) {
-            list.add(new GetAllAdventuresResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getDate(),a.getDescription()));
+            list.add(new GetAllAdventuresResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription()));
         }
 
         return list;
@@ -151,13 +151,13 @@ public class AdventureServiceImplementation implements AdventureService {
         userAdventures.sort(new Comparator<Adventure>() {
             @Override
             public int compare(Adventure o1, Adventure o2) {
-                return o1.getDate().compareTo(o2.getDate());
+                return o1.getStartDate().compareTo(o2.getStartDate());
             }
         });
 
         List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
         for (Adventure a:userAdventures) {
-            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getDate(),a.getDescription()));
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription()));
         }
 
         return list;
@@ -174,13 +174,13 @@ public class AdventureServiceImplementation implements AdventureService {
         userAdventures.sort(new Comparator<Adventure>() {
             @Override
             public int compare(Adventure o1, Adventure o2) {
-                return o1.getDate().compareTo(o2.getDate());
+                return o1.getStartDate().compareTo(o2.getStartDate());
             }
         });
 
         List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
         for (Adventure a:userAdventures) {
-            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getDate(),a.getDescription()));
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription()));
         }
 
         return list;
@@ -197,13 +197,13 @@ public class AdventureServiceImplementation implements AdventureService {
         userAdventures.sort(new Comparator<Adventure>() {
             @Override
             public int compare(Adventure o1, Adventure o2) {
-                return o1.getDate().compareTo(o2.getDate());
+                return o1.getStartDate().compareTo(o2.getStartDate());
             }
         });
 
         List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
         for (Adventure a:userAdventures) {
-            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getDate(),a.getDescription()));
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription()));
         }
 
         return list;

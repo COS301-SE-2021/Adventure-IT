@@ -132,10 +132,6 @@ public class Adventure{
         this.id = id;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
     public void setAdventureId(UUID adventureId) {
         this.adventureId = adventureId;
     }

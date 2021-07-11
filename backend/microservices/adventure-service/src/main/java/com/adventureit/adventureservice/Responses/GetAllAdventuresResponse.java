@@ -13,17 +13,19 @@ public class GetAllAdventuresResponse {
     private UUID ownerId;
     private List<UUID> attendees;
     private List<UUID> containers;
-    private LocalDate date;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String description;
 
-    public GetAllAdventuresResponse(long id, String name, UUID adventureId, UUID ownerID, List<UUID> attendees, List<UUID> containers, LocalDate date, String description){
+    public GetAllAdventuresResponse(long id, String name, UUID adventureId, UUID ownerID, List<UUID> attendees, List<UUID> containers, LocalDate startDate,LocalDate endDate, String description){
         this.id = id;
         this.name = name;
         this.adventureId = adventureId;
         this.ownerId = ownerID;
         this.attendees = attendees;
         this.containers = containers;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.description = description;
     }
 
@@ -43,17 +45,12 @@ public class GetAllAdventuresResponse {
         this.adventureId = adventureId;
     }
 
-
     public void setAttendees(List<UUID> attendees) {
         this.attendees = attendees;
     }
 
     public void setContainers(List<UUID> containers) {
         this.containers = containers;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public void setOwnerId(UUID ownerId) {
@@ -68,17 +65,12 @@ public class GetAllAdventuresResponse {
         return description;
     }
 
-
     public List<UUID> getAttendees() {
         return attendees;
     }
 
     public List<UUID> getContainers() {
         return containers;
-    }
-
-    public LocalDate getDate() {
-        return date;
     }
 
     public long getId() {
@@ -91,6 +83,22 @@ public class GetAllAdventuresResponse {
 
     public UUID getOwnerId() {
         return ownerId;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
     }
 }
 
