@@ -77,6 +77,9 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                     decoration: InputDecoration(
                         hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color,fontSize: 15*MediaQuery.of(context).textScaleFactor),
                         filled: true,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
                         fillColor: Theme.of(context).primaryColorLight,
                         focusedBorder: OutlineInputBorder( borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Adventure Name')),
               ),
@@ -84,10 +87,14 @@ class CreateAdventure extends State<CreateAdventureCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    maxLines: 4,
                     style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color,fontSize: 15*MediaQuery.of(context).textScaleFactor),
                     decoration: InputDecoration(
                         hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color,fontSize: 15*MediaQuery.of(context).textScaleFactor),
                         filled: true,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
                         fillColor: Theme.of(context).primaryColorLight,
                         focusedBorder: OutlineInputBorder(borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Adventure Description')),
               ),
