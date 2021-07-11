@@ -216,19 +216,19 @@ class AdventureList extends StatelessWidget {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          backgroundColor: Theme.of(context).accentColor,
+                          backgroundColor: Theme.of(context).primaryColorDark,
                           title: Text("Confirmation",
                               style: TextStyle(
                                   color: Theme.of(context)
                                       .textTheme
-                                      .bodyText2!
+                                      .bodyText1!
                                       .color)),
                           content: Text(
                               "Are you sure you want to remove this adventure?",
                               style: TextStyle(
                                   color: Theme.of(context)
                                       .textTheme
-                                      .bodyText2!
+                                      .bodyText1!
                                       .color)),
                           actions: <Widget>[
                             FlatButton(
@@ -238,7 +238,7 @@ class AdventureList extends StatelessWidget {
                                     style: TextStyle(
                                         color: Theme.of(context)
                                             .textTheme
-                                            .bodyText2!
+                                            .bodyText1!
                                             .color))),
                             FlatButton(
                               onPressed: () => Navigator.of(context).pop(false),
@@ -246,7 +246,7 @@ class AdventureList extends StatelessWidget {
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .textTheme
-                                          .bodyText2!
+                                          .bodyText1!
                                           .color)),
                             ),
                           ],
@@ -263,7 +263,7 @@ class AdventureList extends StatelessWidget {
       } else {
         return Center(
             child: Text("It seems you're not very adventurous...",
-                style: TextStyle(
+                textAlign: TextAlign.center,style: TextStyle(
                     fontSize: 30 * MediaQuery.of(context).textScaleFactor,
                     color: Theme.of(context).textTheme.bodyText1!.color)));
       }
