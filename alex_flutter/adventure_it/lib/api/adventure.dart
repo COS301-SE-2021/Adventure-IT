@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:time_machine/time_machine.dart';
 
 part 'adventure.g.dart';
 
@@ -9,13 +10,19 @@ class Adventure {
   final List<String> containers;
   final String name;
   final String ownerId;
+  final String startDate;
+  final String endDate;
+  final String description;
 
   Adventure(
       {required this.adventureId,
-      required this.ownerId,
-      required this.attendees,
-      required this.containers,
-      required this.name});
+        required this.ownerId,
+        required this.attendees,
+        required this.containers,
+        required this.name,
+        required this.startDate,
+        required this.endDate,
+        required this.description});
 
   factory Adventure.fromJson(Map<String, dynamic> json) =>
       _$AdventureFromJson(json);

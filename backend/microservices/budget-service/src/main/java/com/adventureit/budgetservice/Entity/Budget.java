@@ -1,10 +1,8 @@
 package com.adventureit.budgetservice.Entity;
 
-import com.adventureit.adventureservice.Entity.Entry;
 import com.adventureit.adventureservice.Entity.EntryContainer;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,6 +10,7 @@ import java.util.UUID;
 public class Budget extends EntryContainer {
     String name;
     boolean deleted;
+    double limit;
 
     /**
      * Default Constructor
@@ -19,15 +18,16 @@ public class Budget extends EntryContainer {
     public Budget(){}
 
 
-    public Budget(UUID id,String name,UUID creatorID, UUID adventureID){
+    public Budget(UUID id,String name,UUID creatorID, UUID adventureID, double limit){
         this.setId(id);
         this.name = name;;
         this.setCreatorID(creatorID);
         this.setAdventureID(adventureID);
         deleted = false;
+        this.limit = limit;
     }
 
-    public Budget(UUID id,String name,UUID creatorID, UUID adventureID, List<UUID> entries){
+    public Budget(UUID id,String name,UUID creatorID, UUID adventureID, List<UUID> entries, double limit){
         this.setId(id);
         this.name = name;;
         this.setCreatorID(creatorID);
@@ -56,4 +56,11 @@ public class Budget extends EntryContainer {
         return deleted;
     }
 
+    public double getLimit() {
+        return limit;
+    }
+
+    public void setLimit(double limit) {
+        this.limit = limit;
+    }
 }

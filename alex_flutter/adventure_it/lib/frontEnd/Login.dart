@@ -1,15 +1,14 @@
-import 'dart:html';
 
-import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
+
+import 'package:adventure_it/api/loginUser.dart';
+import 'package:adventure_it/api/user_api.dart';
 import 'package:flutter/gestures.dart';
 
 import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
+import 'Profile.dart';
 import 'Register.dart';
 
 class LoginCaller extends StatefulWidget {
@@ -18,6 +17,12 @@ class LoginCaller extends StatefulWidget {
 }
 
 class Login extends State<LoginCaller> {
+  Future<LoginUser>? _futureUser;
+  final UserApi api = new UserApi();
+
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +54,7 @@ class Login extends State<LoginCaller> {
               SizedBox(
                 width: 400.0,
                 child: TextField(
+                    controller: usernameController,
                     style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
                     decoration: InputDecoration(
                         hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
@@ -60,6 +66,7 @@ class Login extends State<LoginCaller> {
               SizedBox(
                 width: 400.0,
                 child: TextField(
+                    controller: passwordController,
                     style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
                     obscureText: true,
                     decoration: InputDecoration(
@@ -77,6 +84,9 @@ class Login extends State<LoginCaller> {
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                   ),
                   onPressed: () {
+                    setState(() {
+                      _futureUser = api.loginUser(usernameController.text, passwordController.text);
+                    });
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -102,7 +112,21 @@ class Login extends State<LoginCaller> {
                           builder: (context) => RegisterCaller()),
                     );
                   })])
-              )]
+              ),
+              SizedBox(height: 10),
+              RichText(
+                text: new TextSpan(
+                  text: 'Forgot Password?',
+                  style: new TextStyle(color: Theme.of(context).accentColor),
+                  recognizer: new TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProfileCaller()),
+                  );
+                }))
+            ],
         )));
   }
 }

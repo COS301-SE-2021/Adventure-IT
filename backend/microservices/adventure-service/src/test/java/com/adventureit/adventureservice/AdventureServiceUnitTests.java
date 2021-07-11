@@ -24,9 +24,9 @@ public class AdventureServiceUnitTests {
 
     final UUID validUserID1 = UUID.randomUUID();
     final UUID validUserID2 = UUID.randomUUID();
-    Adventure mockAdventure1 = new Adventure("Mock Adventure 1","Mock Description 1", UUID.randomUUID(), validUserID1, LocalDate.of(2021, 1, 1));
-    Adventure mockAdventure2 = new Adventure("Mock Adventure 2","Mock Description 1", UUID.randomUUID(), validUserID1, LocalDate.of(2021, 1, 1));
-    Adventure mockAdventure3 = new Adventure("Mock Adventure 3","Mock Description 1", UUID.randomUUID(), validUserID1, LocalDate.of(2021, 1, 1));
+    Adventure mockAdventure1 = new Adventure("Mock Adventure 1","Mock Description 1", UUID.randomUUID(), validUserID1, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 1));
+    Adventure mockAdventure2 = new Adventure("Mock Adventure 2","Mock Description 1", UUID.randomUUID(), validUserID1, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 1));
+    Adventure mockAdventure3 = new Adventure("Mock Adventure 3","Mock Description 1", UUID.randomUUID(), validUserID1, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 1));
 
 //    @Test
 //    @Description("Ensuring that the creator of a number of adventures can view these adventures")

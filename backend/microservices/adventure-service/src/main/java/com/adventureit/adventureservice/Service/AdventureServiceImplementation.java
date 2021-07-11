@@ -56,7 +56,7 @@ public class AdventureServiceImplementation implements AdventureService {
         else if (req.getName() == null){
             throw new NullFieldException("Create Adventure Request: Adventure Name NULL");
         }
-        Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(),req.getDescription(), req.getId(), req.getOwnerId(), req.getDate()));
+        Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(),req.getDescription(), req.getId(), req.getOwnerId(), req.getStartDate(), req.getEndDate()));
         CreateAdventureResponse response = new CreateAdventureResponse(true);
         response.setAdventure(persistedAdventure);
         return response;
@@ -224,9 +224,9 @@ public class AdventureServiceImplementation implements AdventureService {
         final UUID mockOwnerID = UUID.fromString("1660bd85-1c13-42c0-955c-63b1eda4e90b");
         final UUID mockAttendeeID = UUID.fromString("7a984756-16a5-422e-a377-89e1772dd71e");
 
-        Adventure mockAdventure1 = new Adventure("Mock Adventure 1","Mock Description 1", UUID.randomUUID(), mockOwnerID, LocalDate.of(2021, 1, 2));
-        Adventure mockAdventure2 = new Adventure("Mock Adventure 2","Mock Description 2", UUID.randomUUID(), mockOwnerID, LocalDate.of(2021, 1, 3));
-        Adventure mockAdventure3 = new Adventure("Mock Adventure 3", "Mock Description 3",UUID.randomUUID(), mockAttendeeID, LocalDate.of(2021, 1, 4));
+        Adventure mockAdventure1 = new Adventure("Mock Adventure 1","Mock Description 1 Mock Description 1Mock Description 1 Mock Description 1 Mock Description 1 Mock Description", UUID.randomUUID(), mockOwnerID, LocalDate.of(2021, 7, 5),LocalDate.of(2021, 7, 9));
+        Adventure mockAdventure2 = new Adventure("Mock Adventure 2","Mock Description 2", UUID.randomUUID(), mockOwnerID, LocalDate.of(2021, 1, 3),LocalDate.of(2022, 1, 2));
+        Adventure mockAdventure3 = new Adventure("Mock Adventure 3", "Mock Description 3",UUID.randomUUID(), mockAttendeeID, LocalDate.of(2022, 1, 4),LocalDate.of(2022, 1, 22));
 
         mockAdventure1.addContainer(UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8"));
         mockAdventure1.addContainer(UUID.fromString("26356837-f076-41ec-85fa-f578df7e3717"));

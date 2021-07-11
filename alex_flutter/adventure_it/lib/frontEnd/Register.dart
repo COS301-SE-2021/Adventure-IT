@@ -1,3 +1,5 @@
+import 'package:adventure_it/api/registerUser.dart';
+import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/gestures.dart';
@@ -14,6 +16,17 @@ class RegisterCaller extends StatefulWidget {
 }
 
 class Register extends State<RegisterCaller> {
+  Future<RegisterUser>? _futureUser;
+  final UserApi api = new UserApi();
+
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+  final usernameController = TextEditingController();
+  final passwordCheckController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +42,7 @@ class Register extends State<RegisterCaller> {
                   SizedBox(
                     width: 400.0,
                     child: TextField(
+                        controller: firstNameController,
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).primaryColorLight,
@@ -38,6 +52,7 @@ class Register extends State<RegisterCaller> {
                   SizedBox(
                     width: 400.0,
                     child: TextField(
+                        controller: lastNameController,
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).primaryColorLight,
@@ -47,6 +62,7 @@ class Register extends State<RegisterCaller> {
                   SizedBox(
                     width: 400.0,
                     child: TextField(
+                        controller: usernameController,
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).primaryColorLight,
@@ -56,6 +72,7 @@ class Register extends State<RegisterCaller> {
                   SizedBox(
                     width: 400.0,
                     child: TextField(
+                        controller: emailController,
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).primaryColorLight,
@@ -65,6 +82,7 @@ class Register extends State<RegisterCaller> {
                   SizedBox(
                     width: 400.0,
                     child: TextField(
+                        controller: phoneNumberController,
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).primaryColorLight,
@@ -74,11 +92,29 @@ class Register extends State<RegisterCaller> {
                   SizedBox(
                     width: 400.0,
                     child: TextField(
+                        controller: passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
                             filled: true,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Password')),
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    width: 400.0,
+                    child: TextField(
+                        controller: passwordCheckController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                            filled: true,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            fillColor: Theme.of(context).primaryColorLight,
+                            border: OutlineInputBorder(), hintText: 'Confirm Password')),
                   ),
                   SizedBox(height: 10),
                   ElevatedButton(
@@ -89,6 +125,9 @@ class Register extends State<RegisterCaller> {
                         padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                       ),
                       onPressed: () {
+                        setState(() {
+                          _futureUser = api.createUser(firstNameController.text,lastNameController.text,usernameController.text,emailController.text,phoneNumberController.text,passwordController.text);
+                        });
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

@@ -36,7 +36,7 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
-    public CreateBudgetResponse createBudget(UUID id,String name,UUID creatorID, UUID adventureID, List<UUID> entries) throws Exception {
+    public CreateBudgetResponse createBudget(UUID id,String name,UUID creatorID, UUID adventureID, double limit) throws Exception {
         if(budgetRepository.findBudgetById(id) != null){
             throw new Exception("Budget already exists.");
         }
@@ -46,24 +46,25 @@ public class BudgetServiceImplementation implements BudgetService {
         if(id == null){
             throw new Exception("Budget ID not provided.");
         }
-        if(entries == null){
-            throw new Exception("Transactions Array is null");
+        if(limit == 0){
+            throw new Exception("Limit cannot be 0");
         }
 
-        budgetRepository.save(new Budget(id,name,creatorID,adventureID,entries));
+        budgetRepository.save(new Budget(id,name,creatorID,adventureID,limit));
         return new CreateBudgetResponse(true);
     }
 
     @Override
-    public ViewBudgetResponse viewBudget(UUID id) throws Exception {
-        if(budgetRepository.findBudgetById(id) == null){
+    public BudgetResponseDTO viewBudget(UUID id) throws Exception {
+        if(budgetRepository.findBudgetByIdAndDeletedEquals(id,false) == null){
             throw new Exception("Budget does not exist.");
         }
         if(id == null){
             throw new Exception("Budget ID was not provided.");
         }
 
-        return new ViewBudgetResponse(budgetRepository.findBudgetById(id),true);
+        Budget b = budgetRepository.findBudgetByIdAndDeletedEquals(id,false);
+        return new BudgetResponseDTO(b.getId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getLimit(),b.isDeleted());
     }
 
     @Override
@@ -270,8 +271,13 @@ public class BudgetServiceImplementation implements BudgetService {
      * the request was successful or if an error occurred and return all Budget objects in the trash
      */
     @Override
-    public ViewTrashResponse viewTrash(UUID id) throws Exception {
-        return new ViewTrashResponse(true,budgetRepository.findAllByDeletedEquals(true));
+    public List<BudgetResponseDTO> viewTrash() throws Exception {
+        List<Budget> budgets = budgetRepository.findAllByDeletedEquals(true);
+        List<BudgetResponseDTO> list = new ArrayList<>();
+        for (Budget b:budgets) {
+            list.add(new BudgetResponseDTO(b.getId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getLimit(),b.isDeleted()));
+        }
+        return list;
     }
 
     public String restoreBudget(UUID id) throws Exception {
@@ -312,77 +318,69 @@ public class BudgetServiceImplementation implements BudgetService {
         return Double.toString(sum);
     }
 
-    //    @Override
-//    public void mockPopulate(){
-//        final UUID mockBudgetID1 = UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8");
-//        final UUID mockBudgetID2 = UUID.fromString("26356837-f076-41ec-85fa-f578df7e3717");
-//        final UUID mockBudgetID3 = UUID.fromString("2bb5e28c-90de-4830-ae83-f4f459898e6a");
-//        final UUID mockBudgetID4 = UUID.fromString("1b4534b4-65e6-4dc7-9961-65743940c86f");
-//        final UUID mockBudgetID5 = UUID.fromString("27f68e13-c8b9-4db8-915b-766e71efc16a");
-//        final UUID mockBudgetID6 = UUID.fromString("dcee3250-c653-4cd4-9edc-f77bd6b6eb3f");
+        @Override
+    public void mockPopulate(){
+        final UUID mockBudgetID1 = UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8");
+        final UUID mockBudgetID2 = UUID.fromString("26356837-f076-41ec-85fa-f578df7e3717");
+        final UUID mockBudgetID3 = UUID.fromString("2bb5e28c-90de-4830-ae83-f4f459898e6a");
+
+        final UUID mockEntryID1 = UUID.fromString("4c31ac61-832e-454c-8efb-a3fc16ef97a0");
+        final UUID mockEntryID2 = UUID.fromString("200959c2-7bd9-4c43-ae1c-c3e6776e3b33");
+        final UUID mockEntryID3 = UUID.fromString("0c4dfedd-9a07-42ed-a178-b4e7656a956c");
+
+        final UUID mockAdventureID1 = UUID.fromString("ad8e9b74-b4be-464e-a538-0cb78e9c2f8b");
+        final UUID mockAdventureID2 = UUID.fromString("7166264c-0874-42b6-8c82-d0df91e66375");
+        final UUID mockAdventureID3 = UUID.fromString("fe944b32-0102-499f-bbb6-1af673e8d6c3");
+
+        final UUID mockCreatorID1 = UUID.fromString("b99521e3-a7e9-45b8-a18e-421af8bbca15");
+        final UUID mockCreatorID2 = UUID.fromString("5de93a3f-3deb-443b-823e-cacb2600ac71");
+        final UUID mockCreatorID3 = UUID.fromString("eccc917a-091c-496e-9936-15f8f3889959");
+
+        Income mockEntry1 = new Income(mockEntryID1,mockBudgetID1,200.0,"Mock Entry 1","Mock Income Entry");
+        Expense mockEntry2 = new Expense(mockEntryID2,mockBudgetID2,300.0,"Mock Entry 2","Mock Expense Entry");
+        Expense mockEntry3 = new Expense(mockEntryID3,mockBudgetID3,600.0,"Mock Entry 3","Mock Expense Entry");
+
+        this.budgetEntryRepository.save(mockEntry1);
+        this.budgetEntryRepository.save(mockEntry2);
+        this.budgetEntryRepository.save(mockEntry3);
+
+        ArrayList<UUID> mockEntries1 = new ArrayList<UUID>(List.of(mockEntryID1));
+        ArrayList<UUID> mockEntries2 = new ArrayList<UUID>(List.of(mockEntryID2));
+        ArrayList<UUID> mockEntries3 = new ArrayList<UUID>(List.of(mockEntryID3));
+
+        Budget budget1 = new Budget(mockBudgetID1, "Mock Budget 1",mockCreatorID1,mockAdventureID1,mockEntries1,10000);
+        Budget budget2 = new Budget(mockBudgetID2, "Mock Budget 2",mockCreatorID2,mockAdventureID2,mockEntries2,10000);
+        Budget budget3 = new Budget(mockBudgetID3, "Mock Budget 3",mockCreatorID3,mockAdventureID3,mockEntries3,10000);
+
+        this.budgetRepository.save(budget1);
+        this.budgetRepository.save(budget2);
+        this.budgetRepository.save(budget3);
+
+    }
 //
-//        final UUID mockEntryID1 = UUID.fromString("4c31ac61-832e-454c-8efb-a3fc16ef97a0");
-//        final UUID mockEntryID2 = UUID.fromString("200959c2-7bd9-4c43-ae1c-c3e6776e3b33");
-//
-//        Income mockEntry1 = new Income(mockEntryID1,200.0,"Mock Entry 1","Mock Income Entry");
-//        Expense mockEntry2 = new Expense(mockEntryID2,300.0,"Mock Entry 2","Mock Expense Entry");
-//
-//        this.budgetEntryRepository.save(mockEntry1);
-//        this.budgetEntryRepository.save(mockEntry2);
-//
-//        ArrayList<BudgetEntry> mockEntries = new ArrayList<BudgetEntry>(Arrays.asList(mockEntry1,mockEntry2));
-//
-//        Budget budget1 = new Budget(mockBudgetID1, "Mock Budget 1",mockEntries);
-//        Budget budget2 = new Budget(mockBudgetID2, "Mock Budget 2",mockEntries);
-//        Budget budget3 = new Budget(mockBudgetID3, "Mock Budget 3",mockEntries);
-//        Budget budget4 = new Budget(mockBudgetID4, "Mock Budget 4",mockEntries);
-//        Budget budget5 = new Budget(mockBudgetID5, "Mock Budget 5",mockEntries);
-//        Budget budget6 = new Budget(mockBudgetID6, "Mock Budget 6",mockEntries);
-//
-//        budget1.setAdventureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
-//        budget2.setAdventureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
-//        budget3.setAdventureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
-//        budget4.setAdventureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
-//        budget5.setAdventureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
-//        budget6.setAdventureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
-//
-//        this.budgetRepository.save(budget1);
-//        this.budgetRepository.save(budget2);
-//        this.budgetRepository.save(budget3);
-//        this.budgetRepository.save(budget4);
-//        this.budgetRepository.save(budget5);
-//        this.budgetRepository.save(budget6);
-//
-//    }
-//
-//    @Override
-//    public void mockPopulateTrash(){
-//        final UUID mockBudgetID1 = UUID.fromString("86224c30-fb96-4b02-9aca-ca7b61c6bede");
-//        final UUID mockBudgetID2 = UUID.fromString("83a2bb60-69c9-486f-bb55-8a3e55cb891d");
-//        final UUID mockBudgetID3 = UUID.fromString("ab500ee3-a069-4a89-a5b3-3aa9e10330e6");
-//
-//        Budget budget1 = new Budget(mockBudgetID1, "Mock Deleted Budget 1",new ArrayList<BudgetEntry>());
-//        Budget budget2 = new Budget(mockBudgetID2, "Mock Deleted Budget 2",new ArrayList<BudgetEntry>());
-//        Budget budget3 = new Budget(mockBudgetID3, "Mock Deleted Budget 2",new ArrayList<BudgetEntry>());
-//
-//        budget1.setDeleted(true);
-//        budget2.setDeleted(true);
-//        budget3.setDeleted(true);
-//
-//        budget1.setAdventureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
-//        budget2.setAdventureID(UUID.fromString("be572f4c-31a1-46c2-b0c0-b5a6338e001b"));
-//        budget3.setAdventureID(UUID.fromString("f4be638e-1abf-4cfd-9e90-4cf59a1ab77a"));
-//
-//        this.budgetRepository.save(budget1);
-//        this.budgetRepository.save(budget2);
-//        this.budgetRepository.save(budget3);
-//    }
-//
-//    @Override
-//    public void mockCreateBudget(String name){
-//        final UUID mockBudgetID = UUID.fromString("4f5c23e8-b552-47ae-908c-859e9cb94580");
-//        Budget budget = new Budget(mockBudgetID,name,new ArrayList<BudgetEntry>());
-//        budget.setAdventureID(UUID.fromString("b0eeb7f1-0e9c-48d4-a437-57e6da62771f"));
-//        budgetRepository.save(budget);
-//    }
+    @Override
+    public void mockPopulateTrash(){
+        final UUID mockBudgetID1 = UUID.fromString("86224c30-fb96-4b02-9aca-ca7b61c6bede");
+        final UUID mockBudgetID2 = UUID.fromString("83a2bb60-69c9-486f-bb55-8a3e55cb891d");
+        final UUID mockBudgetID3 = UUID.fromString("ab500ee3-a069-4a89-a5b3-3aa9e10330e6");
+
+        Budget budget1 = new Budget(mockBudgetID1,"Mock Deleted Budget 1",UUID.randomUUID(),UUID.fromString("ad8e9b74-b4be-464e-a538-0cb78e9c2f8b"),5000);
+        Budget budget2 = new Budget(mockBudgetID2,"Mock Deleted Budget 2",UUID.randomUUID(),UUID.fromString("7166264c-0874-42b6-8c82-d0df91e66375"),5000);
+        Budget budget3 = new Budget(mockBudgetID3,"Mock Deleted Budget 3",UUID.randomUUID(),UUID.fromString("fe944b32-0102-499f-bbb6-1af673e8d6c3"),5000);
+
+        budget1.setDeleted(true);
+        budget2.setDeleted(true);
+        budget3.setDeleted(true);
+
+        this.budgetRepository.save(budget1);
+        this.budgetRepository.save(budget2);
+        this.budgetRepository.save(budget3);
+    }
+
+    @Override
+    public void mockCreateBudget(String name){
+        final UUID mockBudgetID = UUID.fromString("4f5c23e8-b552-47ae-908c-859e9cb94580");
+        Budget budget = new Budget(mockBudgetID,name,UUID.randomUUID(),UUID.fromString("ad8e9b74-b4be-464e-a538-0cb78e9c2f8b"),6000);
+        budgetRepository.save(budget);
+    }
 }
