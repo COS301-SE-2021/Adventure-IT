@@ -4,7 +4,6 @@ import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 
 import 'package:flutter/material.dart';
-import 'CreateChecklist.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
