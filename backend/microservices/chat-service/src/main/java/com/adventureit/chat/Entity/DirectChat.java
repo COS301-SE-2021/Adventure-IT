@@ -1,10 +1,12 @@
 package com.adventureit.chat.Entity;
 
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Entity
 public class DirectChat extends Chat{
 
     public DirectChat(){}

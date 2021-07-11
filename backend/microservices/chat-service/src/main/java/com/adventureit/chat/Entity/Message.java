@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -13,13 +14,11 @@ import java.util.UUID;
 @Entity
 public class Message {
     @Id
-    @NotNull
     UUID id;
     @NotNull
     UUID sender;
-    @NotNull
     @ElementCollection
-    List<UUID> receivers;
+    List<UUID> receivers = new ArrayList<UUID>();
     @NotNull
     String message;
     @NotNull
@@ -27,10 +26,11 @@ public class Message {
     @NotNull
     Boolean read = false;
 
-    public Message(UUID id, UUID sender, List<UUID> receivers){
+    public Message(UUID id, UUID sender, List<UUID> receivers,String message){
         this.id = id;
         this.sender = sender;
         this.receivers = receivers;
+        this.message = message;
         this.timestamp = LocalDateTime.now();
     }
 
@@ -84,4 +84,6 @@ public class Message {
     public void setRead(Boolean read) {
         this.read = read;
     }
+
+
 }

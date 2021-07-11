@@ -1,8 +1,10 @@
 package com.adventureit.chat.Entity;
 
+import javax.persistence.Entity;
 import java.util.List;
 import java.util.UUID;
 
+@Entity
 public class GroupChat extends Chat {
 
     private String name;

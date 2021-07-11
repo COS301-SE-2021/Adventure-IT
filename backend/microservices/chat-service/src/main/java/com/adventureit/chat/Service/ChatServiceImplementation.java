@@ -8,6 +8,7 @@ import com.adventureit.chat.Repository.ChatRepository;
 import com.adventureit.chat.Repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,14 +41,15 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     @Override
-    public String sendDirectMessage(UUID id, UUID chatID,UUID sender, UUID receiver) throws Exception {
+    @Transactional
+    public String sendDirectMessage(UUID id, UUID chatID,UUID sender, UUID receiver, String msg) throws Exception {
         Chat chat = chatRepository.findChatById(chatID);
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
 
         List<UUID> rec = new ArrayList<>(List.of(receiver));
-        Message message = new Message(id,sender,rec);
+        Message message = new Message(id,sender,rec,msg);
         messageRepository.save(message);
         chat.getMessages().add(id);
         chatRepository.save(chat);
@@ -55,13 +57,13 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     @Override
-    public String sendGroupMessage(UUID id, UUID chatID, UUID sender, List<UUID> receivers) throws Exception {
+    public String sendGroupMessage(UUID id, UUID chatID, UUID sender, List<UUID> receivers,String msg) throws Exception {
         Chat chat = chatRepository.findChatById(chatID);
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
 
-        Message message = new Message(id,sender,receivers);
+        Message message = new Message(id,sender,receivers,msg);
         messageRepository.save(message);
         chat.getMessages().add(id);
         chatRepository.save(chat);
@@ -70,7 +72,7 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     @Override
-    public void markMessageRead(UUID id, UUID sender, UUID receiver) throws Exception {
+    public void markMessageRead(UUID id) throws Exception {
         Message message = messageRepository.findMessageById(id);
         if(message == null){
             throw new Exception("Message does not exist");
