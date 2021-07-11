@@ -96,6 +96,9 @@ class Register extends State<RegisterCaller> {
                         obscureText: true,
                         decoration: InputDecoration(
                             filled: true,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Password')),
                   ),
@@ -107,6 +110,9 @@ class Register extends State<RegisterCaller> {
                         obscureText: true,
                         decoration: InputDecoration(
                             filled: true,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Confirm Password')),
                   ),
