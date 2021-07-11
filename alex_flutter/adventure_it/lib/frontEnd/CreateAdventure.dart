@@ -56,7 +56,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
             children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width/2,
-                height: MediaQuery.of(context).size.height/3,
+                height: MediaQuery.of(context).size.height/4,
                 child: CircleAvatar(
                   radius: 90,
                   backgroundImage: ExactAssetImage('assets/adventure.PNG'),
@@ -87,6 +87,8 @@ class CreateAdventure extends State<CreateAdventureCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    maxLength: 255,
+                    maxLengthEnforced: true,
                     maxLines: 4,
                     style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color,fontSize: 15*MediaQuery.of(context).textScaleFactor),
                     decoration: InputDecoration(
@@ -99,7 +101,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                         focusedBorder: OutlineInputBorder(borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Adventure Description')),
               ),
 
-              SizedBox(height: MediaQuery.of(context).size.height*0.05),
+              SizedBox(height: MediaQuery.of(context).size.height*0.02),
               MaterialButton(
                   color: Theme.of(context).accentColor,
                   onPressed: () async {
