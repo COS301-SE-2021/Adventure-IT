@@ -1,5 +1,6 @@
 package com.adventureit.maincontroller.Controller;
 
+import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.UUID;
 
 @RestController
-public class MainController {
+public class MainControllerUserReroute {
 
     @Autowired
     private EurekaClient eurekaClient;
@@ -25,14 +26,14 @@ public class MainController {
         int adventurePort = adventureInstance.getPort();
         return restTemplate.getForObject("http://"+ adventureIP + ":" + adventurePort + "/adventure/test", String.class);
     }
-/*
+
     @RequestMapping("/api/GetUser/{id}")
-    public GetUserByUUIDResponse getUserByUUID(@PathVariable UUID id){
-        InstanceInfo adventureInstance =eurekaClient.getApplication("ADVENTURE-SERVICE").getInstances().get(0);
-        String adventureIP = adventureInstance.getIPAddr();
-        int adventurePort = adventureInstance.getPort();
-        return restTemplate.getForObject("http://"+ adventureIP + ":" + adventurePort + "/adventure/test", String.class);
-    }*/
+    public GetUserByUUIDDTO getUserByUUID(@PathVariable UUID id){
+        InstanceInfo userInstance =eurekaClient.getApplication("USER-SERVICE").getInstances().get(0);
+        String userIP = userInstance.getIPAddr();
+        int userPort = userInstance.getPort();
+        return restTemplate.getForObject("http://"+ userIP + ":" + userPort + "/user/GetUser/"+id.toString(), GetUserByUUIDDTO.class);
+    }
 }
 
 
