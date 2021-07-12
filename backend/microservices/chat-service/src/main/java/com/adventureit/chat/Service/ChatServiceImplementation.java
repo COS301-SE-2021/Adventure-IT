@@ -38,6 +38,7 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     @Override
+    @Transactional
     public String sendDirectMessage(UUID id, UUID chatID,UUID sender, UUID receiver, String msg) throws Exception {
         Chat chat = chatRepository.findChatById(chatID);
         if(chat == null){
@@ -52,13 +53,17 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     @Override
-    public String sendGroupMessage(UUID id, UUID chatID, UUID sender, List<UUID> receivers,String msg) throws Exception {
+    @Transactional
+    public String sendGroupMessage(UUID id, UUID chatID, UUID sender,String msg) throws Exception {
         Chat chat = chatRepository.findChatById(chatID);
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
 
-        GroupMessage message = new GroupMessage(id,sender,receivers,msg);
+        List<UUID> rec = new ArrayList<>(chat.getParticipants());
+        rec.remove(sender);
+
+        GroupMessage message = new GroupMessage(id,sender,rec,msg);
         messageRepository.save(message);
         chat.getMessages().add(id);
         chatRepository.save(chat);
@@ -78,6 +83,7 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     @Override
+    @Transactional
     public void markGroupMessageRead(UUID id, UUID userID) throws Exception {
         GroupMessage message = (GroupMessage) messageRepository.findMessageById(id);
         if(message == null){

@@ -1,8 +1,6 @@
 package com.adventureit.chat.Entity;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +13,9 @@ public class Chat {
     UUID id;
     @NotNull
     UUID adventureID;
-    @NotNull
-    @ElementCollection
+    @ElementCollection (fetch=FetchType.EAGER)
     List<UUID> participants = new ArrayList<>();
     @ElementCollection
-    @NotNull
     List<UUID> messages = new ArrayList<>();
 
 

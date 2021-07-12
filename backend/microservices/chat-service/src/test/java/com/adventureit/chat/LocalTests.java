@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest
@@ -19,6 +21,31 @@ public class LocalTests {
 
     @Test
     public void sendDirectMessage() throws Exception {
-        chatServiceImplementation.sendDirectMessage(UUID.randomUUID(),UUID.fromString("41bc4320-95fc-41de-b40f-fd9c3fb68c48"),UUID.randomUUID(),UUID.randomUUID(),"Hello");
+        chatServiceImplementation.sendDirectMessage(UUID.randomUUID(),UUID.fromString("666c61a3-81fc-49f5-a100-626a7e3c44a4"),UUID.randomUUID(),UUID.randomUUID(),"Hello");
     }
+
+    @Test
+    public void markDirectMessage() throws Exception {
+        chatServiceImplementation.markDirectMessageRead(UUID.fromString("b00c952d-bc81-4333-85db-258b23e9b8db"));
+    }
+
+    @Test
+    public void createGroupChat(){
+        UUID userID1 = UUID.randomUUID();
+        UUID userID2 = UUID.randomUUID();
+        UUID userID3 = UUID.randomUUID();
+        List<UUID> participants = new ArrayList<>(List.of(userID1,userID2,userID3));
+        chatServiceImplementation.createGroupChat(UUID.randomUUID(),UUID.randomUUID(),participants,"Group Chat");
+    }
+
+    @Test
+    public void sendGroupMessage() throws Exception {
+        chatServiceImplementation.sendGroupMessage(UUID.randomUUID(),UUID.fromString("0d53dc76-a7ac-4356-816b-409ac6afde9d"),UUID.fromString("46366b5d-1435-4440-b990-a4a928f852f6"),"Mock Message");
+    }
+
+    @Test
+    public void markGroupMessage() throws Exception{
+        chatServiceImplementation.markGroupMessageRead(UUID.fromString("3c7ca522-adbd-437a-acc7-11f6506e985b"),UUID.fromString("46366b5d-1435-4440-b990-a4a928f852f6"));
+    }
+
 }
