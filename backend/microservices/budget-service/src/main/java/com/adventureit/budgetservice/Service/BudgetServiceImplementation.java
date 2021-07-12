@@ -163,6 +163,10 @@ public class BudgetServiceImplementation implements BudgetService {
             throw new Exception("Expense Entry already exists.");
         }
 
+        if((calculateExpenses(entryContainerID) + amount) > budget.getLimit()){
+            throw new Exception("Budget exceeding limit");
+        }
+
         BudgetEntry budgetEntry = new Expense(id,entryContainerID,amount,title,description);
         budgetEntryRepository.save(budgetEntry);
         budget.getEntries().add(budgetEntry.getId());
@@ -316,6 +320,22 @@ public class BudgetServiceImplementation implements BudgetService {
         }
 
         return Double.toString(sum);
+    }
+
+    @Override
+    public double calculateExpenses(UUID id) {
+        Budget budget = budgetRepository.findBudgetById(id);
+        double sum = 0.0;
+        BudgetEntry budgetEntry;
+
+        for (UUID entry:budget.getEntries()) {
+            budgetEntry = budgetEntryRepository.findBudgetEntryById(entry);
+            if(budgetEntry instanceof Expense){
+                sum += budgetEntry.getAmount();
+            }
+        }
+
+        return sum;
     }
 
         @Override

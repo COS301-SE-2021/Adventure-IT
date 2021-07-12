@@ -14,8 +14,6 @@ public class Itinerary extends EntryContainer {
     private String title;
     private String description;
     private Boolean deleted;
-//    @OneToMany
-//    private List<Entry> items = new ArrayList<Entry>();
 
     // Default constructor
     public Itinerary(){}

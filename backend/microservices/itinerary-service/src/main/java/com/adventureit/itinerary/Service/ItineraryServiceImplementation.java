@@ -4,6 +4,7 @@ import com.adventureit.itinerary.Entity.Itinerary;
 import com.adventureit.itinerary.Entity.ItineraryEntry;
 import com.adventureit.itinerary.Repository.ItineraryEntryRepository;
 import com.adventureit.itinerary.Repository.ItineraryRepository;
+import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -194,6 +195,53 @@ public class ItineraryServiceImplementation implements ItineraryService {
         itinerary.setDeleted(false);
         itineraryRepository.save(itinerary);
         return "Itinerary was restored";
+    }
+
+    @Override
+    public ItineraryResponseDTO viewItinerary(UUID id) throws Exception {
+        Itinerary itinerary = itineraryRepository.findItineraryByIdAndDeleted(id, false);
+        if(itinerary == null){
+            throw new Exception("Itinerary does not exist");
+        }
+
+        return new ItineraryResponseDTO(itinerary.getTitle(),itinerary.getDescription(),itinerary.getId(),itinerary.getCreatorID(), itinerary.getAdventureID(),itinerary.getEntries(),itinerary.getDeleted());
+    }
+
+    @Override
+    public String mockPopulate() {
+        final UUID mockItineraryID1 = UUID.fromString("d99dde68-664a-4618-9bb6-4b5dca7d40a8");
+        final UUID mockItineraryID2 = UUID.fromString("1e635afb-bde0-4f1a-b705-714218590a63");
+        final UUID mockItineraryID3 = UUID.fromString("dc8ab797-5fce-4c25-9023-f0004a6fdb3b");
+
+        final UUID mockEntryID1 = UUID.fromString("96d2201d-69b6-4eb5-b9c2-cdcdc9b577e1");
+        final UUID mockEntryID2 = UUID.fromString("b4ef54cc-7418-4ab7-bbde-4850dd4778a0");
+        final UUID mockEntryID3 = UUID.fromString("2d5fc8a8-68d8-4616-8c0f-084376e4566c");
+
+        final UUID mockAdventureID1 = UUID.fromString("4b251a3e-9b8a-4d66-8b31-4aeab52f1489");
+        final UUID mockAdventureID2 = UUID.fromString("7a56ff82-ff67-4588-8e4d-9af54b1e1b81");
+        final UUID mockAdventureID3 = UUID.fromString("a2797bde-faca-43a8-b421-69c2d4bb0756");
+
+        final UUID mockCreatorID1 = UUID.fromString("cbebcd3a-d15a-4e62-ac49-060e744f8896");
+        final UUID mockCreatorID2 = UUID.fromString("0bb497d1-fb67-4cfa-bac1-0f1ac7a64fb2");
+        final UUID mockCreatorID3 = UUID.fromString("b9655784-7591-49b1-9f57-a4ffd835d079");
+
+        ItineraryEntry mockEntry1 = new ItineraryEntry("Mock Entry 1","Mock",mockEntryID1,mockItineraryID1);
+        ItineraryEntry mockEntry2 = new ItineraryEntry("Mock Entry 2","Mock",mockEntryID2,mockItineraryID2);
+        ItineraryEntry mockEntry3 = new ItineraryEntry("Mock Entry 3","Mock",mockEntryID3,mockItineraryID3);
+
+        itineraryEntryRepository.save(mockEntry1);
+        itineraryEntryRepository.save(mockEntry2);
+        itineraryEntryRepository.save(mockEntry3);
+
+        Itinerary mockItinerary1 = new Itinerary("Mock Itinerary 1","Mock",mockItineraryID1,mockCreatorID1,mockAdventureID1);
+        Itinerary mockItinerary2 = new Itinerary("Mock Itinerary 2","Mock",mockItineraryID2,mockCreatorID2,mockAdventureID2);
+        Itinerary mockItinerary3 = new Itinerary("Mock Itinerary 3","Mock",mockItineraryID3,mockCreatorID3,mockAdventureID3);
+
+        itineraryRepository.save(mockItinerary1);
+        itineraryRepository.save(mockItinerary2);
+        itineraryRepository.save(mockItinerary3);
+
+        return "Mock Itineraries populated.";
     }
 
 }

@@ -24,5 +24,6 @@ public interface BudgetService {
     public void mockPopulate();
     public void mockCreateBudget(String name);
     public void mockPopulateTrash();
+    public double calculateExpenses(UUID id);
 
 }

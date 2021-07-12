@@ -13,4 +13,5 @@ public interface ItineraryRepository extends JpaRepository<Itinerary,Long> {
     Itinerary findItineraryById(UUID id);
     Itinerary findItineraryByIdAndDeleted(UUID id, Boolean deleted);
     List<Itinerary> findAllByDeletedEquals(Boolean deleted);
+    List<Itinerary> findAllByAdventureID(UUID id);
 }
