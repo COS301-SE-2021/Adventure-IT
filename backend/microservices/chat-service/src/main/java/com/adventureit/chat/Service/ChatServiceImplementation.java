@@ -1,9 +1,6 @@
 package com.adventureit.chat.Service;
 
-import com.adventureit.chat.Entity.Chat;
-import com.adventureit.chat.Entity.DirectChat;
-import com.adventureit.chat.Entity.GroupChat;
-import com.adventureit.chat.Entity.Message;
+import com.adventureit.chat.Entity.*;
 import com.adventureit.chat.Repository.ChatRepository;
 import com.adventureit.chat.Repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,15 +38,13 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     @Override
-    @Transactional
     public String sendDirectMessage(UUID id, UUID chatID,UUID sender, UUID receiver, String msg) throws Exception {
         Chat chat = chatRepository.findChatById(chatID);
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
 
-        List<UUID> rec = new ArrayList<>(List.of(receiver));
-        Message message = new Message(id,sender,rec,msg);
+        DirectMessage message = new DirectMessage(id,sender,receiver,msg);
         messageRepository.save(message);
         chat.getMessages().add(id);
         chatRepository.save(chat);
@@ -63,7 +58,7 @@ public class ChatServiceImplementation implements ChatService {
             throw new Exception("Chat does not exist");
         }
 
-        Message message = new Message(id,sender,receivers,msg);
+        GroupMessage message = new GroupMessage(id,sender,receivers,msg);
         messageRepository.save(message);
         chat.getMessages().add(id);
         chatRepository.save(chat);
@@ -72,13 +67,24 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     @Override
-    public void markMessageRead(UUID id) throws Exception {
-        Message message = messageRepository.findMessageById(id);
+    public void markDirectMessageRead(UUID id) throws Exception {
+        DirectMessage message = (DirectMessage) messageRepository.findMessageById(id);
         if(message == null){
             throw new Exception("Message does not exist");
         }
 
         message.setRead(!message.getRead());
+        messageRepository.save(message);
+    }
+
+    @Override
+    public void markGroupMessageRead(UUID id, UUID userID) throws Exception {
+        GroupMessage message = (GroupMessage) messageRepository.findMessageById(id);
+        if(message == null){
+            throw new Exception("Message does not exist");
+        }
+
+        message.getRead().replace(userID,true);
         messageRepository.save(message);
     }
 }

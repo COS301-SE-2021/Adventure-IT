@@ -17,19 +17,14 @@ public class Message {
     UUID id;
     @NotNull
     UUID sender;
-    @ElementCollection
-    List<UUID> receivers = new ArrayList<UUID>();
     @NotNull
     String message;
     @NotNull
     LocalDateTime timestamp;
-    @NotNull
-    Boolean read = false;
 
-    public Message(UUID id, UUID sender, List<UUID> receivers,String message){
+    public Message(UUID id, UUID sender, String message){
         this.id = id;
         this.sender = sender;
-        this.receivers = receivers;
         this.message = message;
         this.timestamp = LocalDateTime.now();
     }
@@ -57,14 +52,6 @@ public class Message {
         return timestamp;
     }
 
-    public void setReceivers(List<UUID> receivers) {
-        this.receivers = receivers;
-    }
-
-    public List<UUID> getReceivers() {
-        return receivers;
-    }
-
     public void setSender(UUID sender) {
         this.sender = sender;
     }
@@ -75,14 +62,6 @@ public class Message {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public Boolean getRead() {
-        return read;
-    }
-
-    public void setRead(Boolean read) {
-        this.read = read;
     }
 
 

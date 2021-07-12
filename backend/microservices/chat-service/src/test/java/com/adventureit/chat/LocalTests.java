@@ -21,9 +21,4 @@ public class LocalTests {
     public void sendDirectMessage() throws Exception {
         chatServiceImplementation.sendDirectMessage(UUID.randomUUID(),UUID.fromString("41bc4320-95fc-41de-b40f-fd9c3fb68c48"),UUID.randomUUID(),UUID.randomUUID(),"Hello");
     }
-
-    @Test
-    public void markMessage() throws Exception {
-        chatServiceImplementation.markMessageRead(UUID.fromString("2e280525-5a27-45e0-a1da-65fd31218bce"));
-    }
 }
