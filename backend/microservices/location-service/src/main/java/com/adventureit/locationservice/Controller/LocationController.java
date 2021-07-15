@@ -11,18 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class LocationController {
 
-//    private final LocationServiceImplementation service;
-
-//    @Autowired
-//    public LocationController(LocationServiceImplementation service){
-//        this.service = service;
-//    }
-
-//    @PostMapping(value = "api/LocationTest", consumes = "application/json", produces = "application/json")
-//    public String test(){
-//        return "working";
-//    }
-
     @GetMapping(value="/location/test")
     public String test(){
         return "location controller is working";

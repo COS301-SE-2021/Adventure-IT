@@ -1,14 +1,23 @@
 package com.adventureit.locationservice.Entity;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 public class Location {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private UUID id;
+    @Lob
+    String location;
+
+    public Location(){}
+
+    public Location(UUID id, String location){
+        this.id = id;
+        this.location = location;
+    }
+
+
 }
