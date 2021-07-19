@@ -1,9 +1,5 @@
 package com.adventureit.locationservice.Controller;
 
-
-
-import com.adventureit.locationservice.Service.LocationServiceImplementation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /** This class implements the functionality of the UserAPI interface.*/

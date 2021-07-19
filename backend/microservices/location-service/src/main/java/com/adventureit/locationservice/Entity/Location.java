@@ -9,15 +9,49 @@ import java.util.UUID;
 public class Location {
     @Id
     private UUID id;
-    @Lob
-    String location;
+    String name;
+    String formattedAddress;
+    String place_id;
+
 
     public Location(){}
 
-    public Location(UUID id, String location){
+    public Location(UUID id, String name, String formattedAddress, String place_id){
         this.id = id;
-        this.location = location;
+        this.name = name;
+        this.formattedAddress = formattedAddress;
+        this.place_id = place_id;
     }
 
+    public UUID getId() {
+        return id;
+    }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getFormattedAddress() {
+        return formattedAddress;
+    }
+
+    public void setFormattedAddress(String formattedAddress) {
+        this.formattedAddress = formattedAddress;
+    }
+
+    public String getPlace_id() {
+        return place_id;
+    }
+
+    public void setPlace_id(String place_id) {
+        this.place_id = place_id;
+    }
 }
