@@ -270,7 +270,7 @@ class _AlertBox extends State<AlertBox> {
                       .of(context)
                       .size
                       .width *
-                      0.3,
+                      0.35,
                   padding: EdgeInsets.symmetric(
                       horizontal:
                       MediaQuery
@@ -292,6 +292,12 @@ class _AlertBox extends State<AlertBox> {
                                   isChecked = value!;
                                 });
                               })),
+                    SizedBox(
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width *
+                            0.04),
                       Expanded(
                         flex:4,
                         child: TextField(
