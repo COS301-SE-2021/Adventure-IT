@@ -21,10 +21,9 @@ spring:
 #  spring.jpa.properties.hibernate.format_sql=true
 
   datasource:
-    url: http://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/
+    url: jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit
     username: postgres
     password: 310PB!Gq%f&J
-    name: adventureit
   jpa:
     hibernate:
       ddl-auto: update
