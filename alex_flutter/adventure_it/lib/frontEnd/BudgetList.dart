@@ -35,6 +35,8 @@ class Budget_List extends StatelessWidget {
 
   Budget_List(Adventure? a) {
     this.a = a;
+    BudgetApi.getBudgets(a);
+
   }
 
   @override
