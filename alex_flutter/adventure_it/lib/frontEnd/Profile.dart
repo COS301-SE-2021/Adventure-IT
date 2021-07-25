@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/api/user_api.dart';
@@ -21,75 +20,38 @@ class Profile extends State<ProfileCaller> {
       appBar: AppBar(title: Center(child: Text("Profile",
           style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)
       )), backgroundColor: Theme.of(context).primaryColorDark),
-      body: Row(
-        children: [ Column(
-          //ProfileFutureBuilderCaller();
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
+      body: Column(
+        children: [
           ProfileFutureBuilderCaller(),
-            Container(
-              width: 200,
-              height: 100,
-              child: CircleAvatar(
-                radius: 50,
-                backgroundImage: ExactAssetImage('assets/adventure.PNG'),
-              ),
-              decoration: new BoxDecoration(
-              shape: BoxShape.circle,
-              border: new Border.all(
-              color: Theme.of(context).accentColor,
-              width: 3.0,
-            ),),),
-          ]),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              ElevatedButton(
-                  child: Text("My Documents",
-                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
-                  style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).accentColor,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                  ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomepageStartupCaller()),
-                    );
-              }),
-              SizedBox(height: 20),
-              ElevatedButton(
-                  child: Text("Upload Document",
-                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
-                  style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).accentColor,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                  ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomepageStartupCaller()),
-                    );
-                  }),
-              FlatButton(
-                  onPressed: () => {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                      builder: (context) => HomepageStartupCaller()),
-                  )},
-                  color: Theme.of(context).accentColor,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.settings, color: Theme.of(context).textTheme.bodyText1!.color),
-                      Text("Edit Profile",
-                        style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)) ],
-                  ))]
-        ),]));
-  }
+          Container(
+            padding: const EdgeInsets.only(left: 100.0, top: 0.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 400.0,
+                  child: Text("Friend list",
+                    style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
+                )
+                //_buildList()
+            ])),]
+        ));}
+
+  /*Widget _buildList() => ListView(
+    children: [
+      _tile("Friend 1"),
+      _tile("Friend 2"),
+      _tile("Friend 3")
+    ]
+  );
+
+  ListTile _tile(String username) => ListTile(
+    title: Text(username,
+        style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 20,
+        ))
+  );*/
 }
 
 class ProfileFutureBuilderCaller extends StatefulWidget {
@@ -124,32 +86,90 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
         if (snapshot.hasData) {
           var user = snapshot.data as UserProfile;
 
-          return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                SizedBox(
-                  width: 400.0,
-                  child: Text(user.firstname + " " + user.lastname,
-                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 30)),
-                ),
-                SizedBox(
-                  width: 400.0,
-                  child: Text(user.username,
-                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 20)),
-                ),
-                SizedBox(height: 25),
-                SizedBox(
-                  width: 400.0,
-                  child: Text(user.email,
-                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
-                ),
-                SizedBox(
-                  width: 400.0,
-                  child: Text(user.phoneNumber,
-                      style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
-                ),
-                SizedBox(height: 20),
-              ]);
+          return Card(
+            color: Theme.of(context).primaryColorDark,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 50),
+                      Container(
+                        width: 200,
+                        height: 100,
+                        child: CircleAvatar(
+                          radius: 70,
+                          backgroundImage: ExactAssetImage('assets/adventure.PNG'),
+                        ),
+                        decoration: new BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: new Border.all(
+                            color: Theme.of(context).accentColor,
+                            width: 3.0,
+                          ),),),
+                      Container(
+                        padding: const EdgeInsets.only(left: 100.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 50),
+                            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            SizedBox(
+                              width: 400.0,
+                              child: Text(user.firstname + " " + user.lastname,
+                                  textAlign: TextAlign.center,
+                                  style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 30)),
+                            ),
+                            SizedBox(
+                              width: 400.0,
+                              child: Text(user.username,
+                                  textAlign: TextAlign.center,
+                                  style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 20)),
+                            ),
+                            SizedBox(height: 25),
+                            SizedBox(
+                              width: 600.0,
+                              child: Text(user.email + "      " + user.phoneNumber,
+                                  textAlign: TextAlign.center,
+                                  style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize:20)),
+                            ),
+                            SizedBox(height: 50),
+                          ],)),
+                      MaterialButton(
+                          child: Text("My Documents",
+                              style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
+                          color: Theme.of(context).accentColor,
+                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomepageStartupCaller()),
+                            );
+                          }),
+                      SizedBox(height: 10),
+                      MaterialButton(
+                          onPressed: () => {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomepageStartupCaller()),
+                            )},
+                          color: Theme.of(context).accentColor,
+                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.settings, color: Theme.of(context).textTheme.bodyText1!.color),
+                              Text("Edit Profile",
+                                  style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)) ],
+                          )),
+                      SizedBox(height: 10)
+                      ]))
+                  ])
+          );
         }
 
         else
