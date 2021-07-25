@@ -37,7 +37,7 @@ public class ItineraryController {
         List<Itinerary> itineraries = itineraryRepository.findAllByAdventureID(id);
         List<ItineraryResponseDTO> list = new ArrayList<>();
         for (Itinerary c:itineraries) {
-            if(!c.getDeleted())){
+            if(!c.getDeleted()){
                 list.add(new ItineraryResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.getEntries(),c.getDeleted()));
             }
         }
