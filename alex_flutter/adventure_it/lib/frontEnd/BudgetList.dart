@@ -4,6 +4,7 @@ import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'AdventurePage.dart';
 import 'HomepageStartup.dart';
 
@@ -285,9 +286,6 @@ class _AlertBox extends State<AlertBox> {
                               value: isChecked,
                               onChanged:
                                   (bool? value) {
-                                print("here " +
-                                    isChecked
-                                        .toString());
                                 setState(() {
                                   isChecked = value!;
                                 });
@@ -304,6 +302,7 @@ class _AlertBox extends State<AlertBox> {
                             keyboardType:
                             TextInputType.number,
                             enabled: isChecked,
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                             style: TextStyle(
                                 color: Theme
                                     .of(context)

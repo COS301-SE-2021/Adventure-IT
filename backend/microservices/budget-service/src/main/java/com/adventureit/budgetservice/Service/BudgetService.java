@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface BudgetService {
 
-    public CreateBudgetResponse createBudget(UUID id,String name,UUID creatorID, UUID adventureID, double limit) throws Exception;
+    public CreateBudgetResponse createBudget(UUID id,String name, String description,UUID creatorID, UUID adventureID, double limit) throws Exception;
     public BudgetResponseDTO viewBudget(UUID id) throws Exception;
     public AddIncomeEntryResponse addIncomeEntry(UUID id, UUID entryContainerID, double amount, String title, String description) throws Exception;
     public RemoveEntryResponse removeEntry(UUID id, UUID entryContainerID) throws Exception;

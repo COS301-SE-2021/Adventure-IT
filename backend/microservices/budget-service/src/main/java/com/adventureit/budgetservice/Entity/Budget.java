@@ -11,6 +11,7 @@ public class Budget extends EntryContainer {
     String name;
     boolean deleted;
     double limit;
+    String description;
 
     /**
      * Default Constructor
@@ -18,18 +19,20 @@ public class Budget extends EntryContainer {
     public Budget(){}
 
 
-    public Budget(UUID id,String name,UUID creatorID, UUID adventureID, double limit){
+    public Budget(UUID id,String name, String description,UUID creatorID, UUID adventureID, double limit){
         this.setId(id);
-        this.name = name;;
+        this.name = name;
+        this.description=description;
         this.setCreatorID(creatorID);
         this.setAdventureID(adventureID);
         deleted = false;
         this.limit = limit;
     }
 
-    public Budget(UUID id,String name,UUID creatorID, UUID adventureID, List<UUID> entries, double limit){
+    public Budget(UUID id,String name, String description,UUID creatorID, UUID adventureID, List<UUID> entries, double limit){
         this.setId(id);
-        this.name = name;;
+        this.name = name;
+        this.description=description;
         this.setCreatorID(creatorID);
         this.setAdventureID(adventureID);
         this.setEntries(entries);
@@ -63,4 +66,6 @@ public class Budget extends EntryContainer {
     public void setLimit(double limit) {
         this.limit = limit;
     }
+
+    public String getDescription(){return description;}
 }

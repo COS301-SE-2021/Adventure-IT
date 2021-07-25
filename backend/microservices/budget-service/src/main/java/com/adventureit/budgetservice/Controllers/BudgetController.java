@@ -81,7 +81,7 @@ public class BudgetController {
 
 	@PostMapping("/create")
 	public String createBudget(@RequestBody CreateBudgetRequest req) throws Exception {
-		CreateBudgetResponse response = budgetServiceImplementation.createBudget(req.getId(),req.getName(),req.getCreatorID(),req.getAdventureID(), req.getLimit());
+		CreateBudgetResponse response = budgetServiceImplementation.createBudget(req.getId(),req.getName(), req.getDescription() ,req.getCreatorID(),req.getAdventureID(), req.getLimit());
 		return response.getMessage();
 	}
 

@@ -12,13 +12,15 @@ public class CreateBudgetRequest {
     private UUID creatorID;
     private UUID adventureID;
     private double limit;
+    private String description;
 
     public CreateBudgetRequest() {
     }
 
-    public CreateBudgetRequest(UUID id, String name, UUID creatorID, UUID adventureID,double limit) {
+    public CreateBudgetRequest(UUID id, String name, String description, UUID creatorID, UUID adventureID,double limit) {
         this.id = id;
-        this.name = name;;
+        this.name = name;
+        this.description=description;
         this.creatorID = creatorID;
         this.adventureID = adventureID;
         this.limit = limit;
@@ -51,6 +53,8 @@ public class CreateBudgetRequest {
     public UUID getAdventureID() {
         return adventureID;
     }
+
+    public String getDescription(){return description;}
 
     public void setCreatorID(UUID creatorID) {
         this.creatorID = creatorID;
