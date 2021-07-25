@@ -13,8 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service()
 public class AdventureServiceImplementation implements AdventureService {
@@ -81,7 +80,7 @@ public class AdventureServiceImplementation implements AdventureService {
             throw new NullFieldException("Get Adventure By UUID Request: Adventure ID NULL");
         }
 
-        Adventure retrievedAdventure = this.adventureRepository.findById(req.getId());
+        Adventure retrievedAdventure = this.adventureRepository.findByAdventureId(req.getId());
 
         if(retrievedAdventure == null){
             throw new AdventureNotFoundException("Get Adventure by UUID: Adventure with UUID [" + req.getId() + "] not found");
@@ -119,34 +118,95 @@ public class AdventureServiceImplementation implements AdventureService {
 //    }
 
     @Override
-    public GetAllAdventuresResponse getAllAdventures(){
+    public List<GetAllAdventuresResponse> getAllAdventures(){
         List<Adventure> allAdventures = adventureRepository.findAll();
         if(allAdventures.size() == 0){
             AdventureNotFoundException notFound = new AdventureNotFoundException("Get All Adventure: No adventures found");
             throw notFound;
         }
-        return new GetAllAdventuresResponse(allAdventures);
+
+        Collections.sort(allAdventures, new Comparator<Adventure>() {
+            @Override
+            public int compare(Adventure o1, Adventure o2) {
+                return o1.getStartDate().compareTo(o2.getStartDate());
+            }
+        });
+
+        List<GetAllAdventuresResponse> list = new ArrayList<>();
+        for (Adventure a:allAdventures) {
+            list.add(new GetAllAdventuresResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription()));
+        }
+
+        return list;
     };
 
     @Override
-    public GetAdventuresByUserUUIDResponse getAdventureByOwnerUUID(UUID ownerID){
+    public List<GetAdventuresByUserUUIDResponse> getAdventureByOwnerUUID(UUID ownerID){
         List<Adventure> userAdventures = adventureRepository.findByOwnerId(ownerID);
         if(userAdventures.size() == 0){
             AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
             throw notFound;
         }
-        return new GetAdventuresByUserUUIDResponse(userAdventures);
+
+        userAdventures.sort(new Comparator<Adventure>() {
+            @Override
+            public int compare(Adventure o1, Adventure o2) {
+                return o1.getStartDate().compareTo(o2.getStartDate());
+            }
+        });
+
+        List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
+        for (Adventure a:userAdventures) {
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription()));
+        }
+
+        return list;
     }
 
     @Override
-    public GetAdventuresByUserUUIDResponse getAdventureByAttendeeUUID(UUID attendeeID) {
+    public List<GetAdventuresByUserUUIDResponse> getAdventureByAttendeeUUID(UUID attendeeID) {
         List<Adventure> userAdventures = adventureRepository.findByAttendees(attendeeID);
         if (userAdventures.size() == 0) {
             AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
             throw notFound;
         }
-        return new GetAdventuresByUserUUIDResponse(userAdventures);
 
+        userAdventures.sort(new Comparator<Adventure>() {
+            @Override
+            public int compare(Adventure o1, Adventure o2) {
+                return o1.getStartDate().compareTo(o2.getStartDate());
+            }
+        });
+
+        List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
+        for (Adventure a:userAdventures) {
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription()));
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<GetAdventuresByUserUUIDResponse> getallAdventuresByUUID(UUID id) {
+        List<Adventure> userAdventures = adventureRepository.findAllByOwnerIdOrAttendeesContains(id,id);
+        if (userAdventures.size() == 0) {
+            AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
+            throw notFound;
+        }
+
+        userAdventures.sort(new Comparator<Adventure>() {
+            @Override
+            public int compare(Adventure o1, Adventure o2) {
+                return o1.getStartDate().compareTo(o2.getStartDate());
+            }
+        });
+
+        List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
+        for (Adventure a:userAdventures) {
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription()));
+        }
+
+        return list;
     }
 
     @Transactional
@@ -164,7 +224,7 @@ public class AdventureServiceImplementation implements AdventureService {
         final UUID mockOwnerID = UUID.fromString("1660bd85-1c13-42c0-955c-63b1eda4e90b");
         final UUID mockAttendeeID = UUID.fromString("7a984756-16a5-422e-a377-89e1772dd71e");
 
-        Adventure mockAdventure1 = new Adventure("Mock Adventure 1","Mock Description 1", UUID.randomUUID(), mockOwnerID, LocalDate.of(2021, 7, 5),LocalDate.of(2021, 7, 9));
+        Adventure mockAdventure1 = new Adventure("Mock Adventure 1","Mock Description 1 Mock Description 1Mock Description 1 Mock Description 1 Mock Description 1 Mock Description", UUID.randomUUID(), mockOwnerID, LocalDate.of(2021, 7, 5),LocalDate.of(2021, 7, 9));
         Adventure mockAdventure2 = new Adventure("Mock Adventure 2","Mock Description 2", UUID.randomUUID(), mockOwnerID, LocalDate.of(2021, 1, 3),LocalDate.of(2022, 1, 2));
         Adventure mockAdventure3 = new Adventure("Mock Adventure 3", "Mock Description 3",UUID.randomUUID(), mockAttendeeID, LocalDate.of(2022, 1, 4),LocalDate.of(2022, 1, 22));
 

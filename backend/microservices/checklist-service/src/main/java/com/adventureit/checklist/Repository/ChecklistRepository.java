@@ -12,4 +12,5 @@ public interface ChecklistRepository extends JpaRepository<Checklist,Long> {
     Checklist findChecklistById(UUID id);
     Checklist findChecklistByIdAndDeleted(UUID id, Boolean deleted);
     List<Checklist> findAllByDeletedEquals(Boolean deleted);
+    List<Checklist> findAllByAdventureID(UUID id);
 }
