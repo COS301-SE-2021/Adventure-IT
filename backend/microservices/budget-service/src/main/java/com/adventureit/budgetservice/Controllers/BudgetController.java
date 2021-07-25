@@ -51,7 +51,9 @@ public class BudgetController {
 		List<Budget> budgets = budgetRepository.findAllByAdventureID(id);
 		List<BudgetResponseDTO> list = new ArrayList<>();
 		for (Budget b:budgets) {
-			list.add(new BudgetResponseDTO(b.getId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getLimit(),b.isDeleted()));
+			if(!b.isDeleted()){
+				list.add(new BudgetResponseDTO(b.getId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getLimit(),b.isDeleted()));
+			}
 		}
 		return list;
 	}

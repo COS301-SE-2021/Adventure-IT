@@ -37,7 +37,9 @@ public class ChecklistController {
         List<Checklist> checklists = checklistRepository.findAllByAdventureID(id);
         List<ChecklistResponseDTO> list = new ArrayList<>();
         for (Checklist c:checklists) {
-            list.add(new ChecklistResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.getEntries(),c.isDeleted()));
+            if(!c.isDeleted()){
+                list.add(new ChecklistResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.getEntries(),c.isDeleted()));
+            }
         }
         return list;
     }
