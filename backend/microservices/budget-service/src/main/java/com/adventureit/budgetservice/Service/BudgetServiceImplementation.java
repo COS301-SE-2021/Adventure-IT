@@ -338,7 +338,9 @@ public class BudgetServiceImplementation implements BudgetService {
         return sum;
     }
 
-        @Override
+
+
+    @Override
     public void mockPopulate(){
         final UUID mockBudgetID1 = UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8");
         final UUID mockBudgetID2 = UUID.fromString("26356837-f076-41ec-85fa-f578df7e3717");
@@ -377,7 +379,10 @@ public class BudgetServiceImplementation implements BudgetService {
         this.budgetRepository.save(budget3);
 
     }
-//
+
+
+
+
     @Override
     public void mockPopulateTrash(){
         final UUID mockBudgetID1 = UUID.fromString("86224c30-fb96-4b02-9aca-ca7b61c6bede");
