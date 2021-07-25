@@ -36,7 +36,7 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
-    public CreateBudgetResponse createBudget(UUID id,String name,UUID creatorID, UUID adventureID, double limit) throws Exception {
+    public CreateBudgetResponse createBudget(UUID id,String name, String description,UUID creatorID, UUID adventureID, double limit) throws Exception {
         if(budgetRepository.findBudgetById(id) != null){
             throw new Exception("Budget already exists.");
         }
@@ -50,7 +50,7 @@ public class BudgetServiceImplementation implements BudgetService {
             throw new Exception("Limit cannot be 0");
         }
 
-        budgetRepository.save(new Budget(id,name,creatorID,adventureID,limit));
+        budgetRepository.save(new Budget(id,name, description ,creatorID,adventureID,limit));
         return new CreateBudgetResponse(true);
     }
 
@@ -400,7 +400,7 @@ public class BudgetServiceImplementation implements BudgetService {
     @Override
     public void mockCreateBudget(String name){
         final UUID mockBudgetID = UUID.fromString("4f5c23e8-b552-47ae-908c-859e9cb94580");
-        Budget budget = new Budget(mockBudgetID,name,UUID.randomUUID(),UUID.fromString("ad8e9b74-b4be-464e-a538-0cb78e9c2f8b"),6000);
+        Budget budget = new Budget(mockBudgetID,name, "hello hello hello",UUID.randomUUID(),UUID.fromString("ad8e9b74-b4be-464e-a538-0cb78e9c2f8b"),6000);
         budgetRepository.save(budget);
     }
 }
