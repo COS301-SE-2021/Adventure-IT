@@ -8,14 +8,21 @@ part 'budget.g.dart';
 class Budget {
   final String id;
   final String name;
-  final List<Transaction?> transactions;
+  final String creatorID;
+  final String adventureID;
+  final List<String> entries;
+  final double limit;
   final bool deleted;
+  final String description;
 
   Budget({
     required this.deleted,
     required this.id,
     required this.name,
-    required this.transactions,
+    required this.entries,
+    required this.limit,
+    required this.description,
+    required this.creatorID
   });
 
   factory Budget.fromJson(Map<String, dynamic> json) => _$BudgetFromJson(json);
