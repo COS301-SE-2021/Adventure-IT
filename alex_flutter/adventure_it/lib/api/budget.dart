@@ -22,7 +22,8 @@ class Budget {
     required this.entries,
     required this.limit,
     required this.description,
-    required this.creatorID
+    required this.creatorID,
+    required this.adventureID
   });
 
   factory Budget.fromJson(Map<String, dynamic> json) => _$BudgetFromJson(json);
