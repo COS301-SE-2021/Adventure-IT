@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51a90799-d850-4f45-9f71-c80c24076f5d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../alex_flutter/adventure_it/lib/frontEnd/Login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../alex_flutter/adventure_it/lib/frontEnd/Login.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adventure-backend.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.ipr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../alex_flutter/adventure_it/lib/frontEnd/Register.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../alex_flutter/adventure_it/lib/frontEnd/Register.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/adventure-backend.iws" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.iws" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
