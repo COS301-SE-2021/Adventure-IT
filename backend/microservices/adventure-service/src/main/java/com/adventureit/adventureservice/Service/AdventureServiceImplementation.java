@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -129,23 +130,45 @@ public class AdventureServiceImplementation implements AdventureService {
     };
 
     @Override
-    public GetAdventuresByUserUUIDResponse getAdventureByOwnerUUID(UUID ownerID){
+    public List<AdventureDTO> getAdventureByOwnerUUID(UUID ownerID){
         List<Adventure> userAdventures = adventureRepository.findByOwnerId(ownerID);
+        List<AdventureDTO> outlist = new ArrayList<AdventureDTO>();
+        for(int i = 0 ; i<userAdventures.size();i++){
+            outlist.set(i, new AdventureDTO(userAdventures.get(i).getName(),
+                    userAdventures.get(i).getAdventureId(),
+                    userAdventures.get(i).getOwnerId(),
+                    userAdventures.get(i).getAttendees(),
+                    userAdventures.get(i).getContainers(),
+                    userAdventures.get(i).getStartDate(),
+                    userAdventures.get(i).getEndDate(),
+                    userAdventures.get(i).getDescription()));
+        }
         if(userAdventures.size() == 0){
             AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
             throw notFound;
         }
-        return new GetAdventuresByUserUUIDResponse(userAdventures);
+        return outlist;
     }
 
     @Override
-    public GetAdventuresByUserUUIDResponse getAdventureByAttendeeUUID(UUID attendeeID) {
+    public List<AdventureDTO> getAdventureByAttendeeUUID(UUID attendeeID) {
         List<Adventure> userAdventures = adventureRepository.findByAttendees(attendeeID);
+        List<AdventureDTO> outlist = new ArrayList<AdventureDTO>();
+        for(int i = 0 ; i<userAdventures.size();i++){
+            outlist.set(i, new AdventureDTO(userAdventures.get(i).getName(),
+                    userAdventures.get(i).getAdventureId(),
+                    userAdventures.get(i).getOwnerId(),
+                    userAdventures.get(i).getAttendees(),
+                    userAdventures.get(i).getContainers(),
+                    userAdventures.get(i).getStartDate(),
+                    userAdventures.get(i).getEndDate(),
+                    userAdventures.get(i).getDescription()));
+        }
         if (userAdventures.size() == 0) {
             AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
             throw notFound;
         }
-        return new GetAdventuresByUserUUIDResponse(userAdventures);
+        return new outlist;
 
     }
 
