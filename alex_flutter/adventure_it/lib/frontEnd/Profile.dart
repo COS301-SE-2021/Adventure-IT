@@ -157,9 +157,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                         color: Theme.of(context).textTheme.bodyText1!.color)),
                                                 color: Theme.of(context)
                                                     .accentColor,
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 50,
-                                                    vertical: 20),
+                                                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: MediaQuery.of(context).size.width * 0.01),
                                                 onPressed: () {
                                                   Navigator.pushReplacement(
                                                     context,
@@ -192,9 +190,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                   },
                                               color:
                                                   Theme.of(context).accentColor,
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 50,
-                                                  vertical: 20),
+                                              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: MediaQuery.of(context).size.width * 0.01),
                                               child:
                                                   Text("Edit Profile",
                                                       textAlign: TextAlign.center,
