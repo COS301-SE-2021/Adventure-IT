@@ -28,13 +28,18 @@ class Profile extends State<ProfileCaller> {
               padding: const EdgeInsets.only(left: 100.0, top: 0.0),
               child:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                SizedBox(
-                  width: 400.0,
-                  child: Text("Friend list",
-                      style: new TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1!.color,
-                          fontSize: 20)),
-                )
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                      Center(
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.height * 0.2,
+                          child: Text("Friend list",
+                              style: new TextStyle(
+                                  color: Theme.of(context).textTheme.bodyText1!.color,
+                                  fontSize: 20)),
+                ))])
                 //_buildList()
               ])),
         ]));
@@ -143,15 +148,6 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                 color: Theme.of(context).textTheme.bodyText1!.color,
                                                 fontSize: 20))),
                                     Expanded(
-                                        child: Text(user.phoneNumber,
-                                            textAlign: TextAlign.center,
-                                            style: new TextStyle(
-                                                color: Theme.of(context).textTheme.bodyText1!.color,
-                                                fontSize: 20))),
-                                  ]),
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                                  Row(children: [
-                                    Expanded(
                                         child: Container(
                                             margin: EdgeInsets.symmetric(
                                                 horizontal: MediaQuery.of(context).size.width * 0.1),
@@ -172,6 +168,15 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                             HomepageStartupCaller()),
                                                   );
                                                 }))),
+                                  ]),
+                                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                                  Row(children: [
+                                    Expanded(
+                                        child: Text(user.phoneNumber,
+                                            textAlign: TextAlign.center,
+                                            style: new TextStyle(
+                                                color: Theme.of(context).textTheme.bodyText1!.color,
+                                                fontSize: 20))),
                                     Expanded(
                                       child: Container(
                                           margin: EdgeInsets.symmetric(
@@ -196,7 +201,6 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                       style: new TextStyle(
                                                           color:
                                                               Theme.of(context).textTheme.bodyText1!.color))
-
                                               ))),
                                     ])
                                 ]))

@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51a90799-d850-4f45-9f71-c80c24076f5d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../alex_flutter/adventure_it/lib/frontEnd/Register.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../alex_flutter/adventure_it/lib/frontEnd/Register.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../alex_flutter/adventure_it/lib/frontEnd/Profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../alex_flutter/adventure_it/lib/frontEnd/Profile.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adventure-backend.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/adventure-backend.iws" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.iws" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -249,7 +250,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../alex_flutter/adventure_it" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
-  <component name="RunManager" selected="Spring Boot.ServiceRegistryApplication">
+  <component name="RunManager" selected="Spring Boot.UserServiceApplication">
     <configuration selected="false" default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -262,6 +263,17 @@
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -340,7 +352,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServiceRegistryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="ServiceRegistryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
       <module name="service-registry" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.serviceregistry.ServiceRegistryApplication" />
       <method v="2">
@@ -361,6 +373,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.ServiceRegistryApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="StarteamConfiguration">
@@ -399,7 +416,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627307931363</updated>
-      <workItem from="1627307932979" duration="1278000" />
+      <workItem from="1627307932979" duration="3200000" />
     </task>
     <servers />
   </component>

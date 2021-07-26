@@ -9,6 +9,7 @@
       <entry name="!?*.java" />
     </wildcardResourcePatterns>
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -67,9 +68,6 @@
     <file url="file://$PROJECT_DIR$/microservices/user-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-registry/src/main/java" charset="UTF-8" />
   </component>
-  <component name="EntryPointsManager">
-    <entry_points />
-  </component>
   <component name="ExportToHTMLSettings">
     <option name="PRINT_LINE_NUMBERS" value="false" />
     <option name="OPEN_IN_BROWSER" value="false" />
@@ -107,20 +105,12 @@
     </option>
   </component>
   <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" />
-    <option name="OPTION_SCOPE" value="protected" />
     <option name="OPTION_HIERARCHY" value="false" />
     <option name="OPTION_NAVIGATOR" value="false" />
     <option name="OPTION_INDEX" value="false" />
     <option name="OPTION_SEPARATE_INDEX" value="false" />
-    <option name="OPTION_USE_1_1" value="false" />
-    <option name="OPTION_DOCUMENT_TAG_USE" value="false" />
-    <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="false" />
-    <option name="OPTION_DOCUMENT_TAG_VERSION" value="false" />
     <option name="OPTION_DOCUMENT_TAG_DEPRECATED" value="false" />
     <option name="OPTION_DEPRECATED_LIST" value="false" />
-    <option name="OTHER_OPTIONS" />
-    <option name="HEAP_SIZE" />
     <option name="OPEN_IN_BROWSER" value="false" />
   </component>
   <component name="JikesSettings">
