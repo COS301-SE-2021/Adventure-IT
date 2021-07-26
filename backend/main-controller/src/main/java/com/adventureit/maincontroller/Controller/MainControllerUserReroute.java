@@ -19,13 +19,6 @@ public class MainControllerUserReroute {
 
     private RestTemplate restTemplate = new RestTemplate();
 
-    @RequestMapping("/adventure/test")
-    public String adventureTest(){
-        InstanceInfo adventureInstance =eurekaClient.getApplication("ADVENTURE-SERVICE").getInstances().get(0);
-        String adventureIP = adventureInstance.getIPAddr();
-        int adventurePort = adventureInstance.getPort();
-        return restTemplate.getForObject("http://"+ adventureIP + ":" + adventurePort + "/adventure/test", String.class);
-    }
 
     @RequestMapping("/api/GetUser/{id}")
     public GetUserByUUIDDTO getUserByUUID(@PathVariable UUID id){
