@@ -15,13 +15,13 @@ class Itinerary {
   final bool deleted;
 
   Itinerary({
-    required this.title;
-    required this.description;
-    required this.id;
-    required this.creatorID;
-    required this.adventureID;
-    required this.entries;
-    required this.deleted;
+    required this.title,
+    required this.description,
+    required this.id,
+    required this.creatorID,
+    required this.adventureID,
+    required this.entries,
+    required this.deleted
   });
 
   factory Itinerary.fromJson(Map<String, dynamic> json) => _$ItineraryFromJson(json);

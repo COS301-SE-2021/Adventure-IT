@@ -15,13 +15,13 @@ class Checklist {
   final bool deleted;
 
   Checklist({
-    required this.title;
-    required this.description;
-    required this.id;
-    required this.creatorID;
-    required this.adventureID;
-    required this.entries;
-    required this.deleted;
+    required this.title,
+    required this.description,
+    required this.id,
+    required this.creatorID,
+    required this.adventureID,
+    required this.entries,
+    required this.deleted
   });
 
   factory Checklist.fromJson(Map<String, dynamic> json) => _$ChecklistFromJson(json);
