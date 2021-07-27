@@ -28,13 +28,18 @@ class Profile extends State<ProfileCaller> {
               padding: const EdgeInsets.only(left: 100.0, top: 0.0),
               child:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                SizedBox(
-                  width: 400.0,
-                  child: Text("Friend list",
-                      style: new TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1!.color,
-                          fontSize: 20)),
-                )
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                      Center(
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.height * 0.2,
+                          child: Text("Friend list",
+                              style: new TextStyle(
+                                  color: Theme.of(context).textTheme.bodyText1!.color,
+                                  fontSize: MediaQuery.of(context).size.height * 0.04)),
+                ))])
                 //_buildList()
               ])),
         ]));
@@ -106,7 +111,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                               width: MediaQuery.of(context).size.width * 0.2,
                               height: MediaQuery.of(context).size.height * 0.2,
                               child: CircleAvatar(
-                                radius: 70,
+                                radius: MediaQuery.of(context).size.height * 0.5,
                                 backgroundImage:
                                     ExactAssetImage('assets/adventure.PNG'),
                               ),
@@ -114,7 +119,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                 shape: BoxShape.circle,
                                 border: new Border.all(
                                   color: Theme.of(context).accentColor,
-                                  width: 3.0,
+                                  width: MediaQuery.of(context).size.height * 0.005,
                                 ),
                               ),
                             ),
@@ -122,77 +127,37 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                 child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                  SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
+                                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                                   //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
                                   Text(user.firstname + " " + user.lastname,
                                       textAlign: TextAlign.center,
                                       style: new TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color,
-                                          fontSize: 30)),
+                                          color: Theme.of(context).textTheme.bodyText1!.color,
+                                          fontSize: MediaQuery.of(context).size.height * 0.04)),
                                   Text(user.username,
                                       textAlign: TextAlign.center,
                                       style: new TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color,
-                                          fontSize: 20)),
-                                  SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.02),
+                                          color: Theme.of(context).textTheme.bodyText1!.color,
+                                          fontSize: MediaQuery.of(context).size.height * 0.04)),
+                                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                                   Row(children: [
                                     Expanded(
                                         child: Text(user.email,
                                             textAlign: TextAlign.center,
                                             style: new TextStyle(
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color,
-                                                fontSize: 20))),
-                                    Expanded(
-                                        child: Text(user.phoneNumber,
-                                            textAlign: TextAlign.center,
-                                            style: new TextStyle(
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color,
-                                                fontSize: 20))),
-                                  ]),
-                                  SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.03),
-                                  Row(children: [
+                                                color: Theme.of(context).textTheme.bodyText1!.color,
+                                                fontSize: MediaQuery.of(context).size.height * 0.03))),
                                     Expanded(
                                         child: Container(
                                             margin: EdgeInsets.symmetric(
-                                                horizontal:
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.1),
+                                                horizontal: MediaQuery.of(context).size.width * 0.1),
                                             child: MaterialButton(
                                                 child: Text("My Documents",
                                                     style: new TextStyle(
-                                                        color: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyText1!
-                                                            .color)),
+                                                        color: Theme.of(context).textTheme.bodyText1!.color)),
                                                 color: Theme.of(context)
                                                     .accentColor,
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 50,
-                                                    vertical: 20),
+                                                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: MediaQuery.of(context).size.width * 0.01),
                                                 onPressed: () {
                                                   Navigator.pushReplacement(
                                                     context,
@@ -201,13 +166,19 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                             HomepageStartupCaller()),
                                                   );
                                                 }))),
+                                  ]),
+                                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                                  Row(children: [
+                                    Expanded(
+                                        child: Text(user.phoneNumber,
+                                            textAlign: TextAlign.center,
+                                            style: new TextStyle(
+                                                color: Theme.of(context).textTheme.bodyText1!.color,
+                                                fontSize: MediaQuery.of(context).size.height * 0.03))),
                                     Expanded(
                                       child: Container(
                                           margin: EdgeInsets.symmetric(
-                                              horizontal: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.1),
+                                              horizontal: MediaQuery.of(context).size.width * 0.1),
                                           child: MaterialButton(
                                               onPressed: () => {
                                                     Navigator.pushReplacement(
@@ -219,19 +190,13 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                   },
                                               color:
                                                   Theme.of(context).accentColor,
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 50,
-                                                  vertical: 20),
+                                              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: MediaQuery.of(context).size.width * 0.01),
                                               child:
                                                   Text("Edit Profile",
                                                       textAlign: TextAlign.center,
                                                       style: new TextStyle(
                                                           color:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyText1!
-                                                                  .color))
-
+                                                              Theme.of(context).textTheme.bodyText1!.color))
                                               ))),
                                     ])
                                 ]))
@@ -241,7 +206,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
             return Center(
                 child: Text("Profile has not been created",
                     style: TextStyle(
-                        fontSize: 30,
+                        fontSize: MediaQuery.of(context).size.height * 0.03,
                         color: Theme.of(context).textTheme.bodyText1!.color)));
           }
         });
