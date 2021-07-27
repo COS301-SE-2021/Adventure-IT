@@ -38,7 +38,7 @@ class Profile extends State<ProfileCaller> {
                           child: Text("Friend list",
                               style: new TextStyle(
                                   color: Theme.of(context).textTheme.bodyText1!.color,
-                                  fontSize: 20)),
+                                  fontSize: MediaQuery.of(context).size.height * 0.04)),
                 ))])
                 //_buildList()
               ])),
@@ -133,20 +133,20 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                       textAlign: TextAlign.center,
                                       style: new TextStyle(
                                           color: Theme.of(context).textTheme.bodyText1!.color,
-                                          fontSize: 30)),
+                                          fontSize: MediaQuery.of(context).size.height * 0.04)),
                                   Text(user.username,
                                       textAlign: TextAlign.center,
                                       style: new TextStyle(
                                           color: Theme.of(context).textTheme.bodyText1!.color,
-                                          fontSize: 20)),
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                                          fontSize: MediaQuery.of(context).size.height * 0.04)),
+                                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                                   Row(children: [
                                     Expanded(
                                         child: Text(user.email,
                                             textAlign: TextAlign.center,
                                             style: new TextStyle(
                                                 color: Theme.of(context).textTheme.bodyText1!.color,
-                                                fontSize: 20))),
+                                                fontSize: MediaQuery.of(context).size.height * 0.03))),
                                     Expanded(
                                         child: Container(
                                             margin: EdgeInsets.symmetric(
@@ -174,7 +174,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                             textAlign: TextAlign.center,
                                             style: new TextStyle(
                                                 color: Theme.of(context).textTheme.bodyText1!.color,
-                                                fontSize: 20))),
+                                                fontSize: MediaQuery.of(context).size.height * 0.03))),
                                     Expanded(
                                       child: Container(
                                           margin: EdgeInsets.symmetric(
@@ -206,7 +206,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
             return Center(
                 child: Text("Profile has not been created",
                     style: TextStyle(
-                        fontSize: 30,
+                        fontSize: MediaQuery.of(context).size.height * 0.03,
                         color: Theme.of(context).textTheme.bodyText1!.color)));
           }
         });
