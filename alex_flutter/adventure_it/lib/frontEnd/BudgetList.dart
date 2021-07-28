@@ -1,173 +1,377 @@
-
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'AdventurePage.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
 
-class Adventure_Budgets extends StatelessWidget {
-  Future<List<Budget>> budgetsFuture;
-  Adventure? adventure;
-  Adventure_Budgets({required this.budgetsFuture, required this.adventure});
+class Budgets extends StatelessWidget {
+  Adventure? currentAdventure;
 
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: budgetsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasData) {
-            var budgets = snapshot.data as List<Budget>;
-            return Scaffold(
-                appBar: AppBar(
-                    title: Text('Budgets'),
-                    leading: IconButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      HomepageStartupCaller()));
-                        },
-                        icon: Icon(Icons.arrow_back))),
-                body: Stack(children: <Widget>[
-                  ListView(children: [
-                    ...List.generate(
-                        budgets.length,
-                            (index) => Card(
-                            child: ListTile(
-                                title: Text(budgets.elementAt(index).name),
-                                trailing: IconButton(
-                                  icon: Icon(Icons.delete),
-                                  onPressed: () {
-                                    BudgetApi.softDeleteBudget(
-                                        budgets.elementAt(index).id);
-                                    budgets.remove(budgets.elementAt(index));
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Adventure_Budgets(
-                                                    budgetsFuture:
-                                                    Future.value(budgets),
-                                                    adventure:
-                                                    this.adventure)));
-                                  },
-                                ))))
-                  ]),
-                  Align(
-                      alignment: Alignment.bottomCenter,
-                      child: ElevatedButton(
-                          child: Text("Create Budget"),
-                          onPressed: () {
-                            BudgetApi.createBudget("New Budget");
-
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Adventure_Budgets(
-                                        budgetsFuture: budgetsFuture,
-                                        adventure: this.adventure)));
-                            ;
-                          }))
-                ]),
-                floatingActionButton: FloatingActionButton(
-                    onPressed: () {
-                      Future<List<Budget>>? deletedBudgets =
-                      BudgetApi.getDeletedBudgets(
-                          this.adventure!.adventureId);
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DeletedBudgets(
-                                budgetsFuture: deletedBudgets,
-                                adventure: this.adventure,
-                              )));
-                    },
-                    child: Icon(Icons.delete)));
-          } else {
-            return Scaffold(
-                appBar: AppBar(
-                    title: Text('No budgets found'),
-                    leading: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(Icons.arrow_back))));
-          }
-        });
+  Budgets(Adventure? a) {
+    this.currentAdventure = a;
   }
-}
-
-class DeletedBudgets extends StatelessWidget {
-  Future<List<Budget>> budgetsFuture;
-  Adventure? adventure;
-  DeletedBudgets({required this.budgetsFuture, required this.adventure});
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: budgetsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasData) {
-            var budgets = snapshot.data as List<Budget>;
-            return Scaffold(
-                appBar: AppBar(
-                    title: Text('Recycle Bin for ' + this.adventure!.name),
-                    leading: IconButton(
+    final PageController controller = PageController(initialPage: 0);
+    return PageView(
+        scrollDirection: Axis.horizontal,
+        controller: controller,
+        children: <Widget>[
+          Budget_List(currentAdventure),
+        ]);
+  }
+}
+
+class Budget_List extends StatelessWidget {
+  Adventure? a;
+  bool isChecked = false;
+
+  Budget_List(Adventure? a) {
+    this.a = a;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: AppBar(
+            leading: IconButton(
+                onPressed: () {
+                  {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => (AdventurePage(a))),
+                    );
+                  }
+                },
+                icon: const Icon(Icons.arrow_back_ios),
+                color: Theme.of(context).textTheme.bodyText1!.color),
+            title: Center(
+                child: Text("Budgets",
+                    style: new TextStyle(
+                        color: Theme.of(context).textTheme.bodyText1!.color))),
+            backgroundColor: Theme.of(context).primaryColorDark),
+        body: Center(
+            child: Column(children: <Widget>[
+          SizedBox(height: MediaQuery.of(context).size.height / 60),
+          Expanded(
+              child: Align(
+            alignment: FractionalOffset.bottomCenter,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).accentColor,
+                    shape: BoxShape.circle),
+                child: IconButton(
+                    onPressed: () {
+                      {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertBox();
+                            });
+                      }
+                    },
+                    icon: const Icon(Icons.add),
+                    color: Theme.of(context).primaryColorDark)),
+          ) //Your widget here,
+              ),
+          SizedBox(height: MediaQuery.of(context).size.height / 60),
+        ])));
+  }
+}
+
+class AlertBox extends StatefulWidget
+{
+  @override
+  _AlertBox createState() => _AlertBox();
+}
+
+class _AlertBox extends State<AlertBox> {
+  bool isChecked=false;
+
+  double getSize(context) {
+    if (MediaQuery.of(context).size.height >
+        MediaQuery.of(context).size.width) {
+      return MediaQuery.of(context).size.height * 0.49;
+    } else {
+      return MediaQuery.of(context).size.height * 0.6;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        backgroundColor:
+        Theme
+            .of(context)
+            .primaryColorDark,
+        content: Container(
+          height: getSize(context),
+          child: Stack(
+            overflow: Overflow.visible,
+            children: <Widget>[
+              Positioned(
+                right: -40.0,
+                top: -40.0,
+                child: InkResponse(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: CircleAvatar(
+                    child: Icon(Icons.close,
+                        color: Theme
+                            .of(context)
+                            .primaryColorDark),
+                    backgroundColor:
+                    Theme
+                        .of(context)
+                        .accentColor,
+                  ),
+                ),
+              ),
+              Center(
+                child: Column(
+                  // mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text("Create Budget",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme
+                              .of(context)
+                              .textTheme
+                              .bodyText1!
+                              .color,
+                          fontSize: 25 *
+                              MediaQuery
+                                  .of(context)
+                                  .textScaleFactor,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    SizedBox(
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height *
+                            0.07),
+                    Container(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width *
+                          0.5,
+                      padding: EdgeInsets.symmetric(
+                          horizontal:
+                          MediaQuery
+                              .of(context)
+                              .size
+                              .width *
+                              0.02),
+                      child: TextField(
+                          style: TextStyle(
+                              color: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color),
+                          decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                  color: Theme
+                                      .of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder:
+                              InputBorder.none,
+                              errorBorder:
+                              InputBorder.none,
+                              disabledBorder:
+                              InputBorder.none,
+                              fillColor:
+                              Theme
+                                  .of(context)
+                                  .primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme
+                                          .of(context)
+                                          .accentColor)),
+                              hintText: 'Title')),
+                    ),
+                    SizedBox(
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height *
+                            0.02),
+                    Container(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width *
+                          0.5,
+                      padding: EdgeInsets.symmetric(
+                          horizontal:
+                          MediaQuery
+                              .of(context)
+                              .size
+                              .width *
+                              0.02),
+                      child: TextField(
+                          maxLength: 255,
+                          maxLengthEnforced: true,
+                          maxLines: 3,
+                          style: TextStyle(
+                              color: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color),
+                          decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                  color: Theme
+                                      .of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              fillColor: Theme
+                                  .of(context)
+                                  .primaryColorLight,
+                              enabledBorder:
+                              InputBorder.none,
+                              errorBorder:
+                              InputBorder.none,
+                              disabledBorder:
+                              InputBorder.none,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme
+                                          .of(context)
+                                          .accentColor)),
+                              hintText:
+                              'Description')),
+                    ),
+                    SizedBox(
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height *
+                            0.01),
+                Container(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width *
+                      0.35,
+                  padding: EdgeInsets.symmetric(
+                      horizontal:
+                      MediaQuery
+                          .of(context)
+                          .size
+                          .width *
+                          0.02),
+                    child: Row(children: [
+                      Expanded(
+                        flex:1,
+                          child: Checkbox(
+                              value: isChecked,
+                              onChanged:
+                                  (bool? value) {
+                                setState(() {
+                                  isChecked = value!;
+                                });
+                              })),
+                    SizedBox(
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width *
+                            0.04),
+                      Expanded(
+                        flex:4,
+                        child: TextField(
+                            keyboardType:
+                            TextInputType.number,
+                            enabled: isChecked,
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            style: TextStyle(
+                                color: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color),
+                            decoration: InputDecoration(
+                                hintStyle: TextStyle(
+                                    color: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color),
+                                filled: true,
+                                fillColor: Theme
+                                    .of(context)
+                                    .primaryColorLight,
+                                enabledBorder:
+                                InputBorder.none,
+                                errorBorder:
+                                InputBorder.none,
+                                disabledBorder:
+                                InputBorder.none,
+                                focusedBorder:
+                                OutlineInputBorder(
+                                    borderSide:
+                                    new BorderSide(
+                                        color: Theme
+                                            .of(context)
+                                            .accentColor)),
+                                hintText: 'Limit')),
+                      )
+                    ])),
+                    SizedBox(
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height *
+                            0.02),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal:
+                          MediaQuery
+                              .of(context)
+                              .size
+                              .width *
+                              0.02),
+                      child: RaisedButton(
+                        color: Theme
+                            .of(context)
+                            .accentColor,
+                        child: Text("Create",
+                            style: TextStyle(
+                                color:
+                                Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color)),
                         onPressed: () {
-                          Future<List<Budget>> budgetsFuture2 =
-                          BudgetApi.getBudgets(adventure);
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Adventure_Budgets(
-                                      budgetsFuture: budgetsFuture2,
-                                      adventure: this.adventure)));
-                          ;
+                          Navigator.of(context).pop();
                         },
-                        icon: Icon(Icons.arrow_back))),
-                body: ListView(children: [
-                  ...List.generate(
-                      budgets.length,
-                          (index) => Card(
-                          child: ListTile(
-                              title: Text(budgets.elementAt(index).name),
-                              trailing: IconButton(
-                                  icon: Icon(Icons.restore_outlined),
-                                  onPressed: () {
-                                    BudgetApi.restoreBudget(
-                                        budgets.elementAt(index).id);
-                                    budgets.remove(budgets.elementAt(index));
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                DeletedBudgets(
-                                                    budgetsFuture:
-                                                    Future.value(budgets),
-                                                    adventure:
-                                                    this.adventure)));
-                                  }))))
-                ]));
-          } else {
-            return Scaffold(
-                appBar: AppBar(
-                    title: Text('No budgets found'),
-                    leading: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(Icons.arrow_back))));
-          }
-        });
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }

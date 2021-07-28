@@ -269,14 +269,11 @@ class AdventurePage extends StatelessWidget {
                               hoverColor: Theme.of(context).primaryColorLight.withOpacity(0),
                               padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01),
                               onPressed: () {
-                                Future<List<Budget>> budgetsFuture =
-                                BudgetApi.getBudgets(currentAdventure);
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => Adventure_Budgets(
-                                          budgetsFuture: budgetsFuture,
-                                          adventure: currentAdventure)));
+                                          builder: (context) => Budgets(
+                                          currentAdventure)));
 
                               },
                               child: Column(

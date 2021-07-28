@@ -4,6 +4,7 @@ import com.adventureit.adventureservice.Controllers.AdventureController;
 import com.adventureit.adventureservice.Entity.Adventure;
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
+import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -82,7 +85,7 @@ public class AdventureServiceIntegrationTests {
     @Description("Ensure controller can create a new adventure")
     public void httpCreateAdventure_ReturnCreatedAdventure(){
 
-        CreateAdventureRequest req = new CreateAdventureRequest("Test Adventure","Test Adventure Description", mockAdventureID, mockUserID, LocalDate.of(2021, 1, 1));
+        CreateAdventureRequest req = new CreateAdventureRequest("Test Adventure","Test Adventure Description", mockAdventureID, mockUserID, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 5));
         CreateAdventureResponse res = this.restTemplate.postForEntity("http://localhost:" + port + "/adventure/create", req, CreateAdventureResponse.class).getBody();
         Assertions.assertEquals(mockAdventureID, res.getAdventure().getAdventureId());
         Assertions.assertEquals(mockUserID, res.getAdventure().getOwnerId());

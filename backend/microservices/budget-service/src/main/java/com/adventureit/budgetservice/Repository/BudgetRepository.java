@@ -17,7 +17,7 @@ public interface BudgetRepository extends JpaRepository<Budget,Long> {
         Budget findBudgetById(UUID id);
         Budget findBudgetByIdAndDeletedEquals(UUID id,boolean deleted);
         ArrayList<Budget> findAllByDeletedEquals(boolean deleted);
-
+        ArrayList<Budget> findAllByAdventureID(UUID id);
         ArrayList<Budget> findAllByAdventureIDAndDeletedEquals(UUID id,boolean deleted);
 
 }

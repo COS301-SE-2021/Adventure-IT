@@ -36,23 +36,23 @@ class Login extends State<LoginCaller> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                width: 500,
-                height: 250,
+                width: MediaQuery.of(context).size.width * 0.2,
+                height: MediaQuery.of(context).size.width * 0.2,
                 child: CircleAvatar(
-                  radius: 90,
+                  radius: MediaQuery.of(context).size.width * 0.1,
                   backgroundImage: ExactAssetImage('assets/adventure.PNG'),
                 ),
                 decoration: new BoxDecoration(
                   shape: BoxShape.circle,
                   border: new Border.all(
                     color: Theme.of(context).accentColor,
-                    width: 3.0,
+                    width: MediaQuery.of(context).size.width * 0.005,
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: MediaQuery.of(context).size.width * 0.02),
               SizedBox(
-                width: 400.0,
+                width: MediaQuery.of(context).size.width * 0.5,
                 child: TextField(
                     controller: usernameController,
                     style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
@@ -62,9 +62,9 @@ class Login extends State<LoginCaller> {
                         fillColor: Theme.of(context).primaryColorLight,
                         focusedBorder: OutlineInputBorder( borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Username')),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: MediaQuery.of(context).size.width * 0.02),
               SizedBox(
-                width: 400.0,
+                width: MediaQuery.of(context).size.width * 0.5,
                 child: TextField(
                     controller: passwordController,
                     style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
@@ -75,13 +75,13 @@ class Login extends State<LoginCaller> {
                         fillColor: Theme.of(context).primaryColorLight,
                         focusedBorder: OutlineInputBorder(borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Password')),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: MediaQuery.of(context).size.width * 0.02),
               ElevatedButton(
                   child: Text("Log In",
                     style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                   style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).accentColor,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: MediaQuery.of(context).size.width * 0.01),
                   ),
                   onPressed: () {
                     setState(() {
@@ -93,7 +93,7 @@ class Login extends State<LoginCaller> {
                           builder: (context) => HomepageStartupCaller()),
                     );
                   }),
-              SizedBox(height: 10),
+              SizedBox(height: MediaQuery.of(context).size.width * 0.02),
               RichText(
                 text: new TextSpan(
                   children: [
@@ -113,7 +113,7 @@ class Login extends State<LoginCaller> {
                     );
                   })])
               ),
-              SizedBox(height: 10),
+              SizedBox(height: MediaQuery.of(context).size.width * 0.02),
               RichText(
                 text: new TextSpan(
                   text: 'Forgot Password?',

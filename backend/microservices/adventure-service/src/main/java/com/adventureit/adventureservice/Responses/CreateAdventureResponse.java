@@ -15,7 +15,6 @@ public class CreateAdventureResponse {
      * adventure will be sent back for testing purposes but for future implementation an adventure will be found from the database
      *
      * @param success success attribute to indicate whether the service was successful
-     * @param adventure to notify the receiver of what occurred
      */
 
 
