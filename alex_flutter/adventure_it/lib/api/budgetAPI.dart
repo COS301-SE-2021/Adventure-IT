@@ -14,13 +14,11 @@ class BudgetApi {
           await _getBudgetResponse(a!.containers.elementAt(i));
       print(response.body);
       if (response.statusCode == 200) {
-        print("polly");
         Map<String, dynamic> budgetMap = json.decode(response.body);
         var budget = Budget.fromJson(budgetMap);
         if (!budget.deleted) {
           b.add(Budget.fromJson(budgetMap));
         }
-        print("in here in here in here in here in here");
       } else {
         print(response.statusCode);
         throw Exception('Cannot load budget');
