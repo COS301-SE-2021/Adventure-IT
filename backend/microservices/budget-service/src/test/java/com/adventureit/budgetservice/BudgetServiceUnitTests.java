@@ -31,13 +31,13 @@ public class BudgetServiceUnitTests {
         BudgetEntry mockEntry2 = new Expense(validEntryID2,validBudgetID2,20.0,"Mock Entry 2","Mock Expense");
         ArrayList<UUID> trans = new ArrayList<>(Arrays.asList(validEntryID1));
         ArrayList<UUID> trans2 = new ArrayList<>(Arrays.asList(validEntryID2));
-        Budget mockBudget1 = new Budget(validBudgetID1,"Mock Budget 1",UUID.randomUUID(),UUID.randomUUID(),trans);
-        Budget mockBudget2 = new Budget(validBudgetID2,"Mock Budget 2",UUID.randomUUID(),UUID.randomUUID(),trans2);
+        Budget mockBudget1 = new Budget(validBudgetID1,"Mock Budget 1", "Mock budget 1 description",UUID.randomUUID(),UUID.randomUUID(),trans,1000000);
+        Budget mockBudget2 = new Budget(validBudgetID2,"Mock Budget 2", "Mock budget 2 description",UUID.randomUUID(),UUID.randomUUID(),trans2,10000000);
 
         @Test
         /* Ensuring a user can create a budget */
         public void createBudgetValid_ReturnTrue() throws Exception {
-                CreateBudgetResponse createBudgetResponse = sut.createBudget(UUID.randomUUID(),"Mock Name",UUID.randomUUID(),UUID.randomUUID(),new ArrayList<UUID>());
+                CreateBudgetResponse createBudgetResponse = sut.createBudget(UUID.randomUUID(),"Mock Name", "Mock description",UUID.randomUUID(),UUID.randomUUID(),5000);
                 Assertions.assertTrue(createBudgetResponse.isSuccess());
         }
 
@@ -46,7 +46,7 @@ public class BudgetServiceUnitTests {
         public void createBudgetExistingID_ThrowException() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetById(validBudgetID1)).thenReturn(mockBudget1);
                 Assertions.assertThrows(Exception.class, ()->{
-                    sut.createBudget(validBudgetID1,"Mock Name",UUID.randomUUID(),UUID.randomUUID(),new ArrayList<UUID>());
+                    sut.createBudget(validBudgetID1,"Mock Name", "Mock description",UUID.randomUUID(),UUID.randomUUID(),10000);
                 });
         }
 
@@ -54,7 +54,7 @@ public class BudgetServiceUnitTests {
         /* createBudget will throw an exception if any of the request object fields are null */
         public void createBudgetNullField_ThrowException() throws Exception {
                 Assertions.assertThrows(Exception.class, ()->{
-                    sut.createBudget(null,"Mock Name",UUID.randomUUID(),UUID.randomUUID(),new ArrayList<UUID>());
+                    sut.createBudget(null,"Mock Name", "Mock description",UUID.randomUUID(),UUID.randomUUID(),15000);
                 });
         }
 
@@ -161,8 +161,8 @@ public class BudgetServiceUnitTests {
         public void viewBudgetValid_ReturnsTrue() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetById(validBudgetID1)).thenReturn(mockBudget1);
                 Mockito.when(mockBudgetRepository.findBudgetByIdAndDeletedEquals(validBudgetID1,false)).thenReturn(mockBudget1);
-                ViewBudgetResponse response = sut.viewBudget(validBudgetID1);
-                Assertions.assertTrue(response.isSuccess());
+                BudgetResponseDTO response = sut.viewBudget(validBudgetID1);
+                Assertions.assertTrue(response != null);
         }
 
         @Test

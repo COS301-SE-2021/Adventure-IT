@@ -3,15 +3,28 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
-
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
+import 'Providers/adventure_model.dart';
 import 'api/budget.dart';
 import 'frontEnd/Login.dart';
 import 'frontEnd/HomepageStartup.dart';
 
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => AdventuresModel(),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
+}
+
 
 class MyApp extends StatelessWidget {
   @override

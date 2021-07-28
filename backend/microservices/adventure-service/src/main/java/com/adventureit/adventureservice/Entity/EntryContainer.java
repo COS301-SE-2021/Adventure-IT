@@ -1,6 +1,7 @@
 package com.adventureit.adventureservice.Entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public class EntryContainer {
     private UUID creatorID;
     private UUID adventureID;
     @ElementCollection (fetch=FetchType.EAGER)
-    private List<UUID> entries;
+    private List<UUID> entries = new ArrayList<UUID>();
 
     public EntryContainer(UUID adventureID, UUID creatorID){
         this.adventureID = adventureID;

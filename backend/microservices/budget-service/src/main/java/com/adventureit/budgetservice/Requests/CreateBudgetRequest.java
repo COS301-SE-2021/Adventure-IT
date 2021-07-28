@@ -3,28 +3,27 @@ package com.adventureit.budgetservice.Requests;
 import com.adventureit.budgetservice.Entity.BudgetEntry;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CreateBudgetRequest {
     private UUID id;
     private String name;
-    ArrayList<BudgetEntry> transactions;
+    private UUID creatorID;
+    private UUID adventureID;
+    private double limit;
+    private String description;
 
     public CreateBudgetRequest() {
     }
 
-    public CreateBudgetRequest(UUID id, String name, ArrayList<BudgetEntry> transactions) {
+    public CreateBudgetRequest(UUID id, String name, String description, UUID creatorID, UUID adventureID,double limit) {
         this.id = id;
         this.name = name;
-        this.transactions = transactions;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
+        this.description=description;
+        this.creatorID = creatorID;
+        this.adventureID = adventureID;
+        this.limit = limit;
     }
 
     public String getName() {
@@ -35,11 +34,38 @@ public class CreateBudgetRequest {
         this.name = name;
     }
 
-    public ArrayList<BudgetEntry> getTransactions() {
-        return transactions;
+    public UUID getId() {
+        return id;
     }
 
-    public void setTransactions(ArrayList<BudgetEntry> transactions) {
-        this.transactions = transactions;
+    public void setId(UUID id) {
+        this.id = id;
     }
+
+    public double getLimit() {
+        return limit;
+    }
+
+    public void setAdventureID(UUID adventureID) {
+        this.adventureID = adventureID;
+    }
+
+    public UUID getAdventureID() {
+        return adventureID;
+    }
+
+    public String getDescription(){return description;}
+
+    public void setCreatorID(UUID creatorID) {
+        this.creatorID = creatorID;
+    }
+
+    public void setLimit(double limit) {
+        this.limit = limit;
+    }
+
+    public UUID getCreatorID() {
+        return creatorID;
+    }
+
 }

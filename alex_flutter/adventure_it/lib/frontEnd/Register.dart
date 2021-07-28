@@ -40,7 +40,7 @@ class Register extends State<RegisterCaller> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                    width: 400.0,
+                    width: MediaQuery.of(context).size.width * 0.5,
                     child: TextField(
                         controller: firstNameController,
                         decoration: InputDecoration(
@@ -48,9 +48,9 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'First name')),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
                   SizedBox(
-                    width: 400.0,
+                    width: MediaQuery.of(context).size.width * 0.5,
                     child: TextField(
                         controller: lastNameController,
                         decoration: InputDecoration(
@@ -58,9 +58,9 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Last name')),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
                   SizedBox(
-                    width: 400.0,
+                    width: MediaQuery.of(context).size.width * 0.5,
                     child: TextField(
                         controller: usernameController,
                         decoration: InputDecoration(
@@ -68,9 +68,9 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Username')),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
                   SizedBox(
-                    width: 400.0,
+                    width: MediaQuery.of(context).size.width * 0.5,
                     child: TextField(
                         controller: emailController,
                         decoration: InputDecoration(
@@ -78,9 +78,9 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Email')),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
                   SizedBox(
-                    width: 400.0,
+                    width: MediaQuery.of(context).size.width * 0.5,
                     child: TextField(
                         controller: phoneNumberController,
                         decoration: InputDecoration(
@@ -88,35 +88,41 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Phone number')),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
                   SizedBox(
-                    width: 400.0,
+                    width: MediaQuery.of(context).size.width * 0.5,
                     child: TextField(
                         controller: passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
                             filled: true,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Password')),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
                   SizedBox(
-                    width: 400.0,
+                    width: MediaQuery.of(context).size.width * 0.5,
                     child: TextField(
                         controller: passwordCheckController,
                         obscureText: true,
                         decoration: InputDecoration(
                             filled: true,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Confirm Password')),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
                   ElevatedButton(
                       child: Text("Register",
                           style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                       style: ElevatedButton.styleFrom(
                         primary: Theme.of(context).accentColor,
-                        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: MediaQuery.of(context).size.width * 0.01),
                       ),
                       onPressed: () {
                         setState(() {
@@ -128,7 +134,7 @@ class Register extends State<RegisterCaller> {
                               builder: (context) => HomepageStartupCaller()),
                         );
                       }),
-                  SizedBox(height: 10),
+                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
                   RichText(
                       text: new TextSpan(
                           children: [

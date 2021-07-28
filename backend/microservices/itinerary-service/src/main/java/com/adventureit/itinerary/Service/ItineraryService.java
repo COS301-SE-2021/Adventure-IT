@@ -2,6 +2,7 @@ package com.adventureit.itinerary.Service;
 
 
 import com.adventureit.itinerary.Entity.Itinerary;
+import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,4 +17,6 @@ public interface ItineraryService {
     public String hardDelete(UUID id) throws Exception;
     public List<Itinerary> viewTrash(UUID id) throws Exception;
     public String restoreBudget(UUID id) throws Exception;
+    public ItineraryResponseDTO viewItinerary(UUID id) throws Exception;
+    public String mockPopulate();
 }
