@@ -6,62 +6,92 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-class ChecklistApi {
-  static Future<List<Budget>> getBudgets(Adventure? a) async {
-
-  }
-
-  static Future<List<Budget>> getDeletedBudgets(adventureId) async {
+class checklistApi {
+  static Future<List<Checklist>> getChecklists(Adventure? a) async {
     http.Response response =
-    await _getDeletedBudgetsResponse(adventureId);
+    await _getChecklists(a!.adventureId);
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to load list of adventures: ${response.body}');
+      throw Exception('Failed to load list of checklists: ${response.body}');
     }
 
-    List<Budget> budgets = (jsonDecode(response.body) as List)
-        .map((x) => Budget.fromJson(x))
+    List<Checklist> checklists = (jsonDecode(response.body) as List)
+        .map((x) => Checklist.fromJson(x))
+        .toList();
+
+    return checklists;
+  }
+
+  static Future<http.Response> _getChecklists(adventureID) async {
+    return http.get(Uri.http(checklistApi, '/viewChecklistsByAdventure/' + adventureID));
+  }
+
+  static Future<List<Checklist>> getDeletedChecklist(adventureId) async {
+    http.Response response =
+    await _getDeletedChecklistsResponse(adventureId);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load list of checklists: ${response.body}');
+    }
+
+    List<Checklist> budgets = (jsonDecode(response.body) as List)
+        .map((x) => Checklist.fromJson(x))
         .toList();
 
     return budgets;
 
   }
 
-  static Future restoreBudget(budgetID) async {
+  static Future restoreChecklist(checklistID) async {
 
-    http.Response response = await _restoreBudgetRequest(budgetID);
-
-
-    if (response.statusCode != 200) {
-      throw Exception('Failed to restore budget: ${response.body}');
-    }
-  }
-
-  static Future softDeleteBudget(budgetID) async {
-    http.Response response = await _deleteBudgetRequest(budgetID);
+    http.Response response = await _restoreChecklistRequest(checklistID);
 
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to softDelete budget: ${response.body}');
+      throw Exception('Failed to restore checklist: ${response.body}');
+    }
+  }
+
+  static Future softDeleteChecklist(checklistID) async {
+    http.Response response = await _deleteChecklistRequest(checklistID);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to softDelete checklist: ${response.body}');
+    }
+
+  }
+
+  static Future hardDeleteChecklist(checklistID) async {
+    http.Response response = await _hardDeleteChecklistRequest(checklistID);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to hardDelete checklist: ${response.body}');
     }
 
   }
 
 
 
-  static Future<http.Response> _getDeletedBudgetsResponse(adventureId) async {
+  static Future<http.Response> _getDeletedChecklistsResponse(adventureId) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/viewTrash/' + adventureId));
+    return http.get(Uri.http(checklistApi, '/checklist/viewTrash/' + adventureId));
   }
 
-  static Future<http.Response> _deleteBudgetRequest(budgetID) async {
+  static Future<http.Response> _deleteChecklistRequest(checklistID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/softDelete/' + budgetID));
+    return http.get(Uri.http(checklistApi, '/checklist/softDelete/' + checklistID));
+  }
+
+  static Future<http.Response> _hardDeleteChecklistRequest(checklistID) async {
+
+    return http.get(Uri.http(checklistApi, '/checklist/hardDelete/' + checklistID));
   }
 
 
-  static Future<http.Response> _restoreBudgetRequest(budgetID) async {
+  static Future<http.Response> _restoreChecklistRequest(checklistID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/restoreBudget/' + budgetID));
+    return http.get(Uri.http(checklistApi, '/checklist/restoreBudget/' + checklistID));
   }
 }
