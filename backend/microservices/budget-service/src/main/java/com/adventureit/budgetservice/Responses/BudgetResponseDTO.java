@@ -11,10 +11,11 @@ public class BudgetResponseDTO {
     private List<UUID> entries;
     private double limit;
     private boolean deleted;
+    private String description;
 
     public BudgetResponseDTO(){}
 
-    public BudgetResponseDTO(UUID id, String name, UUID creatorID, UUID adventureID,List<UUID> entries,double limit,boolean deleted){
+    public BudgetResponseDTO(UUID id, String name, UUID creatorID, UUID adventureID,List<UUID> entries,double limit,boolean deleted, String description){
         this.id = id;
         this.name = name;;
         this.creatorID = creatorID;
@@ -22,6 +23,7 @@ public class BudgetResponseDTO {
         this.entries = entries;
         this.limit = limit;
         this.deleted = deleted;
+        this.description=description;
     }
 
     public String getName() {
@@ -79,4 +81,8 @@ public class BudgetResponseDTO {
     public boolean isDeleted() {
         return deleted;
     }
+
+    public String getDescription(){return description;}
+
+    public void setDescription(String d){this.description=d;}
 }

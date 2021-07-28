@@ -64,7 +64,7 @@ public class BudgetServiceImplementation implements BudgetService {
         }
 
         Budget b = budgetRepository.findBudgetByIdAndDeletedEquals(id,false);
-        return new BudgetResponseDTO(b.getId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getLimit(),b.isDeleted());
+        return new BudgetResponseDTO(b.getId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getLimit(),b.isDeleted(),b.getDescription());
     }
 
     @Override
@@ -279,10 +279,12 @@ public class BudgetServiceImplementation implements BudgetService {
         List<Budget> budgets = budgetRepository.findAllByDeletedEquals(true);
         List<BudgetResponseDTO> list = new ArrayList<>();
         for (Budget b:budgets) {
-            list.add(new BudgetResponseDTO(b.getId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getLimit(),b.isDeleted()));
+            list.add(new BudgetResponseDTO(b.getId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getLimit(),b.isDeleted(), b.getDescription()));
         }
         return list;
     }
+
+
 
     public String restoreBudget(UUID id) throws Exception {
         if(budgetRepository.findBudgetById(id) == null){
@@ -408,4 +410,6 @@ public class BudgetServiceImplementation implements BudgetService {
         Budget budget = new Budget(mockBudgetID,name, "hello hello hello",UUID.randomUUID(),UUID.fromString("ad8e9b74-b4be-464e-a538-0cb78e9c2f8b"),6000);
         budgetRepository.save(budget);
     }
+
+
 }
