@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-class itineraryApi {
+class ItineraryApi {
   static Future<List<Itinerary>> getItineraries(Adventure? a) async {
     http.Response response =
     await _getItineraries(a!.adventureId);
@@ -62,7 +62,7 @@ class itineraryApi {
 
   }
 
-  static Future hardDeleteItinerary(itineraaryID) async {
+  static Future hardDeleteItinerary(itineraryID) async {
     http.Response response = await _hardDeleteItineraryRequest(itineraryID);
 
 

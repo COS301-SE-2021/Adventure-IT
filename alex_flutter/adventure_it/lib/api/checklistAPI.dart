@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-class checklistApi {
+class ChecklistApi {
   static Future<List<Checklist>> getChecklists(Adventure? a) async {
     http.Response response =
     await _getChecklists(a!.adventureId);
