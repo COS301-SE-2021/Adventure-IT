@@ -28,7 +28,6 @@ class AdventureApi {
 
   static Future removeAdventure(String adventureId) async {
     http.Response response = await _removeAdventure(adventureId);
-    print("Tried to delete");
 
 
     if (response.statusCode != 200) {
