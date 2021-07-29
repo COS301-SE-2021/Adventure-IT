@@ -94,4 +94,21 @@ class BudgetApi {
 
     return http.get(Uri.http(budgetApi, '/budget/restoreBudget/' + budgetID));
   }
+
+  static Future <String> getTotalOfExpenses(Budget b) async {
+    http.Response response =
+    await _getTotalOfExpenses(b.id);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load expenses: ${response.body}');
+    }
+
+
+    return response.body;
+  }
+
+  static Future<http.Response> _getTotalOfExpenses(budgetID) async {
+
+    return http.get(Uri.http(budgetApi, '/budget/expenseTotal/' + budgetID));
+  }
 }

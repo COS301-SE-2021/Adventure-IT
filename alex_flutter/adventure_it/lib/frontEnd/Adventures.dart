@@ -35,7 +35,8 @@ class HomePage_Pages_Adventures extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
+    return Column(
+        children: <Widget>[
       Container(
           alignment: Alignment.center,
           height: MediaQuery.of(context).size.height / 6,
@@ -97,7 +98,9 @@ class AdventureList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AdventuresModel>(builder: (context, adventureModel, child) {
+    return   ChangeNotifierProvider(
+      create: (context) => AdventuresModel(),
+    child: Consumer<AdventuresModel>(builder: (context, adventureModel, child) {
       Center(
           child: CircularProgressIndicator(
               valueColor: new AlwaysStoppedAnimation<Color>(
@@ -267,6 +270,6 @@ class AdventureList extends StatelessWidget {
                     fontSize: 30 * MediaQuery.of(context).textScaleFactor,
                     color: Theme.of(context).textTheme.bodyText1!.color)));
       }
-    });
+    }));
   }
 }
