@@ -1,6 +1,7 @@
 package com.adventureit.chat.Entity;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,6 +9,7 @@ import java.util.UUID;
 public class GroupChat extends Chat {
 
     private String name;
+    @OneToMany
     private List<ColorPair> colors;
 
     public GroupChat(){}
@@ -25,4 +27,13 @@ public class GroupChat extends Chat {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getColor(UUID userID){
+        for (ColorPair cp : colors){
+            if(cp.getUserID().equals(userID))
+                return cp.getColor();
+        }
+        return -1;
+    }
+
 }

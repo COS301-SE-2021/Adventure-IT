@@ -48,6 +48,10 @@ public class ChatServiceImplementation implements ChatService {
         return "Group Chat successfully created";
     }
 
+    public int getUserColor(UUID groupChatID, UUID userID){
+        return chatRepository.findChatById(groupChatID).getColor(userID);
+    }
+
     @Override
     @Transactional
     public String sendDirectMessage(UUID id, UUID chatID,UUID sender, UUID receiver, String msg) throws Exception {
