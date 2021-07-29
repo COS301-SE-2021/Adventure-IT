@@ -8,12 +8,14 @@ import java.util.UUID;
 public class GroupChat extends Chat {
 
     private String name;
+    private List<ColorPair> colors;
 
     public GroupChat(){}
 
-    public GroupChat(UUID id, UUID adventureID, List<UUID> participants, String name){
+    public GroupChat(UUID id, UUID adventureID, List<UUID> participants,List<ColorPair> colors, String name){
         super(id,adventureID,participants);
         this.name = name;
+        this.colors = colors;
     }
 
     public String getName() {

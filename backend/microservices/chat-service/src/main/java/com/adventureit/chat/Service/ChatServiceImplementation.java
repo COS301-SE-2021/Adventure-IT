@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -32,7 +33,17 @@ public class ChatServiceImplementation implements ChatService {
 
     @Override
     public String createGroupChat(UUID id, UUID adventureID, List<UUID> participants, String name) {
-        GroupChat groupChat = new GroupChat(id,adventureID,participants,name);
+        List<ColorPair> list = new ArrayList<ColorPair>();
+        List<Integer> checked = new ArrayList<Integer>();
+        Random rand = new Random();
+        for (UUID participant : participants) {
+            int randomCol = rand.nextInt(359);
+                while (checked.contains(randomCol))
+                    randomCol = rand.nextInt(359);
+            checked.add(randomCol);
+            list.add(new ColorPair(participant, randomCol));
+        }
+        GroupChat groupChat = new GroupChat(id,adventureID,participants,list,name);
         chatRepository.save(groupChat);
         return "Group Chat successfully created";
     }
