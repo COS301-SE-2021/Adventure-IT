@@ -1,6 +1,8 @@
 import 'package:adventure_it/frontEnd/HomepageStartup.dart';
 import 'package:flutter/material.dart';
 
+import 'Profile.dart';
+
 class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,17 @@ class NavDrawer extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => HomepageStartupCaller()),
+              )
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.person_outline_outlined),
+            title: Text('Profile'),
+            onTap: () => {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProfileCaller()),
               )
             },
           ),
