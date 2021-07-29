@@ -1,6 +1,7 @@
 import 'package:adventure_it/frontEnd/HomepageStartup.dart';
 import 'package:flutter/material.dart';
 
+import 'Login.dart';
 import 'Profile.dart';
 
 class NavDrawer extends StatelessWidget {
@@ -58,6 +59,17 @@ class NavDrawer extends StatelessWidget {
             title: Text('Settings'),
             onTap: () => {},
           ),
+          ListTile(
+            leading: Icon(Icons.power_settings_new),
+            title: Text('Logout'),
+            onTap: () => {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => LoginCaller()),
+              )
+            },
+          )
         ],
       )),
     );
