@@ -2,13 +2,11 @@ package com.adventureit.checklist.Controllers;
 
 import com.adventureit.checklist.Entity.Checklist;
 import com.adventureit.checklist.Repository.ChecklistRepository;
+import com.adventureit.checklist.Requests.CreateChecklistRequest;
 import com.adventureit.checklist.Responses.ChecklistResponseDTO;
 import com.adventureit.checklist.Service.ChecklistServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +45,27 @@ public class ChecklistController {
     @GetMapping("/viewChecklist/{id}")
     public ChecklistResponseDTO viewCheckist(@PathVariable UUID id) throws Exception {
         return checklistServiceImplementation.viewChecklist(id);
+    }
+
+
+    @GetMapping("/softDelete/{id}")
+    public String softDelete(@PathVariable UUID id) throws Exception {
+        return checklistServiceImplementation.softDelete(id);
+    }
+    //
+    @GetMapping("/viewTrash/{id}")
+    public List<Checklist> viewTrash(@PathVariable UUID id) throws Exception {
+        return checklistServiceImplementation.viewTrash(id);
+    }
+
+    @GetMapping("/restoreItinerary/{id}")
+    public String restoreChecklist(@PathVariable UUID id) throws Exception {
+        return checklistServiceImplementation.restoreChecklist(id);
+    }
+
+    @PostMapping("/create")
+    public String createChecklist(@RequestBody CreateChecklistRequest req) throws Exception {
+        return checklistServiceImplementation.createChecklist(req.getTitle(),req.getDescription(),req.getId(),req.getAdvID(),req.getUserID());
     }
 
 }

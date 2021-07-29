@@ -198,7 +198,7 @@ public class ChecklistServiceImplementation implements ChecklistService {
         return checklistRepository.findAllByDeletedEquals(true);
     }
 
-    public String restoreBudget(UUID id) throws Exception {
+    public String restoreChecklist(UUID id) throws Exception {
         if(checklistRepository.findChecklistById(id) == null){
             throw new Exception("Checklist does not exist.");
         }
