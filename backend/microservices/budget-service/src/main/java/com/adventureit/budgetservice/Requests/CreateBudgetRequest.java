@@ -1,6 +1,7 @@
 package com.adventureit.budgetservice.Requests;
 
 import com.adventureit.budgetservice.Entity.BudgetEntry;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +18,12 @@ public class CreateBudgetRequest {
     public CreateBudgetRequest() {
     }
 
-    public CreateBudgetRequest(UUID id, String name, String description, UUID creatorID, UUID adventureID,double limit) {
-        this.id = id;
+    public CreateBudgetRequest(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("description") String description, @JsonProperty("creatorID") String creatorID, @JsonProperty("adventureID") String  adventureID, @JsonProperty("limit") double limit) {
+        this.id = UUID.fromString(id);
         this.name = name;
         this.description=description;
-        this.creatorID = creatorID;
-        this.adventureID = adventureID;
+        this.creatorID = UUID.fromString(creatorID);
+        this.adventureID = UUID.fromString(adventureID);
         this.limit = limit;
     }
 
