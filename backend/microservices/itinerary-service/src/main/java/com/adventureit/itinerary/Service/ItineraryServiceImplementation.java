@@ -222,9 +222,9 @@ public class ItineraryServiceImplementation implements ItineraryService {
         final UUID mockEntryID2 = UUID.fromString("b4ef54cc-7418-4ab7-bbde-4850dd4778a0");
         final UUID mockEntryID3 = UUID.fromString("2d5fc8a8-68d8-4616-8c0f-084376e4566c");
 
-        final UUID mockAdventureID1 = UUID.fromString("4b251a3e-9b8a-4d66-8b31-4aeab52f1489");
-        final UUID mockAdventureID2 = UUID.fromString("7a56ff82-ff67-4588-8e4d-9af54b1e1b81");
-        final UUID mockAdventureID3 = UUID.fromString("a2797bde-faca-43a8-b421-69c2d4bb0756");
+        final UUID mockAdventureID1 = UUID.fromString("b6b17dec-e845-4881-9cf6-64c082e46388");
+        final UUID mockAdventureID2 = UUID.fromString("b6b17dec-e845-4881-9cf6-64c082e46388");
+        final UUID mockAdventureID3 = UUID.fromString("b6b17dec-e845-4881-9cf6-64c082e46388");
 
         final UUID mockCreatorID1 = UUID.fromString("cbebcd3a-d15a-4e62-ac49-060e744f8896");
         final UUID mockCreatorID2 = UUID.fromString("0bb497d1-fb67-4cfa-bac1-0f1ac7a64fb2");

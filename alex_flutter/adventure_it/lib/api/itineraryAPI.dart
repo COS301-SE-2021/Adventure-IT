@@ -15,6 +15,8 @@ class ItineraryApi {
       throw Exception('Failed to load list of itineraries: ${response.body}');
     }
 
+    print(response.body);
+
     List<Itinerary> itineraries = (jsonDecode(response.body) as List)
         .map((x) => Itinerary.fromJson(x))
         .toList();
@@ -23,7 +25,8 @@ class ItineraryApi {
   }
 
   static Future<http.Response> _getItineraries(adventureID) async {
-    return http.get(Uri.http(itineraryApi, '/viewItinerariesByAdventure/' + adventureID));
+    print("here here here here");
+    return http.get(Uri.http(itineraryApi, '/itinerary/viewItinerariesByAdventure/' + adventureID));
   }
 
   static Future<List<Itinerary>> getDeletedItinerary(adventureId) async {
