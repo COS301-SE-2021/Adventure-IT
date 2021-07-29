@@ -52,7 +52,7 @@ public class BudgetController {
 		List<BudgetResponseDTO> list = new ArrayList<>();
 		for (Budget b:budgets) {
 			if(!b.isDeleted()){
-				list.add(new BudgetResponseDTO(b.getId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getLimit(),b.isDeleted()));
+				list.add(new BudgetResponseDTO(b.getId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getLimit(),b.isDeleted(),b.getDescription()));
 			}
 		}
 		return list;

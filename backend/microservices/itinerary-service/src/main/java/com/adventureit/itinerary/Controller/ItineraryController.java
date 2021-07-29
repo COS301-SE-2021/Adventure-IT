@@ -2,13 +2,11 @@ package com.adventureit.itinerary.Controller;
 
 import com.adventureit.itinerary.Entity.Itinerary;
 import com.adventureit.itinerary.Repository.ItineraryRepository;
+import com.adventureit.itinerary.Requests.CreateItineraryRequest;
 import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 import com.adventureit.itinerary.Service.ItineraryServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +45,26 @@ public class ItineraryController {
     @GetMapping("/viewItinerary/{id}")
     public ItineraryResponseDTO viewItinerary(@PathVariable UUID id) throws Exception {
         return itineraryServiceImplementation.viewItinerary(id);
+    }
+
+    @GetMapping("/softDelete/{id}")
+    public String softDelete(@PathVariable UUID id) throws Exception {
+        return itineraryServiceImplementation.softDelete(id);
+    }
+    //
+    @GetMapping("/viewTrash")
+    public List<ItineraryResponseDTO> viewTrash() throws Exception {
+        return itineraryServiceImplementation.viewTrash();
+    }
+
+    @GetMapping("/restoreItinerary/{id}")
+    public String restoreItinerary(@PathVariable UUID id) throws Exception {
+        return itineraryServiceImplementation.restoreItinerary(id);
+    }
+
+    @PostMapping("/create")
+    public String createItinerary(@RequestBody CreateItineraryRequest req) throws Exception {
+        return itineraryServiceImplementation.createItinerary(req.getTitle(),req.getDescription(),req.getId(),req.getAdvID(),req.getUserID());
     }
 
 }
