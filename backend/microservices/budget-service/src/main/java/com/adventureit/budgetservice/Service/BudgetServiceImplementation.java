@@ -352,9 +352,9 @@ public class BudgetServiceImplementation implements BudgetService {
         final UUID mockEntryID2 = UUID.fromString("200959c2-7bd9-4c43-ae1c-c3e6776e3b33");
         final UUID mockEntryID3 = UUID.fromString("0c4dfedd-9a07-42ed-a178-b4e7656a956c");
 
-        final UUID mockAdventureID1 = UUID.fromString("ad8e9b74-b4be-464e-a538-0cb78e9c2f8b");
-        final UUID mockAdventureID2 = UUID.fromString("7166264c-0874-42b6-8c82-d0df91e66375");
-        final UUID mockAdventureID3 = UUID.fromString("fe944b32-0102-499f-bbb6-1af673e8d6c3");
+        final UUID mockAdventureID1 = UUID.fromString("3c8a5381-1f54-4ac3-8d29-7e122f05a858");
+        final UUID mockAdventureID2 = UUID.fromString("3c8a5381-1f54-4ac3-8d29-7e122f05a858");
+        final UUID mockAdventureID3 = UUID.fromString("3c8a5381-1f54-4ac3-8d29-7e122f05a858");
 
         final UUID mockCreatorID1 = UUID.fromString("b99521e3-a7e9-45b8-a18e-421af8bbca15");
         final UUID mockCreatorID2 = UUID.fromString("5de93a3f-3deb-443b-823e-cacb2600ac71");
@@ -391,9 +391,9 @@ public class BudgetServiceImplementation implements BudgetService {
         final UUID mockBudgetID2 = UUID.fromString("83a2bb60-69c9-486f-bb55-8a3e55cb891d");
         final UUID mockBudgetID3 = UUID.fromString("ab500ee3-a069-4a89-a5b3-3aa9e10330e6");
 
-        Budget budget1 = new Budget(mockBudgetID1,"Mock Deleted Budget 1",  "Description for mock budget 1",UUID.randomUUID(),UUID.fromString("ad8e9b74-b4be-464e-a538-0cb78e9c2f8b"),5000);
-        Budget budget2 = new Budget(mockBudgetID2,"Mock Deleted Budget 2", "Description for mock budget 2",UUID.randomUUID(),UUID.fromString("7166264c-0874-42b6-8c82-d0df91e66375"),5000);
-        Budget budget3 = new Budget(mockBudgetID3,"Mock Deleted Budget 3", "Description for mock budget 3",UUID.randomUUID(),UUID.fromString("fe944b32-0102-499f-bbb6-1af673e8d6c3"),5000);
+        Budget budget1 = new Budget(mockBudgetID1,"Mock Deleted Budget 1",  "Description for mock budget 1",UUID.randomUUID(),UUID.fromString("3c8a5381-1f54-4ac3-8d29-7e122f05a858"),5000);
+        Budget budget2 = new Budget(mockBudgetID2,"Mock Deleted Budget 2", "Description for mock budget 2",UUID.randomUUID(),UUID.fromString("3c8a5381-1f54-4ac3-8d29-7e122f05a858"),5000);
+        Budget budget3 = new Budget(mockBudgetID3,"Mock Deleted Budget 3", "Description for mock budget 3",UUID.randomUUID(),UUID.fromString("3c8a5381-1f54-4ac3-8d29-7e122f05a858"),5000);
 
         budget1.setDeleted(true);
         budget2.setDeleted(true);
