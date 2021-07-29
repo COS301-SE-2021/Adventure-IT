@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 
 import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
+import 'Navbar.dart';
 
 class ProfileCaller extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class Profile extends State<ProfileCaller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
