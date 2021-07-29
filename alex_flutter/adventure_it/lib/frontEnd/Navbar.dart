@@ -48,7 +48,11 @@ class NavDrawer extends StatelessWidget {
             title: Text('Friend List'),
             onTap: () => {},
           ),
-
+          ListTile(
+            leading: Icon(Icons.doorbell_rounded),
+            title: Text('Notifications'),
+            onTap: () => {},
+          ),
         ],
       )),
     );
