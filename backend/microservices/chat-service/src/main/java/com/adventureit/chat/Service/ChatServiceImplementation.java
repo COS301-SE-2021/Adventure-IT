@@ -37,9 +37,9 @@ public class ChatServiceImplementation implements ChatService {
         List<Integer> checked = new ArrayList<Integer>();
         Random rand = new Random();
         for (UUID participant : participants) {
-            int randomCol = rand.nextInt(359);
+            int randomCol = rand.nextInt(359)+1;
                 while (checked.contains(randomCol))
-                    randomCol = rand.nextInt(359);
+                    randomCol = rand.nextInt(359)+1;
             checked.add(randomCol);
             list.add(new ColorPair(participant, randomCol));
         }
