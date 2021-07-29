@@ -6,16 +6,26 @@ import 'package:json_annotation/json_annotation.dart';
 
 
 class BudgetModel extends ChangeNotifier {
-  List<Budget> _budgets = List.empty();
 
-  BudgetModel() {
-    fetchAllBudgets().then((budgets) => budgets != null? _budgets = budgets:_budgets);
+  List<Budget> _budgets = List.empty();
+  List<Budget> _deletedBudgets=List.empty();
+
+  BudgetModel(Adventure a) {
+    fetchAllBudgets(a).then((budgets) => budgets != null? _budgets = budgets:_budgets);
+    fetchAllDeletedBudgets(a).then((budgets) => deletedBudgets != null? _deletedBudgets = deletedBudgets:_deletedBudgets);
   }
 
   List<Budget> get budgets => _budgets.toList();
+  List<Budget> get deletedBudgets => _deletedBudgets.toList();
 
   Future fetchAllBudgets(Adventure a) async {
     _budgets = await BudgetApi.getBudgets(a);
+
+    notifyListeners();
+  }
+
+  Future fetchAllDeletedBudgets(Adventure a) async {
+    _deletedBudgets = await BudgetApi.getDeletedBudgets(a);
 
     notifyListeners();
   }
@@ -40,8 +50,8 @@ class BudgetModel extends ChangeNotifier {
   Future hardDeleteBudget(Budget budget) async {
     await BudgetApi.hardDeleteBudget(budget.id);
 
-    var index = _budgets.indexWhere((element) => element.id == budget.id);
-    _budgets.removeAt(index);
+    var index = _deletedBudgets.indexWhere((element) => element.id == budget.id);
+    _deletedBudgets.removeAt(index);
 
     notifyListeners();
   }

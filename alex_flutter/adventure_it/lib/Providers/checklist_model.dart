@@ -1,20 +1,30 @@
+import 'package:adventure_it/api/checklist.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
+import 'package:adventure_it/api/checklistAPI.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 
-class AdventuresModel extends ChangeNotifier {
-  List<Adventure> _adventures = List.empty();
+class ChecklistModel extends ChangeNotifier {
+  List<Checklist> _checklists = List.empty();
+  List<Checklist> _deletedChecklists=List.empty();
 
-  AdventuresModel() {
-    fetchAllAdventures().then((adventures) => adventures != null? _adventures = adventures:_adventures);
+  ChecklistModel(Adventure a) {
+    fetchAllChecklists(a).then((checklist) => checklists != null? _checklists = checklists:_checklists);
+    fetchAllDeletedChecklists(a).then((checklist) => deletedChecklists != null? _deletedChecklists = deletedChecklists:_deletedChecklists);
   }
 
-  List<Adventure> get adventures => _adventures.toList();
+  List<Checklist> get checklists => _checklists.toList();
+  List<Checklist> get deletedChecklists => _deletedChecklists.toList();
 
-  Future fetchAllAdventures() async {
-    _adventures = await AdventureApi.getAdventuresByUUID("1660bd85-1c13-42c0-955c-63b1eda4e90b");
+  Future fetchAllChecklists(Adventure a) async {
+    _checklists = await ChecklistApi.getChecklists(a);
+
+    notifyListeners();
+  }
+
+  Future fetchAllDeletedChecklists(Adventure a) async {
+    _deletedChecklists = await ChecklistApi.getDeletedChecklist(a);
 
     notifyListeners();
   }
@@ -27,11 +37,20 @@ class AdventuresModel extends ChangeNotifier {
   // }
 
 
-  Future deleteAdventure(Adventure adventure) async {
-    await AdventureApi.removeAdventure(adventure.adventureId);
+  Future softDeleteChecklist(Checklist c) async {
+    await ChecklistApi.softDeleteChecklist(c.id);
 
-    var index = _adventures.indexWhere((element) => element.adventureId == adventure.adventureId);
-    _adventures.removeAt(index);
+    var index = _checklists.indexWhere((element) => element.id == c.id);
+    _checklists.removeAt(index);
+
+    notifyListeners();
+  }
+
+  Future hardDeleteChecklist(Checklist c) async {
+    await ChecklistApi.hardDeleteChecklist(c.id);
+
+    var index = _deletedChecklists.indexWhere((element) => element.id == c.id);
+    _deletedChecklists.removeAt(index);
 
     notifyListeners();
   }

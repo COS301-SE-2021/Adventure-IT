@@ -1,20 +1,30 @@
+import 'package:adventure_it/api/itinerary.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
+import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 
-class AdventuresModel extends ChangeNotifier {
-  List<Adventure> _adventures = List.empty();
+class ItineraryModel extends ChangeNotifier {
+  List<Itinerary> _itineraries = List.empty();
+  List<Itinerary> _deletedItineraries=List.empty();
 
-  AdventuresModel() {
-    fetchAllAdventures().then((adventures) => adventures != null? _adventures = adventures:_adventures);
+  ItineraryModel(Adventure a) {
+    fetchAllItineraries(a).then((itinerary) => itineraries != null? _itineraries = itineraries:_itineraries);
+    fetchAllDeletedItineraries(a).then((itinerary) => deletedItineraries != null? _deletedItineraries = deletedItineraries:_deletedItineraries);
   }
 
-  List<Adventure> get adventures => _adventures.toList();
+  List<Itinerary> get itineraries => _itineraries.toList();
+  List<Itinerary> get deletedItineraries => _deletedItineraries.toList();
 
-  Future fetchAllAdventures() async {
-    _adventures = await AdventureApi.getAdventuresByUUID("1660bd85-1c13-42c0-955c-63b1eda4e90b");
+  Future fetchAllItineraries(Adventure a) async {
+    _itineraries = await ItineraryApi.getItineraries(a);
+
+    notifyListeners();
+  }
+
+  Future fetchAllDeletedItineraries(Adventure a) async {
+    _deletedItineraries = await ItineraryApi.getDeletedItinerary(a);
 
     notifyListeners();
   }
@@ -27,11 +37,20 @@ class AdventuresModel extends ChangeNotifier {
   // }
 
 
-  Future deleteAdventure(Adventure adventure) async {
-    await AdventureApi.removeAdventure(adventure.adventureId);
+  Future softDeleteItinerary(Itinerary c) async {
+    await ItineraryApi.softDeleteItinerary(c.id);
 
-    var index = _adventures.indexWhere((element) => element.adventureId == adventure.adventureId);
-    _adventures.removeAt(index);
+    var index = _itineraries.indexWhere((element) => element.id == c.id);
+    _itineraries.removeAt(index);
+
+    notifyListeners();
+  }
+
+  Future hardDeleteItinerary(Itinerary c) async {
+    await ItineraryApi.hardDeleteItinerary(c.id);
+
+    var index = _deletedItineraries.indexWhere((element) => element.id == c.id);
+    _deletedItineraries.removeAt(index);
 
     notifyListeners();
   }
