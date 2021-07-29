@@ -1,10 +1,13 @@
+import 'package:adventure_it/frontEnd/HomepageStartup.dart';
 import 'package:flutter/material.dart';
 
 class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
+      child: Container(
+        color: Theme.of(context).primaryColorDark,
+        child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
       DrawerHeader(
@@ -14,8 +17,21 @@ class NavDrawer extends StatelessWidget {
           image: DecorationImage(
               fit: BoxFit.fill,
               image: AssetImage('assets/adventure.PNG'))),
-    ),],
       ),
+          ListTile(
+            leading: Icon(Icons.location_city_outlined),
+            title: Text('Adventure',
+                style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
+            onTap: () => {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomepageStartupCaller()),
+              )
+            },
+          ),
+        ],
+      )),
     );
   }
 }
