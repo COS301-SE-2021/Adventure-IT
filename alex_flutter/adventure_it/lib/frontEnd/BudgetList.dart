@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'AdventurePage.dart';
+import 'BudgetTrash.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
@@ -33,35 +34,31 @@ class Budgets extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-          SizedBox(height: MediaQuery.of(context).size.height / 60),
-            Container( height: MediaQuery.of(context).size.height*0.75, child: BudgetList(adventure)),
-            SizedBox(height: MediaQuery.of(context).size.height / 60),
-         Row(
-
-             children:[
-
-              Expanded(
-                  flex: 2,
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).accentColor,
-                            shape: BoxShape.circle),
-                        child: IconButton(
-                            onPressed: () {
-
-                              Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                              builder: (context) => AdventurePage(
-                              adventure)));
-
-                              },
-                            icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                            color: Theme.of(context).primaryColorDark)),
-                  ) ,
-               Expanded(flex: 3, child:Container()),//Your widget here,
-            Expanded(
-                flex: 1,
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
+              Container(
+                  height: MediaQuery.of(context).size.height * 0.75,
+                  child: BudgetList(adventure)),
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
+              Row(children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).accentColor,
+                          shape: BoxShape.circle),
+                      child: IconButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        AdventurePage(adventure)));
+                          },
+                          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                          color: Theme.of(context).primaryColorDark)),
+                ),
+                Expanded(
+                  flex: 1,
                   child: Container(
                       decoration: BoxDecoration(
                           color: Theme.of(context).accentColor,
@@ -69,64 +66,52 @@ class Budgets extends StatelessWidget {
                       child: IconButton(
                           onPressed: () {
                             {
-
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertBox(adventure!);
+                                  });
                             }
                           },
                           icon: const Icon(Icons.add),
                           color: Theme.of(context).primaryColorDark)),
                 ),
-               Expanded(
-                 flex: 1,
-                 child: Container(
-                     decoration: BoxDecoration(
-                         color: Theme.of(context).accentColor,
-                         shape: BoxShape.circle),
-                     child: IconButton(
-                         onPressed: () {
-                           {
-
-                           }
-                         },
-                         icon: const Icon(Icons.remove),
-                         color: Theme.of(context).primaryColorDark)),
-               ),
-               Expanded(flex: 3, child:Container()),//Your widget //Your widget here,
-              Expanded(
-                  flex: 2,
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).accentColor,
-                            shape: BoxShape.circle),
-                        child: IconButton(
-                            onPressed: () {
-                              {
-
-                              }
-                            },
-                            icon: const Icon(Icons.delete_outline_rounded),
-                            color: Theme.of(context).primaryColorDark)),//Your widget here,
-              ),]),
-            SizedBox(height: MediaQuery.of(context).size.height / 60),
-          ])
-    );
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).accentColor,
+                          shape: BoxShape.circle),
+                      child: IconButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        BudgetTrash(adventure)));
+                          },
+                          icon: const Icon(Icons.delete_outline_rounded),
+                          color: Theme.of(context)
+                              .primaryColorDark)), //Your widget here,
+                ),
+              ]),
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
+            ]));
   }
 }
 
 class BudgetList extends StatelessWidget {
-
   Adventure? a;
 
-  BudgetList(Adventure? adventure)
-  {
-    this.a=adventure;
+  BudgetList(Adventure? adventure) {
+    this.a = adventure;
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => BudgetModel(a!),
-        child: Consumer<BudgetModel>(
-            builder: (context, budgetModel, child) {
+        child: Consumer<BudgetModel>(builder: (context, budgetModel, child) {
           Center(
               child: CircularProgressIndicator(
                   valueColor: new AlwaysStoppedAnimation<Color>(
@@ -154,16 +139,13 @@ class BudgetList extends StatelessWidget {
                             ),
                           ),
                           direction: DismissDirection.endToStart,
-                          key: Key(budgetModel.budgets
-                              .elementAt(index)
-                              .id),
+                          key: Key(budgetModel.budgets.elementAt(index).id),
                           child: Card(
                               color: Theme.of(context).primaryColorDark,
                               child: InkWell(
                                   hoverColor:
                                       Theme.of(context).primaryColorLight,
                                   onTap: () {
-
                                     // Navigator.pushReplacement(
                                     //     context,
                                     //     MaterialPageRoute(
@@ -172,7 +154,6 @@ class BudgetList extends StatelessWidget {
                                     //                 .elementAt(index))));
                                   },
                                   child: Container(
-
                                     child: Row(
                                       children: <Widget>[
                                         Expanded(
@@ -231,13 +212,204 @@ class BudgetList extends StatelessWidget {
                           }))
                 ]));
           } else {
-
-                return Center(child: Text("Start planning how to spend your money!",
+            return Center(
+                child: Text("Start planning how to spend your money!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 30 * MediaQuery.of(context).textScaleFactor,
                         color: Theme.of(context).textTheme.bodyText1!.color)));
           }
         }));
+  }
+}
+
+class AlertBox extends StatefulWidget {
+  Adventure? adventure;
+
+  AlertBox(Adventure a) {
+    adventure = a;
+  }
+
+  @override
+  _AlertBox createState() => _AlertBox(adventure!);
+}
+
+class _AlertBox extends State<AlertBox> {
+  bool isChecked = false;
+  Adventure? adventure;
+
+  _AlertBox(Adventure a) {
+    this.adventure = a;
+  }
+
+  double getSize(context) {
+    if (MediaQuery.of(context).size.height >
+        MediaQuery.of(context).size.width) {
+      return MediaQuery.of(context).size.height * 0.49;
+    } else {
+      return MediaQuery.of(context).size.height * 0.6;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        backgroundColor: Theme.of(context).primaryColorDark,
+        content: Container(
+          height: getSize(context),
+          child: Stack(
+            overflow: Overflow.visible,
+            children: <Widget>[
+              Positioned(
+                right: -40.0,
+                top: -40.0,
+                child: InkResponse(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: CircleAvatar(
+                    child: Icon(Icons.close,
+                        color: Theme.of(context).primaryColorDark),
+                    backgroundColor: Theme.of(context).accentColor,
+                  ),
+                ),
+              ),
+              Center(
+                child: Column(
+                  // mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text("Create Budget",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText1!.color,
+                          fontSize: 25 * MediaQuery.of(context).textScaleFactor,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
+                      child: TextField(
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color),
+                          decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Title')),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
+                      child: TextField(
+                          maxLength: 255,
+                          maxLengthEnforced: true,
+                          maxLines: 3,
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color),
+                          decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Description')),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                    Container(
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.02),
+                        child: Row(children: [
+                          Expanded(
+                              flex: 1,
+                              child: Checkbox(
+                                  value: isChecked,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      isChecked = value!;
+                                    });
+                                  })),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.04),
+                          Expanded(
+                            flex: 4,
+                            child: TextField(
+                                keyboardType: TextInputType.number,
+                                enabled: isChecked,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .color),
+                                decoration: InputDecoration(
+                                    hintStyle: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2!
+                                            .color),
+                                    filled: true,
+                                    fillColor:
+                                        Theme.of(context).primaryColorLight,
+                                    enabledBorder: InputBorder.none,
+                                    errorBorder: InputBorder.none,
+                                    disabledBorder: InputBorder.none,
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: new BorderSide(
+                                            color:
+                                                Theme.of(context).accentColor)),
+                                    hintText: 'Limit')),
+                          )
+                        ])),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
+                      child: RaisedButton(
+                        color: Theme.of(context).accentColor,
+                        child: Text("Create",
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color)),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }
