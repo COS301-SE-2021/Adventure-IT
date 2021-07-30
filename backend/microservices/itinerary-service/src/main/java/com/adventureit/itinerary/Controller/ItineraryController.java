@@ -52,9 +52,9 @@ public class ItineraryController {
         return itineraryServiceImplementation.softDelete(id);
     }
     //
-    @GetMapping("/viewTrash")
-    public List<ItineraryResponseDTO> viewTrash() throws Exception {
-        return itineraryServiceImplementation.viewTrash();
+    @GetMapping("/viewTrash/{id}")
+    public List<ItineraryResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
+        return itineraryServiceImplementation.viewTrash(id);
     }
 
     @GetMapping("/restoreItinerary/{id}")

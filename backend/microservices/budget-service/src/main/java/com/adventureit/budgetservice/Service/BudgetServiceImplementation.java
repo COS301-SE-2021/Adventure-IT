@@ -275,16 +275,17 @@ public class BudgetServiceImplementation implements BudgetService {
      * the request was successful or if an error occurred and return all Budget objects in the trash
      */
     @Override
-    public List<BudgetResponseDTO> viewTrash() throws Exception {
+    public List<BudgetResponseDTO> viewTrash(UUID id) throws Exception {
         List<Budget> budgets = budgetRepository.findAllByDeletedEquals(true);
         List<BudgetResponseDTO> list = new ArrayList<>();
         for (Budget b:budgets) {
-            list.add(new BudgetResponseDTO(b.getId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getLimit(),b.isDeleted(), b.getDescription()));
+            if (b.getAdventureID() == id){
+                list.add(new BudgetResponseDTO(b.getId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getLimit(),b.isDeleted(), b.getDescription()));
+
+            }
         }
         return list;
     }
-
-
 
     public String restoreBudget(UUID id) throws Exception {
         if(budgetRepository.findBudgetById(id) == null){
@@ -381,9 +382,6 @@ public class BudgetServiceImplementation implements BudgetService {
         this.budgetRepository.save(budget3);
 
     }
-
-
-
 
     @Override
     public void mockPopulateTrash(){

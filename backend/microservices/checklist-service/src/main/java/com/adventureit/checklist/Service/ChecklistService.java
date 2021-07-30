@@ -17,8 +17,8 @@ public interface ChecklistService {
     public void markChecklistEntry(UUID id, UUID entryContainerID) throws Exception;
     public String softDelete(UUID id) throws Exception;
     public String hardDelete(UUID id) throws Exception;
-    public List<Checklist> viewTrash(UUID id) throws Exception;
-    public String restoreBudget(UUID id) throws Exception;
+    public List<ChecklistResponseDTO> viewTrash(UUID id) throws Exception;
+    public String restoreChecklist(UUID id) throws Exception;
     public ChecklistResponseDTO viewChecklist(UUID id) throws Exception;
     public String mockPopulate();
 }

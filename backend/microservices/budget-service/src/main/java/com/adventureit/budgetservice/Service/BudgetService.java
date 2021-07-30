@@ -14,11 +14,10 @@ public interface BudgetService {
     public AddIncomeEntryResponse addIncomeEntry(UUID id, UUID entryContainerID, double amount, String title, String description) throws Exception;
     public RemoveEntryResponse removeEntry(UUID id, UUID entryContainerID) throws Exception;
     public AddExpenseEntryResponse addExpenseEntry(UUID id, UUID entryContainerID, double amount, String title, String description) throws Exception;
-//    public String insertEntry(UUID id, UUID containerID) throws Exception;
     public EditBudgetResponse editBudget(EditBudgetRequest req) throws Exception;
     public SoftDeleteResponse softDelete(SoftDeleteRequest req) throws Exception;
     public HardDeleteResponse hardDelete(HardDeleteRequest req) throws Exception;
-    public List<BudgetResponseDTO> viewTrash() throws Exception;
+    public List<BudgetResponseDTO> viewTrash(UUID id) throws Exception;
     public String restoreBudget(UUID id) throws Exception;
     public String calculateBudget(UUID id) throws Exception;
     public void mockPopulate();

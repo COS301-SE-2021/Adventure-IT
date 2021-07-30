@@ -194,11 +194,19 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public List<Checklist> viewTrash(UUID id) throws Exception {
-        return checklistRepository.findAllByDeletedEquals(true);
+    public List<ChecklistResponseDTO> viewTrash(UUID id) throws Exception {
+        List<Checklist> checklists = checklistRepository.findAllByDeletedEquals(true);
+        List<ChecklistResponseDTO> list = new ArrayList<>();
+        for (Checklist b:checklists) {
+            if (b.getAdventureID() == id){
+                list.add(new ChecklistResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.isDeleted()));
+
+            }
+        }
+        return list;
     }
 
-    public String restoreBudget(UUID id) throws Exception {
+    public String restoreChecklist(UUID id) throws Exception {
         if(checklistRepository.findChecklistById(id) == null){
             throw new Exception("Checklist does not exist.");
         }

@@ -182,11 +182,14 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public List<ItineraryResponseDTO> viewTrash() throws Exception {
+    public List<ItineraryResponseDTO> viewTrash(UUID id) throws Exception {
         List<Itinerary> itinerary = itineraryRepository.findAllByDeletedEquals(true);
         List<ItineraryResponseDTO> list = new ArrayList<>();
         for (Itinerary b:itinerary) {
-            list.add(new ItineraryResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getDeleted()));
+            if (b.getAdventureID() == id){
+                list.add(new ItineraryResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getDeleted()));
+
+            }
         }
         return list;
     }
