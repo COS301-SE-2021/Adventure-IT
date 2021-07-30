@@ -175,11 +175,9 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new Exception("Itinerary is not in trash.");
         }
 
-        ArrayList<UUID> entries = new ArrayList<>(itinerary.getEntries());
+
         itineraryRepository.delete(itinerary);
-        for (UUID b : entries) {
-            itineraryEntryRepository.delete((itineraryEntryRepository.findItineraryEntryById(b)));
-        }
+        itineraryEntryRepository.removeAllByEntryContainerID(id);
 
         return "Itinerary deleted";
     }
