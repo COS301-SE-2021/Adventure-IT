@@ -30,14 +30,15 @@ class Login extends State<LoginCaller> {
         appBar: AppBar(title: Center(child: Text("Login",
           style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)
         )), backgroundColor: Theme.of(context).primaryColorDark),
-        body: Center(
+        body: SingleChildScrollView(child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              SizedBox(height: MediaQuery.of(context).size.height * 0.13),
               Container(
                 width: MediaQuery.of(context).size.width * 0.2,
-                height: MediaQuery.of(context).size.width * 0.2,
+                height: MediaQuery.of(context).size.height * 0.2,
                 child: CircleAvatar(
                   radius: MediaQuery.of(context).size.width * 0.1,
                   backgroundImage: ExactAssetImage('assets/adventure.PNG'),
@@ -50,9 +51,9 @@ class Login extends State<LoginCaller> {
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.5,
+                width: 350,
                 child: TextField(
                     controller: usernameController,
                     style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
@@ -62,9 +63,9 @@ class Login extends State<LoginCaller> {
                         fillColor: Theme.of(context).primaryColorLight,
                         focusedBorder: OutlineInputBorder( borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Username')),
               ),
-              SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.5,
+                  width: 350,
                 child: TextField(
                     controller: passwordController,
                     style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
@@ -75,13 +76,13 @@ class Login extends State<LoginCaller> {
                         fillColor: Theme.of(context).primaryColorLight,
                         focusedBorder: OutlineInputBorder(borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Password')),
               ),
-              SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
               ElevatedButton(
                   child: Text("Log In",
                     style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                   style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).accentColor,
-                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: MediaQuery.of(context).size.width * 0.01),
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: MediaQuery.of(context).size.height * 0.01),
                   ),
                   onPressed: () {
                     setState(() {
@@ -93,7 +94,7 @@ class Login extends State<LoginCaller> {
                           builder: (context) => HomepageStartupCaller()),
                     );
                   }),
-              SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               RichText(
                 text: new TextSpan(
                   children: [
@@ -113,7 +114,7 @@ class Login extends State<LoginCaller> {
                     );
                   })])
               ),
-              SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               RichText(
                 text: new TextSpan(
                   text: 'Forgot Password?',
@@ -127,6 +128,6 @@ class Login extends State<LoginCaller> {
                   );
                 }))
             ],
-        )));
+        ))));
   }
 }
