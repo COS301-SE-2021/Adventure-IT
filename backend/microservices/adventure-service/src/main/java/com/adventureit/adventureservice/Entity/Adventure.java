@@ -20,7 +20,7 @@ public class Adventure{
     private UUID ownerId;
     @ElementCollection
     private List<UUID> attendees;
-    @ElementCollection
+    @ElementCollection //remove
     private List<UUID> Containers;
     private LocalDate startDate;
     private LocalDate endDate;
