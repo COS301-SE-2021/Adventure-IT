@@ -30,8 +30,8 @@ class Budgets extends StatelessWidget {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: SingleChildScrollView(
-            child: Column(
+        body:
+        Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -39,7 +39,7 @@ class Budgets extends StatelessWidget {
               Container(
                   height: MediaQuery.of(context).size.height * 0.75,
                   child: BudgetList(adventure)),
-              SizedBox(height: MediaQuery.of(context).size.height / 60),
+              Spacer(),
               Row(children: [
                 Expanded(
                   flex: 1,
@@ -97,7 +97,7 @@ class Budgets extends StatelessWidget {
                 ),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ])));
+            ]));
   }
 }
 
