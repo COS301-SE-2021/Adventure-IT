@@ -38,10 +38,11 @@ class Checklists extends StatelessWidget {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: SingleChildScrollView(child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
+        body: SingleChildScrollView(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Container(
                   height: MediaQuery.of(context).size.height * 0.75,
@@ -121,11 +122,12 @@ class ChecklistList extends StatelessWidget {
         create: (context) => ChecklistModel(a!),
         child:
             Consumer<ChecklistModel>(builder: (context, checklistModel, child) {
-          Center(
-              child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(
-                      Theme.of(context).accentColor)));
-          if (checklistModel.checklists!.length > 0) {
+          if (checklistModel.checklists == null) {
+            return Center(
+                child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).accentColor)));
+          } else if (checklistModel.checklists!.length > 0) {
             return Expanded(
                 flex: 2,
                 child: ListView(children: [
@@ -170,8 +172,9 @@ class ChecklistList extends StatelessWidget {
                                           flex: 4,
                                           child: ListTile(
                                             title: Text(
-                                                checklistModel.checklists
-                                                    !.elementAt(index)
+                                                checklistModel
+                                                    .checklists!
+                                                    .elementAt(index)
                                                     .title,
                                                 style: TextStyle(
                                                     fontSize: 25 *
@@ -184,8 +187,8 @@ class ChecklistList extends StatelessWidget {
                                                         .color)),
                                             // subtitle:Text(adventures.elementAt(index).description),
                                             subtitle: Text(
-                                                checklistModel.checklists
-                                                    !.elementAt(index)
+                                                checklistModel.checklists!
+                                                    .elementAt(index)
                                                     .description,
                                                 style: TextStyle(
                                                     fontSize: 15 *
@@ -202,8 +205,8 @@ class ChecklistList extends StatelessWidget {
                                   ))),
                           onDismissed: (direction) {
                             Provider.of<ChecklistModel>(context, listen: false)
-                                .softDeleteChecklist(
-                                    checklistModel.checklists!.elementAt(index));
+                                .softDeleteChecklist(checklistModel.checklists!
+                                    .elementAt(index));
                           }))
                 ]));
           } else {

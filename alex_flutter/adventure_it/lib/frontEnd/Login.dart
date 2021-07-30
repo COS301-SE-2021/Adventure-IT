@@ -37,21 +37,21 @@ class Login extends State<LoginCaller> {
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.13),
               Container(
-                width: MediaQuery.of(context).size.width * 0.2,
-                height: MediaQuery.of(context).size.height * 0.2,
+                width: MediaQuery.of(context).size.width/2,
+                height: MediaQuery.of(context).size.height/4,
                 child: CircleAvatar(
-                  radius: MediaQuery.of(context).size.width * 0.1,
+                  radius: 90,
                   backgroundImage: ExactAssetImage('assets/adventure.PNG'),
                 ),
                 decoration: new BoxDecoration(
                   shape: BoxShape.circle,
                   border: new Border.all(
                     color: Theme.of(context).accentColor,
-                    width: MediaQuery.of(context).size.width * 0.005,
+                    width: 3.0,
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
               SizedBox(
                 width: 350,
                 child: TextField(
