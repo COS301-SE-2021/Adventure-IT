@@ -112,11 +112,12 @@ class ItinerariesList extends StatelessWidget {
         create: (context) => ItineraryModel(a!),
         child:
             Consumer<ItineraryModel>(builder: (context, itineraryModel, child) {
-          Center(
-              child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(
-                      Theme.of(context).accentColor)));
-          if (itineraryModel.itineraries!.length > 0) {
+              if (itineraryModel.itineraries == null) {
+                return Center(
+                    child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            Theme.of(context).accentColor)));
+              } else if (itineraryModel.itineraries!.length > 0) {
             return Expanded(
                 flex: 2,
                 child: ListView(children: [

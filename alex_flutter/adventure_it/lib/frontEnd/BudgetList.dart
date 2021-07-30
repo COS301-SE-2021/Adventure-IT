@@ -30,10 +30,11 @@ class Budgets extends StatelessWidget {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: SingleChildScrollView(child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
+        body: SingleChildScrollView(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Container(
                   height: MediaQuery.of(context).size.height * 0.75,
@@ -112,11 +113,12 @@ class BudgetList extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (context) => BudgetModel(a!),
         child: Consumer<BudgetModel>(builder: (context, budgetModel, child) {
-          Center(
-              child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(
-                      Theme.of(context).accentColor)));
-          if (budgetModel.budgets!.length > 0) {
+          if (budgetModel.budgets == null) {
+            return Center(
+                child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).accentColor)));
+          } else if (budgetModel.budgets!.length > 0) {
             return Expanded(
                 flex: 2,
                 child: ListView(children: [
@@ -160,8 +162,8 @@ class BudgetList extends StatelessWidget {
                                           flex: 4,
                                           child: ListTile(
                                             title: Text(
-                                                budgetModel.budgets
-                                                    !.elementAt(index)
+                                                budgetModel.budgets!
+                                                    .elementAt(index)
                                                     .name,
                                                 style: TextStyle(
                                                     fontSize: 25 *
@@ -174,8 +176,8 @@ class BudgetList extends StatelessWidget {
                                                         .color)),
                                             // subtitle:Text(adventures.elementAt(index).description),
                                             subtitle: Text(
-                                                budgetModel.budgets
-                                                    !.elementAt(index)
+                                                budgetModel.budgets!
+                                                    .elementAt(index)
                                                     .description,
                                                 style: TextStyle(
                                                     fontSize: 15 *
