@@ -10,12 +10,8 @@ class ChecklistModel extends ChangeNotifier {
   List<Checklist>? _deletedChecklists=null;
 
   ChecklistModel(Adventure a) {
-    fetchAllChecklists(a).then((checklists) {
-      checklists != null ? _checklists = checklists : _checklists = List.empty();
-    });
-    fetchAllDeletedChecklists(a).then((deletedChecklists) {
-      deletedChecklists != null ? _deletedChecklists = deletedChecklists : _deletedChecklists = List.empty();
-    });
+    fetchAllChecklists(a).then((checklists) => checklists != null? _checklists = checklists:List.empty());
+    fetchAllDeletedChecklists(a).then((deletedChecklists) => deletedChecklists != null? _deletedChecklists = deletedChecklists:List.empty());
   }
 
   List<Checklist>? get checklists => _checklists?.toList();

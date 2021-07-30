@@ -10,12 +10,8 @@ class ItineraryModel extends ChangeNotifier {
   List<Itinerary>? _deletedItineraries=null;
 
   ItineraryModel(Adventure a) {
-    fetchAllItineraries(a).then((itineraries) {
-      itineraries != null ? _itineraries = itineraries : _itineraries = List.empty();
-    });
-    fetchAllDeletedItineraries(a).then((deletedItineraries) {
-      deletedItineraries != null ? _deletedItineraries = deletedItineraries : _deletedItineraries = List.empty();
-    });
+    fetchAllItineraries(a).then((itineraries) => itineraries != null? _itineraries = itineraries:List.empty());
+    fetchAllDeletedItineraries(a).then((deletedItineraries) => deletedItineraries != null? _deletedItineraries = deletedItineraries:List.empty());
   }
 
   List<Itinerary>? get itineraries => _itineraries?.toList();

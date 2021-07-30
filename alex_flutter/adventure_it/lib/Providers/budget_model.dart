@@ -11,12 +11,8 @@ class BudgetModel extends ChangeNotifier {
   List<Budget>? _deletedBudgets=null;
 
   BudgetModel(Adventure a) {
-    fetchAllBudgets(a).then((budgets) {
-      budgets != null ? _budgets = budgets : _budgets = List.empty();
-    });
-    fetchAllDeletedBudgets(a).then((deletedBudgets) {
-      deletedBudgets != null ? _deletedBudgets = deletedBudgets : _deletedBudgets = List.empty();
-    });
+    fetchAllBudgets(a).then((budgets) => budgets != null? _budgets = budgets:List.empty());
+    fetchAllDeletedBudgets(a).then((deletedBudgets) => deletedBudgets != null? _deletedBudgets = deletedBudgets:List.empty());
   }
 
   List<Budget>? get budgets => _budgets?.toList();
