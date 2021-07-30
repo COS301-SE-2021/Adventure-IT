@@ -186,7 +186,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
         List<Itinerary> itinerary = itineraryRepository.findAllByDeletedEquals(true);
         List<ItineraryResponseDTO> list = new ArrayList<>();
         for (Itinerary b:itinerary) {
-            list.add(new ItineraryResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getDeleted()));
+            list.add(new ItineraryResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.getDeleted()));
         }
         return list;
     }
@@ -209,7 +209,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new Exception("Itinerary does not exist");
         }
 
-        return new ItineraryResponseDTO(itinerary.getTitle(),itinerary.getDescription(),itinerary.getId(),itinerary.getCreatorID(), itinerary.getAdventureID(),itinerary.getEntries(),itinerary.getDeleted());
+        return new ItineraryResponseDTO(itinerary.getTitle(),itinerary.getDescription(),itinerary.getId(),itinerary.getCreatorID(), itinerary.getAdventureID(),itinerary.getDeleted());
     }
 
     @Override
