@@ -162,7 +162,7 @@ class AdventurePage extends StatelessWidget {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: Center(
+        body: SingleChildScrollView( child: Center(
             child: Container(
                // color: Theme.of(context).primaryColorDark,
                width: MediaQuery.of(context).size.width,
@@ -531,6 +531,6 @@ class AdventurePage extends StatelessWidget {
                       ),
                     ),),
                   ],
-                )]))));
+                )])))));
   }
 }

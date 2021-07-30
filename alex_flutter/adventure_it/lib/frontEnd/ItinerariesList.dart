@@ -29,7 +29,7 @@ class Itineraries extends StatelessWidget {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: Column(
+        body: SingleChildScrollView(child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -95,7 +95,7 @@ class Itineraries extends StatelessWidget {
                 ),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ]));
+            ])));
   }
 }
 
@@ -140,7 +140,7 @@ class ItinerariesList extends StatelessWidget {
                           ),
                           direction: DismissDirection.endToStart,
                           key: Key(
-                              itineraryModel.itineraries.elementAt(index).id),
+                              itineraryModel.itineraries!.elementAt(index).id),
                           child: Card(
                               color: Theme.of(context).primaryColorDark,
                               child: InkWell(
@@ -163,7 +163,7 @@ class ItinerariesList extends StatelessWidget {
                                             title: Text(
                                                 itineraryModel
                                                     .itineraries
-                                                    .elementAt(index)
+                                                    !.elementAt(index)
                                                     .title,
                                                 style: TextStyle(
                                                     fontSize: 25 *
@@ -177,7 +177,7 @@ class ItinerariesList extends StatelessWidget {
                                             // subtitle:Text(adventures.elementAt(index).description),
                                             subtitle: Text(
                                                 itineraryModel.itineraries
-                                                    .elementAt(index)
+                                                    !.elementAt(index)
                                                     .description,
                                                 style: TextStyle(
                                                     fontSize: 15 *
@@ -195,7 +195,7 @@ class ItinerariesList extends StatelessWidget {
                           onDismissed: (direction) {
                             Provider.of<ItineraryModel>(context, listen: false)
                                 .softDeleteItinerary(itineraryModel.itineraries
-                                    .elementAt(index));
+                                    !.elementAt(index));
                           }))
                 ]));
           } else {

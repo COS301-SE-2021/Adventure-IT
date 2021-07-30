@@ -7,16 +7,20 @@ import 'package:json_annotation/json_annotation.dart';
 
 class BudgetModel extends ChangeNotifier {
 
-  List<Budget> _budgets = List.empty();
-  List<Budget> _deletedBudgets=List.empty();
+  List<Budget>? _budgets = null;
+  List<Budget>? _deletedBudgets=null;
 
   BudgetModel(Adventure a) {
-    fetchAllBudgets(a).then((budgets) => budgets != null? _budgets = budgets:_budgets);
-    fetchAllDeletedBudgets(a).then((budgets) => deletedBudgets != null? _deletedBudgets = deletedBudgets:_deletedBudgets);
+    fetchAllBudgets(a).then((budgets) {
+      budgets != null ? _budgets = budgets : _budgets = List.empty();
+    });
+    fetchAllDeletedBudgets(a).then((deletedBudgets) {
+      deletedBudgets != null ? _deletedBudgets = deletedBudgets : _deletedBudgets = List.empty();
+    });
   }
 
-  List<Budget> get budgets => _budgets.toList();
-  List<Budget> get deletedBudgets => _deletedBudgets.toList();
+  List<Budget>? get budgets => _budgets?.toList();
+  List<Budget>? get deletedBudgets => _deletedBudgets?.toList();
 
   Future fetchAllBudgets(Adventure a) async {
     _budgets = await BudgetApi.getBudgets(a);
@@ -41,8 +45,8 @@ class BudgetModel extends ChangeNotifier {
   Future softDeleteBudget(Budget budget) async {
     await BudgetApi.softDeleteBudget(budget.id);
 
-    var index = _budgets.indexWhere((element) => element.id == budget.id);
-    _budgets.removeAt(index);
+    var index = _budgets!.indexWhere((element) => element.id == budget.id);
+    _budgets!.removeAt(index);
 
     notifyListeners();
   }
@@ -50,8 +54,8 @@ class BudgetModel extends ChangeNotifier {
   Future hardDeleteBudget(Budget budget) async {
     await BudgetApi.hardDeleteBudget(budget.id);
 
-    var index = _deletedBudgets.indexWhere((element) => element.id == budget.id);
-    _deletedBudgets.removeAt(index);
+    var index = _deletedBudgets!.indexWhere((element) => element.id == budget.id);
+    _deletedBudgets!.removeAt(index);
 
     notifyListeners();
   }

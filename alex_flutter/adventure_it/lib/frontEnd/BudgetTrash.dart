@@ -39,7 +39,7 @@ class BudgetTrash extends StatelessWidget {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: Column(
+        body: SingleChildScrollView( child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -76,7 +76,7 @@ class BudgetTrash extends StatelessWidget {
                 ),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ]));
+            ])));
   }
 }
 
@@ -121,7 +121,7 @@ class DeletedBudgetList extends StatelessWidget {
                           ),
                           direction: DismissDirection.endToStart,
                           key: Key(budgetModel.deletedBudgets
-                              .elementAt(index)
+                              !.elementAt(index)
                               .id),
                           child: Card(
                               color: Theme.of(context).primaryColorDark,
@@ -178,7 +178,7 @@ class DeletedBudgetList extends StatelessWidget {
                                           child: ListTile(
                                             title: Text(
                                                 budgetModel.deletedBudgets
-                                                    .elementAt(index)
+                                                    !.elementAt(index)
                                                     .name,
                                                 style: TextStyle(
                                                     fontSize: 25 *
@@ -192,7 +192,7 @@ class DeletedBudgetList extends StatelessWidget {
                                             // subtitle:Text(adventures.elementAt(index).description),
                                             subtitle: Text(
                                                 budgetModel.deletedBudgets
-                                                    .elementAt(index)
+                                                    !.elementAt(index)
                                                     .description,
                                                 style: TextStyle(
                                                     fontSize: 15 *
@@ -256,7 +256,7 @@ class DeletedBudgetList extends StatelessWidget {
                             Provider.of<BudgetModel>(context, listen: false)
                                 .hardDeleteBudget(budgetModel
                                 .deletedBudgets
-                                .elementAt(index));
+                                !.elementAt(index));
                           }))
                 ]));
           } else {

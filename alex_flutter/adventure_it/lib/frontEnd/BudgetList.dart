@@ -30,7 +30,7 @@ class Budgets extends StatelessWidget {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: Column(
+        body: SingleChildScrollView(child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -96,7 +96,7 @@ class Budgets extends StatelessWidget {
                 ),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ]));
+            ])));
   }
 }
 
@@ -139,7 +139,7 @@ class BudgetList extends StatelessWidget {
                             ),
                           ),
                           direction: DismissDirection.endToStart,
-                          key: Key(budgetModel.budgets.elementAt(index).id),
+                          key: Key(budgetModel.budgets!.elementAt(index).id),
                           child: Card(
                               color: Theme.of(context).primaryColorDark,
                               child: InkWell(
@@ -161,7 +161,7 @@ class BudgetList extends StatelessWidget {
                                           child: ListTile(
                                             title: Text(
                                                 budgetModel.budgets
-                                                    .elementAt(index)
+                                                    !.elementAt(index)
                                                     .name,
                                                 style: TextStyle(
                                                     fontSize: 25 *
@@ -175,7 +175,7 @@ class BudgetList extends StatelessWidget {
                                             // subtitle:Text(adventures.elementAt(index).description),
                                             subtitle: Text(
                                                 budgetModel.budgets
-                                                    .elementAt(index)
+                                                    !.elementAt(index)
                                                     .description,
                                                 style: TextStyle(
                                                     fontSize: 15 *
@@ -208,7 +208,7 @@ class BudgetList extends StatelessWidget {
                           onDismissed: (direction) {
                             Provider.of<BudgetModel>(context, listen: false)
                                 .softDeleteBudget(
-                                    budgetModel.budgets.elementAt(index));
+                                    budgetModel.budgets!.elementAt(index));
                           }))
                 ]));
           } else {

@@ -49,7 +49,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
         appBar: AppBar(title: Center(child: Text("Create Adventure",
           style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)
         )), backgroundColor: Theme.of(context).primaryColorDark),
-        body: Center(
+        body: SingleChildScrollView( child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -160,7 +160,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                     })),
                     Spacer( flex: 2),])
 
-    ])));
+    ]))));
 
   }
 }

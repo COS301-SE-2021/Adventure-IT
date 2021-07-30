@@ -10,6 +10,8 @@ class AdventureApi {
     http.Response response =
         await _getAdventuresByUUID(userId);
 
+    print(response.body);
+
     if (response.statusCode != 200) {
       throw Exception('Failed to load list of adventures: ${response.body}');
     }
@@ -17,7 +19,7 @@ class AdventureApi {
     List<Adventure> adventures = (jsonDecode(response.body) as List)
         .map((x) => Adventure.fromJson(x))
         .toList();
-
+    print(adventures);
     return adventures;
   }
 

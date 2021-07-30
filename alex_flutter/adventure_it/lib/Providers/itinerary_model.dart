@@ -6,16 +6,20 @@ import 'package:json_annotation/json_annotation.dart';
 
 
 class ItineraryModel extends ChangeNotifier {
-  List<Itinerary> _itineraries = List.empty();
-  List<Itinerary> _deletedItineraries=List.empty();
+  List<Itinerary>? _itineraries = null;
+  List<Itinerary>? _deletedItineraries=null;
 
   ItineraryModel(Adventure a) {
-    fetchAllItineraries(a).then((itinerary) => itineraries != null? _itineraries = itineraries:_itineraries);
-    fetchAllDeletedItineraries(a).then((itinerary) => deletedItineraries != null? _deletedItineraries = deletedItineraries:_deletedItineraries);
+    fetchAllItineraries(a).then((itineraries) {
+      itineraries != null ? _itineraries = itineraries : _itineraries = List.empty();
+    });
+    fetchAllDeletedItineraries(a).then((deletedItineraries) {
+      deletedItineraries != null ? _deletedItineraries = deletedItineraries : _deletedItineraries = List.empty();
+    });
   }
 
-  List<Itinerary> get itineraries => _itineraries.toList();
-  List<Itinerary> get deletedItineraries => _deletedItineraries.toList();
+  List<Itinerary>? get itineraries => _itineraries?.toList();
+  List<Itinerary>? get deletedItineraries => _deletedItineraries?.toList();
 
   Future fetchAllItineraries(Adventure a) async {
     _itineraries = await ItineraryApi.getItineraries(a);
@@ -40,8 +44,8 @@ class ItineraryModel extends ChangeNotifier {
   Future softDeleteItinerary(Itinerary c) async {
     await ItineraryApi.softDeleteItinerary(c.id);
 
-    var index = _itineraries.indexWhere((element) => element.id == c.id);
-    _itineraries.removeAt(index);
+    var index = _itineraries!.indexWhere((element) => element.id == c.id);
+    _itineraries!.removeAt(index);
 
     notifyListeners();
   }
@@ -49,8 +53,8 @@ class ItineraryModel extends ChangeNotifier {
   Future hardDeleteItinerary(Itinerary c) async {
     await ItineraryApi.hardDeleteItinerary(c.id);
 
-    var index = _deletedItineraries.indexWhere((element) => element.id == c.id);
-    _deletedItineraries.removeAt(index);
+    var index = _deletedItineraries!.indexWhere((element) => element.id == c.id);
+    _deletedItineraries!.removeAt(index);
 
     notifyListeners();
   }

@@ -6,16 +6,20 @@ import 'package:json_annotation/json_annotation.dart';
 
 
 class ChecklistModel extends ChangeNotifier {
-  List<Checklist> _checklists = List.empty();
-  List<Checklist> _deletedChecklists=List.empty();
+  List<Checklist>? _checklists = null;
+  List<Checklist>? _deletedChecklists=null;
 
   ChecklistModel(Adventure a) {
-    fetchAllChecklists(a).then((checklist) => checklists != null? _checklists = checklists:_checklists);
-    fetchAllDeletedChecklists(a).then((checklist) => deletedChecklists != null? _deletedChecklists = deletedChecklists:_deletedChecklists);
+    fetchAllChecklists(a).then((checklists) {
+      checklists != null ? _checklists = checklists : _checklists = List.empty();
+    });
+    fetchAllDeletedChecklists(a).then((deletedChecklists) {
+      deletedChecklists != null ? _deletedChecklists = deletedChecklists : _deletedChecklists = List.empty();
+    });
   }
 
-  List<Checklist> get checklists => _checklists.toList();
-  List<Checklist> get deletedChecklists => _deletedChecklists.toList();
+  List<Checklist>? get checklists => _checklists?.toList();
+  List<Checklist>? get deletedChecklists => _deletedChecklists?.toList();
 
   Future fetchAllChecklists(Adventure a) async {
     _checklists = await ChecklistApi.getChecklists(a);
@@ -40,8 +44,8 @@ class ChecklistModel extends ChangeNotifier {
   Future softDeleteChecklist(Checklist c) async {
     await ChecklistApi.softDeleteChecklist(c.id);
 
-    var index = _checklists.indexWhere((element) => element.id == c.id);
-    _checklists.removeAt(index);
+    var index = _checklists!.indexWhere((element) => element.id == c.id);
+    _checklists!.removeAt(index);
 
     notifyListeners();
   }
@@ -49,8 +53,8 @@ class ChecklistModel extends ChangeNotifier {
   Future hardDeleteChecklist(Checklist c) async {
     await ChecklistApi.hardDeleteChecklist(c.id);
 
-    var index = _deletedChecklists.indexWhere((element) => element.id == c.id);
-    _deletedChecklists.removeAt(index);
+    var index = _deletedChecklists!.indexWhere((element) => element.id == c.id);
+    _deletedChecklists!.removeAt(index);
 
     notifyListeners();
   }

@@ -189,10 +189,10 @@ public class AdventureServiceImplementation implements AdventureService {
     @Override
     public List<GetAdventuresByUserUUIDResponse> getallAdventuresByUUID(UUID id) {
         List<Adventure> userAdventures = adventureRepository.findAllByOwnerIdOrAttendeesContains(id,id);
-        if (userAdventures.size() == 0) {
-            AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
-            throw notFound;
-        }
+//        if (userAdventures.size() == 0) {
+//            AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
+//            throw notFound;
+//        }
 
         userAdventures.sort(new Comparator<Adventure>() {
             @Override

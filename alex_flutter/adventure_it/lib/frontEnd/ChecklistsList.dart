@@ -38,7 +38,7 @@ class Checklists extends StatelessWidget {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: Column(
+        body: SingleChildScrollView(child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -104,7 +104,7 @@ class Checklists extends StatelessWidget {
                 ),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ]));
+            ])));
   }
 }
 
@@ -149,7 +149,7 @@ class ChecklistList extends StatelessWidget {
                           ),
                           direction: DismissDirection.endToStart,
                           key: Key(
-                              checklistModel.checklists.elementAt(index).id),
+                              checklistModel.checklists!.elementAt(index).id),
                           child: Card(
                               color: Theme.of(context).primaryColorDark,
                               child: InkWell(
@@ -171,7 +171,7 @@ class ChecklistList extends StatelessWidget {
                                           child: ListTile(
                                             title: Text(
                                                 checklistModel.checklists
-                                                    .elementAt(index)
+                                                    !.elementAt(index)
                                                     .title,
                                                 style: TextStyle(
                                                     fontSize: 25 *
@@ -185,7 +185,7 @@ class ChecklistList extends StatelessWidget {
                                             // subtitle:Text(adventures.elementAt(index).description),
                                             subtitle: Text(
                                                 checklistModel.checklists
-                                                    .elementAt(index)
+                                                    !.elementAt(index)
                                                     .description,
                                                 style: TextStyle(
                                                     fontSize: 15 *
@@ -203,7 +203,7 @@ class ChecklistList extends StatelessWidget {
                           onDismissed: (direction) {
                             Provider.of<ChecklistModel>(context, listen: false)
                                 .softDeleteChecklist(
-                                    checklistModel.checklists.elementAt(index));
+                                    checklistModel.checklists!.elementAt(index));
                           }))
                 ]));
           } else {
