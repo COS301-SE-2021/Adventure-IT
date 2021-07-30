@@ -23,6 +23,7 @@ public class BudgetController {
 	BudgetRepository budgetRepository;
 
 
+
 	@GetMapping("/test")
 	String test(){
 		return "Budget Controller is functioning";
@@ -52,7 +53,7 @@ public class BudgetController {
 		List<BudgetResponseDTO> list = new ArrayList<>();
 		for (Budget b:budgets) {
 			if(!b.isDeleted()){
-				list.add(new BudgetResponseDTO(b.getId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getLimit(),b.isDeleted(),b.getDescription()));
+				list.add(new BudgetResponseDTO(b.getBudgetId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getBudgetLimit(),b.isDeleted(),b.getDescription()));
 			}
 		}
 		return list;

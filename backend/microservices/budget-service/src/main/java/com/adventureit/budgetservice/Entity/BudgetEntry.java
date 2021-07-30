@@ -1,50 +1,57 @@
 package com.adventureit.budgetservice.Entity;
 
-import com.adventureit.adventureservice.Entity.Entry;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 
 import java.util.UUID;
 
 @Entity
-public class BudgetEntry extends Entry {
+
+public class BudgetEntry{
+    @Id
+    private UUID budgetEntryID;
+    private UUID entryContainerID;
     double amount;
     String title;
     String description;
-//    ArrayList<Media> attachments;
 
-    /**
-     * BudgetEntry model Constructor which takes in the following parameters:
-     * @param id BudgetEntry id
-     * @param amount amount used in specific entry
-     * @param title title of entry
-     * @param description short description of entry
-     */
-    public BudgetEntry(UUID id,UUID entryContainerID,double amount,String title,String description){
-        this.setId(id);
-        this.setEntryContainerID(entryContainerID);
+    public BudgetEntry() {
+    }
+
+    public BudgetEntry(UUID id, UUID entryContainerID, double amount, String title, String description) {
+        this.budgetEntryID = id;
+        this.entryContainerID = entryContainerID;
         this.amount = amount;
         this.title = title;
         this.description = description;
-//        this.attachments = attachments;
     }
 
-    /**
-     * Default Constructors
-     */
-    public BudgetEntry() {
-
+    public UUID getId() {
+        return budgetEntryID;
     }
 
-    /**
-     * Getters and Setters
-     */
+    public void setId(UUID id) {
+        this.budgetEntryID = id;
+    }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public UUID getEntryContainerID() {
+        return entryContainerID;
+    }
+
+    public void setEntryContainerID(UUID entryContainerID) {
+        this.entryContainerID = entryContainerID;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void setTitle(String title) {
@@ -55,15 +62,7 @@ public class BudgetEntry extends Entry {
         return description;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public double getAmount() {
-        return amount;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
