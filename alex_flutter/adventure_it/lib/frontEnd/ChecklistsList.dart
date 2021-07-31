@@ -164,7 +164,7 @@ class ChecklistList extends StatelessWidget {
                                         MaterialPageRoute(
                                             builder: (context) => ChecklistPage(
                                                 checklistModel.checklists!
-                                                    .elementAt(index))));
+                                                    .elementAt(index),a)));
                                   },
                                   child: Container(
                                     child: Row(

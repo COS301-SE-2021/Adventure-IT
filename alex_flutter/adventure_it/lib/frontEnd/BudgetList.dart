@@ -154,7 +154,7 @@ class BudgetList extends StatelessWidget {
                                         MaterialPageRoute(
                                             builder: (context) => BudgetPage(
                                                 budgetModel.budgets
-                                                    !.elementAt(index))));
+                                                    !.elementAt(index),a)));
                                   },
                                   child: Container(
                                     child: Row(

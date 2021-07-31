@@ -154,7 +154,7 @@ class ItinerariesList extends StatelessWidget {
                                         MaterialPageRoute(
                                             builder: (context) => ItineraryPage(
                                                 itineraryModel.itineraries
-                                                    !.elementAt(index))));
+                                                    !.elementAt(index),a)));
                                   },
                                   child: Container(
                                     child: Row(

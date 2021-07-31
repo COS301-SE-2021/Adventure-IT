@@ -4,6 +4,7 @@ import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/checklist.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:adventure_it/frontEnd/ChecklistsList.dart';
 import 'AdventurePage.dart';
 
 import 'package:flutter/material.dart';
@@ -12,9 +13,11 @@ import 'HomepageStartup.dart';
 import '../api/budget.dart';
 class ChecklistPage extends StatelessWidget {
   Checklist? currentChecklist;
+  Adventure? currentAdventure;
 
-  ChecklistPage(Checklist? c) {
+  ChecklistPage(Checklist? c,Adventure? a) {
     this.currentChecklist = c;
+    this.currentAdventure=a;
   }
 
   @override
@@ -54,7 +57,11 @@ class ChecklistPage extends StatelessWidget {
                           shape: BoxShape.circle),
                       child: IconButton(
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Checklists(
+                                        currentAdventure)));
                           },
                           icon: const Icon(Icons.arrow_back_ios_new_rounded),
                           color: Theme.of(context).primaryColorDark)),

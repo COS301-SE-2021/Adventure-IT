@@ -6,14 +6,17 @@ import 'package:adventure_it/api/budgetAPI.dart';
 import 'AdventurePage.dart';
 
 import 'package:flutter/material.dart';
+import 'BudgetList.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
 class BudgetPage extends StatelessWidget {
   Budget? currentBudget;
+  Adventure? currentAdventure;
 
-  BudgetPage(Budget? b) {
+  BudgetPage(Budget? b, Adventure? a) {
     this.currentBudget = b;
+    this.currentAdventure=a;
   }
 
   @override
@@ -53,7 +56,11 @@ class BudgetPage extends StatelessWidget {
                           shape: BoxShape.circle),
                       child: IconButton(
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Budgets(
+                                       currentAdventure)));
                           },
                           icon: const Icon(Icons.arrow_back_ios_new_rounded),
                           color: Theme.of(context).primaryColorDark)),

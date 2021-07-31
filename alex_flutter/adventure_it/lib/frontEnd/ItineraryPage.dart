@@ -10,11 +10,14 @@ import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
+import 'ItinerariesList.dart';
 class ItineraryPage extends StatelessWidget {
   Itinerary? currentItinerary;
+  Adventure? currentAdventure;
 
-  ItineraryPage(Itinerary? i) {
+  ItineraryPage(Itinerary? i, Adventure? a) {
     this.currentItinerary = i;
+    this.currentAdventure=a;
   }
 
   @override
@@ -55,7 +58,11 @@ class ItineraryPage extends StatelessWidget {
                           shape: BoxShape.circle),
                       child: IconButton(
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Itineraries(
+                                        currentAdventure)));
                           },
                           icon: const Icon(Icons.arrow_back_ios_new_rounded),
                           color: Theme.of(context).primaryColorDark)),
