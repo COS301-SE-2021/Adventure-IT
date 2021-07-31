@@ -26,7 +26,8 @@ class ItineraryPage extends StatelessWidget {
                 child: Text(currentItinerary!.title,
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
-            actions:[IconButton(
+            actions:[
+              IconButton(
                 onPressed: () {
                   {
 

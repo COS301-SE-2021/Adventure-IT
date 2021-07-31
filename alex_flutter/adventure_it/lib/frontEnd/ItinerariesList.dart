@@ -10,6 +10,7 @@ import 'HomepageStartup.dart';
 import 'AdventurePage.dart';
 
 import '../api/budget.dart';
+import 'ItineraryPage.dart';
 import 'ItineraryTrash.dart';
 
 class Itineraries extends StatelessWidget {
@@ -148,12 +149,12 @@ class ItinerariesList extends StatelessWidget {
                                   hoverColor:
                                       Theme.of(context).primaryColorLight,
                                   onTap: () {
-                                    // Navigator.pushReplacement(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) => BudgetPage(
-                                    //             budgetModel.budgets
-                                    //                 .elementAt(index))));
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ItineraryPage(
+                                                itineraryModel.itineraries
+                                                    !.elementAt(index))));
                                   },
                                   child: Container(
                                     child: Row(

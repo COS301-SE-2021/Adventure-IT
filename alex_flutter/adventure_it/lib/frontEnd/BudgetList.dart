@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'AdventurePage.dart';
+import 'BudgetPage.dart';
 import 'BudgetTrash.dart';
 import 'HomepageStartup.dart';
 
@@ -148,12 +149,12 @@ class BudgetList extends StatelessWidget {
                                   hoverColor:
                                       Theme.of(context).primaryColorLight,
                                   onTap: () {
-                                    // Navigator.pushReplacement(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) => BudgetPage(
-                                    //             budgetModel.budgets
-                                    //                 .elementAt(index))));
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => BudgetPage(
+                                                budgetModel.budgets
+                                                    !.elementAt(index))));
                                   },
                                   child: Container(
                                     child: Row(

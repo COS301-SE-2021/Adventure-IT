@@ -7,6 +7,7 @@ import 'package:adventure_it/frontEnd/ChecklistsTrash.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'ChecklistPage.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
@@ -158,12 +159,12 @@ class ChecklistList extends StatelessWidget {
                                   hoverColor:
                                       Theme.of(context).primaryColorLight,
                                   onTap: () {
-                                    // Navigator.pushReplacement(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) => BudgetPage(
-                                    //             budgetModel.budgets
-                                    //                 .elementAt(index))));
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ChecklistPage(
+                                                checklistModel.checklists!
+                                                    .elementAt(index))));
                                   },
                                   child: Container(
                                     child: Row(
