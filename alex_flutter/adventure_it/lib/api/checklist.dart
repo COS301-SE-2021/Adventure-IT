@@ -11,7 +11,6 @@ class Checklist {
   final String id;
   final String creatorID;
   final String adventureID;
-  final List<String> entries;
   final bool deleted;
 
   Checklist({
@@ -20,7 +19,6 @@ class Checklist {
     required this.id,
     required this.creatorID,
     required this.adventureID,
-    required this.entries,
     required this.deleted
   });
 

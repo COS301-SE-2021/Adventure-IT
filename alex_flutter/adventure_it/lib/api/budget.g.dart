@@ -11,8 +11,6 @@ Budget _$BudgetFromJson(Map<String, dynamic> json) {
     deleted: json['deleted'] as bool,
     id: json['id'] as String,
     name: json['name'] as String,
-    entries:
-        (json['entries'] as List<dynamic>).map((e) => e as String).toList(),
     limit: (json['limit'] as num).toDouble(),
     description: json['description'] as String,
     creatorID: json['creatorID'] as String,
@@ -25,7 +23,6 @@ Map<String, dynamic> _$BudgetToJson(Budget instance) => <String, dynamic>{
       'name': instance.name,
       'creatorID': instance.creatorID,
       'adventureID': instance.adventureID,
-      'entries': instance.entries,
       'limit': instance.limit,
       'deleted': instance.deleted,
       'description': instance.description,
