@@ -177,6 +177,15 @@ class AdventurePage extends StatelessWidget {
                 child: Text(currentAdventure!.name,
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
+            actions:[IconButton(
+                onPressed: () {
+                  {
+
+
+                  }
+                },
+                icon: const Icon(Icons.edit),
+                color: Theme.of(context).textTheme.bodyText1!.color),],
             backgroundColor: Theme.of(context).primaryColorDark),
         body: Center(
             child: Container(
@@ -549,7 +558,7 @@ class AdventurePage extends StatelessWidget {
                                   child: Column(
                                     children: <Widget>[
                                       Icon(
-                                        Icons.play_arrow,
+                                        Icons.person,
                                         size: 50,
                                         color: Theme.of(context)
                                             .textTheme
@@ -557,7 +566,7 @@ class AdventurePage extends StatelessWidget {
                                             .color,
                                       ),
                                       Text(
-                                        'Play this song',
+                                        'Adventurers',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Theme.of(context)
@@ -637,28 +646,13 @@ class AdventurePage extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).accentColor,
-                              shape: BoxShape.circle),
-                          child: IconButton(
-                              onPressed: () {
-                                {}
-                              },
-                              icon: const Icon(Icons.edit_rounded),
-                              color: Theme.of(context).primaryColorDark)),
-                    ),
+
+                    )),
                     Expanded(
                       flex: 1,
                       child: Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).accentColor,
-                              shape: BoxShape.circle),
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.share),
-                              color: Theme.of(context)
-                                  .primaryColorDark)), //Your widget here,
-                    ),
+
+                    )),
                   ],),SizedBox(height: MediaQuery.of(context).size.height / 60),
                 ]))));
   }

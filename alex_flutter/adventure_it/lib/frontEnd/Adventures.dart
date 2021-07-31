@@ -108,7 +108,7 @@ class AdventureList extends StatelessWidget {
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
           } else if (adventureModel.adventures!.length > 0) {
-            print("here");
+
             return Expanded(
                 flex: 2,
                 child: ListView(children: [
