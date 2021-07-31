@@ -2,10 +2,7 @@ package com.adventureit.itinerary.Entity;
 
 import com.adventureit.adventureservice.Entity.Entry;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.UUID;
 /**
  *
@@ -18,7 +15,11 @@ import java.util.UUID;
  *
  */
 @Entity
-public class ItineraryEntry extends Entry {
+public class ItineraryEntry{
+
+    @Id
+    private UUID id;
+    private UUID entryContainerID;
     private String title;
     private String description;
 
@@ -29,11 +30,29 @@ public class ItineraryEntry extends Entry {
     public ItineraryEntry(String title, String description, UUID id,  UUID entryContainerID){
         this.title = title;
         this.description=description;
-        this.setEntryContainerID(entryContainerID);
-        this.setId(id);
+        this.entryContainerID =entryContainerID;
+        this.id = id;
     }
 
+
     // Getters and setters
+
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getEntryContainerID() {
+        return entryContainerID;
+    }
+
+    public void setEntryContainerID(UUID entryContainerID) {
+        this.entryContainerID = entryContainerID;
+    }
 
     public String getTitle() {
         return title;
