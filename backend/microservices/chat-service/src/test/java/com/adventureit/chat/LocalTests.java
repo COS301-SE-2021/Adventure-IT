@@ -1,5 +1,8 @@
 package com.adventureit.chat;
 
+import com.adventureit.chat.Entity.Chat;
+import com.adventureit.chat.Entity.ColorPair;
+import com.adventureit.chat.Entity.GroupChat;
 import com.adventureit.chat.Service.ChatServiceImplementation;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +37,15 @@ public class LocalTests {
         UUID userID1 = UUID.randomUUID();
         UUID userID2 = UUID.randomUUID();
         UUID userID3 = UUID.randomUUID();
+        UUID groupChatID = UUID.randomUUID();
+        List<ColorPair> list = new ArrayList<ColorPair>();
+        list.add(new ColorPair(userID1,1));
+        list.add(new ColorPair(userID2,2));
+        list.add(new ColorPair(userID3,3));
         List<UUID> participants = new ArrayList<>(List.of(userID1,userID2,userID3));
-        chatServiceImplementation.createGroupChat(UUID.randomUUID(),UUID.randomUUID(),participants,"Group Chat");
+        chatServiceImplementation.createGroupChat(groupChatID,UUID.randomUUID(),participants,"Group Chat");
+        Chat gc = new GroupChat(groupChatID,UUID.randomUUID(),participants,list,"Group Chat");
+        System.out.println(gc.getColor(userID1));
     }
 
     @Test

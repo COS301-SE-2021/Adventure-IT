@@ -1,47 +1,58 @@
 package com.adventureit.budgetservice.Entity;
 
-import com.adventureit.adventureservice.Entity.EntryContainer;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-public class Budget extends EntryContainer {
-    String name;
-    boolean deleted;
-    double limit;
-    String description;
+public class Budget{
 
-    /**
-     * Default Constructor
-     */
-    public Budget(){}
+    @Id
+    private UUID budgetID;
+    private UUID creatorID;
+    private UUID adventureID;
+    private String name;
+    private boolean deleted;
+    private String description;
+    private double budgetLimit;
 
+    public Budget(){
 
-    public Budget(UUID id,String name, String description,UUID creatorID, UUID adventureID, double limit){
-        this.setId(id);
-        this.name = name;
-        this.description=description;
-        this.setCreatorID(creatorID);
-        this.setAdventureID(adventureID);
-        deleted = false;
-        this.limit = limit;
     }
 
-    public Budget(UUID id,String name, String description,UUID creatorID, UUID adventureID, List<UUID> entries, double limit){
-        this.setId(id);
+    public Budget(UUID budgetId,String name, String description, UUID creatorID, UUID adventureID, double limit) {
+        this.budgetID = budgetId;
+        this.creatorID = creatorID;
+        this.adventureID = adventureID;
         this.name = name;
-        this.description=description;
-        this.setCreatorID(creatorID);
-        this.setAdventureID(adventureID);
-        this.setEntries(entries);
-        deleted = false;
+        this.deleted = false;
+        this.description = description;
+        this.budgetLimit = limit;
     }
 
-    /**
-     * Getters and Setters
-     */
+    public UUID getBudgetId() {
+        return budgetID;
+    }
+
+    public void setBudgetId(UUID budgetId) {
+        this.budgetID = budgetId;
+    }
+
+    public UUID getCreatorID() {
+        return creatorID;
+    }
+
+    public void setCreatorID(UUID creatorID) {
+        this.creatorID = creatorID;
+    }
+
+    public UUID getAdventureID() {
+        return adventureID;
+    }
+
+    public void setAdventureID(UUID adventureID) {
+        this.adventureID = adventureID;
+    }
 
     public String getName() {
         return name;
@@ -51,21 +62,27 @@ public class Budget extends EntryContainer {
         this.name = name;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
     public boolean isDeleted() {
         return deleted;
     }
 
-    public double getLimit() {
-        return limit;
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
-    public void setLimit(double limit) {
-        this.limit = limit;
+    public String getDescription() {
+        return description;
     }
 
-    public String getDescription(){return description;}
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getBudgetLimit() {
+        return budgetLimit;
+    }
+
+    public void setBudgetLimit(double budgetLimit) {
+        this.budgetLimit = budgetLimit;
+    }
 }
