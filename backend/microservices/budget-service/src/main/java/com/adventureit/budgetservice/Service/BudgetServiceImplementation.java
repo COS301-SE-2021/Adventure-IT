@@ -268,8 +268,8 @@ public class BudgetServiceImplementation implements BudgetService {
      * the request was successful or if an error occurred and return all Budget objects in the trash
      */
     @Override
-    public List<BudgetResponseDTO> viewTrash() throws Exception {
-        List<Budget> budgets = budgetRepository.findAllByDeletedEquals(true);
+    public List<BudgetResponseDTO> viewTrash(UUID id) throws Exception {
+        List<Budget> budgets = budgetRepository.findAllByAdventureIDAndDeletedEquals(id,true);
         List<BudgetResponseDTO> list = new ArrayList<>();
         for (Budget b:budgets) {
             list.add(new BudgetResponseDTO(b.getBudgetId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getBudgetLimit(),b.isDeleted(), b.getDescription()));
