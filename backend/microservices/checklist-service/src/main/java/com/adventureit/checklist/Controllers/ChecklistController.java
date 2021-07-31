@@ -8,6 +8,7 @@ import com.adventureit.checklist.Service.ChecklistServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.CacheRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -36,7 +37,7 @@ public class ChecklistController {
         List<ChecklistResponseDTO> list = new ArrayList<>();
         for (Checklist c:checklists) {
             if(!c.isDeleted()){
-                list.add(new ChecklistResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.getEntries(),c.isDeleted()));
+                list.add(new ChecklistResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.isDeleted()));
             }
         }
         return list;
@@ -47,25 +48,24 @@ public class ChecklistController {
         return checklistServiceImplementation.viewChecklist(id);
     }
 
-
     @GetMapping("/softDelete/{id}")
     public String softDelete(@PathVariable UUID id) throws Exception {
         return checklistServiceImplementation.softDelete(id);
     }
     //
     @GetMapping("/viewTrash/{id}")
-    public List<Checklist> viewTrash(@PathVariable UUID id) throws Exception {
+    public List<ChecklistResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
         return checklistServiceImplementation.viewTrash(id);
     }
 
-    @GetMapping("/restoreItinerary/{id}")
+    @GetMapping("/restoreChecklist/{id}")
     public String restoreChecklist(@PathVariable UUID id) throws Exception {
         return checklistServiceImplementation.restoreChecklist(id);
     }
 
     @PostMapping("/create")
-    public String createChecklist(@RequestBody CreateChecklistRequest req) throws Exception {
-        return checklistServiceImplementation.createChecklist(req.getTitle(),req.getDescription(),req.getId(),req.getAdvID(),req.getUserID());
+    public String createItinerary(@RequestBody CreateChecklistRequest req) throws Exception {
+        return checklistServiceImplementation.createChecklist(req.getTitle(),req.getDescription(),req.getId(),req.getCreatorID(),req.getAdventureID());
     }
 
 }

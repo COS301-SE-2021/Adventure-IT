@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BudgetServiceIntegrationTests {
-    @Autowired
+    /*@Autowired
     private BudgetController budgetController;
     @Autowired
     private BudgetRepository budgetRepository;
@@ -36,7 +36,7 @@ public class BudgetServiceIntegrationTests {
     @Description("Ensure that the controller is accepting traffic and responding")
     public void httpTest_returnResponse(){
         Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/budget/test", String.class),"Budget Controller is functioning");
-    }
+    }*/
 
 
 //    @Test

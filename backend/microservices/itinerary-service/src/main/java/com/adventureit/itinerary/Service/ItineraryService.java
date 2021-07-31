@@ -15,7 +15,7 @@ public interface ItineraryService {
     public String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description) throws Exception;
     public String softDelete(UUID id) throws Exception;
     public String hardDelete(UUID id) throws Exception;
-    public List<ItineraryResponseDTO> viewTrash() throws Exception;
+    public List<ItineraryResponseDTO> viewTrash(UUID id) throws Exception;
     public String restoreItinerary(UUID id) throws Exception;
     public ItineraryResponseDTO viewItinerary(UUID id) throws Exception;
     public String mockPopulate();

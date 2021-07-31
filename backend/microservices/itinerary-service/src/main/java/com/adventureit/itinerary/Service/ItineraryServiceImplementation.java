@@ -68,16 +68,16 @@ public class ItineraryServiceImplementation implements ItineraryService {
         }
 
         Itinerary itinerary = itineraryRepository.findItineraryById(entryContainerID);
+        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryByIdAndEntryContainerID(id, entryContainerID);
         if(itinerary == null){
             throw new Exception("Itinerary does not exist");
         }
-        if(itinerary.getEntries().contains(id)){
+        if(entry != null){
             throw new Exception("Itinerary Entry already exist");
         }
 
-        ItineraryEntry entry = new ItineraryEntry(title,description,id,entryContainerID);
-        itineraryEntryRepository.save(entry);
-        itinerary.getEntries().add(id);
+        ItineraryEntry newEntry = new ItineraryEntry(title,description,id,entryContainerID);
+        itineraryEntryRepository.save(newEntry);
         itineraryRepository.save(itinerary);
         return "Itinerary Entry successfully added";
     }
@@ -95,12 +95,14 @@ public class ItineraryServiceImplementation implements ItineraryService {
         if(itinerary == null){
             throw new Exception("Itinerary does not exist");
         }
-        if(!itinerary.getEntries().contains(id)){
+
+        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryByIdAndEntryContainerID(id, entryContainerID);
+
+        if(entry == null){
             throw new Exception("Itinerary Entry does not exist");
         }
 
         itineraryEntryRepository.delete(itineraryEntryRepository.findItineraryEntryById(id));
-        itinerary.getEntries().remove(id);
         itineraryRepository.save(itinerary);
 
         return "Itinerary Entry successfully removed";
@@ -125,21 +127,22 @@ public class ItineraryServiceImplementation implements ItineraryService {
         }
 
         Itinerary itinerary = itineraryRepository.findItineraryById(entryContainerID);
+        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryByIdAndEntryContainerID(id, entryContainerID);
 
-        if(!itinerary.getEntries().contains(id)){
+        if(entry == null){
             throw new Exception("Entry does not exist.");
         }
 
-        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryById(id);
+        ItineraryEntry newEntry = itineraryEntryRepository.findItineraryEntryById(id);
 
         if(!description.equals("")){
-            entry.setDescription(description);
+            newEntry.setDescription(description);
         }
         if(!title.equals("")){
-            entry.setTitle(title);
+            newEntry.setTitle(title);
         }
 
-        itineraryEntryRepository.save(entry);
+        itineraryEntryRepository.save(newEntry);
         return "Entry successfully updated";
     }
 
@@ -172,11 +175,9 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new Exception("Itinerary is not in trash.");
         }
 
-        ArrayList<UUID> entries = new ArrayList<>(itinerary.getEntries());
+
         itineraryRepository.delete(itinerary);
-        for (UUID b : entries) {
-            itineraryEntryRepository.delete((itineraryEntryRepository.findItineraryEntryById(b)));
-        }
+        itineraryEntryRepository.removeAllByEntryContainerID(id);
 
         return "Itinerary deleted";
     }
@@ -186,7 +187,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
         List<Itinerary> itinerary = itineraryRepository.findAllByDeletedEquals(true);
         List<ItineraryResponseDTO> list = new ArrayList<>();
         for (Itinerary b:itinerary) {
-            list.add(new ItineraryResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.getDeleted()));
+            list.add(new ItineraryResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.getDeleted()));
         }
         return list;
     }
@@ -209,7 +210,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new Exception("Itinerary does not exist");
         }
 
-        return new ItineraryResponseDTO(itinerary.getTitle(),itinerary.getDescription(),itinerary.getId(),itinerary.getCreatorID(), itinerary.getAdventureID(),itinerary.getEntries(),itinerary.getDeleted());
+        return new ItineraryResponseDTO(itinerary.getTitle(),itinerary.getDescription(),itinerary.getId(),itinerary.getCreatorID(), itinerary.getAdventureID(),itinerary.getDeleted());
     }
 
     @Override

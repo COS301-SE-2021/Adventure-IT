@@ -36,7 +36,7 @@ public class ItineraryController {
         List<ItineraryResponseDTO> list = new ArrayList<>();
         for (Itinerary c:itineraries) {
             if(!c.getDeleted()){
-                list.add(new ItineraryResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.getEntries(),c.getDeleted()));
+                list.add(new ItineraryResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.getDeleted()));
             }
         }
         return list;
@@ -52,9 +52,9 @@ public class ItineraryController {
         return itineraryServiceImplementation.softDelete(id);
     }
     //
-    @GetMapping("/viewTrash")
-    public List<ItineraryResponseDTO> viewTrash() throws Exception {
-        return itineraryServiceImplementation.viewTrash();
+    @GetMapping("/viewTrash/{id}")
+    public List<ItineraryResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
+        return itineraryServiceImplementation.viewTrash(id);
     }
 
     @GetMapping("/restoreItinerary/{id}")

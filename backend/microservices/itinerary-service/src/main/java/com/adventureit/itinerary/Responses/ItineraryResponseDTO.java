@@ -9,18 +9,16 @@ public class ItineraryResponseDTO {
     UUID id;
     UUID creatorID;
     UUID adventureID;
-    List<UUID> entries;
     boolean deleted;
 
     public ItineraryResponseDTO(){}
 
-    public ItineraryResponseDTO(String title, String description, UUID id, UUID creatorID, UUID adventureID, List<UUID> entries, boolean deleted){
+    public ItineraryResponseDTO(String title, String description, UUID id, UUID creatorID, UUID adventureID,  boolean deleted){
         this.title = title;
         this.description = description;
         this.id = id;
         this.creatorID = creatorID;
         this.adventureID = adventureID;
-        this.entries = entries;
         this.deleted = deleted;
     }
 
@@ -50,14 +48,6 @@ public class ItineraryResponseDTO {
 
     public String getTitle() {
         return title;
-    }
-
-    public void setEntries(List<UUID> entries) {
-        this.entries = entries;
-    }
-
-    public List<UUID> getEntries() {
-        return entries;
     }
 
     public void setDescription(String description) {
