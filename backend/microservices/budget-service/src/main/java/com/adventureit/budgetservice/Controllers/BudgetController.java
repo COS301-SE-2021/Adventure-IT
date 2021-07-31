@@ -114,7 +114,7 @@ public class BudgetController {
 		return budgetServiceImplementation.calculateExpensesPerUser(req.getBudgetID(), req.getUserID());
 	}
 
-	@GetMapping("/getEtriesPerCategory/{id}")
+	@GetMapping("/getEntriesPerCategory/{id}")
 	public List<Integer> getEntriesPerCategory(@PathVariable UUID id) throws Exception {
 		return budgetServiceImplementation.getEntriesPerCategory(id);
 	}
