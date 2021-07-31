@@ -4,21 +4,21 @@ import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-
-class ItineraryModel extends ChangeNotifier {
-  List<Itinerary>? _itineraries = null;
+class DeletedItineraryModel extends ChangeNotifier{
   List<Itinerary>? _deletedItineraries=null;
 
-  ItineraryModel(Adventure a) {
-    fetchAllItineraries(a).then((itineraries) => itineraries != null? _itineraries = itineraries:List.empty());
+  DeletedItineraryModel(Adventure a) {
     fetchAllDeletedItineraries(a).then((deletedItineraries) => deletedItineraries != null? _deletedItineraries = deletedItineraries:List.empty());
   }
 
-  List<Itinerary>? get itineraries => _itineraries?.toList();
   List<Itinerary>? get deletedItineraries => _deletedItineraries?.toList();
 
-  Future fetchAllItineraries(Adventure a) async {
-    _itineraries = await ItineraryApi.getItineraries(a);
+  Future restoreItinerary(Itinerary it) async {
+    await ItineraryApi.restoreItinerry(it.id);
+    print('in here');
+
+    var index = _deletedItineraries!.indexWhere((element) => element.id == it.id);
+    _deletedItineraries!.removeAt(index);
 
     notifyListeners();
   }
@@ -28,6 +28,37 @@ class ItineraryModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future hardDeleteItinerary(Itinerary c) async {
+    await ItineraryApi.hardDeleteItinerary(c.id);
+
+    var index = _deletedItineraries!.indexWhere((element) => element.id == c.id);
+    _deletedItineraries!.removeAt(index);
+
+    notifyListeners();
+  }
+
+}
+class ItineraryModel extends ChangeNotifier {
+  List<Itinerary>? _itineraries = null;
+
+
+  ItineraryModel(Adventure a) {
+    fetchAllItineraries(a).then((itineraries) => itineraries != null? _itineraries = itineraries:List.empty());
+
+  }
+
+
+  List<Itinerary>? get itineraries => _itineraries?.toList();
+
+
+  Future fetchAllItineraries(Adventure a) async {
+    _itineraries = await ItineraryApi.getItineraries(a);
+
+    notifyListeners();
+  }
+
+
 
   // Future addAdventure(Adventure adventure) async {
   //   Adventure newAdventure = await AdventureApi.createAdventure(adventure);
@@ -46,13 +77,6 @@ class ItineraryModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future hardDeleteItinerary(Itinerary c) async {
-    await ItineraryApi.hardDeleteItinerary(c.id);
 
-    var index = _deletedItineraries!.indexWhere((element) => element.id == c.id);
-    _deletedItineraries!.removeAt(index);
-
-    notifyListeners();
-  }
 
 }

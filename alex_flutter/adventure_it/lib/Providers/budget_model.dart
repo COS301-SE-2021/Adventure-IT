@@ -14,7 +14,7 @@ class DeletedBudgetModel extends ChangeNotifier
 
   Future fetchAllDeletedBudgets(Adventure a) async {
     _deletedBudgets = await BudgetApi.getDeletedBudgets(a.adventureId);
-    print('here here here');
+
 
     notifyListeners();
   }

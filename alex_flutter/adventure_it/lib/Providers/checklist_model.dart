@@ -4,44 +4,17 @@ import 'package:adventure_it/api/checklistAPI.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-
-class ChecklistModel extends ChangeNotifier {
-  List<Checklist>? _checklists = null;
+class DeletedChecklistModel extends ChangeNotifier{
   List<Checklist>? _deletedChecklists=null;
+  DeletedChecklistModel(Adventure a) {
 
-  ChecklistModel(Adventure a) {
-    fetchAllChecklists(a).then((checklists) => checklists != null? _checklists = checklists:List.empty());
     fetchAllDeletedChecklists(a).then((deletedChecklists) => deletedChecklists != null? _deletedChecklists = deletedChecklists:List.empty());
   }
 
-  List<Checklist>? get checklists => _checklists?.toList();
   List<Checklist>? get deletedChecklists => _deletedChecklists?.toList();
-
-  Future fetchAllChecklists(Adventure a) async {
-    _checklists = await ChecklistApi.getChecklists(a);
-
-    notifyListeners();
-  }
 
   Future fetchAllDeletedChecklists(Adventure a) async {
     _deletedChecklists = await ChecklistApi.getDeletedChecklist(a);
-
-    notifyListeners();
-  }
-
-  // Future addAdventure(Adventure adventure) async {
-  //   Adventure newAdventure = await AdventureApi.createAdventure(adventure);
-  //   _adventures.add(newAdventure);
-  //
-  //   notifyListeners();
-  // }
-
-
-  Future softDeleteChecklist(Checklist c) async {
-    await ChecklistApi.softDeleteChecklist(c.id);
-
-    var index = _checklists!.indexWhere((element) => element.id == c.id);
-    _checklists!.removeAt(index);
 
     notifyListeners();
   }
@@ -54,5 +27,47 @@ class ChecklistModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future restoreChecklist(Checklist check) async {
+    await ChecklistApi.restoreChecklist(check.id);
+    print('in here');
+
+    var index = _deletedChecklists!.indexWhere((element) => element.id == check.id);
+    _deletedChecklists!.removeAt(index);
+
+    notifyListeners();
+  }
+
+}
+
+class ChecklistModel extends ChangeNotifier {
+  List<Checklist>? _checklists = null;
+
+
+  ChecklistModel(Adventure a) {
+    fetchAllChecklists(a).then((checklists) => checklists != null? _checklists = checklists:List.empty());
+  }
+
+  List<Checklist>? get checklists => _checklists?.toList();
+
+
+  Future fetchAllChecklists(Adventure a) async {
+    _checklists = await ChecklistApi.getChecklists(a);
+
+    notifyListeners();
+  }
+
+
+
+  Future softDeleteChecklist(Checklist c) async {
+    await ChecklistApi.softDeleteChecklist(c.id);
+
+    var index = _checklists!.indexWhere((element) => element.id == c.id);
+    _checklists!.removeAt(index);
+
+    notifyListeners();
+  }
+
+
 
 }
