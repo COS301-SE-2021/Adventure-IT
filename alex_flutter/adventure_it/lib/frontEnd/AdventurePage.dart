@@ -651,8 +651,16 @@ class AdventurePage extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).accentColor,
+                              shape: BoxShape.circle),
+                          child: IconButton(
+                              onPressed: () {
 
-                    )),
+                              },
+                              icon:
+                              const Icon(Icons.share),
+                              color: Theme.of(context).primaryColorDark))),
                   ],),SizedBox(height: MediaQuery.of(context).size.height / 60),
                 ]))));
   }
