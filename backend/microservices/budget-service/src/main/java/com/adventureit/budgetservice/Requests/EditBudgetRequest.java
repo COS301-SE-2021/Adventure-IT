@@ -1,6 +1,7 @@
 package com.adventureit.budgetservice.Requests;
 
 import com.adventureit.budgetservice.Entity.Category;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +19,7 @@ public class EditBudgetRequest {
 
     public EditBudgetRequest(){}
 
-    public EditBudgetRequest(UUID id, UUID budgetID, double amount,String title,String description, List<UUID> payers, String payee){
+    public EditBudgetRequest(@JsonProperty("id") UUID id, @JsonProperty("budgetID") UUID budgetID, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("payers") List<UUID> payers, @JsonProperty("payee") String payee){
         this.id = id;
         this.budgetID = budgetID;
         this.amount = amount;

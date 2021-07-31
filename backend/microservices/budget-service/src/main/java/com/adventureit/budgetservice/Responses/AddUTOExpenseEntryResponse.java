@@ -5,7 +5,7 @@ public class AddUTOExpenseEntryResponse {
     String message;
 
     public AddUTOExpenseEntryResponse(boolean success){
-        this.message = "Expense Entry added successfully!";
+        this.message = "Entry added successfully!";
         this.success = success;
     }
 
