@@ -90,19 +90,19 @@ class DeletedItineraryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => ItineraryModel(a!),
+        create: (context) => DeletedItineraryModel(a!),
         child:
-        Consumer<ItineraryModel>(builder: (context, itineraryModel, child) {
+        Consumer<DeletedItineraryModel>(builder: (context, deletedItineraryModel, child) {
           Center(
               child: CircularProgressIndicator(
                   valueColor: new AlwaysStoppedAnimation<Color>(
                       Theme.of(context).accentColor)));
-          if (itineraryModel.deletedItineraries!.length > 0) {
+          if (deletedItineraryModel.deletedItineraries!.length > 0) {
             return Expanded(
                 flex: 2,
                 child: ListView(children: [
                   ...List.generate(
-                      itineraryModel.deletedItineraries!.length,
+                      deletedItineraryModel.deletedItineraries!.length,
                           (index) => Dismissible(
                           background: Container(
                             // color: Theme.of(context).primaryColor,
@@ -120,7 +120,7 @@ class DeletedItineraryList extends StatelessWidget {
                             ),
                           ),
                           direction: DismissDirection.endToStart,
-                          key: Key(itineraryModel.deletedItineraries
+                          key: Key(deletedItineraryModel.deletedItineraries
                               !.elementAt(index)
                               .id),
                           child: Card(
@@ -177,7 +177,7 @@ class DeletedItineraryList extends StatelessWidget {
                                           flex: 4,
                                           child: ListTile(
                                             title: Text(
-                                                itineraryModel.deletedItineraries
+                                                deletedItineraryModel.deletedItineraries
                                                     !.elementAt(index)
                                                     .title,
                                                 style: TextStyle(
@@ -191,7 +191,7 @@ class DeletedItineraryList extends StatelessWidget {
                                                         .color)),
                                             // subtitle:Text(adventures.elementAt(index).description),
                                             subtitle: Text(
-                                                itineraryModel.deletedItineraries
+                                                deletedItineraryModel.deletedItineraries
                                                     !.elementAt(index)
                                                     .description,
                                                 style: TextStyle(
@@ -253,8 +253,8 @@ class DeletedItineraryList extends StatelessWidget {
                             );
                           },
                           onDismissed: (direction) {
-                            Provider.of<ItineraryModel>(context, listen: false)
-                                .hardDeleteItinerary(itineraryModel
+                            Provider.of<DeletedItineraryModel>(context, listen: false)
+                                .hardDeleteItinerary(deletedItineraryModel
                                 .deletedItineraries
                                 !.elementAt(index));
                           }))

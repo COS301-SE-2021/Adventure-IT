@@ -75,19 +75,19 @@ class DeletedChecklistList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => ChecklistModel(a!),
+        create: (context) => DeletedChecklistModel(a!),
         child:
-            Consumer<ChecklistModel>(builder: (context, checklistModel, child) {
+            Consumer<DeletedChecklistModel>(builder: (context, deletedChecklistModel, child) {
           Center(
               child: CircularProgressIndicator(
                   valueColor: new AlwaysStoppedAnimation<Color>(
                       Theme.of(context).accentColor)));
-          if (checklistModel.deletedChecklists!.length > 0) {
+          if (deletedChecklistModel.deletedChecklists!.length > 0) {
             return Expanded(
                 flex: 2,
                 child: ListView(children: [
                   ...List.generate(
-                      checklistModel.deletedChecklists!.length,
+                      deletedChecklistModel.deletedChecklists!.length,
                       (index) => Dismissible(
                           background: Container(
                             // color: Theme.of(context).primaryColor,
@@ -105,7 +105,7 @@ class DeletedChecklistList extends StatelessWidget {
                             ),
                           ),
                           direction: DismissDirection.endToStart,
-                          key: Key(checklistModel.deletedChecklists
+                          key: Key(deletedChecklistModel.deletedChecklists
                               !.elementAt(index)
                               .id),
                           child: Card(
@@ -162,7 +162,7 @@ class DeletedChecklistList extends StatelessWidget {
                                           flex: 4,
                                           child: ListTile(
                                             title: Text(
-                                                checklistModel.deletedChecklists
+                                                deletedChecklistModel.deletedChecklists
                                                     !.elementAt(index)
                                                     .title,
                                                 style: TextStyle(
@@ -176,7 +176,7 @@ class DeletedChecklistList extends StatelessWidget {
                                                         .color)),
                                             // subtitle:Text(adventures.elementAt(index).description),
                                             subtitle: Text(
-                                                checklistModel.deletedChecklists
+                                                deletedChecklistModel.deletedChecklists
                                                     !.elementAt(index)
                                                     .description,
                                                 style: TextStyle(
@@ -238,8 +238,8 @@ class DeletedChecklistList extends StatelessWidget {
                             );
                           },
                           onDismissed: (direction) {
-                            Provider.of<ChecklistModel>(context, listen: false)
-                                .hardDeleteChecklist(checklistModel
+                            Provider.of<DeletedChecklistModel>(context, listen: false)
+                                .hardDeleteChecklist(deletedChecklistModel
                                     .deletedChecklists
                                     !.elementAt(index));
                           }))
