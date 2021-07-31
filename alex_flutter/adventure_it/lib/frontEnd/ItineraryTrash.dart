@@ -39,7 +39,7 @@ class ItineraryTrash extends StatelessWidget {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: SingleChildScrollView(child: Column(
+        body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -47,7 +47,7 @@ class ItineraryTrash extends StatelessWidget {
               Container(
                   height: MediaQuery.of(context).size.height * 0.75,
                   child: DeletedItineraryList(adventure)),
-              SizedBox(height: MediaQuery.of(context).size.height / 60),
+              Spacer(),
               Row(children: [
                 Expanded(
                   flex: 1,
@@ -76,12 +76,13 @@ class ItineraryTrash extends StatelessWidget {
                 ),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ])));
+            ]));
   }
 }
 
 class DeletedItineraryList extends StatelessWidget {
   Adventure? a;
+  BuildContext? c;
 
   DeletedItineraryList(Adventure? adventure) {
     this.a = adventure;
@@ -93,11 +94,15 @@ class DeletedItineraryList extends StatelessWidget {
         create: (context) => DeletedItineraryModel(a!),
         child:
         Consumer<DeletedItineraryModel>(builder: (context, deletedItineraryModel, child) {
-          Center(
-              child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(
-                      Theme.of(context).accentColor)));
-          if (deletedItineraryModel.deletedItineraries!.length > 0) {
+          this.c=context;
+          if(deletedItineraryModel.deletedItineraries==null) {
+            return Center(
+                child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        Theme
+                            .of(context)
+                            .accentColor)));
+          }else if (deletedItineraryModel.deletedItineraries!.length > 0) {
             return Expanded(
                 flex: 2,
                 child: ListView(children: [
@@ -134,28 +139,36 @@ class DeletedItineraryList extends StatelessWidget {
                                               backgroundColor:
                                               Theme.of(context).primaryColorDark,
                                               title: Text('Confirm Restoration'),
-                                              content: SingleChildScrollView(
-                                                child: Column(
-                                                  children: <Widget>[
+                                              content:
                                                     Text(
-                                                        'Are you sure you would like to restore this itinerary to your adventure?'),
+                                                        'Are you sure you want to restore this itinerary to your adventure?',style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color),),
 
-                                                  ],
-                                                ),
-                                              ),
+
                                               actions: <Widget>[
-                                                TextButton(
+                                               FlatButton(
                                                   child: Text('Restore',style: TextStyle(
                                                       color: Theme.of(context)
                                                           .textTheme
                                                           .bodyText1!
                                                           .color)),
-                                                  onPressed: () {
-                                                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                                TextButton(
+                                          onPressed: () {
+                                          Provider.of<DeletedItineraryModel>(
+                                          c!,
+                                          listen: false)
+                                              .restoreItinerary(
+                                          deletedItineraryModel
+                                              .deletedItineraries!
+                                              .elementAt(
+                                          index));
+                                          Navigator.of(context).pop();
+                                          },
+                                          ),
+
+                                                FlatButton(
                                                   child: Text('Cancel',style: TextStyle(
                                                       color: Theme.of(context)
                                                           .textTheme

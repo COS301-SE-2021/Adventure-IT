@@ -24,7 +24,7 @@ class ChecklistsTrash extends StatelessWidget {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: SingleChildScrollView( child: Column(
+        body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -32,7 +32,7 @@ class ChecklistsTrash extends StatelessWidget {
               Container(
                   height: MediaQuery.of(context).size.height * 0.75,
                   child: DeletedChecklistList(adventure)),
-              SizedBox(height: MediaQuery.of(context).size.height / 60),
+             Spacer(),
               Row(children: [
                 Expanded(
                   flex: 1,
@@ -61,12 +61,13 @@ class ChecklistsTrash extends StatelessWidget {
                 ),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ])));
+            ]));
   }
 }
 
 class DeletedChecklistList extends StatelessWidget {
   Adventure? a;
+  BuildContext? c;
 
   DeletedChecklistList(Adventure? adventure) {
     this.a = adventure;
@@ -78,11 +79,15 @@ class DeletedChecklistList extends StatelessWidget {
         create: (context) => DeletedChecklistModel(a!),
         child:
             Consumer<DeletedChecklistModel>(builder: (context, deletedChecklistModel, child) {
-          Center(
-              child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(
-                      Theme.of(context).accentColor)));
-          if (deletedChecklistModel.deletedChecklists!.length > 0) {
+              this.c=context;
+          if(deletedChecklistModel.deletedChecklists==null) {
+            return Center(
+                child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        Theme
+                            .of(context)
+                            .accentColor)));
+          }else if (deletedChecklistModel.deletedChecklists!.length > 0) {
             return Expanded(
                 flex: 2,
                 child: ListView(children: [
@@ -119,15 +124,14 @@ class DeletedChecklistList extends StatelessWidget {
                                               backgroundColor:
                                               Theme.of(context).primaryColorDark,
                                               title: Text('Confirm Restoration'),
-                                              content: SingleChildScrollView(
-                                                child: Column(
-                                                  children: <Widget>[
+                                              content:
                                                     Text(
-                                                        'Are you sure you would like to restore this checklist to your adventure?'),
+                                                        'Are you sure you want to restore this checklist to your adventure?',style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color),),
 
-                                                  ],
-                                                ),
-                                              ),
                                               actions: <Widget>[
                                                 TextButton(
                                                   child: Text('Restore',style: TextStyle(
@@ -136,7 +140,14 @@ class DeletedChecklistList extends StatelessWidget {
                                                           .bodyText1!
                                                           .color)),
                                                   onPressed: () {
-                                                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                    Provider.of<DeletedChecklistModel>(
+                                                        c!,
+                                                        listen: false)
+                                                        .restoreChecklist(
+                                                        deletedChecklistModel
+                                                            .deletedChecklists!
+                                                            .elementAt(
+                                                            index));
                                                     Navigator.of(context).pop();
                                                   },
                                                 ),

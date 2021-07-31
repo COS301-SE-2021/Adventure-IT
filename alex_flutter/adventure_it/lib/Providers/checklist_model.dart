@@ -14,7 +14,7 @@ class DeletedChecklistModel extends ChangeNotifier{
   List<Checklist>? get deletedChecklists => _deletedChecklists?.toList();
 
   Future fetchAllDeletedChecklists(Adventure a) async {
-    _deletedChecklists = await ChecklistApi.getDeletedChecklist(a);
+    _deletedChecklists = await ChecklistApi.getDeletedChecklist(a.adventureId);
 
     notifyListeners();
   }

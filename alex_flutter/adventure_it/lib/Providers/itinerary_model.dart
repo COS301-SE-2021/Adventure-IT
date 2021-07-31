@@ -24,7 +24,7 @@ class DeletedItineraryModel extends ChangeNotifier{
   }
 
   Future fetchAllDeletedItineraries(Adventure a) async {
-    _deletedItineraries = await ItineraryApi.getDeletedItinerary(a);
+    _deletedItineraries = await ItineraryApi.getDeletedItinerary(a.adventureId);
 
     notifyListeners();
   }
