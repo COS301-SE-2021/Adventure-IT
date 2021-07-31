@@ -8,6 +8,7 @@ import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -53,7 +54,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public String addItineraryEntry(String title, String description, UUID id, UUID entryContainerID) throws Exception {
+    public String addItineraryEntry(String title, String description, UUID id, UUID entryContainerID, String location, LocalDateTime timestamp) throws Exception {
         if(title == null){
             throw new Exception("No title provided");
         }
@@ -76,7 +77,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new Exception("Itinerary Entry already exist");
         }
 
-        ItineraryEntry newEntry = new ItineraryEntry(title,description,id,entryContainerID);
+        ItineraryEntry newEntry = new ItineraryEntry(title,description,id,entryContainerID,location,timestamp);
         itineraryEntryRepository.save(newEntry);
         itineraryRepository.save(itinerary);
         return "Itinerary Entry successfully added";
@@ -109,7 +110,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description) throws Exception {
+    public String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description, String location, LocalDateTime timestamp ) throws Exception {
         if(itineraryRepository.findItineraryById(entryContainerID) == null){
             throw new Exception("Itinerary does not exist.");
         }
@@ -140,6 +141,12 @@ public class ItineraryServiceImplementation implements ItineraryService {
         }
         if(!title.equals("")){
             newEntry.setTitle(title);
+        }
+        if(!location.equals("")){
+            newEntry.setLocation(location);
+        }
+        if(!(timestamp == null)){
+            newEntry.setTimestamp(timestamp);
         }
 
         itineraryEntryRepository.save(newEntry);
@@ -183,11 +190,13 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public List<ItineraryResponseDTO> viewTrash() throws Exception {
+    public List<ItineraryResponseDTO> viewTrash(UUID id) throws Exception {
         List<Itinerary> itinerary = itineraryRepository.findAllByDeletedEquals(true);
         List<ItineraryResponseDTO> list = new ArrayList<>();
         for (Itinerary b:itinerary) {
-            list.add(new ItineraryResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.getDeleted()));
+            if(b.getAdventureID() == id){
+                list.add(new ItineraryResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.getDeleted()));
+            }
         }
         return list;
     }
@@ -214,6 +223,17 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
+    public void markCompleted(UUID id) throws Exception {
+        if(itineraryEntryRepository.findItineraryEntryById(id) == null){
+            throw new Exception("Entry does not exist");
+        }
+
+        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryById(id);
+        entry.setCompleted(!entry.isCompleted());
+        itineraryEntryRepository.save(entry);
+    }
+
+    @Override
     public String mockPopulate() {
         final UUID mockItineraryID1 = UUID.fromString("d99dde68-664a-4618-9bb6-4b5dca7d40a8");
         final UUID mockItineraryID2 = UUID.fromString("1e635afb-bde0-4f1a-b705-714218590a63");
@@ -231,9 +251,9 @@ public class ItineraryServiceImplementation implements ItineraryService {
         final UUID mockCreatorID2 = UUID.fromString("0bb497d1-fb67-4cfa-bac1-0f1ac7a64fb2");
         final UUID mockCreatorID3 = UUID.fromString("b9655784-7591-49b1-9f57-a4ffd835d079");
 
-        ItineraryEntry mockEntry1 = new ItineraryEntry("Mock Entry 1","Mock",mockEntryID1,mockItineraryID1);
-        ItineraryEntry mockEntry2 = new ItineraryEntry("Mock Entry 2","Mock",mockEntryID2,mockItineraryID2);
-        ItineraryEntry mockEntry3 = new ItineraryEntry("Mock Entry 3","Mock",mockEntryID3,mockItineraryID3);
+        ItineraryEntry mockEntry1 = new ItineraryEntry("Mock Entry 1","Mock",mockEntryID1,mockItineraryID1,"Location 1",LocalDateTime.now());
+        ItineraryEntry mockEntry2 = new ItineraryEntry("Mock Entry 2","Mock",mockEntryID2,mockItineraryID2,"Location 2",LocalDateTime.now());
+        ItineraryEntry mockEntry3 = new ItineraryEntry("Mock Entry 3","Mock",mockEntryID3,mockItineraryID3,"Location 3",LocalDateTime.now());
 
         itineraryEntryRepository.save(mockEntry1);
         itineraryEntryRepository.save(mockEntry2);

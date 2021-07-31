@@ -8,18 +8,16 @@ public class BudgetResponseDTO {
     private String name;
     private UUID creatorID;
     private UUID adventureID;
-    private double limit;
     private boolean deleted;
     private String description;
 
     public BudgetResponseDTO(){}
 
-    public BudgetResponseDTO(UUID id, String name, UUID creatorID, UUID adventureID,double limit,boolean deleted, String description){
+    public BudgetResponseDTO(UUID id, String name, UUID creatorID, UUID adventureID,boolean deleted, String description){
         this.id = id;
         this.name = name;;
         this.creatorID = creatorID;
         this.adventureID = adventureID;
-        this.limit = limit;
         this.deleted = deleted;
         this.description=description;
     }
@@ -44,10 +42,6 @@ public class BudgetResponseDTO {
         this.deleted = deleted;
     }
 
-    public double getLimit() {
-        return limit;
-    }
-
     public void setAdventureID(UUID adventureID) {
         this.adventureID = adventureID;
     }
@@ -58,10 +52,6 @@ public class BudgetResponseDTO {
 
     public void setCreatorID(UUID creatorID) {
         this.creatorID = creatorID;
-    }
-
-    public void setLimit(double limit) {
-        this.limit = limit;
     }
 
     public UUID getCreatorID() {

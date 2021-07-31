@@ -22,8 +22,6 @@ public class BudgetController {
 	@Autowired
 	BudgetRepository budgetRepository;
 
-
-
 	@GetMapping("/test")
 	String test(){
 		return "Budget Controller is functioning";
@@ -53,7 +51,7 @@ public class BudgetController {
 		List<BudgetResponseDTO> list = new ArrayList<>();
 		for (Budget b:budgets) {
 			if(!b.isDeleted()){
-				list.add(new BudgetResponseDTO(b.getBudgetId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getBudgetLimit(),b.isDeleted(),b.getDescription()));
+				list.add(new BudgetResponseDTO(b.getBudgetId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.isDeleted(),b.getDescription()));
 			}
 		}
 		return list;
@@ -62,16 +60,15 @@ public class BudgetController {
 	@GetMapping("/viewBudget/{id}")
 	public BudgetResponseDTO viewBudget(@PathVariable UUID id) throws Exception {
 		return budgetServiceImplementation.viewBudget(id);
-
 	}
-//
+
 	@GetMapping("/softDelete/{id}")
 	public String softDelete(@PathVariable UUID id) throws Exception {
 		SoftDeleteRequest request = new SoftDeleteRequest(id);
 		budgetServiceImplementation.softDelete(request);
 		return "Budget successfully moved to bin.";
 	}
-//
+
 	@GetMapping("/viewTrash/{id}")
 	public List<BudgetResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
 		return budgetServiceImplementation.viewTrash(id);
@@ -82,9 +79,15 @@ public class BudgetController {
 		return budgetServiceImplementation.restoreBudget(id);
 	}
 
+	@GetMapping("/hardDelete?/{id}")
+	public String hardDelete(@PathVariable UUID id) throws Exception {
+		HardDeleteResponse response = budgetServiceImplementation.hardDelete(id);
+		return response.getMessage();
+	}
+
 	@PostMapping("/create")
 	public String createBudget(@RequestBody CreateBudgetRequest req) throws Exception {
-		CreateBudgetResponse response = budgetServiceImplementation.createBudget(req.getId(),req.getName(), req.getDescription() ,req.getCreatorID(),req.getAdventureID(), req.getLimit());
+		CreateBudgetResponse response = budgetServiceImplementation.createBudget(req.getId(),req.getName(), req.getDescription() ,req.getCreatorID(),req.getAdventureID());
 		return response.getMessage();
 	}
 

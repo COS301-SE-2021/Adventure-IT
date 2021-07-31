@@ -1,17 +1,15 @@
 package com.adventureit.budgetservice.Responses;
 
-import java.util.UUID;
-
-public class AddIncomeEntryResponse {
+public class AddUTOExpenseEntryResponse {
     boolean success;
     String message;
 
-    public AddIncomeEntryResponse(boolean success){
-        this.message = "Income Entry added successfully!";
+    public AddUTOExpenseEntryResponse(boolean success){
+        this.message = "Expense Entry added successfully!";
         this.success = success;
     }
 
-    public AddIncomeEntryResponse(){}
+    public AddUTOExpenseEntryResponse(){}
 
     public String getMessage() {
         return message;

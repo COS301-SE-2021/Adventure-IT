@@ -62,6 +62,11 @@ public class ItineraryController {
         return itineraryServiceImplementation.restoreItinerary(id);
     }
 
+    @GetMapping("/hardDelete/{id}")
+    public String hardDelete(@PathVariable UUID id) throws Exception {
+        return itineraryServiceImplementation.hardDelete(id);
+    }
+
     @PostMapping("/create")
     public String createItinerary(@RequestBody CreateItineraryRequest req) throws Exception {
         return itineraryServiceImplementation.createItinerary(req.getTitle(),req.getDescription(),req.getId(),req.getAdvID(),req.getUserID());

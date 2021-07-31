@@ -12,19 +12,17 @@ public class CreateBudgetRequest {
     private String name;
     private UUID creatorID;
     private UUID adventureID;
-    private double limit;
     private String description;
 
     public CreateBudgetRequest() {
     }
 
-    public CreateBudgetRequest(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("description") String description, @JsonProperty("creatorID") String creatorID, @JsonProperty("adventureID") String  adventureID, @JsonProperty("limit") double limit) {
+    public CreateBudgetRequest(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("description") String description, @JsonProperty("creatorID") String creatorID, @JsonProperty("adventureID") String  adventureID) {
         this.id = UUID.fromString(id);
         this.name = name;
         this.description=description;
         this.creatorID = UUID.fromString(creatorID);
         this.adventureID = UUID.fromString(adventureID);
-        this.limit = limit;
     }
 
     public String getName() {
@@ -43,10 +41,6 @@ public class CreateBudgetRequest {
         this.id = id;
     }
 
-    public double getLimit() {
-        return limit;
-    }
-
     public void setAdventureID(UUID adventureID) {
         this.adventureID = adventureID;
     }
@@ -59,10 +53,6 @@ public class CreateBudgetRequest {
 
     public void setCreatorID(UUID creatorID) {
         this.creatorID = creatorID;
-    }
-
-    public void setLimit(double limit) {
-        this.limit = limit;
     }
 
     public UUID getCreatorID() {
