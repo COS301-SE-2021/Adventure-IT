@@ -189,7 +189,7 @@ public class ChecklistServiceImplementation implements ChecklistService {
         List<ChecklistResponseDTO> list = new ArrayList<>();
         for (Checklist b:checklists) {
             if (b.getAdventureID() == id){
-                list.add(new ChecklistResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.getEntries(),b.isDeleted()));
+                list.add(new ChecklistResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.isDeleted()));
 
             }
         }

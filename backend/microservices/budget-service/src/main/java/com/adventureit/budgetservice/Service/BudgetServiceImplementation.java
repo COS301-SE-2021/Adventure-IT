@@ -346,9 +346,9 @@ public class BudgetServiceImplementation implements BudgetService {
         final UUID mockEntryID2 = UUID.fromString("200959c2-7bd9-4c43-ae1c-c3e6776e3b33");
         final UUID mockEntryID3 = UUID.fromString("0c4dfedd-9a07-42ed-a178-b4e7656a956c");
 
-        final UUID mockAdventureID1 = UUID.fromString("3c8a5381-1f54-4ac3-8d29-7e122f05a858");
-        final UUID mockAdventureID2 = UUID.fromString("3c8a5381-1f54-4ac3-8d29-7e122f05a858");
-        final UUID mockAdventureID3 = UUID.fromString("3c8a5381-1f54-4ac3-8d29-7e122f05a858");
+        final UUID mockAdventureID1 = UUID.fromString("948f3e05-4bca-49ba-8955-fb936992fe02");
+        final UUID mockAdventureID2 = UUID.fromString("948f3e05-4bca-49ba-8955-fb936992fe02");
+        final UUID mockAdventureID3 = UUID.fromString("948f3e05-4bca-49ba-8955-fb936992fe02");
 
         final UUID mockCreatorID1 = UUID.fromString("b99521e3-a7e9-45b8-a18e-421af8bbca15");
         final UUID mockCreatorID2 = UUID.fromString("5de93a3f-3deb-443b-823e-cacb2600ac71");

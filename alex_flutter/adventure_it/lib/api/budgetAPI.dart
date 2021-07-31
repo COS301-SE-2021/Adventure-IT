@@ -10,6 +10,7 @@ class BudgetApi {
   static Future<List<Budget>> getBudgets(Adventure? a) async {
     http.Response response =
     await _getBudgets(a!.adventureId);
+    print(response.body);
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load list of budgets: ${response.body}');
@@ -23,7 +24,7 @@ class BudgetApi {
   }
 
   static Future<http.Response> _getBudgets(adventureID) async {
-    return http.get(Uri.http(budgetApi, '/viewBudgetsByAdventure/' + adventureID));
+    return http.get(Uri.http(budgetApi, '/budget/viewBudgetsByAdventure/' + adventureID));
   }
 
   static Future<List<Budget>> getDeletedBudgets(adventureId) async {
