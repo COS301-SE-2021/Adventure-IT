@@ -161,18 +161,7 @@ class AdventurePage extends StatelessWidget {
     return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-            leading: IconButton(
-                onPressed: () {
-                  {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomepageStartupCaller()),
-                    );
-                  }
-                },
-                icon: const Icon(Icons.arrow_back_ios),
-                color: Theme.of(context).textTheme.bodyText1!.color),
+
             title: Center(
                 child: Text(currentAdventure!.name,
                     style: new TextStyle(
