@@ -95,6 +95,6 @@ class ItineraryApi {
 
   static Future<http.Response> _restoreItineraryRequest(itineraryID) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/restoreBudget/' + itineraryID));
+    return http.get(Uri.http(itineraryApi, '/itinerary/restoreItinerary/' + itineraryID));
   }
 }

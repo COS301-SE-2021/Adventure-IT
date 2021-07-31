@@ -23,7 +23,7 @@ class ChecklistApi {
   }
 
   static Future<http.Response> _getChecklists(adventureID) async {
-    return http.get(Uri.http(checklistApi, '/viewChecklistsByAdventure/' + adventureID));
+    return http.get(Uri.http(checklistApi, 'checklist/viewChecklistsByAdventure/' + adventureID));
   }
 
   static Future<List<Checklist>> getDeletedChecklist(adventureId) async {
@@ -92,6 +92,6 @@ class ChecklistApi {
 
   static Future<http.Response> _restoreChecklistRequest(checklistID) async {
 
-    return http.get(Uri.http(checklistApi, '/checklist/restoreBudget/' + checklistID));
+    return http.get(Uri.http(checklistApi, '/checklist/restoreChecklist/' + checklistID));
   }
 }
