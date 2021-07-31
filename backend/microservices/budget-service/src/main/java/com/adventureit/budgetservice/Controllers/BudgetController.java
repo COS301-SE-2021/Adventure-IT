@@ -71,6 +71,13 @@ public class BudgetController {
 		budgetServiceImplementation.softDelete(request);
 		return "Budget successfully moved to bin.";
 	}
+
+	@GetMapping("/hardDelete/{id}")
+	public String hardDelete(@PathVariable UUID id) throws Exception {
+		HardDeleteRequest request = new HardDeleteRequest(id);
+		budgetServiceImplementation.hardDelete(request);
+		return "Budget successfully moved to bin.";
+	}
 //
 	@GetMapping("/viewTrash/{id}")
 	public List<BudgetResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
