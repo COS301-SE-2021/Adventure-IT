@@ -1,6 +1,5 @@
 package com.adventureit.checklist.Service;
 
-import com.adventureit.adventureservice.Entity.Entry;
 import com.adventureit.checklist.Entity.Checklist;
 import com.adventureit.checklist.Entity.ChecklistEntry;
 import com.adventureit.checklist.Repository.ChecklistEntryRepository;

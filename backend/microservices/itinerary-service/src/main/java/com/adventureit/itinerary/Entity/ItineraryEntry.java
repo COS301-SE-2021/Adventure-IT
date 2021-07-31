@@ -1,7 +1,5 @@
 package com.adventureit.itinerary.Entity;
 
-import com.adventureit.adventureservice.Entity.Entry;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -16,7 +16,7 @@ public class BudgetEntry{
     double amount;
     String title;
     String description;
-//    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     Category category;
 
     public BudgetEntry() {

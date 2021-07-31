@@ -340,8 +340,35 @@ public class BudgetServiceImplementation implements BudgetService {
         return sum;
     }
 
-    
+    @Override
+    public List<Integer> getEntriesPerCategory(UUID budgetID) throws Exception {
+        if(budgetRepository.findBudgetByBudgetID(budgetID) == null){
+            throw new Exception("Budget does not exist");
+        }
 
+        List<BudgetEntry> budgetEntries = budgetEntryRepository.findBudgetEntryByEntryContainerID(budgetID);
+        List<Integer> integers = new ArrayList<>(List.of(0,0,0,0,0));
+
+        for (BudgetEntry entry:budgetEntries) {
+            if(entry.getCategory() == Category.Accommodation){
+                integers.set(0,integers.get(0) + 1);
+            }
+            if(entry.getCategory() == Category.Activities){
+                integers.set(1,integers.get(1) + 1);
+            }
+            if(entry.getCategory() == Category.Food){
+                integers.set(2,integers.get(2) + 1);
+            }
+            if(entry.getCategory() == Category.Other){
+                integers.set(3,integers.get(3) + 1);
+            }
+            if(entry.getCategory() == Category.Transport){
+                integers.set(4,integers.get(4) + 1);
+            }
+        }
+
+        return integers;
+    }
 
     @Override
     public void mockPopulate(){
@@ -380,9 +407,6 @@ public class BudgetServiceImplementation implements BudgetService {
 
 
     }
-
-
-
 
     @Override
     public void mockPopulateTrash(){

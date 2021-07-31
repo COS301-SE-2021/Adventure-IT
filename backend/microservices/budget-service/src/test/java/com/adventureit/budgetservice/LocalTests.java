@@ -37,15 +37,16 @@ public class LocalTests {
 
     @Test
     public void addEntries(){
-        budgetEntryRepository.save(new UTOExpense(UUID.randomUUID(), budgetID, 500.0,  "Mock 1",  "Mock UTO", Category.Accommodation, new ArrayList<UUID>(List.of(mockID1)), "Hotel"));
-        budgetEntryRepository.save(new UTOExpense(UUID.randomUUID(), budgetID, 1000.0,  "Mock 2",  "Mock UTO", Category.Transport, new ArrayList<UUID>(List.of(mockID1,mockID2)), "Car Service"));
-        budgetEntryRepository.save(new UTUExpense(UUID.randomUUID(), budgetID, 200.0,  "Mock 3",  "Mock UTU", Category.Other, new ArrayList<UUID>(List.of(mockID1,mockID2)), mockID3));
-        budgetEntryRepository.save(new UTUExpense(UUID.randomUUID(), budgetID, 1000.0,  "Mock 4",  "Mock UTU", Category.Other, new ArrayList<UUID>(List.of(mockID4,mockID2)), mockID1));
+        budgetEntryRepository.save(new UTOExpense(UUID.randomUUID(), budgetID, 500.0,  "Mock 6",  "Mock UTO", Category.Accommodation, new ArrayList<UUID>(List.of(mockID1)), "Hotel"));
+        budgetEntryRepository.save(new UTOExpense(UUID.randomUUID(), budgetID, 1000.0,  "Mock 7",  "Mock UTO", Category.Transport, new ArrayList<UUID>(List.of(mockID1,mockID2)), "Car Service"));
+        budgetEntryRepository.save(new UTUExpense(UUID.randomUUID(), budgetID, 200.0,  "Mock 8",  "Mock UTU", Category.Other, new ArrayList<UUID>(List.of(mockID1,mockID2)), mockID3));
+        budgetEntryRepository.save(new UTUExpense(UUID.randomUUID(), budgetID, 1000.0,  "Mock 9",  "Mock UTU", Category.Other, new ArrayList<UUID>(List.of(mockID4,mockID2)), mockID1));
     }
 
     @Test
     public void calculate() throws Exception {
-        System.out.println(budgetServiceImplementation.calculateExpensesPerUser(budgetID, mockID1));
+//        System.out.println(budgetServiceImplementation.calculateExpensesPerUser(budgetID, mockID1));
+        System.out.println(budgetServiceImplementation.getEntriesPerCategory(budgetID));
     }
 
 }

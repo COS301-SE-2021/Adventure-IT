@@ -1,11 +1,7 @@
 package com.adventureit.itinerary.Entity;
 
-import com.adventureit.adventureservice.Entity.Entry;
-import com.adventureit.adventureservice.Entity.EntryContainer;
-
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
