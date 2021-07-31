@@ -1,57 +1,50 @@
 package com.adventureit.budgetservice.Entity;
 
+import com.adventureit.adventureservice.Entity.Entry;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 import java.util.UUID;
 
 @Entity
-
-public class BudgetEntry{
-    @Id
-    private UUID budgetEntryID;
-    private UUID entryContainerID;
+public class BudgetEntry extends Entry {
     double amount;
     String title;
     String description;
+//    ArrayList<Media> attachments;
 
-    public BudgetEntry() {
-    }
-
-    public BudgetEntry(UUID id, UUID entryContainerID, double amount, String title, String description) {
-        this.budgetEntryID = id;
-        this.entryContainerID = entryContainerID;
+    /**
+     * BudgetEntry model Constructor which takes in the following parameters:
+     * @param id BudgetEntry id
+     * @param amount amount used in specific entry
+     * @param title title of entry
+     * @param description short description of entry
+     */
+    public BudgetEntry(UUID id,UUID entryContainerID,double amount,String title,String description){
+        this.setId(id);
+        this.setEntryContainerID(entryContainerID);
         this.amount = amount;
         this.title = title;
         this.description = description;
+//        this.attachments = attachments;
     }
 
-    public UUID getId() {
-        return budgetEntryID;
+    /**
+     * Default Constructors
+     */
+    public BudgetEntry() {
+
     }
 
-    public void setId(UUID id) {
-        this.budgetEntryID = id;
-    }
+    /**
+     * Getters and Setters
+     */
 
-    public UUID getEntryContainerID() {
-        return entryContainerID;
-    }
-
-    public void setEntryContainerID(UUID entryContainerID) {
-        this.entryContainerID = entryContainerID;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public String getTitle() {
-        return title;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setTitle(String title) {
@@ -62,7 +55,15 @@ public class BudgetEntry{
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getTitle() {
+        return title;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public double getAmount() {
+        return amount;
     }
 }

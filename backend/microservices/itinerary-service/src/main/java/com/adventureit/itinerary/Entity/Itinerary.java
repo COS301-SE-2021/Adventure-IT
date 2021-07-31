@@ -10,12 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-public class Itinerary {
-
-    @Id
-    private UUID id;
-    private UUID creatorID;
-    private UUID adventureID;
+public class Itinerary extends EntryContainer {
     private String title;
     private String description;
     private Boolean deleted;
@@ -27,9 +22,10 @@ public class Itinerary {
     public Itinerary(String title, String description, UUID id, UUID advID, UUID userID) {
         this.title = title;
         this.description = description;
-        this.id = id;
-        this.creatorID = userID;
-        this.adventureID = advID;
+        this.setEntries(new ArrayList<UUID>());
+        this.setAdventureID(advID);
+        this.setCreatorID(userID);
+        this.setId(id);
         deleted = false;
     }
 
@@ -37,9 +33,10 @@ public class Itinerary {
     public Itinerary(String title, String description, UUID id, UUID advID, UUID userID, List<UUID> items) {
         this.title = title;
         this.description = description;
-        this.id = id;
-        this.creatorID = userID;
-        this.adventureID = advID;
+        this.setEntries(items);
+        this.setAdventureID(advID);
+        this.setCreatorID(userID);
+        this.setId(id);
         deleted = false;
     }
 
@@ -67,29 +64,5 @@ public class Itinerary {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public UUID getCreatorID() {
-        return creatorID;
-    }
-
-    public void setCreatorID(UUID creatorID) {
-        this.creatorID = creatorID;
-    }
-
-    public UUID getAdventureID() {
-        return adventureID;
-    }
-
-    public void setAdventureID(UUID adventureID) {
-        this.adventureID = adventureID;
     }
 }

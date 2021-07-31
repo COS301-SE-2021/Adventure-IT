@@ -37,7 +37,7 @@ public class ChecklistController {
         List<ChecklistResponseDTO> list = new ArrayList<>();
         for (Checklist c:checklists) {
             if(!c.isDeleted()){
-                list.add(new ChecklistResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.isDeleted()));
+                list.add(new ChecklistResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.getEntries(),c.isDeleted()));
             }
         }
         return list;

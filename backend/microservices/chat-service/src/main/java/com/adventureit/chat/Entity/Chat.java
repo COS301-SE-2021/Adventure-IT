@@ -19,7 +19,6 @@ public class Chat {
     List<UUID> messages = new ArrayList<>();
 
 
-
     public Chat(){}
 
     public Chat(UUID id, UUID adventureID,List<UUID> participants){
@@ -59,6 +58,4 @@ public class Chat {
     public void setMessages(List<UUID> messages) {
         this.messages = messages;
     }
-
-    public int getColor(UUID userID){ return 1; }
 }

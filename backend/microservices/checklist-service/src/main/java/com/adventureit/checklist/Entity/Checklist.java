@@ -10,15 +10,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-public class Checklist{
-    @Id
-    private UUID id;
-    private UUID creatorID;
-    private UUID adventureID;
+public class Checklist extends EntryContainer {
     private String title;
     private String description;
     boolean deleted;
-
+//    @OneToMany (fetch=FetchType.EAGER)
+//    private List<Entry> entries = new ArrayList<Entry>();
 
     /**
      * Default constructor
@@ -40,9 +37,10 @@ public class Checklist{
     public Checklist(String title, String description, UUID id, UUID creatorID, UUID adventureID) {
         this.title = title;
         this.description = description;
-        this.adventureID = adventureID;
-        this.creatorID = creatorID;
-        this.id = id;
+        this.setEntries(new ArrayList<UUID>());
+        this.setCreatorID(creatorID);
+        this.setAdventureID(adventureID);
+        this.setId(id);
         deleted = false;
     }
 
@@ -63,9 +61,10 @@ public class Checklist{
     public Checklist(String title, String description, List<UUID> entries, UUID id, UUID creatorID, UUID adventureID) {
         this.title = title;
         this.description = description;
-        this.adventureID = adventureID;
-        this.creatorID = creatorID;
-        this.id = id;
+        this.setEntries(entries);
+        this.setCreatorID(creatorID);
+        this.setAdventureID(adventureID);
+        this.setId(id);
         deleted = false;
     }
 
@@ -117,29 +116,5 @@ public class Checklist{
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public UUID getCreatorID() {
-        return creatorID;
-    }
-
-    public void setCreatorID(UUID creatorID) {
-        this.creatorID = creatorID;
-    }
-
-    public UUID getAdventureID() {
-        return adventureID;
-    }
-
-    public void setAdventureID(UUID adventureID) {
-        this.adventureID = adventureID;
     }
 }

@@ -3,14 +3,10 @@ package com.adventureit.checklist.Entity;
 import com.adventureit.adventureservice.Entity.Entry;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.util.UUID;
 
 @Entity
-public class ChecklistEntry {
-    @Id
-    private UUID id;
-    private UUID entryContainerID;
+public class ChecklistEntry extends Entry {
     private String title;
     private Boolean completed;
 
@@ -30,8 +26,8 @@ public class ChecklistEntry {
     public ChecklistEntry(String title, UUID id, UUID entryContainerID){
         this.title = title;
         this.completed = false;
-        this.id = id;
-        this.entryContainerID = entryContainerID;
+        this.setId(id);
+        this.setEntryContainerID(entryContainerID);
     }
 
     /**
@@ -61,19 +57,4 @@ public class ChecklistEntry {
         this.completed = completed;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public UUID getEntryContainerID() {
-        return entryContainerID;
-    }
-
-    public void setEntryContainerID(UUID entryContainerID) {
-        this.entryContainerID = entryContainerID;
-    }
 }
