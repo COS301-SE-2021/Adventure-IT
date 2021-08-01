@@ -7,6 +7,7 @@ import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
 import com.adventureit.userservice.Requests.LoginUserRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
+import com.adventureit.userservice.Requests.SaveFriendRequest;
 import com.adventureit.userservice.Requests.UpdatePictureRequest;
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
 import com.adventureit.userservice.Responses.LoginUserDTO;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.UUID;
 
 import java.util.UUID;
@@ -76,5 +78,15 @@ public class UserController {
     @GetMapping(value="api/GetUser/{id}")
     public GetUserByUUIDDTO getUserByUUID(@PathVariable UUID id){
         return service.GetUserByUUID(id);
+    }
+
+    @PostMapping(value = "api/saveFriend")
+    public String saveFriend(@RequestBody SaveFriendRequest req) throws Exception {
+        return service.saveFriends(req.getID1(),req.getID2());
+    }
+
+    @GetMapping(value="api/GetFriends/{id}")
+    public List<UUID> getFriends(@PathVariable UUID id){
+        return service.getFriends(id);
     }
 }
