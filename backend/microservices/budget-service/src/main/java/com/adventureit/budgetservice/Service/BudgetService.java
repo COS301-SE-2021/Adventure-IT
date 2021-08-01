@@ -16,7 +16,9 @@ public interface BudgetService {
     AddUTOExpenseEntryResponse addUTOExpenseEntry(UUID id, UUID entryContainerID, double amount, String title, String description,Category category,List<UUID> payers, String payee) throws Exception;
     EditBudgetResponse editBudget(EditBudgetRequest req) throws Exception;
     SoftDeleteResponse softDelete(SoftDeleteRequest req) throws Exception;
-    HardDeleteResponse hardDelete(UUID id) throws Exception;
+
+    HardDeleteResponse hardDelete(HardDeleteRequest req) throws Exception;
+
     List<BudgetResponseDTO> viewTrash(UUID id) throws Exception;
     String restoreBudget(UUID id) throws Exception;
 //    String calculateBudget(UUID id) throws Exception;

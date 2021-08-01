@@ -34,13 +34,14 @@ class Register extends State<RegisterCaller> {
         appBar: AppBar(title: Center(child: Text("Create an account",
             style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)
         )), backgroundColor: Theme.of(context).primaryColorDark),
-        body: Center(
+        body: SingleChildScrollView(child: Center(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.07),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    width: 350,
                     child: TextField(
                         controller: firstNameController,
                         decoration: InputDecoration(
@@ -48,9 +49,9 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'First name')),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    width: 350,
                     child: TextField(
                         controller: lastNameController,
                         decoration: InputDecoration(
@@ -58,9 +59,9 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Last name')),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    width: 350,
                     child: TextField(
                         controller: usernameController,
                         decoration: InputDecoration(
@@ -68,9 +69,9 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Username')),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    width: 350,
                     child: TextField(
                         controller: emailController,
                         decoration: InputDecoration(
@@ -78,9 +79,9 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Email')),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    width: 350,
                     child: TextField(
                         controller: phoneNumberController,
                         decoration: InputDecoration(
@@ -88,9 +89,9 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Phone number')),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
+                      width: 350,
                     child: TextField(
                         controller: passwordController,
                         obscureText: true,
@@ -102,9 +103,9 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Password')),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    width: 350,
                     child: TextField(
                         controller: passwordCheckController,
                         obscureText: true,
@@ -116,7 +117,7 @@ class Register extends State<RegisterCaller> {
                             fillColor: Theme.of(context).primaryColorLight,
                             border: OutlineInputBorder(), hintText: 'Confirm Password')),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
+                  SizedBox(height: MediaQuery.of(context).size.height* 0.05),
                   ElevatedButton(
                       child: Text("Register",
                           style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
@@ -134,7 +135,7 @@ class Register extends State<RegisterCaller> {
                               builder: (context) => HomepageStartupCaller()),
                         );
                       }),
-                  SizedBox(height: MediaQuery.of(context).size.width * 0.01),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   RichText(
                       text: new TextSpan(
                           children: [
@@ -154,6 +155,6 @@ class Register extends State<RegisterCaller> {
                                     );
                                   })])
                   )]
-            )));
+            ))));
   }
 }
