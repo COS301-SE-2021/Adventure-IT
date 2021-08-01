@@ -13,14 +13,16 @@ public class Timeline {
     private UUID userID;
     private String descrpition;
     private LocalDateTime timestamp;
+    private TimelineType type;
 
 
-    public Timeline(UUID timelineID, UUID adventureID, UUID userID, String descrpition, LocalDateTime timestamp) {
+    public Timeline(UUID timelineID, UUID adventureID, UUID userID, String descrpition, LocalDateTime timestamp, TimelineType type) {
         this.timelineID = timelineID;
         this.adventureID = adventureID;
         this.userID = userID;
         this.descrpition = descrpition;
         this.timestamp = timestamp;
+        this.type = type;
     }
 
     public Timeline(){
@@ -65,5 +67,13 @@ public class Timeline {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public TimelineType getType() {
+        return type;
+    }
+
+    public void setType(TimelineType type) {
+        this.type = type;
     }
 }
