@@ -53,7 +53,7 @@ class AdventureApi {
     };
 
     final response = await http.post(
-      Uri.parse('http://localhost:9002/api/Adventure'), //get uri
+      Uri.parse('http://localhost:9001/api/Adventure/Create'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

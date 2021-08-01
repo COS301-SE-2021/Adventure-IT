@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:time_machine/time_machine.dart';
 
 part 'createAdventure.g.dart';
 
