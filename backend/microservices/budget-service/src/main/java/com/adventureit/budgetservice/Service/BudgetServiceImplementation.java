@@ -251,8 +251,13 @@ public class BudgetServiceImplementation implements BudgetService {
             throw new Exception("Budget is not in trash.");
         }
 
-        budgetEntryRepository.removeAllByEntryContainerID(id);
+        List<BudgetEntry> entries = budgetEntryRepository.findBudgetEntryByEntryContainerID(id);
+
         budgetRepository.delete(budget);
+
+        for (BudgetEntry b:entries) {
+            budgetEntryRepository.delete(b);
+        }
 
         return new HardDeleteResponse(true);
     }

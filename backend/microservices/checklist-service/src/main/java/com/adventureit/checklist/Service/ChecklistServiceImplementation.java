@@ -176,8 +176,13 @@ public class ChecklistServiceImplementation implements ChecklistService {
             throw new Exception("Checklist is not in trash.");
         }
 
-        checklistEntryRepository.removeAllByEntryContainerID(id);
+        List<ChecklistEntry> checklists = checklistEntryRepository.findAllByEntryContainerID(id);
+
         checklistRepository.delete(checklist);
+
+        for (ChecklistEntry c:checklists) {
+            checklistEntryRepository.delete(c);
+        }
 
         return "Checklist deleted";
     }
