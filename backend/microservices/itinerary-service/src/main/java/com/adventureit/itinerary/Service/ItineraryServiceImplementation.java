@@ -202,10 +202,10 @@ public class ItineraryServiceImplementation implements ItineraryService {
     @Override
     public List<ItineraryResponseDTO> viewTrash(UUID id) throws Exception {
 
-        List<Itinerary> itinerary = itineraryRepository.findAllByDeletedEquals(true);
+        List<Itinerary> itinerary = itineraryRepository.findAllByAdventureID(id);
         List<ItineraryResponseDTO> list = new ArrayList<>();
         for (Itinerary b:itinerary) {
-            if(b.getAdventureID() == id){
+            if(b.getDeleted()){
                 list.add(new ItineraryResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.getDeleted()));
 
             }

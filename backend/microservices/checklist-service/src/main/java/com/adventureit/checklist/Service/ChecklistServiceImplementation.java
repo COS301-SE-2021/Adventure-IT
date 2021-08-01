@@ -189,10 +189,10 @@ public class ChecklistServiceImplementation implements ChecklistService {
 
     @Override
     public List<ChecklistResponseDTO> viewTrash(UUID id) throws Exception {
-        List<Checklist> checklists = checklistRepository.findAllByDeletedEquals(true);
+        List<Checklist> checklists = checklistRepository.findAllByAdventureID(id);
         List<ChecklistResponseDTO> list = new ArrayList<>();
         for (Checklist b:checklists) {
-            if (b.getAdventureID() == id){
+            if (b.isDeleted()){
                 list.add(new ChecklistResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.isDeleted()));
 
             }

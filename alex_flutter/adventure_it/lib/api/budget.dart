@@ -10,7 +10,6 @@ class Budget {
   final String name;
   final String creatorID;
   final String adventureID;
-  final double limit;
   final bool deleted;
   final String description;
 
@@ -18,7 +17,6 @@ class Budget {
     required this.deleted,
     required this.id,
     required this.name,
-    required this.limit,
     required this.description,
     required this.creatorID,
     required this.adventureID
