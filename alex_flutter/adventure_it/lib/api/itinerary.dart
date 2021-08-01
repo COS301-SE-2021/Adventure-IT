@@ -11,7 +11,6 @@ class Itinerary {
   final String id;
   final String creatorID;
   final String adventureID;
-  final List<String> entries;
   final bool deleted;
 
   Itinerary({
@@ -20,7 +19,6 @@ class Itinerary {
     required this.id,
     required this.creatorID,
     required this.adventureID,
-    required this.entries,
     required this.deleted
   });
 

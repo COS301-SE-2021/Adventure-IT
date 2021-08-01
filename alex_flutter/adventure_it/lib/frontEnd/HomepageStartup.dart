@@ -36,7 +36,7 @@ class HomePage extends State<HomepageStartupCaller> {
                     onPressed: () {
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => LoginCaller()));
-                      ;
+
                     },
                     icon: const Icon(Icons.logout, color: Color(0xffA7AAB9),))),
             body: HomePage_Pages(

@@ -69,6 +69,8 @@ public class BudgetController {
 		return "Budget successfully moved to bin.";
 	}
 
+
+
 	@GetMapping("/viewTrash/{id}")
 	public List<BudgetResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
 		return budgetServiceImplementation.viewTrash(id);
@@ -79,10 +81,12 @@ public class BudgetController {
 		return budgetServiceImplementation.restoreBudget(id);
 	}
 
+
 	@GetMapping("/hardDelete/{id}")
 	public String hardDelete(@PathVariable UUID id) throws Exception {
 		HardDeleteResponse response = budgetServiceImplementation.hardDelete(id);
 		return response.getMessage();
+
 	}
 
 	@PostMapping("/create")
