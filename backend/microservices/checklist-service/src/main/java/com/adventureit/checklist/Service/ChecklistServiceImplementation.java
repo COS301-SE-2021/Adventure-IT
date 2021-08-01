@@ -77,18 +77,12 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public String removeChecklistEntry(UUID id, UUID entryContainerID) throws Exception {
+    public String removeChecklistEntry(UUID id) throws Exception {
         if(id == null){
             throw new Exception("No ID provided");
         }
-        if(entryContainerID == null){
-            throw new Exception("No Checklist ID provided");
-        }
 
-        Checklist checklist = checklistRepository.findChecklistById(entryContainerID);
-        if(checklist == null){
-            throw new Exception("Checklist does not exist");
-        }
+
         ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
         if(entry == null){
             throw new Exception("Checklist Entry does not exist");
