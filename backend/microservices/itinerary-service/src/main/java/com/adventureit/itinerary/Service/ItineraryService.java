@@ -2,6 +2,7 @@ package com.adventureit.itinerary.Service;
 
 
 import com.adventureit.itinerary.Entity.Itinerary;
+import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 
 import java.time.LocalDateTime;
@@ -21,4 +22,5 @@ public interface ItineraryService {
     public ItineraryResponseDTO viewItinerary(UUID id) throws Exception;
     public void markCompleted(UUID id) throws Exception;
     public String mockPopulate();
+    public ItineraryEntryResponseDTO nextItem(UUID id);
 }

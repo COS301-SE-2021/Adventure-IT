@@ -1,17 +1,17 @@
 package com.adventureit.itinerary.Service;
 
+import com.adventureit.adventureservice.Entity.Adventure;
 import com.adventureit.itinerary.Entity.Itinerary;
 import com.adventureit.itinerary.Entity.ItineraryEntry;
 import com.adventureit.itinerary.Repository.ItineraryEntryRepository;
 import com.adventureit.itinerary.Repository.ItineraryRepository;
+import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ItineraryServiceImplementation implements ItineraryService {
@@ -243,6 +243,38 @@ public class ItineraryServiceImplementation implements ItineraryService {
         ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryById(id);
         entry.setCompleted(!entry.isCompleted());
         itineraryEntryRepository.save(entry);
+    }
+
+    @Override
+    public ItineraryEntryResponseDTO nextItem(UUID id) {
+        ItineraryEntry next = null;
+        List<ItineraryEntry> entries = new ArrayList<>();
+        List<ItineraryEntry> temp = null;
+
+        List<Itinerary> itineraries = itineraryRepository.findAllByAdventureID(id);
+
+        for (Itinerary i:itineraries) {
+            if(!i.getDeleted()){
+                temp = itineraryEntryRepository.findAllByEntryContainerID(i.getId());
+                entries.addAll(temp);
+            }
+        }
+
+        entries.sort(new Comparator<ItineraryEntry>() {
+            @Override
+            public int compare(ItineraryEntry o1, ItineraryEntry o2) {
+                return o1.getTimestamp().compareTo(o2.getTimestamp());
+            }
+        });
+
+        for (ItineraryEntry entry:entries) {
+            if(entry.getTimestamp().compareTo(LocalDateTime.now()) > 0){
+                next = entry;
+                break;
+            }
+        }
+
+        return new ItineraryEntryResponseDTO(next.getId(),next.getEntryContainerID(),next.getTitle(),next.getDescription(),next.isCompleted(),next.getLocation(),next.getTimestamp());
     }
 
     @Override
