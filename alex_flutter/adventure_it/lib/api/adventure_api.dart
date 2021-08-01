@@ -41,4 +41,35 @@ class AdventureApi {
     return http.delete(Uri.http(adventureApi, '/adventure/remove/' + adventureID));
   }
 
+  Future<Adventure> createAdventure(String name, String ownerId, String startDate, String endDate, String description) async {
+    Map<String, String> data;
+    data={
+      'name': name,
+      'ownerId': ownerId,
+      'startDate': startDate,
+      'endDate': endDate,
+      'description': description
+    };
+
+    final response = await http.post(
+      Uri.parse('http://localhost:9002/api/Adventure'), //get uri
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: data
+    );
+
+    if (response.statusCode == 201) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      return CreateAdventure(name: name, ownerId: ownerId, startDate: startDate, endDate: endDate, description: description);
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create an adventure.');
+    }
+  }
+
 }
