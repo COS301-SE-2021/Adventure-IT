@@ -2,6 +2,7 @@ package com.adventureit.timelineservice.Service;
 
 import com.adventureit.timelineservice.Entity.Timeline;
 import com.adventureit.timelineservice.Entity.TimelineType;
+import com.adventureit.timelineservice.Exceptions.TimelineDoesNotExistException;
 import com.adventureit.timelineservice.Repository.TimelineRepository;
 import com.adventureit.timelineservice.Responses.TimelineDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class TimelineServiceImplementation {
         List<Timeline> list =repo.findAllByAdventureID(adventureID);
 
         if(list == null){
-            /* throw timeline doesnot exist exception*/
+             throw new TimelineDoesNotExistException("Timeline does not exist for adventure: "+ adventureID);
         }
         List<TimelineDTO> returnList = new ArrayList<>();
         for(Timeline entry: list){
@@ -46,7 +47,7 @@ public class TimelineServiceImplementation {
     public String deleteTimelineByAdventureID(UUID adventureID){
         List<Timeline> list = repo. findAllByAdventureID(adventureID);
         if(list == null){
-            /*throw Timeline doesnot exist for adventure*/
+            throw new TimelineDoesNotExistException("Timeline does not exist for adventure: "+ adventureID);
         }
 
         repo.removeAllByAdventureID(adventureID);
