@@ -1,11 +1,13 @@
 package com.adventureit.itinerary.Controller;
 
 import com.adventureit.itinerary.Entity.Itinerary;
+import com.adventureit.itinerary.Entity.ItineraryEntry;
 import com.adventureit.itinerary.Repository.ItineraryRepository;
 import com.adventureit.itinerary.Requests.AddItineraryEntryRequest;
 import com.adventureit.itinerary.Requests.CreateItineraryRequest;
 import com.adventureit.itinerary.Requests.EditItineraryEntryRequest;
 import com.adventureit.itinerary.Requests.RemoveItineraryEntryRequest;
+import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 import com.adventureit.itinerary.Service.ItineraryServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +48,7 @@ public class ItineraryController {
     }
 
     @GetMapping("/viewItinerary/{id}")
-    public ItineraryResponseDTO viewItinerary(@PathVariable UUID id) throws Exception {
+    public List<ItineraryEntryResponseDTO> viewItinerary(@PathVariable UUID id) throws Exception {
         return itineraryServiceImplementation.viewItinerary(id);
     }
 
@@ -95,9 +97,9 @@ public class ItineraryController {
         itineraryServiceImplementation.markCompleted(id);
     }
 
-
-
-
-
+    @GetMapping("/getNextEntry/{id}")
+    public ItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id) throws Exception {
+        return itineraryServiceImplementation.nextItem(id);
+    }
 
 }

@@ -58,7 +58,7 @@ public class BudgetController {
 	}
 
 	@GetMapping("/viewBudget/{id}")
-	public BudgetResponseDTO viewBudget(@PathVariable UUID id) throws Exception {
+	public List<ViewBudgetResponse> viewBudget(@PathVariable UUID id) throws Exception {
 		return budgetServiceImplementation.viewBudget(id);
 	}
 
@@ -103,7 +103,7 @@ public class BudgetController {
 
 	@PostMapping("/addUTUExpense")
 	public String addUTUExpense(@RequestBody AddUTUExpenseEntryRequest req) throws Exception {
-		AddUTUExpenseEntryResponse response = budgetServiceImplementation.addUTUExpenseEntry(req.getBudgetEntryID(),req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayeeID());
+		AddUTUExpenseEntryResponse response = budgetServiceImplementation.addUTUExpenseEntry(req.getBudgetEntryID(),req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayee());
 		return response.getMessage();
 	}
 
@@ -121,7 +121,7 @@ public class BudgetController {
 
 	@PostMapping("/calculateExpense")
 	public double calculateExpense(@RequestBody CalculateExpensesPerUserRequest req) throws Exception {
-		return budgetServiceImplementation.calculateExpensesPerUser(req.getBudgetID(), req.getUserID());
+		return budgetServiceImplementation.calculateExpensesPerUser(req.getBudgetID(), req.getUserName());
 	}
 
 	@GetMapping("/getEntriesPerCategory/{id}")
