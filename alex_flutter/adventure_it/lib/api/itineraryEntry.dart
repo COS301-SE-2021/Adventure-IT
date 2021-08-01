@@ -14,7 +14,7 @@ class itineraryEntry {
   final String description;
   final bool completed;
   final String location;
-  final LocalDateTime timestamp;
+  final String timestamp;
 
   itineraryEntry({
     required this.title,
