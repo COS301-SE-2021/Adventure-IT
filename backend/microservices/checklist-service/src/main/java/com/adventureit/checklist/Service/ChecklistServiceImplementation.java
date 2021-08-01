@@ -1,6 +1,5 @@
 package com.adventureit.checklist.Service;
 
-import com.adventureit.adventureservice.Entity.Entry;
 import com.adventureit.checklist.Entity.Checklist;
 import com.adventureit.checklist.Entity.ChecklistEntry;
 import com.adventureit.checklist.Repository.ChecklistEntryRepository;
@@ -67,14 +66,13 @@ public class ChecklistServiceImplementation implements ChecklistService {
         if(checklist == null){
             throw new Exception("Checklist does not exist");
         }
-        if(checklist.getEntries().contains(id)){
+        ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
+        if(entry != null){
             throw new Exception("Checklist Entry already exist");
         }
 
-        ChecklistEntry entry = new ChecklistEntry(title,id,entryContainerID);
-        checklistEntryRepository.save(entry);
-        checklist.getEntries().add(id);
-        checklistRepository.save(checklist);
+        ChecklistEntry newEntry = new ChecklistEntry(title,id,entryContainerID);
+        checklistEntryRepository.save(newEntry);
         return "Checklist Entry successfully added";
     }
 
@@ -91,13 +89,12 @@ public class ChecklistServiceImplementation implements ChecklistService {
         if(checklist == null){
             throw new Exception("Checklist does not exist");
         }
-        if(!checklist.getEntries().contains(id)){
+        ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
+        if(entry == null){
             throw new Exception("Checklist Entry does not exist");
         }
 
         checklistEntryRepository.delete(checklistEntryRepository.findChecklistEntryById(id));
-        checklist.getEntries().remove(id);
-        checklistRepository.save(checklist);
         return "Checklist Entry successfully removed";
     }
 
@@ -116,13 +113,11 @@ public class ChecklistServiceImplementation implements ChecklistService {
             throw new Exception("Description Field is null.");
         }
 
-        Checklist checklist = checklistRepository.findChecklistById(entryContainerID);
-
-        if(!checklist.getEntries().contains(id)){
+        ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
+        if(entry == null){
             throw new Exception("Entry does not exist.");
         }
 
-        ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
 
         if(!title.equals("")){
             entry.setTitle(title);
@@ -143,14 +138,11 @@ public class ChecklistServiceImplementation implements ChecklistService {
         if(entryContainerID == null){
             throw new Exception("Itinerary ID not provided");
         }
-
-        Checklist checklist = checklistRepository.findChecklistById(entryContainerID);
-
-        if(!checklist.getEntries().contains(id)){
+        ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
+        if(entry == null){
             throw new Exception("Entry does not exist.");
         }
 
-        ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
         entry.setCompleted(!entry.getCompleted());
         checklistEntryRepository.save(entry);
     }
@@ -184,21 +176,31 @@ public class ChecklistServiceImplementation implements ChecklistService {
             throw new Exception("Checklist is not in trash.");
         }
 
-        ArrayList<UUID> entries = new ArrayList<>(checklist.getEntries());
+        List<ChecklistEntry> checklists = checklistEntryRepository.findAllByEntryContainerID(id);
+
         checklistRepository.delete(checklist);
-        for (UUID b : entries) {
-            checklistEntryRepository.delete((checklistEntryRepository.findChecklistEntryById(b)));
+
+        for (ChecklistEntry c:checklists) {
+            checklistEntryRepository.delete(c);
         }
 
         return "Checklist deleted";
     }
 
     @Override
-    public List<Checklist> viewTrash(UUID id) throws Exception {
-        return checklistRepository.findAllByDeletedEquals(true);
+    public List<ChecklistResponseDTO> viewTrash(UUID id) throws Exception {
+        List<Checklist> checklists = checklistRepository.findAllByDeletedEquals(true);
+        List<ChecklistResponseDTO> list = new ArrayList<>();
+        for (Checklist b:checklists) {
+            if (b.getAdventureID() == id){
+                list.add(new ChecklistResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.isDeleted()));
+
+            }
+        }
+        return list;
     }
 
-    public String restoreBudget(UUID id) throws Exception {
+    public String restoreChecklist(UUID id) throws Exception {
         if(checklistRepository.findChecklistById(id) == null){
             throw new Exception("Checklist does not exist.");
         }
@@ -216,7 +218,7 @@ public class ChecklistServiceImplementation implements ChecklistService {
             throw new Exception("Checklist does not exist");
         }
 
-        return new ChecklistResponseDTO(checklist.getTitle(),checklist.getDescription(),checklist.getId(),checklist.getCreatorID(), checklist.getAdventureID(),checklist.getEntries(),checklist.isDeleted());
+        return new ChecklistResponseDTO(checklist.getTitle(),checklist.getDescription(),checklist.getId(),checklist.getCreatorID(), checklist.getAdventureID(),checklist.isDeleted());
     }
 
     @Override

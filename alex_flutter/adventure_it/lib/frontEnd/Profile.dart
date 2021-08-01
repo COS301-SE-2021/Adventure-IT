@@ -24,7 +24,7 @@ class Profile extends State<ProfileCaller> {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: Column(children: [
+        body: SingleChildScrollView(child: Column(children: [
           ProfileFutureBuilderCaller(),
           Container(
               padding: const EdgeInsets.only(left: 100.0, top: 0.0),
@@ -44,7 +44,7 @@ class Profile extends State<ProfileCaller> {
                 ))])
                 //_buildList()
               ])),
-        ]));
+        ])));
   }
 
 /*Widget _buildList() => ListView(

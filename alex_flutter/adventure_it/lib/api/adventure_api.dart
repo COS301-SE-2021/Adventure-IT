@@ -12,6 +12,7 @@ class AdventureApi {
     http.Response response =
         await _getAdventuresByUUID(userId);
 
+
     if (response.statusCode != 200) {
       throw Exception('Failed to load list of adventures: ${response.body}');
     }
@@ -19,7 +20,6 @@ class AdventureApi {
     List<Adventure> adventures = (jsonDecode(response.body) as List)
         .map((x) => Adventure.fromJson(x))
         .toList();
-
     return adventures;
   }
 
@@ -30,7 +30,6 @@ class AdventureApi {
 
   static Future removeAdventure(String adventureId) async {
     http.Response response = await _removeAdventure(adventureId);
-    print("Tried to delete");
 
 
     if (response.statusCode != 200) {

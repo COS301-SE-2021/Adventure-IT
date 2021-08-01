@@ -1,7 +1,5 @@
 package com.adventureit.adventureservice.Requests;
 
-import com.adventureit.adventureservice.Entity.EntryContainer;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -13,7 +11,6 @@ public class CreateAdventureRequest{
     private UUID id;
     private UUID ownerId;
     private ArrayList<String> group;
-    private ArrayList<EntryContainer> Containers;
     private LocalDate startDate;
     private LocalDate endDate;
 

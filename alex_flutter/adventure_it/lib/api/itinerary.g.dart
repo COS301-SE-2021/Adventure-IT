@@ -13,8 +13,6 @@ Itinerary _$ItineraryFromJson(Map<String, dynamic> json) {
     id: json['id'] as String,
     creatorID: json['creatorID'] as String,
     adventureID: json['adventureID'] as String,
-    entries:
-        (json['entries'] as List<dynamic>).map((e) => e as String).toList(),
     deleted: json['deleted'] as bool,
   );
 }
@@ -25,6 +23,5 @@ Map<String, dynamic> _$ItineraryToJson(Itinerary instance) => <String, dynamic>{
       'id': instance.id,
       'creatorID': instance.creatorID,
       'adventureID': instance.adventureID,
-      'entries': instance.entries,
       'deleted': instance.deleted,
     };

@@ -2,14 +2,13 @@ package com.adventureit.checklist.Controllers;
 
 import com.adventureit.checklist.Entity.Checklist;
 import com.adventureit.checklist.Repository.ChecklistRepository;
+import com.adventureit.checklist.Requests.*;
 import com.adventureit.checklist.Responses.ChecklistResponseDTO;
 import com.adventureit.checklist.Service.ChecklistServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.CacheRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -38,7 +37,7 @@ public class ChecklistController {
         List<ChecklistResponseDTO> list = new ArrayList<>();
         for (Checklist c:checklists) {
             if(!c.isDeleted()){
-                list.add(new ChecklistResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.getEntries(),c.isDeleted()));
+                list.add(new ChecklistResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.isDeleted()));
             }
         }
         return list;
@@ -49,4 +48,48 @@ public class ChecklistController {
         return checklistServiceImplementation.viewChecklist(id);
     }
 
+    @GetMapping("/softDelete/{id}")
+    public String softDelete(@PathVariable UUID id) throws Exception {
+        return checklistServiceImplementation.softDelete(id);
+    }
+    //
+    @GetMapping("/viewTrash/{id}")
+    public List<ChecklistResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
+        return checklistServiceImplementation.viewTrash(id);
+    }
+
+    @GetMapping("/restoreChecklist/{id}")
+    public String restoreChecklist(@PathVariable UUID id) throws Exception {
+        return checklistServiceImplementation.restoreChecklist(id);
+    }
+
+    @GetMapping("/hardDelete/{id}")
+    public String hardDelete(@PathVariable UUID id) throws Exception {
+        return checklistServiceImplementation.hardDelete(id);
+    }
+
+    @PostMapping("/create")
+    public String createChecklist(@RequestBody CreateChecklistRequest req) throws Exception {
+        return checklistServiceImplementation.createChecklist(req.getTitle(),req.getDescription(),req.getId(),req.getCreatorID(),req.getAdventureID());
+    }
+
+    @PostMapping("/addEntry")
+    public String addEntry(@RequestBody AddChecklistEntryRequest req) throws Exception {
+        return checklistServiceImplementation.addChecklistEntry(req.getTitle(),req.getId(),req.getEntryContainerID());
+    }
+
+    @PostMapping("/removeEntry")
+    public String removeEntry(@RequestBody RemoveChecklistEntryRequest req) throws Exception {
+        return checklistServiceImplementation.removeChecklistEntry(req.getId(),req.getEntryContainerID());
+    }
+
+    @PostMapping("/editEntry")
+    public String editEntry(@RequestBody EditChecklistEntryRequest req) throws Exception {
+        return checklistServiceImplementation.editChecklistEntry(req.getId(),req.getEntryContainerID(),req.getTitle());
+    }
+
+    @PostMapping("/markEntry")
+    public void markEntry(@RequestBody MarkChecklistEntryRequest req) throws Exception {
+        checklistServiceImplementation.markChecklistEntry(req.getId(),req.getEntryContainerID());
+    }
 }

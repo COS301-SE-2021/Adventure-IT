@@ -2,7 +2,10 @@ package com.adventureit.itinerary.Controller;
 
 import com.adventureit.itinerary.Entity.Itinerary;
 import com.adventureit.itinerary.Repository.ItineraryRepository;
+import com.adventureit.itinerary.Requests.AddItineraryEntryRequest;
 import com.adventureit.itinerary.Requests.CreateItineraryRequest;
+import com.adventureit.itinerary.Requests.EditItineraryEntryRequest;
+import com.adventureit.itinerary.Requests.RemoveItineraryEntryRequest;
 import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 import com.adventureit.itinerary.Service.ItineraryServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +39,7 @@ public class ItineraryController {
         List<ItineraryResponseDTO> list = new ArrayList<>();
         for (Itinerary c:itineraries) {
             if(!c.getDeleted()){
-                list.add(new ItineraryResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.getEntries(),c.getDeleted()));
+                list.add(new ItineraryResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.getDeleted()));
             }
         }
         return list;
@@ -52,9 +55,9 @@ public class ItineraryController {
         return itineraryServiceImplementation.softDelete(id);
     }
     //
-    @GetMapping("/viewTrash")
-    public List<ItineraryResponseDTO> viewTrash() throws Exception {
-        return itineraryServiceImplementation.viewTrash();
+    @GetMapping("/viewTrash/{id}")
+    public List<ItineraryResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
+        return itineraryServiceImplementation.viewTrash(id);
     }
 
     @GetMapping("/restoreItinerary/{id}")
@@ -62,9 +65,39 @@ public class ItineraryController {
         return itineraryServiceImplementation.restoreItinerary(id);
     }
 
+    @GetMapping("/hardDelete/{id}")
+    public String hardDelete(@PathVariable UUID id) throws Exception {
+        return itineraryServiceImplementation.hardDelete(id);
+    }
+
     @PostMapping("/create")
     public String createItinerary(@RequestBody CreateItineraryRequest req) throws Exception {
         return itineraryServiceImplementation.createItinerary(req.getTitle(),req.getDescription(),req.getId(),req.getAdvID(),req.getUserID());
     }
+
+    @PostMapping("/addEntry")
+    public String addItineraryEntry(@RequestBody AddItineraryEntryRequest req) throws Exception {
+        return itineraryServiceImplementation.addItineraryEntry(req.getTitle(),req.getDescription(),req.getId(),req.getEntryContainerID(),req.getLocation(),req.getTimestamp());
+    }
+
+    @PostMapping("/editEntry")
+    public String editItineraryEntry(@RequestBody EditItineraryEntryRequest req) throws Exception {
+        return itineraryServiceImplementation.editItineraryEntry(req.getId(),req.getEntryContainerID(),req.getTitle(),req.getDescription(),req.getLocation(),req.getTimestamp());
+    }
+
+    @PostMapping("/removeEntry")
+    public String removeItineraryEntry(@RequestBody RemoveItineraryEntryRequest req) throws Exception {
+        return itineraryServiceImplementation.removeItineraryEntry(req.getId(),req.getEntryContainerID());
+    }
+
+    @GetMapping("/markEntry/{id}")
+    public void markItineraryEntry(@PathVariable UUID id) throws Exception {
+        itineraryServiceImplementation.markCompleted(id);
+    }
+
+
+
+
+
 
 }

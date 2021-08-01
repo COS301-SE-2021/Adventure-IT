@@ -64,6 +64,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              SizedBox(height: MediaQuery.of(context).size.height*0.05),
               Container(
                 width: MediaQuery.of(context).size.width/2,
                 height: MediaQuery.of(context).size.height/4,
@@ -144,7 +145,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                       style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                   style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).accentColor,
-                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.05, vertical: MediaQuery.of(context).size.height*0.03),
+                    padding: EdgeInsets.symmetric(horizontal: 3, vertical: 20),
                   ),
                   onPressed: () {
                     setState(() {
@@ -164,7 +165,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                         style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).accentColor,
-                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.05, vertical: MediaQuery.of(context).size.height*0.03),
+                      padding: EdgeInsets.symmetric(horizontal: 3, vertical: 20),
                     ),
                     onPressed: () {
                       Navigator.pushReplacement(

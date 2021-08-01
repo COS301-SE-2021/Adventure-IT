@@ -1,8 +1,10 @@
 package com.adventureit.userservice.Service;
 
 
+import com.adventureit.userservice.Entities.Friend;
 import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Exceptions.*;
+import com.adventureit.userservice.Repository.FriendRepository;
 import com.adventureit.userservice.Repository.RegistrationTokenRepository;
 import com.adventureit.userservice.Repository.UserRepository;
 import com.adventureit.userservice.Requests.LoginUserRequest;
@@ -21,7 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import javax.imageio.ImageIO;
-import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.time.LocalDateTime;
@@ -37,11 +40,13 @@ public class UserServiceImplementation implements UserDetailsService {
     private  BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     private final UserRepository repo;
     private final RegistrationTokenRepository tokenrepo;
+    private final FriendRepository friendRepository;
 
     @Autowired
-    public UserServiceImplementation(UserRepository repo, RegistrationTokenRepository tokenrepo) {
+    public UserServiceImplementation(UserRepository repo, RegistrationTokenRepository tokenrepo, FriendRepository friendRepository) {
         this.repo = repo;
         this.tokenrepo = tokenrepo;
+        this.friendRepository = friendRepository;
     }
 
     /**
@@ -261,5 +266,61 @@ public class UserServiceImplementation implements UserDetailsService {
         user.setProfilePicture(null);
         repo.save(user);
         return "Picture successfully removed";
+    }
+
+    public String createFriendRequest(UUID ID1, UUID ID2) throws Exception {
+        if(repo.getUserByUserID(ID1) == null || repo.getUserByUserID(ID2) == null){
+            throw new Exception("One or both of the users do not exist");
+        }
+
+        Friend friend = new Friend(ID1, ID2);
+        friendRepository.save(friend);
+
+        return "Friend request sent";
+    }
+
+    public String acceptFriendRequest(UUID id) throws Exception {
+        Friend friend = friendRepository.findFriendById(id);
+
+        if(friend == null){
+            throw new Exception("Request Doesn't exist");
+        }
+
+        friend.setAccepted(true);
+        friendRepository.save(friend);
+
+        return saveFriends(id,friend.getFirstUser(),friend.getSecondUser());
+    }
+
+    public String saveFriends(UUID id,UUID ID1, UUID ID2) throws Exception {
+
+        Friend friend = friendRepository.findFriendById(id);
+
+        if(ID1.compareTo(ID2) > 0 ){
+            friend.setFirstUser(ID2);
+            friend.setSecondUser(ID1);
+        }
+
+        friendRepository.save(friend);
+        return "Friends saved";
+    }
+
+    public List<UUID> getFriends(UUID id){
+
+        List<Friend> friendsByFirstUser = friendRepository.findByFirstUserEquals(id);
+        List<Friend> friendsBySecondUser = friendRepository.findBySecondUserEquals(id);
+        List<UUID> friendUsers = new ArrayList<>();
+
+        for (Friend friend : friendsByFirstUser) {
+            if(friend.isAccepted()){
+                friendUsers.add(friend.getSecondUser());
+            }
+        }
+        for (Friend friend : friendsBySecondUser) {
+            if(friend.isAccepted()) {
+                friendUsers.add(friend.getFirstUser());
+            }
+        }
+        return friendUsers;
     }
 }

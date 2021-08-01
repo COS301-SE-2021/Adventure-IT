@@ -1,5 +1,7 @@
 server:
   port: 9005
+  error:
+    include-message: always
 
 spring:
   application:

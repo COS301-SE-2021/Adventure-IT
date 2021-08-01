@@ -1,12 +1,12 @@
 package com.adventureit.userservice.Controller;
 
-import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
 import com.adventureit.userservice.Requests.LoginUserRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
+import com.adventureit.userservice.Requests.AcceptFriendRequest;
 import com.adventureit.userservice.Requests.UpdatePictureRequest;
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
 import com.adventureit.userservice.Responses.LoginUserDTO;
@@ -17,10 +17,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
-import java.util.UUID;
-
+import java.util.List;
 import java.util.UUID;
 
 /** This class implements the functionality of the UserAPI interface.*/
@@ -77,4 +75,15 @@ public class UserController {
     public GetUserByUUIDDTO getUserByUUID(@PathVariable UUID id){
         return service.GetUserByUUID(id);
     }
+
+    @GetMapping(value = "api/acceptFriendRequest/{id}")
+    public String acceptFriend(@PathVariable UUID id) throws Exception {
+        return service.acceptFriendRequest(id);
+    }
+
+    @GetMapping(value="api/GetFriends/{id}")
+    public List<UUID> getFriends(@PathVariable UUID id){
+        return service.getFriends(id);
+    }
+
 }

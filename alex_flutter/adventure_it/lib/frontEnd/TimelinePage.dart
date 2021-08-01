@@ -58,6 +58,6 @@ class TimeLine extends StatelessWidget {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: Center());
+        body: SingleChildScrollView( child: Center()));
   }
 }

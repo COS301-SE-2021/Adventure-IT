@@ -1,16 +1,17 @@
 package com.adventureit.itinerary.Entity;
 
-import com.adventureit.adventureservice.Entity.Entry;
-import com.adventureit.adventureservice.Entity.EntryContainer;
-
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-public class Itinerary extends EntryContainer {
+public class Itinerary {
+
+    @Id
+    private UUID id;
+    private UUID creatorID;
+    private UUID adventureID;
     private String title;
     private String description;
     private Boolean deleted;
@@ -22,10 +23,9 @@ public class Itinerary extends EntryContainer {
     public Itinerary(String title, String description, UUID id, UUID advID, UUID userID) {
         this.title = title;
         this.description = description;
-        this.setEntries(new ArrayList<UUID>());
-        this.setAdventureID(advID);
-        this.setCreatorID(userID);
-        this.setId(id);
+        this.id = id;
+        this.creatorID = userID;
+        this.adventureID = advID;
         deleted = false;
     }
 
@@ -33,10 +33,9 @@ public class Itinerary extends EntryContainer {
     public Itinerary(String title, String description, UUID id, UUID advID, UUID userID, List<UUID> items) {
         this.title = title;
         this.description = description;
-        this.setEntries(items);
-        this.setAdventureID(advID);
-        this.setCreatorID(userID);
-        this.setId(id);
+        this.id = id;
+        this.creatorID = userID;
+        this.adventureID = advID;
         deleted = false;
     }
 
@@ -64,5 +63,29 @@ public class Itinerary extends EntryContainer {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getCreatorID() {
+        return creatorID;
+    }
+
+    public void setCreatorID(UUID creatorID) {
+        this.creatorID = creatorID;
+    }
+
+    public UUID getAdventureID() {
+        return adventureID;
+    }
+
+    public void setAdventureID(UUID adventureID) {
+        this.adventureID = adventureID;
     }
 }

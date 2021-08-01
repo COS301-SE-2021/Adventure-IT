@@ -1,5 +1,7 @@
 package com.adventureit.budgetservice.Requests;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
 
 public class RemoveEntryRequest {
@@ -8,7 +10,7 @@ public class RemoveEntryRequest {
 
     public RemoveEntryRequest(){}
 
-    public RemoveEntryRequest(UUID id, UUID budgetID){
+    public RemoveEntryRequest(@JsonProperty("id") UUID id,@JsonProperty("budgetID") UUID budgetID){
         this.id = id;
         this.budgetID = budgetID;
     }

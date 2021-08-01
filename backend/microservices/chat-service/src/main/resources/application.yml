@@ -1,14 +1,15 @@
 server:
   port: 9010
+  error:
+    include-message: always
 
 spring:
   application:
     name: CHAT-SERVICE
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit
     username: postgres
-    password: Shivek01
-    name: postgres
+    password: 310PB!Gq%f&J
   jpa:
     hibernate:
       ddl-auto: update
