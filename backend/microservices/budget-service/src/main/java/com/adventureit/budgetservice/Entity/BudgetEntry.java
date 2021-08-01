@@ -2,6 +2,7 @@ package com.adventureit.budgetservice.Entity;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,26 +13,18 @@ public class BudgetEntry{
     private UUID budgetEntryID;
     private UUID entryContainerID;
     @ElementCollection (fetch= FetchType.EAGER)
-    private List<UUID> payers;
+    private List<String> payers;
     double amount;
     String title;
     String description;
     @Enumerated(EnumType.STRING)
     Category category;
+    LocalDateTime timestamp;
 
     public BudgetEntry() {
     }
 
-    public BudgetEntry(UUID id, UUID entryContainerID, double amount, String title, String description, Category category) {
-        this.budgetEntryID = id;
-        this.entryContainerID = entryContainerID;
-        this.amount = amount;
-        this.title = title;
-        this.description = description;
-        this.category = category;
-    }
-
-    public BudgetEntry(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, List<UUID> payers){
+    public BudgetEntry(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, List<String> payers){
         this.budgetEntryID = id;
         this.entryContainerID = entryContainerID;
         this.amount = amount;
@@ -39,6 +32,7 @@ public class BudgetEntry{
         this.description = description;
         this.category = category;
         this.payers = payers;
+        this.timestamp = LocalDateTime.now();
     }
 
     public UUID getId() {
@@ -81,11 +75,11 @@ public class BudgetEntry{
         this.description = description;
     }
 
-    public List<UUID> getPayers() {
+    public List<String> getPayers() {
         return payers;
     }
 
-    public void setPayers(List<UUID> payers) {
+    public void setPayers(List<String> payers) {
         this.payers = payers;
     }
 
@@ -103,5 +97,13 @@ public class BudgetEntry{
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 }

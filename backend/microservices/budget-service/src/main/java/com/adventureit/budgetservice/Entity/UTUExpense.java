@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Entity
 public class UTUExpense extends BudgetEntry {
-    UUID payeeID;
+    String payee;
 
     /**
      * Income model Constructor which takes in the following parameters:
@@ -16,9 +16,9 @@ public class UTUExpense extends BudgetEntry {
      * @param title title of entry
      * @param description short description of entry
      */
-    public UTUExpense(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, List<UUID> payers, UUID payeeID){
+    public UTUExpense(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, List<String> payers, String payee){
         super(id,entryContainerID,amount,title,description, category, payers);
-        this.payeeID = payeeID;
+        this.payee = payee;
     }
 
     /**
@@ -26,11 +26,11 @@ public class UTUExpense extends BudgetEntry {
      */
     public UTUExpense() {}
 
-    public UUID getPayeeID() {
-        return payeeID;
+    public String getPayee() {
+        return payee;
     }
 
-    public void setPayeeID(UUID payeeID) {
-        this.payeeID = payeeID;
+    public void setPayee(String payee) {
+        this.payee = payee;
     }
 }
