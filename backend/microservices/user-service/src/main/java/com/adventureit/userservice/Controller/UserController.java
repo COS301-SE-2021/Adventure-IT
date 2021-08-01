@@ -89,4 +89,5 @@ public class UserController {
     public List<UUID> getFriends(@PathVariable UUID id){
         return service.getFriends(id);
     }
+
 }
