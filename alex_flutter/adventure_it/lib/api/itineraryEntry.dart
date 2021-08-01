@@ -6,7 +6,7 @@ import '/api/transactions.dart';
 part 'itineraryEntry.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class itineraryEntry {
+class ItineraryEntry {
 
   final String id;
   final String entryContainerID;
@@ -16,7 +16,7 @@ class itineraryEntry {
   final String location;
   final String timestamp;
 
-  itineraryEntry({
+  ItineraryEntry({
     required this.title,
     required this.description,
     required this.id,

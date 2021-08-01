@@ -6,8 +6,8 @@ part of 'itineraryEntry.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-itineraryEntry _$itineraryEntryFromJson(Map<String, dynamic> json) {
-  return itineraryEntry(
+ItineraryEntry _$ItineraryEntryFromJson(Map<String, dynamic> json) {
+  return ItineraryEntry(
     title: json['title'] as String,
     description: json['description'] as String,
     id: json['id'] as String,
@@ -18,7 +18,7 @@ itineraryEntry _$itineraryEntryFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$itineraryEntryToJson(itineraryEntry instance) =>
+Map<String, dynamic> _$ItineraryEntryToJson(ItineraryEntry instance) =>
     <String, dynamic>{
       'id': instance.id,
       'entryContainerID': instance.entryContainerID,
