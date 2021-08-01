@@ -113,6 +113,12 @@ public class BudgetController {
 		return response.getMessage();
 	}
 
+	@PostMapping("/removeEntry")
+	public String removeEntry(@RequestBody RemoveEntryRequest req) throws Exception {
+		RemoveEntryResponse response = budgetServiceImplementation.removeEntry(req.getId(),req.getBudgetID());
+		return response.getMessage();
+	}
+
 	@PostMapping("/calculateExpense")
 	public double calculateExpense(@RequestBody CalculateExpensesPerUserRequest req) throws Exception {
 		return budgetServiceImplementation.calculateExpensesPerUser(req.getBudgetID(), req.getUserID());

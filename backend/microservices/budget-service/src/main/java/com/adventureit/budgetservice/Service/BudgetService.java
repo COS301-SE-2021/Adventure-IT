@@ -17,7 +17,7 @@ public interface BudgetService {
     EditBudgetResponse editBudget(EditBudgetRequest req) throws Exception;
     SoftDeleteResponse softDelete(SoftDeleteRequest req) throws Exception;
 
-    HardDeleteResponse hardDelete(HardDeleteRequest req) throws Exception;
+    HardDeleteResponse hardDelete(UUID id) throws Exception;
 
     List<BudgetResponseDTO> viewTrash(UUID id) throws Exception;
     String restoreBudget(UUID id) throws Exception;

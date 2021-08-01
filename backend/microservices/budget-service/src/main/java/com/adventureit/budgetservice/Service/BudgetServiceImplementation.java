@@ -250,7 +250,6 @@ public class BudgetServiceImplementation implements BudgetService {
      * the request was successful or if an error occurred and return a message
      */
     @Override
-
     public HardDeleteResponse hardDelete(UUID id) throws Exception {
         if(id == null){
             throw new Exception("Budget ID not provided.");
