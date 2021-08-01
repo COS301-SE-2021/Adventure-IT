@@ -1,6 +1,8 @@
 
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
+import 'package:adventure_it/api/userProfile.dart';
+import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/gestures.dart';
@@ -41,6 +43,14 @@ class CreateAdventure extends State<CreateAdventureCaller> {
     }
   }
 
+  //controllers for the form fields
+  String ownerID = "3f21ea6b-2288-42f3-9175-39adfafea9ab";
+
+  final AdventureApi api = new AdventureApi();
+  Future<CreateAdventure>? _futureAdventure;
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
 
@@ -74,6 +84,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                 width: 350,
                 child: TextField(
                     style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color, fontSize: 15*MediaQuery.of(context).textScaleFactor),
+                    controller: nameController,
                     decoration: InputDecoration(
                         hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color,fontSize: 15*MediaQuery.of(context).textScaleFactor),
                         filled: true,
@@ -91,6 +102,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                     maxLengthEnforced: true,
                     maxLines: 4,
                     style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color,fontSize: 15*MediaQuery.of(context).textScaleFactor),
+                    controller: descriptionController,
                     decoration: InputDecoration(
                         hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color,fontSize: 15*MediaQuery.of(context).textScaleFactor),
                         filled: true,
@@ -135,6 +147,9 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                     padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.05, vertical: MediaQuery.of(context).size.height*0.03),
                   ),
                   onPressed: () {
+                    setState(() {
+                      _futureAdventure = api.createAdventure(nameController.text, ownerID, dates![0].toString(), dates![1].toString(), descriptionController.text) as Future<CreateAdventure>?;
+                    });
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

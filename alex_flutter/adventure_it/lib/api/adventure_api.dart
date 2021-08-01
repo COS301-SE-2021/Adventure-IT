@@ -5,6 +5,8 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:http/http.dart' as http;
 
+import 'createAdventure.dart';
+
 class AdventureApi {
   static Future<List<Adventure>> getAdventuresByUUID(String userId) async {
     http.Response response =
@@ -41,7 +43,7 @@ class AdventureApi {
     return http.delete(Uri.http(adventureApi, '/adventure/remove/' + adventureID));
   }
 
-  Future<Adventure> createAdventure(String name, String ownerId, String startDate, String endDate, String description) async {
+  Future<CreateAdventure> createAdventure(String name, String ownerId, String startDate, String endDate, String description) async {
     Map<String, String> data;
     data={
       'name': name,
