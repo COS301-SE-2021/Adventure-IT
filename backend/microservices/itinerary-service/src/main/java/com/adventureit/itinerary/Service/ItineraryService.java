@@ -19,7 +19,7 @@ public interface ItineraryService {
     public String hardDelete(UUID id) throws Exception;
     public List<ItineraryResponseDTO> viewTrash(UUID id) throws Exception;
     public String restoreItinerary(UUID id) throws Exception;
-    public ItineraryResponseDTO viewItinerary(UUID id) throws Exception;
+    public List<ItineraryEntryResponseDTO> viewItinerary(UUID id) throws Exception;
     public void markCompleted(UUID id) throws Exception;
     public String mockPopulate();
     public ItineraryEntryResponseDTO nextItem(UUID id);

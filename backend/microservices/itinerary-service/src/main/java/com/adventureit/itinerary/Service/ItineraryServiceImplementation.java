@@ -225,13 +225,20 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public ItineraryResponseDTO viewItinerary(UUID id) throws Exception {
+    public List<ItineraryEntryResponseDTO> viewItinerary(UUID id) throws Exception {
         Itinerary itinerary = itineraryRepository.findItineraryByIdAndDeleted(id, false);
         if (itinerary == null) {
             throw new Exception("Itinerary does not exist");
         }
 
-        return new ItineraryResponseDTO(itinerary.getTitle(), itinerary.getDescription(), itinerary.getId(), itinerary.getCreatorID(), itinerary.getAdventureID(), itinerary.getDeleted());
+        List<ItineraryEntry> entries = itineraryEntryRepository.findAllByEntryContainerID(id);
+        List<ItineraryEntryResponseDTO> list = new ArrayList<>();
+
+        for (ItineraryEntry entry:entries) {
+            list.add(new ItineraryEntryResponseDTO(entry.getId(),entry.getEntryContainerID(),entry.getTitle(),entry.getDescription(),entry.isCompleted(),entry.getLocation(),entry.getTimestamp()));
+        }
+
+        return list;
     }
 
     @Override
