@@ -7,6 +7,7 @@ import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
+import 'Firebase/InitializeFireFlutter.dart';
 import 'Providers/adventure_model.dart';
 import 'api/budget.dart';
 import 'frontEnd/Login.dart';
@@ -14,9 +15,17 @@ import 'frontEnd/HomepageStartup.dart';
 
 void main() {
   runApp(
-    MyApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => AdventuresModel(),
+        ),
+      ],
+      child: InitializeFireFlutter(MyApp()),
+    ),
   );
 }
+
 
 class MyApp extends StatelessWidget {
   @override
@@ -36,3 +45,10 @@ class MyApp extends StatelessWidget {
         home: LoginCaller());
   }
 }
+
+
+
+
+
+
+
