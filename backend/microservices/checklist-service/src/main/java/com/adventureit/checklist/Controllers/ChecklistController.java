@@ -4,6 +4,8 @@ import com.adventureit.checklist.Entity.Checklist;
 import com.adventureit.checklist.Repository.ChecklistRepository;
 import com.adventureit.checklist.Requests.AddChecklistEntryRequest;
 import com.adventureit.checklist.Requests.CreateChecklistRequest;
+import com.adventureit.checklist.Requests.EditChecklistEntryRequest;
+import com.adventureit.checklist.Requests.MarkChecklistEntryRequest;
 import com.adventureit.checklist.Responses.ChecklistResponseDTO;
 import com.adventureit.checklist.Service.ChecklistServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +81,13 @@ public class ChecklistController {
         return checklistServiceImplementation.addChecklistEntry(req.getTitle(),req.getId(),req.getEntryContainerID());
     }
 
+    @PostMapping("/editEntry")
+    public String editEntry(@RequestBody EditChecklistEntryRequest req) throws Exception {
+        return checklistServiceImplementation.editChecklistEntry(req.getId(),req.getEntryContainerID(),req.getTitle());
+    }
 
-
+    @PostMapping("/markEntry")
+    public void markEntry(@RequestBody MarkChecklistEntryRequest req) throws Exception {
+        checklistServiceImplementation.markChecklistEntry(req.getId(),req.getEntryContainerID());
+    }
 }
