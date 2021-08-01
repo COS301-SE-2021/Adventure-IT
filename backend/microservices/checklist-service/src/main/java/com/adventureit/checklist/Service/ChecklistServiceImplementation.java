@@ -1,6 +1,5 @@
 package com.adventureit.checklist.Service;
 
-import com.adventureit.adventureservice.Entity.Entry;
 import com.adventureit.checklist.Entity.Checklist;
 import com.adventureit.checklist.Entity.ChecklistEntry;
 import com.adventureit.checklist.Repository.ChecklistEntryRepository;
@@ -177,8 +176,13 @@ public class ChecklistServiceImplementation implements ChecklistService {
             throw new Exception("Checklist is not in trash.");
         }
 
-        checklistEntryRepository.removeAllByEntryContainerID(id);
+        List<ChecklistEntry> checklists = checklistEntryRepository.findAllByEntryContainerID(id);
+
         checklistRepository.delete(checklist);
+
+        for (ChecklistEntry c:checklists) {
+            checklistEntryRepository.delete(c);
+        }
 
         return "Checklist deleted";
     }

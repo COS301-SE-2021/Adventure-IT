@@ -2,6 +2,7 @@ package com.adventureit.checklist.Controllers;
 
 import com.adventureit.checklist.Entity.Checklist;
 import com.adventureit.checklist.Repository.ChecklistRepository;
+import com.adventureit.checklist.Requests.AddChecklistEntryRequest;
 import com.adventureit.checklist.Requests.CreateChecklistRequest;
 import com.adventureit.checklist.Responses.ChecklistResponseDTO;
 import com.adventureit.checklist.Service.ChecklistServiceImplementation;
@@ -63,9 +64,21 @@ public class ChecklistController {
         return checklistServiceImplementation.restoreChecklist(id);
     }
 
+    @GetMapping("/hardDelete/{id}")
+    public String hardDelete(@PathVariable UUID id) throws Exception {
+        return checklistServiceImplementation.hardDelete(id);
+    }
+
     @PostMapping("/create")
-    public String createItinerary(@RequestBody CreateChecklistRequest req) throws Exception {
+    public String createChecklist(@RequestBody CreateChecklistRequest req) throws Exception {
         return checklistServiceImplementation.createChecklist(req.getTitle(),req.getDescription(),req.getId(),req.getCreatorID(),req.getAdventureID());
     }
+
+    @PostMapping("/addEntry")
+    public String addEntry(@RequestBody AddChecklistEntryRequest req) throws Exception {
+        return checklistServiceImplementation.addChecklistEntry(req.getTitle(),req.getId(),req.getEntryContainerID());
+    }
+
+
 
 }

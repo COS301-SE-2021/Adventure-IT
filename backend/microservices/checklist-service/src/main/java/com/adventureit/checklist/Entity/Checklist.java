@@ -1,11 +1,6 @@
 package com.adventureit.checklist.Entity;
 
-import com.adventureit.adventureservice.Entity.Entry;
-import com.adventureit.adventureservice.Entity.EntryContainer;
-import com.adventureit.checklist.Entity.ChecklistEntry;
-
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

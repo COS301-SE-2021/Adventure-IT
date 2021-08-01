@@ -1,7 +1,5 @@
 package com.adventureit.checklist.Entity;
 
-import com.adventureit.adventureservice.Entity.Entry;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.UUID;

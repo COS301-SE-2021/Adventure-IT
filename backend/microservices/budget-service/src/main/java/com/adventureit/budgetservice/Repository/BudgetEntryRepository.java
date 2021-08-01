@@ -12,6 +12,5 @@ import java.util.UUID;
 @Repository
 public interface BudgetEntryRepository extends JpaRepository<BudgetEntry,UUID> {
     BudgetEntry findBudgetEntryByBudgetEntryIDAndEntryContainerID(UUID budgetEntryId, UUID budgetId);
-    void removeAllByEntryContainerID(UUID budgetId);
     List<BudgetEntry> findBudgetEntryByEntryContainerID(UUID budgetId);
 }

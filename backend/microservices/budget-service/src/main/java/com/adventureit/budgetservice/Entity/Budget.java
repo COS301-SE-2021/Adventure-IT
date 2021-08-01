@@ -1,7 +1,6 @@
 package com.adventureit.budgetservice.Entity;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -14,20 +13,19 @@ public class Budget{
     private String name;
     private boolean deleted;
     private String description;
-    private double budgetLimit;
+//    private double budgetLimit;
 
     public Budget(){
 
     }
 
-    public Budget(UUID budgetId,String name, String description, UUID creatorID, UUID adventureID, double limit) {
+    public Budget(UUID budgetId,String name, String description, UUID creatorID, UUID adventureID) {
         this.budgetID = budgetId;
         this.creatorID = creatorID;
         this.adventureID = adventureID;
         this.name = name;
         this.deleted = false;
         this.description = description;
-        this.budgetLimit = limit;
     }
 
     public UUID getBudgetId() {
@@ -78,11 +76,4 @@ public class Budget{
         this.description = description;
     }
 
-    public double getBudgetLimit() {
-        return budgetLimit;
-    }
-
-    public void setBudgetLimit(double budgetLimit) {
-        this.budgetLimit = budgetLimit;
-    }
 }

@@ -22,8 +22,6 @@ public class BudgetController {
 	@Autowired
 	BudgetRepository budgetRepository;
 
-
-
 	@GetMapping("/test")
 	String test(){
 		return "Budget Controller is functioning";
@@ -53,7 +51,7 @@ public class BudgetController {
 		List<BudgetResponseDTO> list = new ArrayList<>();
 		for (Budget b:budgets) {
 			if(!b.isDeleted()){
-				list.add(new BudgetResponseDTO(b.getBudgetId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.getBudgetLimit(),b.isDeleted(),b.getDescription()));
+				list.add(new BudgetResponseDTO(b.getBudgetId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.isDeleted(),b.getDescription()));
 			}
 		}
 		return list;
@@ -62,9 +60,8 @@ public class BudgetController {
 	@GetMapping("/viewBudget/{id}")
 	public BudgetResponseDTO viewBudget(@PathVariable UUID id) throws Exception {
 		return budgetServiceImplementation.viewBudget(id);
-
 	}
-//
+
 	@GetMapping("/softDelete/{id}")
 	public String softDelete(@PathVariable UUID id) throws Exception {
 		SoftDeleteRequest request = new SoftDeleteRequest(id);
@@ -72,13 +69,8 @@ public class BudgetController {
 		return "Budget successfully moved to bin.";
 	}
 
-	@GetMapping("/hardDelete/{id}")
-	public String hardDelete(@PathVariable UUID id) throws Exception {
-		HardDeleteRequest request = new HardDeleteRequest(id);
-		budgetServiceImplementation.hardDelete(request);
-		return "Budget successfully moved to bin.";
-	}
-//
+
+
 	@GetMapping("/viewTrash/{id}")
 	public List<BudgetResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
 		return budgetServiceImplementation.viewTrash(id);
@@ -89,16 +81,46 @@ public class BudgetController {
 		return budgetServiceImplementation.restoreBudget(id);
 	}
 
-	@GetMapping("/expenseTotal/{id}")
-	public double getExpensesTotal(@PathVariable UUID id) throws Exception {
-		return budgetServiceImplementation.calculateExpenses(id);
+
+	@GetMapping("/hardDelete/{id}")
+	public String hardDelete(@PathVariable UUID id) throws Exception {
+		HardDeleteResponse response = budgetServiceImplementation.hardDelete(id);
+		return response.getMessage();
+
 	}
 
 	@PostMapping("/create")
 	public String createBudget(@RequestBody CreateBudgetRequest req) throws Exception {
-		CreateBudgetResponse response = budgetServiceImplementation.createBudget(req.getId(),req.getName(), req.getDescription() ,req.getCreatorID(),req.getAdventureID(), req.getLimit());
+		CreateBudgetResponse response = budgetServiceImplementation.createBudget(req.getId(),req.getName(), req.getDescription() ,req.getCreatorID(),req.getAdventureID());
 		return response.getMessage();
 	}
 
+	@PostMapping("/addUTOExpense")
+	public String addUTOExpense(@RequestBody AddUTOExpenseEntryRequest req) throws Exception {
+		AddUTOExpenseEntryResponse response = budgetServiceImplementation.addUTOExpenseEntry(req.getBudgetEntryID(),req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayee());
+		return response.getMessage();
+	}
+
+	@PostMapping("/addUTUExpense")
+	public String addUTUExpense(@RequestBody AddUTUExpenseEntryRequest req) throws Exception {
+		AddUTUExpenseEntryResponse response = budgetServiceImplementation.addUTUExpenseEntry(req.getBudgetEntryID(),req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayeeID());
+		return response.getMessage();
+	}
+
+	@PostMapping("/editBudget")
+	public String editBudget(@RequestBody EditBudgetRequest req) throws Exception {
+		EditBudgetResponse response = budgetServiceImplementation.editBudget(req);
+		return response.getMessage();
+	}
+
+	@PostMapping("/calculateExpense")
+	public double calculateExpense(@RequestBody CalculateExpensesPerUserRequest req) throws Exception {
+		return budgetServiceImplementation.calculateExpensesPerUser(req.getBudgetID(), req.getUserID());
+	}
+
+	@GetMapping("/getEntriesPerCategory/{id}")
+	public List<Integer> getEntriesPerCategory(@PathVariable UUID id) throws Exception {
+		return budgetServiceImplementation.getEntriesPerCategory(id);
+	}
 
 }
