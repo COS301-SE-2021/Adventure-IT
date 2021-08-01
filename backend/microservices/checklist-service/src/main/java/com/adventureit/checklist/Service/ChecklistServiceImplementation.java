@@ -4,6 +4,7 @@ import com.adventureit.checklist.Entity.Checklist;
 import com.adventureit.checklist.Entity.ChecklistEntry;
 import com.adventureit.checklist.Repository.ChecklistEntryRepository;
 import com.adventureit.checklist.Repository.ChecklistRepository;
+import com.adventureit.checklist.Responses.ChecklistEntryResponseDTO;
 import com.adventureit.checklist.Responses.ChecklistResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -212,13 +213,20 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public ChecklistResponseDTO viewChecklist(UUID id) throws Exception {
+    public List<ChecklistEntryResponseDTO> viewChecklist(UUID id) throws Exception {
         Checklist checklist = checklistRepository.findChecklistByIdAndDeleted(id, false);
         if(checklist == null){
             throw new Exception("Checklist does not exist");
         }
 
-        return new ChecklistResponseDTO(checklist.getTitle(),checklist.getDescription(),checklist.getId(),checklist.getCreatorID(), checklist.getAdventureID(),checklist.isDeleted());
+        List<ChecklistEntry> entries = checklistEntryRepository.findAllByEntryContainerID(id);
+        List<ChecklistEntryResponseDTO> list = new ArrayList<>();
+
+        for (ChecklistEntry entry:entries) {
+            list.add(new ChecklistEntryResponseDTO(entry.getId(),entry.getEntryContainerID(),entry.getTitle(),entry.getCompleted()));
+        }
+
+        return list;
     }
 
     @Override
