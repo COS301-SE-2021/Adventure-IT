@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface FriendRepository extends JpaRepository<Friend, UUID> {
     List<Friend> findByFirstUserEquals(UUID id);
     List<Friend> findBySecondUserEquals(UUID id);
+    Friend findFriendById(UUID id);
 }

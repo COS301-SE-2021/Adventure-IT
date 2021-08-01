@@ -5,13 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
-public class SaveFriendRequest {
+public class AcceptFriendRequest {
+    UUID id;
     UUID ID1;
     UUID ID2;
 
-    public SaveFriendRequest(){}
+    public AcceptFriendRequest(){}
 
-    public SaveFriendRequest(@JsonProperty("ID1") UUID ID1, @JsonProperty("ID2") UUID ID2){
+    public AcceptFriendRequest(@JsonProperty("id") UUID id,@JsonProperty("ID1") UUID ID1, @JsonProperty("ID2") UUID ID2){
+        this.id = id;
         this.ID1 = ID1;
         this.ID2 = ID2;
     }
@@ -30,5 +32,13 @@ public class SaveFriendRequest {
 
     public void setID1(UUID ID1) {
         this.ID1 = ID1;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 }

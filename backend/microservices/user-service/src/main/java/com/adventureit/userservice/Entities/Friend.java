@@ -13,11 +13,12 @@ public class Friend {
     private UUID firstUser;
     private UUID secondUser;
     private Date createdDate;
+    boolean accepted;
 
     public Friend(UUID firstUser, UUID secondUser){
         this.firstUser = firstUser;
         this.secondUser = secondUser;
-        createdDate = new Date();
+        accepted = false;
     }
 
     public Friend() {
@@ -54,5 +55,13 @@ public class Friend {
 
     public void setSecondUser(UUID secondUser) {
         this.secondUser = secondUser;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
+    }
+
+    public boolean isAccepted() {
+        return accepted;
     }
 }

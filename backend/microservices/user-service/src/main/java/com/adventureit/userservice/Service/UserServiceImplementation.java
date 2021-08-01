@@ -268,17 +268,37 @@ public class UserServiceImplementation implements UserDetailsService {
         return "Picture successfully removed";
     }
 
-    public String saveFriends(UUID ID1, UUID ID2) throws Exception {
+    public String createFriendRequest(UUID ID1, UUID ID2) throws Exception {
         if(repo.getUserByUserID(ID1) == null || repo.getUserByUserID(ID2) == null){
             throw new Exception("One or both of the users do not exist");
         }
 
-        Friend friend;
-        if(ID1.compareTo(ID2) < 0 ){
-            friend = new Friend(ID1, ID2);
+        Friend friend = new Friend(ID1, ID2);
+        friendRepository.save(friend);
+
+        return "Friend request sent";
+    }
+
+    public String acceptFriendRequest(UUID id) throws Exception {
+        Friend friend = friendRepository.findFriendById(id);
+
+        if(friend == null){
+            throw new Exception("Request Doesn't exist");
         }
-        else {
-            friend = new Friend(ID2, ID1);
+
+        friend.setAccepted(true);
+        friendRepository.save(friend);
+
+        return saveFriends(id,friend.getFirstUser(),friend.getSecondUser());
+    }
+
+    public String saveFriends(UUID id,UUID ID1, UUID ID2) throws Exception {
+
+        Friend friend = friendRepository.findFriendById(id);
+
+        if(ID1.compareTo(ID2) > 0 ){
+            friend.setFirstUser(ID2);
+            friend.setSecondUser(ID1);
         }
 
         friendRepository.save(friend);
@@ -292,12 +312,15 @@ public class UserServiceImplementation implements UserDetailsService {
         List<UUID> friendUsers = new ArrayList<>();
 
         for (Friend friend : friendsByFirstUser) {
-            friendUsers.add(friend.getSecondUser());
+            if(friend.isAccepted()){
+                friendUsers.add(friend.getSecondUser());
+            }
         }
         for (Friend friend : friendsBySecondUser) {
-            friendUsers.add(friend.getFirstUser());
+            if(friend.isAccepted()) {
+                friendUsers.add(friend.getFirstUser());
+            }
         }
-
         return friendUsers;
     }
 }
