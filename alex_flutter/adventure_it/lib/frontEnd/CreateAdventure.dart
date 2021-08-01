@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
+import 'Navbar.dart';
 import 'Register.dart';
 
 //Shows page used to create a new adventure
@@ -55,6 +56,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(title: Center(child: Text("Create Adventure",
           style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)

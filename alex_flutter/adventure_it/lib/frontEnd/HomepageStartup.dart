@@ -9,6 +9,7 @@ import 'Login.dart';
 import 'Adventures.dart';
 
 import '../api/budget.dart';
+import 'Navbar.dart';
 
 class HomepageStartupCaller extends StatefulWidget {
   @override
@@ -28,17 +29,18 @@ class HomePage extends State<HomepageStartupCaller> {
     return MaterialApp(
         theme: Theme.of(context),
         home: Scaffold(
+            drawer: NavDrawer(),
             appBar: AppBar(
                 backgroundColor: Theme.of(context).primaryColorDark,
                 centerTitle: true,
                 title: Text("Adventure-IT", style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
-                leading: IconButton(
+                /*leading: IconButton(
                     onPressed: () {
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => LoginCaller()));
 
                     },
-                    icon: const Icon(Icons.logout, color: Color(0xffA7AAB9),))),
+                    icon: const Icon(Icons.logout, color: Color(0xffA7AAB9),))*/),
             body: HomePage_Pages(
              )));
   }

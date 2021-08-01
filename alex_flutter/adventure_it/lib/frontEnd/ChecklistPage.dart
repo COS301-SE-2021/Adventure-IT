@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
+import 'Navbar.dart';
 class ChecklistPage extends StatelessWidget {
   Checklist? currentChecklist;
   Adventure? currentAdventure;
@@ -23,6 +24,7 @@ class ChecklistPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
