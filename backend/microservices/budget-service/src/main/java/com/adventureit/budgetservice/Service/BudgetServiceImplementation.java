@@ -496,11 +496,8 @@ public class BudgetServiceImplementation implements BudgetService {
         budgetEntryRepository.save(mockEntry1);
         budgetEntryRepository.save(mockEntry2);
         budgetEntryRepository.save(mockEntry3);
-
-
     }
-
-
+    
     @Override
     public void mockPopulateTrash() {
         final UUID mockBudgetID1 = UUID.fromString("86224c30-fb96-4b02-9aca-ca7b61c6bede");
