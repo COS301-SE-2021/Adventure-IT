@@ -9,6 +9,7 @@ import com.adventureit.userservice.Repository.RegistrationTokenRepository;
 import com.adventureit.userservice.Repository.UserRepository;
 import com.adventureit.userservice.Requests.LoginUserRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
+import com.adventureit.userservice.Responses.GetFriendRequestsResponse;
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
 import com.adventureit.userservice.Responses.LoginUserDTO;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
@@ -322,5 +323,18 @@ public class UserServiceImplementation implements UserDetailsService {
             }
         }
         return friendUsers;
+    }
+
+    public List<GetFriendRequestsResponse> getFriendRequests(UUID id){
+        List<Friend> requests = friendRepository.findBySecondUserEquals(id);
+        List<GetFriendRequestsResponse> list = new ArrayList<>();
+
+        for (Friend f:requests) {
+            if(!f.isAccepted()){
+                list.add(new GetFriendRequestsResponse(f.getId(),f.getFirstUser(),f.getSecondUser(),f.getCreatedDate(),f.isAccepted()));
+            }
+        }
+
+        return list;
     }
 }

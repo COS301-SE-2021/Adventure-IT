@@ -220,6 +220,16 @@ public class AdventureServiceImplementation implements AdventureService {
     }
 
     @Override
+    public List<UUID> getAttendees(UUID id) throws Exception {
+        Adventure adventure  = adventureRepository.findAdventureByAdventureId(id);
+        if(adventure == null){
+            throw new Exception("Adventure does not exist");
+        }
+
+        return adventure.getAttendees();
+    }
+
+    @Override
     public void mockPopulate(){
         final UUID mockOwnerID = UUID.fromString("1660bd85-1c13-42c0-955c-63b1eda4e90b");
         final UUID mockAttendeeID = UUID.fromString("7a984756-16a5-422e-a377-89e1772dd71e");
