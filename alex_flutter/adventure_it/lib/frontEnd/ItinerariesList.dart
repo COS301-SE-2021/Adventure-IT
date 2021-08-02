@@ -12,6 +12,7 @@ import 'AdventurePage.dart';
 import '../api/budget.dart';
 import 'ItineraryPage.dart';
 import 'ItineraryTrash.dart';
+import 'Navbar.dart';
 
 class Itineraries extends StatelessWidget {
   Adventure? adventure;
@@ -23,6 +24,7 @@ class Itineraries extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
