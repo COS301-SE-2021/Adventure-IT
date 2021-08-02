@@ -16,7 +16,7 @@ public class CreateBudgetRequest {
     public CreateBudgetRequest() {
     }
 
-    public CreateBudgetRequest(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("description") String description, @JsonProperty("creatorID") String creatorID, @JsonProperty("adventureID") String  adventureID) {
+    public CreateBudgetRequest(@JsonProperty("name") String name, @JsonProperty("description") String description, @JsonProperty("creatorID") String creatorID, @JsonProperty("adventureID") String  adventureID) {
         this.name = name;
         this.description=description;
         this.creatorID = UUID.fromString(creatorID);

@@ -10,7 +10,7 @@ public class CreateItineraryRequest {
     UUID advID;
     UUID userID;
 
-    public CreateItineraryRequest(@JsonProperty("title") String title, @JsonProperty("description") String description,@JsonProperty("id") String id,@JsonProperty("advID") String advID,@JsonProperty("userID") String userID){
+    public CreateItineraryRequest(@JsonProperty("title") String title, @JsonProperty("description") String description,@JsonProperty("advID") String advID,@JsonProperty("userID") String userID){
         this.title = title;
         this.description = description;
         this.advID = UUID.fromString(advID);
