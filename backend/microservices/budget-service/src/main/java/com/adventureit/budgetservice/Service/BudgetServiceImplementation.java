@@ -292,10 +292,10 @@ public class BudgetServiceImplementation implements BudgetService {
     @Override
     public List<BudgetResponseDTO> viewTrash(UUID id) throws Exception {
 
-        List<Budget> budgets = budgetRepository.findAllByDeletedEquals(true);
+        List<Budget> budgets = budgetRepository.findAllByAdventureID(id);
         List<BudgetResponseDTO> list = new ArrayList<>();
         for (Budget b:budgets) {
-            if(id == b.getAdventureID()){
+            if(b.isDeleted()){
                 list.add(new BudgetResponseDTO(b.getBudgetId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.isDeleted(), b.getDescription()));
 
             }

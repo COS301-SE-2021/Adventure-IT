@@ -88,7 +88,7 @@ public class ItineraryServiceUnitTests {
     public void removeEntryInvalidID_ThrowException() throws Exception {
         Mockito.when(mockItineraryRepository.findItineraryById(validItineraryID1)).thenReturn(mockItinerary1);
         Assertions.assertThrows(Exception.class, ()->{
-            sut.removeItineraryEntry(UUID.randomUUID(),validItineraryID1);
+            sut.removeItineraryEntry(UUID.randomUUID());
         });
     }
 
@@ -96,7 +96,7 @@ public class ItineraryServiceUnitTests {
     @Description("removeItineraryEntry will throw an exception if a field is null")
     public void removeEntryNullField_ThrowException() throws Exception {
         Assertions.assertThrows(Exception.class, ()->{
-            sut.removeItineraryEntry(null,validItineraryID1);
+            sut.removeItineraryEntry(null);
         });
     }
 
