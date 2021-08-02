@@ -401,7 +401,7 @@ class _AlertBox extends State <AlertBox> {
               ),
               textButtonTheme: TextButtonThemeData(
                   style: TextButton.styleFrom(
-                    primary: Color(0xff20222D), // button text color
+                    primary:  Color(0xffA7AAB9), // button text color
                   )),
               accentColor: Color(0xff6A7AC7),
               colorScheme: ColorScheme.light(
