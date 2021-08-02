@@ -3,7 +3,7 @@ import '/api/adventure.dart';
 import '/api/transactions.dart';
 
 part 'budgetEntry.g.dart';
-
+//
 @JsonSerializable(explicitToJson: true)
 class BudgetEntry {
   final String budgetEntryID;
