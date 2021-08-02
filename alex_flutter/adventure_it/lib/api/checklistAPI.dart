@@ -72,6 +72,42 @@ class ChecklistApi {
 
   }
 
+  // static Future<List<ChecklistEntry>> getChecklistEntries(Checklist i) async {
+  //   http.Response response =
+  //   await _getChecklistEntries(i!.id);
+  //
+  //   if (response.statusCode != 200) {
+  //     throw Exception('Failed to load list of entries for checklist: ${response.body}');
+  //   }
+  //
+  //
+  //   List<ChecklistEntry> checklists = (jsonDecode(response.body) as List)
+  //       .map((x) => ChecklistEntry.fromJson(x))
+  //       .toList();
+  //
+  //   return checklists;
+  // }
+  //
+  // static Future<http.Response> _getChecklistEntries(checklistID) async {
+  //
+  //   return http.get(Uri.http(checklistApi, '/checklist/viewChecklist/' + checklistID));
+  // }
+  //
+  // static Future deleteChecklistEntry(ChecklistEntry i) async {
+  //   http.Response response = await _deleteChecklistEntryRequest(i.id);
+  //
+  //
+  //   if (response.statusCode != 200) {
+  //     throw Exception('Failed to delete checklist entry ${response.body}');
+  //   }
+  //
+  // }
+
+  static Future<http.Response> _deleteChecklistEntryRequest(ChecklistEntryID) async {
+
+    return http.get(Uri.http(checklistApi, '/checklist/removeEntry/' + ChecklistEntryID));
+  }
+
 
 
   static Future<http.Response> _getDeletedChecklistsResponse(adventureId) async {

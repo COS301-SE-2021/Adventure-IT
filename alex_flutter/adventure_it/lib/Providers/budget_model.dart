@@ -80,3 +80,35 @@ class BudgetModel extends ChangeNotifier {
 
 
 }
+
+// class BudgetEntryModel extends ChangeNotifier {
+//   List<BudgetEntry>? _entries = null;
+//
+//
+//   BudgetEntryModel(Budget b) {
+//     fetchAllEntries(b).then((entries) =>
+//     entries != null
+//         ? _entries = entries
+//         : List.empty());
+//   }
+//
+//
+//   List<BudgetEntry>? get entries => _entries?.toList();
+//
+//
+//   Future fetchAllEntries(Budget b) async {
+//     _entries = await BudgetApi.getEntries(b);
+//
+//     notifyListeners();
+//   }
+//
+//
+//   Future deleteBudgetEntry(ItineraryEntry c) async {
+//     await BudgetApi.deleteBudgetEntry(c.id);
+//
+//     var index = _entries!.indexWhere((element) => element.id == c.id);
+//     _entries!.removeAt(index);
+//
+//     notifyListeners();
+//   }
+// }

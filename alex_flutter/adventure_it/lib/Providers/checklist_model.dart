@@ -45,7 +45,8 @@ class ChecklistModel extends ChangeNotifier {
 
 
   ChecklistModel(Adventure a) {
-    fetchAllChecklists(a).then((checklists) => checklists != null? _checklists = checklists:List.empty());
+    fetchAllChecklists(a).then((checklists) =>
+    checklists != null ? _checklists = checklists : List.empty());
   }
 
   List<Checklist>? get checklists => _checklists?.toList();
@@ -58,7 +59,6 @@ class ChecklistModel extends ChangeNotifier {
   }
 
 
-
   Future softDeleteChecklist(Checklist c) async {
     await ChecklistApi.softDeleteChecklist(c.id);
 
@@ -67,7 +67,40 @@ class ChecklistModel extends ChangeNotifier {
 
     notifyListeners();
   }
-
-
-
 }
+
+
+
+
+
+// class ChecklistEntryModel extends ChangeNotifier {
+//   List<ChecklistEntry>? _entries = null;
+//
+//
+//   ChecklistEntryModel(Checklist c) {
+//     fetchAllEntries(c).then((entries) =>
+//     entries != null
+//         ? _entries = entries
+//         : List.empty());
+//   }
+//
+//
+//   List<ChecklistEntry>? get entries => _entries?.toList();
+//
+//
+//   Future fetchAllEntries(Checklist c) async {
+//     _entries = await ChecklistApi.getEntries(c);
+//
+//     notifyListeners();
+//   }
+//
+//
+//   Future deleteChecklistEntry(ChecklistEntry c) async {
+//     await ChecklistApi.deleteChecklistEntry(c.id);
+//
+//     var index = _entries!.indexWhere((element) => element.id == c.id);
+//     _entries!.removeAt(index);
+//
+//     notifyListeners();
+//   }
+// }
