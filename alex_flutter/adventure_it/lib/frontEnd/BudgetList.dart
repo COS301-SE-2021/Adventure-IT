@@ -36,10 +36,11 @@ class Budgets extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  Spacer(),
                   Container(
-                      height: MediaQuery.of(context).size.height * 0.50,
+                      height: MediaQuery.of(context).size.height * 0.40,
                       child: PieChart(adventure)),
-              SizedBox(height: MediaQuery.of(context).size.height / 60),
+              Spacer(),
               Container(
                   height: MediaQuery.of(context).size.height * 0.40,
                   child: BudgetList(adventure)),

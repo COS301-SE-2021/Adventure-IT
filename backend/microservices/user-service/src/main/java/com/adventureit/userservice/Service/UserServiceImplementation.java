@@ -337,4 +337,15 @@ public class UserServiceImplementation implements UserDetailsService {
 
         return list;
     }
+
+    public void mockFriendships()
+    {
+        Friend toSave = new Friend (UUID.fromString("1660bd85-1c13-42c0-955c-63b1eda4e90b"),UUID.fromString("69e8eb21-eb63-4c83-9187-181a648bb759"));
+        toSave.setAccepted(true);
+        friendRepository.save(toSave);
+
+        toSave=new Friend (UUID.fromString("1660bd85-1c13-42c0-955c-63b1eda4e90b"),UUID.fromString("3f21ea6b-2288-42f3-9175-39adfafea9ab"));
+        toSave.setAccepted(true);
+        friendRepository.save(toSave);
+    }
 }
