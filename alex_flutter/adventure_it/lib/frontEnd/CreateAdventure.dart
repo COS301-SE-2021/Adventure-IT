@@ -199,7 +199,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                   ),
                   onPressed: () {
                     setState(() {
-                      _futureAdventure = api.createAdventure(nameController.text, ownerID, dates![0].toString(), dates![1].toString(), descriptionController.text) as Future<CreateAdventure>?;
+                      _futureAdventure = api.createAdventure(nameController.text, ownerID, dates!.start.toString(), dates!.end.toString(), descriptionController.text) as Future<CreateAdventure>?;
                     });
                     Navigator.pushReplacement(
                       context,

@@ -7,20 +7,14 @@ import java.util.UUID;
 public class CreateItineraryRequest {
     String title;
     String description;
-    UUID id;
     UUID advID;
     UUID userID;
 
     public CreateItineraryRequest(@JsonProperty("title") String title, @JsonProperty("description") String description,@JsonProperty("id") String id,@JsonProperty("advID") String advID,@JsonProperty("userID") String userID){
         this.title = title;
         this.description = description;
-        this.id = UUID.fromString(id);
         this.advID = UUID.fromString(advID);
         this.userID = UUID.fromString(userID);
-    }
-
-    public UUID getId() {
-        return id;
     }
 
     public String getDescription() {
@@ -37,10 +31,6 @@ public class CreateItineraryRequest {
 
     public UUID getUserID() {
         return userID;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public void setDescription(String description) {

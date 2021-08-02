@@ -43,21 +43,19 @@ class AdventureApi {
   }
 
   Future<CreateAdventure> createAdventure(String name, String ownerId, String startDate, String endDate, String description) async {
-    Map<String, String> data;
-    data={
-      'name': name,
-      'ownerId': ownerId,
-      'startDate': startDate,
-      'endDate': endDate,
-      'description': description
-    };
 
     final response = await http.post(
-      Uri.parse('http://localhost:9001/api/Adventure/Create'), //get uri
+      Uri.parse('http://localhost:9001/api/Adventure/create'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: data
+      body: jsonEncode(<String, String>{
+        'name': name,
+        'ownerId': ownerId,
+        'startDate': startDate,
+        'endDate': endDate,
+        'description': description
+      })
     );
 
     if (response.statusCode == 201) {
