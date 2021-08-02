@@ -19,14 +19,14 @@ public class AddUTUExpenseEntryRequest {
 
     public AddUTUExpenseEntryRequest(){}
 
-    public AddUTUExpenseEntryRequest(@JsonProperty("budgetEntryID") UUID budgetEntryID, @JsonProperty("entryContainerID") UUID entryContainerID, @JsonProperty("payers") List<String> payers, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("category") Category category, @JsonProperty("payee") String payee) {
+    public AddUTUExpenseEntryRequest(@JsonProperty("budgetEntryID") UUID budgetEntryID, @JsonProperty("entryContainerID") UUID entryContainerID, @JsonProperty("payers") List<String> payers, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("category") String category, @JsonProperty("payee") String payee) {
         this.budgetEntryID = budgetEntryID;
         this.entryContainerID = entryContainerID;
         this.payers = payers;
         this.amount = amount;
         this.title = title;
         this.description = description;
-        this.category = category;
+        this.category = Category.valueOf(category);
         this.payee = payee;
     }
 

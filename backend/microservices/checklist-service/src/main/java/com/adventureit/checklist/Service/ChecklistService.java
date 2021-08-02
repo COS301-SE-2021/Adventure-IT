@@ -16,10 +16,10 @@ public interface ChecklistService {
     public String removeChecklistEntry(UUID id) throws Exception;
     public String editChecklistEntry(UUID id, UUID entryContainerID, String description) throws Exception;
     public void markChecklistEntry(UUID id, UUID entryContainerID) throws Exception;
-    public String softDelete(UUID id) throws Exception;
-    public String hardDelete(UUID id) throws Exception;
+    public String softDelete(UUID id,UUID userID) throws Exception;
+    public String hardDelete(UUID id,UUID userID) throws Exception;
     public List<ChecklistResponseDTO> viewTrash(UUID id) throws Exception;
-    public String restoreChecklist(UUID id) throws Exception;
+    public String restoreChecklist(UUID id,UUID userID) throws Exception;
     public List<ChecklistEntryResponseDTO> viewChecklist(UUID id) throws Exception;
     public String mockPopulate();
 }

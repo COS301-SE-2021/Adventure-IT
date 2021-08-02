@@ -70,18 +70,15 @@ public class BudgetController {
 		return "Budget successfully moved to bin.";
 	}
 
-
-
 	@GetMapping("/viewTrash/{id}")
 	public List<BudgetResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
 		return budgetServiceImplementation.viewTrash(id);
 	}
 
-	@GetMapping("/restoreBudget/{id}")
-	public String restoreBudget(@PathVariable UUID id) throws Exception {
-		return budgetServiceImplementation.restoreBudget(id);
+	@GetMapping("/restoreBudget/{id}/{userID}")
+	public String restoreBudget(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+		return budgetServiceImplementation.restoreBudget(id,userID);
 	}
-
 
 	@GetMapping("/hardDelete/{id}/{userID}")
 	public String hardDelete(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
@@ -129,9 +126,14 @@ public class BudgetController {
 		return budgetServiceImplementation.getEntriesPerCategory(id);
 	}
 
-	@GetMapping("/generateReport/{id}")
-	public JSONObject generateReport(@PathVariable UUID id) throws Exception {
-		return budgetServiceImplementation.generateReport(id);
+	@GetMapping("/getReportList/{id}")
+	public List<String> getReportList(@PathVariable UUID id) throws Exception {
+		return budgetServiceImplementation.getReportList(id);
+	}
+
+	@GetMapping("/generateIndividualReport/{id}/{userName}")
+	public List<ReportResponseDTO> generateIndividualReport(@PathVariable UUID id,@PathVariable String userName) throws Exception {
+		return budgetServiceImplementation.generateIndividualReport(userName,id);
 	}
 
 }

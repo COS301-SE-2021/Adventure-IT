@@ -248,7 +248,7 @@ public class BudgetServiceImplementation implements BudgetService {
             throw new Exception("Budget does not exist.");
         }
 
-        if(req.getUserID() != budget.getCreatorID()){
+        if(!req.getUserID().equals(budget.getCreatorID())){
             throw new Exception("User not Authorised");
         }
 
@@ -276,7 +276,7 @@ public class BudgetServiceImplementation implements BudgetService {
         if (budget==null || !budget.isDeleted()) {
             throw new Exception("Budget is not in trash.");
         }
-        if(userID != budget.getCreatorID()){
+        if(!userID.equals(budget.getCreatorID())){
             throw new Exception("User not Authorised");
         }
 
@@ -310,12 +310,17 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
 
-    public String restoreBudget(UUID id) throws Exception {
+    public String restoreBudget(UUID id,UUID userID) throws Exception {
         if (budgetRepository.findBudgetByBudgetID(id) == null) {
             throw new Exception("Budget does not exist.");
         }
 
         Budget budget = budgetRepository.findBudgetByBudgetID(id);
+
+        if(!budget.getCreatorID().equals(userID)){
+            throw new Exception("User not Authorised");
+        }
+
         budget.setDeleted(false);
         budgetRepository.save(budget);
         return "Budget was restored";
@@ -384,27 +389,9 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
-    public JSONObject generateReport(UUID id) throws Exception {
-        if(budgetRepository.findBudgetByBudgetID(id) == null){
-            throw new Exception("Budget does not exist");
-        }
-
-        List<String> usernames = getReportList(id);
-        JSONObject jsonObject = new JSONObject();
-        Collection<JSONObject> items = new ArrayList<JSONObject>();
-
-        for (String name:usernames) {
-            items.add(generateIndividualReport(name, id));
-        }
-
-        jsonObject.put("Report", new JSONArray(items));
-        return jsonObject;
-    }
-
-    @Override
     public List<String> getReportList(UUID id) {
         List<BudgetEntry> entries = budgetEntryRepository.findBudgetEntryByEntryContainerID(id);
-        List<String> names = new ArrayList<>();
+        List<String> names;
         List<String> list = new ArrayList<>();
 
         for (BudgetEntry entry:entries) {
@@ -420,55 +407,59 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
-    public JSONObject generateIndividualReport(String userName, UUID id) throws JSONException {
+    public List<ReportResponseDTO> generateIndividualReport(String userName, UUID id) throws JSONException {
         List<BudgetEntry> entries = budgetEntryRepository.findBudgetEntryByEntryContainerID(id);
         JSONObject jsonObject = new JSONObject();
-
-        jsonObject.put("User", userName);
-        jsonObject.put("Payments",new JSONObject());
 
         for (BudgetEntry entry:entries) {
 
             if(entry instanceof UTOExpense){
                 if(entry.getPayers().contains(userName)){
                     String payee = ((UTOExpense) entry).getPayee();
-                    if(!jsonObject.getJSONObject("Payments").has(payee)){
-                        jsonObject.getJSONObject("Payments").put(payee,(entry.getAmount()/entry.getPayers().size()));
+                    if(!jsonObject.has(payee)){
+                        jsonObject.put(payee,(entry.getAmount()/entry.getPayers().size()));
                     }
                     else{
-                        double temp = jsonObject.getJSONObject("Payments").getDouble(payee);
-                        jsonObject.getJSONObject("Payments").put(payee, (temp + (entry.getAmount()/entry.getPayers().size())));
+                        double temp = jsonObject.getDouble(payee);
+                        jsonObject.put(payee, (temp + (entry.getAmount()/entry.getPayers().size())));
                     }
                 }
             }
             else{
                 if(entry.getPayers().contains(userName)){
                     String payee = ((UTUExpense) entry).getPayee();
-                    if(!jsonObject.getJSONObject("Payments").has(payee)){
-                        jsonObject.getJSONObject("Payments").put(payee,(entry.getAmount()/entry.getPayers().size()));
+                    if(!jsonObject.has(payee)){
+                        jsonObject.put(payee,(entry.getAmount()/entry.getPayers().size()));
                     }
                     else{
-                        double temp = jsonObject.getJSONObject("Payments").getDouble(payee);
-                        jsonObject.getJSONObject("Payments").put(payee, (temp + (entry.getAmount()/entry.getPayers().size())));
+                        double temp = jsonObject.getDouble(payee);
+                        jsonObject.put(payee, (temp + (entry.getAmount()/entry.getPayers().size())));
                     }
                 }
                 else if(((UTUExpense) entry).getPayee().equals(userName)){
                     for (String payer:entry.getPayers()) {
-                        if(!jsonObject.getJSONObject("Payments").has(payer)){
-                            jsonObject.getJSONObject("Payments").put(payer,(-entry.getAmount()/entry.getPayers().size()));
+                        if(!jsonObject.has(payer)){
+                            jsonObject.put(payer,(-entry.getAmount()/entry.getPayers().size()));
                         }
                         else{
-                            double temp = jsonObject.getJSONObject("Payments").getDouble(payer);
-                            jsonObject.getJSONObject("Payments").put(payer, (temp - (entry.getAmount()/entry.getPayers().size())));
+                            double temp = jsonObject.getDouble(payer);
+                            jsonObject.put(payer, (temp - (entry.getAmount()/entry.getPayers().size())));
                         }
                     }
                 }
             }
         }
 
-        return jsonObject;
-    }
+        List<ReportResponseDTO> list = new ArrayList<>();
 
+        for (Iterator it = jsonObject.keys(); it.hasNext(); ) {
+            Object key = it.next();
+            Object value = jsonObject.get(key.toString());
+            list.add(new ReportResponseDTO(key.toString(),Double.parseDouble(value.toString())));
+        }
+
+        return list;
+    }
 
     @Override
     public void mockPopulate() {
@@ -505,11 +496,8 @@ public class BudgetServiceImplementation implements BudgetService {
         budgetEntryRepository.save(mockEntry1);
         budgetEntryRepository.save(mockEntry2);
         budgetEntryRepository.save(mockEntry3);
-
-
     }
-
-
+    
     @Override
     public void mockPopulateTrash() {
         final UUID mockBudgetID1 = UUID.fromString("86224c30-fb96-4b02-9aca-ca7b61c6bede");

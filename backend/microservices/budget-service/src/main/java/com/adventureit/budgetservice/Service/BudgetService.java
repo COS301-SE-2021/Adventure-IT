@@ -20,9 +20,8 @@ public interface BudgetService {
     SoftDeleteResponse softDelete(SoftDeleteRequest req) throws Exception;
     HardDeleteResponse hardDelete(UUID id, UUID userID) throws Exception;
     List<BudgetResponseDTO> viewTrash(UUID id) throws Exception;
-    String restoreBudget(UUID id) throws Exception;
-    JSONObject generateReport(UUID id) throws Exception;
-    JSONObject generateIndividualReport(String userName, UUID id) throws JSONException;
+    String restoreBudget(UUID id,UUID userID) throws Exception;
+    List<ReportResponseDTO> generateIndividualReport(String userName, UUID id) throws JSONException;
     List<String> getReportList(UUID id);
     void mockPopulate();
     void mockCreateBudget(String name);
