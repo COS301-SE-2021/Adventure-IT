@@ -63,9 +63,9 @@ public class BudgetController {
 		return budgetServiceImplementation.viewBudget(id);
 	}
 
-	@GetMapping("/softDelete/{id}")
-	public String softDelete(@PathVariable UUID id) throws Exception {
-		SoftDeleteRequest request = new SoftDeleteRequest(id);
+	@GetMapping("/softDelete/{id}/{userID}")
+	public String softDelete(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+		SoftDeleteRequest request = new SoftDeleteRequest(id, userID);
 		budgetServiceImplementation.softDelete(request);
 		return "Budget successfully moved to bin.";
 	}
@@ -83,11 +83,10 @@ public class BudgetController {
 	}
 
 
-	@GetMapping("/hardDelete/{id}")
-	public String hardDelete(@PathVariable UUID id) throws Exception {
-		HardDeleteResponse response = budgetServiceImplementation.hardDelete(id);
+	@GetMapping("/hardDelete/{id}/{userID}")
+	public String hardDelete(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+		HardDeleteResponse response = budgetServiceImplementation.hardDelete(id, userID);
 		return response.getMessage();
-
 	}
 
 	@PostMapping("/create")
