@@ -248,6 +248,10 @@ public class BudgetServiceImplementation implements BudgetService {
             throw new Exception("Budget does not exist.");
         }
 
+        if(req.getUserID() != budget.getCreatorID()){
+            throw new Exception("User not Authorised");
+        }
+
         budget.setDeleted(true);
         budgetRepository.save(budget);
         return new SoftDeleteResponse(true);
@@ -262,16 +266,18 @@ public class BudgetServiceImplementation implements BudgetService {
      * the request was successful or if an error occurred and return a message
      */
     @Override
-    public HardDeleteResponse hardDelete(UUID id) throws Exception {
+    public HardDeleteResponse hardDelete(UUID id, UUID userID) throws Exception {
         if(id == null){
             throw new Exception("Budget ID not provided.");
         }
 
         Budget budget = budgetRepository.findBudgetByBudgetIDAndDeletedEquals(id,true);
 
-
         if (budget==null || !budget.isDeleted()) {
             throw new Exception("Budget is not in trash.");
+        }
+        if(userID != budget.getCreatorID()){
+            throw new Exception("User not Authorised");
         }
 
         List<BudgetEntry> entries = budgetEntryRepository.findBudgetEntryByEntryContainerID(id);
