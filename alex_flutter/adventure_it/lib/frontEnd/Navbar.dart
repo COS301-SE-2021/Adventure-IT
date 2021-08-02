@@ -13,14 +13,16 @@ class NavDrawer extends StatelessWidget {
         child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-      DrawerHeader(
+      Container(
+        height: MediaQuery.of(context).size.height * 0.3,
+        child: DrawerHeader(
       child: SizedBox(),
         decoration: BoxDecoration(
-          color: Colors.green,
+          color: Theme.of(context).primaryColorDark,
           image: DecorationImage(
               fit: BoxFit.fill,
-              image: AssetImage('assets/adventure.PNG'))),
-      ),
+              image: ExactAssetImage('assets/logo.png'))),
+      )),
           ListTile(
             leading: Icon(Icons.location_city_outlined),
             title: Text('Adventure',
@@ -60,6 +62,7 @@ class NavDrawer extends StatelessWidget {
             onTap: () => {},
           ),
           ListTile(
+            tileColor: Colors.red,
             leading: Icon(Icons.power_settings_new),
             title: Text('Logout'),
             onTap: () => {
