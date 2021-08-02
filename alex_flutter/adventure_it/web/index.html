@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -26,10 +27,29 @@
   <title>adventure_it</title>
   <link rel="manifest" href="manifest.json">
 </head>
+
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-messaging.js"></script>
+  <!-- Firebase Configuration -->
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyBp5H4h4BUsbYuyCdlMKhlArTjHCXD1phU",
+      authDomain: "adventureit.firebaseapp.com",
+      databaseURL: "https://adventureit.firebaseio.com",
+      projectId: "adventureit",
+      storageBucket: "adventureit.appspot.com",
+      messagingSenderId: "747889907400",
+      appId: "1:747889907400:android:cbfd91781ec27c67daf7fd",
+      measurementId: "G-...",
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
   <script>
     var serviceWorkerVersion = null;
     var scriptLoaded = false;
@@ -95,4 +115,5 @@
     }
   </script>
 </body>
+
 </html>
