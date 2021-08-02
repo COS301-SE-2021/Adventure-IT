@@ -4,7 +4,7 @@ import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/gestures.dart';
-import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
+
 
 import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
@@ -21,25 +21,43 @@ class CreateAdventureCaller extends StatefulWidget {
 }
 
 class CreateAdventure extends State<CreateAdventureCaller> {
-  List<DateTime>? dates;
+  DateTimeRange? dates;
+  final initialDateRange = DateTimeRange(
+    start: DateTime.now(),
+    end: DateTime.now().add(Duration(hours: 24 * 7)),
+  );
+
   List<String> months=["January","February", "March", "April","May", "June", "July", "August", "September","October", "November", "December"];
   String getText()
   {
     if (dates==null)
     {
-      return "Select Date";
+      return "Select Dates";
     }
-    else if (dates!.elementAt(0)==dates!.elementAt(1))
+    else if (dates!.start==dates!.end)
     {
-      String x=dates!.elementAt(0).day.toString()+" "+months.elementAt(dates!.elementAt(0).month-1)+" "+dates!.elementAt(0).year.toString();
+      String x=dates!.start.day.toString()+" "+months.elementAt(dates!.start.month-1)+" "+dates!.start.year.toString();
       return x;
     }
     else
     {
-      String x=dates!.elementAt(0).day.toString()+" "+months.elementAt(dates!.elementAt(0).month-1)+" "+dates!.elementAt(0).year.toString()+" to "+dates!.elementAt(1).day.toString()+" "+months.elementAt(dates!.elementAt(1).month-1)+" "+dates!.elementAt(1).year.toString();
+      String x=dates!.start.day.toString()+" "+months.elementAt(dates!.start.month-1)+" "+dates!.start.year.toString()+" to "+dates!.end.day.toString()+" "+months.elementAt(dates!.end.month-1)+" "+dates!.end.year.toString();
       return x;
     }
   }
+  Map<int, Color> color =
+  {
+    50:Color.fromRGBO(32, 34, 45, .1),
+    100:Color.fromRGBO(32, 34, 45, .2),
+    200:Color.fromRGBO(32, 34, 45, .3),
+    300:Color.fromRGBO(32, 34, 45, .4),
+    400:Color.fromRGBO(32, 34, 45, .5),
+    500:Color.fromRGBO(32, 34, 45, .6),
+    600:Color.fromRGBO(32, 34, 45, .7),
+    700:Color.fromRGBO(32, 34, 45, .8),
+    800:Color.fromRGBO(32, 34, 45, .9),
+    900:Color.fromRGBO(32, 34, 45, 1),
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -106,14 +124,44 @@ class CreateAdventure extends State<CreateAdventureCaller> {
               MaterialButton(
                   color: Theme.of(context).accentColor,
                   onPressed: () async {
-                    List<DateTime>? picked = await DateRangePicker.showDatePicker(
+                    DateTimeRange? picked = await showDateRangePicker(
                         context: context,
-                        initialFirstDate: dates?.elementAt(0) ?? new DateTime.now(),
-                        initialLastDate: dates?.elementAt(1)??(new DateTime.now()).add(new Duration(days: 7)),
+                        builder: (BuildContext context, Widget ?child) {
+                          return Theme(
+                            data: ThemeData(
+                                primarySwatch: MaterialColor(0xFF20222D,color),
+                                splashColor: Color(0xff20222D),
+                                scaffoldBackgroundColor: Color(0xff484D64),
+                                canvasColor: Color(0xff484D64),
+                                textTheme: TextTheme(
+                                  subtitle1: TextStyle(color:Color(0xffA7AAB9)),
+                                    bodyText2: TextStyle(color:Color(0xffA7AAB9)),
+                                    bodyText1: TextStyle(color:Color(0xffA7AAB9))
+                                  subtitle2: TextStyle(color:Color(0xffA7AAB9)),
+                                  button: TextStyle(color: Color(0xffA7AAB9), fontWeight: FontWeight.bold),
+                                ),
+                                accentColor: Color(0xff6A7AC7),
+                                colorScheme: ColorScheme.light(
+                                    primary: Color(0xff20222D),
+                                    primaryVariant: Color(0xff20222D),
+                                    secondaryVariant: Color(0xff20222D),
+                                    onSecondary: Color(0xff20222D),
+                                    onPrimary: Color(0xffA7AAB9),
+                                    surface: Color(0xff20222D)
+                                    onSurface: Color(0xffA7AAB9),
+                                secondary: Color(0xff6A7AC7)),
+                            dialogBackgroundColor: Color(0xff484D64),
+                            backgroundColor:Color(0xff484D64),
+                            highlightColor: Color(0xff484D64)
+
+
+                          ) child: child!,);
+                        },
+                        initialDateRange: dates ?? initialDateRange
                         firstDate: new DateTime(DateTime.now().year - 5),
                         lastDate: new DateTime(DateTime.now().year + 5)
                     );
-                    if (picked!.length == 2) {
+                    if (picked!=null) {
                       print(picked);
                       setState(()=>dates=picked);
 
