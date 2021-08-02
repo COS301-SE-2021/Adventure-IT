@@ -142,11 +142,21 @@ class AlertBox extends StatefulWidget {
 class _AlertBox extends State <AlertBox> {
   Itinerary? currentItinerary;
   DateTime? date = null;
+  TimeOfDay? time=null;
 
-  _AlertBox(Itinerary i) {
-    this.currentItinerary = i;
-  }
-
+  Map<int, Color> color =
+  {
+    50:Color.fromRGBO(32, 34, 45, .1),
+    100:Color.fromRGBO(32, 34, 45, .2),
+    200:Color.fromRGBO(32, 34, 45, .3),
+    300:Color.fromRGBO(32, 34, 45, .4),
+    400:Color.fromRGBO(32, 34, 45, .5),
+    500:Color.fromRGBO(32, 34, 45, .6),
+    600:Color.fromRGBO(32, 34, 45, .7),
+    700:Color.fromRGBO(32, 34, 45, .8),
+    800:Color.fromRGBO(32, 34, 45, .9),
+    900:Color.fromRGBO(32, 34, 45, 1),
+  };
 
   List<String> months = [
     "January",
@@ -163,37 +173,12 @@ class _AlertBox extends State <AlertBox> {
     "December"
   ];
 
-  String getTextDate() {
-    if (date == null) {
-      return "Select Date";
-    }
-    else {
-      String x = date!.day.toString() + " " +
-          months.elementAt(date!.month - 1) + " " + date!.year.toString();
-      return x;
-    }
+
+
+  _AlertBox(Itinerary i) {
+    this.currentItinerary = i;
   }
 
-  double getSize(context) {
-    if (MediaQuery
-        .of(context)
-        .size
-        .height >
-        MediaQuery
-            .of(context)
-            .size
-            .width) {
-      return MediaQuery
-          .of(context)
-          .size
-          .height * 0.49;
-    } else {
-      return MediaQuery
-          .of(context)
-          .size
-          .height * 0.6;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -228,7 +213,7 @@ class _AlertBox extends State <AlertBox> {
                 child: Column(
                   // mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text("Add Item To Checklist",
+                    Text("Add Item To Itinerary",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Theme
@@ -331,47 +316,7 @@ class _AlertBox extends State <AlertBox> {
                             .of(context)
                             .accentColor,
                         onPressed: () async {
-                          DateTime? picked = await showDatePicker(
-                            context: context,
-                            builder: (BuildContext context, Widget ?child) {
-                              return Theme(
-                                data: ThemeData(
-                                  primarySwatch: Colors.grey,
-                                  splashColor: Color(0xff20222D),
-                                  textTheme: TextTheme(
-                                    subtitle1: TextStyle(color:Color(0xffA7AAB9)),
-                                    button: TextStyle(color: Color(0xffA7AAB9), fontWeight: FontWeight.bold),
-                                  ),
-                                  textButtonTheme: TextButtonThemeData(
-                                      style: TextButton.styleFrom(
-                                        primary: Color(0xff20222D), // button text color
-                                      )),
-                                  accentColor: Color(0xff6A7AC7),
-                                  colorScheme: ColorScheme.light(
-                                      primary: Color(0xff20222D),
-                                      primaryVariant: Color(0xff20222D),
-                                      secondaryVariant: Color(0xff20222D),
-                                      onSecondary: Color(0xff20222D),
-                                      onPrimary: Color(0xffA7AAB9),
-                                      surface: Color(0xff20222D)
-                                      onSurface: Color(0xffA7AAB9),
-                                      secondary: Color(0xff6A7AC7)),
-                                  dialogBackgroundColor: Color(0xff484D64),
-
-
-                                ) child: child!,);
-                            },
-
-
-                            initialDate:
-                            date ?? DateTime.now(),
-                            firstDate: new DateTime(DateTime
-                                .now()
-                                .year - 5),
-                            lastDate: new DateTime(DateTime
-                                .now()
-                                .year + 5),
-                          );
+                          DateTime? picked = await showDate();
                           if (picked != null) {
                             setState(() => date = picked);
                           }
@@ -385,7 +330,29 @@ class _AlertBox extends State <AlertBox> {
                             .of(context)
                             .textScaleFactor))
                     ),
-
+                    SizedBox(height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.03),
+                    MaterialButton(
+                        color: Theme
+                            .of(context)
+                            .accentColor,
+                        onPressed: () async {
+                          TimeOfDay? picked = await showTime();
+                          if (picked != null) {
+                            setState(() => time = picked);
+                          }
+                        },
+                        child: Text(
+                            getTextTime(), style: new TextStyle(color: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color, fontSize: 15 * MediaQuery
+                            .of(context)
+                            .textScaleFactor))
+                    ),
                     Spacer(),
                     Padding(
                       padding: EdgeInsets.symmetric(
@@ -417,5 +384,138 @@ class _AlertBox extends State <AlertBox> {
           ),
         )
     );
+  }
+
+  Future<DateTime?> showDate()
+  {
+    return showDatePicker(
+      context: context,
+      builder: (BuildContext context, Widget ?child) {
+        return Theme(
+          data: ThemeData(
+              primarySwatch: Colors.grey,
+              splashColor: Color(0xff20222D),
+              textTheme: TextTheme(
+                subtitle1: TextStyle(color:Color(0xffA7AAB9)),
+                button: TextStyle(color: Color(0xffA7AAB9), fontWeight: FontWeight.bold),
+              ),
+              textButtonTheme: TextButtonThemeData(
+                  style: TextButton.styleFrom(
+                    primary: Color(0xff20222D), // button text color
+                  )),
+              accentColor: Color(0xff6A7AC7),
+              colorScheme: ColorScheme.light(
+                  primary: Color(0xff20222D),
+                  primaryVariant: Color(0xff20222D),
+                  secondaryVariant: Color(0xff20222D),
+                  onSecondary: Color(0xff20222D),
+                  onPrimary: Color(0xffA7AAB9),
+                  surface: Color(0xff20222D),
+                  onSurface: Color(0xffA7AAB9),
+              secondary: Color(0xff6A7AC7)),
+          dialogBackgroundColor: Color(0xff484D64),
+
+
+        ), child: child!,);
+      },
+
+
+      initialDate:
+      date ?? DateTime.now(),
+      firstDate: new DateTime(DateTime
+          .now()
+          .year - 5),
+      lastDate: new DateTime(DateTime
+          .now()
+          .year + 5),
+    );
+  }
+
+  Future <TimeOfDay?> showTime()
+  {
+    return showTimePicker(
+      context: context,
+      builder: (BuildContext context, Widget ?child) {
+        return Theme(
+          data: ThemeData(
+              primarySwatch: MaterialColor(0xFF20222D,color),
+              splashColor: Color(0xff20222D),
+              timePickerTheme: TimePickerThemeData(
+                  helpTextStyle: TextStyle(color:Color(0xffA7AAB9),)
+
+              ),
+              textTheme: TextTheme(
+                  subtitle1: TextStyle(color:Color(0xffA7AAB9)),
+                  bodyText2: TextStyle(color:Color(0xffA7AAB9)),
+                  bodyText1: TextStyle(color:Color(0xffA7AAB9)),
+                  subtitle2: TextStyle(color:Color(0xffA7AAB9)),
+          button: TextStyle(color: Color(0xffA7AAB9), fontWeight: FontWeight.bold),
+        ),
+        textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+        primary: Color(0xffA7AAB9), // button text color
+        )),
+        accentColor: Color(0xff6A7AC7),
+        colorScheme: ColorScheme.light(
+        primary: Color(0xff6A7AC7),
+        primaryVariant: Color(0xff484D64),
+        secondaryVariant: Color(0xff484D64),
+        onSecondary: Color(0xffA7AAB9),
+        onPrimary: Color(0xffA7AAB9),
+        surface: Color(0xff20222D),
+        onSurface: Color(0xffA7AAB9),
+        secondary: Color(0xff6A7AC7)),
+        dialogBackgroundColor: Color(0xff484D64),
+        backgroundColor: Color(0xff484D64),
+
+
+        ), child: child!,);
+      },
+
+      initialTime: TimeOfDay.now(),
+    );
+  }
+
+  String getTextDate() {
+    if (date == null) {
+      return "Select Date";
+    }
+    else {
+      String x = date!.day.toString() + " " +
+          months.elementAt(date!.month - 1) + " " + date!.year.toString();
+      return x;
+    }
+  }
+
+  double getSize(context) {
+    if (MediaQuery
+        .of(context)
+        .size
+        .height >
+        MediaQuery
+            .of(context)
+            .size
+            .width) {
+      return MediaQuery
+          .of(context)
+          .size
+          .height * 0.49;
+    } else {
+      return MediaQuery
+          .of(context)
+          .size
+          .height * 0.6;
+    }
+  }
+
+  String getTextTime() {
+    if (time == null) {
+      return 'Select Time';
+    } else {
+      final hours = time!.hour.toString().padLeft(2, '0');
+      final minutes = time!.minute.toString().padLeft(2, '0');
+
+      return '$hours:$minutes';
+    }
   }
 }
