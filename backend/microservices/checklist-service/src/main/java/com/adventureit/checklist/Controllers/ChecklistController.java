@@ -3,6 +3,7 @@ package com.adventureit.checklist.Controllers;
 import com.adventureit.checklist.Entity.Checklist;
 import com.adventureit.checklist.Repository.ChecklistRepository;
 import com.adventureit.checklist.Requests.*;
+import com.adventureit.checklist.Responses.ChecklistEntryResponseDTO;
 import com.adventureit.checklist.Responses.ChecklistResponseDTO;
 import com.adventureit.checklist.Service.ChecklistServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class ChecklistController {
     }
 
     @GetMapping("/viewChecklist/{id}")
-    public ChecklistResponseDTO viewCheckist(@PathVariable UUID id) throws Exception {
+    public List<ChecklistEntryResponseDTO> viewCheckist(@PathVariable UUID id) throws Exception {
         return checklistServiceImplementation.viewChecklist(id);
     }
 
@@ -78,9 +79,9 @@ public class ChecklistController {
         return checklistServiceImplementation.addChecklistEntry(req.getTitle(),req.getId(),req.getEntryContainerID());
     }
 
-    @PostMapping("/removeEntry")
-    public String removeEntry(@RequestBody RemoveChecklistEntryRequest req) throws Exception {
-        return checklistServiceImplementation.removeChecklistEntry(req.getId(),req.getEntryContainerID());
+    @GetMapping("/removeEntry/{id}")
+    public String removeEntry(@PathVariable UUID id) throws Exception {
+        return checklistServiceImplementation.removeChecklistEntry(id);
     }
 
     @PostMapping("/editEntry")

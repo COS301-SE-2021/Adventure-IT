@@ -8,6 +8,7 @@ import com.adventureit.userservice.Requests.LoginUserRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Requests.AcceptFriendRequest;
 import com.adventureit.userservice.Requests.UpdatePictureRequest;
+import com.adventureit.userservice.Responses.GetFriendRequestsResponse;
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
 import com.adventureit.userservice.Responses.LoginUserDTO;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
@@ -84,6 +85,11 @@ public class UserController {
     @GetMapping(value="api/GetFriends/{id}")
     public List<UUID> getFriends(@PathVariable UUID id){
         return service.getFriends(id);
+    }
+
+    @GetMapping(value="api/GetFriendRequests/{id}")
+    public List<GetFriendRequestsResponse> getFriendRequests(@PathVariable UUID id){
+        return service.getFriendRequests(id);
     }
 
 }

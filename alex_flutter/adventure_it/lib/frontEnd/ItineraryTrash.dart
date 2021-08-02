@@ -140,7 +140,11 @@ class DeletedItineraryList extends StatelessWidget {
                                           return AlertDialog(
                                               backgroundColor:
                                               Theme.of(context).primaryColorDark,
-                                              title: Text('Confirm Restoration'),
+                                              title: Text('Confirm Restoration',style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color),),
                                               content:
                                                     Text(
                                                         'Are you sure you want to restore this itinerary to your adventure?',style: TextStyle(

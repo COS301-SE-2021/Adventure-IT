@@ -6,6 +6,7 @@ import com.adventureit.budgetservice.Repository.BudgetRepository;
 import com.adventureit.budgetservice.Requests.*;
 import com.adventureit.budgetservice.Responses.*;
 import com.adventureit.budgetservice.Service.BudgetServiceImplementation;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -58,7 +59,7 @@ public class BudgetController {
 	}
 
 	@GetMapping("/viewBudget/{id}")
-	public BudgetResponseDTO viewBudget(@PathVariable UUID id) throws Exception {
+	public List<ViewBudgetResponse> viewBudget(@PathVariable UUID id) throws Exception {
 		return budgetServiceImplementation.viewBudget(id);
 	}
 
@@ -103,7 +104,7 @@ public class BudgetController {
 
 	@PostMapping("/addUTUExpense")
 	public String addUTUExpense(@RequestBody AddUTUExpenseEntryRequest req) throws Exception {
-		AddUTUExpenseEntryResponse response = budgetServiceImplementation.addUTUExpenseEntry(req.getBudgetEntryID(),req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayeeID());
+		AddUTUExpenseEntryResponse response = budgetServiceImplementation.addUTUExpenseEntry(req.getBudgetEntryID(),req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayee());
 		return response.getMessage();
 	}
 
@@ -121,12 +122,17 @@ public class BudgetController {
 
 	@PostMapping("/calculateExpense")
 	public double calculateExpense(@RequestBody CalculateExpensesPerUserRequest req) throws Exception {
-		return budgetServiceImplementation.calculateExpensesPerUser(req.getBudgetID(), req.getUserID());
+		return budgetServiceImplementation.calculateExpensesPerUser(req.getBudgetID(), req.getUserName());
 	}
 
 	@GetMapping("/getEntriesPerCategory/{id}")
 	public List<Integer> getEntriesPerCategory(@PathVariable UUID id) throws Exception {
 		return budgetServiceImplementation.getEntriesPerCategory(id);
+	}
+
+	@GetMapping("/generateReport/{id}")
+	public JSONObject generateReport(@PathVariable UUID id) throws Exception {
+		return budgetServiceImplementation.generateReport(id);
 	}
 
 }
