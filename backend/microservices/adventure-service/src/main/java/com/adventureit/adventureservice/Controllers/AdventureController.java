@@ -59,4 +59,10 @@ public class AdventureController {
     public RemoveAdventureResponse removeAdventure(@PathVariable UUID id){
         return adventureServiceImplementation.removeAdventure(id);
     }
+
+    @GetMapping("/getAttendees/{id}")
+    public List<UUID> getAttendees(@PathVariable UUID id) throws Exception {
+        return adventureServiceImplementation.getAttendees(id);
+    }
+
 }

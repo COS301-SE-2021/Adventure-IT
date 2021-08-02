@@ -15,8 +15,6 @@ class ItineraryApi {
       throw Exception('Failed to load list of itineraries: ${response.body}');
     }
 
-    print(response.body);
-
     List<Itinerary> itineraries = (jsonDecode(response.body) as List)
         .map((x) => Itinerary.fromJson(x))
         .toList();
@@ -24,9 +22,32 @@ class ItineraryApi {
     return itineraries;
   }
 
+  // static Future<List<ItineraryEntry>> getItineraryEntries(Itinerary i) async {
+  //   http.Response response =
+  //   await _getItineraryEntries(i!.id);
+  //
+  //   if (response.statusCode != 200) {
+  //     throw Exception('Failed to load list of entries for itinerary: ${response.body}');
+  //   }
+  //
+  //
+  //   List<ItineraryEntries> itineraries = (jsonDecode(response.body) as List)
+  //       .map((x) => ItineraryEntry.fromJson(x))
+  //       .toList();
+  //
+  //   return itineraries;
+  // }
+
+
+
   static Future<http.Response> _getItineraries(adventureID) async {
-    print("here here here here");
+
     return http.get(Uri.http(itineraryApi, '/itinerary/viewItinerariesByAdventure/' + adventureID));
+  }
+
+  static Future<http.Response> _getItineraryEntries(itineraryID) async {
+
+    return http.get(Uri.http(itineraryApi, '/itinerary/viewItinerary/' + itineraryID));
   }
 
   static Future<List<Itinerary>> getDeletedItinerary(adventureId) async {
@@ -65,6 +86,16 @@ class ItineraryApi {
 
   }
 
+  // static Future deleteItineraryEntry(ItineraryEntry i) async {
+  //   http.Response response = await _deleteItineraryEntryRequest(i.id);
+  //
+  //
+  //   if (response.statusCode != 200) {
+  //     throw Exception('Failed to delete itinerary entry ${response.body}');
+  //   }
+  //
+  // }
+
   static Future hardDeleteItinerary(itineraryID) async {
     http.Response response = await _hardDeleteItineraryRequest(itineraryID);
 
@@ -80,6 +111,11 @@ class ItineraryApi {
   static Future<http.Response> _getDeletedItinerariesResponse(adventureId) async {
 
     return http.get(Uri.http(itineraryApi, '/itinerary/viewTrash/' + adventureId));
+  }
+
+  static Future<http.Response> _deleteItineraryEntryRequest(itineraryEntryID) async {
+
+    return http.get(Uri.http(itineraryApi, '/itinerary/removeEntry/' + itineraryEntryID));
   }
 
   static Future<http.Response> _deleteItineraryRequest(itineraryID) async {

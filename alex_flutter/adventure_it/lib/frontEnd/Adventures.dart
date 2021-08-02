@@ -140,16 +140,6 @@ class AdventureList extends StatelessWidget {
                                   hoverColor:
                                       Theme.of(context).primaryColorLight,
                                   onTap: () {
-                                    // Future<List<Budget>> budgetsFuture =
-                                    // BudgetApi.getBudgets(
-                                    //     adventures.elementAt(index));
-                                    //     Navigator.pushReplacement(
-                                    //         context,
-                                    //         MaterialPageRoute(
-                                    //           builder: (context) => Adventure_Budgets(
-                                    //           budgetsFuture: budgetsFuture,
-                                    //           adventure:
-                                    //           adventures.elementAt(index))));
 
                                     Navigator.pushReplacement(
                                         context,
@@ -168,7 +158,8 @@ class AdventureList extends StatelessWidget {
                                                 Theme.of(context)
                                                     .backgroundColor
                                                     .withOpacity(0.25),
-                                                BlendMode.dstATop))),
+                                                BlendMode.dstATop))
+                                    ),
                                     child: Row(
                                       children: <Widget>[
                                         Expanded(

@@ -6,13 +6,13 @@ import com.adventureit.budgetservice.Repository.BudgetEntryRepository;
 import com.adventureit.budgetservice.Repository.BudgetRepository;
 import com.adventureit.budgetservice.Requests.*;
 import com.adventureit.budgetservice.Responses.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service("BudgetServiceImplementation")
@@ -270,7 +270,7 @@ public class BudgetServiceImplementation implements BudgetService {
         Budget budget = budgetRepository.findBudgetByBudgetIDAndDeletedEquals(id,true);
 
 
-        if (budget==null || budget.isDeleted()==false) {
+        if (budget==null || !budget.isDeleted()) {
             throw new Exception("Budget is not in trash.");
         }
 
@@ -292,10 +292,10 @@ public class BudgetServiceImplementation implements BudgetService {
     @Override
     public List<BudgetResponseDTO> viewTrash(UUID id) throws Exception {
 
-        List<Budget> budgets = budgetRepository.findAllByDeletedEquals(true);
+        List<Budget> budgets = budgetRepository.findAllByAdventureID(id);
         List<BudgetResponseDTO> list = new ArrayList<>();
         for (Budget b:budgets) {
-            if(id == b.getAdventureID()){
+            if(b.isDeleted()){
                 list.add(new BudgetResponseDTO(b.getBudgetId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.isDeleted(), b.getDescription()));
 
             }
@@ -314,34 +314,6 @@ public class BudgetServiceImplementation implements BudgetService {
         budgetRepository.save(budget);
         return "Budget was restored";
     }
-
-
-//    @Override
-//    public String calculateBudget(UUID id) throws Exception {
-//        if(id == null){
-//            throw new Exception("ID not provided");
-//        }
-//
-//        Budget budget = budgetRepository.findBudgetByBudgetID(id);
-//        if(budget == null){
-//            throw new Exception("Budget does not exist.");
-//        }
-//
-//        double sum = 0.0;
-//        List<BudgetEntry> entries = budgetEntryRepository.findBudgetEntryByEntryContainerID(id);
-//
-//        for (BudgetEntry entry:entries) {
-//
-//            if(entry instanceof UTUExpense){
-//                sum += entry.getAmount();
-//            }
-//            else {
-//                sum -= entry.getAmount();
-//            }
-//        }
-//
-//        return Double.toString(sum);
-//    }
 
     @Override
     public double calculateExpensesPerUser(UUID budgetID, String userName) throws Exception {
@@ -403,6 +375,92 @@ public class BudgetServiceImplementation implements BudgetService {
         }
 
         return integers;
+    }
+
+    @Override
+    public JSONObject generateReport(UUID id) throws Exception {
+        if(budgetRepository.findBudgetByBudgetID(id) == null){
+            throw new Exception("Budget does not exist");
+        }
+
+        List<String> usernames = getReportList(id);
+        JSONObject jsonObject = new JSONObject();
+        Collection<JSONObject> items = new ArrayList<JSONObject>();
+
+        for (String name:usernames) {
+            items.add(generateIndividualReport(name, id));
+        }
+
+        jsonObject.put("Report", new JSONArray(items));
+        return jsonObject;
+    }
+
+    @Override
+    public List<String> getReportList(UUID id) {
+        List<BudgetEntry> entries = budgetEntryRepository.findBudgetEntryByEntryContainerID(id);
+        List<String> names = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+
+        for (BudgetEntry entry:entries) {
+            names = entry.getPayers();
+            for (String name:names) {
+                if(!list.contains(name)){
+                    list.add(name);
+                }
+            }
+        }
+
+        return list;
+    }
+
+    @Override
+    public JSONObject generateIndividualReport(String userName, UUID id) throws JSONException {
+        List<BudgetEntry> entries = budgetEntryRepository.findBudgetEntryByEntryContainerID(id);
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("User", userName);
+        jsonObject.put("Payments",new JSONObject());
+
+        for (BudgetEntry entry:entries) {
+
+            if(entry instanceof UTOExpense){
+                if(entry.getPayers().contains(userName)){
+                    String payee = ((UTOExpense) entry).getPayee();
+                    if(!jsonObject.getJSONObject("Payments").has(payee)){
+                        jsonObject.getJSONObject("Payments").put(payee,(entry.getAmount()/entry.getPayers().size()));
+                    }
+                    else{
+                        double temp = jsonObject.getJSONObject("Payments").getDouble(payee);
+                        jsonObject.getJSONObject("Payments").put(payee, (temp + (entry.getAmount()/entry.getPayers().size())));
+                    }
+                }
+            }
+            else{
+                if(entry.getPayers().contains(userName)){
+                    String payee = ((UTUExpense) entry).getPayee();
+                    if(!jsonObject.getJSONObject("Payments").has(payee)){
+                        jsonObject.getJSONObject("Payments").put(payee,(entry.getAmount()/entry.getPayers().size()));
+                    }
+                    else{
+                        double temp = jsonObject.getJSONObject("Payments").getDouble(payee);
+                        jsonObject.getJSONObject("Payments").put(payee, (temp + (entry.getAmount()/entry.getPayers().size())));
+                    }
+                }
+                else if(((UTUExpense) entry).getPayee().equals(userName)){
+                    for (String payer:entry.getPayers()) {
+                        if(!jsonObject.getJSONObject("Payments").has(payer)){
+                            jsonObject.getJSONObject("Payments").put(payer,(-entry.getAmount()/entry.getPayers().size()));
+                        }
+                        else{
+                            double temp = jsonObject.getJSONObject("Payments").getDouble(payer);
+                            jsonObject.getJSONObject("Payments").put(payer, (temp - (entry.getAmount()/entry.getPayers().size())));
+                        }
+                    }
+                }
+            }
+        }
+
+        return jsonObject;
     }
 
 
