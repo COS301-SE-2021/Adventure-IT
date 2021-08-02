@@ -19,7 +19,7 @@ public interface BudgetService {
     HardDeleteResponse hardDelete(UUID id) throws Exception;
     List<BudgetResponseDTO> viewTrash(UUID id) throws Exception;
     String restoreBudget(UUID id) throws Exception;
-//    String calculateBudget(UUID id) throws Exception;
+
     void mockPopulate();
     void mockCreateBudget(String name);
     void mockPopulateTrash();

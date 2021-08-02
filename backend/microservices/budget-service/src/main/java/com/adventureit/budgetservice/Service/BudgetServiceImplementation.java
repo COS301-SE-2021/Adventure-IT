@@ -270,7 +270,7 @@ public class BudgetServiceImplementation implements BudgetService {
         Budget budget = budgetRepository.findBudgetByBudgetIDAndDeletedEquals(id,true);
 
 
-        if (budget==null || budget.isDeleted()==false) {
+        if (budget==null || !budget.isDeleted()) {
             throw new Exception("Budget is not in trash.");
         }
 
@@ -314,34 +314,6 @@ public class BudgetServiceImplementation implements BudgetService {
         budgetRepository.save(budget);
         return "Budget was restored";
     }
-
-
-//    @Override
-//    public String calculateBudget(UUID id) throws Exception {
-//        if(id == null){
-//            throw new Exception("ID not provided");
-//        }
-//
-//        Budget budget = budgetRepository.findBudgetByBudgetID(id);
-//        if(budget == null){
-//            throw new Exception("Budget does not exist.");
-//        }
-//
-//        double sum = 0.0;
-//        List<BudgetEntry> entries = budgetEntryRepository.findBudgetEntryByEntryContainerID(id);
-//
-//        for (BudgetEntry entry:entries) {
-//
-//            if(entry instanceof UTUExpense){
-//                sum += entry.getAmount();
-//            }
-//            else {
-//                sum -= entry.getAmount();
-//            }
-//        }
-//
-//        return Double.toString(sum);
-//    }
 
     @Override
     public double calculateExpensesPerUser(UUID budgetID, String userName) throws Exception {
@@ -404,6 +376,23 @@ public class BudgetServiceImplementation implements BudgetService {
 
         return integers;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     @Override
