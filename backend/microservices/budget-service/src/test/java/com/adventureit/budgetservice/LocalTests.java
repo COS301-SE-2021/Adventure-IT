@@ -6,6 +6,7 @@ import com.adventureit.budgetservice.Entity.UTOExpense;
 import com.adventureit.budgetservice.Entity.UTUExpense;
 import com.adventureit.budgetservice.Repository.BudgetEntryRepository;
 import com.adventureit.budgetservice.Repository.BudgetRepository;
+import com.adventureit.budgetservice.Responses.ReportResponseDTO;
 import com.adventureit.budgetservice.Service.BudgetServiceImplementation;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,14 @@ public class LocalTests {
 
     @Test
     public void getReport() throws Exception {
-        System.out.println(budgetServiceImplementation.generateReport(UUID.fromString("28e1bea5-aa2a-4143-9113-d045197e8f42")));
+        List<String> list = budgetServiceImplementation.getReportList(UUID.fromString("28e1bea5-aa2a-4143-9113-d045197e8f42"));
+        List<ReportResponseDTO> reports = new ArrayList<>();
+        for (String name:list) {
+            reports.addAll(budgetServiceImplementation.generateIndividualReport(name,UUID.fromString("28e1bea5-aa2a-4143-9113-d045197e8f42")));
+        }
+
+        for (ReportResponseDTO r:reports) {
+            System.out.println(r.getPayeeName() + " : " + r.getAmount());
+        }
     }
 }

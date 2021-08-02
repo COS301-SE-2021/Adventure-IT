@@ -49,9 +49,9 @@ public class ChecklistController {
         return checklistServiceImplementation.viewChecklist(id);
     }
 
-    @GetMapping("/softDelete/{id}")
-    public String softDelete(@PathVariable UUID id) throws Exception {
-        return checklistServiceImplementation.softDelete(id);
+    @GetMapping("/softDelete/{id}/{userID}")
+    public String softDelete(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+        return checklistServiceImplementation.softDelete(id,userID);
     }
     //
     @GetMapping("/viewTrash/{id}")
@@ -59,14 +59,14 @@ public class ChecklistController {
         return checklistServiceImplementation.viewTrash(id);
     }
 
-    @GetMapping("/restoreChecklist/{id}")
-    public String restoreChecklist(@PathVariable UUID id) throws Exception {
-        return checklistServiceImplementation.restoreChecklist(id);
+    @GetMapping("/restoreChecklist/{id}/{userID}")
+    public String restoreChecklist(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+        return checklistServiceImplementation.restoreChecklist(id,userID);
     }
 
-    @GetMapping("/hardDelete/{id}")
-    public String hardDelete(@PathVariable UUID id) throws Exception {
-        return checklistServiceImplementation.hardDelete(id);
+    @GetMapping("/hardDelete/{id}/{userID}")
+    public String hardDelete(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+        return checklistServiceImplementation.hardDelete(id,userID);
     }
 
     @PostMapping("/create")

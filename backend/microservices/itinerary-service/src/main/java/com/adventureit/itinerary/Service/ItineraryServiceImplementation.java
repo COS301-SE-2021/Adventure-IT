@@ -151,7 +151,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public String softDelete(UUID id) throws Exception {
+    public String softDelete(UUID id,UUID userID) throws Exception {
         if (id == null) {
             throw new Exception("Itinerary ID not provided.");
         }
@@ -161,6 +161,9 @@ public class ItineraryServiceImplementation implements ItineraryService {
         if (itinerary == null) {
             throw new Exception("Itinerary does not exist.");
         }
+        if(!userID.equals(itinerary.getCreatorID())){
+            throw new Exception("User not Authorised");
+        }
 
         itinerary.setDeleted(true);
         itineraryRepository.save(itinerary);
@@ -168,7 +171,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public String hardDelete(UUID id) throws Exception {
+    public String hardDelete(UUID id,UUID userID) throws Exception {
         if (id == null) {
             throw new Exception("Itinerary ID not provided.");
         }
@@ -177,6 +180,9 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
         if (itinerary == null) {
             throw new Exception("Itinerary is not in trash.");
+        }
+        if(!userID.equals(itinerary.getCreatorID())){
+            throw new Exception("User not Authorised");
         }
 
         List<ItineraryEntry> entries = itineraryEntryRepository.findAllByEntryContainerID(id);
@@ -204,12 +210,17 @@ public class ItineraryServiceImplementation implements ItineraryService {
         return list;
     }
 
-    public String restoreItinerary(UUID id) throws Exception {
+    public String restoreItinerary(UUID id,UUID userID) throws Exception {
         if (itineraryRepository.findItineraryById(id) == null) {
             throw new Exception("Itinerary does not exist.");
         }
 
         Itinerary itinerary = itineraryRepository.findItineraryById(id);
+
+        if(!userID.equals(itinerary.getCreatorID())){
+            throw new Exception("User not Authorised");
+        }
+
         itinerary.setDeleted(false);
         itineraryRepository.save(itinerary);
         return "Itinerary was restored";
