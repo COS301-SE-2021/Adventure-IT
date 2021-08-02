@@ -1,6 +1,8 @@
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
+import 'package:adventure_it/api/createItinerary.dart';
 import 'package:adventure_it/api/itinerary.dart';
+import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'AdventurePage.dart';
@@ -178,6 +180,14 @@ class _AlertBox extends State <AlertBox> {
     this.currentItinerary = i;
   }
 
+  //controllers for the form fields
+  String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
+  String advID = "aa722689-6dbb-474a-a50b-55261570027e";
+
+  final ItineraryApi api = new ItineraryApi();
+  Future<CreateItinerary>? _futureItinerary;
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
