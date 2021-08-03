@@ -279,7 +279,8 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                                             leading:  Checkbox(value: checklistEntry.entries!.elementAt(index).completed,
     onChanged: (bool? value) {
 
-                                                  ChecklistApi.completeEntry(checklistEntry.entries!.elementAt(index).id);
+                                                  checklistEntry.markEntry(checklistEntry.entries!.elementAt(index));
+
     }// This is where we update the state when the checkbox is tapped
 ),
                                             title: Text(
@@ -314,7 +315,7 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                                               .bodyText1!
                                               .color)),
                                   content: Text(
-                                      "Are you sure you want to remove this checklist for definite?",
+                                      "Are you sure you want to remove this checklist item for definite?",
                                       style: TextStyle(
                                           color: Theme.of(context)
                                               .textTheme
@@ -354,7 +355,7 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                 ]));
           } else {
             return Center(
-                child: Text("It seems you're not one for recycling...",
+                child: Text("Let's make a list and check it twice!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 30 * MediaQuery.of(context).textScaleFactor,

@@ -76,9 +76,11 @@ class ChecklistModel extends ChangeNotifier {
 
 class ChecklistEntryModel extends ChangeNotifier {
   List<ChecklistEntry>? _entries = null;
+  Checklist? c;
 
 
   ChecklistEntryModel(Checklist c) {
+    this.c=c;
     fetchAllEntries(c).then((entries) =>
     entries != null
         ? _entries = entries
@@ -101,6 +103,16 @@ class ChecklistEntryModel extends ChangeNotifier {
 
     var index = _entries!.indexWhere((element) => element.id == c.id);
     _entries!.removeAt(index);
+
+    notifyListeners();
+  }
+
+  Future markEntry(ChecklistEntry c) async {
+    await ChecklistApi.completeEntry(c.id);
+    var index = _entries!.indexWhere((element) => element.id == c.id);
+
+    _entries!.elementAt(index).completed=!_entries!.elementAt(index).completed;
+
 
     notifyListeners();
   }

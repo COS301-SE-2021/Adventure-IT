@@ -8,7 +8,7 @@ class ChecklistEntry {
       final String id;
       final String entryContainerID;
       final String title;
-      final bool completed;
+      late final bool completed;
 
   ChecklistEntry({
     required this.title,

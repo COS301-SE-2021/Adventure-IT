@@ -74,7 +74,7 @@ class ChecklistApi {
 
   }
 
-  static void completeEntry (String checklistID) async {
+  static Future completeEntry (String checklistID) async {
     http.Response response=await _completeEntry(checklistID);
 
     if (response.statusCode != 200) {
