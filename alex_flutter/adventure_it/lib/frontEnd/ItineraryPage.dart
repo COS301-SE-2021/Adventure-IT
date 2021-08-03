@@ -1,8 +1,13 @@
+import 'package:adventure_it/Providers/itinerary_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/itinerary.dart';
+import 'package:adventure_it/api/itineraryEntry.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:provider/provider.dart';
+import 'package:time_machine/time_machine.dart';
 import 'AdventurePage.dart';
 
 import 'package:flutter/material.dart';
@@ -66,6 +71,7 @@ class ItineraryPage extends StatelessWidget {
                     .of(context)
                     .size
                     .height * 0.75,
+               child: ListItineraryItems(currentAdventure!,currentItinerary!),
               ),
               Spacer(),
               Row(children: [
@@ -281,6 +287,7 @@ class _AlertBox extends State <AlertBox> {
                               .width * 0.02),
                       child: TextField(
                           maxLength: 255,
+                          maxLines:3,
                           style: TextStyle(
                               color:
                               Theme
@@ -520,3 +527,170 @@ class _AlertBox extends State <AlertBox> {
     }
   }
 }
+
+class ListItineraryItems extends StatelessWidget
+{
+  List<String> months=["January","February", "March", "April","May", "June", "July", "August", "September","October", "November", "December"];
+  Adventure? currentAdventure;
+  Itinerary? currentItinerary;
+  DateTime? date;
+
+  ListItineraryItems (Adventure a, Itinerary i)
+  {
+    this.currentAdventure=a;
+    this.currentItinerary=i;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+        create: (context) => ItineraryEntryModel(currentItinerary!),
+        child:
+        Consumer<ItineraryEntryModel>(builder: (context, entryModel, child) {
+          if(entryModel.entries==null) {
+            return Center(
+                child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        Theme
+                            .of(context)
+                            .accentColor)));
+          }else if (entryModel.entries!.length > 0) {
+            return Expanded(
+                flex: 2,
+                child: GroupedListView<dynamic, String>(
+                    elements: entryModel.entries!,
+                        groupBy: (element) => DateTime.parse(element.timestamp).day.toString()+" "+months[DateTime.parse(element.timestamp).month-1]+" "+DateTime.parse(element.timestamp).year.toString(),
+                    useStickyGroupSeparators: false,
+                    groupSeparatorBuilder: (String value) => Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          value,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Theme.of(context).textTheme.bodyText1!.color),
+                        )),
+                    indexedItemBuilder: (context, element, index) {
+                      return Dismissible(
+                              background: Container(
+                              // color: Theme.of(context).primaryColor,
+                              //   margin: const EdgeInsets.all(5),
+                              padding: EdgeInsets.all(
+                              MediaQuery.of(context).size.height / 60),
+                          child: Row(
+                          children: [
+                          new Spacer(),
+                          Icon(Icons.delete,
+                          color: Theme.of(context).accentColor,
+                          size: 35 *
+                          MediaQuery.of(context).textScaleFactor),
+                          ],
+                          ),
+                          ),
+                          direction: DismissDirection.endToStart,
+                          key: Key(entryModel.entries
+                          !.elementAt(index)
+                              .id),
+                          child:
+                         Card(
+                              color: Theme.of(context).primaryColorDark,
+                              child: InkWell(
+
+                                  hoverColor:
+                                  Theme.of(context).primaryColorLight,
+                                  child: Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 4,
+                                          child: ListTile(
+                                            title: Text(
+                                                entryModel.entries
+                                                !.elementAt(index)
+                                                    .title,
+                                                style: TextStyle(
+                                                    fontSize: 25 *
+                                                        MediaQuery.of(context)
+                                                            .textScaleFactor,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color)),
+                                            // subtitle:Text(adventures.elementAt(index).description),
+                                            subtitle: Text(
+                                                entryModel.entries!.elementAt(index)
+                                                    .description,
+                                                style: TextStyle(
+                                                    fontSize: 15 *
+                                                        MediaQuery.of(context)
+                                                            .textScaleFactor,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ))),
+                          confirmDismiss: (DismissDirection direction) async {
+                            return await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor:
+                                  Theme.of(context).primaryColorDark,
+                                  title: Text("Confirm Removal",
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color)),
+                                  content: Text(
+                                      "Are you sure you want to remove this itinerary for definite?",
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color)),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(true),
+                                        child: Text("Remove",
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color))),
+                                    FlatButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(false),
+                                      child: Text("Cancel",
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color)),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          onDismissed: (direction) {
+                            Provider.of<ItineraryEntryModel>(context, listen: false)
+                                .deleteItineraryEntry(entryModel.entries
+                            !.elementAt(index));
+                          });}
+                ));
+          } else {
+            return Center(
+                child: Text("Seems like you've got nowhere to go!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                        color: Theme.of(context).textTheme.bodyText1!.color)));
+          }
+        }));
+  }
+  }
