@@ -135,7 +135,7 @@ class ChecklistApi {
 
   Future<CreateChecklist> createChecklist(String title, String description, String creatorID, String adventureID) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9002/api/checklist/create'), //get uri
+      Uri.parse('http://localhost:9008/checklist/create'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

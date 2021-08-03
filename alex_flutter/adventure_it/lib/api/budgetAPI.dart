@@ -118,7 +118,7 @@ class BudgetApi {
 
   Future<CreateBudget> createBudget(String name, String description, String creatorID, String adventureID) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9002/api/budget/create'), //get uri
+      Uri.parse('http://localhost:9007/api/budget/create'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

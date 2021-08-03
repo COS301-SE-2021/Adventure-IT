@@ -138,7 +138,7 @@ class ItineraryApi {
 
   Future<CreateItinerary> createItinerary(String title, String description, String creatorID, String adventureID) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9002/api/itinerary/create'), //get uri
+      Uri.parse('http://localhost:9009/itinerary/create'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -161,6 +161,8 @@ class ItineraryApi {
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
       throw Exception('Failed to create an itinerary.');
     }
   }

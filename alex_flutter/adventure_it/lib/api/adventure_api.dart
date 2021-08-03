@@ -45,7 +45,7 @@ class AdventureApi {
   Future<CreateAdventure> createAdventure(String name, String ownerId, String startDate, String endDate, String description) async {
 
     final response = await http.post(
-      Uri.parse('http://localhost:9001/api/Adventure/create'), //get uri
+      Uri.parse('http://localhost:9001/adventure/create'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
