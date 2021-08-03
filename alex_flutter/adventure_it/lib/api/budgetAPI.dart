@@ -131,7 +131,7 @@ class BudgetApi {
 
   static Future<http.Response> _getTotalOfExpenses(budgetID,userID) async {
 
-    return http.post(Uri.http(budgetApi, '/budget/expenseTotal'), getExpenses(budgetID,userID));
+    return http.get(Uri.http(budgetApi, '/budget/expenseTotal/'+budgetID+"/"+userID));
   }
 
   static Future <List<BudgetEntry>> getEntries(Budget b) async {

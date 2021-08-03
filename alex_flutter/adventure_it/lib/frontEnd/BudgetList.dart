@@ -12,6 +12,7 @@ import 'AdventurePage.dart';
 import 'BudgetPage.dart';
 import 'BudgetTrash.dart';
 import 'HomepageStartup.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 import '../api/budget.dart';
 import 'Navbar.dart';
@@ -105,10 +106,10 @@ class Budgets extends StatelessWidget {
   }
 }
 
-class PieChart extends StatefulWidget
+class PieChartCaller extends StatefulWidget
 {
   List<Budget>? budgets;
-  PieChart(List<Budget>? b) {
+  PieChartCaller(List<Budget>? b) {
     this.budgets=b;
   }
 
@@ -116,18 +117,50 @@ class PieChart extends StatefulWidget
   _PieChart createState()=>_PieChart(budgets);
 }
 
-class _PieChart extends State<PieChart>
+class _PieChart extends State<PieChartCaller>
 {
   List <int> categories=[0,0,0,0,0];
   List <Budget>? budgets;
   _PieChart(List<Budget>? b) {
     this.budgets = b;
 
+    for(int i=0;i<budgets!.length;i++)
+      {
+        List <int> temp=List.empty();
+        List <int> toBe=List.empty();
+        BudgetApi.getNumberOfCategories(budgets!.elementAt(i).id).then((value) => temp=value);
+        for(int j=0;j<categories.length;j++)
+          {
+            toBe.add(categories.elementAt(j)+temp.elementAt(j));
+          }
+        categories=toBe;
+      }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
+    Map<String, double> dataMap = new Map();
+    dataMap.putIfAbsent("Accommodation", () => categories.elementAt(0)*1.0);
+    dataMap.putIfAbsent("Activities", () => categories.elementAt(1)*1.0);
+    dataMap.putIfAbsent("Food", () => categories.elementAt(2)*1.0);
+    dataMap.putIfAbsent("Other", () => categories.elementAt(3)*1.0);
+    dataMap.putIfAbsent("Transport", () => categories.elementAt(4)*1.0);
+    List <Color> colorList=[Color(0xff3063b4),Color(0xffb59194),Color(0xff931621),Color(0xff419D78),Color(0xffC44536)];
 
+    return Card(
+        child: Column(
+        children: <Widget>[
+        Expanded(
+        child: PieChart(dataMap: dataMap,
+          animationDuration: Duration(milliseconds: 800),
+          chartLegendSpacing: 32.0,
+          chartRadius: MediaQuery.of(context).size.width / 2.7,
+          colorList: colorList,
+          chartType: ChartType.disc,
+          ),
+    )]));
   }
 
 
@@ -165,7 +198,7 @@ class BudgetList extends StatelessWidget {
             return Column( children: [
                 Expanded(
                     flex: 2,
-                    child: PieChart(budgetModel.budgets)
+                    child: PieChartCaller(budgetModel.budgets)
                 ),
               Expanded(
                 flex: 2,
