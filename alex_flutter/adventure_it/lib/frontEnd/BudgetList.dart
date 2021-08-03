@@ -13,6 +13,7 @@ import 'BudgetTrash.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
+import 'Navbar.dart';
 
 class Budgets extends StatelessWidget {
   Adventure? adventure;
@@ -24,6 +25,7 @@ class Budgets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
@@ -36,9 +38,12 @@ class Budgets extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  Container(
+                      height: MediaQuery.of(context).size.height * 0.50,
+                      child: PieChart(adventure)),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Container(
-                  height: MediaQuery.of(context).size.height * 0.75,
+                  height: MediaQuery.of(context).size.height * 0.40,
                   child: BudgetList(adventure)),
               Spacer(),
               Row(children: [
@@ -101,6 +106,33 @@ class Budgets extends StatelessWidget {
             ]));
   }
 }
+
+class PieChart extends StatefulWidget
+{
+  Adventure? a;
+  PieChart(Adventure? adventure) {
+    this.a = adventure;
+  }
+
+  @override
+  _PieChart createState()=>_PieChart(a);
+}
+
+class _PieChart extends State<PieChart>
+{
+  Adventure? a;
+  _PieChart(Adventure? adventure) {
+    this.a = adventure;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+      return Container();
+  }
+
+}
+
+
 
 class BudgetList extends StatelessWidget {
   Adventure? a;

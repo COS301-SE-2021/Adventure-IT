@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
+import 'Navbar.dart';
 class ChecklistPage extends StatelessWidget {
   Checklist? currentChecklist;
   Adventure? currentAdventure;
@@ -23,6 +24,7 @@ class ChecklistPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
@@ -114,6 +116,87 @@ class AlertBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+          backgroundColor: Theme.of(context).primaryColorDark,
+          content: Container(
+            height: getSize(context),
+            child: Stack(
+              overflow: Overflow.visible,
+              children: <Widget>[
+                Positioned(
+                  right: -40.0,
+                  top: -40.0,
+                  child: InkResponse(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: CircleAvatar(
+                      child: Icon(Icons.close,
+                          color: Theme.of(context).primaryColorDark),
+                      backgroundColor: Theme.of(context).accentColor,
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Column(
+                    // mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text("Add Item To Checklist",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1!.color,
+                            fontSize: 25 * MediaQuery.of(context).textScaleFactor,
+                            fontWeight: FontWeight.bold,
+                          )),
+                      Spacer(),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width * 0.02),
+                        child: TextField(
+                            style: TextStyle(
+                                color:
+                                Theme.of(context).textTheme.bodyText1!.color),
+                            decoration: InputDecoration(
+                                hintStyle: TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color),
+                                filled: true,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                                fillColor: Theme.of(context).primaryColorLight,
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: new BorderSide(
+                                        color: Theme.of(context).accentColor)),
+                                hintText: 'Description')),
+                      ),
+
+                      Spacer(),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width * 0.02),
+                        child: RaisedButton(
+                          color: Theme.of(context).accentColor,
+                          child: Text("Create",
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color)),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )
     );
   }
 }

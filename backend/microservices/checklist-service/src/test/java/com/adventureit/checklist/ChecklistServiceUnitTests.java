@@ -80,7 +80,7 @@ public class ChecklistServiceUnitTests {
     @Description("Ensuring a user can remove an entry")
     public void removeEntryValid_ReturnString() throws Exception {
         Mockito.when(mockChecklistRepository.findChecklistById(validChecklistID1)).thenReturn(mockChecklist1);
-        Assertions.assertEquals(sut.removeChecklistEntry(validEntryID1,validChecklistID1),"Checklist Entry successfully removed");
+        Assertions.assertEquals(sut.removeChecklistEntry(validEntryID1),"Checklist Entry successfully removed");
     }
 
     @Test
@@ -88,7 +88,7 @@ public class ChecklistServiceUnitTests {
     public void removeEntryInvalidID_ThrowException() throws Exception {
         Mockito.when(mockChecklistRepository.findChecklistById(validChecklistID1)).thenReturn(mockChecklist1);
         Assertions.assertThrows(Exception.class, ()->{
-            sut.removeChecklistEntry(UUID.randomUUID(),validChecklistID1);
+            sut.removeChecklistEntry(UUID.randomUUID());
         });
     }
 
@@ -96,7 +96,7 @@ public class ChecklistServiceUnitTests {
     @Description("removeChecklistEntry will throw an exception if a field is null")
     public void removeEntryNullField_ThrowException() throws Exception {
         Assertions.assertThrows(Exception.class, ()->{
-            sut.removeChecklistEntry(null,validChecklistID1);
+            sut.removeChecklistEntry(null);
         });
     }
 

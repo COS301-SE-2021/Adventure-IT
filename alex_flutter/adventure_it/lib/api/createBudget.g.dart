@@ -1,15 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'budget.dart';
+part of 'createBudget.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Budget _$BudgetFromJson(Map<String, dynamic> json) {
-  return Budget(
-    deleted: json['deleted'] as bool,
-    id: json['id'] as String,
+CreateBudget _$CreateBudgetFromJson(Map<String, dynamic> json) {
+  return CreateBudget(
     name: json['name'] as String,
     description: json['description'] as String,
     creatorID: json['creatorID'] as String,
@@ -17,11 +15,10 @@ Budget _$BudgetFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$BudgetToJson(Budget instance) => <String, dynamic>{
-      'id': instance.id,
+Map<String, dynamic> _$CreateBudgetToJson(CreateBudget instance) =>
+    <String, dynamic>{
       'name': instance.name,
       'creatorID': instance.creatorID,
       'adventureID': instance.adventureID,
-      'deleted': instance.deleted,
       'description': instance.description,
     };

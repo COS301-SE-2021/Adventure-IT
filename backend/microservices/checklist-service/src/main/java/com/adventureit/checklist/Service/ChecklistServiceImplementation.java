@@ -78,18 +78,12 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public String removeChecklistEntry(UUID id, UUID entryContainerID) throws Exception {
+    public String removeChecklistEntry(UUID id) throws Exception {
         if(id == null){
             throw new Exception("No ID provided");
         }
-        if(entryContainerID == null){
-            throw new Exception("No Checklist ID provided");
-        }
 
-        Checklist checklist = checklistRepository.findChecklistById(entryContainerID);
-        if(checklist == null){
-            throw new Exception("Checklist does not exist");
-        }
+
         ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
         if(entry == null){
             throw new Exception("Checklist Entry does not exist");
@@ -190,10 +184,10 @@ public class ChecklistServiceImplementation implements ChecklistService {
 
     @Override
     public List<ChecklistResponseDTO> viewTrash(UUID id) throws Exception {
-        List<Checklist> checklists = checklistRepository.findAllByDeletedEquals(true);
+        List<Checklist> checklists = checklistRepository.findAllByAdventureID(id);
         List<ChecklistResponseDTO> list = new ArrayList<>();
         for (Checklist b:checklists) {
-            if (b.getAdventureID() == id){
+            if (b.isDeleted()){
                 list.add(new ChecklistResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.isDeleted()));
 
             }
