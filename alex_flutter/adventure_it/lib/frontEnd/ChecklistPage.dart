@@ -116,15 +116,6 @@ class AlertBox extends StatelessWidget {
     }
   }
 
-  //controllers for the form fields
-  String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
-  String advID = "aa722689-6dbb-474a-a50b-55261570027e";
-
-  final ChecklistApi api = new ChecklistApi();
-  Future<CreateChecklist>? _futureChecklist;
-  final nameController = TextEditingController();
-  final descriptionController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -168,7 +159,6 @@ class AlertBox extends StatelessWidget {
                             style: TextStyle(
                                 color:
                                 Theme.of(context).textTheme.bodyText1!.color),
-                            controller: descriptionController,
                             decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Theme.of(context)
