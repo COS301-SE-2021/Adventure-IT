@@ -121,7 +121,7 @@ class AlertBox extends StatelessWidget {
   String advID = "aa722689-6dbb-474a-a50b-55261570027e";
 
   final ChecklistApi api = new ChecklistApi();
-  Future<CreateChecklist>? _futureItinerary;
+  Future<CreateChecklist>? _futureChecklist;
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
 
@@ -168,6 +168,7 @@ class AlertBox extends StatelessWidget {
                             style: TextStyle(
                                 color:
                                 Theme.of(context).textTheme.bodyText1!.color),
+                            controller: descriptionController,
                             decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Theme.of(context)
@@ -198,6 +199,9 @@ class AlertBox extends StatelessWidget {
                                       .bodyText1!
                                       .color)),
                           onPressed: () {
+                            /*setState(() {
+                              _futureChecklist = api.createChecklist(nameController.text, descriptionController.text, userID, advID);
+                            });*/
                             Navigator.of(context).pop();
                           },
                         ),
