@@ -258,7 +258,7 @@ class AlertBox extends State<_AlertBox> {
                               hintText: 'Title')),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                    Container(
+                    Container(//
                       width: MediaQuery.of(context).size.width * 0.5,
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),

@@ -193,7 +193,7 @@ class BudgetList extends StatelessWidget {
                                         Expanded(
                                           flex: 4,
                                           child: ListTile(
-                                            title: Text(
+                                            title: Text(//
                                                 budgetModel.budgets!
                                                     .elementAt(index)
                                                     .name,

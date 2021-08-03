@@ -41,7 +41,7 @@ class AdventureApi {
           attendees.add(p);
         }
       }
-    return attendees;
+    return attendees;//
   }
 
   static Future<http.Response> _getAttendeesOfAdventure(adventureID) async {

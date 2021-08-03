@@ -134,7 +134,7 @@ class AlertBox extends StatefulWidget {
   AlertBox(Itinerary i) {
     this.currentItinerary = i;
   }
-
+//
   @override
   _AlertBox createState() => _AlertBox(currentItinerary!);
 }

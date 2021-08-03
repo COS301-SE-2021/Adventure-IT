@@ -166,7 +166,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                       setState(()=>dates=picked);
 
                     }
-                  },
+                  },//
                   child: Text(getText(),style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color,fontSize: 15*MediaQuery.of(context).textScaleFactor))
               ),
               SizedBox(height: MediaQuery.of(context).size.height*0.05),
