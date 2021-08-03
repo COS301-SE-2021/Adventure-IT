@@ -10,7 +10,13 @@ import 'loginUser.dart';
 import 'userProfile.dart';
 
 class UserApi {
-  Future<RegisterUser> createUser(String firstName,String lastName,String username,String email,String phoneNumber,String password) async {
+  Future<RegisterUser> createUser(
+      String firstName,
+      String lastName,
+      String username,
+      String email,
+      String phoneNumber,
+      String password) async {
     final response = await http.post(
       Uri.parse('http://localhost:9002/api/RegisterUser'), //get uri
       headers: <String, String>{
@@ -24,8 +30,6 @@ class UserApi {
         'phoneNumber': phoneNumber,
         'password': password,
       }),
-
-
     );
 
     if (response.statusCode == 201) {
@@ -33,7 +37,13 @@ class UserApi {
       // then parse the JSON.
       print('Status code: ${response.statusCode}');
       print('Body: ${response.body}');
-      return RegisterUser(firstName: firstName, lastName: lastName, username: username, email: email, phoneNumber: phoneNumber, password: password);
+      return RegisterUser(
+          firstName: firstName,
+          lastName: lastName,
+          username: username,
+          email: email,
+          phoneNumber: phoneNumber,
+          password: password);
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
@@ -66,15 +76,33 @@ class UserApi {
 
   static Future<UserProfile> getUserByUUID(String userID) async {
     print("in function");
-    http.Response response = await http.get(Uri.parse('http://localhost:9002/api/GetUser/' + userID));
+    http.Response response = await http
+        .get(Uri.parse('http://localhost:9002/api/GetUser/' + userID));
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load user information: ${response.body}');
     }
     print(response.body);
 
-    UserProfile users = (UserProfile.fromJson(jsonDecode(response.body)) );
+    UserProfile users = (UserProfile.fromJson(jsonDecode(response.body)));
     print(users.username);
     return users;
   }
+
+  Future<String?> attemptLogIn(String username, String password) async {
+    var res = await http.post(Uri.parse(authApiGetToken), body: {
+      "client_id": "adventure-it-maincontroller",
+      "username": username,
+      "password": password,
+      "grant_type": "password"
+    });
+    if (res.statusCode == 200) return res.body;
+    return null;
+  }
+
+  // Future<int> attemptSignUp(String username, String password) async {
+  //   var res = await http.post(Uri.parse("$SERVER_IP/signup"),
+  //       body: {"username": username, "password": password});
+  //   return res.statusCode;
+  // }
 }
