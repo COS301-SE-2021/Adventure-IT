@@ -210,12 +210,21 @@ public class AdventureServiceImplementation implements AdventureService {
     }
 
     @Transactional
-    public RemoveAdventureResponse removeAdventure(UUID id){
+    public RemoveAdventureResponse removeAdventure(UUID id, UUID userID) throws Exception {
         Adventure retrievedAdventure = adventureRepository.findAdventureByAdventureId(id);
         if(retrievedAdventure == null){
             throw new AdventureNotFoundException("Remove Adventure: Adventure not found");
         }
-        adventureRepository.deleteAdventureByAdventureId(id);
+        if(!retrievedAdventure.getAttendees().contains(userID)){
+            throw new Exception("User does not belong to Adventure");
+        }
+
+        retrievedAdventure.getAttendees().remove(userID);
+
+        if(retrievedAdventure.getAttendees().isEmpty()){
+            adventureRepository.deleteAdventureByAdventureId(id);
+        }
+
         return new RemoveAdventureResponse(true, "Adventure successfully removed");
     }
 
