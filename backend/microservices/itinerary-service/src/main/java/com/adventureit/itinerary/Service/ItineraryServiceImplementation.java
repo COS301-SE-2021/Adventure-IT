@@ -1,6 +1,5 @@
 package com.adventureit.itinerary.Service;
 
-import com.adventureit.adventureservice.Entity.Adventure;
 import com.adventureit.itinerary.Entity.Itinerary;
 import com.adventureit.itinerary.Entity.ItineraryEntry;
 import com.adventureit.itinerary.Repository.ItineraryEntryRepository;
