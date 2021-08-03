@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import 'createChecklist.dart';
+
 class ChecklistApi {
   static Future<List<Checklist>> getChecklists(Adventure? a) async {
     http.Response response =
@@ -129,5 +131,34 @@ class ChecklistApi {
   static Future<http.Response> _restoreChecklistRequest(checklistID) async {
 
     return http.get(Uri.http(checklistApi, '/checklist/restoreChecklist/' + checklistID));
+  }
+
+  Future<CreateChecklist> createChecklist(String title, String description, String creatorID, String adventureID) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:9008/checklist/create'), //get uri
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'title': title,
+        'description': description,
+        'advID': adventureID,
+        'userID': creatorID
+      }),
+
+
+    );
+
+    if (response.statusCode == 201) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      return CreateChecklist(title: title, description: description, adventureID: adventureID, creatorID: creatorID);
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create a checklist.');
+    }
   }
 }

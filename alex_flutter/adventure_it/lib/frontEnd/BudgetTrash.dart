@@ -21,6 +21,7 @@ import 'HomepageStartup.dart';
 import 'AdventurePage.dart';
 
 import '../api/budget.dart';
+import 'Navbar.dart';
 
 class BudgetTrash extends StatelessWidget {
   Adventure? adventure;
@@ -32,6 +33,7 @@ class BudgetTrash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(

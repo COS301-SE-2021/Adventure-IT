@@ -20,7 +20,8 @@ import org.springframework.context.annotation.Description;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class RegisterUserJunitTests {
+public class
+RegisterUserJunitTests {
 
     @Mock
     UserRepository repo;

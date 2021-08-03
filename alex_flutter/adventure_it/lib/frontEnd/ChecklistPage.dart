@@ -2,6 +2,8 @@
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/checklist.dart';
+import 'package:adventure_it/api/checklistAPI.dart';
+import 'package:adventure_it/api/createChecklist.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/frontEnd/ChecklistsList.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
+import 'Navbar.dart';
 class ChecklistPage extends StatelessWidget {
   Checklist? currentChecklist;
   Adventure? currentAdventure;
@@ -23,6 +26,7 @@ class ChecklistPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
@@ -111,6 +115,7 @@ class AlertBox extends StatelessWidget {
       return MediaQuery.of(context).size.height * 0.6;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -184,6 +189,9 @@ class AlertBox extends StatelessWidget {
                                       .bodyText1!
                                       .color)),
                           onPressed: () {
+                            /*setState(() {
+                              _futureChecklist = api.createChecklist(nameController.text, descriptionController.text, userID, advID);
+                            });*/
                             Navigator.of(context).pop();
                           },
                         ),

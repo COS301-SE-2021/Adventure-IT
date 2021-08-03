@@ -5,6 +5,8 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:http/http.dart' as http;
 
+import 'createAdventure.dart';
+
 class AdventureApi {
   static Future<List<Adventure>> getAdventuresByUUID(String userId) async {
     http.Response response =
@@ -38,6 +40,35 @@ class AdventureApi {
 
   static Future<http.Response> _removeAdventure(adventureID) async {
     return http.delete(Uri.http(adventureApi, '/adventure/remove/' + adventureID));
+  }
+
+  Future<CreateAdventure> createAdventure(String name, String ownerId, String startDate, String endDate, String description) async {
+
+    final response = await http.post(
+      Uri.parse('http://localhost:9001/adventure/create'), //get uri
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'name': name,
+        'ownerId': ownerId,
+        'startDate': startDate,
+        'endDate': endDate,
+        'description': description
+      })
+    );
+
+    if (response.statusCode == 201) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      return CreateAdventure(name: name, ownerId: ownerId, startDate: startDate, endDate: endDate, description: description);
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create an adventure.');
+    }
   }
 
 }

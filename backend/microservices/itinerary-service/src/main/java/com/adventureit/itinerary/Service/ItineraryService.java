@@ -11,8 +11,8 @@ import java.util.UUID;
 
 public interface ItineraryService {
 
-    public String createItinerary(String title, String description, UUID id, UUID advID, UUID userID) throws Exception;
     public String addItineraryEntry(String title, String description,  UUID entryContainerID,String location, LocalDateTime timestamp) throws Exception;
+    public String createItinerary(String title, String description, UUID advID, UUID userID) throws Exception;
     public String removeItineraryEntry(UUID id) throws Exception;
     public String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description,String location, LocalDateTime timestamp) throws Exception;
     public String softDelete(UUID id,UUID userID) throws Exception;

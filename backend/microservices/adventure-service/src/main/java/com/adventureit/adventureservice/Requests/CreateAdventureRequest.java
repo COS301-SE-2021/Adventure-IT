@@ -1,5 +1,7 @@
 package com.adventureit.adventureservice.Requests;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -8,7 +10,7 @@ public class CreateAdventureRequest{
 
     private String name;
     private String description;
-    private UUID id;
+
     private UUID ownerId;
     private ArrayList<String> group;
     private LocalDate startDate;
@@ -17,12 +19,11 @@ public class CreateAdventureRequest{
     /**
      * This service will be used to generate a CreateAdventure request
      * @param name name of the Adventure
-     * @param id ID of the Adventure
      */
-    public CreateAdventureRequest(String name, String description, UUID id, UUID ownerId, LocalDate sd, LocalDate ed){
+    public CreateAdventureRequest(@JsonProperty("name")String name, @JsonProperty("description")String description, @JsonProperty("ownerId")UUID ownerId, @JsonProperty("startDate")LocalDate sd,@JsonProperty("endDate") LocalDate ed){
         this.name=name;
         this.description = description;
-        this.id=id;
+
         this.ownerId = ownerId;
         this.startDate=sd;
         this.endDate=ed;
@@ -36,13 +37,7 @@ public class CreateAdventureRequest{
         this.name = name;
     }
 
-    public UUID getId(){
-        return id;
-    }
 
-    public void setId(UUID id){
-        this.id = id;
-    }
 
     public UUID getOwnerId(){
         return ownerId;
