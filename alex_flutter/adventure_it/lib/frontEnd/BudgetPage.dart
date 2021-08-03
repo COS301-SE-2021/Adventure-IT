@@ -11,19 +11,20 @@ import 'BudgetList.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
-
+import 'Navbar.dart';
 class BudgetPage extends StatelessWidget {
   Budget? currentBudget;
   Adventure? currentAdventure;
 
   BudgetPage(Budget? b, Adventure? a) {
     this.currentBudget = b;
-    this.currentAdventure = a;
+    this.currentAdventure=a;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
@@ -60,8 +61,8 @@ class BudgetPage extends StatelessWidget {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        Budgets(currentAdventure)));
+                                    builder: (context) => Budgets(
+                                       currentAdventure)));
                           },
                           icon: const Icon(Icons.arrow_back_ios_new_rounded),
                           color: Theme.of(context).primaryColorDark)),

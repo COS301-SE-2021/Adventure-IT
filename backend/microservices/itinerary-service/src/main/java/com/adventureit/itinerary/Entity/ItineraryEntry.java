@@ -49,6 +49,16 @@ public class ItineraryEntry{
         this.timestamp = timestamp;
     }
 
+    public ItineraryEntry(String title, String description,  UUID entryContainerID, String location, LocalDateTime timestamp){
+        this.title = title;
+        this.description=description;
+        this.entryContainerID =entryContainerID;
+        this.id = UUID.randomUUID();
+        this.completed = false;
+        this.location = location;
+        this.timestamp = timestamp;
+    }
+
 
     // Getters and setters
 

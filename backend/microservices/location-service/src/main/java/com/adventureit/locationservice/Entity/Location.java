@@ -9,16 +9,23 @@ import java.util.UUID;
 public class Location {
     @Id
     private UUID id;
-    String photoReference;
+    String photo_reference;
     String formattedAddress;
     String place_id;
 
 
     public Location(){}
 
-    public Location(UUID id, String name, String formattedAddress, String place_id){
+    public Location(UUID id, String photo_reference, String formattedAddress, String place_id){
         this.id = id;
-        this.photoReference = name;
+        this.photo_reference = photo_reference;
+        this.formattedAddress = formattedAddress;
+        this.place_id = place_id;
+    }
+
+    public Location(String photo_reference, String formattedAddress, String place_id){
+        this.id = UUID.randomUUID();
+        this.photo_reference = photo_reference;
         this.formattedAddress = formattedAddress;
         this.place_id = place_id;
     }
@@ -31,12 +38,12 @@ public class Location {
         this.id = id;
     }
 
-    public String getName() {
-        return photoReference;
+    public String getPhoto_reference() {
+        return photo_reference;
     }
 
-    public void setName(String name) {
-        this.photoReference = name;
+    public void setPhoto_reference(String photo_reference) {
+        this.photo_reference = photo_reference;
     }
 
     public String getFormattedAddress() {

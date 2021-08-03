@@ -1,6 +1,7 @@
 import 'package:adventure_it/Providers/budget_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
+import 'package:adventure_it/api/createBudget.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 
@@ -13,6 +14,7 @@ import 'BudgetTrash.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
+import 'Navbar.dart';
 
 class Budgets extends StatelessWidget {
   Adventure? adventure;
@@ -24,6 +26,7 @@ class Budgets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
@@ -298,6 +301,15 @@ class _AlertBox extends State<AlertBox> {
     }
   }
 
+  //controllers for the form fields
+  String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
+  String advID = "aa722689-6dbb-474a-a50b-55261570027e";
+
+  final BudgetApi api = new BudgetApi();
+  Future<CreateBudget>? _futureBudget;
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -341,6 +353,7 @@ class _AlertBox extends State<AlertBox> {
                           style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText1!.color),
+                          controller: nameController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
@@ -369,6 +382,7 @@ class _AlertBox extends State<AlertBox> {
                           style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText1!.color),
+                          controller: descriptionController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
@@ -398,6 +412,9 @@ class _AlertBox extends State<AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () {
+                          setState(() {
+                            _futureBudget = api.createBudget(nameController.text, descriptionController.text, userID, advID);
+                          });
                           Navigator.of(context).pop();
                         },
                       ),

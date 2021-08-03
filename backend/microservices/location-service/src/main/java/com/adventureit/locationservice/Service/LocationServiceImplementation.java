@@ -28,12 +28,18 @@ public class LocationServiceImplementation implements LocationService {
     private final String APIKey = System.getenv("Google Maps API Key");
 
     @Override
-    public void createLocation(UUID id, String location) throws IOException, JSONException {
+    public void createLocation(String location) throws IOException, JSONException {
         String string1 = location.replace(" ","%20");
-        String string2 = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + string1 + "&inputtype=textquery&fields=formatted_address,name,place_id&key=" + APIKey;
+        String string2 = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + string1 + "&inputtype=textquery&fields=formatted_address,name,place_id,photos&key=" + APIKey;
 
         JSONObject json = new JSONObject(makeConnection(string2));
-        locationRepository.save(new Location(id,json.getJSONArray("candidates").getJSONObject(0).getString("name"),json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
+
+        if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
+            locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
+        }
+        else {
+            locationRepository.save(new Location(null,json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
+        }
     }
 
     @Override
@@ -49,7 +55,9 @@ public class LocationServiceImplementation implements LocationService {
 
         JSONObject json = new JSONObject(makeConnection(string1));
 
-        System.out.println(getOrder(id,locations,json));
+        for (String i:getOrder(id,locations,json)) {
+            System.out.println(i);
+        }
         System.out.println(getTotalDistance(json));
         System.out.println(getTotalDuration(json));
 
@@ -66,13 +74,13 @@ public class LocationServiceImplementation implements LocationService {
         }
 
         List<String> order = new ArrayList<>();
-        order.add(locationRepository.findLocationById(id).getName());
+        order.add(locationRepository.findLocationById(id).getFormattedAddress());
 
         for (int k: numbers) {
-            order.add(locationRepository.findLocationById(locations.get(k)).getName());
+            order.add(locationRepository.findLocationById(locations.get(k)).getFormattedAddress());
         }
 
-        order.add(locationRepository.findLocationById(id).getName());
+        order.add(locationRepository.findLocationById(id).getFormattedAddress());
 
         return order;
     }

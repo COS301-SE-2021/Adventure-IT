@@ -18,6 +18,7 @@ import 'package:flutter/foundation.dart';
 
 import '../api/budget.dart';
 import 'MediaList.dart';
+import 'Navbar.dart';
 import 'TimelinePage.dart';
 
 //Shows the page of an adventure and allows the user to look at budgets, itineraries etc
@@ -159,6 +160,7 @@ class AdventurePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
 

@@ -88,19 +88,19 @@ public class BudgetController {
 
 	@PostMapping("/create")
 	public String createBudget(@RequestBody CreateBudgetRequest req) throws Exception {
-		CreateBudgetResponse response = budgetServiceImplementation.createBudget(req.getId(),req.getName(), req.getDescription() ,req.getCreatorID(),req.getAdventureID());
+		CreateBudgetResponse response = budgetServiceImplementation.createBudget(req.getName(), req.getDescription() ,req.getCreatorID(),req.getAdventureID());
 		return response.getMessage();
 	}
 
 	@PostMapping("/addUTOExpense")
 	public String addUTOExpense(@RequestBody AddUTOExpenseEntryRequest req) throws Exception {
-		AddUTOExpenseEntryResponse response = budgetServiceImplementation.addUTOExpenseEntry(req.getBudgetEntryID(),req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayee());
+		AddUTOExpenseEntryResponse response = budgetServiceImplementation.addUTOExpenseEntry(req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayee());
 		return response.getMessage();
 	}
 
 	@PostMapping("/addUTUExpense")
 	public String addUTUExpense(@RequestBody AddUTUExpenseEntryRequest req) throws Exception {
-		AddUTUExpenseEntryResponse response = budgetServiceImplementation.addUTUExpenseEntry(req.getBudgetEntryID(),req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayee());
+		AddUTUExpenseEntryResponse response = budgetServiceImplementation.addUTUExpenseEntry(req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayee());
 		return response.getMessage();
 	}
 
@@ -110,15 +110,15 @@ public class BudgetController {
 		return response.getMessage();
 	}
 
-	@PostMapping("/removeEntry")
-	public String removeEntry(@RequestBody RemoveEntryRequest req) throws Exception {
-		RemoveEntryResponse response = budgetServiceImplementation.removeEntry(req.getId(),req.getBudgetID());
+	@GetMapping("/removeEntry/{id}/{budgetID}")
+	public String removeEntry(@PathVariable UUID id, @PathVariable UUID budgetID) throws Exception {
+		RemoveEntryResponse response = budgetServiceImplementation.removeEntry(id, budgetID);
 		return response.getMessage();
 	}
 
-	@PostMapping("/calculateExpense")
-	public double calculateExpense(@RequestBody CalculateExpensesPerUserRequest req) throws Exception {
-		return budgetServiceImplementation.calculateExpensesPerUser(req.getBudgetID(), req.getUserName());
+	@GetMapping("/calculateExpense/{budgetID}/{userName}")
+	public double calculateExpense(@PathVariable UUID budgetID, @PathVariable String userName) throws Exception {
+		return budgetServiceImplementation.calculateExpensesPerUser(budgetID, userName);
 	}
 
 	@GetMapping("/getEntriesPerCategory/{id}")

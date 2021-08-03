@@ -71,12 +71,12 @@ public class ChecklistController {
 
     @PostMapping("/create")
     public String createChecklist(@RequestBody CreateChecklistRequest req) throws Exception {
-        return checklistServiceImplementation.createChecklist(req.getTitle(),req.getDescription(),req.getId(),req.getCreatorID(),req.getAdventureID());
+        return checklistServiceImplementation.createChecklist(req.getTitle(),req.getDescription(),req.getCreatorID(),req.getAdventureID());
     }
 
     @PostMapping("/addEntry")
     public String addEntry(@RequestBody AddChecklistEntryRequest req) throws Exception {
-        return checklistServiceImplementation.addChecklistEntry(req.getTitle(),req.getId(),req.getEntryContainerID());
+        return checklistServiceImplementation.addChecklistEntry(req.getTitle(),req.getEntryContainerID());
     }
 
     @GetMapping("/removeEntry/{id}")

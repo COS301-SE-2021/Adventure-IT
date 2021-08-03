@@ -30,33 +30,10 @@ public class ItineraryServiceUnitTests {
     Itinerary mockItinerary1 = new Itinerary("Mock Itinerary 1","Mock Itinerary",validItineraryID1,UUID.randomUUID(),UUID.randomUUID(),entries);
 
     @Test
-    @Description("Ensuring a user can create a itinerary")
-    public void createItineraryValid_ReturnString() throws Exception {
-        Assertions.assertEquals(sut.createItinerary("Mock 1", "Mock Itinerary",UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID()),"Itinerary successfully created");
-    }
-
-    @Test
-    @Description("createItinerary will throw an exception if an Itinerary with the same ID already exists")
-    public void createItineraryExistingID_ThrowException() throws Exception {
-        Mockito.when(mockItineraryRepository.findItineraryById(validItineraryID1)).thenReturn(mockItinerary1);
-        Assertions.assertThrows(Exception.class, ()->{
-            sut.createItinerary("Mock","Mock",validItineraryID1,UUID.randomUUID(),UUID.randomUUID());
-        });
-    }
-
-    @Test
-    @Description("createItinerary will throw an exception if any of the fields are null")
-    public void createItineraryNullField_ThrowException() throws Exception {
-        Assertions.assertThrows(Exception.class, ()->{
-            sut.createItinerary("Mock","Mock",null,UUID.randomUUID(),UUID.randomUUID());
-        });
-    }
-
-    @Test
     @Description("Ensuring a user can add an entry")
     public void addEntryValid_ReturnString() throws Exception {
         Mockito.when(mockItineraryRepository.findItineraryById(validItineraryID1)).thenReturn(mockItinerary1);
-        Assertions.assertEquals(sut.addItineraryEntry("Mock", "Mock",UUID.randomUUID(),validItineraryID1,"Location 1", LocalDateTime.now()),"Itinerary Entry successfully added");
+        Assertions.assertEquals(sut.addItineraryEntry("Mock", "Mock",validItineraryID1,"Location 1", LocalDateTime.now()),"Itinerary Entry successfully added");
     }
 
 //    @Test
@@ -72,7 +49,7 @@ public class ItineraryServiceUnitTests {
     @Description("addItineraryEntry will throw an exception if a field is null")
     public void addEntryNullField_ThrowException() throws Exception {
         Assertions.assertThrows(Exception.class, ()->{
-            sut.addItineraryEntry("Mock", "Mock", validEntryID1,null, null, null);
+            sut.addItineraryEntry("Mock", "Mock",null, null, null);
         });
     }
 

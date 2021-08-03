@@ -1,6 +1,5 @@
 package com.adventureit.itinerary.Service;
 
-import com.adventureit.adventureservice.Entity.Adventure;
 import com.adventureit.itinerary.Entity.Itinerary;
 import com.adventureit.itinerary.Entity.ItineraryEntry;
 import com.adventureit.itinerary.Repository.ItineraryEntryRepository;
@@ -28,15 +27,12 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public String createItinerary(String title, String description, UUID id, UUID advID, UUID userID) throws Exception {
+    public String createItinerary(String title, String description, UUID advID, UUID userID) throws Exception {
         if (title == null) {
             throw new Exception("No title provided");
         }
         if (description == null) {
             throw new Exception("No description provided");
-        }
-        if (id == null) {
-            throw new Exception("No ID provided");
         }
         if (userID == null) {
             throw new Exception("No Creator ID provided");
@@ -44,18 +40,15 @@ public class ItineraryServiceImplementation implements ItineraryService {
         if (advID == null) {
             throw new Exception("No Adventure ID provided");
         }
-        if (itineraryRepository.findItineraryById(id) != null) {
-            throw new Exception("Itinerary already exists");
-        }
 
-        Itinerary itinerary = new Itinerary(title, description, id, advID, userID);
+        Itinerary itinerary = new Itinerary(title, description, advID, userID);
         itineraryRepository.save(itinerary);
         return "Itinerary successfully created";
     }
 
     @Override
 
-    public String addItineraryEntry(String title, String description, UUID id, UUID entryContainerID, String location, LocalDateTime timestamp) throws Exception {
+    public String addItineraryEntry(String title, String description, UUID entryContainerID, String location, LocalDateTime timestamp) throws Exception {
         if(title == null){
 
             throw new Exception("No title provided");
@@ -63,24 +56,16 @@ public class ItineraryServiceImplementation implements ItineraryService {
         if (description == null) {
             throw new Exception("No description provided");
         }
-        if (id == null) {
-            throw new Exception("No ID provided");
-        }
         if (entryContainerID == null) {
             throw new Exception("No Itinerary ID provided");
         }
 
         Itinerary itinerary = itineraryRepository.findItineraryById(entryContainerID);
-        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryByIdAndEntryContainerID(id, entryContainerID);
         if (itinerary == null) {
             throw new Exception("Itinerary does not exist");
         }
-        if (entry != null) {
-            throw new Exception("Itinerary Entry already exist");
-        }
 
-
-        ItineraryEntry newEntry = new ItineraryEntry(title,description,id,entryContainerID,location,timestamp);
+        ItineraryEntry newEntry = new ItineraryEntry(title,description,entryContainerID,location,timestamp);
 
         itineraryEntryRepository.save(newEntry);
         itineraryRepository.save(itinerary);
@@ -99,7 +84,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new Exception("Itinerary Entry does not exist");
         }
 
-        itineraryEntryRepository.delete(itineraryEntryRepository.findItineraryEntryById(id));
+        itineraryEntryRepository.delete(entry);
 
         return "Itinerary Entry successfully removed";
     }
