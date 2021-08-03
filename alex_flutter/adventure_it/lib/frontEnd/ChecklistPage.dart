@@ -2,6 +2,8 @@
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/checklist.dart';
+import 'package:adventure_it/api/checklistAPI.dart';
+import 'package:adventure_it/api/createChecklist.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/frontEnd/ChecklistsList.dart';
@@ -113,6 +115,16 @@ class AlertBox extends StatelessWidget {
       return MediaQuery.of(context).size.height * 0.6;
     }
   }
+
+  //controllers for the form fields
+  String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
+  String advID = "aa722689-6dbb-474a-a50b-55261570027e";
+
+  final ChecklistApi api = new ChecklistApi();
+  Future<CreateChecklist>? _futureItinerary;
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
