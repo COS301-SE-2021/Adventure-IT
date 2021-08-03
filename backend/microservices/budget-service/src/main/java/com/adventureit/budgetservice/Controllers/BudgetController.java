@@ -110,15 +110,15 @@ public class BudgetController {
 		return response.getMessage();
 	}
 
-	@PostMapping("/removeEntry")
-	public String removeEntry(@RequestBody RemoveEntryRequest req) throws Exception {
-		RemoveEntryResponse response = budgetServiceImplementation.removeEntry(req.getId(),req.getBudgetID());
+	@GetMapping("/removeEntry/{id}/{budgetID}")
+	public String removeEntry(@PathVariable UUID id, @PathVariable UUID budgetID) throws Exception {
+		RemoveEntryResponse response = budgetServiceImplementation.removeEntry(id, budgetID);
 		return response.getMessage();
 	}
 
-	@PostMapping("/calculateExpense")
-	public double calculateExpense(@RequestBody CalculateExpensesPerUserRequest req) throws Exception {
-		return budgetServiceImplementation.calculateExpensesPerUser(req.getBudgetID(), req.getUserName());
+	@GetMapping("/calculateExpense/{budgetID}/{userName}")
+	public double calculateExpense(@PathVariable UUID budgetID, @PathVariable String userName) throws Exception {
+		return budgetServiceImplementation.calculateExpensesPerUser(budgetID, userName);
 	}
 
 	@GetMapping("/getEntriesPerCategory/{id}")
