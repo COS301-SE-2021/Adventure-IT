@@ -254,6 +254,7 @@ class _AlertBox extends State <AlertBox> {
                                   .textTheme
                                   .bodyText1!
                                   .color),
+                          controller: nameController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme
@@ -296,6 +297,7 @@ class _AlertBox extends State <AlertBox> {
                                   .textTheme
                                   .bodyText1!
                                   .color),
+                          controller: descriptionController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme
@@ -381,6 +383,9 @@ class _AlertBox extends State <AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () {
+                          setState(() {
+                            _futureItinerary = api.createItinerary(nameController.text, descriptionController.text, userID, advID);
+                          });
                           Navigator.of(context).pop();
                         },
                       ),
