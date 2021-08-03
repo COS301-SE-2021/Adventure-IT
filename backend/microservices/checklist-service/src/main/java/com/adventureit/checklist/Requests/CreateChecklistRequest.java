@@ -1,5 +1,7 @@
 package com.adventureit.checklist.Requests;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
 
 public class CreateChecklistRequest {
@@ -8,7 +10,7 @@ public class CreateChecklistRequest {
     UUID creatorID;
     UUID adventureID;
 
-    public CreateChecklistRequest(String title, String description, String id, String creatorID, String adventureID){
+    public CreateChecklistRequest(@JsonProperty("title") String title,@JsonProperty("description") String description,@JsonProperty("creatorID") String creatorID,@JsonProperty("adventureID") String adventureID){
         this.title = title;
         this.description = description;
         this.creatorID = UUID.fromString(creatorID);
