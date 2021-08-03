@@ -63,31 +63,27 @@ public class BudgetController {
 		return budgetServiceImplementation.viewBudget(id);
 	}
 
-	@GetMapping("/softDelete/{id}")
-	public String softDelete(@PathVariable UUID id) throws Exception {
-		SoftDeleteRequest request = new SoftDeleteRequest(id);
+	@GetMapping("/softDelete/{id}/{userID}")
+	public String softDelete(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+		SoftDeleteRequest request = new SoftDeleteRequest(id, userID);
 		budgetServiceImplementation.softDelete(request);
 		return "Budget successfully moved to bin.";
 	}
-
-
 
 	@GetMapping("/viewTrash/{id}")
 	public List<BudgetResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
 		return budgetServiceImplementation.viewTrash(id);
 	}
 
-	@GetMapping("/restoreBudget/{id}")
-	public String restoreBudget(@PathVariable UUID id) throws Exception {
-		return budgetServiceImplementation.restoreBudget(id);
+	@GetMapping("/restoreBudget/{id}/{userID}")
+	public String restoreBudget(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+		return budgetServiceImplementation.restoreBudget(id,userID);
 	}
 
-
-	@GetMapping("/hardDelete/{id}")
-	public String hardDelete(@PathVariable UUID id) throws Exception {
-		HardDeleteResponse response = budgetServiceImplementation.hardDelete(id);
+	@GetMapping("/hardDelete/{id}/{userID}")
+	public String hardDelete(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+		HardDeleteResponse response = budgetServiceImplementation.hardDelete(id, userID);
 		return response.getMessage();
-
 	}
 
 	@PostMapping("/create")
@@ -98,13 +94,13 @@ public class BudgetController {
 
 	@PostMapping("/addUTOExpense")
 	public String addUTOExpense(@RequestBody AddUTOExpenseEntryRequest req) throws Exception {
-		AddUTOExpenseEntryResponse response = budgetServiceImplementation.addUTOExpenseEntry(req.getBudgetEntryID(),req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayee());
+		AddUTOExpenseEntryResponse response = budgetServiceImplementation.addUTOExpenseEntry(req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayee());
 		return response.getMessage();
 	}
 
 	@PostMapping("/addUTUExpense")
 	public String addUTUExpense(@RequestBody AddUTUExpenseEntryRequest req) throws Exception {
-		AddUTUExpenseEntryResponse response = budgetServiceImplementation.addUTUExpenseEntry(req.getBudgetEntryID(),req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayee());
+		AddUTUExpenseEntryResponse response = budgetServiceImplementation.addUTUExpenseEntry(req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayee());
 		return response.getMessage();
 	}
 
@@ -130,9 +126,14 @@ public class BudgetController {
 		return budgetServiceImplementation.getEntriesPerCategory(id);
 	}
 
-	@GetMapping("/generateReport/{id}")
-	public JSONObject generateReport(@PathVariable UUID id) throws Exception {
-		return budgetServiceImplementation.generateReport(id);
+	@GetMapping("/getReportList/{id}")
+	public List<String> getReportList(@PathVariable UUID id) throws Exception {
+		return budgetServiceImplementation.getReportList(id);
+	}
+
+	@GetMapping("/generateIndividualReport/{id}/{userName}")
+	public List<ReportResponseDTO> generateIndividualReport(@PathVariable UUID id,@PathVariable String userName) throws Exception {
+		return budgetServiceImplementation.generateIndividualReport(userName,id);
 	}
 
 }

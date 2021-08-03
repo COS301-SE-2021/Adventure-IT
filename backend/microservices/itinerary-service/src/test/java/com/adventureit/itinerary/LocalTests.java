@@ -61,4 +61,10 @@ public class LocalTests {
         ItineraryEntryResponseDTO responseDTO = itineraryServiceImplementation.nextItem(UUID.fromString("1b28689d-0dbd-49b4-9959-f838d4918e0d"));
         System.out.println(responseDTO.getTimestamp());
     }
+
+    @Test
+    public void remove() throws Exception {
+        itineraryServiceImplementation.removeItineraryEntry(UUID.fromString("f730efb2-adbd-42c9-941e-d491146b44e3"));
+    }
+
 }

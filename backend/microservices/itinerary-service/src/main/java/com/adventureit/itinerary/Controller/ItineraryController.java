@@ -52,9 +52,9 @@ public class ItineraryController {
         return itineraryServiceImplementation.viewItinerary(id);
     }
 
-    @GetMapping("/softDelete/{id}")
-    public String softDelete(@PathVariable UUID id) throws Exception {
-        return itineraryServiceImplementation.softDelete(id);
+    @GetMapping("/softDelete/{id}/{userID}")
+    public String softDelete(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+        return itineraryServiceImplementation.softDelete(id,userID);
     }
     //
     @GetMapping("/viewTrash/{id}")
@@ -62,14 +62,14 @@ public class ItineraryController {
         return itineraryServiceImplementation.viewTrash(id);
     }
 
-    @GetMapping("/restoreItinerary/{id}")
-    public String restoreItinerary(@PathVariable UUID id) throws Exception {
-        return itineraryServiceImplementation.restoreItinerary(id);
+    @GetMapping("/restoreItinerary/{id}/{userID}")
+    public String restoreItinerary(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+        return itineraryServiceImplementation.restoreItinerary(id,userID);
     }
 
-    @GetMapping("/hardDelete/{id}")
-    public String hardDelete(@PathVariable UUID id) throws Exception {
-        return itineraryServiceImplementation.hardDelete(id);
+    @GetMapping("/hardDelete/{id}/{userID}")
+    public String hardDelete(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+        return itineraryServiceImplementation.hardDelete(id,userID);
     }
 
     @PostMapping("/create")
@@ -79,7 +79,7 @@ public class ItineraryController {
 
     @PostMapping("/addEntry")
     public String addItineraryEntry(@RequestBody AddItineraryEntryRequest req) throws Exception {
-        return itineraryServiceImplementation.addItineraryEntry(req.getTitle(),req.getDescription(),req.getId(),req.getEntryContainerID(),req.getLocation(),req.getTimestamp());
+        return itineraryServiceImplementation.addItineraryEntry(req.getTitle(),req.getDescription(),req.getEntryContainerID(),req.getLocation(),req.getTimestamp());
     }
 
     @PostMapping("/editEntry")
