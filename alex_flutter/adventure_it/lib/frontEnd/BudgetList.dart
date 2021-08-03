@@ -1,6 +1,7 @@
 import 'package:adventure_it/Providers/budget_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
+import 'package:adventure_it/api/createBudget.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 
@@ -285,6 +286,15 @@ class _AlertBox extends State<AlertBox> {
       return MediaQuery.of(context).size.height * 0.6;
     }
   }
+
+  //controllers for the form fields
+  String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
+  String advID = "aa722689-6dbb-474a-a50b-55261570027e";
+
+  final BudgetApi api = new BudgetApi();
+  Future<CreateBudget>? _futureBudget;
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

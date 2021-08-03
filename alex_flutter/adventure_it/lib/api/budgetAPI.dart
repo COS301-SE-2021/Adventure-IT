@@ -123,7 +123,7 @@ class BudgetApi {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'title': name,
+        'name': name,
         'description': description,
         'advID': adventureID,
         'userID': creatorID
