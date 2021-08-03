@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'BudgetTrash.dart';
 import 'ChecklistsList.dart';
+import 'Navbar.dart';
 
 class ChecklistsTrash extends StatelessWidget {
   Adventure? adventure;
@@ -17,6 +18,7 @@ class ChecklistsTrash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(

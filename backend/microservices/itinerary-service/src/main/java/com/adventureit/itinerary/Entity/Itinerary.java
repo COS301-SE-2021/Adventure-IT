@@ -29,6 +29,15 @@ public class Itinerary {
         deleted = false;
     }
 
+    public Itinerary(String title, String description, UUID advID, UUID userID) {
+        this.title = title;
+        this.description = description;
+        this.id = UUID.randomUUID();
+        this.creatorID = userID;
+        this.adventureID = advID;
+        deleted = false;
+    }
+
     // Parameterized constructor: with prepopulated itinerary entry list
     public Itinerary(String title, String description, UUID id, UUID advID, UUID userID, List<UUID> items) {
         this.title = title;

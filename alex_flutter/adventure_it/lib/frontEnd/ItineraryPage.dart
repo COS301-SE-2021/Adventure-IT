@@ -1,6 +1,8 @@
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
+import 'package:adventure_it/api/createItinerary.dart';
 import 'package:adventure_it/api/itinerary.dart';
+import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'AdventurePage.dart';
@@ -10,7 +12,7 @@ import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
 import 'ItinerariesList.dart';
-
+import 'Navbar.dart';
 class ItineraryPage extends StatelessWidget {
   Itinerary? currentItinerary;
   Adventure? currentAdventure;
@@ -23,9 +25,8 @@ class ItineraryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme
-            .of(context)
-            .scaffoldBackgroundColor,
+ drawer: NavDrawer(),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
                 child: Text(currentItinerary!.title,
@@ -178,7 +179,6 @@ class _AlertBox extends State <AlertBox> {
   _AlertBox(Itinerary i) {
     this.currentItinerary = i;
   }
-
 
   @override
   Widget build(BuildContext context) {

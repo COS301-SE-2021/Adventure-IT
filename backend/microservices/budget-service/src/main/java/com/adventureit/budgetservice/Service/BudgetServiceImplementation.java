@@ -30,19 +30,12 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
 
-    public CreateBudgetResponse createBudget(UUID id,String name, String description,UUID creatorID, UUID adventureID) throws Exception {
-        if(budgetRepository.findBudgetByBudgetID(id) != null){
-
-            throw new Exception("Budget already exists.");
-        }
+    public CreateBudgetResponse createBudget(String name, String description,UUID creatorID, UUID adventureID) throws Exception {
         if (name == null) {
             throw new Exception("Budget name not provided.");
         }
-        if (id == null) {
-            throw new Exception("Budget ID not provided.");
-        }
 
-        budgetRepository.save(new Budget(id,name, description ,creatorID,adventureID));
+        budgetRepository.save(new Budget(name, description ,creatorID,adventureID));
         return new CreateBudgetResponse(true);
     }
 

@@ -27,15 +27,12 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public String createChecklist(String title, String description, UUID id, UUID creatorID, UUID adventureID) throws Exception {
+    public String createChecklist(String title, String description, UUID creatorID, UUID adventureID) throws Exception {
         if(title == null){
             throw new Exception("No title provided");
         }
         if(description == null){
             throw new Exception("No description provided");
-        }
-        if(id == null){
-            throw new Exception("No ID provided");
         }
         if(creatorID == null){
             throw new Exception("No Creator ID provided");
@@ -43,11 +40,8 @@ public class ChecklistServiceImplementation implements ChecklistService {
         if(adventureID == null){
             throw new Exception("No Adventure ID provided");
         }
-        if(checklistRepository.findChecklistById(id) != null){
-            throw new Exception("Checklist already exists");
-        }
 
-        Checklist checklist = new Checklist(title,description,id,creatorID,adventureID);
+        Checklist checklist = new Checklist(title,description,creatorID,adventureID);
         checklistRepository.save(checklist);
         return "Checklist successfully created";
     }
