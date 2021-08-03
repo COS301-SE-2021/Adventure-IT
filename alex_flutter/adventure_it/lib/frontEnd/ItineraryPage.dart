@@ -280,6 +280,7 @@ class _AlertBox extends State <AlertBox> {
                               .size
                               .width * 0.02),
                       child: TextField(
+                          maxLength: 255,
                           style: TextStyle(
                               color:
                               Theme

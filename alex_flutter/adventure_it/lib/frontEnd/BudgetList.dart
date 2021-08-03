@@ -319,7 +319,7 @@ class _AlertBox extends State<AlertBox> {
                           fontSize: 25 * MediaQuery.of(context).textScaleFactor,
                           fontWeight: FontWeight.bold,
                         )),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+                    Spacer(),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.5,
                       padding: EdgeInsets.symmetric(
@@ -372,57 +372,7 @@ class _AlertBox extends State<AlertBox> {
                                       color: Theme.of(context).accentColor)),
                               hintText: 'Description')),
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                    Container(
-                        width: MediaQuery.of(context).size.width * 0.35,
-                        padding: EdgeInsets.symmetric(
-                            horizontal:
-                                MediaQuery.of(context).size.width * 0.02),
-                        child: Row(children: [
-                          Expanded(
-                              flex: 1,
-                              child: Checkbox(
-                                  value: isChecked,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      isChecked = value!;
-                                    });
-                                  })),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.04),
-                          Expanded(
-                            flex: 4,
-                            child: TextField(
-                                keyboardType: TextInputType.number,
-                                enabled: isChecked,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                style: TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color),
-                                decoration: InputDecoration(
-                                    hintStyle: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2!
-                                            .color),
-                                    filled: true,
-                                    fillColor:
-                                        Theme.of(context).primaryColorLight,
-                                    enabledBorder: InputBorder.none,
-                                    errorBorder: InputBorder.none,
-                                    disabledBorder: InputBorder.none,
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: new BorderSide(
-                                            color:
-                                                Theme.of(context).accentColor)),
-                                    hintText: 'Limit')),
-                          )
-                        ])),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Spacer(),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
@@ -438,7 +388,8 @@ class _AlertBox extends State<AlertBox> {
                           Navigator.of(context).pop();
                         },
                       ),
-                    )
+                    ),
+                    Spacer(),
                   ],
                 ),
               )

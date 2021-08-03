@@ -232,7 +232,7 @@ public class AdventureServiceImplementation implements AdventureService {
     @Override
     public void mockPopulate(){
         final UUID mockOwnerID = UUID.fromString("1660bd85-1c13-42c0-955c-63b1eda4e90b");
-        final UUID mockAttendeeID = UUID.fromString("7a984756-16a5-422e-a377-89e1772dd71e");
+        final UUID mockAttendeeID = UUID.fromString("69e8eb21-eb63-4c83-9187-181a648bb759");
 
         Adventure mockAdventure1 = new Adventure("Mock Adventure 1","Mock Description 1 Mock Description 1Mock Description 1 Mock Description 1 Mock Description 1 Mock Description", UUID.randomUUID(), mockOwnerID, LocalDate.of(2021, 7, 5),LocalDate.of(2021, 7, 9));
         Adventure mockAdventure2 = new Adventure("Mock Adventure 2","Mock Description 2", UUID.randomUUID(), mockOwnerID, LocalDate.of(2021, 1, 3),LocalDate.of(2022, 1, 2));
