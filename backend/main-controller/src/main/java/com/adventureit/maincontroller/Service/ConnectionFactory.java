@@ -1,6 +1,9 @@
 package com.adventureit.maincontroller.Service;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
@@ -46,19 +49,40 @@ public class ConnectionFactory {
                     data = data.replaceFirst("$","");
                 }
                 connection = new URL(API);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(readWithAccess(connection,data)));
+                String line;
+                while((line=reader.readLine())!=null){
+                    content.append(line+ "\n");
+                    return content.toString();
 
+                }
             }catch(Exception e){
                 System.err.println(e.getMessage());
             }
+        }else{
+            return null;
         }
+        return null;
     }
 
     private InputStream readWithAccess(URL url,String data){
         try{
             byte[] out = data.toString().getBytes();
-
+            finalConnection = (HttpURLConnection) url.openConnection();
+            finalConnection.setRequestMethod(METHOD);
+            finalConnection.setDoOutput(true);
+            finalConnection.addRequestProperty("Content-Type", TYPE);
+            finalConnection.connect();
+            try {
+                OutputStream os = finalConnection.getOutputStream();
+            }catch(Exception e){
+                System.err.println(e.getMessage());
+                return null;
+            }
+            return finalConnection.getInputStream();
         }catch(Exception e){
             System.err.println(e.getMessage());
+            return null;
         }
 
     }
@@ -68,5 +92,17 @@ public class ConnectionFactory {
 
     public String getEndpoints(){
         return  fields.toString();
+    }
+
+    public void setUserAgent(String userAgent){
+        this.USER_AGENT = userAgent;
+    }
+
+    public void setMETHOD(String method){
+        this.METHOD = method;
+    }
+
+    public void setSubmissionType(String type){
+        this.TYPE =type;
     }
 }
