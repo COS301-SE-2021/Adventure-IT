@@ -89,8 +89,8 @@ public class ChecklistController {
         return checklistServiceImplementation.editChecklistEntry(req.getId(),req.getEntryContainerID(),req.getTitle());
     }
 
-    @PostMapping("/markEntry")
-    public void markEntry(@RequestBody MarkChecklistEntryRequest req) throws Exception {
-        checklistServiceImplementation.markChecklistEntry(req.getId(),req.getEntryContainerID());
+    @GetMapping("/markEntry/{id}")
+    public void markEntry(@PathVariable UUID id) throws Exception {
+        checklistServiceImplementation.markChecklistEntry(id);
     }
 }
