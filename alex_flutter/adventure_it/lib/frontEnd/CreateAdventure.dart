@@ -118,7 +118,8 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                         disabledBorder: InputBorder.none,
                         fillColor: Theme.of(context).primaryColorLight,
                         focusedBorder: OutlineInputBorder(borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Adventure Description')),
-              ),
+              ), SizedBox(height: MediaQuery.of(context).size.height*0.02),
+
 
               SizedBox(height: MediaQuery.of(context).size.height*0.02),
               MaterialButton(

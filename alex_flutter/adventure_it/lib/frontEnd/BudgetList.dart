@@ -221,21 +221,21 @@ class BudgetList extends StatelessWidget {
                                                         .color)),
                                           ),
                                         ),
-                                        // Expanded(
-                                        //   flex: 1,
-                                        //   child: Text(
-                                        //       getDate(adventureModel.adventures
-                                        //           .elementAt(index)),
-                                        //       textAlign: TextAlign.center,
-                                        //       style: TextStyle(
-                                        //           fontSize: 12 *
-                                        //               MediaQuery.of(context)
-                                        //                   .textScaleFactor,
-                                        //           color: Theme.of(context)
-                                        //               .textTheme
-                                        //               .bodyText1!
-                                        //               .color)),
-                                        // ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Text(
+                                              getDate(adventureModel.adventures
+                                                  .elementAt(index)),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 12 *
+                                                      MediaQuery.of(context)
+                                                          .textScaleFactor,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color)),
+                                        ),
                                       ],
                                     ),
                                   ))),
