@@ -43,7 +43,7 @@ public class Adventure{
         this.description = description;
         this.adventureId=adventureId;
         this.ownerId = ownerId;
-        this.attendees = new ArrayList<UUID>();
+        this.attendees = new ArrayList<UUID>(List.of(ownerId));
         this.Containers = new ArrayList<UUID>();
         this.startDate=sd;
         this.endDate=ed;
