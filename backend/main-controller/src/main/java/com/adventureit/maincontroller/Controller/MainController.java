@@ -13,17 +13,22 @@ import java.util.UUID;
 @RestController
 public class MainController {
 
-    @Autowired
-    private EurekaClient eurekaClient;
+//    @Autowired
+//    private EurekaClient eurekaClient;
 
     private RestTemplate restTemplate = new RestTemplate();
 
-    @RequestMapping("/adventure/test")
-    public String adventureTest(){
-        InstanceInfo adventureInstance =eurekaClient.getApplication("ADVENTURE-SERVICE").getInstances().get(0);
-        String adventureIP = adventureInstance.getIPAddr();
-        int adventurePort = adventureInstance.getPort();
-        return restTemplate.getForObject("http://"+ adventureIP + ":" + adventurePort + "/adventure/test", String.class);
+//    @RequestMapping("/adventure/test")
+//    public String adventureTest(){
+//        InstanceInfo adventureInstance =eurekaClient.getApplication("ADVENTURE-SERVICE").getInstances().get(0);
+//        String adventureIP = adventureInstance.getIPAddr();
+//        int adventurePort = adventureInstance.getPort();
+//        return restTemplate.getForObject("http://"+ adventureIP + ":" + adventurePort + "/adventure/test", String.class);
+//    }
+
+    @RequestMapping("/test")
+    public String mainControllerTest(){
+        return "Main controller is working";
     }
 /*
     @RequestMapping("/api/GetUser/{id}")
