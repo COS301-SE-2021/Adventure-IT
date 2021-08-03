@@ -88,7 +88,7 @@ class ItineraryEntryModel extends ChangeNotifier {
 
 
   Future fetchAllEntries(Itinerary i) async {
-    _entries = await ItineraryApi.getEntries(i);
+    _entries = await ItineraryApi.getItineraryEntries(i);
 
     notifyListeners();
   }
@@ -96,7 +96,7 @@ class ItineraryEntryModel extends ChangeNotifier {
 
 
   Future deleteItineraryEntry(ItineraryEntry c) async {
-    await ItineraryApi.deleteItineraryEntry(c.id);
+    await ItineraryApi.deleteItineraryEntry(c);
 
     var index = _entries!.indexWhere((element) => element.id == c.id);
     _entries!.removeAt(index);

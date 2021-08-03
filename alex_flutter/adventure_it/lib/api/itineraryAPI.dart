@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import 'itineraryEntry.dart';
+
 class ItineraryApi {
   static Future<List<Itinerary>> getItineraries(Adventure? a) async {
     http.Response response =
@@ -22,21 +24,21 @@ class ItineraryApi {
     return itineraries;
   }
 
-  // static Future<List<ItineraryEntry>> getItineraryEntries(Itinerary i) async {
-  //   http.Response response =
-  //   await _getItineraryEntries(i!.id);
-  //
-  //   if (response.statusCode != 200) {
-  //     throw Exception('Failed to load list of entries for itinerary: ${response.body}');
-  //   }
-  //
-  //
-  //   List<ItineraryEntries> itineraries = (jsonDecode(response.body) as List)
-  //       .map((x) => ItineraryEntry.fromJson(x))
-  //       .toList();
-  //
-  //   return itineraries;
-  // }
+  static Future<List<ItineraryEntry>> getItineraryEntries(Itinerary i) async {
+    http.Response response =
+    await _getItineraryEntries(i!.id);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load list of entries for itinerary: ${response.body}');
+    }
+
+
+    List<ItineraryEntry> itineraries = (jsonDecode(response.body) as List)
+        .map((x) => ItineraryEntry.fromJson(x))
+        .toList();
+
+    return itineraries;
+  }
 
 
 
@@ -86,15 +88,15 @@ class ItineraryApi {
 
   }
 
-  // static Future deleteItineraryEntry(ItineraryEntry i) async {
-  //   http.Response response = await _deleteItineraryEntryRequest(i.id);
-  //
-  //
-  //   if (response.statusCode != 200) {
-  //     throw Exception('Failed to delete itinerary entry ${response.body}');
-  //   }
-  //
-  // }
+  static Future deleteItineraryEntry(ItineraryEntry i) async {
+    http.Response response = await _deleteItineraryEntryRequest(i.id);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete itinerary entry ${response.body}');
+    }
+
+  }
 
   static Future hardDeleteItinerary(itineraryID) async {
     http.Response response = await _hardDeleteItineraryRequest(itineraryID);
