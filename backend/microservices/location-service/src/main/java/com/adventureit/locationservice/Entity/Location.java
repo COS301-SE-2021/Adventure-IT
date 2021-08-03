@@ -9,7 +9,7 @@ import java.util.UUID;
 public class Location {
     @Id
     private UUID id;
-    String name;
+    String photoReference;
     String formattedAddress;
     String place_id;
 
@@ -18,7 +18,7 @@ public class Location {
 
     public Location(UUID id, String name, String formattedAddress, String place_id){
         this.id = id;
-        this.name = name;
+        this.photoReference = name;
         this.formattedAddress = formattedAddress;
         this.place_id = place_id;
     }
@@ -32,11 +32,11 @@ public class Location {
     }
 
     public String getName() {
-        return name;
+        return photoReference;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.photoReference = name;
     }
 
     public String getFormattedAddress() {
