@@ -339,6 +339,7 @@ class _AlertBox extends State<AlertBox> {
                           style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText1!.color),
+                          controller: nameController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
@@ -367,6 +368,7 @@ class _AlertBox extends State<AlertBox> {
                           style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText1!.color),
+                          controller: descriptionController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
@@ -446,6 +448,9 @@ class _AlertBox extends State<AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () {
+                          setState(() {
+                            _futureBudget = api.createBudget(nameController.text, descriptionController.text, userID, advID);
+                          });
                           Navigator.of(context).pop();
                         },
                       ),
