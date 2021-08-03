@@ -37,12 +37,8 @@ class Budgets extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Spacer(),
-                  Container(
-                      height: MediaQuery.of(context).size.height * 0.40,
-                      child: PieChart(adventure)),
-              Spacer(),
               Container(
-                  height: MediaQuery.of(context).size.height * 0.40,
+                  height: MediaQuery.of(context).size.height * 0.80,
                   child: BudgetList(adventure)),
               Spacer(),
               Row(children: [
@@ -108,26 +104,30 @@ class Budgets extends StatelessWidget {
 
 class PieChart extends StatefulWidget
 {
-  Adventure? a;
-  PieChart(Adventure? adventure) {
-    this.a = adventure;
+  List<Budget>? budgets;
+  PieChart(List<Budget>? b) {
+    this.budgets=b;
   }
 
   @override
-  _PieChart createState()=>_PieChart(a);
+  _PieChart createState()=>_PieChart(budgets);
 }
 
 class _PieChart extends State<PieChart>
 {
-  Adventure? a;
-  _PieChart(Adventure? adventure) {
-    this.a = adventure;
+  List <int> categories=[0,0,0,0,0];
+  List <Budget>? budgets;
+  _PieChart(List<Budget>? b) {
+    this.budgets = b;
+
   }
 
   @override
   Widget build(BuildContext context) {
-      return Container();
+
   }
+
+
 
 }
 
@@ -138,6 +138,14 @@ class BudgetList extends StatelessWidget {
 
   BudgetList(Adventure? adventure) {
     this.a = adventure;
+  }
+
+  String expenses(Budget b, String userName)
+  {
+    String total="0";
+    BudgetApi.getTotalOfExpenses(b,userName).then((value) => total=value);
+
+    return total;
   }
 
   @override
@@ -151,7 +159,12 @@ class BudgetList extends StatelessWidget {
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
           } else if (budgetModel.budgets!.length > 0) {
-            return Expanded(
+            return Column( children: [
+                Expanded(
+                    flex: 2,
+                    child: PieChart(budgetModel.budgets)
+                ),
+              Expanded(
                 flex: 2,
                 child: ListView(children: [
                   ...List.generate(
@@ -224,8 +237,8 @@ class BudgetList extends StatelessWidget {
                                         Expanded(
                                           flex: 1,
                                           child: Text(
-                                              getDate(adventureModel.adventures
-                                                  .elementAt(index)),
+                                              "Total: "+ expenses(budgetModel.budgets
+                                              !.elementAt(index),"1660bd85-1c13-42c0-955c-63b1eda4e90b"),
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 12 *
@@ -244,7 +257,7 @@ class BudgetList extends StatelessWidget {
                                 .softDeleteBudget(
                                     budgetModel.budgets!.elementAt(index));
                           }))
-                ]));
+                ]))]);
           } else {
             return Center(
                 child: Text("Start planning how to spend your money!",

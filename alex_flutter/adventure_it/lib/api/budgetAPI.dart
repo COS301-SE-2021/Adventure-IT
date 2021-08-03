@@ -76,6 +76,22 @@ class BudgetApi {
 
   }
 
+  static Future <List<int>> getNumberOfCategories (String budgetID) async
+  {
+    http.Response response = await _getNumberOfCategories(budgetID);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to get categories for budget: ${response.body}');
+    }
+
+    List<int> categories = (jsonDecode(response.body) as List<int>);
+    return categories;
+  }
+
+  static Future<http.Response> _getNumberOfCategories(budgetID) async {
+
+    return http.get(Uri.http(budgetApi, '/budget/getEntriesPerCategory/' + budgetID));
+  }
+
 
 
   static Future<http.Response> _getDeletedBudgetsResponse(adventureId) async {
@@ -99,21 +115,21 @@ class BudgetApi {
     return http.get(Uri.http(budgetApi, '/budget/restoreBudget/' + budgetID));
   }
 
-  static Future <String> getTotalOfExpenses(Budget b) async {
+  static Future <String> getTotalOfExpenses(Budget b, String userID) async {
     http.Response response =
-    await _getTotalOfExpenses(b.id);
+    await _getTotalOfExpenses(b.id,userID);
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load expenses: ${response.body}');
     }
 
-
+    print(response.body);
     return response.body;
   }
 
-  static Future<http.Response> _getTotalOfExpenses(budgetID) async {
+  static Future<http.Response> _getTotalOfExpenses(budgetID,userID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/expenseTotal/' + budgetID));
+    return http.post(Uri.http(budgetApi, '/budget/expenseTotal'), getExpenses(budgetID,userID));
   }
 
   static Future <List<BudgetEntry>> getEntries(Budget b) async {

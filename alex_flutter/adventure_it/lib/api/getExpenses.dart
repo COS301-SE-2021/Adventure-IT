@@ -8,11 +8,11 @@ part 'getExpenses.g.dart';
 class GetExpenses {
 
   final String budgetID;
-  final String username;
+  final String userName;
 
   GetExpenses({
-    required this.budgetID;
-    required this.username;
+    required this.budgetID,
+    required this.userName
   });
 
   factory GetExpenses.FromJson(Map<String, dynamic> json) => _$GetExpensesFromJson(json);
