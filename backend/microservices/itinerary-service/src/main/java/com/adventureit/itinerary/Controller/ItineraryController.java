@@ -79,7 +79,7 @@ public class ItineraryController {
 
     @PostMapping("/addEntry")
     public String addItineraryEntry(@RequestBody AddItineraryEntryRequest req) throws Exception {
-        return itineraryServiceImplementation.addItineraryEntry(req.getTitle(),req.getDescription(),req.getId(),req.getEntryContainerID(),req.getLocation(),req.getTimestamp());
+        return itineraryServiceImplementation.addItineraryEntry(req.getTitle(),req.getDescription(),req.getEntryContainerID(),req.getLocation(),req.getTimestamp());
     }
 
     @PostMapping("/editEntry")

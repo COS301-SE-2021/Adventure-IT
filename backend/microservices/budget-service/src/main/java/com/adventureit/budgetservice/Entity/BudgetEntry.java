@@ -35,6 +35,17 @@ public class BudgetEntry{
         this.timestamp = LocalDateTime.now();
     }
 
+    public BudgetEntry(UUID entryContainerID, double amount, String title, String description, Category category, List<String> payers){
+        this.budgetEntryID = UUID.randomUUID();
+        this.entryContainerID = entryContainerID;
+        this.amount = amount;
+        this.title = title;
+        this.description = description;
+        this.category = category;
+        this.payers = payers;
+        this.timestamp = LocalDateTime.now();
+    }
+
     public UUID getId() {
         return budgetEntryID;
     }

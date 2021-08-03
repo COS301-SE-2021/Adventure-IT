@@ -56,23 +56,14 @@ public class ChecklistServiceUnitTests {
     @Description("Ensuring a user can add an entry")
     public void addEntryValid_ReturnString() throws Exception {
         Mockito.when(mockChecklistRepository.findChecklistById(validChecklistID1)).thenReturn(mockChecklist1);
-        Assertions.assertEquals(sut.addChecklistEntry("Mock", UUID.randomUUID(),validChecklistID1),"Checklist Entry successfully added");
-    }
-
-    @Test
-    @Description("addChecklistEntry will throw an exception if a checklist entry with the same ID already exists")
-    public void addEntryExistingID_ThrowException() throws Exception {
-        Mockito.when(mockChecklistRepository.findChecklistById(validChecklistID1)).thenReturn(mockChecklist1);
-        Assertions.assertThrows(Exception.class, ()->{
-            sut.addChecklistEntry("Mock", validEntryID1,validChecklistID1);
-        });
+        Assertions.assertEquals(sut.addChecklistEntry("Mock", validChecklistID1),"Checklist Entry successfully added");
     }
 
     @Test
     @Description("addChecklistEntry will throw an exception if a field is null")
     public void addEntryNullField_ThrowException() throws Exception {
         Assertions.assertThrows(Exception.class, ()->{
-            sut.addChecklistEntry("Mock", validEntryID1,null);
+            sut.addChecklistEntry("Mock",null);
         });
     }
 

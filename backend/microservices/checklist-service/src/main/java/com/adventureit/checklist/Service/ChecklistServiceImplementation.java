@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -52,12 +53,9 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public String addChecklistEntry(String title, UUID id, UUID entryContainerID) throws Exception {
+    public String addChecklistEntry(String title, UUID entryContainerID) throws Exception {
         if(title == null){
             throw new Exception("No title provided");
-        }
-        if(id == null){
-            throw new Exception("No ID provided");
         }
         if(entryContainerID == null){
             throw new Exception("No Checklist ID provided");
@@ -67,12 +65,8 @@ public class ChecklistServiceImplementation implements ChecklistService {
         if(checklist == null){
             throw new Exception("Checklist does not exist");
         }
-        ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
-        if(entry != null){
-            throw new Exception("Checklist Entry already exist");
-        }
 
-        ChecklistEntry newEntry = new ChecklistEntry(title,id,entryContainerID);
+        ChecklistEntry newEntry = new ChecklistEntry(title,entryContainerID);
         checklistEntryRepository.save(newEntry);
         return "Checklist Entry successfully added";
     }
@@ -225,6 +219,13 @@ public class ChecklistServiceImplementation implements ChecklistService {
 
         List<ChecklistEntry> entries = checklistEntryRepository.findAllByEntryContainerID(id);
         List<ChecklistEntryResponseDTO> list = new ArrayList<>();
+
+        entries.sort(new Comparator<ChecklistEntry>() {
+            @Override
+            public int compare(ChecklistEntry o1, ChecklistEntry o2) {
+                return o1.getTimestamp().compareTo(o2.getTimestamp());
+            }
+        });
 
         for (ChecklistEntry entry:entries) {
             list.add(new ChecklistEntryResponseDTO(entry.getId(),entry.getEntryContainerID(),entry.getTitle(),entry.getCompleted()));

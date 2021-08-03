@@ -79,13 +79,10 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
 //  @Transactional
-    public AddUTUExpenseEntryResponse addUTUExpenseEntry(UUID id, UUID entryContainerID, double amount, String title, String description, Category category,List<String> payers, String payeeID) throws Exception {
+    public AddUTUExpenseEntryResponse addUTUExpenseEntry(UUID entryContainerID, double amount, String title, String description, Category category,List<String> payers, String payeeID) throws Exception {
         if(budgetRepository.findBudgetByBudgetID(entryContainerID) == null){
 
             throw new Exception("Budget does not exist.");
-        }
-        if (id == null) {
-            throw new Exception("Income Entry ID not provided");
         }
         if (entryContainerID == null) {
             throw new Exception("Budget ID not provided");
@@ -101,13 +98,8 @@ public class BudgetServiceImplementation implements BudgetService {
         }
 
         Budget budget = budgetRepository.findBudgetByBudgetID(entryContainerID);
-        BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryIDAndEntryContainerID(id, entryContainerID);
-        if (entry != null) {
-            throw new Exception("Entry already exists.");
-        }
 
-
-        BudgetEntry budgetEntry = new UTUExpense(id,entryContainerID,amount,title,description,category, payers, payeeID);
+        BudgetEntry budgetEntry = new UTUExpense(entryContainerID,amount,title,description,category, payers, payeeID);
 
         budgetEntryRepository.save(budgetEntry);
         budgetRepository.save(budget);
@@ -136,14 +128,10 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
-
-    public AddUTOExpenseEntryResponse addUTOExpenseEntry(UUID id, UUID entryContainerID, double amount, String title, String description,Category category,List<String> payers, String payee) throws Exception {
+    public AddUTOExpenseEntryResponse addUTOExpenseEntry(UUID entryContainerID, double amount, String title, String description,Category category,List<String> payers, String payee) throws Exception {
         if(budgetRepository.findBudgetByBudgetID(entryContainerID) == null){
 
             throw new Exception("Budget does not exist.");
-        }
-        if (id == null) {
-            throw new Exception("Expense Entry ID not provided");
         }
         if (entryContainerID == null) {
             throw new Exception("Budget ID not provided");
@@ -159,12 +147,8 @@ public class BudgetServiceImplementation implements BudgetService {
         }
 
         Budget budget = budgetRepository.findBudgetByBudgetID(entryContainerID);
-        BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryIDAndEntryContainerID(id, entryContainerID);
-        if (entry != null) {
-            throw new Exception("Expense Entry already exists.");
-        }
 
-        BudgetEntry budgetEntry = new UTOExpense(id,entryContainerID,amount,title,description,category,payers,payee);
+        BudgetEntry budgetEntry = new UTOExpense(entryContainerID,amount,title,description,category,payers,payee);
 
         budgetEntryRepository.save(budgetEntry);
         budgetRepository.save(budget);

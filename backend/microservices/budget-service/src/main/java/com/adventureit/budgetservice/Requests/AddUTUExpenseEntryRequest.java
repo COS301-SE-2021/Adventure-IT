@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class AddUTUExpenseEntryRequest {
-    private UUID budgetEntryID;
     private UUID entryContainerID;
     private List<String> payers;
     double amount;
@@ -19,8 +18,7 @@ public class AddUTUExpenseEntryRequest {
 
     public AddUTUExpenseEntryRequest(){}
 
-    public AddUTUExpenseEntryRequest(@JsonProperty("budgetEntryID") UUID budgetEntryID, @JsonProperty("entryContainerID") UUID entryContainerID, @JsonProperty("payers") List<String> payers, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("category") String category, @JsonProperty("payee") String payee) {
-        this.budgetEntryID = budgetEntryID;
+    public AddUTUExpenseEntryRequest(@JsonProperty("entryContainerID") UUID entryContainerID, @JsonProperty("payers") List<String> payers, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("category") String category, @JsonProperty("payee") String payee) {
         this.entryContainerID = entryContainerID;
         this.payers = payers;
         this.amount = amount;
@@ -42,16 +40,8 @@ public class AddUTUExpenseEntryRequest {
         return payers;
     }
 
-    public UUID getBudgetEntryID() {
-        return budgetEntryID;
-    }
-
     public UUID getEntryContainerID() {
         return entryContainerID;
-    }
-
-    public void setBudgetEntryID(UUID budgetEntryID) {
-        this.budgetEntryID = budgetEntryID;
     }
 
     public void setCategory(Category category) {

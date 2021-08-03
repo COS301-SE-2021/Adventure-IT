@@ -55,7 +55,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
     @Override
 
-    public String addItineraryEntry(String title, String description, UUID id, UUID entryContainerID, String location, LocalDateTime timestamp) throws Exception {
+    public String addItineraryEntry(String title, String description, UUID entryContainerID, String location, LocalDateTime timestamp) throws Exception {
         if(title == null){
 
             throw new Exception("No title provided");
@@ -63,24 +63,16 @@ public class ItineraryServiceImplementation implements ItineraryService {
         if (description == null) {
             throw new Exception("No description provided");
         }
-        if (id == null) {
-            throw new Exception("No ID provided");
-        }
         if (entryContainerID == null) {
             throw new Exception("No Itinerary ID provided");
         }
 
         Itinerary itinerary = itineraryRepository.findItineraryById(entryContainerID);
-        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryByIdAndEntryContainerID(id, entryContainerID);
         if (itinerary == null) {
             throw new Exception("Itinerary does not exist");
         }
-        if (entry != null) {
-            throw new Exception("Itinerary Entry already exist");
-        }
 
-
-        ItineraryEntry newEntry = new ItineraryEntry(title,description,id,entryContainerID,location,timestamp);
+        ItineraryEntry newEntry = new ItineraryEntry(title,description,entryContainerID,location,timestamp);
 
         itineraryEntryRepository.save(newEntry);
         itineraryRepository.save(itinerary);
@@ -99,7 +91,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new Exception("Itinerary Entry does not exist");
         }
 
-        itineraryEntryRepository.delete(itineraryEntryRepository.findItineraryEntryById(id));
+        itineraryEntryRepository.delete(entry);
 
         return "Itinerary Entry successfully removed";
     }

@@ -76,7 +76,7 @@ public class ChecklistController {
 
     @PostMapping("/addEntry")
     public String addEntry(@RequestBody AddChecklistEntryRequest req) throws Exception {
-        return checklistServiceImplementation.addChecklistEntry(req.getTitle(),req.getId(),req.getEntryContainerID());
+        return checklistServiceImplementation.addChecklistEntry(req.getTitle(),req.getEntryContainerID());
     }
 
     @GetMapping("/removeEntry/{id}")

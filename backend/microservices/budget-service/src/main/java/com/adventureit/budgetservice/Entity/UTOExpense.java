@@ -21,6 +21,11 @@ public class UTOExpense extends BudgetEntry{
         this.payee = payee;
     }
 
+    public UTOExpense(UUID entryContainerID, double amount, String title, String description, Category category, List<String> payers, String payee){
+        super(entryContainerID,amount,title,description, category, payers);
+        this.payee = payee;
+    }
+
     /**
      * Default Constructor
      */
