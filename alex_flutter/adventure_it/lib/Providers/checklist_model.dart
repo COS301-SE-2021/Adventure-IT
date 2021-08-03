@@ -1,6 +1,7 @@
 import 'package:adventure_it/api/checklist.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
+import 'package:adventure_it/api/checklistEntry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -73,34 +74,34 @@ class ChecklistModel extends ChangeNotifier {
 
 
 
-// class ChecklistEntryModel extends ChangeNotifier {
-//   List<ChecklistEntry>? _entries = null;
-//
-//
-//   ChecklistEntryModel(Checklist c) {
-//     fetchAllEntries(c).then((entries) =>
-//     entries != null
-//         ? _entries = entries
-//         : List.empty());
-//   }
-//
-//
-//   List<ChecklistEntry>? get entries => _entries?.toList();
-//
-//
-//   Future fetchAllEntries(Checklist c) async {
-//     _entries = await ChecklistApi.getEntries(c);
-//
-//     notifyListeners();
-//   }
-//
-//
-//   Future deleteChecklistEntry(ChecklistEntry c) async {
-//     await ChecklistApi.deleteChecklistEntry(c.id);
-//
-//     var index = _entries!.indexWhere((element) => element.id == c.id);
-//     _entries!.removeAt(index);
-//
-//     notifyListeners();
-//   }
-// }
+class ChecklistEntryModel extends ChangeNotifier {
+  List<ChecklistEntry>? _entries = null;
+
+
+  ChecklistEntryModel(Checklist c) {
+    fetchAllEntries(c).then((entries) =>
+    entries != null
+        ? _entries = entries
+        : List.empty());
+  }
+
+
+  List<ChecklistEntry>? get entries => _entries?.toList();
+
+
+  Future fetchAllEntries(Checklist c) async {
+    _entries = await ChecklistApi.getEntries(c);
+
+    notifyListeners();
+  }
+
+
+  Future deleteChecklistEntry(ChecklistEntry c) async {
+    await ChecklistApi.deleteChecklistEntry(c.id);
+
+    var index = _entries!.indexWhere((element) => element.id == c.id);
+    _entries!.removeAt(index);
+
+    notifyListeners();
+  }
+}
