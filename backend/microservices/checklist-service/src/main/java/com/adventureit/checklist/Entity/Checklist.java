@@ -41,6 +41,15 @@ public class Checklist{
         deleted = false;
     }
 
+    public Checklist(String title, String description, UUID creatorID, UUID adventureID) {
+        this.title = title;
+        this.description = description;
+        this.adventureID = adventureID;
+        this.creatorID = creatorID;
+        this.id = UUID.randomUUID();
+        deleted = false;
+    }
+
     /**
      * Parameterised constructor
      *

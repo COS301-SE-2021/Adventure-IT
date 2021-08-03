@@ -28,15 +28,12 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public String createItinerary(String title, String description, UUID id, UUID advID, UUID userID) throws Exception {
+    public String createItinerary(String title, String description, UUID advID, UUID userID) throws Exception {
         if (title == null) {
             throw new Exception("No title provided");
         }
         if (description == null) {
             throw new Exception("No description provided");
-        }
-        if (id == null) {
-            throw new Exception("No ID provided");
         }
         if (userID == null) {
             throw new Exception("No Creator ID provided");
@@ -44,11 +41,8 @@ public class ItineraryServiceImplementation implements ItineraryService {
         if (advID == null) {
             throw new Exception("No Adventure ID provided");
         }
-        if (itineraryRepository.findItineraryById(id) != null) {
-            throw new Exception("Itinerary already exists");
-        }
 
-        Itinerary itinerary = new Itinerary(title, description, id, advID, userID);
+        Itinerary itinerary = new Itinerary(title, description, advID, userID);
         itineraryRepository.save(itinerary);
         return "Itinerary successfully created";
     }

@@ -74,7 +74,7 @@ public class ItineraryController {
 
     @PostMapping("/create")
     public String createItinerary(@RequestBody CreateItineraryRequest req) throws Exception {
-        return itineraryServiceImplementation.createItinerary(req.getTitle(),req.getDescription(),req.getId(),req.getAdvID(),req.getUserID());
+        return itineraryServiceImplementation.createItinerary(req.getTitle(),req.getDescription(),req.getAdvID(),req.getUserID());
     }
 
     @PostMapping("/addEntry")

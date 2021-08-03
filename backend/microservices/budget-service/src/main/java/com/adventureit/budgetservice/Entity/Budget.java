@@ -28,6 +28,15 @@ public class Budget{
         this.description = description;
     }
 
+    public Budget(String name, String description, UUID creatorID, UUID adventureID) {
+        this.budgetID = UUID.randomUUID();
+        this.creatorID = creatorID;
+        this.adventureID = adventureID;
+        this.name = name;
+        this.deleted = false;
+        this.description = description;
+    }
+
     public UUID getBudgetId() {
         return budgetID;
     }

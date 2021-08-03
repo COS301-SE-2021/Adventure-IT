@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface BudgetService {
 
-    CreateBudgetResponse createBudget(UUID id,String name, String description,UUID creatorID, UUID adventureID) throws Exception;
+    CreateBudgetResponse createBudget(String name, String description,UUID creatorID, UUID adventureID) throws Exception;
     List<ViewBudgetResponse> viewBudget(UUID id) throws Exception;
     AddUTUExpenseEntryResponse addUTUExpenseEntry(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, List<String> payers, String payeeID) throws Exception;
     RemoveEntryResponse removeEntry(UUID id, UUID entryContainerID) throws Exception;
