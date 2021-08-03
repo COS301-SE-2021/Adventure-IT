@@ -224,11 +224,22 @@ class ChecklistList extends StatelessWidget {
   }
 }
 
-class AlertBox extends StatelessWidget {
+class AlertBox extends StatefulWidget {
   Adventure? adventure;
 
   AlertBox(Adventure a) {
     this.adventure = a;
+  }
+
+  @override
+  _AlertBox createState() => _AlertBox(adventure!);
+
+}
+class _AlertBox extends State <AlertBox> {
+  Adventure? adventure;
+
+  _AlertBox(Adventure i) {
+    this.adventure = i;
   }
 
   double getSize(context) {
