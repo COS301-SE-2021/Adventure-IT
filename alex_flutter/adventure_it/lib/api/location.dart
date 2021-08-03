@@ -16,7 +16,7 @@ class Location {
     required this.id,
     required this.photoReference,
     required this.formattedAddress,
-    required this.placeId;
+    required this.placeId
   });
 
   factory Location.fromJson(Map<String, dynamic> json) => _$LocationFromJson(json);
