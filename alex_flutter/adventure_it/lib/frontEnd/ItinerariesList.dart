@@ -249,7 +249,6 @@ class AlertBox extends StatefulWidget {
   String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
   String advID = "aa722689-6dbb-474a-a50b-55261570027e";
 
-  final ItineraryApi api = new ItineraryApi();
   Future<CreateItinerary>? _futureItinerary;
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -357,7 +356,7 @@ class AlertBox extends StatefulWidget {
                                     .color)),
                         onPressed: () {
                           setState(() {
-                            _futureItinerary = api.createItinerary(nameController.text, descriptionController.text, userID, advID);
+                            _futureItinerary = ItineraryApi.createItinerary(nameController.text, descriptionController.text, userID, advID);
                           });
                           Navigator.of(context).pop();
                         },
