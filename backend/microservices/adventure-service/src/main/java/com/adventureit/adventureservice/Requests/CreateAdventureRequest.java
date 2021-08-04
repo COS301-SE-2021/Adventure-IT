@@ -25,7 +25,7 @@ public class CreateAdventureRequest{
         this.name=name;
         this.description = description;
         this.ownerId = ownerId;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy");
         this.startDate= LocalDate.parse(sd,formatter);
         this.endDate=LocalDate.parse(ed,formatter);
     }

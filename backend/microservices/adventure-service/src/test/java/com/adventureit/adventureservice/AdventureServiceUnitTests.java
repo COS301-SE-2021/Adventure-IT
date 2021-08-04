@@ -118,4 +118,5 @@ public class AdventureServiceUnitTests {
             GetAdventureByUUIDResponse res = adventureService.getAdventureByUUID(req);
         });
     }
+    
 }
