@@ -10,8 +10,8 @@ CreateAdventure _$CreateAdventureFromJson(Map<String, dynamic> json) {
   return CreateAdventure(
     ownerId: json['ownerId'] as String,
     name: json['name'] as String,
-    startDate: json['startDate'] as String,
-    endDate: json['endDate'] as String,
+    startDate: json['startDate'] as LocalDate,
+    endDate: json['endDate'] as LocalDate,
     description: json['description'] as String,
   );
 }

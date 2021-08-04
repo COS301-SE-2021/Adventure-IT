@@ -136,7 +136,7 @@ class ItineraryApi {
     return http.get(Uri.http(itineraryApi, '/itinerary/restoreItinerary/' + itineraryID));
   }
 
-  Future<CreateItinerary> createItinerary(String title, String description, String creatorID, String adventureID) async {
+  static Future<CreateItinerary> createItinerary(String title, String description, String creatorID, String adventureID) async {
     final response = await http.post(
       Uri.parse('http://localhost:9009/itinerary/create'), //get uri
       headers: <String, String>{

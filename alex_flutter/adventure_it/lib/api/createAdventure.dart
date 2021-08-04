@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:time_machine/time_machine.dart';
 
 part 'createAdventure.g.dart';
 
@@ -6,8 +7,8 @@ part 'createAdventure.g.dart';
 class CreateAdventure {
   final String name;
   final String ownerId;
-  final String startDate;
-  final String endDate;
+  final LocalDate startDate;
+  final LocalDate endDate;
   final String description;
 
   CreateAdventure({

@@ -9,6 +9,7 @@ import 'package:flutter/gestures.dart';
 
 
 import 'package:flutter/material.dart';
+import 'package:time_machine/time_machine.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
@@ -198,9 +199,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                     padding: EdgeInsets.symmetric(horizontal: 3, vertical: 20),
                   ),
                   onPressed: () {
-                    setState(() {
-                      _futureAdventure = api.createAdventure(nameController.text, ownerID, dates!.start.toString(), dates!.end.toString(), descriptionController.text) as Future<CreateAdventure>?;
-                    });
+                    _futureAdventure = api.createAdventure(nameController.text, ownerID, LocalDate.dateTime(dates!.start), LocalDate.dateTime(dates!.end), descriptionController.text) as Future<CreateAdventure>?;
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

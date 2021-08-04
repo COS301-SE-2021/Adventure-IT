@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
@@ -25,13 +26,13 @@ public class CreateAdventureRequest{
      * This service will be used to generate a CreateAdventure request
      * @param name name of the Adventure
      */
-    public CreateAdventureRequest(@JsonProperty("name")String name, @JsonProperty("description")String description, @JsonProperty("ownerId")UUID ownerId, @JsonProperty("startDate")LocalDate sd,@JsonProperty("endDate") LocalDate ed,@JsonProperty("location") String location){
+    public CreateAdventureRequest(@JsonProperty("name")String name, @JsonProperty("description")String description, @JsonProperty("ownerId")UUID ownerId, @JsonProperty("startDate")String sd,@JsonProperty("endDate") String ed){
         this.name=name;
         this.description = description;
         this.ownerId = ownerId;
-        this.startDate=sd;
-        this.endDate=ed;
-        this.location = UUID.fromString(Objects.requireNonNull(restTemplate.getForObject("http://" + "localhost" + ":" + "9999" + "main/location/create/" + location, String.class)));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy");
+        this.startDate= LocalDate.parse(sd,formatter);
+        this.endDate=LocalDate.parse(ed,formatter);
     }
 
     public String getName(){

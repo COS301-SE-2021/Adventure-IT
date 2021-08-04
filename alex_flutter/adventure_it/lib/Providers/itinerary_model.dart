@@ -69,7 +69,13 @@ class ItineraryModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future addItinerary(String a, String b, String c, String d) async {
+    await ItineraryApi.createItinerary(a, b, c, d);
 
+    //fetchAllItineraries();
+
+    notifyListeners();
+  }
 
 }
 
