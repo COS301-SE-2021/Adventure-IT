@@ -9,10 +9,10 @@ public class ItineraryEntryResponseDTO {
     private String title;
     private String description;
     private boolean completed;
-    private String location;
+    private UUID location;
     LocalDateTime timestamp;
 
-    public ItineraryEntryResponseDTO(UUID id, UUID entryContainerID, String title, String description, boolean completed, String location, LocalDateTime timestamp){
+    public ItineraryEntryResponseDTO(UUID id, UUID entryContainerID, String title, String description, boolean completed, UUID location, LocalDateTime timestamp){
         this.title = title;
         this.description=description;
         this.entryContainerID =entryContainerID;
@@ -42,10 +42,6 @@ public class ItineraryEntryResponseDTO {
         return timestamp;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
     public void setId(UUID id) {
         this.id = id;
     }
@@ -62,7 +58,11 @@ public class ItineraryEntryResponseDTO {
         this.timestamp = timestamp;
     }
 
-    public void setLocation(String location) {
+    public UUID getLocation() {
+        return location;
+    }
+
+    public void setLocation(UUID location) {
         this.location = location;
     }
 

@@ -48,7 +48,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
     @Override
 
-    public String addItineraryEntry(String title, String description, UUID entryContainerID, String location, LocalDateTime timestamp) throws Exception {
+    public String addItineraryEntry(String title, String description, UUID entryContainerID, UUID location, LocalDateTime timestamp) throws Exception {
         if(title == null){
 
             throw new Exception("No title provided");
@@ -91,7 +91,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
     @Override
 
-    public String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description, String location, LocalDateTime timestamp ) throws Exception {
+    public String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description, UUID location, LocalDateTime timestamp ) throws Exception {
         if(itineraryRepository.findItineraryById(entryContainerID) == null){
 
             throw new Exception("Itinerary does not exist.");
@@ -290,9 +290,9 @@ public class ItineraryServiceImplementation implements ItineraryService {
         final UUID mockCreatorID3 = UUID.fromString("b9655784-7591-49b1-9f57-a4ffd835d079");
 
 
-        ItineraryEntry mockEntry1 = new ItineraryEntry("Mock Entry 1","Mock",mockEntryID1,mockItineraryID1,"Location 1",LocalDateTime.now());
-        ItineraryEntry mockEntry2 = new ItineraryEntry("Mock Entry 2","Mock",mockEntryID2,mockItineraryID1,"Location 2",LocalDateTime.now());
-        ItineraryEntry mockEntry3 = new ItineraryEntry("Mock Entry 3","Mock",mockEntryID3,mockItineraryID1,"Location 3",LocalDateTime.now());
+        ItineraryEntry mockEntry1 = new ItineraryEntry("Mock Entry 1","Mock",mockEntryID1,mockItineraryID1,UUID.randomUUID(),LocalDateTime.now());
+        ItineraryEntry mockEntry2 = new ItineraryEntry("Mock Entry 2","Mock",mockEntryID2,mockItineraryID1,UUID.randomUUID(),LocalDateTime.now());
+        ItineraryEntry mockEntry3 = new ItineraryEntry("Mock Entry 3","Mock",mockEntryID3,mockItineraryID1,UUID.randomUUID(),LocalDateTime.now());
 
         itineraryEntryRepository.save(mockEntry1);
         itineraryEntryRepository.save(mockEntry2);

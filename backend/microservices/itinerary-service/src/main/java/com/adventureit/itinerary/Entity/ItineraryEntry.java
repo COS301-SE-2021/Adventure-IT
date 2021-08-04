@@ -22,14 +22,14 @@ public class ItineraryEntry{
     private String title;
     private String description;
     private boolean completed;
-    private String location;
+    private UUID location;
     LocalDateTime timestamp;
 
     // Default constructor
     public ItineraryEntry(){}
 
     // Parameterized constructor: with only title, description and entryContainerID
-    public ItineraryEntry(String title, String description, UUID id,  UUID entryContainerID, boolean completed, String location, LocalDateTime timestamp){
+    public ItineraryEntry(String title, String description, UUID id,  UUID entryContainerID, boolean completed, UUID location, LocalDateTime timestamp){
         this.title = title;
         this.description=description;
         this.entryContainerID =entryContainerID;
@@ -39,7 +39,7 @@ public class ItineraryEntry{
         this.timestamp = timestamp;
     }
 
-    public ItineraryEntry(String title, String description, UUID id,  UUID entryContainerID, String location, LocalDateTime timestamp){
+    public ItineraryEntry(String title, String description, UUID id,  UUID entryContainerID, UUID location, LocalDateTime timestamp){
         this.title = title;
         this.description=description;
         this.entryContainerID =entryContainerID;
@@ -49,7 +49,7 @@ public class ItineraryEntry{
         this.timestamp = timestamp;
     }
 
-    public ItineraryEntry(String title, String description,  UUID entryContainerID, String location, LocalDateTime timestamp){
+    public ItineraryEntry(String title, String description,  UUID entryContainerID, UUID location, LocalDateTime timestamp){
         this.title = title;
         this.description=description;
         this.entryContainerID =entryContainerID;
@@ -96,11 +96,11 @@ public class ItineraryEntry{
         this.description = desc;
     }
 
-    public String getLocation() {
+    public UUID getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(UUID location) {
         this.location = location;
     }
 
