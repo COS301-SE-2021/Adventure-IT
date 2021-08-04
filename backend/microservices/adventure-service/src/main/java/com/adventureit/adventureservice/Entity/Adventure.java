@@ -25,6 +25,7 @@ public class Adventure{
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
+    private UUID location;
 
 
     /**
@@ -38,7 +39,7 @@ public class Adventure{
      * @param adventureId
      * @param ownerId
      */
-    public Adventure(String name, String description, UUID adventureId, UUID ownerId, LocalDate sd, LocalDate ed){
+    public Adventure(String name, String description, UUID adventureId, UUID ownerId, LocalDate sd, LocalDate ed, UUID location){
         this.name=name;
         this.description = description;
         this.adventureId=adventureId;
@@ -47,6 +48,7 @@ public class Adventure{
         this.Containers = new ArrayList<UUID>();
         this.startDate=sd;
         this.endDate=ed;
+        this.location = location;
     }
 
 
