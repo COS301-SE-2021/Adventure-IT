@@ -3,6 +3,7 @@ package com.adventureit.adventureservice.Requests;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -20,13 +21,13 @@ public class CreateAdventureRequest{
      * This service will be used to generate a CreateAdventure request
      * @param name name of the Adventure
      */
-    public CreateAdventureRequest(@JsonProperty("name")String name, @JsonProperty("description")String description, @JsonProperty("ownerId")UUID ownerId, @JsonProperty("startDate")LocalDate sd,@JsonProperty("endDate") LocalDate ed){
+    public CreateAdventureRequest(@JsonProperty("name")String name, @JsonProperty("description")String description, @JsonProperty("ownerId")UUID ownerId, @JsonProperty("startDate")String sd,@JsonProperty("endDate") String ed){
         this.name=name;
         this.description = description;
-
         this.ownerId = ownerId;
-        this.startDate=sd;
-        this.endDate=ed;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.startDate= LocalDate.parse(sd,formatter);
+        this.endDate=LocalDate.parse(ed,formatter);
     }
 
     public String getName(){
