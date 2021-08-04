@@ -43,11 +43,11 @@ public class LocalTests {
     public void addEntries(){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        ItineraryEntry mockEntry1 = new ItineraryEntry("Mock Entry 1","Mock", UUID.randomUUID(),UUID.fromString("4d29e8bd-429a-45e3-864c-a9709581414d"),"Location 1", LocalDateTime.parse("1986-04-08 12:30",format));
-        ItineraryEntry mockEntry2 = new ItineraryEntry("Mock Entry 2","Mock",UUID.randomUUID(),UUID.fromString("4d29e8bd-429a-45e3-864c-a9709581414d"),"Location 2",LocalDateTime.parse("2021-08-01 12:30",format));
-        ItineraryEntry mockEntry3 = new ItineraryEntry("Mock Entry 3","Mock",UUID.randomUUID(),UUID.fromString("3638992e-23c1-474c-af52-e2e5a162e6bc"),"Location 3",LocalDateTime.parse("2021-08-02 20:00",format));
-        ItineraryEntry mockEntry4 = new ItineraryEntry("Mock Entry 3","Mock",UUID.randomUUID(),UUID.fromString("e311281c-6e9b-4c32-88eb-53dc10f44089"),"Location 3",LocalDateTime.parse("2021-08-01 20:30",format));
-        ItineraryEntry mockEntry5 = new ItineraryEntry("Mock Entry 3","Mock",UUID.randomUUID(),UUID.fromString("31358b18-9a7a-44da-af3f-e6d10fd501ed"),"Location 3",LocalDateTime.parse("2021-08-08 22:30",format));
+        ItineraryEntry mockEntry1 = new ItineraryEntry("Mock Entry 1","Mock",UUID.randomUUID(),UUID.fromString("4d29e8bd-429a-45e3-864c-a9709581414d"),UUID.randomUUID(), LocalDateTime.parse("1986-04-08 12:30",format));
+        ItineraryEntry mockEntry2 = new ItineraryEntry("Mock Entry 2","Mock",UUID.randomUUID(),UUID.fromString("4d29e8bd-429a-45e3-864c-a9709581414d"),UUID.randomUUID(),LocalDateTime.parse("2021-08-01 12:30",format));
+        ItineraryEntry mockEntry3 = new ItineraryEntry("Mock Entry 3","Mock",UUID.randomUUID(),UUID.fromString("3638992e-23c1-474c-af52-e2e5a162e6bc"),UUID.randomUUID(),LocalDateTime.parse("2021-08-02 20:00",format));
+        ItineraryEntry mockEntry4 = new ItineraryEntry("Mock Entry 3","Mock",UUID.randomUUID(),UUID.fromString("e311281c-6e9b-4c32-88eb-53dc10f44089"),UUID.randomUUID(),LocalDateTime.parse("2021-08-01 20:30",format));
+        ItineraryEntry mockEntry5 = new ItineraryEntry("Mock Entry 3","Mock",UUID.randomUUID(),UUID.fromString("31358b18-9a7a-44da-af3f-e6d10fd501ed"),UUID.randomUUID(),LocalDateTime.parse("2021-08-08 22:30",format));
 
         itineraryEntryRepository.save(mockEntry1);
         itineraryEntryRepository.save(mockEntry2);

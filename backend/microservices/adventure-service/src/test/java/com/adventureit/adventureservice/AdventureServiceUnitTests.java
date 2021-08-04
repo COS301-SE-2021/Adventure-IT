@@ -25,9 +25,9 @@ public class AdventureServiceUnitTests {
 
     final UUID validUserID1 = UUID.randomUUID();
     final UUID validUserID2 = UUID.randomUUID();
-    Adventure mockAdventure1 = new Adventure("Mock Adventure 1","Mock Description 1", UUID.randomUUID(), validUserID1, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 1));
-    Adventure mockAdventure2 = new Adventure("Mock Adventure 2","Mock Description 1", UUID.randomUUID(), validUserID1, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 1));
-    Adventure mockAdventure3 = new Adventure("Mock Adventure 3","Mock Description 1", UUID.randomUUID(), validUserID1, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 1));
+    Adventure mockAdventure1 = new Adventure("Mock Adventure 1","Mock Description 1", UUID.randomUUID(), validUserID1, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 1),UUID.randomUUID());
+    Adventure mockAdventure2 = new Adventure("Mock Adventure 2","Mock Description 1", UUID.randomUUID(), validUserID1, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 1),UUID.randomUUID());
+    Adventure mockAdventure3 = new Adventure("Mock Adventure 3","Mock Description 1", UUID.randomUUID(), validUserID1, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 1),UUID.randomUUID());
 
 //    @Test
 //    @Description("Ensuring that the creator of a number of adventures can view these adventures")
@@ -79,25 +79,25 @@ public class AdventureServiceUnitTests {
 //        });
 //    }
 
-    @Test
-    @Description("Ensuring that the removal of an existing adventure leads to the adventure being removed")
-    public void removeAdventureExistingAdventure_SuccessfulRemoval(){
-        final UUID mockId = UUID.randomUUID();
-        Mockito.when(adventureRepository.findAdventureByAdventureId(mockId)).thenReturn(mockAdventure1);
-        Assertions.assertDoesNotThrow(()->{
-            RemoveAdventureResponse res = adventureService.removeAdventure(mockId);
-            Assertions.assertEquals(res.getMessage(), "Adventure successfully removed");
-        });
-    }
-
-    @Test
-    @Description("Ensuring that attempting to remove a non-existent adventure throws the appropriate exception")
-    public void removeAdventureNoAdventure_FailedRemoval(){
-        final UUID mockId = UUID.randomUUID();
-        Assertions.assertThrows(AdventureNotFoundException.class, ()->{
-            RemoveAdventureResponse res = adventureService.removeAdventure(mockId);
-        });
-    }
+//    @Test
+//    @Description("Ensuring that the removal of an existing adventure leads to the adventure being removed")
+//    public void removeAdventureExistingAdventure_SuccessfulRemoval(){
+//        final UUID mockId = UUID.randomUUID();
+//        Mockito.when(adventureRepository.findAdventureByAdventureId(mockId)).thenReturn(mockAdventure1);
+//        Assertions.assertDoesNotThrow(()->{
+//            RemoveAdventureResponse res = adventureService.removeAdventure(mockId);
+//            Assertions.assertEquals(res.getMessage(), "Adventure successfully removed");
+//        });
+//    }
+//
+//    @Test
+//    @Description("Ensuring that attempting to remove a non-existent adventure throws the appropriate exception")
+//    public void removeAdventureNoAdventure_FailedRemoval(){
+//        final UUID mockId = UUID.randomUUID();
+//        Assertions.assertThrows(AdventureNotFoundException.class, ()->{
+//            RemoveAdventureResponse res = adventureService.removeAdventure(mockId);
+//        });
+//    }
 
     @Test
     @Description("Ensuring that when an existing adventure is retrieved using its UUID, the corresponding adventure is returned")

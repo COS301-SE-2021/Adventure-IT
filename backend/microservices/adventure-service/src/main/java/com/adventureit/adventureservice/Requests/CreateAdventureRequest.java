@@ -1,13 +1,17 @@
 package com.adventureit.adventureservice.Requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 public class CreateAdventureRequest{
+
+    private RestTemplate restTemplate;
 
     private String name;
     private String description;
@@ -16,6 +20,7 @@ public class CreateAdventureRequest{
     private ArrayList<String> group;
     private LocalDate startDate;
     private LocalDate endDate;
+    private UUID location;
 
     /**
      * This service will be used to generate a CreateAdventure request
@@ -58,5 +63,13 @@ public class CreateAdventureRequest{
 
     public LocalDate getEndDate() {
         return this.endDate;
+    }
+
+    public UUID getLocation() {
+        return location;
+    }
+
+    public void setLocation(UUID location) {
+        this.location = location;
     }
 }
