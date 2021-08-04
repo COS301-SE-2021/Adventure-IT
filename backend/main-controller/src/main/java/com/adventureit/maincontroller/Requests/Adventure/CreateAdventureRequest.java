@@ -1,4 +1,4 @@
-package com.adventureit.adventureservice.Requests;
+package com.adventureit.maincontroller.Requests.Adventure;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -53,7 +53,7 @@ public class CreateAdventureRequest {
         return this.startDate;
     }
 
-    public LocalDate getEndDate() {
-        return this.endDate;
+    public String getEndDate() {
+        return this.endDate.toString();
     }
 }

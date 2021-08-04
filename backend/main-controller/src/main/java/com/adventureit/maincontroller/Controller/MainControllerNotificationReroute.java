@@ -1,6 +1,6 @@
 package com.adventureit.maincontroller.Controller;
 
-import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
+
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;

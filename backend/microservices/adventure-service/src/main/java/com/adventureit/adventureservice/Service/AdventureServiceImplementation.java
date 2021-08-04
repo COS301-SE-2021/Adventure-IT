@@ -50,13 +50,13 @@ public class AdventureServiceImplementation implements AdventureService {
         if(req.getOwnerId() == null ){
             throw new NullFieldException("Create Adventure Request: Owner Id NULL");
         }
-        else if (req.getId() == null) {
-            throw new NullFieldException("Create Adventure Request: Adventure Id NULL");
-        }
+//        else if (req.getId() == null) {
+//            throw new NullFieldException("Create Adventure Request: Adventure Id NULL");
+//        }
         else if (req.getName() == null){
             throw new NullFieldException("Create Adventure Request: Adventure Name NULL");
         }
-        Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(),req.getDescription(), req.getId(), req.getOwnerId(), req.getStartDate(), req.getEndDate()));
+        Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(),req.getDescription(), UUID.randomUUID(), req.getOwnerId(), req.getStartDate(), req.getEndDate()));
         CreateAdventureResponse response = new CreateAdventureResponse(true);
         response.setAdventure(persistedAdventure);
         return response;

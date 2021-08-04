@@ -13,7 +13,7 @@ public class ConnectionFactory {
     private double API_VERSION = 0;
     private String API = "";
     private String METHOD = "POST";
-    private String TYPE = "application/x-www-form-urlencoded";
+    private String TYPE = "application/json";
     private String USER_AGENT ="Mozilla/5.0";
     private String data = "";
     private URL connection;
@@ -27,10 +27,33 @@ public class ConnectionFactory {
         fields.put("version",String.valueOf(version));
         for(int i = 0; i< endpoint.length;i++){
             String[] points = endpoint[i].split(";");
-            for(int y =0; y < points.length;y++){
+            for(int y = 0; y < points.length;y++){
                 fields.put(points[y].split(":")[0], points[y].split(":")[1]);
             }
         }
+
+    }
+
+    public String getData(){
+        if(!this.getEndpoints().equalsIgnoreCase("")&&!this.getEndpoints().isEmpty()) {
+            String vars = "";
+            String vals = "";
+            try {
+                for (Map.Entry<String, String> entry : fields.entrySet()) {
+                    vars = entry.getKey();
+                    vals = entry.getValue();
+                    data += ("&" + vars + "=" + vals);
+
+                }
+                if (data.startsWith("&")) {
+                    data = data.replaceFirst("&", "");
+                }
+                return data;
+            }catch(Exception e){
+
+            }
+        }
+        return "";
     }
 
     public String buildConnection(){
@@ -46,16 +69,16 @@ public class ConnectionFactory {
 
                 }
                 if(data.startsWith("&")){
-                    data = data.replaceFirst("$","");
+                    data = data.replaceFirst("&","");
                 }
                 connection = new URL(API);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(readWithAccess(connection,data)));
                 String line;
                 while((line=reader.readLine())!=null){
                     content.append(line+ "\n");
-                    return content.toString();
-
                 }
+                reader.close();
+                return content.toString();
             }catch(Exception e){
                 System.err.println(e.getMessage());
             }
@@ -67,14 +90,16 @@ public class ConnectionFactory {
 
     private InputStream readWithAccess(URL url,String data){
         try{
-            byte[] out = data.toString().getBytes();
+            byte[] out = data.getBytes();
             finalConnection = (HttpURLConnection) url.openConnection();
             finalConnection.setRequestMethod(METHOD);
             finalConnection.setDoOutput(true);
+            finalConnection.setRequestProperty("User-Agent", USER_AGENT);
             finalConnection.addRequestProperty("Content-Type", TYPE);
             finalConnection.connect();
             try {
                 OutputStream os = finalConnection.getOutputStream();
+                os.write(out);
             }catch(Exception e){
                 System.err.println(e.getMessage());
                 return null;
@@ -94,11 +119,15 @@ public class ConnectionFactory {
         return  fields.toString();
     }
 
+    public String getEndpointValue(String key){
+        return fields.get(key);
+    }
+
     public void setUserAgent(String userAgent){
         this.USER_AGENT = userAgent;
     }
 
-    public void setMETHOD(String method){
+    public void setMethod(String method){
         this.METHOD = method;
     }
 
