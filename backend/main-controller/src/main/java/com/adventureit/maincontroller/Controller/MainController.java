@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,7 +54,15 @@ public class MainController {
         return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/getAttendees/" + id, List.class);
     }
 
-    
+    @GetMapping("/location/test")
+    public String locationTest(){
+        return restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/test", String.class);
+    }
+
+    @GetMapping(value="location/create/{location}")
+    public String createLocation(@PathVariable String location) {
+        return restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/create/" + location, String.class);
+    }
 
 }
 
