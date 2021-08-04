@@ -18,6 +18,7 @@ import 'HomepageStartup.dart';
 import '../api/budget.dart';
 import 'ItinerariesList.dart';
 import 'Navbar.dart';
+
 class ItineraryPage extends StatelessWidget {
   Itinerary? currentItinerary;
   Adventure? currentAdventure;
@@ -30,49 +31,30 @@ class ItineraryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
- drawer: NavDrawer(),
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
                 child: Text(currentItinerary!.title,
                     style: new TextStyle(
-                        color: Theme
-                            .of(context)
-                            .textTheme
-                            .bodyText1!
-                            .color))),
+                        color: Theme.of(context).textTheme.bodyText1!.color))),
             actions: [
               IconButton(
                   onPressed: () {
-                    {
-
-
-                    }
+                    {}
                   },
                   icon: const Icon(Icons.edit),
-                  color: Theme
-                      .of(context)
-                      .textTheme
-                      .bodyText1!
-                      .color),
+                  color: Theme.of(context).textTheme.bodyText1!.color),
             ],
-            backgroundColor: Theme
-                .of(context)
-                .primaryColorDark),
+            backgroundColor: Theme.of(context).primaryColorDark),
         body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(height: MediaQuery
-                  .of(context)
-                  .size
-                  .height / 60),
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
               Container(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.75,
-               child: ListItineraryItems(currentAdventure!,currentItinerary!),
+                height: MediaQuery.of(context).size.height * 0.75,
+                child: ListItineraryItems(currentAdventure!, currentItinerary!),
               ),
               Spacer(),
               Row(children: [
@@ -80,9 +62,7 @@ class ItineraryPage extends StatelessWidget {
                   flex: 1,
                   child: Container(
                       decoration: BoxDecoration(
-                          color: Theme
-                              .of(context)
-                              .accentColor,
+                          color: Theme.of(context).accentColor,
                           shape: BoxShape.circle),
                       child: IconButton(
                           onPressed: () {
@@ -90,21 +70,16 @@ class ItineraryPage extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        Itineraries(
-                                            currentAdventure)));
+                                        Itineraries(currentAdventure)));
                           },
                           icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                          color: Theme
-                              .of(context)
-                              .primaryColorDark)),
+                          color: Theme.of(context).primaryColorDark)),
                 ),
                 Expanded(
                   flex: 1,
                   child: Container(
                       decoration: BoxDecoration(
-                          color: Theme
-                              .of(context)
-                              .accentColor,
+                          color: Theme.of(context).accentColor,
                           shape: BoxShape.circle),
                       child: IconButton(
                           onPressed: () {
@@ -117,20 +92,14 @@ class ItineraryPage extends StatelessWidget {
                             }
                           },
                           icon: const Icon(Icons.add),
-                          color: Theme
-                              .of(context)
-                              .primaryColorDark)),
+                          color: Theme.of(context).primaryColorDark)),
                 ),
                 Expanded(
                   flex: 1,
-                  child: Container(
-                  ), //Your widget here,
+                  child: Container(), //Your widget here,
                 ),
               ]),
-              SizedBox(height: MediaQuery
-                  .of(context)
-                  .size
-                  .height / 60),
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
             ]));
   }
 }
@@ -146,23 +115,22 @@ class AlertBox extends StatefulWidget {
   _AlertBox createState() => _AlertBox(currentItinerary!);
 }
 
-class _AlertBox extends State <AlertBox> {
+class _AlertBox extends State<AlertBox> {
   Itinerary? currentItinerary;
   DateTime? date = null;
-  TimeOfDay? time=null;
+  TimeOfDay? time = null;
 
-  Map<int, Color> color =
-  {
-    50:Color.fromRGBO(32, 34, 45, .1),
-    100:Color.fromRGBO(32, 34, 45, .2),
-    200:Color.fromRGBO(32, 34, 45, .3),
-    300:Color.fromRGBO(32, 34, 45, .4),
-    400:Color.fromRGBO(32, 34, 45, .5),
-    500:Color.fromRGBO(32, 34, 45, .6),
-    600:Color.fromRGBO(32, 34, 45, .7),
-    700:Color.fromRGBO(32, 34, 45, .8),
-    800:Color.fromRGBO(32, 34, 45, .9),
-    900:Color.fromRGBO(32, 34, 45, 1),
+  Map<int, Color> color = {
+    50: Color.fromRGBO(32, 34, 45, .1),
+    100: Color.fromRGBO(32, 34, 45, .2),
+    200: Color.fromRGBO(32, 34, 45, .3),
+    300: Color.fromRGBO(32, 34, 45, .4),
+    400: Color.fromRGBO(32, 34, 45, .5),
+    500: Color.fromRGBO(32, 34, 45, .6),
+    600: Color.fromRGBO(32, 34, 45, .7),
+    700: Color.fromRGBO(32, 34, 45, .8),
+    800: Color.fromRGBO(32, 34, 45, .9),
+    900: Color.fromRGBO(32, 34, 45, 1),
   };
 
   List<String> months = [
@@ -180,8 +148,6 @@ class _AlertBox extends State <AlertBox> {
     "December"
   ];
 
-
-
   _AlertBox(Itinerary i) {
     this.currentItinerary = i;
   }
@@ -189,9 +155,7 @@ class _AlertBox extends State <AlertBox> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        backgroundColor: Theme
-            .of(context)
-            .primaryColorDark,
+        backgroundColor: Theme.of(context).primaryColorDark,
         content: Container(
           height: getSize(context),
           child: Stack(
@@ -206,12 +170,8 @@ class _AlertBox extends State <AlertBox> {
                   },
                   child: CircleAvatar(
                     child: Icon(Icons.close,
-                        color: Theme
-                            .of(context)
-                            .primaryColorDark),
-                    backgroundColor: Theme
-                        .of(context)
-                        .accentColor,
+                        color: Theme.of(context).primaryColorDark),
+                    backgroundColor: Theme.of(context).accentColor,
                   ),
                 ),
               ),
@@ -222,39 +182,22 @@ class _AlertBox extends State <AlertBox> {
                     Text("Add Item To Itinerary",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Theme
-                              .of(context)
-                              .textTheme
-                              .bodyText1!
-                              .color,
-                          fontSize: 25 * MediaQuery
-                              .of(context)
-                              .textScaleFactor,
+                          color: Theme.of(context).textTheme.bodyText1!.color,
+                          fontSize: 25 * MediaQuery.of(context).textScaleFactor,
                           fontWeight: FontWeight.bold,
                         )),
                     Spacer(),
                     Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.5,
+                      width: MediaQuery.of(context).size.width * 0.5,
                       padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.02),
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
                           style: TextStyle(
                               color:
-                              Theme
-                                  .of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .color),
+                                  Theme.of(context).textTheme.bodyText1!.color),
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
-                                  color: Theme
-                                      .of(context)
+                                  color: Theme.of(context)
                                       .textTheme
                                       .bodyText2!
                                       .color),
@@ -262,43 +205,26 @@ class _AlertBox extends State <AlertBox> {
                               enabledBorder: InputBorder.none,
                               errorBorder: InputBorder.none,
                               disabledBorder: InputBorder.none,
-                              fillColor: Theme
-                                  .of(context)
-                                  .primaryColorLight,
+                              fillColor: Theme.of(context).primaryColorLight,
                               focusedBorder: OutlineInputBorder(
                                   borderSide: new BorderSide(
-                                      color: Theme
-                                          .of(context)
-                                          .accentColor)),
+                                      color: Theme.of(context).accentColor)),
                               hintText: 'Title')),
-                    ), SizedBox(height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.01),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.5,
+                      width: MediaQuery.of(context).size.width * 0.5,
                       padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.02),
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
                           maxLength: 255,
-                          maxLines:3,
+                          maxLines: 3,
                           style: TextStyle(
                               color:
-                              Theme
-                                  .of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .color),
+                                  Theme.of(context).textTheme.bodyText1!.color),
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
-                                  color: Theme
-                                      .of(context)
+                                  color: Theme.of(context)
                                       .textTheme
                                       .bodyText2!
                                       .color),
@@ -306,76 +232,55 @@ class _AlertBox extends State <AlertBox> {
                               enabledBorder: InputBorder.none,
                               errorBorder: InputBorder.none,
                               disabledBorder: InputBorder.none,
-                              fillColor: Theme
-                                  .of(context)
-                                  .primaryColorLight,
+                              fillColor: Theme.of(context).primaryColorLight,
                               focusedBorder: OutlineInputBorder(
                                   borderSide: new BorderSide(
-                                      color: Theme
-                                          .of(context)
-                                          .accentColor)),
+                                      color: Theme.of(context).accentColor)),
                               hintText: 'Description')),
-                    ), SizedBox(height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.03),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                     MaterialButton(
-                        color: Theme
-                            .of(context)
-                            .accentColor,
+                        color: Theme.of(context).accentColor,
                         onPressed: () async {
                           DateTime? picked = await showDate();
                           if (picked != null) {
                             setState(() => date = picked);
                           }
                         },
-                        child: Text(
-                            getTextDate(), style: new TextStyle(color: Theme
-                            .of(context)
-                            .textTheme
-                            .bodyText1!
-                            .color, fontSize: 15 * MediaQuery
-                            .of(context)
-                            .textScaleFactor))
-                    ),
-                    SizedBox(height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.03),
+                        child: Text(getTextDate(),
+                            style: new TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color,
+                                fontSize: 15 *
+                                    MediaQuery.of(context).textScaleFactor))),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                     MaterialButton(
-                        color: Theme
-                            .of(context)
-                            .accentColor,
+                        color: Theme.of(context).accentColor,
                         onPressed: () async {
                           TimeOfDay? picked = await showTime();
                           if (picked != null) {
                             setState(() => time = picked);
                           }
                         },
-                        child: Text(
-                            getTextTime(), style: new TextStyle(color: Theme
-                            .of(context)
-                            .textTheme
-                            .bodyText1!
-                            .color, fontSize: 15 * MediaQuery
-                            .of(context)
-                            .textScaleFactor))
-                    ),
+                        child: Text(getTextTime(),
+                            style: new TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color,
+                                fontSize: 15 *
+                                    MediaQuery.of(context).textScaleFactor))),
                     Spacer(),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.02),
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: RaisedButton(
-                        color: Theme
-                            .of(context)
-                            .accentColor,
+                        color: Theme.of(context).accentColor,
                         child: Text("Create",
                             style: TextStyle(
-                                color: Theme
-                                    .of(context)
+                                color: Theme.of(context)
                                     .textTheme
                                     .bodyText1!
                                     .color)),
@@ -390,96 +295,87 @@ class _AlertBox extends State <AlertBox> {
               )
             ],
           ),
-        )
-    );
+        ));
   }
 
-  Future<DateTime?> showDate()
-  {
+  Future<DateTime?> showDate() {
     return showDatePicker(
       context: context,
-      builder: (BuildContext context, Widget ?child) {
+      builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData(
-              primarySwatch: Colors.grey,
-              splashColor: Color(0xff20222D),
-              textTheme: TextTheme(
-                subtitle1: TextStyle(color:Color(0xffA7AAB9)),
-                button: TextStyle(color: Color(0xffA7AAB9), fontWeight: FontWeight.bold),
-              ),
-              textButtonTheme: TextButtonThemeData(
-                  style: TextButton.styleFrom(
-                    primary:  Color(0xffA7AAB9), // button text color
-                  )),
-              accentColor: Color(0xff6A7AC7),
-              colorScheme: ColorScheme.light(
-                  primary: Color(0xff20222D),
-                  primaryVariant: Color(0xff20222D),
-                  secondaryVariant: Color(0xff20222D),
-                  onSecondary: Color(0xff20222D),
-                  onPrimary: Color(0xffA7AAB9),
-                  surface: Color(0xff20222D),
-                  onSurface: Color(0xffA7AAB9),
-              secondary: Color(0xff6A7AC7)),
-          dialogBackgroundColor: Color(0xff484D64),
-
-
-        ), child: child!,);
+            primarySwatch: Colors.grey,
+            splashColor: Color(0xff20222D),
+            textTheme: TextTheme(
+              subtitle1: TextStyle(color: Color(0xffA7AAB9)),
+              button: TextStyle(
+                  color: Color(0xffA7AAB9), fontWeight: FontWeight.bold),
+            ),
+            textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+              primary: Color(0xffA7AAB9), // button text color
+            )),
+            accentColor: Color(0xff6A7AC7),
+            colorScheme: ColorScheme.light(
+                primary: Color(0xff20222D),
+                primaryVariant: Color(0xff20222D),
+                secondaryVariant: Color(0xff20222D),
+                onSecondary: Color(0xff20222D),
+                onPrimary: Color(0xffA7AAB9),
+                surface: Color(0xff20222D),
+                onSurface: Color(0xffA7AAB9),
+                secondary: Color(0xff6A7AC7)),
+            dialogBackgroundColor: Color(0xff484D64),
+          ),
+          child: child!,
+        );
       },
-
-
-      initialDate:
-      date ?? DateTime.now(),
-      firstDate: new DateTime(DateTime
-          .now()
-          .year - 5),
-      lastDate: new DateTime(DateTime
-          .now()
-          .year + 5),
+      initialDate: date ?? DateTime.now(),
+      firstDate: new DateTime(DateTime.now().year - 5),
+      lastDate: new DateTime(DateTime.now().year + 5),
     );
   }
 
-  Future <TimeOfDay?> showTime()
-  {
+  Future<TimeOfDay?> showTime() {
     return showTimePicker(
       context: context,
-      builder: (BuildContext context, Widget ?child) {
+      builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData(
-              primarySwatch: MaterialColor(0xFF20222D,color),
-              splashColor: Color(0xff20222D),
-              timePickerTheme: TimePickerThemeData(
-                  helpTextStyle: TextStyle(color:Color(0xffA7AAB9),)
-
-              ),
-              textTheme: TextTheme(
-                  subtitle1: TextStyle(color:Color(0xffA7AAB9)),
-                  bodyText2: TextStyle(color:Color(0xffA7AAB9)),
-                  bodyText1: TextStyle(color:Color(0xffA7AAB9)),
-                  subtitle2: TextStyle(color:Color(0xffA7AAB9)),
-          button: TextStyle(color: Color(0xffA7AAB9), fontWeight: FontWeight.bold),
-        ),
-        textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-        primary: Color(0xffA7AAB9), // button text color
-        )),
-        accentColor: Color(0xff6A7AC7),
-        colorScheme: ColorScheme.light(
-        primary: Color(0xff6A7AC7),
-        primaryVariant: Color(0xff484D64),
-        secondaryVariant: Color(0xff484D64),
-        onSecondary: Color(0xffA7AAB9),
-        onPrimary: Color(0xffA7AAB9),
-        surface: Color(0xff20222D),
-        onSurface: Color(0xffA7AAB9),
-        secondary: Color(0xff6A7AC7)),
-        dialogBackgroundColor: Color(0xff484D64),
-        backgroundColor: Color(0xff484D64),
-
-
-        ), child: child!,);
+            primarySwatch: MaterialColor(0xFF20222D, color),
+            splashColor: Color(0xff20222D),
+            timePickerTheme: TimePickerThemeData(
+                helpTextStyle: TextStyle(
+              color: Color(0xffA7AAB9),
+            )),
+            textTheme: TextTheme(
+              subtitle1: TextStyle(color: Color(0xffA7AAB9)),
+              bodyText2: TextStyle(color: Color(0xffA7AAB9)),
+              bodyText1: TextStyle(color: Color(0xffA7AAB9)),
+              subtitle2: TextStyle(color: Color(0xffA7AAB9)),
+              button: TextStyle(
+                  color: Color(0xffA7AAB9), fontWeight: FontWeight.bold),
+            ),
+            textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+              primary: Color(0xffA7AAB9), // button text color
+            )),
+            accentColor: Color(0xff6A7AC7),
+            colorScheme: ColorScheme.light(
+                primary: Color(0xff6A7AC7),
+                primaryVariant: Color(0xff484D64),
+                secondaryVariant: Color(0xff484D64),
+                onSecondary: Color(0xffA7AAB9),
+                onPrimary: Color(0xffA7AAB9),
+                surface: Color(0xff20222D),
+                onSurface: Color(0xffA7AAB9),
+                secondary: Color(0xff6A7AC7)),
+            dialogBackgroundColor: Color(0xff484D64),
+            backgroundColor: Color(0xff484D64),
+          ),
+          child: child!,
+        );
       },
-
       initialTime: TimeOfDay.now(),
     );
   }
@@ -487,32 +383,22 @@ class _AlertBox extends State <AlertBox> {
   String getTextDate() {
     if (date == null) {
       return "Select Date";
-    }
-    else {
-      String x = date!.day.toString() + " " +
-          months.elementAt(date!.month - 1) + " " + date!.year.toString();
+    } else {
+      String x = date!.day.toString() +
+          " " +
+          months.elementAt(date!.month - 1) +
+          " " +
+          date!.year.toString();
       return x;
     }
   }
 
   double getSize(context) {
-    if (MediaQuery
-        .of(context)
-        .size
-        .height >
-        MediaQuery
-            .of(context)
-            .size
-            .width) {
-      return MediaQuery
-          .of(context)
-          .size
-          .height * 0.49;
+    if (MediaQuery.of(context).size.height >
+        MediaQuery.of(context).size.width) {
+      return MediaQuery.of(context).size.height * 0.49;
     } else {
-      return MediaQuery
-          .of(context)
-          .size
-          .height * 0.6;
+      return MediaQuery.of(context).size.height * 0.6;
     }
   }
 
@@ -528,85 +414,101 @@ class _AlertBox extends State <AlertBox> {
   }
 }
 
-class ListItineraryItems extends StatelessWidget
-{
-  List<String> months=["January","February", "March", "April","May", "June", "July", "August", "September","October", "November", "December"];
+class ListItineraryItems extends StatelessWidget {
+  List<String> months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
   Adventure? currentAdventure;
   Itinerary? currentItinerary;
   DateTime? date;
 
-  ListItineraryItems (Adventure a, Itinerary i)
-  {
-    this.currentAdventure=a;
-    this.currentItinerary=i;
+  ListItineraryItems(Adventure a, Itinerary i) {
+    this.currentAdventure = a;
+    this.currentItinerary = i;
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => ItineraryEntryModel(currentItinerary!),
-        child:
-        Consumer<ItineraryEntryModel>(builder: (context, entryModel, child) {
-          if(entryModel.entries==null) {
+        child: Consumer<ItineraryEntryModel>(
+            builder: (context, entryModel, child) {
+          if (entryModel.entries == null) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
-                        Theme
-                            .of(context)
-                            .accentColor)));
-          }else if (entryModel.entries!.length > 0) {
+                        Theme.of(context).accentColor)));
+          } else if (entryModel.entries!.length > 0) {
             return Expanded(
                 flex: 2,
                 child: GroupedListView<dynamic, String>(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     elements: entryModel.entries!,
-                        groupBy: (element) => DateTime.parse(element.timestamp).day.toString()+" "+months[DateTime.parse(element.timestamp).month-1]+" "+DateTime.parse(element.timestamp).year.toString(),
+                    groupBy: (element) =>
+                        DateTime.parse(element.timestamp).day.toString() +
+                        " " +
+                        months[DateTime.parse(element.timestamp).month - 1] +
+                        " " +
+                        DateTime.parse(element.timestamp).year.toString(),
                     useStickyGroupSeparators: false,
                     groupSeparatorBuilder: (String value) => Container(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           value,
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Theme.of(context).textTheme.bodyText1!.color),
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color),
                         )),
                     indexedItemBuilder: (context, element, index) {
                       return Dismissible(
-                              background: Container(
-                              // color: Theme.of(context).primaryColor,
-                              //   margin: const EdgeInsets.all(5),
-                              padding: EdgeInsets.all(
-                              MediaQuery.of(context).size.height / 60),
-                          child: Row(
-                          children: [
-                          new Spacer(),
-                          Icon(Icons.delete,
-                          color: Theme.of(context).accentColor,
-                          size: 35 *
-                          MediaQuery.of(context).textScaleFactor),
-                          ],
-                          ),
+                          background: Container(
+                            // color: Theme.of(context).primaryColor,
+                            //   margin: const EdgeInsets.all(5),
+                            padding: EdgeInsets.all(
+                                MediaQuery.of(context).size.height / 60),
+                            child: Row(
+                              children: [
+                                new Spacer(),
+                                Icon(Icons.delete,
+                                    color: Theme.of(context).accentColor,
+                                    size: 35 *
+                                        MediaQuery.of(context).textScaleFactor),
+                              ],
+                            ),
                           ),
                           direction: DismissDirection.endToStart,
-                          key: Key(entryModel.entries
-                          !.elementAt(index)
-                              .id),
-                          child:
-                         Card(
+                          key: Key(entryModel.entries!.elementAt(index).id),
+                          child: Card(
                               color: Theme.of(context).primaryColorDark,
                               child: InkWell(
-
-                                  hoverColor:
-                                  Theme.of(context).primaryColorLight,
-                                  child: Container(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 4,
-                                          child: ListTile(
+                                hoverColor: Theme.of(context).primaryColorLight,
+                                child: Container(
+                                  child: Row(children: <Widget>[
+                                    Expanded(
+                                        flex: 4,
+                                        child: ListTile(
                                             title: Text(
-                                                entryModel.entries
-                                                !.elementAt(index)
+                                                entryModel.entries!
+                                                    .elementAt(index)
                                                     .title,
                                                 style: TextStyle(
+                                                    decoration: entryModel.entries!
+                                                        .elementAt(index)
+                                                        .completed ? TextDecoration.lineThrough : null,
                                                     fontSize: 25 *
                                                         MediaQuery.of(context)
                                                             .textScaleFactor,
@@ -616,29 +518,81 @@ class ListItineraryItems extends StatelessWidget
                                                         .bodyText1!
                                                         .color)),
                                             // subtitle:Text(adventures.elementAt(index).description),
-                                            subtitle: Text(
-                                                entryModel.entries!.elementAt(index)
-                                                    .description,
-                                                style: TextStyle(
-                                                    fontSize: 15 *
-                                                        MediaQuery.of(context)
-                                                            .textScaleFactor,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color)),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ))),
+                                            subtitle: RichText(
+                                              text: TextSpan(children: [
+                                                TextSpan(
+                                                    text: entryModel.entries!
+                                                            .elementAt(index)
+                                                            .description +
+                                                        "\n",
+                                                    style: TextStyle(
+                                                       decoration: entryModel.entries!
+                                                            .elementAt(index)
+                                                            .completed ? TextDecoration.lineThrough : null,
+                                                        fontSize: 15 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .textScaleFactor,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color)),
+                                                WidgetSpan(
+                                                    child: Icon(
+                                                  Icons.location_on,
+                                                  size:15,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color,
+                                                )),
+                                                TextSpan(
+                                                    text: " " +
+                                                        entryModel.entries!
+                                                            .elementAt(index)
+                                                            .location,
+                                                    style: TextStyle(
+                                                        decoration: entryModel.entries!
+                                                            .elementAt(index)
+                                                            .completed ? TextDecoration.lineThrough : null,
+                                                        fontSize: 15 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .textScaleFactor,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color))
+                                              ]),
+                                            ),trailing: Text(
+                                        DateTime.parse(entryModel.entries!
+                                            .elementAt(index)
+                                            .timestamp).hour.toString()+":"+DateTime.parse(entryModel.entries!
+                                            .elementAt(index)
+                                            .timestamp).minute.toString(),
+                                      style: TextStyle(
+                                          decoration: entryModel.entries!
+                                              .elementAt(index)
+                                              .completed ? TextDecoration.lineThrough : null,
+                                          fontSize: 25 *
+                                              MediaQuery.of(context)
+                                                  .textScaleFactor,
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color)),
+                                        )),
+                                  ]),
+                                ),
+                              )),
                           confirmDismiss: (DismissDirection direction) async {
                             return await showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   backgroundColor:
-                                  Theme.of(context).primaryColorDark,
+                                      Theme.of(context).primaryColorDark,
                                   title: Text("Confirm Removal",
                                       style: TextStyle(
                                           color: Theme.of(context)
@@ -678,11 +632,12 @@ class ListItineraryItems extends StatelessWidget
                             );
                           },
                           onDismissed: (direction) {
-                            Provider.of<ItineraryEntryModel>(context, listen: false)
-                                .deleteItineraryEntry(entryModel.entries
-                            !.elementAt(index));
-                          });}
-                ));
+                            Provider.of<ItineraryEntryModel>(context,
+                                    listen: false)
+                                .deleteItineraryEntry(
+                                    entryModel.entries!.elementAt(index));
+                          });
+                    }));
           } else {
             return Center(
                 child: Text("Seems like you've got nowhere to go!",
@@ -693,4 +648,4 @@ class ListItineraryItems extends StatelessWidget
           }
         }));
   }
-  }
+}
