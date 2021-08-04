@@ -22,10 +22,8 @@ public class LocationController {
     }
 
     @GetMapping(value="/create/{location}")
-    public String create(@PathVariable String location) throws JSONException, IOException {
-        locationServiceImplementation.createLocation(location);
-        return "Location created";
+    public UUID create(@PathVariable String location) throws JSONException, IOException {
+        return locationServiceImplementation.createLocation(location);
     }
-
 
 }
