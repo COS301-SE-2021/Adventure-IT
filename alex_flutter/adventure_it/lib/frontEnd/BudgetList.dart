@@ -4,6 +4,7 @@ import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/createBudget.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +13,6 @@ import 'AdventurePage.dart';
 import 'BudgetPage.dart';
 import 'BudgetTrash.dart';
 import 'HomepageStartup.dart';
-import 'package:pie_chart/pie_chart.dart';
 
 import '../api/budget.dart';
 import 'Navbar.dart';
@@ -35,12 +35,11 @@ class Budgets extends StatelessWidget {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body:
-        Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Spacer(),
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Spacer(),
               Container(
                   height: MediaQuery.of(context).size.height * 0.80,
                   child: BudgetList(adventure)),
@@ -106,68 +105,238 @@ class Budgets extends StatelessWidget {
   }
 }
 
-class PieChartCaller extends StatefulWidget
-{
+class PieChartCaller extends StatefulWidget {
   List<Budget>? budgets;
+
   PieChartCaller(List<Budget>? b) {
-    this.budgets=b;
+    this.budgets = b;
   }
 
   @override
-  _PieChart createState()=>_PieChart(budgets);
+  _PieChart createState() => _PieChart(budgets);
 }
 
-class _PieChart extends State<PieChartCaller>
-{
-  List <int> categories=[0,0,0,0,0];
-  List <Budget>? budgets;
+class Data {
+  String? name;
+
+  double? percent;
+
+  Color? color;
+
+  Data(name, percent, color) {
+    this.name = name;
+    this.percent = percent;
+    this.color = color;
+  }
+}
+
+class _PieChart extends State<PieChartCaller> {
+  List<Data> data = List.empty();
+  int total = 0;
+  var categories = List<int>.filled(5, 0, growable: true);
+  List<Budget>? budgets;
+
   _PieChart(List<Budget>? b) {
     this.budgets = b;
-
-    for(int i=0;i<budgets!.length;i++)
-      {
-        List <int> temp=List.empty();
-        List <int> toBe=List.empty();
-        BudgetApi.getNumberOfCategories(budgets!.elementAt(i).id).then((value) => temp=value);
-        for(int j=0;j<categories.length;j++)
-          {
-            toBe.add(categories.elementAt(j)+temp.elementAt(j));
-          }
-        categories=toBe;
-      }
   }
 
+  @override
+  initState() {
+    makeCalculations().then((value) {
+      setState(() {
+        data = [
+          Data(
+              'Accommodation',
+              ((categories.elementAt(0) / total) * 100).toInt(),
+              const Color(0xff3063b4)),
+          Data('Activities', ((categories.elementAt(1) / total) * 100).toInt(),
+              const Color(0xffb59194)),
+          Data('Food', ((categories.elementAt(2) / total) * 100).toInt(),
+              const Color(0xff931621)),
+          Data('Transport', ((categories.elementAt(4) / total) * 100).toInt(),
+              const Color(0xff419D78)),
+          Data('Other', ((categories.elementAt(3) / total) * 100).toInt(),
+              const Color(0xffC44536)),
+        ];
+      });
+    });
+  }
 
+  List<PieChartSectionData> getSections() => data
+      .asMap()
+      .map<int, PieChartSectionData>((index, data) {
+        print(data);
+
+        final value = PieChartSectionData(
+          color: data.color,
+          value: data.percent,
+          title: '${data.percent}%',
+          titleStyle: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).textTheme.bodyText1!.color,
+          ),
+        );
+
+        return MapEntry(index, value);
+      })
+      .values
+      .toList();
+
+  Future<List<int>> makeCalculations() async {
+    for (var i in budgets!) {
+      var toBe = List<int>.filled(5, 0, growable: true);
+      toBe.removeRange(0, 5);
+      await BudgetApi.getNumberOfCategories(i.id).then((value) {
+        for (var j = 0; j < 5; j++) {
+          total = total + value.elementAt(j);
+          int k = categories.elementAt(j) + value.elementAt(j);
+          toBe.add(k);
+        }
+        setState(() {
+          categories = toBe;
+        });
+      });
+    }
+    return categories;
+  }
 
   @override
   Widget build(BuildContext context) {
-    Map<String, double> dataMap = new Map();
-    dataMap.putIfAbsent("Accommodation", () => categories.elementAt(0)*1.0);
-    dataMap.putIfAbsent("Activities", () => categories.elementAt(1)*1.0);
-    dataMap.putIfAbsent("Food", () => categories.elementAt(2)*1.0);
-    dataMap.putIfAbsent("Other", () => categories.elementAt(3)*1.0);
-    dataMap.putIfAbsent("Transport", () => categories.elementAt(4)*1.0);
-    List <Color> colorList=[Color(0xff3063b4),Color(0xffb59194),Color(0xff931621),Color(0xff419D78),Color(0xffC44536)];
-
     return Card(
-        child: Column(
-        children: <Widget>[
-        Expanded(
-        child: PieChart(dataMap: dataMap,
-          animationDuration: Duration(milliseconds: 800),
-          chartLegendSpacing: 32.0,
-          chartRadius: MediaQuery.of(context).size.width / 2.7,
-          colorList: colorList,
-          chartType: ChartType.disc,
+      color:Theme.of(context).scaffoldBackgroundColor,
+        shadowColor: Theme.of(context).scaffoldBackgroundColor,
+        child: Column(children: <Widget>[
+      Expanded(
+          flex: 5,
+          child: PieChart(
+            PieChartData(
+              sections: getSections(),
+              sectionsSpace: 0,
+              centerSpaceRadius:
+                  (MediaQuery.of(context).size.height * 0.20 / 2),
+              borderData: FlBorderData(show: false),
+            ),
+          )),
+      Spacer(),
+      Expanded(
+          child: Row(
+        children: [
+          Expanded(
+              child: Center( child:RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.body1,
+                  children: [
+                    WidgetSpan(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                        child: Icon(Icons.circle_rounded,color: data.elementAt(0).color,),
+                      ),
+                    ),
+                    TextSpan(text:" "+data.elementAt(0).name!,style: TextStyle(
+                        fontWeight:
+                        FontWeight.bold,
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color)),
+                  ],
+                ),
+              ))
           ),
-    )]));
+          Expanded(
+              child: Center(child: RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.body1,
+                  children: [
+                    WidgetSpan(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                        child: Icon(Icons.circle_rounded,color: data.elementAt(1).color,),
+                      ),
+                    ),
+                    TextSpan(text:" "+data.elementAt(1).name!,style: TextStyle(
+                        fontWeight:
+                        FontWeight.bold,
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color)),
+                  ],
+                ),
+              ))
+          ),
+          Expanded(
+              child: Center(child: RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.body1,
+                  children: [
+                    WidgetSpan(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                        child: Icon(Icons.circle_rounded,color: data.elementAt(2).color,),
+                      ),
+                    ),
+                    TextSpan(text:" "+data.elementAt(2).name!,style: TextStyle(
+                        fontWeight:
+                        FontWeight.bold,
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color)),
+                  ],
+                ),
+              ))
+          ),
+          Expanded(
+              child: Center(child:RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.body1,
+                  children: [
+                    WidgetSpan(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                        child: Icon(Icons.circle_rounded,color: data.elementAt(3).color,),
+                      ),
+                    ),
+                    TextSpan(text:" "+data.elementAt(3).name!,style: TextStyle(
+                        fontWeight:
+                        FontWeight.bold,
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color)),
+                  ],
+                ),
+              ))
+          ),
+          Expanded(
+              child: Center(child: RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.body1,
+                  children: [
+                    WidgetSpan(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                        child: Icon(Icons.circle_rounded,color: data.elementAt(4).color,),
+                      ),
+                    ),
+                    TextSpan(text:" "+data.elementAt(4).name!,style: TextStyle(
+                        fontWeight:
+                        FontWeight.bold,
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color)),
+                  ],
+                ),
+              )
+          ),
+          )],
+      ))
+    ]));
   }
-
-
-
 }
-
-
 
 class BudgetList extends StatelessWidget {
   Adventure? a;
@@ -176,10 +345,9 @@ class BudgetList extends StatelessWidget {
     this.a = adventure;
   }
 
-  String expenses(Budget b, String userName)
-  {
-    String total="0";
-    BudgetApi.getTotalOfExpenses(b,userName).then((value) => total=value);
+  String expenses(Budget b, String userName) {
+    String total = "0";
+    BudgetApi.getTotalOfExpenses(b, userName).then((value) => total = value);
 
     return total;
   }
@@ -195,73 +363,95 @@ class BudgetList extends StatelessWidget {
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
           } else if (budgetModel.budgets!.length > 0) {
-            return Column( children: [
-                Expanded(
-                    flex: 2,
-                    child: PieChartCaller(budgetModel.budgets)
-                ),
+            return Column(children: [
+              Spacer(flex: 1),
+              Expanded(flex: 6, child: PieChartCaller(budgetModel.budgets)),
+              Spacer(flex: 1),
               Expanded(
-                flex: 2,
-                child: ListView(children: [
-                  ...List.generate(
-                      budgetModel.budgets!.length,
-                      (index) => Dismissible(
-                          background: Container(
-                            // color: Theme.of(context).primaryColor,
-                            //   margin: const EdgeInsets.all(5),
-                            padding: EdgeInsets.all(
-                                MediaQuery.of(context).size.height / 60),
-                            child: Row(
-                              children: [
-                                new Spacer(),
-                                Icon(Icons.delete,
-                                    color: Theme.of(context).accentColor,
-                                    size: 35 *
-                                        MediaQuery.of(context).textScaleFactor),
-                              ],
+                  flex: 5,
+                  child: ListView(children: [
+                    ...List.generate(
+                        budgetModel.budgets!.length,
+                        (index) => Dismissible(
+                            background: Container(
+                              // color: Theme.of(context).primaryColor,
+                              //   margin: const EdgeInsets.all(5),
+                              padding: EdgeInsets.all(
+                                  MediaQuery.of(context).size.height / 60),
+                              child: Row(
+                                children: [
+                                  new Spacer(),
+                                  Icon(Icons.delete,
+                                      color: Theme.of(context).accentColor,
+                                      size: 35 *
+                                          MediaQuery.of(context)
+                                              .textScaleFactor),
+                                ],
+                              ),
                             ),
-                          ),
-                          direction: DismissDirection.endToStart,
-                          key: Key(budgetModel.budgets!.elementAt(index).id),
-                          child: Card(
-                              color: Theme.of(context).primaryColorDark,
-                              child: InkWell(
-                                  hoverColor:
-                                      Theme.of(context).primaryColorLight,
-                                  onTap: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => BudgetPage(
-                                                budgetModel.budgets
-                                                    !.elementAt(index),a)));
-                                  },
-                                  child: Container(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 4,
-                                          child: ListTile(
-                                            title: Text(//
-                                                budgetModel.budgets!
-                                                    .elementAt(index)
-                                                    .name,
+                            direction: DismissDirection.endToStart,
+                            key: Key(budgetModel.budgets!.elementAt(index).id),
+                            child: Card(
+                                color: Theme.of(context).primaryColorDark,
+                                child: InkWell(
+                                    hoverColor:
+                                        Theme.of(context).primaryColorLight,
+                                    onTap: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => BudgetPage(
+                                                  budgetModel.budgets!
+                                                      .elementAt(index),
+                                                  a)));
+                                    },
+                                    child: Container(
+                                      child: Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 4,
+                                            child: ListTile(
+                                              title: Text(
+                                                  //
+                                                  budgetModel.budgets!
+                                                      .elementAt(index)
+                                                      .name,
+                                                  style: TextStyle(
+                                                      fontSize: 25 *
+                                                          MediaQuery.of(context)
+                                                              .textScaleFactor,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color)),
+                                              // subtitle:Text(adventures.elementAt(index).description),
+                                              subtitle: Text(
+                                                  budgetModel.budgets!
+                                                      .elementAt(index)
+                                                      .description,
+                                                  style: TextStyle(
+                                                      fontSize: 15 *
+                                                          MediaQuery.of(context)
+                                                              .textScaleFactor,
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color)),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Text(
+                                                "Total: " +
+                                                    expenses(
+                                                        budgetModel.budgets!
+                                                            .elementAt(index),
+                                                        "1660bd85-1c13-42c0-955c-63b1eda4e90b"),
+                                                textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    fontSize: 25 *
-                                                        MediaQuery.of(context)
-                                                            .textScaleFactor,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color)),
-                                            // subtitle:Text(adventures.elementAt(index).description),
-                                            subtitle: Text(
-                                                budgetModel.budgets!
-                                                    .elementAt(index)
-                                                    .description,
-                                                style: TextStyle(
-                                                    fontSize: 15 *
+                                                    fontSize: 12 *
                                                         MediaQuery.of(context)
                                                             .textScaleFactor,
                                                     color: Theme.of(context)
@@ -269,31 +459,16 @@ class BudgetList extends StatelessWidget {
                                                         .bodyText1!
                                                         .color)),
                                           ),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Text(
-                                              "Total: "+ expenses(budgetModel.budgets
-                                              !.elementAt(index),"1660bd85-1c13-42c0-955c-63b1eda4e90b"),
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: 12 *
-                                                      MediaQuery.of(context)
-                                                          .textScaleFactor,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color)),
-                                        ),
-                                      ],
-                                    ),
-                                  ))),
-                          onDismissed: (direction) {
-                            Provider.of<BudgetModel>(context, listen: false)
-                                .softDeleteBudget(
-                                    budgetModel.budgets!.elementAt(index));
-                          }))
-                ]))]);
+                                        ],
+                                      ),
+                                    ))),
+                            onDismissed: (direction) {
+                              Provider.of<BudgetModel>(context, listen: false)
+                                  .softDeleteBudget(
+                                      budgetModel.budgets!.elementAt(index));
+                            }))
+                  ]))
+            ]);
           } else {
             return Center(
                 child: Text("Start planning how to spend your money!",
@@ -446,7 +621,11 @@ class _AlertBox extends State<AlertBox> {
                                     .color)),
                         onPressed: () {
                           setState(() {
-                            _futureBudget = api.createBudget(nameController.text, descriptionController.text, userID, advID);
+                            _futureBudget = api.createBudget(
+                                nameController.text,
+                                descriptionController.text,
+                                userID,
+                                advID);
                           });
                           Navigator.of(context).pop();
                         },

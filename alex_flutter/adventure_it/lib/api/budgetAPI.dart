@@ -84,9 +84,9 @@ class BudgetApi {
     if (response.statusCode != 200) {
       throw Exception('Failed to get categories for budget: ${response.body}');
     }
-
-    List<int> categories = (jsonDecode(response.body) as List<int>);
-    return categories;
+    List<dynamic> categories = (jsonDecode(response.body) as List);
+    List<int> intList = categories.map((s) => s as int).toList();
+    return intList;
   }
 
   static Future<http.Response> _getNumberOfCategories(budgetID) async {

@@ -36,10 +36,10 @@ class AdventureApi {
 
     List<String> userIDs = (jsonDecode(response.body) as List<dynamic>).cast<String>();
     List <UserProfile> attendees=List.empty();
-    for(int i=0;i<userIDs.length;i++)
+    for(var i in userIDs)
       {
-        if(userIDs.elementAt(i)!="1660bd85-1c13-42c0-955c-63b1eda4e90b") {
-          UserProfile p = await UserApi.getUserByUUID(userIDs.elementAt(i));
+        if(i!="1660bd85-1c13-42c0-955c-63b1eda4e90b") {
+          UserProfile p = await UserApi.getUserByUUID(i);
           attendees.add(p);
         }
       }
