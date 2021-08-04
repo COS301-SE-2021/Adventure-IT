@@ -107,13 +107,15 @@ class Budgets extends StatelessWidget {
 
 class PieChartCaller extends StatefulWidget {
   List<Budget>? budgets;
+  List<int>? categories;
 
-  PieChartCaller(List<Budget>? b) {
+  PieChartCaller(List<Budget>? b, List<int>? c) {
     this.budgets = b;
+    this.categories=c;
   }
 
   @override
-  _PieChart createState() => _PieChart(budgets);
+  _PieChart createState() => _PieChart(budgets,categories!);
 }
 
 class Data {
@@ -132,34 +134,30 @@ class Data {
 
 class _PieChart extends State<PieChartCaller> {
   List<Data> data = List.empty();
-  int total = 0;
-  var categories = List<int>.filled(5, 0, growable: true);
+  List <int>? categories;
   List<Budget>? budgets;
 
-  _PieChart(List<Budget>? b) {
+  _PieChart(List<Budget>? b, List<int>categories) {
     this.budgets = b;
+    this.categories=categories;
   }
 
   @override
   initState() {
-    makeCalculations().then((value) {
-      setState(() {
         data = [
           Data(
               'Accommodation',
-              ((categories.elementAt(0) / total) * 100).toInt(),
+              categories!.elementAt(0).toInt(),
               const Color(0xff3063b4)),
-          Data('Activities', ((categories.elementAt(1) / total) * 100).toInt(),
+          Data('Activities', categories!.elementAt(1).toInt(),
               const Color(0xffb59194)),
-          Data('Food', ((categories.elementAt(2) / total) * 100).toInt(),
+          Data('Food', categories!.elementAt(2).toInt(),
               const Color(0xff931621)),
-          Data('Transport', ((categories.elementAt(4) / total) * 100).toInt(),
+          Data('Transport', categories!.elementAt(4).toInt(),
               const Color(0xff419D78)),
-          Data('Other', ((categories.elementAt(3) / total) * 100).toInt(),
+          Data('Other', categories!.elementAt(3).toInt(),
               const Color(0xffC44536)),
         ];
-      });
-    });
   }
 
   List<PieChartSectionData> getSections() => data
@@ -183,23 +181,7 @@ class _PieChart extends State<PieChartCaller> {
       .values
       .toList();
 
-  Future<List<int>> makeCalculations() async {
-    for (var i in budgets!) {
-      var toBe = List<int>.filled(5, 0, growable: true);
-      toBe.removeRange(0, 5);
-      await BudgetApi.getNumberOfCategories(i.id).then((value) {
-        for (var j = 0; j < 5; j++) {
-          total = total + value.elementAt(j);
-          int k = categories.elementAt(j) + value.elementAt(j);
-          toBe.add(k);
-        }
-        setState(() {
-          categories = toBe;
-        });
-      });
-    }
-    return categories;
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -345,19 +327,25 @@ class BudgetList extends StatelessWidget {
     this.a = adventure;
   }
 
-  String expenses(Budget b, String userName) {
-    String total = "0";
-    BudgetApi.getTotalOfExpenses(b, userName).then((value) => total = value);
-
-    return total;
+  Widget buildChild(budgetModel,context)
+  {
+    if(budgetModel.categories.length>0)
+    { return PieChartCaller(budgetModel.budgets,budgetModel.categories);}
+    else return Center(
+        child: Text("It look like you haven't spent any money. Let's get started!",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                color: Theme.of(context).textTheme.bodyText1!.color)));
   }
+
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => BudgetModel(a!),
+        create: (context) => BudgetModel(a!,"patricia"),
         child: Consumer<BudgetModel>(builder: (context, budgetModel, child) {
-          if (budgetModel.budgets == null) {
+          if (budgetModel.budgets == null||budgetModel.expenses==null||budgetModel.categories==null) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
@@ -365,7 +353,7 @@ class BudgetList extends StatelessWidget {
           } else if (budgetModel.budgets!.length > 0) {
             return Column(children: [
               Spacer(flex: 1),
-              Expanded(flex: 6, child: PieChartCaller(budgetModel.budgets)),
+              Expanded(flex: 6, child: buildChild(budgetModel,context)),
               Spacer(flex: 1),
               Expanded(
                   flex: 5,
@@ -444,11 +432,7 @@ class BudgetList extends StatelessWidget {
                                           Expanded(
                                             flex: 1,
                                             child: Text(
-                                                "Total: " +
-                                                    expenses(
-                                                        budgetModel.budgets!
-                                                            .elementAt(index),
-                                                        "1660bd85-1c13-42c0-955c-63b1eda4e90b"),
+                                                "Total: " + budgetModel.expenses!.elementAt(index),
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     fontSize: 12 *

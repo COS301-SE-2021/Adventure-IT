@@ -44,19 +44,82 @@ class DeletedBudgetModel extends ChangeNotifier
 class BudgetModel extends ChangeNotifier {
 
   List<Budget>? _budgets = null;
+  List<int>? _categories=null;
+  List<String>? _expenses=null;
 
 
-  BudgetModel(Adventure a) {
-    fetchAllBudgets(a).then((budgets) => budgets != null? _budgets = budgets:List.empty());
+  BudgetModel(Adventure a, String userName) {
+    fetchAllBudgets(a).then((budgets) {budgets != null? _budgets = budgets:List.empty();
+      if(_budgets!=null&&_budgets!.length>0) {
+        calculateCategories().then((categories) {
+          categories != null ? _categories = categories : List.empty();
+        });
+        calculateExpenses(userName).then((expenses) =>
+        expenses != null ? _expenses = expenses : List.empty());
+      }
+      else {
+        _categories = List.empty();
+        _expenses=List.empty();
+      }
+
+
+    });
   }
 
   List<Budget>? get budgets => _budgets?.toList();
+  List<String>? get expenses => _expenses?.toList();
+  List <int>? get categories=>_categories?.toList();
 
 
   Future fetchAllBudgets(Adventure a) async {
     _budgets = await BudgetApi.getBudgets(a);
 
     notifyListeners();
+  }
+
+  Future calculateExpenses(String userName) async {
+    var total = List<String>.filled(budgets!.length, "0", growable: true);
+    total.removeRange(0,budgets!.length);
+    for(var b in budgets!) {
+      await BudgetApi.getTotalOfExpenses(b, userName).then((value)
+      {
+        total.add(value);});
+    }
+
+    this._expenses=total;
+
+    notifyListeners();
+  }
+
+  Future calculateCategories() async
+  {
+    var temp = List<int>.filled(5, 0, growable: true);
+      int total=0;
+      for (var i in budgets!) {
+        var toBe = List<int>.filled(5, 0, growable: true);
+        toBe.removeRange(0,5);
+        await BudgetApi.getNumberOfCategories(i.id).then((value) {
+          for (var j = 0; j < 5; j++) {
+            total = total + value.elementAt(j);
+            int k = temp.elementAt(j) + value.elementAt(j);
+            toBe.add(k);
+          }
+          temp.removeRange(0, 5);
+          temp.addAll(toBe);
+        });
+      }
+
+    var toBe = List<int>.filled(5, 0, growable: true);
+    toBe.removeRange(0,5);
+      for(int i=0;i<5;i++)
+        {
+          toBe.add(((temp.elementAt(i)/total)*100).toInt());
+        }
+
+      _categories=toBe;
+
+    notifyListeners();
+
   }
 
 

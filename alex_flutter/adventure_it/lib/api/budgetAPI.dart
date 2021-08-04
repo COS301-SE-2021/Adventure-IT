@@ -122,7 +122,7 @@ class BudgetApi {
     await _getTotalOfExpenses(b.id,userID);
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to load expenses: ${response.body}');
+      return "0";
     }
 
     print(response.body);
