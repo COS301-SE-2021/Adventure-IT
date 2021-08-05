@@ -46,7 +46,7 @@ public class MainControllerAdventureReroute {
         return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/test", String.class);
     }
 
-    @GetMapping("getAttendees/{id}")
+    @GetMapping("/getAttendees/{id}")
     public List<GetUserByUUIDDTO> getAttendees(@PathVariable UUID id) throws Exception {
         List<UUID> users = restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/getAttendees/" + id, List.class);
         List<GetUserByUUIDDTO> list = new ArrayList<>();
@@ -59,15 +59,7 @@ public class MainControllerAdventureReroute {
         return list;
     }
 
-    @GetMapping("/location/test")
-    public String locationTest(){
-        return restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/test", String.class);
-    }
 
-    @GetMapping(value="location/create/{location}")
-    public String createLocation(@PathVariable String location) {
-        return restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/create/" + location, String.class);
-    }
 
     @PostMapping(value = "/create")
     public CreateAdventureResponse createAdventure(@RequestBody CreateAdventureRequest req) {
