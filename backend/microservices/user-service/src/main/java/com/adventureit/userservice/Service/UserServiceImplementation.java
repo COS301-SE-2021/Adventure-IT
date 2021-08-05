@@ -15,9 +15,9 @@ import com.adventureit.userservice.Responses.LoginUserDTO;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
 import com.adventureit.userservice.Token.RegistrationToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,7 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service("UserServiceImplementation")
-public class UserServiceImplementation implements UserDetailsService {
+public class UserServiceImplementation  {
 
 
 
@@ -179,16 +179,16 @@ public class UserServiceImplementation implements UserDetailsService {
         return new LoginUserDTO(true,"Login Successful: Welcome to Adventure-it");
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Users user =  repo.getUserByUsername(s);
-        if(user ==null){
-           throw new UsernameNotFoundException("User not found");
-        }
-
-        return user;
-
-    }
+//    @Override
+//    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+//        Users user =  repo.getUserByUsername(s);
+//        if(user ==null){
+//           throw new UsernameNotFoundException("User not found");
+//        }
+//
+//        return user;
+//
+//    }
 
 
     @Transactional
@@ -336,6 +336,42 @@ public class UserServiceImplementation implements UserDetailsService {
         }
 
         return list;
+    }
+
+    public void deleteFriendRequest(UUID id) throws Exception {
+        Friend request = friendRepository.findFriendById(id);
+        if(request == null || request.isAccepted()){
+            throw new Exception("Friend Request doesn't exist");
+        }
+
+        friendRepository.delete(request);
+    }
+
+    public String removeFriend(UUID id, UUID friend) throws Exception {
+        List<Friend> friendList1 = friendRepository.findByFirstUserEquals(id);
+        List<Friend> friendList2 = friendRepository.findBySecondUserEquals(id);
+        boolean flag = false;
+
+        for (Friend f:friendList1) {
+            if(f.getSecondUser().equals(friend) && f.isAccepted()){
+                friendRepository.delete(f);
+                flag = true;
+                break;
+            }
+        }
+        for (Friend f:friendList2) {
+            if(f.getFirstUser().equals(friend) && f.isAccepted()){
+                friendRepository.delete(f);
+                flag = true;
+                break;
+            }
+        }
+
+        if(flag == false){
+            throw new Exception("Friend does not exist");
+        }
+
+        return "Friend removed";
     }
 
     public void mockFriendships()

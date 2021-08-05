@@ -90,9 +90,9 @@ public class ChecklistController {
     }
 
 
-    @GetMapping("/markEntry/{id}/{entryContainerID}")
-    public void markEntry(@PathVariable UUID id, @PathVariable UUID entryContainerID) throws Exception {
-        checklistServiceImplementation.markChecklistEntry(id,entryContainerID);
+    @GetMapping("/markEntry/{id}")
+    public void markEntry(@PathVariable UUID id) throws Exception {
+        checklistServiceImplementation.markChecklistEntry(id);
 
     }
 }
