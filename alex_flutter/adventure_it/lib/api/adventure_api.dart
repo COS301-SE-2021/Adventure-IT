@@ -91,7 +91,7 @@ class AdventureApi {
       // then parse the JSON.
       print('Status code: ${response.statusCode}');
       print('Body: ${response.body}');
-      return CreateAdventure(name: name, ownerId: ownerId, startDate: startDate, endDate: endDate, description: description);
+      return CreateAdventure(name: name, ownerId: ownerId, startDate: startDate.toString(), endDate: endDate.toString(), description: description);
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
