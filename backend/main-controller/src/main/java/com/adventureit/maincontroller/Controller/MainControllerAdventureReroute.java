@@ -46,7 +46,7 @@ public class MainControllerAdventureReroute {
         return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/test", String.class);
     }
 
-    @GetMapping("adventure/getAttendees/{id}")
+    @GetMapping("getAttendees/{id}")
     public List<GetUserByUUIDDTO> getAttendees(@PathVariable UUID id) throws Exception {
         List<UUID> users = restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/getAttendees/" + id, List.class);
         List<GetUserByUUIDDTO> list = new ArrayList<>();

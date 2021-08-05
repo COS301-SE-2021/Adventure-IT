@@ -43,7 +43,7 @@ public class ConnectionFactory {
                     vars = entry.getKey();
                     vals = entry.getValue();
                     data += ("&" + vars + "=" + vals);
-
+                    System.out.println(data);
                 }
                 if (data.startsWith("&")) {
                     data = data.replaceFirst("&", "");
