@@ -6,6 +6,7 @@ import 'package:adventure_it/api/registerUser.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:http/http.dart' as http;
 
+import 'friendRequest.dart';
 import 'loginUser.dart';
 import 'userProfile.dart';
 
@@ -96,21 +97,47 @@ class UserApi {
     return http.get(Uri.http(userApi, 'api/GetFriends/' + userID));
   }
 
-  static Future<List<UserProfile>> getFriends(String userID) async
+  static Future<List<FriendRequest>> getFriendRequests(String userID) async
   {
-    http.Response response =await _getFriends(userID);
+    http.Response response =await _getFriendRequests(userID);
     if (response.statusCode != 200) {
       throw Exception('Failed to load list of checklists: ${response.body}');
     }
 
-    List<UserProfile> friends = (jsonDecode(response.body) as List)
-        .map((x) => UserProfile.fromJson(x))
+    List<FriendRequest> friends = (jsonDecode(response.body) as List)
+        .map((x) => FriendRequest.fromJson(x))
         .toList();
 
     return friends;
   }
 
-  static Future<http.Response> _getFriends(String userID) async {
-    return http.get(Uri.http(userApi, 'api/GetFriends/' + userID));
+  static Future<http.Response> _getFriendRequests(String userID) async {
+    return http.get(Uri.http(userApi, 'api/GetFriendRequests/' + userID));
+  }
+
+  static Future deleteFriend(String userID, String friendID) async
+  {
+    http.Response response =await _deleteFriend(userID,friendID);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete friend: ${response.body}');
+    }
+
+  }
+
+  static Future<http.Response> _deleteFriend(String userID, String friendID) async {
+    return http.get(Uri.http(userApi, 'api/removeFriend/' + userID+"/"+friendID));
+  }
+
+  static Future deleteFriendRequest(String requestID) async
+  {
+    http.Response response =await _deleteFriendRequest(requestID);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete friendRequest: ${response.body}');
+    }
+
+  }
+
+  static Future<http.Response> _deleteFriendRequest(String requestID) async {
+    return http.get(Uri.http(userApi, 'api/deleteFriendRequest/' + requestID));
   }
 }
