@@ -5,6 +5,7 @@ import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:adventure_it/frontEnd/BudgetList.dart';
 import 'package:flutter/gestures.dart';
 
 
@@ -26,6 +27,7 @@ class CreateAdventureCaller extends StatefulWidget {
 
 class CreateAdventure extends State<CreateAdventureCaller> {
   DateTimeRange? dates;
+  String? location;
   final initialDateRange = DateTimeRange(
     start: DateTime.now(),
     end: DateTime.now().add(Duration(hours: 24 * 7)),
@@ -48,6 +50,18 @@ class CreateAdventure extends State<CreateAdventureCaller> {
       String x=dates!.start.day.toString()+" "+months.elementAt(dates!.start.month-1)+" "+dates!.start.year.toString()+" to "+dates!.end.day.toString()+" "+months.elementAt(dates!.end.month-1)+" "+dates!.end.year.toString();
       return x;
     }
+  }
+
+  String getTextLocation()
+  {
+    if (location==null)
+    {
+      return "Select Location";
+    }
+    else
+      {
+        return location!;
+      }
   }
   Map<int, Color> color =
   {
@@ -185,6 +199,17 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                   },//
                   child: Text(getText(),style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color,fontSize: 15*MediaQuery.of(context).textScaleFactor))
               ),
+              MaterialButton(
+                  color: Theme.of(context).accentColor,
+                  onPressed: () async {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertBoxLocation();
+                        });
+                  },//
+                  child: Text(getTextLocation(),style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color,fontSize: 15*MediaQuery.of(context).textScaleFactor))
+              ),
               SizedBox(height: MediaQuery.of(context).size.height*0.05),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -229,4 +254,143 @@ class CreateAdventure extends State<CreateAdventureCaller> {
     ])));
 
   }
+
+
 }
+
+class AlertBoxLocation extends StatelessWidget {
+
+  double getSize(context) {
+    if (MediaQuery.of(context).size.height >
+        MediaQuery.of(context).size.width) {
+      return MediaQuery.of(context).size.height * 0.49;
+    } else {
+      return MediaQuery.of(context).size.height * 0.6;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        backgroundColor: Theme.of(context).primaryColorDark,
+        content: Container(
+          height: getSize(context),
+          child: Stack(
+            overflow: Overflow.visible,
+            children: <Widget>[
+              Positioned(
+                right: -40.0,
+                top: -40.0,
+                child: InkResponse(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: CircleAvatar(
+                    child: Icon(Icons.close,
+                        color: Theme.of(context).primaryColorDark),
+                    backgroundColor: Theme.of(context).accentColor,
+                  ),
+                ),
+              ),
+              Center(
+                child: Column(
+                  // mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text("Find Location",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText1!.color,
+                          fontSize: 25 * MediaQuery.of(context).textScaleFactor,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Expanded(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
+                      child: TextField(
+                          style: TextStyle(
+                              color:
+                              Theme.of(context).textTheme.bodyText1!.color),
+                          decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Search by country or city'),
+                        onChanged:(value)=>{
+                          locationApi.searchPlaces(value)
+                        },
+                        onTap: () => locationApi.clearSelectedLocation(),
+                      ),),
+                        ChangeNotifierProvider(
+                            create: (context) => LocationModel(),
+                            child:
+                            Consumer<LocationModel>(builder: (context, locationModel, child) {
+                              if (locationModel.suggestions == null) {
+                                return Center(
+                                    child: CircularProgressIndicator(
+                                        valueColor: new AlwaysStoppedAnimation<Color>(
+                                            Theme.of(context).accentColor)));
+                              } else if (locationModel.suggestions!.length > 0) {
+                                return Expanded(
+                                    flex: 7,
+                                    child: ListView(children: [
+                                      ...List.generate(
+                                          locationModel.suggestions!.length,
+                                              (index) => Card(
+                                                  color: Theme.of(context).primaryColorDark,
+                                                  child: InkWell(
+                                                      hoverColor:
+                                                      Theme.of(context).primaryColorLight,
+                                                      onTap: () {
+
+                                                      },
+                                                      child: Container(
+                                                        child: Text(
+                                                                    locationModel
+                                                                        .suggestions!
+                                                                        .elementAt(index),
+                                                                    style: TextStyle(
+                                                                        fontSize: 25 *
+                                                                            MediaQuery.of(context)
+                                                                                .textScaleFactor,
+                                                                        fontWeight: FontWeight.bold,
+                                                                        color: Theme.of(context)
+                                                                            .textTheme
+                                                                            .bodyText1!.color
+                                                              ),
+                                                            ),
+                                                        ),
+                                                      )))
+
+                                              ]));
+                              } else {
+                                return Center(
+                                    child: Text("Let's get you organised!",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                                            color: Theme.of(context).textTheme.bodyText1!.color)));
+                              }
+                            }));
+
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ));
+  }
+}
+
