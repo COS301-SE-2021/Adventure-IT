@@ -20,6 +20,7 @@ class LoginCaller extends StatefulWidget {
 class Login extends State<LoginCaller> {
   Future<LoginUser>? _futureUser;
   final UserApi api = UserApi.getInstance();
+  // TODO: Check if an auth token is present, if not display login screen, else just go to homepage
   var storage = FlutterSecureStorage();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();

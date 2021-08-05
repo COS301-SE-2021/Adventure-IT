@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 class UserApi {
   String? username;
   String? uuid;
+  bool hasToken = false;
 
   // Secure Local Storage
   final storage = FlutterSecureStorage();
@@ -19,7 +20,13 @@ class UserApi {
   static UserApi _instance = new UserApi._();
 
   // Private constructor
-  UserApi._() {}
+  UserApi._() {
+    // Check if there's an access token
+    final jwtToken = storage.read(key: 'jwt');
+    if (jwtToken != null) {
+      this.hasToken = true;
+    }
+  }
 
   static UserApi getInstance() {
     return _instance;
@@ -52,6 +59,7 @@ class UserApi {
     if (res.statusCode == 200) {
       this.username = username;
       storage.write(key: "jwt", value: jsonDecode(res.body)["access_token"]);
+      this.hasToken = true;
     } else {
       debugPrint("Login Failed");
       debugPrint(res.body.toString());
