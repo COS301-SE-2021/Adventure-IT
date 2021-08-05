@@ -62,17 +62,17 @@ public class MainControllerAdventureReroute {
 
 
     @PostMapping(value = "/create")
-    public CreateAdventureResponse createAdventure(@RequestBody CreateAdventureRequest req) {
-        System.out.println(req.getEndDate());
+    public String createAdventure(@RequestBody CreateAdventureRequest req) {
+        System.out.println(req.getStartDate());
         //CreateAdventureRequest newReq = new CreateAdventureRequest(req.getName(),req.getDescription(),req.getOwnerId(),req.getStartDate(),req.getEndDate());
 
+        //CreateAdventureRequest newReq =  new CreateAdventureRequest(req.getName(),req.getDescription(),req.getOwnerId(),req.getStartDate(),req.getEndDate(),req.getLocation());
+        UUID locationId = restTemplate.getForObject("http://"+ IP + ":" + "9006" + "/location/create/"+req.getLocation(),UUID.class);
+        UUID adventureId = restTemplate.postForObject("http://"+ IP + ":" + adventurePort + "/adventure/create/",req, CreateAdventureResponse.class).getAdventure().getAdventureId();
+        restTemplate.getForObject("http://"+ IP + ":" + "9001" + "/adventure/setLocation/"+adventureId.toString()+"/"+locationId.toString(),String.class);
 
-        UUID locationId= restTemplate.getForObject("http://"+ IP + ":" + "9006" + "/location/create"+req.getLocation(),UUID.class);
-        CreateAdventureResponse RESP = restTemplate.postForObject("http://"+ IP + ":" + adventurePort + "/adventure/create/", req, CreateAdventureResponse.class);
-        restTemplate.getForObject("http://"+ IP + ":" + "9001" + "/adventure/setLocation"+RESP.getAdventure().getAdventureId().toString()+"/"+locationId.toString(),String.class);
 
-
-        return  RESP;
+        return "IT worked";
     }
 
 }

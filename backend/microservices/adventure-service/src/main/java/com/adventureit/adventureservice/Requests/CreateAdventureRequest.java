@@ -15,9 +15,10 @@ public class CreateAdventureRequest{
     private String description;
     private UUID ownerId;
     private ArrayList<String> group;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String startDate;
+    private String endDate;
     private String location;
+
 
     /**
      * This service will be used to generate a CreateAdventure request
@@ -28,9 +29,8 @@ public class CreateAdventureRequest{
         this.name=name;
         this.description = description;
         this.ownerId = ownerId;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy");
-        this.startDate= LocalDate.parse(sd,formatter);
-        this.endDate=LocalDate.parse(ed,formatter);
+        this.startDate= sd;
+        this.endDate=ed;
         this.location = location;
     }
 
@@ -54,11 +54,11 @@ public class CreateAdventureRequest{
         return this.description;
     }
 
-    public LocalDate getStartDate() {
+    public String getStartDate() {
         return this.startDate;
     }
 
-    public LocalDate getEndDate() {
+    public String getEndDate() {
         return this.endDate;
     }
 
@@ -74,13 +74,13 @@ public class CreateAdventureRequest{
         this.description = description;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
+//    //public void setEndDate(LocalDate endDate) {
+//        this.endDate = endDate;
+//    }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
+//    public void setStartDate(LocalDate startDate) {
+//        this.startDate = startDate;
+//    }
 
     public void setOwnerId(UUID ownerId) {
         this.ownerId = ownerId;

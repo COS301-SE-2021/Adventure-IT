@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service()
@@ -61,8 +62,10 @@ public class AdventureServiceImplementation implements AdventureService {
         }
 
         //UUID location = UUID.fromString(Objects.requireNonNull(restTemplate.getForObject("http://" + "localhost" + ":" + "9006" + "/location/create/Pretoria", String.class)));
-
-        Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(),req.getDescription(), UUID.randomUUID() , req.getOwnerId(), req.getStartDate(), req.getEndDate(),null));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy");
+        LocalDate sd = LocalDate.parse(req.getStartDate(),formatter);
+        LocalDate ed = LocalDate.parse(req.getEndDate(),formatter);
+        Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(),req.getDescription(), UUID.randomUUID() , req.getOwnerId(), sd, ed,null));
         CreateAdventureResponse response = new CreateAdventureResponse(true);
         response.setAdventure(persistedAdventure);
         return response;
