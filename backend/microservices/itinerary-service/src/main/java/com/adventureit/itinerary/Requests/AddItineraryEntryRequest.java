@@ -15,10 +15,10 @@ public class AddItineraryEntryRequest {
     private UUID location;
     LocalDateTime timestamp;
 
-    public AddItineraryEntryRequest(@JsonProperty("title") String title,@JsonProperty("description") String description,@JsonProperty("entryContainerID") UUID entryContainerID,@JsonProperty("location") String location,@JsonProperty("timestamp") LocalDateTime timestamp) {
+    public AddItineraryEntryRequest(@JsonProperty("title") String title,@JsonProperty("description") String description,@JsonProperty("entryContainerID") String entryContainerID,@JsonProperty("location") String location,@JsonProperty("timestamp") LocalDateTime timestamp) {
         this.title = title;
         this.description = description;
-        this.entryContainerID = entryContainerID;
+        this.entryContainerID = UUID.fromString(entryContainerID);
         this.location = UUID.fromString(Objects.requireNonNull(restTemplate.getForObject("http://" + "localhost" + ":" + "9999" + "main/location/create/" + location, String.class)));
         this.timestamp = timestamp;
     }

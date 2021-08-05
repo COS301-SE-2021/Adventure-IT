@@ -289,8 +289,7 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                                           flex: 4,
                                           child: ListTile(
                                             leading:  Checkbox(value: checklistEntry.entries!.elementAt(index).completed,
-    onChanged: (bool? value) {
-
+                                            onChanged: (bool? value) {
                                                   checklistEntry.markEntry(checklistEntry.entries!.elementAt(index));
 
     }// This is where we update the state when the checkbox is tapped

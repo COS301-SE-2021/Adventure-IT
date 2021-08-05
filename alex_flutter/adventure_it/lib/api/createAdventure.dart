@@ -7,8 +7,8 @@ part 'createAdventure.g.dart';
 class CreateAdventure {
   final String name;
   final String ownerId;
-  final LocalDate startDate;
-  final LocalDate endDate;
+  final String startDate;
+  final String endDate;
   final String description;
 
   CreateAdventure({
