@@ -18,7 +18,7 @@ public class Adventure{
     private String name;
     private UUID adventureId;
     private UUID ownerId;
-    @ElementCollection
+    @ElementCollection (fetch = FetchType.EAGER)
     private List<UUID> attendees;
     @ElementCollection //remove
     private List<UUID> Containers;

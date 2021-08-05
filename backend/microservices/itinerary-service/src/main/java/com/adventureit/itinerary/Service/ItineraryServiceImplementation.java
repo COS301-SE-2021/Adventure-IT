@@ -223,7 +223,12 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
         for (ItineraryEntry entry:entries) {
             list.add(new ItineraryEntryResponseDTO(entry.getId(),entry.getEntryContainerID(),entry.getTitle(),entry.getDescription(),entry.isCompleted(),entry.getLocation(),entry.getTimestamp()));
-        }
+            list.sort(new Comparator<ItineraryEntryResponseDTO>(){ @Override
+            public int compare(ItineraryEntryResponseDTO o1, ItineraryEntryResponseDTO o2) {
+                return o1.getTimestamp().compareTo(o2.getTimestamp());
+            }});
+
+            }
 
         return list;
     }

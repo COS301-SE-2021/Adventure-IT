@@ -1,13 +1,16 @@
 
+import 'package:adventure_it/Providers/checklist_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/checklist.dart';
+import 'package:adventure_it/api/checklistAPI.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
 import 'package:adventure_it/api/createChecklist.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/frontEnd/ChecklistsList.dart';
 import 'AdventurePage.dart';
+import 'package:provider/provider.dart';
 
 import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
@@ -50,6 +53,7 @@ class ChecklistPage extends StatelessWidget {
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Container(
                 height: MediaQuery.of(context).size.height * 0.75,
+                child: _GetChecklistEntries(currentChecklist!)
               ),
               Spacer(),
               Row(children: [
@@ -204,5 +208,167 @@ class AlertBox extends StatelessWidget {
             ),
           )
     );
+  }
+}
+
+class _GetChecklistEntries extends StatefulWidget
+{
+    Checklist? checklist;
+
+    _GetChecklistEntries(Checklist c)
+    {
+      this.checklist=c;
+    }
+
+  @override
+  GetChecklistEntries createState() => GetChecklistEntries(checklist!);
+}
+
+
+class GetChecklistEntries extends State<_GetChecklistEntries> {
+
+  Checklist? checklist;
+  BuildContext? c;
+  GetChecklistEntries(Checklist c) {
+    this.checklist = c;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+        create: (context) => ChecklistEntryModel(checklist!),
+        child:
+        Consumer<ChecklistEntryModel>(builder: (context, checklistEntry, child) {
+          this.c=context;
+          if(checklistEntry.entries==null) {
+            return Center(
+                child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        Theme
+                            .of(context)
+                            .accentColor)));
+          }else if (checklistEntry.entries!.length > 0) {
+            return Expanded(
+                flex: 2,
+                child: ListView(children: [
+                  ...List.generate(
+                      checklistEntry.entries!.length,
+                          (index) => Dismissible(
+                          background: Container(
+                            // color: Theme.of(context).primaryColor,
+                            //   margin: const EdgeInsets.all(5),
+                            padding: EdgeInsets.all(
+                                MediaQuery.of(context).size.height / 60),
+                            child: Row(
+                              children: [
+                                new Spacer(),
+                                Icon(Icons.delete,
+                                    color: Theme.of(context).accentColor,
+                                    size: 35 *
+                                        MediaQuery.of(context).textScaleFactor),
+                              ],
+                            ),
+                          ),
+                          direction: DismissDirection.endToStart,
+                          key: Key(checklistEntry.entries
+                          !.elementAt(index)
+                              .id),
+                          child: Card(
+                              color: Theme.of(context).primaryColorDark,
+                              child: InkWell(
+                                  hoverColor:
+                                  Theme.of(context).primaryColorLight,
+                                  child: Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 4,
+                                          child: ListTile(
+                                            leading:  Checkbox(value: checklistEntry.entries!.elementAt(index).completed,
+    onChanged: (bool? value) {
+
+                                                  checklistEntry.markEntry(checklistEntry.entries!.elementAt(index));
+
+    }// This is where we update the state when the checkbox is tapped
+),
+                                            title: Text(
+                                                checklistEntry.entries
+                                                !.elementAt(index)
+                                                    .title,
+                                                style: TextStyle(
+                                                    fontSize: 25 *
+                                                        MediaQuery.of(context)
+                                                            .textScaleFactor,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ))),
+                          confirmDismiss: (DismissDirection direction) async {
+                            return await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor:
+                                  Theme.of(context).primaryColorDark,
+                                  title: Text("Confirm Removal",
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color)),
+                                  content: Text(
+                                      "Are you sure you want to remove this checklist item for definite?",
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color)),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(true),
+                                        child: Text("Remove",
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color))),
+                                    FlatButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(false),
+                                      child: Text("Cancel",
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color)),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          onDismissed: (direction) {
+                            Provider.of<ChecklistEntryModel>(context, listen: false)
+                                .deleteChecklistEntry(checklistEntry
+                                .entries
+                            !.elementAt(index));
+                          }))
+                ]));
+          } else {
+            return Center(
+                child: Text("Let's make a list and check it twice!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                        color: Theme.of(context).textTheme.bodyText1!.color)));
+          }
+        }));
   }
 }

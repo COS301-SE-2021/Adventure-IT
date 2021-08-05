@@ -111,15 +111,9 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public void markChecklistEntry(UUID id, UUID entryContainerID) throws Exception {
-        if(checklistRepository.findChecklistById(entryContainerID) == null){
-            throw new Exception("Checklist does not exist.");
-        }
+    public void markChecklistEntry(UUID id) throws Exception {
         if(id == null){
             throw new Exception("Entry ID not provided.");
-        }
-        if(entryContainerID == null){
-            throw new Exception("Itinerary ID not provided");
         }
         ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
         if(entry == null){

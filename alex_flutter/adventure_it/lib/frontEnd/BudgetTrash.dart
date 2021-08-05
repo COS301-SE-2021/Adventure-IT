@@ -89,6 +89,7 @@ class DeletedBudgetList extends StatelessWidget {
     this.a = adventure;
   }
 
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
