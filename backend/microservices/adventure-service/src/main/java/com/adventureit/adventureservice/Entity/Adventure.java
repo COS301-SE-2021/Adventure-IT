@@ -138,6 +138,10 @@ public class Adventure{
         this.adventureId = adventureId;
     }
 
+    public void setLocation(UUID location) {
+        this.location = location;
+    }
+
     public void setAttendees(List<UUID> attendees) {
         this.attendees = attendees;
     }

@@ -22,6 +22,7 @@ public class CreateAdventureRequest{
     /**
      * This service will be used to generate a CreateAdventure request
      * @param name name of the Adventure
+     *
      */
     public CreateAdventureRequest(@JsonProperty("name")String name, @JsonProperty("description")String description, @JsonProperty("ownerId")UUID ownerId, @JsonProperty("startDate")String sd,@JsonProperty("endDate") String ed, @JsonProperty("location") String location){
         this.name=name;

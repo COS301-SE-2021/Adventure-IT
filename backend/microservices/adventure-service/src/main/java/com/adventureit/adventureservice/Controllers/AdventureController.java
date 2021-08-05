@@ -35,6 +35,12 @@ public class AdventureController {
         return adventureServiceImplementation.getAllAdventures();
     }
 
+    @GetMapping("/setLocation/{adventureId}/{locationId}")
+    public String setLocationAdventures(@PathVariable UUID adventureId,@PathVariable UUID locationId) {
+        adventureServiceImplementation.setAdventureLocation(adventureId,locationId);
+        return "Working";
+    }
+
     @GetMapping("/all/{id}")
     public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUserUUID(@PathVariable UUID id){
         return adventureServiceImplementation.getallAdventuresByUUID(id);

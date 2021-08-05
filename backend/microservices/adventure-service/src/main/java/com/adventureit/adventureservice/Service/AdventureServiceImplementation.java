@@ -60,9 +60,9 @@ public class AdventureServiceImplementation implements AdventureService {
             throw new NullFieldException("Create Adventure Request: Adventure Name NULL");
         }
 
-        UUID location = UUID.fromString(Objects.requireNonNull(restTemplate.getForObject("http://" + "localhost" + ":" + "9006" + "/location/create/Pretoria", String.class)));
+        //UUID location = UUID.fromString(Objects.requireNonNull(restTemplate.getForObject("http://" + "localhost" + ":" + "9006" + "/location/create/Pretoria", String.class)));
 
-        Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(),req.getDescription(), UUID.randomUUID() , req.getOwnerId(), req.getStartDate(), req.getEndDate(),location));
+        Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(),req.getDescription(), UUID.randomUUID() , req.getOwnerId(), req.getStartDate(), req.getEndDate(),null));
         CreateAdventureResponse response = new CreateAdventureResponse(true);
         response.setAdventure(persistedAdventure);
         return response;
@@ -242,6 +242,13 @@ public class AdventureServiceImplementation implements AdventureService {
         }
 
         return adventure.getAttendees();
+    }
+
+    @Override
+    public void setAdventureLocation(UUID adventureID, UUID locationID) {
+        Adventure adventure = adventureRepository.findAdventureByAdventureId(adventureID);
+        adventure.setLocation(locationID);
+        adventureRepository.save(adventure);
     }
 
     @Override

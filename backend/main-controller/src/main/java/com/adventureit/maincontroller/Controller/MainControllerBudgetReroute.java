@@ -16,7 +16,7 @@ public class MainControllerBudgetReroute {
     private RestTemplate restTemplate = new RestTemplate();
 
     private final String IP = "localhost";
-    private final String timelinePort = "application.yml9007";
+    private final String timelinePort = "9012";
     private final String budgetPort = "9007";
 
 //    @GetMapping("/createBudget")
@@ -29,14 +29,24 @@ public class MainControllerBudgetReroute {
 //        return restTemplate.postForObject("http://"+ IP + ":" + adventurePort + "/adventure/create/", req, CreateAdventureResponse.class);
 //    }
 
-    @PostMapping("/create")
-    public String createBudget(@RequestBody CreateBudgetRequest req) throws Exception {
-        CreateBudgetResponse response = restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/create/", req, CreateBudgetResponse.class);
-        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(),req.getCreatorID(), TimelineType.BUDGET,req.getName()+" budget has been created" );
-        String timelineResponse = restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/create/", req2, String.class);
+    @PostMapping(value ="/create")
+    public String createBudget(@RequestBody CreateBudgetRequest req) {
+        System.out.println(req.getName());
+        System.out.println(req.getDescription());
+        System.out.println(req.getCreatorID());
+        System.out.println(req.getAdventureID());
 
 
-        return response.getMessage();
+
+         return restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/create/", req, String.class);
+
+
+
+
+
+        //CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(),req.getCreatorID(), TimelineType.BUDGET,req.getName()+" budget has been created" );
+        //String timelineResponse = restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/create", req2, String.class);
+
     }
 
 

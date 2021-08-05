@@ -59,6 +59,22 @@ public class MainControllerAdventureReroute {
         return list;
     }
 
+
+
+    @PostMapping(value = "/create")
+    public CreateAdventureResponse createAdventure(@RequestBody CreateAdventureRequest req) {
+        System.out.println(req.getEndDate());
+        //CreateAdventureRequest newReq = new CreateAdventureRequest(req.getName(),req.getDescription(),req.getOwnerId(),req.getStartDate(),req.getEndDate());
+
+
+        UUID locationId= restTemplate.getForObject("http://"+ IP + ":" + "9006" + "/location/create"+req.getLocation(),UUID.class);
+        CreateAdventureResponse RESP = restTemplate.postForObject("http://"+ IP + ":" + adventurePort + "/adventure/create/", req, CreateAdventureResponse.class);
+        restTemplate.getForObject("http://"+ IP + ":" + "9001" + "/adventure/setLocation"+RESP.getAdventure().getAdventureId().toString()+"/"+locationId.toString(),String.class);
+
+
+        return  RESP;
+    }
+
 }
 
 
