@@ -38,6 +38,8 @@ class UserApi {
     await _attemptLogIn(username, password);
     if (this.username != null) {
       await this._fetchUserUUID();
+      // TODO: Check if this user is registered in Adventure-IT's backend
+
       return true;
     } else {
       return false;
@@ -107,6 +109,20 @@ class UserApi {
     } else {
       throw Exception(
           "Attempted to get user's UUID without successful login first");
+    }
+  }
+
+  Future<bool?> _isExistingUser(String targetUuid) async {
+    final res =
+        await http.get(Uri.parse(userApi + "/api/GetUser/" + targetUuid));
+    final jsonRes = jsonDecode(res.body);
+    if (res.statusCode == 500) {
+      if (jsonRes['message'].equals(
+          "User does not exist - user is not registered as an Adventure-IT member")) {
+        return false;
+      }
+    } else if (res.statusCode == 200) {
+      return true;
     }
   }
 }
