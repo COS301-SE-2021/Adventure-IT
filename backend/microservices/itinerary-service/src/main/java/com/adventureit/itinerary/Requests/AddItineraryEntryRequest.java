@@ -12,9 +12,9 @@ public class AddItineraryEntryRequest {
     private String title;
     private String description;
     private String location;
-    LocalDateTime timestamp;
+    String timestamp;
 
-    public AddItineraryEntryRequest(@JsonProperty("title") String title,@JsonProperty("description") String description,@JsonProperty("entryContainerID") UUID entryContainerID,@JsonProperty("location") String location,@JsonProperty("timestamp") LocalDateTime timestamp) {
+    public AddItineraryEntryRequest(@JsonProperty("title") String title,@JsonProperty("description") String description,@JsonProperty("entryContainerID") UUID entryContainerID,@JsonProperty("location") String location,@JsonProperty("timestamp") String timestamp) {
         this.title = title;
         this.description = description;
         this.entryContainerID = entryContainerID;
@@ -30,7 +30,7 @@ public class AddItineraryEntryRequest {
         return title;
     }
 
-    public LocalDateTime getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
@@ -46,7 +46,7 @@ public class AddItineraryEntryRequest {
         this.title = title;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 

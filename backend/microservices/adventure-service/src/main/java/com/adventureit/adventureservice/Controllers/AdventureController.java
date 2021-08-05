@@ -70,5 +70,4 @@ public class AdventureController {
     public List<UUID> getAttendees(@PathVariable UUID id) throws Exception {
         return adventureServiceImplementation.getAttendees(id);
     }
-
 }

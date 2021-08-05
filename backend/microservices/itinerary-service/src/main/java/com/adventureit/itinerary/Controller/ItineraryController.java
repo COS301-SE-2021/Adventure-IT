@@ -78,7 +78,7 @@ public class ItineraryController {
     }
 
     @PostMapping("/addEntry")
-    public String addItineraryEntry(@RequestBody AddItineraryEntryRequest req) throws Exception {
+    public UUID addItineraryEntry(@RequestBody AddItineraryEntryRequest req) throws Exception {
         return itineraryServiceImplementation.addItineraryEntry(req.getTitle(),req.getDescription(),req.getEntryContainerID(),req.getLocation(),req.getTimestamp());
     }
 
@@ -100,6 +100,11 @@ public class ItineraryController {
     @GetMapping("/getNextEntry/{id}")
     public ItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id) throws Exception {
         return itineraryServiceImplementation.nextItem(id);
+    }
+
+    @GetMapping("/setLocation/{itineraryId}/{locationID}")
+    public void setLocation(@PathVariable UUID itineraryId,@PathVariable UUID locationID) throws Exception {
+        itineraryServiceImplementation.setItineraryEntryLocation(itineraryId,locationID);
     }
 
 }

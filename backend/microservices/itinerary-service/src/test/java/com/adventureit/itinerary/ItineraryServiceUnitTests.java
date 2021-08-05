@@ -29,12 +29,12 @@ public class ItineraryServiceUnitTests {
     ArrayList<UUID> entries = new ArrayList<>(Arrays.asList(mockEntry1.getId(),mockEntry2.getId()));
     Itinerary mockItinerary1 = new Itinerary("Mock Itinerary 1","Mock Itinerary",validItineraryID1,UUID.randomUUID(),UUID.randomUUID(),entries);
 
-    @Test
-    @Description("Ensuring a user can add an entry")
-    public void addEntryValid_ReturnString() throws Exception {
-        Mockito.when(mockItineraryRepository.findItineraryById(validItineraryID1)).thenReturn(mockItinerary1);
-        Assertions.assertEquals(sut.addItineraryEntry("Mock", "Mock",validItineraryID1,"Location 1", LocalDateTime.now()),"Itinerary Entry successfully added");
-    }
+//    @Test
+//    @Description("Ensuring a user can add an entry")
+//    public void addEntryValid_ReturnString() throws Exception {
+//        Mockito.when(mockItineraryRepository.findItineraryById(validItineraryID1)).thenReturn(mockItinerary1);
+//        Assertions.assertEquals(sut.addItineraryEntry("Mock", "Mock",validItineraryID1,"Location 1", LocalDateTime.now()),"Itinerary Entry successfully added");
+//    }
 
 //    @Test
 //    @Description("addItineraryEntry will throw an exception if a Itinerary entry with the same ID already exists")
