@@ -117,8 +117,6 @@ class AlertBox extends StatelessWidget {
     }
   }
 
-  String containerID = "cd6a66f6-c659-44d8-867d-fc2e3aa831af";
-
   final ChecklistApi api = new ChecklistApi();
   Future<CreateChecklistEntry>? _futureChecklistEntry;
   final descriptionController = TextEditingController();
@@ -197,7 +195,7 @@ class AlertBox extends StatelessWidget {
                                       .bodyText1!
                                       .color)),
                           onPressed: () {
-                            _futureChecklistEntry = api.createChecklistEntry(descriptionController.text, containerID);
+                            _futureChecklistEntry = api.createChecklistEntry(descriptionController.text, currentChecklist!.id);
                             Navigator.of(context).pop();
                           },
                         ),
