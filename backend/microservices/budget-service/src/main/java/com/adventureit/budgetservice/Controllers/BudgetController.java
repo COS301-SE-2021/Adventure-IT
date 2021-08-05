@@ -86,6 +86,11 @@ public class BudgetController {
 		return response.getMessage();
 	}
 
+	@GetMapping("/expenseTotal/{id}")
+	public double getExpensesTotal(@PathVariable UUID id) throws Exception {
+		return budgetServiceImplementation.calculateExpenses(id);
+	}
+
 	@PostMapping("/create")
 	public String createBudget(@RequestBody CreateBudgetRequest req) throws Exception {
 		CreateBudgetResponse response = budgetServiceImplementation.createBudget(req.getName(), req.getDescription() ,req.getCreatorID(),req.getAdventureID());
