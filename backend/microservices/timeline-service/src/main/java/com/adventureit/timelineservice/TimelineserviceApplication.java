@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TimelineServiceApplication {
+public class TimelineserviceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TimelineServiceApplication.class, args);
+		SpringApplication.run(TimelineserviceApplication.class, args);
 	}
 
 }
