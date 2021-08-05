@@ -140,4 +140,18 @@ class UserApi {
   static Future<http.Response> _deleteFriendRequest(String requestID) async {
     return http.get(Uri.http(userApi, 'api/deleteFriendRequest/' + requestID));
   }
+
+  static Future acceptFriendRequest(String requestID) async
+  {
+    http.Response response =await _acceptFriendRequest(requestID);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to accept friendRequest: ${response.body}');
+    }
+
+  }
+
+  static Future<http.Response> _acceptFriendRequest(String requestID) async {
+    return http.get(Uri.http(userApi, 'api/acceptFriendRequest/' + requestID));
+  }
+
 }
