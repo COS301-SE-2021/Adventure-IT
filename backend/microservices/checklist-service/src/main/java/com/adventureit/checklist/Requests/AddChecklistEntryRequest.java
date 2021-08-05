@@ -8,8 +8,8 @@ public class AddChecklistEntryRequest {
     private UUID entryContainerID;
     private String title;
 
-    public AddChecklistEntryRequest(@JsonProperty("entryContainerID") UUID entryContainerID, @JsonProperty("title") String title){
-        this.entryContainerID = entryContainerID;
+    public AddChecklistEntryRequest(@JsonProperty("entryContainerID") String entryContainerID, @JsonProperty("title") String title){
+        this.entryContainerID = UUID.fromString(entryContainerID);
         this.title = title;
     }
 

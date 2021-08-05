@@ -4,6 +4,7 @@ import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/checklist.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
 import 'package:adventure_it/api/createChecklist.dart';
+import 'package:adventure_it/api/createChecklistEntry.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/frontEnd/ChecklistsList.dart';
@@ -116,6 +117,12 @@ class AlertBox extends StatelessWidget {
     }
   }
 
+  String containerID = "cd6a66f6-c659-44d8-867d-fc2e3aa831af";
+
+  final ChecklistApi api = new ChecklistApi();
+  Future<CreateChecklistEntry>? _futureChecklistEntry;
+  final descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -159,6 +166,7 @@ class AlertBox extends StatelessWidget {
                             style: TextStyle(
                                 color:
                                 Theme.of(context).textTheme.bodyText1!.color),
+                            controller: descriptionController,
                             decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Theme.of(context)
@@ -189,9 +197,7 @@ class AlertBox extends StatelessWidget {
                                       .bodyText1!
                                       .color)),
                           onPressed: () {
-                            /*setState(() {
-                              _futureChecklist = api.createChecklist(nameController.text, descriptionController.text, userID, advID);
-                            });*/
+                            _futureChecklistEntry = api.createChecklistEntry(descriptionController.text, containerID);
                             Navigator.of(context).pop();
                           },
                         ),
