@@ -77,4 +77,40 @@ class UserApi {
     print(users.username);
     return users;
   }
+
+  static Future<List<UserProfile>> getFriends(String userID) async
+  {
+    http.Response response =await _getFriends(userID);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load list of checklists: ${response.body}');
+    }
+
+    List<UserProfile> friends = (jsonDecode(response.body) as List)
+        .map((x) => UserProfile.fromJson(x))
+        .toList();
+
+    return friends;
+  }
+
+  static Future<http.Response> _getFriends(String userID) async {
+    return http.get(Uri.http(userApi, 'api/GetFriends/' + userID));
+  }
+
+  static Future<List<UserProfile>> getFriends(String userID) async
+  {
+    http.Response response =await _getFriends(userID);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load list of checklists: ${response.body}');
+    }
+
+    List<UserProfile> friends = (jsonDecode(response.body) as List)
+        .map((x) => UserProfile.fromJson(x))
+        .toList();
+
+    return friends;
+  }
+
+  static Future<http.Response> _getFriends(String userID) async {
+    return http.get(Uri.http(userApi, 'api/GetFriends/' + userID));
+  }
 }
