@@ -37,6 +37,7 @@ public class CreateAdventureRequest {
     }
 
 
+
     public UUID getOwnerId(){
         return ownerId;
     }
