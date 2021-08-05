@@ -79,16 +79,14 @@ class UserApi {
     return users;
   }
 
-  static Future<List<UserProfile>> getFriends(String userID) async
+  static Future<List<String>> getFriends(String userID) async
   {
     http.Response response =await _getFriends(userID);
     if (response.statusCode != 200) {
       throw Exception('Failed to load list of checklists: ${response.body}');
     }
 
-    List<UserProfile> friends = (jsonDecode(response.body) as List)
-        .map((x) => UserProfile.fromJson(x))
-        .toList();
+    List<String> friends = (jsonDecode(response.body) as List<String>);
 
     return friends;
   }
@@ -104,11 +102,14 @@ class UserApi {
       throw Exception('Failed to load list of checklists: ${response.body}');
     }
 
-    List<FriendRequest> friends = (jsonDecode(response.body) as List)
+    List<FriendRequest> requests = (jsonDecode(response.body) as List)
         .map((x) => FriendRequest.fromJson(x))
         .toList();
 
-    return friends;
+
+
+    return requests;
+
   }
 
   static Future<http.Response> _getFriendRequests(String userID) async {

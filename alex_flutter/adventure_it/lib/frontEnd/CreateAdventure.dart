@@ -339,7 +339,23 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                   backgroundColor: Theme
                                       .of(context)
                                       .primaryColorDark,
-                                  title: Column(children: [Text("Find Location",
+                                  title:  Stack(
+                                overflow: Overflow.visible,
+                                children: <Widget>[
+                              Positioned(
+                              right: -40.0,
+                                top: -40.0,
+                                child: InkResponse(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: CircleAvatar(
+                                    child: Icon(Icons.close,
+                                        color: Theme.of(context).primaryColorDark),
+                                    backgroundColor: Theme.of(context).accentColor,
+                                  ),
+                                ),
+                              ),Column(children: [Text("Find Location",
                                       textAlign: TextAlign
                                           .center,
                                       style: TextStyle(
@@ -398,7 +414,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                           value)
                                     },
                                   ),
-                                  ]),
+                                  ])]),
                                   content: Container(height: getSize(context),
                                       child:
                                       Provider

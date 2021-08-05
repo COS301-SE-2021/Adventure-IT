@@ -10,14 +10,14 @@ import 'package:json_annotation/json_annotation.dart';
 
 
 class FriendModel extends ChangeNotifier {
-  List<UserProfile>? _friends = null;
+  List<String>? _friends = null;
 
   FriendModel(String userID)
   {
     fetchAllFriends(userID).then((friends) => friends != null? _friends = friends:List.empty());
   }
 
-  List<UserProfile>? get friends => _friends?.toList();
+  List<String>? get friends => _friends?.toList();
 
   Future fetchAllFriends(String value) async {
     _friends = await UserApi.getFriends(value);
@@ -39,17 +39,34 @@ class FriendModel extends ChangeNotifier {
 
 class FriendRequestModel extends ChangeNotifier {
   List<FriendRequest>? _friends = null;
+  List <UserProfile>? _friendProfiles=null;
 
   FriendRequestModel(String userID)
   {
-    fetchAllFriends(userID).then((friends) => friends != null? _friends = friends:List.empty());
+    fetchAllFriends(userID).then((friends) {
+      if(friends==null)
+        {
+          _friends=List.empty();
+        }
+      else
+        {
+          _friends=friends;
+        }
+    });
   }
 
   List<FriendRequest>? get friends => _friends?.toList();
+  List<UserProfile>? get friendProfiles => _friendProfiles?.toList();
 
   Future fetchAllFriends(String value) async {
     _friends = await UserApi.getFriendRequests(value);
-
+    List <UserProfile>? friendRequestFriends=List.empty();
+    for (var i in _friends!) {
+      await UserApi.getUserByUUID(i.firstUser).then((value) {
+        friendRequestFriends!.add(value);
+      });
+    }
+    _friendProfiles=friendRequestFriends;
     notifyListeners();
   }
 
