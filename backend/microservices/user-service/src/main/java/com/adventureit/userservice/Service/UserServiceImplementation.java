@@ -337,4 +337,56 @@ public class UserServiceImplementation  {
 
         return list;
     }
+
+    public void deleteFriendRequest(UUID id) throws Exception {
+        Friend request = friendRepository.findFriendById(id);
+        if(request == null || request.isAccepted()){
+            throw new Exception("Friend Request doesn't exist");
+        }
+
+        friendRepository.delete(request);
+    }
+
+    public String removeFriend(UUID id, UUID friend) throws Exception {
+        List<Friend> friendList1 = friendRepository.findByFirstUserEquals(id);
+        List<Friend> friendList2 = friendRepository.findBySecondUserEquals(id);
+        boolean flag = false;
+
+        for (Friend f:friendList1) {
+            if(f.getSecondUser().equals(friend) && f.isAccepted()){
+                friendRepository.delete(f);
+                flag = true;
+                break;
+            }
+        }
+        for (Friend f:friendList2) {
+            if(f.getFirstUser().equals(friend) && f.isAccepted()){
+                friendRepository.delete(f);
+                flag = true;
+                break;
+            }
+        }
+
+        if(flag == false){
+            throw new Exception("Friend does not exist");
+        }
+
+        return "Friend removed";
+    }
+
+    public void mockFriendships()
+    {
+        Friend toSave = new Friend (UUID.fromString("1660bd85-1c13-42c0-955c-63b1eda4e90b"),UUID.fromString("69e8eb21-eb63-4c83-9187-181a648bb759"));
+        toSave.setAccepted(true);
+        friendRepository.save(toSave);
+
+        toSave = new Friend (UUID.fromString("1660bd85-1c13-42c0-955c-63b1eda4e90b"),UUID.fromString("3f21ea6b-2288-42f3-9175-39adfafea9ab"));
+        toSave.setAccepted(true);
+        friendRepository.save(toSave);
+
+        toSave = new Friend (UUID.fromString("3f21ea6b-2288-42f3-9175-39adfafea9ab"),UUID.fromString("86f26dff-8e17-4a82-a671-816ed611d712"));
+        friendRepository.save(toSave);
+
+
+    }
 }

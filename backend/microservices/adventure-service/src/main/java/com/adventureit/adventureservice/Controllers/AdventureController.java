@@ -55,11 +55,11 @@ public class AdventureController {
         return adventureServiceImplementation.createAdventure(req);
     }
 
-    @DeleteMapping("/remove/{id}")
-    public RemoveAdventureResponse removeAdventure(@PathVariable UUID id){
-        return adventureServiceImplementation.removeAdventure(id);
+    @DeleteMapping("/remove/{id}/{userID}")
+    public RemoveAdventureResponse removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+        return adventureServiceImplementation.removeAdventure(id, userID);
     }
-
+    
     @GetMapping("/getAttendees/{id}")
     public List<UUID> getAttendees(@PathVariable UUID id) throws Exception {
         return adventureServiceImplementation.getAttendees(id);

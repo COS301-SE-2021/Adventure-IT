@@ -30,19 +30,12 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
 
-    public CreateBudgetResponse createBudget(UUID id,String name, String description,UUID creatorID, UUID adventureID) throws Exception {
-        if(budgetRepository.findBudgetByBudgetID(id) != null){
-
-            throw new Exception("Budget already exists.");
-        }
+    public CreateBudgetResponse createBudget(String name, String description,UUID creatorID, UUID adventureID) throws Exception {
         if (name == null) {
             throw new Exception("Budget name not provided.");
         }
-        if (id == null) {
-            throw new Exception("Budget ID not provided.");
-        }
 
-        budgetRepository.save(new Budget(id,name, description ,creatorID,adventureID));
+        budgetRepository.save(new Budget(name, description ,creatorID,adventureID));
         return new CreateBudgetResponse(true);
     }
 
@@ -79,13 +72,10 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
 //  @Transactional
-    public AddUTUExpenseEntryResponse addUTUExpenseEntry(UUID id, UUID entryContainerID, double amount, String title, String description, Category category,List<String> payers, String payeeID) throws Exception {
+    public AddUTUExpenseEntryResponse addUTUExpenseEntry(UUID entryContainerID, double amount, String title, String description, Category category,List<String> payers, String payeeID) throws Exception {
         if(budgetRepository.findBudgetByBudgetID(entryContainerID) == null){
 
             throw new Exception("Budget does not exist.");
-        }
-        if (id == null) {
-            throw new Exception("Income Entry ID not provided");
         }
         if (entryContainerID == null) {
             throw new Exception("Budget ID not provided");
@@ -101,13 +91,8 @@ public class BudgetServiceImplementation implements BudgetService {
         }
 
         Budget budget = budgetRepository.findBudgetByBudgetID(entryContainerID);
-        BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryIDAndEntryContainerID(id, entryContainerID);
-        if (entry != null) {
-            throw new Exception("Entry already exists.");
-        }
 
-
-        BudgetEntry budgetEntry = new UTUExpense(id,entryContainerID,amount,title,description,category, payers, payeeID);
+        BudgetEntry budgetEntry = new UTUExpense(entryContainerID,amount,title,description,category, payers, payeeID);
 
         budgetEntryRepository.save(budgetEntry);
         budgetRepository.save(budget);
@@ -136,14 +121,10 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
-
-    public AddUTOExpenseEntryResponse addUTOExpenseEntry(UUID id, UUID entryContainerID, double amount, String title, String description,Category category,List<String> payers, String payee) throws Exception {
+    public AddUTOExpenseEntryResponse addUTOExpenseEntry(UUID entryContainerID, double amount, String title, String description,Category category,List<String> payers, String payee) throws Exception {
         if(budgetRepository.findBudgetByBudgetID(entryContainerID) == null){
 
             throw new Exception("Budget does not exist.");
-        }
-        if (id == null) {
-            throw new Exception("Expense Entry ID not provided");
         }
         if (entryContainerID == null) {
             throw new Exception("Budget ID not provided");
@@ -159,12 +140,8 @@ public class BudgetServiceImplementation implements BudgetService {
         }
 
         Budget budget = budgetRepository.findBudgetByBudgetID(entryContainerID);
-        BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryIDAndEntryContainerID(id, entryContainerID);
-        if (entry != null) {
-            throw new Exception("Expense Entry already exists.");
-        }
 
-        BudgetEntry budgetEntry = new UTOExpense(id,entryContainerID,amount,title,description,category,payers,payee);
+        BudgetEntry budgetEntry = new UTOExpense(entryContainerID,amount,title,description,category,payers,payee);
 
         budgetEntryRepository.save(budgetEntry);
         budgetRepository.save(budget);
@@ -248,6 +225,10 @@ public class BudgetServiceImplementation implements BudgetService {
             throw new Exception("Budget does not exist.");
         }
 
+        if(!req.getUserID().equals(budget.getCreatorID())){
+            throw new Exception("User not Authorised");
+        }
+
         budget.setDeleted(true);
         budgetRepository.save(budget);
         return new SoftDeleteResponse(true);
@@ -262,16 +243,18 @@ public class BudgetServiceImplementation implements BudgetService {
      * the request was successful or if an error occurred and return a message
      */
     @Override
-    public HardDeleteResponse hardDelete(UUID id) throws Exception {
+    public HardDeleteResponse hardDelete(UUID id, UUID userID) throws Exception {
         if(id == null){
             throw new Exception("Budget ID not provided.");
         }
 
         Budget budget = budgetRepository.findBudgetByBudgetIDAndDeletedEquals(id,true);
 
-
         if (budget==null || !budget.isDeleted()) {
             throw new Exception("Budget is not in trash.");
+        }
+        if(!userID.equals(budget.getCreatorID())){
+            throw new Exception("User not Authorised");
         }
 
         List<BudgetEntry> entries = budgetEntryRepository.findBudgetEntryByEntryContainerID(id);
@@ -292,10 +275,10 @@ public class BudgetServiceImplementation implements BudgetService {
     @Override
     public List<BudgetResponseDTO> viewTrash(UUID id) throws Exception {
 
-        List<Budget> budgets = budgetRepository.findAllByDeletedEquals(true);
+        List<Budget> budgets = budgetRepository.findAllByAdventureID(id);
         List<BudgetResponseDTO> list = new ArrayList<>();
         for (Budget b:budgets) {
-            if(id == b.getAdventureID()){
+            if(b.isDeleted()){
                 list.add(new BudgetResponseDTO(b.getBudgetId(),b.getName(),b.getCreatorID(),b.getAdventureID(),b.isDeleted(), b.getDescription()));
 
             }
@@ -304,12 +287,17 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
 
-    public String restoreBudget(UUID id) throws Exception {
+    public String restoreBudget(UUID id,UUID userID) throws Exception {
         if (budgetRepository.findBudgetByBudgetID(id) == null) {
             throw new Exception("Budget does not exist.");
         }
 
         Budget budget = budgetRepository.findBudgetByBudgetID(id);
+
+        if(!budget.getCreatorID().equals(userID)){
+            throw new Exception("User not Authorised");
+        }
+
         budget.setDeleted(false);
         budgetRepository.save(budget);
         return "Budget was restored";
@@ -378,27 +366,9 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
-    public JSONObject generateReport(UUID id) throws Exception {
-        if(budgetRepository.findBudgetByBudgetID(id) == null){
-            throw new Exception("Budget does not exist");
-        }
-
-        List<String> usernames = getReportList(id);
-        JSONObject jsonObject = new JSONObject();
-        Collection<JSONObject> items = new ArrayList<JSONObject>();
-
-        for (String name:usernames) {
-            items.add(generateIndividualReport(name, id));
-        }
-
-        jsonObject.put("Report", new JSONArray(items));
-        return jsonObject;
-    }
-
-    @Override
     public List<String> getReportList(UUID id) {
         List<BudgetEntry> entries = budgetEntryRepository.findBudgetEntryByEntryContainerID(id);
-        List<String> names = new ArrayList<>();
+        List<String> names;
         List<String> list = new ArrayList<>();
 
         for (BudgetEntry entry:entries) {
@@ -414,55 +384,59 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
-    public JSONObject generateIndividualReport(String userName, UUID id) throws JSONException {
+    public List<ReportResponseDTO> generateIndividualReport(String userName, UUID id) throws JSONException {
         List<BudgetEntry> entries = budgetEntryRepository.findBudgetEntryByEntryContainerID(id);
         JSONObject jsonObject = new JSONObject();
-
-        jsonObject.put("User", userName);
-        jsonObject.put("Payments",new JSONObject());
 
         for (BudgetEntry entry:entries) {
 
             if(entry instanceof UTOExpense){
                 if(entry.getPayers().contains(userName)){
                     String payee = ((UTOExpense) entry).getPayee();
-                    if(!jsonObject.getJSONObject("Payments").has(payee)){
-                        jsonObject.getJSONObject("Payments").put(payee,(entry.getAmount()/entry.getPayers().size()));
+                    if(!jsonObject.has(payee)){
+                        jsonObject.put(payee,(entry.getAmount()/entry.getPayers().size()));
                     }
                     else{
-                        double temp = jsonObject.getJSONObject("Payments").getDouble(payee);
-                        jsonObject.getJSONObject("Payments").put(payee, (temp + (entry.getAmount()/entry.getPayers().size())));
+                        double temp = jsonObject.getDouble(payee);
+                        jsonObject.put(payee, (temp + (entry.getAmount()/entry.getPayers().size())));
                     }
                 }
             }
             else{
                 if(entry.getPayers().contains(userName)){
                     String payee = ((UTUExpense) entry).getPayee();
-                    if(!jsonObject.getJSONObject("Payments").has(payee)){
-                        jsonObject.getJSONObject("Payments").put(payee,(entry.getAmount()/entry.getPayers().size()));
+                    if(!jsonObject.has(payee)){
+                        jsonObject.put(payee,(entry.getAmount()/entry.getPayers().size()));
                     }
                     else{
-                        double temp = jsonObject.getJSONObject("Payments").getDouble(payee);
-                        jsonObject.getJSONObject("Payments").put(payee, (temp + (entry.getAmount()/entry.getPayers().size())));
+                        double temp = jsonObject.getDouble(payee);
+                        jsonObject.put(payee, (temp + (entry.getAmount()/entry.getPayers().size())));
                     }
                 }
                 else if(((UTUExpense) entry).getPayee().equals(userName)){
                     for (String payer:entry.getPayers()) {
-                        if(!jsonObject.getJSONObject("Payments").has(payer)){
-                            jsonObject.getJSONObject("Payments").put(payer,(-entry.getAmount()/entry.getPayers().size()));
+                        if(!jsonObject.has(payer)){
+                            jsonObject.put(payer,(-entry.getAmount()/entry.getPayers().size()));
                         }
                         else{
-                            double temp = jsonObject.getJSONObject("Payments").getDouble(payer);
-                            jsonObject.getJSONObject("Payments").put(payer, (temp - (entry.getAmount()/entry.getPayers().size())));
+                            double temp = jsonObject.getDouble(payer);
+                            jsonObject.put(payer, (temp - (entry.getAmount()/entry.getPayers().size())));
                         }
                     }
                 }
             }
         }
 
-        return jsonObject;
-    }
+        List<ReportResponseDTO> list = new ArrayList<>();
 
+        for (Iterator it = jsonObject.keys(); it.hasNext(); ) {
+            Object key = it.next();
+            Object value = jsonObject.get(key.toString());
+            list.add(new ReportResponseDTO(key.toString(),Double.parseDouble(value.toString())));
+        }
+
+        return list;
+    }
 
     @Override
     public void mockPopulate() {
@@ -484,8 +458,8 @@ public class BudgetServiceImplementation implements BudgetService {
 
 
         BudgetEntry mockEntry1 = new UTUExpense(mockEntryID1,mockBudgetID1,200.0,"Mock Entry 1","Mock Entry", Category.Accommodation,new ArrayList<>(List.of("User Name 1")),"User Name 2");
-        BudgetEntry mockEntry2 = new UTOExpense(mockEntryID2,mockBudgetID2,300.0,"Mock Entry 2","Mock Entry",Category.Transport,new ArrayList<>(List.of("User Name 3")),"Shuttle Service");
-        BudgetEntry mockEntry3 = new UTOExpense(mockEntryID3,mockBudgetID3,600.0,"Mock Entry 3","Mock Entry",Category.Activities,new ArrayList<>(List.of("User Name 4")),"Paintball course");
+        BudgetEntry mockEntry2 = new UTOExpense(mockEntryID2,mockBudgetID1,300.0,"Mock Entry 2","Mock Entry",Category.Transport,new ArrayList<>(List.of("User Name 3")),"Shuttle Service");
+        BudgetEntry mockEntry3 = new UTOExpense(mockEntryID3,mockBudgetID1,600.0,"Mock Entry 3","Mock Entry",Category.Activities,new ArrayList<>(List.of("User Name 4")),"Paintball course");
 
         Budget budget1 = new Budget(mockBudgetID1, "Mock Budget 1", "Description for mock budget 1",mockCreatorID1,mockAdventureID1);
         Budget budget2 = new Budget(mockBudgetID2, "Mock Budget 2", "Description for mock budget 2",mockCreatorID2,mockAdventureID2);
@@ -499,10 +473,7 @@ public class BudgetServiceImplementation implements BudgetService {
         budgetEntryRepository.save(mockEntry1);
         budgetEntryRepository.save(mockEntry2);
         budgetEntryRepository.save(mockEntry3);
-
-
     }
-
 
     @Override
     public void mockPopulateTrash() {

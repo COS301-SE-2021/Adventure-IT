@@ -2,6 +2,7 @@ package com.adventureit.checklist.Entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -11,6 +12,7 @@ public class ChecklistEntry {
     private UUID entryContainerID;
     private String title;
     private Boolean completed;
+    LocalDateTime timestamp;
 
     /**
      * Default constructor
@@ -30,6 +32,15 @@ public class ChecklistEntry {
         this.completed = false;
         this.id = id;
         this.entryContainerID = entryContainerID;
+        timestamp = LocalDateTime.now();
+    }
+
+    public ChecklistEntry(String title, UUID entryContainerID){
+        this.title = title;
+        this.completed = false;
+        this.id = UUID.randomUUID();
+        this.entryContainerID = entryContainerID;
+        timestamp = LocalDateTime.now();
     }
 
     /**
@@ -73,5 +84,13 @@ public class ChecklistEntry {
 
     public void setEntryContainerID(UUID entryContainerID) {
         this.entryContainerID = entryContainerID;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 }

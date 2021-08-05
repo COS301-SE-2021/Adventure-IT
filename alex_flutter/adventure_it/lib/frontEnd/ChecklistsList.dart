@@ -1,6 +1,8 @@
 import 'package:adventure_it/Providers/checklist_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
+import 'package:adventure_it/api/checklistAPI.dart';
+import 'package:adventure_it/api/createChecklist.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/frontEnd/ChecklistsTrash.dart';
@@ -21,6 +23,7 @@ import 'HomepageStartup.dart';
 import 'AdventurePage.dart';
 
 import '../api/budget.dart';
+import 'Navbar.dart';
 
 class Checklists extends StatelessWidget {
   Adventure? adventure;
@@ -32,6 +35,7 @@ class Checklists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
@@ -222,11 +226,22 @@ class ChecklistList extends StatelessWidget {
   }
 }
 
-class AlertBox extends StatelessWidget {
+class AlertBox extends StatefulWidget {
   Adventure? adventure;
 
   AlertBox(Adventure a) {
     this.adventure = a;
+  }
+
+  @override
+  _AlertBox createState() => _AlertBox(adventure!);
+
+}
+class _AlertBox extends State <AlertBox> {
+  Adventure? adventure;
+
+  _AlertBox(Adventure i) {
+    this.adventure = i;
   }
 
   double getSize(context) {
@@ -237,6 +252,15 @@ class AlertBox extends StatelessWidget {
       return MediaQuery.of(context).size.height * 0.6;
     }
   }
+
+  //controllers for the form fields
+  String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
+  String advID = "aa722689-6dbb-474a-a50b-55261570027e";
+
+  final ChecklistApi api = new ChecklistApi();
+  Future<CreateChecklist>? _futureChecklist;
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -281,6 +305,7 @@ class AlertBox extends StatelessWidget {
                           style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText1!.color),
+                          controller: nameController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
@@ -309,6 +334,7 @@ class AlertBox extends StatelessWidget {
                           style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText1!.color),
+                          controller: descriptionController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
@@ -338,6 +364,9 @@ class AlertBox extends StatelessWidget {
                                     .bodyText1!
                                     .color)),
                         onPressed: () {
+                          setState(() {
+                            _futureChecklist = api.createChecklist(nameController.text, descriptionController.text, userID, advID);
+                          });
                           Navigator.of(context).pop();
                         },
                       ),

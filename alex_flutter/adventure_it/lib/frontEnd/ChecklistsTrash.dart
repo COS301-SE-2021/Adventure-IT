@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'BudgetTrash.dart';
 import 'ChecklistsList.dart';
+import 'Navbar.dart';
 
 class ChecklistsTrash extends StatelessWidget {
   Adventure? adventure;
@@ -17,6 +18,7 @@ class ChecklistsTrash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
@@ -123,7 +125,11 @@ class DeletedChecklistList extends StatelessWidget {
                                           return AlertDialog(
                                               backgroundColor:
                                               Theme.of(context).primaryColorDark,
-                                              title: Text('Confirm Restoration'),
+                                              title: Text('Confirm Restoration',style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color),),
                                               content:
                                                     Text(
                                                         'Are you sure you want to restore this checklist to your adventure?',style: TextStyle(

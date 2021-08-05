@@ -15,7 +15,7 @@ class UserProfile {
     required this.username,
     required this.firstname,
     required this.lastname,
-    required this.email,
+    required this.email,//
     required this.phoneNumber
   });
 

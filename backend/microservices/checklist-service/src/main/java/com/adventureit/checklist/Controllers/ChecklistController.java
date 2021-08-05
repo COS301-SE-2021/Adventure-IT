@@ -49,9 +49,9 @@ public class ChecklistController {
         return checklistServiceImplementation.viewChecklist(id);
     }
 
-    @GetMapping("/softDelete/{id}")
-    public String softDelete(@PathVariable UUID id) throws Exception {
-        return checklistServiceImplementation.softDelete(id);
+    @GetMapping("/softDelete/{id}/{userID}")
+    public String softDelete(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+        return checklistServiceImplementation.softDelete(id,userID);
     }
     //
     @GetMapping("/viewTrash/{id}")
@@ -59,29 +59,29 @@ public class ChecklistController {
         return checklistServiceImplementation.viewTrash(id);
     }
 
-    @GetMapping("/restoreChecklist/{id}")
-    public String restoreChecklist(@PathVariable UUID id) throws Exception {
-        return checklistServiceImplementation.restoreChecklist(id);
+    @GetMapping("/restoreChecklist/{id}/{userID}")
+    public String restoreChecklist(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+        return checklistServiceImplementation.restoreChecklist(id,userID);
     }
 
-    @GetMapping("/hardDelete/{id}")
-    public String hardDelete(@PathVariable UUID id) throws Exception {
-        return checklistServiceImplementation.hardDelete(id);
+    @GetMapping("/hardDelete/{id}/{userID}")
+    public String hardDelete(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+        return checklistServiceImplementation.hardDelete(id,userID);
     }
 
     @PostMapping("/create")
     public String createChecklist(@RequestBody CreateChecklistRequest req) throws Exception {
-        return checklistServiceImplementation.createChecklist(req.getTitle(),req.getDescription(),req.getId(),req.getCreatorID(),req.getAdventureID());
+        return checklistServiceImplementation.createChecklist(req.getTitle(),req.getDescription(),req.getCreatorID(),req.getAdventureID());
     }
 
     @PostMapping("/addEntry")
     public String addEntry(@RequestBody AddChecklistEntryRequest req) throws Exception {
-        return checklistServiceImplementation.addChecklistEntry(req.getTitle(),req.getId(),req.getEntryContainerID());
+        return checklistServiceImplementation.addChecklistEntry(req.getTitle(),req.getEntryContainerID());
     }
 
-    @PostMapping("/removeEntry")
-    public String removeEntry(@RequestBody RemoveChecklistEntryRequest req) throws Exception {
-        return checklistServiceImplementation.removeChecklistEntry(req.getId(),req.getEntryContainerID());
+    @GetMapping("/removeEntry/{id}")
+    public String removeEntry(@PathVariable UUID id) throws Exception {
+        return checklistServiceImplementation.removeChecklistEntry(id);
     }
 
     @PostMapping("/editEntry")
@@ -89,8 +89,10 @@ public class ChecklistController {
         return checklistServiceImplementation.editChecklistEntry(req.getId(),req.getEntryContainerID(),req.getTitle());
     }
 
-    @PostMapping("/markEntry")
-    public void markEntry(@RequestBody MarkChecklistEntryRequest req) throws Exception {
-        checklistServiceImplementation.markChecklistEntry(req.getId(),req.getEntryContainerID());
+
+    @GetMapping("/markEntry/{id}/{entryContainerID}")
+    public void markEntry(@PathVariable UUID id, @PathVariable UUID entryContainerID) throws Exception {
+        checklistServiceImplementation.markChecklistEntry(id,entryContainerID);
+
     }
 }

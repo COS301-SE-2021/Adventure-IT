@@ -92,4 +92,20 @@ public class UserController {
         return service.getFriendRequests(id);
     }
 
+    @GetMapping(value="api/populateFriends")
+    public void mockFriends()
+    {
+        service.mockFriendships();
+    }
+
+    @GetMapping(value="api/deleteFriendRequest/{id}")
+    public void deleteRequest(@PathVariable UUID id) throws Exception {
+        service.deleteFriendRequest(id);
+    }
+
+    @GetMapping(value="api/removeFriend/{id}/{friendID}")
+    public void deleteRequest(@PathVariable UUID id, @PathVariable UUID friendID) throws Exception {
+        service.removeFriend(id,friendID);
+    }
+
 }

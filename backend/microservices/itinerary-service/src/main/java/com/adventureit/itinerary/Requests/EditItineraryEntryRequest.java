@@ -1,16 +1,19 @@
 package com.adventureit.itinerary.Requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public class EditItineraryEntryRequest {
+    RestTemplate restTemplate;
     java.util.UUID id;
     UUID entryContainerID;
     String title;
     String description;
-    String location;
+    UUID location;
     LocalDateTime timestamp;
 
     public EditItineraryEntryRequest(@JsonProperty("id") UUID id,@JsonProperty("entryContainerID") UUID entryContainerID,@JsonProperty("title") String title,@JsonProperty("description") String description,@JsonProperty("location") String location,@JsonProperty("timestamp") LocalDateTime timestamp){
@@ -18,16 +21,12 @@ public class EditItineraryEntryRequest {
         this.entryContainerID = entryContainerID;
         this.title = title;
         this.description = description;
-        this.location = location;
+        this.location = UUID.fromString(Objects.requireNonNull(restTemplate.getForObject("http://" + "localhost" + ":" + "9999" + "main/location/create/" + location, String.class)));
         this.timestamp = timestamp;
     }
 
     public String getDescription() {
         return description;
-    }
-
-    public String getLocation() {
-        return location;
     }
 
     public LocalDateTime getTimestamp() {
@@ -50,7 +49,11 @@ public class EditItineraryEntryRequest {
         this.description = description;
     }
 
-    public void setLocation(String location) {
+    public UUID getLocation() {
+        return location;
+    }
+
+    public void setLocation(UUID location) {
         this.location = location;
     }
 
