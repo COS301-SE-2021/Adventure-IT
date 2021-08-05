@@ -157,14 +157,14 @@ class ChecklistApi {
       body: jsonEncode(<String, String>{
         'title': title,
         'description': description,
-        'advID': adventureID,
-        'userID': creatorID
+        'adventureID': adventureID,
+        'creatorID': creatorID
       }),
 
 
     );
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
       print('Status code: ${response.statusCode}');
@@ -173,6 +173,8 @@ class ChecklistApi {
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
       throw Exception('Failed to create a checklist.');
     }
   }

@@ -28,18 +28,21 @@ public class LocationServiceImplementation implements LocationService {
     private final String APIKey = System.getenv("Google Maps API Key");
 
     @Override
-    public void createLocation(String location) throws IOException, JSONException {
+    public UUID createLocation(String location) throws IOException, JSONException {
         String string1 = location.replace(" ","%20");
         String string2 = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + string1 + "&inputtype=textquery&fields=formatted_address,name,place_id,photos&key=" + APIKey;
 
         JSONObject json = new JSONObject(makeConnection(string2));
+        Location location1 = new Location();
 
         if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
-            locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
+            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
         }
         else {
-            locationRepository.save(new Location(null,json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
+            location1 = locationRepository.save(new Location(null,json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
         }
+
+        return location1.getId();
     }
 
     @Override
