@@ -4,7 +4,6 @@ package com.adventureit.maincontroller.Controller;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 import com.adventureit.budgetservice.Requests.CreateBudgetRequest;
 import com.adventureit.budgetservice.Responses.CreateBudgetResponse;
-import com.adventureit.maincontroller.Requests.Adventure.CreateAdventureRequest;
 import com.adventureit.timelineservice.Entity.TimelineType;
 import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
 import org.springframework.web.bind.annotation.*;

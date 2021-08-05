@@ -10,6 +10,7 @@ import com.adventureit.adventureservice.Responses.*;
 import com.adventureit.adventureservice.Exceptions.NullFieldException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -20,6 +21,8 @@ public class AdventureServiceImplementation implements AdventureService {
 
     @Autowired
     private AdventureRepository adventureRepository;
+
+    private RestTemplate restTemplate;
 
     public AdventureServiceImplementation(AdventureRepository adventureRepository){
         this.adventureRepository = adventureRepository;
@@ -56,7 +59,10 @@ public class AdventureServiceImplementation implements AdventureService {
         else if (req.getName() == null){
             throw new NullFieldException("Create Adventure Request: Adventure Name NULL");
         }
-        Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(),req.getDescription(), UUID.randomUUID() , req.getOwnerId(), req.getStartDate(), req.getEndDate(),req.getLocation()));
+
+        UUID location = UUID.fromString(Objects.requireNonNull(restTemplate.getForObject("http://" + "localhost" + ":" + "9006" + "/location/create/Pretoria", String.class)));
+
+        Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(),req.getDescription(), UUID.randomUUID() , req.getOwnerId(), req.getStartDate(), req.getEndDate(),location));
         CreateAdventureResponse response = new CreateAdventureResponse(true);
         response.setAdventure(persistedAdventure);
         return response;

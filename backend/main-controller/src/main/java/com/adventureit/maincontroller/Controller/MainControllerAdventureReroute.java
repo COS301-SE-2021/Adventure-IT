@@ -1,7 +1,8 @@
 package com.adventureit.maincontroller.Controller;
 
+import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
-import com.adventureit.maincontroller.Requests.Adventure.CreateAdventureRequest;
+import com.adventureit.maincontroller.Requests.CreateAdventureDTO;
 import com.adventureit.maincontroller.Service.ConnectionFactory;
 import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
@@ -39,7 +40,6 @@ public class MainControllerAdventureReroute {
     private final String IP = "localhost";
     private final String adventurePort = "9001";
     private final String userPort = "9002";
-    private final String locationPort = "9006";
 
     @GetMapping("/test")
     public String adventureTest(){
@@ -57,13 +57,6 @@ public class MainControllerAdventureReroute {
             list.add(new GetUserByUUIDDTO(user.getUserID(),user.getUsername(), user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhoneNumber()));
         }
         return list;
-    }
-
-
-
-    @PostMapping(value = "/create")
-    public CreateAdventureResponse createAdventure(@RequestBody CreateAdventureRequest req) {
-        return restTemplate.postForObject("http://"+ IP + ":" + adventurePort + "/adventure/create/", req, CreateAdventureResponse.class);
     }
 
 }

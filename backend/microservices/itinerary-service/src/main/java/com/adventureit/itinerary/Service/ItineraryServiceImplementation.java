@@ -8,6 +8,7 @@ import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -19,6 +20,8 @@ public class ItineraryServiceImplementation implements ItineraryService {
     private ItineraryRepository itineraryRepository;
     @Autowired
     private ItineraryEntryRepository itineraryEntryRepository;
+
+    private RestTemplate restTemplate;
 
     @Autowired
     public ItineraryServiceImplementation(ItineraryRepository itineraryRepository, ItineraryEntryRepository itineraryEntryRepository) {
@@ -47,8 +50,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-
-    public String addItineraryEntry(String title, String description, UUID entryContainerID, UUID location, LocalDateTime timestamp) throws Exception {
+    public String addItineraryEntry(String title, String description, UUID entryContainerID, String location, LocalDateTime timestamp) throws Exception {
         if(title == null){
 
             throw new Exception("No title provided");
@@ -65,7 +67,9 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new Exception("Itinerary does not exist");
         }
 
-        ItineraryEntry newEntry = new ItineraryEntry(title,description,entryContainerID,location,timestamp);
+        UUID location1 = UUID.fromString(Objects.requireNonNull(restTemplate.getForObject("http://" + "localhost" + ":" + "9999" + "/location/create/" + location, String.class)));
+
+        ItineraryEntry newEntry = new ItineraryEntry(title,description,entryContainerID,location1,timestamp);
 
         itineraryEntryRepository.save(newEntry);
         itineraryRepository.save(itinerary);

@@ -33,7 +33,7 @@ public class ItineraryServiceUnitTests {
     @Description("Ensuring a user can add an entry")
     public void addEntryValid_ReturnString() throws Exception {
         Mockito.when(mockItineraryRepository.findItineraryById(validItineraryID1)).thenReturn(mockItinerary1);
-        Assertions.assertEquals(sut.addItineraryEntry("Mock", "Mock",validItineraryID1,UUID.randomUUID(), LocalDateTime.now()),"Itinerary Entry successfully added");
+        Assertions.assertEquals(sut.addItineraryEntry("Mock", "Mock",validItineraryID1,"Location 1", LocalDateTime.now()),"Itinerary Entry successfully added");
     }
 
 //    @Test
