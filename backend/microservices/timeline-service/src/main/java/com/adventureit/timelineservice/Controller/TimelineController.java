@@ -29,8 +29,8 @@ public class TimelineController {
         return service.deleteTimelineByAdventureID(id);
     }
 
-    @PostMapping("/getTimelineByAdventureID/{id}")
-    public String getTimelineByAdventureID(@RequestBody CreateTimelineRequest req){
+    @PostMapping("/createTimelineByAdventureID/{id}")
+    public String createTimelineByAdventureID(@RequestBody CreateTimelineRequest req){
         return service.createTimelineEntry(req.getAdventureID(),req.getUserID(),req.getDescription(),req.getType());
     }
 
