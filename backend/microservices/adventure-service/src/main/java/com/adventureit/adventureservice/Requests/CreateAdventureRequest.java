@@ -44,6 +44,7 @@ public class CreateAdventureRequest{
         this.id = id;
     }
 
+
     public UUID getOwnerId(){
         return ownerId;
     }

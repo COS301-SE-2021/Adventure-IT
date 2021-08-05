@@ -49,12 +49,33 @@
 			<artifactId>mockito-core</artifactId>
 			<scope>test</scope>
 		</dependency>
+<<<<<<< Updated upstream
         <dependency>
             <groupId>com.adventure-it</groupId>
             <artifactId>user-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+=======
+		<dependency>
+			<groupId>com.adventure-it</groupId>
+			<artifactId>adventure-service</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+        <dependency>
+            <groupId>com.vaadin.external.google</groupId>
+            <artifactId>android-json</artifactId>
+            <version>0.0.20131108.vaadin1</version>
+            <scope>compile</scope>
+        </dependency>
+        <!--        <dependency>-->
+<!--            <groupId>com.adventure-it</groupId>-->
+<!--            <artifactId>user-service</artifactId>-->
+<!--            <version>0.0.1-SNAPSHOT</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+>>>>>>> Stashed changes
     </dependencies>
 	<dependencyManagement>
 		<dependencies>
