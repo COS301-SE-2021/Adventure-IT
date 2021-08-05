@@ -1,6 +1,7 @@
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/budget.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:adventure_it/api/budgetEntry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -30,7 +31,7 @@ class DeletedBudgetModel extends ChangeNotifier
 
   Future restoreBudget(Budget budget) async {
     await BudgetApi.restoreBudget(budget.id);
-    print('in here');
+
 
     var index = _deletedBudgets!.indexWhere((element) => element.id == budget.id);
     _deletedBudgets!.removeAt(index);
@@ -43,19 +44,82 @@ class DeletedBudgetModel extends ChangeNotifier
 class BudgetModel extends ChangeNotifier {
 
   List<Budget>? _budgets = null;
+  List<int>? _categories=null;
+  List<String>? _expenses=null;
 
 
-  BudgetModel(Adventure a) {
-    fetchAllBudgets(a).then((budgets) => budgets != null? _budgets = budgets:List.empty());
+  BudgetModel(Adventure a, String userName) {
+    fetchAllBudgets(a).then((budgets) {budgets != null? _budgets = budgets:List.empty();
+      if(_budgets!=null&&_budgets!.length>0) {
+        calculateCategories().then((categories) {
+          categories != null ? _categories = categories : List.empty();
+        });
+        calculateExpenses(userName).then((expenses) =>
+        expenses != null ? _expenses = expenses : List.empty());
+      }
+      else {
+        _categories = List.empty();
+        _expenses=List.empty();
+      }
+
+
+    });
   }
 
   List<Budget>? get budgets => _budgets?.toList();
+  List<String>? get expenses => _expenses?.toList();
+  List <int>? get categories=>_categories?.toList();
 
 
   Future fetchAllBudgets(Adventure a) async {
     _budgets = await BudgetApi.getBudgets(a);
 
     notifyListeners();
+  }
+
+  Future calculateExpenses(String userName) async {
+    var total = List<String>.filled(budgets!.length, "0", growable: true);
+    total.removeRange(0,budgets!.length);
+    for(var b in budgets!) {
+      await BudgetApi.getTotalOfExpenses(b, userName).then((value)
+      {
+        total.add(value);});
+    }
+
+    this._expenses=total;
+
+    notifyListeners();
+  }
+
+  Future calculateCategories() async
+  {
+    var temp = List<int>.filled(5, 0, growable: true);
+      int total=0;
+      for (var i in budgets!) {
+        var toBe = List<int>.filled(5, 0, growable: true);
+        toBe.removeRange(0,5);
+        await BudgetApi.getNumberOfCategories(i.id).then((value) {
+          for (var j = 0; j < 5; j++) {
+            total = total + value.elementAt(j);
+            int k = temp.elementAt(j) + value.elementAt(j);
+            toBe.add(k);
+          }
+          temp.removeRange(0, 5);
+          temp.addAll(toBe);
+        });
+      }
+
+    var toBe = List<int>.filled(5, 0, growable: true);
+    toBe.removeRange(0,5);
+      for(int i=0;i<5;i++)
+        {
+          toBe.add(((temp.elementAt(i)/total)*100).toInt());
+        }
+
+      _categories=toBe;
+
+    notifyListeners();
+
   }
 
 
@@ -81,34 +145,34 @@ class BudgetModel extends ChangeNotifier {
 
 }
 
-// class BudgetEntryModel extends ChangeNotifier {
-//   List<BudgetEntry>? _entries = null;
-//
-//
-//   BudgetEntryModel(Budget b) {
-//     fetchAllEntries(b).then((entries) =>
-//     entries != null
-//         ? _entries = entries
-//         : List.empty());
-//   }
-//
-//
-//   List<BudgetEntry>? get entries => _entries?.toList();
-//
-//
-//   Future fetchAllEntries(Budget b) async {
-//     _entries = await BudgetApi.getEntries(b);
-//
-//     notifyListeners();
-//   }
-//
-//
-//   Future deleteBudgetEntry(ItineraryEntry c) async {
-//     await BudgetApi.deleteBudgetEntry(c.id);
-//
-//     var index = _entries!.indexWhere((element) => element.id == c.id);
-//     _entries!.removeAt(index);
-//
-//     notifyListeners();
-//   }
-// }
+class BudgetEntryModel extends ChangeNotifier {
+  List<BudgetEntry>? _entries = null;
+
+
+  BudgetEntryModel(Budget b) {
+    fetchAllEntries(b).then((entries) =>
+    entries != null
+        ? _entries = entries
+        : List.empty());
+  }
+
+
+  List<BudgetEntry>? get entries => _entries?.toList();
+
+
+  Future fetchAllEntries(Budget b) async {
+    _entries = await BudgetApi.getEntries(b);
+
+    notifyListeners();
+  }
+
+
+  Future deleteBudgetEntry(BudgetEntry c) async {
+    await BudgetApi.deleteEntry(c);
+
+    var index = _entries!.indexWhere((element) => element.budgetEntryID == c.budgetEntryID);
+    _entries!.removeAt(index);
+
+    notifyListeners();
+  }
+}

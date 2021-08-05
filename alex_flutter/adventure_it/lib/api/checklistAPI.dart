@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import 'checklistEntry.dart';
+
 import 'createChecklist.dart';
 
 class ChecklistApi {
@@ -76,36 +78,49 @@ class ChecklistApi {
 
   }
 
-  // static Future<List<ChecklistEntry>> getChecklistEntries(Checklist i) async {
-  //   http.Response response =
-  //   await _getChecklistEntries(i!.id);
-  //
-  //   if (response.statusCode != 200) {
-  //     throw Exception('Failed to load list of entries for checklist: ${response.body}');
-  //   }
-  //
-  //
-  //   List<ChecklistEntry> checklists = (jsonDecode(response.body) as List)
-  //       .map((x) => ChecklistEntry.fromJson(x))
-  //       .toList();
-  //
-  //   return checklists;
-  // }
-  //
-  // static Future<http.Response> _getChecklistEntries(checklistID) async {
-  //
-  //   return http.get(Uri.http(checklistApi, '/checklist/viewChecklist/' + checklistID));
-  // }
-  //
-  // static Future deleteChecklistEntry(ChecklistEntry i) async {
-  //   http.Response response = await _deleteChecklistEntryRequest(i.id);
-  //
-  //
-  //   if (response.statusCode != 200) {
-  //     throw Exception('Failed to delete checklist entry ${response.body}');
-  //   }
-  //
-  // }
+  static Future completeEntry (String checklistID) async {
+    http.Response response=await _completeEntry(checklistID);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load list of entries for checklist: ${response.body}');
+    }
+}
+
+  static Future<http.Response> _completeEntry(checklistID) async {
+
+    return http.get(Uri.http(checklistApi, '/checklist/markEntry/' + checklistID));
+  }
+
+  static Future<List<ChecklistEntry>> getChecklistEntries(Checklist i) async {
+    http.Response response =
+    await _getChecklistEntries(i!.id);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load list of entries for checklist: ${response.body}');
+    }
+
+
+    List<ChecklistEntry> checklists = (jsonDecode(response.body) as List)
+        .map((x) => ChecklistEntry.fromJson(x))
+        .toList();
+
+    return checklists;
+  }
+
+  static Future<http.Response> _getChecklistEntries(checklistID) async {
+
+    return http.get(Uri.http(checklistApi, '/checklist/viewChecklist/' + checklistID));
+  }
+
+  static Future deleteChecklistEntry(ChecklistEntry i) async {
+    http.Response response = await _deleteChecklistEntryRequest(i.id);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete checklist entry ${response.body}');
+    }
+
+  }
 
   static Future<http.Response> _deleteChecklistEntryRequest(ChecklistEntryID) async {
 

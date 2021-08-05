@@ -92,4 +92,10 @@ public class UserController {
         return service.getFriendRequests(id);
     }
 
+    @GetMapping(value="api/populateFriends")
+    public void mockFriends()
+    {
+        service.mockFriendships();
+    }
+
 }
