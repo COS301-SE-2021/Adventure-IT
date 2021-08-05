@@ -21,9 +21,10 @@ class LocationApi {
       throw Exception('Failed to load place suggestions: ${response.body}');
     }
 
-    List<PlaceSearch> suggestions = (jsonDecode(response.body) as List)
+    List<PlaceSearch> suggestions = (jsonDecode(response.body)['predictions'] as List)
         .map((x) => PlaceSearch.fromJson(x))
         .toList();
+
 
     return suggestions;
   }
