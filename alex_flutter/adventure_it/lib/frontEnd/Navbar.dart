@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'Login.dart';
 import 'Profile.dart';
+import 'FriendsPage.dart';
 
 class NavDrawer extends StatelessWidget {
   @override
@@ -49,7 +50,10 @@ class NavDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.people_outline_outlined),
             title: Text('Friend List'),
-            onTap: () => {},
+            onTap: () => {Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+            builder: (context) => Friends())),},
           ),
           ListTile(
             leading: Icon(Icons.doorbell_rounded),
