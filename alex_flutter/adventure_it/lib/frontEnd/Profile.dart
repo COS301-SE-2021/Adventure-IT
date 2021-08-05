@@ -69,12 +69,12 @@ class ProfileFutureBuilderCaller extends StatefulWidget {
 
 class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
   Future<UserProfile>? userFuture;
-  final UserApi api = new UserApi();
+  // final UserApi api = new UserApi();
 
   @override
   void initState() {
     super.initState();
-    userFuture = UserApi.getUserByUUID("3f21ea6b-2288-42f3-9175-39adfafea9ab");
+    // userFuture = UserApi.getUserByUUID("3f21ea6b-2288-42f3-9175-39adfafea9ab");
   }
 
   @override

@@ -17,7 +17,7 @@ class RegisterCaller extends StatefulWidget {
 
 class Register extends State<RegisterCaller> {
   Future<RegisterUser>? _futureUser;
-  final UserApi api = new UserApi();
+  // final UserApi api = new UserApi();
 
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -126,9 +126,9 @@ class Register extends State<RegisterCaller> {
                         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: MediaQuery.of(context).size.width * 0.01),
                       ),
                       onPressed: () {
-                        setState(() {
-                          _futureUser = api.createUser(firstNameController.text,lastNameController.text,usernameController.text,emailController.text,phoneNumberController.text,passwordController.text);
-                        });
+                        // setState(() {
+                        //   _futureUser = api.createUser(firstNameController.text,lastNameController.text,usernameController.text,emailController.text,phoneNumberController.text,passwordController.text);
+                        // });
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

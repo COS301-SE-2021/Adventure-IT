@@ -19,7 +19,7 @@ class LoginCaller extends StatefulWidget {
 
 class Login extends State<LoginCaller> {
   Future<LoginUser>? _futureUser;
-  final UserApi api = new UserApi();
+  final UserApi api = UserApi.getInstance();
   var storage = FlutterSecureStorage();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -103,26 +103,12 @@ class Login extends State<LoginCaller> {
                       vertical: MediaQuery.of(context).size.height * 0.01),
                 ),
                 onPressed: () async {
-                  // setState(() {
-                  //   _futureUser = api.loginUser(
-                  //       usernameController.text, passwordController.text);
-                  // });
-                  // Navigator.pushReplacement(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => HomepageStartupCaller()),
-                  // );
-                  var username = usernameController.text;
-                  var password = passwordController.text;
+                  final username = usernameController.text;
+                  final password = passwordController.text;
 
-                  var jwt = await api.attemptLogIn(username, password);
-                  if (jwt != null) {
-                    await api.fetchUserUUID();
-                    storage.write(key: "jwt", value: jwt);
-                    setState(() {
-                      _futureUser = api.loginUser(
-                          usernameController.text, passwordController.text);
-                    });
+                  final success = await api.logIn(username, password);
+
+                  if (success == true) {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

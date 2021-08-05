@@ -1,109 +1,44 @@
-import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/registerUser.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
-import 'loginUser.dart';
-import 'userProfile.dart';
-
-// TODO: Convert to singleton
 class UserApi {
+  String? username;
+  String? uuid;
+
+  // Secure Local Storage
+  final storage = FlutterSecureStorage();
+
+  // TODO: Use ENV for sensitive information
   final String keycloakClientSecret = "e0ddc4e5-7d32-4340-843f-bd7d736d1100";
-  late final String admin_jwt;
-  late String username;
-  late final String userUUID;
 
-  UserApi() {
-    this.adminLogIn().then((value) {
-      this.admin_jwt = value;
-    });
+  // Start: Singleton Design Pattern
+  static UserApi _instance = new UserApi._();
+
+  // Private constructor
+  UserApi._() {}
+
+  static UserApi getInstance() {
+    return _instance;
   }
+  // End: Singleton Design Pattern
 
-  Future<RegisterUser> createUser(
-      String firstName,
-      String lastName,
-      String username,
-      String email,
-      String phoneNumber,
-      String password) async {
-    final response = await http.post(
-      Uri.parse('http://localhost:9002/api/RegisterUser'), //get uri
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'firstName': firstName,
-        'lastName': lastName,
-        'username': username,
-        'email': email,
-        'phoneNumber': phoneNumber,
-        'password': password,
-      }),
-    );
-
-    if (response.statusCode == 201) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
-      print('Status code: ${response.statusCode}');
-      print('Body: ${response.body}');
-      return RegisterUser(
-          firstName: firstName,
-          lastName: lastName,
-          username: username,
-          email: email,
-          phoneNumber: phoneNumber,
-          password: password);
+  // Publically Exposed Login Method
+  Future<bool> logIn(String username, String password) async {
+    await _attemptLogIn(username, password);
+    if (this.username != null) {
+      await this._fetchUserUUID();
+      return true;
     } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      throw Exception('Failed to register user.');
+      return false;
     }
   }
 
-  Future<LoginUser> loginUser(String username, String password) async {
-    final response = await http.post(
-      Uri.parse('http://localhost:9002/api/LoginUser'), //get uri
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'username': username,
-        'password': password,
-      }),
-    );
-
-    if (response.statusCode == 201) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
-      return LoginUser(username: username, password: password);
-    } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      throw Exception('Failed to register user.');
-    }
-  }
-
-  static Future<UserProfile> getUserByUUID(String userID) async {
-    print("in function");
-    http.Response response = await http
-        .get(Uri.parse('http://localhost:9002/api/GetUser/' + userID));
-
-    if (response.statusCode != 200) {
-      throw Exception('Failed to load user information: ${response.body}');
-    }
-    print(response.body);
-
-    UserProfile users = (UserProfile.fromJson(jsonDecode(response.body)));
-    print(users.username);
-    return users;
-  }
-
-  Future<String?> attemptLogIn(String username, String password) async {
+  // Attempt Login to Keycloak (PRIVATE)
+  Future _attemptLogIn(String username, String password) async {
     var res = await http.post(Uri.parse(authApiGetToken), body: {
       "client_id": "adventure-it-maincontroller",
       "grant_type": "password",
@@ -111,15 +46,20 @@ class UserApi {
       "scope": "openid",
       "username": username,
       "password": password
+    }, headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
     });
     if (res.statusCode == 200) {
       this.username = username;
-      return jsonDecode(res.body)["access_token"];
+      storage.write(key: "jwt", value: jsonDecode(res.body)["access_token"]);
+    } else {
+      debugPrint("Login Failed");
+      debugPrint(res.body.toString());
     }
-    return null;
   }
 
-  Future<String> adminLogIn() async {
+  // Get Admin Access Token (PRIVATE)
+  Future<String> _adminLogIn() async {
     var res = await http.post(Uri.parse(authApiGetToken), body: {
       "client_id": "adventure-it-maincontroller",
       "grant_type": "password",
@@ -135,30 +75,30 @@ class UserApi {
     }
   }
 
-  Future<void> fetchUserUUID() async {
-    // TODO: Figure out why it's not getting the UUID correctly
-    // Response says "unauthorized"
-    late final responseJson;
-    var res = await http.get(
-        Uri.parse(authApiAdmin + "users?username=" + this.username + "&max=1"),
-        headers: {'Authorization': 'Bearer $this.admin_jwt'});
-    debugPrint("Fetch User UUID JWT:");
-    debugPrint(this.admin_jwt);
-    if (res.statusCode == 200) {
-      responseJson = jsonDecode(res.body);
-      this.userUUID = responseJson[0]['id'];
-      debugPrint("Fetched User UUID");
-      debugPrint(this.userUUID);
+  // Get User's UUID from Keycloak's Admin API (PRIVATE)
+  Future<void> _fetchUserUUID() async {
+    if (this.username != null) {
+      final adminJWT = await this._adminLogIn();
+      late final responseJson;
+      final Map<String, String> queryParameters = {
+        'username': this.username!,
+        'max': '1'
+      };
+      final uri = Uri.parse(authApiAdmin +
+          'users?' +
+          Uri(queryParameters: queryParameters).query);
+      var res =
+          await http.get(uri, headers: {'Authorization': 'Bearer $adminJWT'});
+      if (res.statusCode == 200) {
+        responseJson = jsonDecode(res.body);
+        this.uuid = responseJson[0]['id'];
+      } else {
+        debugPrint(res.body);
+        throw Exception("Could Not Fetch User UUID");
+      }
     } else {
-      debugPrint(res.body);
-      throw Exception("Could Not Fetch User UUID");
+      throw Exception(
+          "Attempted to get user's UUID without successful login first");
     }
   }
-
-  // Future<int> attemptSignUp(String username, String password) async {
-  //   var res = await http.post(Uri.parse("$SERVER_IP/signup"),
-  //       body: {"username": username, "password": password});
-  //   return res.statusCode;
-  // }
-
 }
