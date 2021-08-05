@@ -51,8 +51,9 @@ public class MainControllerAdventureReroute {
         List<UUID> users = restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/getAttendees/" + id, List.class);
         List<GetUserByUUIDDTO> list = new ArrayList<>();
         Users user;
-        for (UUID x:users){
-            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "api/GetUser/" + id, Users.class);
+        System.out.println(users);
+        for (int x = 0; x < users.size(); x++){
+            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/api/GetUser/" + users.get(x) , Users.class);
             list.add(new GetUserByUUIDDTO(user.getUserID(),user.getUsername(), user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhoneNumber()));
         }
         return list;
