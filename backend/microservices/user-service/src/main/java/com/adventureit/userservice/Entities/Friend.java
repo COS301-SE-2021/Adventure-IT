@@ -1,6 +1,6 @@
 package com.adventureit.userservice.Entities;
 
-import org.joda.time.DateTime;
+
 
 import javax.persistence.*;
 import java.util.Date;
