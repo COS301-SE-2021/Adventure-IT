@@ -1,15 +1,29 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/registerUser.dart';
 import 'package:adventure_it/constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import 'loginUser.dart';
 import 'userProfile.dart';
 
+// TODO: Convert to singleton
 class UserApi {
+  final String keycloakClientSecret = "e0ddc4e5-7d32-4340-843f-bd7d736d1100";
+  late final String admin_jwt;
+  late String username;
+  late final String userUUID;
+
+  UserApi() {
+    this.adminLogIn().then((value) {
+      this.admin_jwt = value;
+    });
+  }
+
   Future<RegisterUser> createUser(
       String firstName,
       String lastName,
@@ -92,12 +106,53 @@ class UserApi {
   Future<String?> attemptLogIn(String username, String password) async {
     var res = await http.post(Uri.parse(authApiGetToken), body: {
       "client_id": "adventure-it-maincontroller",
+      "grant_type": "password",
+      "client_secret": keycloakClientSecret,
+      "scope": "openid",
       "username": username,
-      "password": password,
-      "grant_type": "password"
+      "password": password
     });
-    if (res.statusCode == 200) return res.body;
+    if (res.statusCode == 200) {
+      this.username = username;
+      return jsonDecode(res.body)["access_token"];
+    }
     return null;
+  }
+
+  Future<String> adminLogIn() async {
+    var res = await http.post(Uri.parse(authApiGetToken), body: {
+      "client_id": "adventure-it-maincontroller",
+      "grant_type": "password",
+      "client_secret": keycloakClientSecret,
+      "scope": "openid",
+      "username": "admin",
+      "password": "admin"
+    });
+    if (res.statusCode == 200) {
+      return jsonDecode(res.body)["access_token"];
+    } else {
+      throw Exception("Admin Login Failed");
+    }
+  }
+
+  Future<void> fetchUserUUID() async {
+    // TODO: Figure out why it's not getting the UUID correctly
+    // Response says "unauthorized"
+    late final responseJson;
+    var res = await http.get(
+        Uri.parse(authApiAdmin + "users?username=" + this.username + "&max=1"),
+        headers: {'Authorization': 'Bearer $this.admin_jwt'});
+    debugPrint("Fetch User UUID JWT:");
+    debugPrint(this.admin_jwt);
+    if (res.statusCode == 200) {
+      responseJson = jsonDecode(res.body);
+      this.userUUID = responseJson[0]['id'];
+      debugPrint("Fetched User UUID");
+      debugPrint(this.userUUID);
+    } else {
+      debugPrint(res.body);
+      throw Exception("Could Not Fetch User UUID");
+    }
   }
 
   // Future<int> attemptSignUp(String username, String password) async {
@@ -105,4 +160,5 @@ class UserApi {
   //       body: {"username": username, "password": password});
   //   return res.statusCode;
   // }
+
 }

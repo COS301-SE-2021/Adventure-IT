@@ -116,9 +116,8 @@ class Login extends State<LoginCaller> {
                   var password = passwordController.text;
 
                   var jwt = await api.attemptLogIn(username, password);
-                  debugPrint("JWT Token: ");
                   if (jwt != null) {
-                    debugPrint(jwt);
+                    await api.fetchUserUUID();
                     storage.write(key: "jwt", value: jwt);
                     setState(() {
                       _futureUser = api.loginUser(
@@ -130,7 +129,6 @@ class Login extends State<LoginCaller> {
                           builder: (context) => HomepageStartupCaller()),
                     );
                   } else {
-                    debugPrint("No token");
                     displayDialog(context, "An Error Occurred",
                         "No account was found matching that username and password");
                   }
