@@ -118,7 +118,7 @@ class BudgetApi {
 
   Future<CreateBudget> createBudget(String name, String description, String creatorID, String adventureID) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9007/api/budget/create'), //get uri
+      Uri.parse('http://localhost:9007/budget/create'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -141,6 +141,8 @@ class BudgetApi {
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
       throw Exception('Failed to create a budget.');
     }
   }
