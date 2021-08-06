@@ -17,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Description;
 
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -33,7 +35,7 @@ public class RegisterUserJunitTests {
 
 
     private UserServiceImplementation user =
-            new UserServiceImplementation(repo,tokenRepo,friendRepository);
+            new UserServiceImplementation(repo,friendRepository);
     /**
      * Generate mock data to handle Junit testing with
      * Mock data includes:
@@ -58,55 +60,32 @@ public class RegisterUserJunitTests {
     String validEmail = "u19024143@tuks.co.za";
     String invalidEmail = "InvalidEmail.com";
 
-    String validPassword = "ValidPass123!";
-    String invalidPassword = "2short";
-
-    String validPhoneNum = "0794083124";
-    String invalidPhoneNum = "012345678986";
+    final UUID uuid1 = UUID.randomUUID();
 
 
     @Test
     @Description("This test tests whether the correct information will be retrieved through the request object")
     void TestRegisterUserRequestgetters(){
-        RegisterUserRequest req = new RegisterUserRequest(userName1,userlName1,username1,validEmail,validPassword,validPhoneNum);
+        RegisterUserRequest req = new RegisterUserRequest(uuid1, userName1,userlName1,username1,validEmail);
         assertNotNull(req);
+        assertEquals(uuid1,req.getUserID());
         assertEquals(userName1,req.getfName());
         assertEquals(userlName1,req.getlName());
         assertEquals(validEmail,req.getEmail());
-        assertEquals(validPassword,req.getPassword());
-        assertEquals(validPhoneNum,req.getPhoneNum());
     }
 
     @Test
     @Description("This test tests whether the correct exception is thrown if an invalid email is used")
     void TestRegisterUserRequestInvalidEmail() throws InvalidUserPhoneNumberException, InvalidUserPasswordException {
-        RegisterUserRequest req = new RegisterUserRequest(userName1,userlName1,username1,invalidEmail,validPassword,validPhoneNum);
+        RegisterUserRequest req = new RegisterUserRequest(uuid1, userName1,userlName1,username1,invalidEmail);
         assertNotNull(req);
         Throwable thrown = assertThrows(InvalidUserEmailException.class , ()-> user.RegisterUser(req));
         assertEquals("User email is incorrect - Unable to process registration", thrown.getMessage());
     }
 
     @Test
-    @Description("This test tests whether the correct exception is thrown if an invalid password is used")
-    void TestRegisterUserRequestInvalidPassword() throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException {
-        RegisterUserRequest req = new RegisterUserRequest(userName1,userlName1,username1,validEmail,invalidPassword,validPhoneNum);
-        assertNotNull(req);
-        Throwable thrown = assertThrows(InvalidUserPasswordException.class , ()-> user.RegisterUser(req));
-        assertEquals("User password is incorrect - Unable to process registration", thrown.getMessage());
-    }
-
-    @Test
-    @Description("This test tests whether the correct exception is thrown if an invalid phone number is used")
-    void TestRegisterUserRequestInvalidPhoneNum() throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException {
-        RegisterUserRequest req = new RegisterUserRequest(userName1,userlName1,username1,validEmail,validPassword,invalidPhoneNum);
-        assertNotNull(req);
-        Throwable thrown = assertThrows(InvalidUserPhoneNumberException.class , ()-> user.RegisterUser(req));
-        assertEquals("User phone number is incorrect - Unable to process registration", thrown.getMessage());
-    }
-
-    @Test
     @Description("This test tests whether the request object is null and throws correct exception")
-     void TestInvalidRequest() throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException {
+     void TestInvalidRequest() throws InvalidUserEmailException {
         RegisterUserRequest req = null;
         Throwable thrown = assertThrows(InvalidRequestException.class , ()-> user.RegisterUser(req));
         assertNull(req);
@@ -116,10 +95,9 @@ public class RegisterUserJunitTests {
     @Test
     @Description("This test tests whether the response object returned carries the correct information")
     void TestRegisterUserResponse() throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
-        RegisterUserRequest req = new RegisterUserRequest(userName1,userlName1,username1,validEmail,validPassword,validPhoneNum);
+        RegisterUserRequest req = new RegisterUserRequest(uuid1, userName1,userlName1,username1,validEmail);
         assertNotNull(req);
         RegisterUserResponse response = user.RegisterUser(req);
-        assertEquals("200 OK",response.getToken());
         assertEquals(true,response.isSuccess());
         assertEquals("User "+userName1+" "+userlName1+" successfully Registered",response.getMessage());
     }

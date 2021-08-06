@@ -28,8 +28,6 @@ public class Users implements UserDetails {
     private String firstname;
     private String lastname;
     private String email;
-    private String password;
-    private String phoneNumber;
     private Boolean enabled = false;
     @Lob
     private byte [] profilePicture;
@@ -44,18 +42,14 @@ public class Users implements UserDetails {
      * @param firstname
      * @param lastname
      * @param email
-     * @param password
-     * @param phoneNumber
      */
 
-    public Users(UUID userID, String username, String firstname, String lastname, String email, String password, String phoneNumber) {
+    public Users(UUID userID, String username, String firstname, String lastname, String email) {
         this.userID = userID;
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
         this.enabled =false;
     }
 
@@ -163,33 +157,10 @@ public class Users implements UserDetails {
         return null;
     }
 
-    /**
-     * User service to retrieve users User password
-     * @return password
-     */
+    // Only here to satisfy inheritance constraint (will NOT be used for anything)
+    @Override
     public String getPassword() {
-        return password;
-    }
-    /**
-     * User service to set User ID
-     * @param password
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    /**
-     * User service to retrieve users User phone number
-     * @return phoneNumber
-     */
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-    /**
-     * User service to set User ID
-     * @param phoneNumber
-     */
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        return null;
     }
 
     public byte[] getProfilePicture() {

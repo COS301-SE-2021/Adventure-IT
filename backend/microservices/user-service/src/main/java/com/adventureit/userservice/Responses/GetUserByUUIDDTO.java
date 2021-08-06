@@ -8,15 +8,13 @@ public class GetUserByUUIDDTO {
     private final String firstname;
     private final String lastname;
     private final String email;
-    private final String phoneNumber;
 
-    public GetUserByUUIDDTO(UUID userID, String username, String firstname, String lastname, String email, String phoneNumber) {
+    public GetUserByUUIDDTO(UUID userID, String username, String firstname, String lastname, String email) {
         this.userID = userID;
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        this.phoneNumber = phoneNumber;
     }
 
     public UUID getUserID() {
@@ -37,9 +35,5 @@ public class GetUserByUUIDDTO {
 
     public String getEmail() {
         return email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
     }
 }

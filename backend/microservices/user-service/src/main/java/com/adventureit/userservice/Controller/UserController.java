@@ -39,8 +39,6 @@ public class UserController {
      * @param req will take in a RegisterUserRequest object
      * @return a RegisterUserResponse object in json format to front end
      * @throws InvalidUserEmailException if the user email is invalid
-     * @throws InvalidUserPhoneNumberException if the user phone number is invalid
-     * @throws InvalidUserPasswordException if the user password is invalid
      * @throws InvalidRequestException if the request body is null
      */
     @PostMapping(value = "api/RegisterUser", consumes = "application/json", produces = "application/json")
@@ -61,11 +59,6 @@ public class UserController {
         return service.updateProfilePicture(file, req.getId());
     }
 
-
-    @GetMapping(value="/api/ConfirmToken")
-    public String ConfirmToken(@RequestParam("token") String token){
-        return service.confirmToken(token);
-    }
 
     @PostMapping(value = "api/LoginUser", consumes = "application/json", produces = "application/json")
     public LoginUserDTO Login(@RequestBody LoginUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
