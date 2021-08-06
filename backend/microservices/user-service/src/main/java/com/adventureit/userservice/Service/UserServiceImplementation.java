@@ -269,12 +269,12 @@ public class UserServiceImplementation  {
         return "Picture successfully removed";
     }
 
-    public String createFriendRequest(UUID ID1, UUID ID2) throws Exception {
-        if(repo.getUserByUserID(ID1) == null || repo.getUserByUserID(ID2) == null){
+    public String createFriendRequest(String ID1, String ID2) throws Exception {
+        if(repo.getUserByUserID(UUID.fromString(ID1)) == null || repo.getUserByUserID(UUID.fromString(ID2)) == null){
             throw new Exception("One or both of the users do not exist");
         }
 
-        Friend friend = new Friend(ID1, ID2);
+        Friend friend = new Friend(UUID.fromString(ID1), UUID.fromString(ID2));
         friendRepository.save(friend);
 
         return "Friend request sent";

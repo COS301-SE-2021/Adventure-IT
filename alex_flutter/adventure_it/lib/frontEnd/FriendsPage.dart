@@ -21,7 +21,6 @@ import '../api/budget.dart';
 import 'Navbar.dart';
 
 class Friends extends StatefulWidget {
-
   Friends() {}
 
   @override
@@ -30,8 +29,11 @@ class Friends extends StatefulWidget {
 
 class FriendsPage extends State<Friends> {
   UserProfile? user;
-  bool friendList=true;
+  bool friendList = true;
+
   FriendsPage();
+
+  final usernameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,58 @@ class FriendsPage extends State<Friends> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height / 60),
+              Row(mainAxisSize: MainAxisSize.max, children: [
+                Spacer(flex: 2),
+                Expanded(
+                    flex: 6,
+                    child: TextField(
+                        controller: usernameController,
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyText1!.color),
+                        decoration: InputDecoration(
+                            hintStyle: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color),
+                            filled: true,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            fillColor: Theme.of(context).primaryColorLight,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: new BorderSide(
+                                    color: Theme.of(context).accentColor)),
+                            hintText: 'Username'))),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+                Expanded(
+                  child: ElevatedButton(
+                      child: Text("Make Friends",
+                          style: new TextStyle(
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color)),
+                      style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).accentColor,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 3, vertical: 20),
+                      ),
+                      onPressed: () {
+                        UserApi.searchUsername(usernameController.text)
+                            .then((value) {
+                              print(value);
+                          if (value.compareTo("") != 0) {
+                            UserApi.createFriendRequest(
+                                "1660bd85-1c13-42c0-955c-63b1eda4e90b", value);
+                          }
+                        });
+                      }),
+                ),
+                Spacer(flex: 2),
+              ]),
+              SizedBox(height: MediaQuery.of(context).size.height / 40),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -102,11 +156,8 @@ class FriendsPage extends State<Friends> {
                   ]),
               SizedBox(height: MediaQuery.of(context).size.height / 50),
               Container(
-                  height: MediaQuery.of(context).size.height * 0.75,
-                  child: friendList!
-                      ? getFriends()
-                      : getFriendRequests()
-              ),
+                  height: MediaQuery.of(context).size.height * 0.65,
+                  child: friendList! ? getFriends() : getFriendRequests()),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
             ]));
   }
@@ -120,14 +171,15 @@ class getFriends extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => FriendModel("1660bd85-1c13-42c0-955c-63b1eda4e90b"),
-        child: Consumer<FriendModel>(builder: (context, friendModel, child){
-          if (friendModel.friends==null) {
+        create: (context) =>
+            FriendModel("1660bd85-1c13-42c0-955c-63b1eda4e90b"),
+        child: Consumer<FriendModel>(builder: (context, friendModel, child) {
+          if (friendModel.friends == null) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
-          } else if (friendModel.friends!.length >0) {
+          } else if (friendModel.friends!.length > 0) {
             return Expanded(
                 flex: 2,
                 child: ListView(children: [
@@ -236,9 +288,10 @@ class getFriends extends StatelessWidget {
                           onDismissed: (direction) {
                             Provider.of<FriendModel>(context, listen: false)
                                 .deleteFriend(
-                                "1660bd85-1c13-42c0-955c-63b1eda4e90b",
+                                    "1660bd85-1c13-42c0-955c-63b1eda4e90b",
                                     friendModel.friends!
-                                        .elementAt(index).userID);
+                                        .elementAt(index)
+                                        .userID);
                           }))
                 ]));
           } else {
@@ -254,17 +307,15 @@ class getFriends extends StatelessWidget {
 }
 
 class getFriendRequests extends StatelessWidget {
-
   BuildContext? c;
 
-  getFriendRequests() {
-  }
+  getFriendRequests();
 
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider(
-        create: (context) => FriendRequestModel("1660bd85-1c13-42c0-955c-63b1eda4e90b"),
+        create: (context) =>
+            FriendRequestModel("1660bd85-1c13-42c0-955c-63b1eda4e90b"),
         child: Consumer<FriendRequestModel>(
             builder: (context, friendModel, child) {
           this.c = context;
@@ -303,8 +354,13 @@ class getFriendRequests extends StatelessWidget {
                                                   .bodyText1!
                                                   .color)),
                                       trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.05,
                                               decoration: BoxDecoration(
                                                   color: Theme.of(context)
                                                       .accentColor,
@@ -324,6 +380,10 @@ class getFriendRequests extends StatelessWidget {
                                                   color: Theme.of(context)
                                                       .primaryColorDark)),
                                           Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.05,
                                               decoration: BoxDecoration(
                                                   color: Theme.of(context)
                                                       .accentColor,
@@ -353,7 +413,8 @@ class getFriendRequests extends StatelessWidget {
                                                                     friendModel
                                                                         .friends!
                                                                         .elementAt(
-                                                                            index).requester +
+                                                                            index)
+                                                                        .requester +
                                                                     '\'s friend request?',
                                                                 style: TextStyle(
                                                                     color: Theme.of(

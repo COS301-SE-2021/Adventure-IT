@@ -174,4 +174,35 @@ class UserApi {
     return http.get(Uri.http(userApi, 'api/acceptFriendRequest/' + requestID));
   }
 
+  static Future<String> searchUsername (String value) async
+  {
+    http.Response response =await _searchUsername(value);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to find user with username: ${response.body}');
+    }
+
+    print(response.body.toString());
+
+   String userID= (jsonDecode(response.body.toString()));
+
+    return userID;
+  }
+
+  static Future<http.Response> _searchUsername(String username) async {
+    return http.get(Uri.http(userApi, 'api/getByUserName/' + username));
+  }
+
+  static Future createFriendRequest (String from, String to) async
+  {
+    http.Response response =await _createFriendRequest(from, to);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to create friend request: ${response.body}');
+    }
+
+  }
+
+  static Future<http.Response> _createFriendRequest(String from, String to) async {
+    return http.get(Uri.http(userApi, 'api/createFriendRequest/' +from+"/"+to));
+  }
+
 }
