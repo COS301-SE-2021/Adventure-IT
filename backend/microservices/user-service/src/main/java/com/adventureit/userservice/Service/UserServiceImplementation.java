@@ -358,10 +358,12 @@ public class UserServiceImplementation  {
     public List<GetFriendRequestsResponse> getFriendRequests(UUID id){
         List<Friend> requests = friendRepository.findBySecondUserEquals(id);
         List<GetFriendRequestsResponse> list = new ArrayList<>();
+        Users user;
 
         for (Friend f:requests) {
             if(!f.isAccepted()){
-                list.add(new GetFriendRequestsResponse(f.getId(),f.getFirstUser(),f.getSecondUser(),f.getCreatedDate(),f.isAccepted()));
+                user = repo.getUserByUserID(f.getFirstUser());
+                list.add(new GetFriendRequestsResponse(f.getId(),f.getFirstUser(),f.getSecondUser(),f.getCreatedDate(),f.isAccepted(),new GetUserByUUIDDTO(user.getUserID(),user.getUsername(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhoneNumber())));
             }
         }
 
@@ -423,6 +425,11 @@ public class UserServiceImplementation  {
         }
 
         return "Friend removed";
+    }
+
+    public UUID getUserIDByUserName(String userName){
+        Users user = repo.getUserByUsername(userName);
+        return  user.getUserID();
     }
 
     public void mockFriendships()

@@ -118,4 +118,9 @@ public class UserController {
         return service.getFriendProfiles(id);
     }
 
+    @GetMapping(value="api/getByUserName/{userName}")
+    public void getUserIDByUserName(@PathVariable String userName) throws Exception {
+        service.getUserIDByUserName(userName);
+    }
+
 }
