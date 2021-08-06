@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:adventure_it/Providers/location_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
@@ -51,6 +53,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
   }
 
   DateTimeRange? dates;
+  final _debouncer = Debouncer(milliseconds: 500);
   String? location;
   final initialDateRange = DateTimeRange(
     start: DateTime.now(),
@@ -336,7 +339,6 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                  scrollable: true,
                                   backgroundColor: Theme
                                       .of(context)
                                       .primaryColorDark,
@@ -361,7 +363,9 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                             ),
                                           ),
                                         ), Column(
-                                            children: [Text("Find Location",
+                                          mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text("Find Location",
                                                 textAlign: TextAlign
                                                     .center,
                                                 style: TextStyle(
@@ -377,10 +381,11 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                                           .textScaleFactor,
                                                   fontWeight: FontWeight
                                                       .bold,
-                                                )),  SizedBox(height: MediaQuery
+                                                )),
+                                              SizedBox(height: MediaQuery
                                                 .of(context)
                                                 .size
-                                                .height * 0.01),TextField(
+                                                .height * 0.01,width:300),TextField(
                                               style: TextStyle(
                                                   color:
                                                   Theme
@@ -414,33 +419,31 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                                               .accentColor)),
                                                   hintText: 'Search by country or city'),
                                               onChanged: (value) {
+                                                _debouncer.run(() {
                                                 Provider.of<
                                                     LocationModel>(
                                                     context,
                                                     listen: false)
                                                     .fetchAllSuggestions(
                                                     value);
-                                              },
+                                              });},
                                             ),
                                             ])
                                       ]),
                                   content:
-                                  Consumer<LocationModel>(
+                                      Container(
+                                      width:300,
+                                  child: Consumer<LocationModel>(
                                       builder: (context, locationModel, child) {
-                                        return Container(
-                                            height: getSize(context),
-                                            width:300,
-                                            child: locationModel.suggestions!
+                                        return  locationModel.suggestions!
                                                 .length > 0 ?
                                             ListView.builder(
                                                 shrinkWrap: true,
-                                                itemCount: locationModel
-                                                    .suggestions!
-                                                    .length,
+                                                itemCount: locationModel.suggestions!.length,
                                                 itemBuilder: (context,
                                                     index) {
-                                                  return InkWell(
-
+                                                  return
+                                                  InkWell(
                                                       hoverColor:
                                                       Theme.of(context).primaryColorLight,
                                                       onTap: ()
@@ -450,16 +453,15 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                                               .elementAt(index)
                                                               .description;
                                                         });
-                                                        print("outside");
                                                         Navigator.of(context).pop();
                                                       },
-                                                      child: ListTile(
-                                                    leading: Text(
+                                                      child: Padding(padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01,horizontal: MediaQuery.of(context).size.width*0.01),child: Expanded(
+                                                  child: Text(
                                                      locationModel.suggestions!
                                                           .elementAt(index)
                                                           .description,
                                                       style: TextStyle(
-                                                          fontSize: 15 *
+                                                          fontSize: 16 *
                                                               MediaQuery
                                                                   .of(
                                                                   context)
@@ -473,13 +475,12 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                                               .bodyText1!
                                                               .color
                                                       ),
-                                                    ),
-                                                  ));
+                                                  )
+                                              )));
                                                 })
-                                                : Container()
+                                                : Container();
 
-                                        );
-                                      }));
+                                      })));
                             });
                       },
 
@@ -498,6 +499,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                       .height * 0.05),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Spacer(flex: 2),
                         Expanded(
@@ -562,6 +564,21 @@ class CreateAdventure extends State<CreateAdventureCaller> {
   }
 
 
+}
+
+class Debouncer {
+  final int milliseconds;
+  VoidCallback? action;
+  Timer? _timer;
+
+  Debouncer({required this.milliseconds});
+
+  run(VoidCallback action) {
+    if (null != _timer) {
+      _timer!.cancel();
+    }
+    _timer = Timer(Duration(milliseconds: milliseconds), action);
+  }
 }
 
 

@@ -15,6 +15,7 @@ class LocationApi {
   static Future<List<PlaceSearch>> getSuggestions(String query) async {
     http.Response response =
     await _getSuggestions(query);
+    print(response.body);
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load place suggestions: ${response.body}');
