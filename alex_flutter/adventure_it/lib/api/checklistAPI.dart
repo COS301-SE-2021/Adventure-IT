@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'checklistEntry.dart';
 
 import 'createChecklist.dart';
+import 'editChecklistEntry.dart';
 
 class ChecklistApi {
   static Future<List<Checklist>> getChecklists(Adventure? a) async {
@@ -219,7 +220,33 @@ class ChecklistApi {
     }
   }
 
-  static Future editChecklistEntry() async {
-    
+  static Future<http.Response> editChecklistEntry(String id, String entryContainerID, String title) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:9008/checklist/editEntry'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'id': id,
+        'title': title,
+        'entryContainerID': entryContainerID
+      }),
+
+
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      return response;
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      throw Exception('Failed to edit a checklist entry.');
+    }
   }
 }
