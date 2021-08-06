@@ -13,7 +13,7 @@ FriendRequest _$FriendRequestFromJson(Map<String, dynamic> json) {
     secondUser: json['secondUser'] as String,
     createdDate: json['createdDate'] as String,
     accepted: json['accepted'] as bool,
-    requester:json['requester'] as String,
+    requester: json['requester'] as String,
   );
 }
 
@@ -24,5 +24,5 @@ Map<String, dynamic> _$FriendRequestToJson(FriendRequest instance) =>
       'secondUser': instance.secondUser,
       'createdDate': instance.createdDate,
       'accepted': instance.accepted,
-      'requester': instance.requester
+      'requester': instance.requester,
     };
