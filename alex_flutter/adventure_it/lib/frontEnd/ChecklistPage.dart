@@ -233,8 +233,19 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
 
   Checklist? checklist;
   BuildContext? c;
+  final editController = TextEditingController();
+
   GetChecklistEntries(Checklist c) {
     this.checklist = c;
+  }
+
+  double getSize(context) {
+    if (MediaQuery.of(context).size.height >
+        MediaQuery.of(context).size.width) {
+      return MediaQuery.of(context).size.height * 0.49;
+    } else {
+      return MediaQuery.of(context).size.height * 0.6;
+    }
   }
 
   @override
@@ -362,10 +373,32 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                               );
                             }
                             else if(direction == DismissDirection.startToEnd){
-                              Column(
+                              return showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                              return AlertDialog(
+                                  backgroundColor: Theme.of(context).primaryColorDark,
+                                  content: Container(
+                                    height: getSize(context),
+                                    child: Stack(
+                                    overflow: Overflow.visible,
+                                    children: <Widget>[
+                                      Positioned(
+                                      right: -40.0,
+                                      top: -40.0,
+                                      child: InkResponse(
+                                        onTap: () {
+                                          Navigator.of(context).pop(false);
+                                        },
+                                        child: CircleAvatar(
+                                          child: Icon(Icons.close,
+                                          color: Theme.of(context).primaryColorDark),
+                                          backgroundColor: Theme.of(context).accentColor,
+                                        ),),),
+                            Column(
                                 // mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
-                                  Text("Edit Checklist Item",
+                                  Text("Edit: " + checklistEntry.entries!.elementAt(index).title,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Theme.of(context).textTheme.bodyText1!.color,
@@ -381,6 +414,7 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                                   style: TextStyle(
                                     color:
                                     Theme.of(context).textTheme.bodyText1!.color),
+                                    controller: editController,
                                     decoration: InputDecoration(
                                       hintStyle: TextStyle(
                                         color: Theme.of(context).textTheme.bodyText2!.color),
@@ -405,19 +439,20 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                                   },
                                   child: Text("Edit",
                                     style: TextStyle(
-                                    color: Theme.of(context).textTheme.bodyText1!.color))))]);
+                                    color: Theme.of(context).textTheme.bodyText1!.color))))])
+                            ])));});
                             }
                           },
                           onDismissed: (direction) {
                             if(direction == DismissDirection.endToStart) {
-                            Provider.of<ChecklistEntryModel>(context, listen: false)
-                                .deleteChecklistEntry(checklistEntry
-                                .entries
-                            !.elementAt(index));
+                              Provider.of<ChecklistEntryModel>(context, listen: false)
+                                  .deleteChecklistEntry(checklistEntry
+                                  .entries
+                                  !.elementAt(index));
                           }
                             else if(direction == DismissDirection.startToEnd){
                               Provider.of<ChecklistEntryModel>(context, listen: false)
-                                  .editChecklistEntry(checklistEntry.entries!.elementAt(index));
+                                  .editChecklistEntry(checklistEntry.entries!.elementAt(index), checklist!, editController.text);
                             }
                         }))
                 ]));

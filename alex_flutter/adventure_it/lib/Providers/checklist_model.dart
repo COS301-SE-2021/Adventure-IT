@@ -105,8 +105,13 @@ class ChecklistEntryModel extends ChangeNotifier {
     notifyListeners();
 }
 
-  Future editChecklistEntry(ChecklistEntry e) async {
-    await ChecklistApi.checklistEdit(e);
+  Future editChecklistEntry(ChecklistEntry e, Checklist c, String s) async {
+    await ChecklistApi.checklistEdit(e, s);
+
+    var index = _entries!.indexWhere((element) => element.id == e.id);
+    _entries!.removeAt(index);
+
+    fetchAllEntries(c);
 
     notifyListeners();
   }
