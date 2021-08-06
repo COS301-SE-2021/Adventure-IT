@@ -39,45 +39,29 @@ class FriendModel extends ChangeNotifier {
 
 class FriendRequestModel extends ChangeNotifier {
   List<FriendRequest>? _friends = null;
-  List<UserProfile>? _friendProfiles = null;
 
   FriendRequestModel(String userID) {
     fetchAllFriends(userID).then((friends) {
       friends != null ? _friends = friends : List.empty();
     });
-    print(
-        this._friends!.length.toString() + " " + this._friendProfiles!.length.toString());
+
   }
 
   List<FriendRequest>? get friends => _friends?.toList();
 
-  List<UserProfile>? get friendProfiles => _friendProfiles?.toList();
 
   Future fetchAllFriends(String value) async {
     _friends = await UserApi.getFriendRequests(value);
-    if (_friends != null) {
-      fetchAllFriendProfiles(value).then((friendProfiles) {
-        friendProfiles != null ? _friendProfiles = friendProfiles : List.empty();
-      });
-    }
-    else {
-      _friendProfiles = List.empty();
-    }
-    notifyListeners();
-  }
-
-  Future fetchAllFriendProfiles(String userID) async {
-    _friendProfiles = await UserApi.getFriendRequestProfiles(userID);
 
     notifyListeners();
   }
+
 
   Future deleteFriendRequest(String id) async {
     await UserApi.deleteFriendRequest(id);
 
     var index = _friends!.indexWhere((element) => element.id == id);
     _friends!.removeAt(index);
-    _friendProfiles!.removeAt(index);
 
     notifyListeners();
   }

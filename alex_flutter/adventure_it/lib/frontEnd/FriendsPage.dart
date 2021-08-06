@@ -268,14 +268,12 @@ class getFriendRequests extends StatelessWidget {
         child: Consumer<FriendRequestModel>(
             builder: (context, friendModel, child) {
           this.c = context;
-          if (friendModel.friends == null ||
-              friendModel.friendProfiles == null) {
+          if (friendModel.friends == null) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
-          } else if (friendModel.friends!.length > 0 &&
-              friendModel.friendProfiles!.length > 0) {
+          } else if (friendModel.friends!.length > 0) {
             return Expanded(
                 flex: 2,
                 child: ListView(children: [
@@ -292,9 +290,9 @@ class getFriendRequests extends StatelessWidget {
                                     flex: 4,
                                     child: ListTile(
                                       title: Text(
-                                          friendModel.friendProfiles!
+                                          friendModel.friends!
                                               .elementAt(index)
-                                              .username,
+                                              .requester,
                                           style: TextStyle(
                                               fontSize: 25 *
                                                   MediaQuery.of(context)
@@ -353,10 +351,9 @@ class getFriendRequests extends StatelessWidget {
                                                               content: Text(
                                                                 'Are you sure you want to decline ' +
                                                                     friendModel
-                                                                        .friendProfiles!
+                                                                        .friends!
                                                                         .elementAt(
-                                                                            index)
-                                                                        .username +
+                                                                            index).requester +
                                                                     '\'s friend request?',
                                                                 style: TextStyle(
                                                                     color: Theme.of(

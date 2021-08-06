@@ -113,26 +113,6 @@ class UserApi {
     return http.get(Uri.http(userApi, 'api/GetFriendRequests/' + userID));
   }
 
-  static Future<List<UserProfile>> getFriendRequestProfiles(String userID) async
-  {
-    http.Response response =await _getFriendRequestProfiles(userID);
-    if (response.statusCode != 200) {
-      throw Exception('Failed to load list of profiles for friend requests: ${response.body}');
-    }
-
-    List<UserProfile> requests = (jsonDecode(response.body) as List)
-        .map((x) => UserProfile.fromJson(x))
-        .toList();
-
-
-
-    return requests;
-
-  }
-
-  static Future<http.Response> _getFriendRequestProfiles(String userID) async {
-    return http.get(Uri.http(userApi, 'api/getFriendsFromRequests/' + userID));
-  }
 
   static Future<List<UserProfile>> getFriendProfiles(String userID) async
   {

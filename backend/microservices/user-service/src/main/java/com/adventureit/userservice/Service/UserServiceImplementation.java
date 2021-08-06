@@ -370,26 +370,6 @@ public class UserServiceImplementation  {
         return list;
     }
 
-    public List<GetUserByUUIDDTO> getFriendsFromRequests(UUID userID) {
-        List<Friend> requests = friendRepository.findBySecondUserEquals(userID);
-        List<GetFriendRequestsResponse> list = new ArrayList<>();
-
-        for (Friend f : requests) {
-            if (!f.isAccepted()) {
-                list.add(new GetFriendRequestsResponse(f.getId(), f.getFirstUser(), f.getSecondUser(), f.getCreatedDate(), f.isAccepted()));
-            }
-        }
-
-        List<GetUserByUUIDDTO> profileList = new ArrayList<>();
-
-        for (int i = 0; i < list.size(); i++)
-        {
-            GetUserByUUIDDTO toAdd=this.GetUserByUUID(list.get(i).getFirstUser());
-            profileList.add(toAdd);
-        }
-
-        return profileList;
-    }
 
     public void deleteFriendRequest(UUID id) throws Exception {
         Friend request = friendRepository.findFriendById(id);

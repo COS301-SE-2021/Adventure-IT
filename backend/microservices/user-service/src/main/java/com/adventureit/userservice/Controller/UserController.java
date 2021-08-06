@@ -108,11 +108,6 @@ public class UserController {
         service.removeFriend(id,friendID);
     }
 
-    @GetMapping(value="api/getFriendsFromRequests/{id}")
-    public List<GetUserByUUIDDTO>getFriendsFromRequests (@PathVariable UUID id) throws Exception {
-       return service.getFriendsFromRequests(id);
-    }
-
     @GetMapping(value="api/getFriendProfiles/{id}")
     public List<GetUserByUUIDDTO>getFriendProfiles (@PathVariable UUID id) throws Exception {
         return service.getFriendProfiles(id);

@@ -11,7 +11,7 @@ public class GetFriendRequestsResponse {
     private UUID secondUser;
     private Date createdDate;
     boolean accepted;
-    GetUserByUUIDDTO requester;
+    private String requester;
 
     public GetFriendRequestsResponse(UUID id,UUID firstUser, UUID secondUser, Date createdDate, boolean accepted, GetUserByUUIDDTO requester){
         this.id = id;
@@ -19,7 +19,7 @@ public class GetFriendRequestsResponse {
         this.secondUser = secondUser;
         this.createdDate = createdDate;
         this.accepted = accepted;
-        this.requester = requester;
+        this.requester = requester.getUsername();
     }
 
     public UUID getId() {
@@ -62,11 +62,11 @@ public class GetFriendRequestsResponse {
         return accepted;
     }
 
-    public GetUserByUUIDDTO getRequester() {
+    public String getRequester() {
         return requester;
     }
 
-    public void setRequester(GetUserByUUIDDTO requester) {
+    public void setRequester(String requester) {
         this.requester = requester;
     }
 }
