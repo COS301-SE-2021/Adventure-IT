@@ -22,11 +22,9 @@ public class LocalTests {
 
     @Test
     public void createLocation() throws IOException, JSONException {
-        locationServiceImplementation.createLocation("Eeufees Rd, Groenkloof 358-Jr, Pretoria, 0027");
-        locationServiceImplementation.createLocation("Government Ave, Pretoria, 0002");
-        locationServiceImplementation.createLocation("2 Cussonia Street, Brummeria, Pretoria, 0184");
-        locationServiceImplementation.createLocation("Christina De Wit Ave, Road, Pretoria, 0027");
-        locationServiceImplementation.createLocation("1066, Burnette Street, Pretoria");
+        locationServiceImplementation.createLocation("Johannesburg");
+        locationServiceImplementation.createLocation("Pretoria");
+        locationServiceImplementation.createLocation("Cape Town");
     }
 
     @Test
