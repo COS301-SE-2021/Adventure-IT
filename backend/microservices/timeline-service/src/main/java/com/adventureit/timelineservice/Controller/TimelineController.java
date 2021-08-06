@@ -19,18 +19,18 @@ public class TimelineController {
     TimelineServiceImplementation service;
 
 
-    @GetMapping("/getTimelineByAdventure/{id}")
+    @GetMapping("/getTimelineByAdventure")
     public List<TimelineDTO> getTimelineByAdventureID(@PathVariable UUID id) throws Exception {
         return service.GetTimelineByAdventureID(id);
     }
 
-    @GetMapping("/deleteTimelineByAdventureID/{id}")
+    @GetMapping("/deleteTimelineByAdventureID")
     public String deleteTimelineByAdventureID(@PathVariable UUID id){
         return service.deleteTimelineByAdventureID(id);
     }
 
-    @PostMapping("/createTimelineByAdventureID/{id}")
-    public String createTimelineByAdventureID(@RequestBody CreateTimelineRequest req){
+    @PostMapping("/createTimeline")
+    public String createTimeline(@RequestBody CreateTimelineRequest req){
         return service.createTimelineEntry(req.getAdventureID(),req.getUserID(),req.getDescription(),req.getType());
     }
 
