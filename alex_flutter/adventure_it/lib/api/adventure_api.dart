@@ -48,7 +48,7 @@ class AdventureApi {
   }
 
   static Future<http.Response> _getAttendeesOfAdventure(adventureID) async {
-    return http.get(Uri.http(adventureApi, '/adventure/getAttendees/' + adventureID));
+    return http.get(Uri.http(mainApi, '/adventure/getAttendees/' + adventureID));
   }
 
 
