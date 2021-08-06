@@ -325,6 +325,35 @@ public class UserServiceImplementation  {
         return friendUsers;
     }
 
+    public List<GetUserByUUIDDTO> getFriendProfiles(UUID id){
+
+        List<Friend> friendsByFirstUser = friendRepository.findByFirstUserEquals(id);
+        List<Friend> friendsBySecondUser = friendRepository.findBySecondUserEquals(id);
+        List<UUID> friendUsers = new ArrayList<>();
+
+        for (Friend friend : friendsByFirstUser) {
+            if(friend.isAccepted()){
+                friendUsers.add(friend.getSecondUser());
+            }
+        }
+        for (Friend friend : friendsBySecondUser) {
+            if(friend.isAccepted()) {
+                friendUsers.add(friend.getFirstUser());
+            }
+        }
+
+        List<GetUserByUUIDDTO> profileList = new ArrayList<>();
+
+        for (int i = 0; i < friendUsers.size(); i++)
+        {
+            GetUserByUUIDDTO toAdd=this.GetUserByUUID(friendUsers.get(i));
+            profileList.add(toAdd);
+        }
+
+        return profileList;
+
+    }
+
     public List<GetFriendRequestsResponse> getFriendRequests(UUID id){
         List<Friend> requests = friendRepository.findBySecondUserEquals(id);
         List<GetFriendRequestsResponse> list = new ArrayList<>();
@@ -336,6 +365,27 @@ public class UserServiceImplementation  {
         }
 
         return list;
+    }
+
+    public List<GetUserByUUIDDTO> getFriendsFromRequests(UUID userID) {
+        List<Friend> requests = friendRepository.findBySecondUserEquals(userID);
+        List<GetFriendRequestsResponse> list = new ArrayList<>();
+
+        for (Friend f : requests) {
+            if (!f.isAccepted()) {
+                list.add(new GetFriendRequestsResponse(f.getId(), f.getFirstUser(), f.getSecondUser(), f.getCreatedDate(), f.isAccepted()));
+            }
+        }
+
+        List<GetUserByUUIDDTO> profileList = new ArrayList<>();
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            GetUserByUUIDDTO toAdd=this.GetUserByUUID(list.get(i).getFirstUser());
+            profileList.add(toAdd);
+        }
+
+        return profileList;
     }
 
     public void deleteFriendRequest(UUID id) throws Exception {
