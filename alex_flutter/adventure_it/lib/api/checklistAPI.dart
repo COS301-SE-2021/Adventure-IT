@@ -249,4 +249,13 @@ class ChecklistApi {
       throw Exception('Failed to edit a checklist entry.');
     }
   }
+
+  static Future checklistEdit(ChecklistEntry c) async {
+    http.Response response = (await editChecklistEntry(c.id, c.entryContainerID, c.title);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to edit checklist entry ${response.body}');
+    }
+  }
 }
