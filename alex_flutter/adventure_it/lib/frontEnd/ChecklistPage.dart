@@ -265,6 +265,10 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                                 MediaQuery.of(context).size.height / 60),
                             child: Row(
                               children: [
+                                Icon(Icons.edit,
+                                  color: Theme.of(context).accentColor,
+                                  size: 35 *
+                                    MediaQuery.of(context).textScaleFactor),
                                 new Spacer(),
                                 Icon(Icons.delete,
                                     color: Theme.of(context).accentColor,
@@ -291,8 +295,8 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                                             onChanged: (bool? value) {
                                                   checklistEntry.markEntry(checklistEntry.entries!.elementAt(index));
 
-    }// This is where we update the state when the checkbox is tapped
-),
+                                            }// This is where we update the state when the checkbox is tapped
+                                        ),
                                             title: Text(
                                                 checklistEntry.entries
                                                 !.elementAt(index)
@@ -358,6 +362,50 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                               );
                             }
                             else if(direction == DismissDirection.startToEnd){
+                              Column(
+                                // mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                  Text("Edit Checklist Item",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Theme.of(context).textTheme.bodyText1!.color,
+                                      fontSize: 25 * MediaQuery.of(context).textScaleFactor,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                              Spacer(),
+                              Container(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: MediaQuery.of(context).size.width * 0.02),
+                                child: TextField(
+                                  style: TextStyle(
+                                    color:
+                                    Theme.of(context).textTheme.bodyText1!.color),
+                                    decoration: InputDecoration(
+                                      hintStyle: TextStyle(
+                                        color: Theme.of(context).textTheme.bodyText2!.color),
+                                        filled: true,
+                                        enabledBorder: InputBorder.none,
+                                        errorBorder: InputBorder.none,
+                                        disabledBorder: InputBorder.none,
+                                        fillColor: Theme.of(context).primaryColorLight,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: new BorderSide(
+                                          color: Theme.of(context).accentColor)),
+                                          hintText: 'Description')),
+                                ),
+                                Spacer(),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                  horizontal: MediaQuery.of(context).size.width * 0.02),
+                                  child: RaisedButton(
+                                  color: Theme.of(context).accentColor,
+                                  onPressed: () {
+                                    Navigator.of(context).pop(true);
+                                  },
+                                  child: Text("Edit",
+                                    style: TextStyle(
+                                    color: Theme.of(context).textTheme.bodyText1!.color))))]);
                             }
                           },
                           onDismissed: (direction) {
@@ -368,7 +416,8 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                             !.elementAt(index));
                           }
                             else if(direction == DismissDirection.startToEnd){
-
+                              Provider.of<ChecklistEntryModel>(context, listen: false)
+                                  .editChecklistEntry(checklistEntry.entries!.elementAt(index));
                             }
                         }))
                 ]));

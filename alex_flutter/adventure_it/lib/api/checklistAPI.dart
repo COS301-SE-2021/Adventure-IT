@@ -251,7 +251,7 @@ class ChecklistApi {
   }
 
   static Future checklistEdit(ChecklistEntry c) async {
-    http.Response response = (await editChecklistEntry(c.id, c.entryContainerID, c.title);
+    http.Response response = (await editChecklistEntry(c.id, c.entryContainerID, c.title));
 
 
     if (response.statusCode != 200) {
