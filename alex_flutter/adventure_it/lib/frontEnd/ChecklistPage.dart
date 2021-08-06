@@ -36,15 +36,6 @@ class ChecklistPage extends StatelessWidget {
                 child: Text(currentChecklist!.title,
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
-            actions:[IconButton(
-                onPressed: () {
-                  {
-
-
-                  }
-                },
-                icon: const Icon(Icons.edit),
-                color: Theme.of(context).textTheme.bodyText1!.color),],
             backgroundColor: Theme.of(context).primaryColorDark),
         body: Column(
             mainAxisAlignment: MainAxisAlignment.center,

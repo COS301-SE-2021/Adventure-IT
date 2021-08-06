@@ -31,14 +31,6 @@ class BudgetPage extends StatelessWidget {
                 child: Text(currentBudget!.name,
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    {}
-                  },
-                  icon: const Icon(Icons.edit),
-                  color: Theme.of(context).textTheme.bodyText1!.color),
-            ],
             backgroundColor: Theme.of(context).primaryColorDark),
         body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -127,18 +119,8 @@ class AlertBox extends State<_AlertBox> {
     AdventureApi.getAttendeesOfAdventure(a.adventureId)
         .then((value) => users = value);
 
-    for (int i = 0; i < users!.length; i++) {
-
-        usernames!.add(users
-            !.elementAt(i)
-            .username);
-        usernamesAndOther!.add(users
-            !.elementAt(i)
-            .username);
-
     }
-    usernamesAndOther!.add("Other");
-  }
+
 
   double getSize(context) {
     if (MediaQuery.of(context).size.height >
@@ -151,13 +133,13 @@ class AlertBox extends State<_AlertBox> {
 
   List<DropdownMenuItem<String>> getUsernames() {
     List<DropdownMenuItem<String>> returnList=List.empty();
-    for (int i = 0; i < usernames!.length; i++) {
+    for (int i = 0; i < users.length; i++) {
       DropdownMenuItem<String> d = new DropdownMenuItem(
-          child: Text(usernames!.elementAt(i),
+          child: Text(users.elementAt(i).username,
               style: TextStyle(
                 color: Theme.of(context).textTheme.bodyText1!.color,
               )),
-          value: usernames!.elementAt(i));
+          value: users.elementAt(i).username);
       returnList.add(d);
     }
     return returnList;
@@ -165,15 +147,22 @@ class AlertBox extends State<_AlertBox> {
 
   List<DropdownMenuItem<String>> getUsernamesWithOther() {
     List<DropdownMenuItem<String>> returnList= List.empty();
-    for (int i = 0; i < usernamesAndOther.length; i++) {
+    for (int i = 0; i < users.length; i++) {
       DropdownMenuItem<String> d = new DropdownMenuItem(
-          child: Text(usernamesAndOther.elementAt(i),
+          child: Text(users.elementAt(i).username,
               style: TextStyle(
                 color: Theme.of(context).textTheme.bodyText1!.color,
               )),
-          value: usernamesAndOther.elementAt(i));
+          value: users.elementAt(i).username);
       returnList.add(d);
     }
+    DropdownMenuItem<String> d = new DropdownMenuItem(
+        child: Text("Other",
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodyText1!.color,
+            )),
+        value: "Other");
+
     return returnList;
   }
 
