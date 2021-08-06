@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:adventure_it/api/keycloakUser.dart';
+import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -9,6 +11,7 @@ class UserApi {
   String? username;
   String? uuid;
   bool hasToken = false;
+  late KeycloakUser _keycloakUser;
 
   // Secure Local Storage
   final storage = FlutterSecureStorage();
@@ -37,9 +40,13 @@ class UserApi {
   Future<bool> logIn(String username, String password) async {
     await _attemptLogIn(username, password);
     if (this.username != null) {
-      await this._fetchUserUUID();
-      // TODO: Check if this user is registered in Adventure-IT's backend
+      await this._fetchKeyCloakUser();
+      final userProfile =
+          await this._fetchBackendProfile(this._keycloakUser.id);
 
+      if (userProfile == null) {
+        // TODO: Register new user in backend
+      }
       return true;
     } else {
       return false;
@@ -85,8 +92,8 @@ class UserApi {
     }
   }
 
-  // Get User's UUID from Keycloak's Admin API (PRIVATE)
-  Future<void> _fetchUserUUID() async {
+  // Get user from Keycloak's Admin API (PRIVATE)
+  Future<void> _fetchKeyCloakUser() async {
     if (this.username != null) {
       final adminJWT = await this._adminLogIn();
       late final responseJson;
@@ -100,8 +107,8 @@ class UserApi {
       var res =
           await http.get(uri, headers: {'Authorization': 'Bearer $adminJWT'});
       if (res.statusCode == 200) {
-        responseJson = jsonDecode(res.body);
-        this.uuid = responseJson[0]['id'];
+        responseJson = jsonDecode(res.body)[0];
+        this._keycloakUser = KeycloakUser.fromJson(responseJson);
       } else {
         debugPrint(res.body);
         throw Exception("Could Not Fetch User UUID");
@@ -112,17 +119,22 @@ class UserApi {
     }
   }
 
-  Future<bool?> _isExistingUser(String targetUuid) async {
+  // Retrieve the backend user profile
+  Future<UserProfile?> _fetchBackendProfile(String targetUuid) async {
+    debugPrint("Getting backend profile for: " + targetUuid);
     final res =
         await http.get(Uri.parse(userApi + "/api/GetUser/" + targetUuid));
     final jsonRes = jsonDecode(res.body);
     if (res.statusCode == 500) {
-      if (jsonRes['message'].equals(
-          "User does not exist - user is not registered as an Adventure-IT member")) {
-        return false;
+      if (jsonRes['message'] ==
+          "User does not exist - user is not registered as an Adventure-IT member") {
+        debugPrint("Backend profile does not exist");
+        return null;
       }
     } else if (res.statusCode == 200) {
-      return true;
+      debugPrint("Backend profile exists");
+      debugPrint(jsonRes);
+      return new UserProfile.fromJson(jsonRes);
     }
   }
 }
