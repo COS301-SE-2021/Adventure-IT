@@ -55,6 +55,7 @@ class ItineraryModel extends ChangeNotifier {
 
   Future fetchAllItineraries(Adventure a) async {
     _itineraries = await ItineraryApi.getItineraries(a);
+    print(_itineraries!.length.toString());
 
     notifyListeners();
   }

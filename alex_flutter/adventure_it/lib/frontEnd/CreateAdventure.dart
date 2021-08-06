@@ -254,11 +254,6 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                       .size
                       .height * 0.02),
 
-
-                  SizedBox(height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.02),
                   MaterialButton(
                       color: Theme
                           .of(context)
@@ -485,7 +480,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                       },
 
                       child: Text(
-                          getTextLocation(), style: new TextStyle(color: Theme
+                          getTextLocation(),textAlign: TextAlign.center, style: new TextStyle(color: Theme
                           .of(context)
                           .textTheme
                           .bodyText1!
@@ -496,7 +491,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                   SizedBox(height: MediaQuery
                       .of(context)
                       .size
-                      .height * 0.05),
+                      .height * 0.04),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       mainAxisSize: MainAxisSize.max,
