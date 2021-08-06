@@ -217,6 +217,9 @@ class ChecklistApi {
     if (response.statusCode != 200) {
       throw Exception('Failed to add checklist entry ${response.body}');
     }
+  }
 
+  static Future editChecklistEntry() async {
+    
   }
 }
