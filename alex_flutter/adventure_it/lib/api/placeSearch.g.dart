@@ -9,12 +9,12 @@ part of 'placeSearch.dart';
 PlaceSearch _$PlaceSearchFromJson(Map<String, dynamic> json) {
   return PlaceSearch(
     description: json['description'] as String,
-    placeId: json['place_id'] as String,
+    placeId: json['placeId'] as String,
   );
 }
 
 Map<String, dynamic> _$PlaceSearchToJson(PlaceSearch instance) =>
     <String, dynamic>{
       'description': instance.description,
-      'place_id': instance.placeId,
+      'placeId': instance.placeId,
     };

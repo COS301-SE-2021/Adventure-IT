@@ -125,6 +125,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
   Future<CreateAdventure>? _futureAdventure;
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
+  final locationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -388,7 +389,8 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                                       .textTheme
                                                       .bodyText1!
                                                       .color),
-                                              decoration: InputDecoration(
+                                              controller: locationController,
+                                                decoration: InputDecoration(
                                                   hintStyle: TextStyle(
                                                       color: Theme
                                                           .of(
@@ -518,7 +520,8 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                       nameController.text, ownerID,
                                       LocalDate.dateTime(dates!.start),
                                       LocalDate.dateTime(dates!.end),
-                                      descriptionController.text) as Future<
+                                      descriptionController.text,
+                                      locationController.text) as Future<
                                       CreateAdventure>?;
                                   Navigator.pushReplacement(
                                     context,
