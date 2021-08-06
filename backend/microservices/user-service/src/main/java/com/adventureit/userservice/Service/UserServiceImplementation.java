@@ -347,6 +347,7 @@ public class UserServiceImplementation  {
         for (int i = 0; i < friendUsers.size(); i++)
         {
             GetUserByUUIDDTO toAdd=this.GetUserByUUID(friendUsers.get(i));
+            if(toAdd!=null)
             profileList.add(toAdd);
         }
 
