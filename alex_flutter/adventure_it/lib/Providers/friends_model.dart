@@ -28,8 +28,8 @@ class FriendModel extends ChangeNotifier {
   Future deleteFriend(String user, String friend) async {
     await UserApi.deleteFriend(user,friend);
 
-    var index = _friends!.indexWhere((element) => element.userID == friend);
-    _friends!.removeAt(index);
+    // var index = _friends!.indexWhere((element) => element.userID == friend);
+    // _friends!.removeAt(index);
 
     notifyListeners();
   }

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:html';
 
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/placeSearch.dart';
