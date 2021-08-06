@@ -429,7 +429,7 @@ class _AlertBox extends State<AlertBox> {
                                                               )
                                                           )));
                                                   })
-                                                  : Container();
+                                                  : Container(height: 10);
 
                                             })));
                               });

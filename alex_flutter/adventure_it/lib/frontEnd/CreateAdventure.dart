@@ -473,7 +473,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                                   )
                                               )));
                                                 })
-                                                : Container();
+                                                : Container(height: 10);
 
                                       })));
                             });
