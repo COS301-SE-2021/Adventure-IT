@@ -17,12 +17,7 @@ class HomepageStartupCaller extends StatefulWidget {
 }
 
 class HomePage extends State<HomepageStartupCaller> {
-  // Future<List<Adventure>>? adventuresFuture;
-  //
-  // void initState() {
-  //   super.initState();
-  //   adventuresFuture = AdventureApi.getAdventuresByUUID("1660bd85-1c13-42c0-955c-63b1eda4e90b");
-  // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +29,7 @@ class HomePage extends State<HomepageStartupCaller> {
                 backgroundColor: Theme.of(context).primaryColorDark,
                 centerTitle: true,
                 title: Text("Adventure-IT", style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
-                /*leading: IconButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => LoginCaller()));
-
-                    },
-                    icon: const Icon(Icons.logout, color: Color(0xffA7AAB9),))*/),
+),
             body: HomePage_Pages(
              )));
   }
