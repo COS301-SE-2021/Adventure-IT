@@ -2,6 +2,9 @@ package com.adventureit.maincontroller.Controller;
 
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
+import com.adventureit.adventureservice.Responses.GetAdventuresByUserUUIDResponse;
+import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
+import com.adventureit.adventureservice.Responses.RemoveAdventureResponse;
 import com.adventureit.maincontroller.Requests.CreateAdventureDTO;
 import com.adventureit.maincontroller.Service.ConnectionFactory;
 import com.adventureit.userservice.Entities.Users;
@@ -74,6 +77,39 @@ public class MainControllerAdventureReroute {
 
         return "IT worked";
     }
+
+
+    @GetMapping("/all")
+    public List<GetAllAdventuresResponse> getAllAdventures() {
+        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/all", List.class);
+    }
+
+    @GetMapping("/setLocation/{adventureId}/{locationId}")
+    public String setLocationAdventures(@PathVariable UUID adventureId,@PathVariable UUID locationId) {
+        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/setLocation/"+adventureId+"/"+locationId, String.class);
+    }
+
+    @GetMapping("/all/{id}")
+    public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUserUUID(@PathVariable UUID id){
+        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/all"+id, List.class);
+
+    }
+
+    @GetMapping("/owner/{id}")
+    public List<GetAdventuresByUserUUIDResponse> getAdventuresByOwnerUUID(@PathVariable UUID id){
+        return adventureServiceImplementation.getAdventureByOwnerUUID(id);
+    }
+
+    @GetMapping("/attendee/{id}")
+    public List<GetAdventuresByUserUUIDResponse> getAdventuresByAttendeeUUID(@PathVariable UUID id){
+        return adventureServiceImplementation.getAdventureByAttendeeUUID(id);
+    }
+
+    @DeleteMapping("/remove/{id}/{userID}")
+    public RemoveAdventureResponse removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+        return adventureServiceImplementation.removeAdventure(id, userID);
+    }
+
 
 }
 
