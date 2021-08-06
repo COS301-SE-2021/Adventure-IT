@@ -91,23 +91,25 @@ public class MainControllerAdventureReroute {
 
     @GetMapping("/all/{id}")
     public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUserUUID(@PathVariable UUID id){
-        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/all"+id, List.class);
+        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/all/"+id, List.class);
 
     }
 
     @GetMapping("/owner/{id}")
     public List<GetAdventuresByUserUUIDResponse> getAdventuresByOwnerUUID(@PathVariable UUID id){
-        return adventureServiceImplementation.getAdventureByOwnerUUID(id);
+        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/owner/"+id, List.class);
+
     }
 
     @GetMapping("/attendee/{id}")
     public List<GetAdventuresByUserUUIDResponse> getAdventuresByAttendeeUUID(@PathVariable UUID id){
-        return adventureServiceImplementation.getAdventureByAttendeeUUID(id);
+        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/attendee/"+id, List.class);
+
     }
 
     @DeleteMapping("/remove/{id}/{userID}")
     public RemoveAdventureResponse removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
-        return adventureServiceImplementation.removeAdventure(id, userID);
+        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/remove/"+id+"/"+userID, RemoveAdventureResponse.class);
     }
 
 
