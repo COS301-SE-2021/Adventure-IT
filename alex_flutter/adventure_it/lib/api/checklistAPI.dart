@@ -181,7 +181,7 @@ class ChecklistApi {
     }
   }
 
-  Future<CreateChecklistEntry> createChecklistEntry(String title, String entryContainerID) async {
+  static Future<CreateChecklistEntry> createChecklistEntry(String title, String entryContainerID) async {
     final response = await http.post(
       Uri.parse('http://localhost:9008/checklist/addEntry'),
       headers: <String, String>{
@@ -208,5 +208,15 @@ class ChecklistApi {
       print('Body: ${response.body}');
       throw Exception('Failed to create a checklist entry.');
     }
+  }
+
+  static Future addChecklistEntry(ChecklistEntry i) async {
+    http.Response response = (await createChecklistEntry(i.title, i.entryContainerID)) as http.Response;
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to add checklist entry ${response.body}');
+    }
+
   }
 }

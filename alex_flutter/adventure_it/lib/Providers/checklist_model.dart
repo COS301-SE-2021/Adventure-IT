@@ -97,6 +97,13 @@ class ChecklistEntryModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future addChecklistEntry(ChecklistEntry e, Checklist c) async {
+    await ChecklistApi.addChecklistEntry(e);
+
+    fetchAllEntries(c);
+
+    notifyListeners();
+}
 
   Future deleteChecklistEntry(ChecklistEntry c) async {
     await ChecklistApi.deleteChecklistEntry(c);

@@ -199,7 +199,7 @@ class AlertBox extends StatelessWidget {
                                       .bodyText1!
                                       .color)),
                           onPressed: () {
-                            _futureChecklistEntry = api.createChecklistEntry(descriptionController.text, currentChecklist!.id);
+                            _futureChecklistEntry = ChecklistApi.createChecklistEntry(descriptionController.text, currentChecklist!.id);
                             Navigator.of(context).pop();
                           },
                         ),
@@ -273,7 +273,6 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                               ],
                             ),
                           ),
-                          direction: DismissDirection.endToStart,
                           key: Key(checklistEntry.entries
                           !.elementAt(index)
                               .id),
@@ -313,56 +312,65 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                                     ),
                                   ))),
                           confirmDismiss: (DismissDirection direction) async {
-                            return await showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor:
-                                  Theme.of(context).primaryColorDark,
-                                  title: Text("Confirm Removal",
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color)),
-                                  content: Text(
-                                      "Are you sure you want to remove this checklist item for definite?",
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color)),
-                                  actions: <Widget>[
-                                    FlatButton(
+                            if(direction == DismissDirection.endToStart) {
+                              return await showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor:
+                                    Theme.of(context).primaryColorDark,
+                                    title: Text("Confirm Removal",
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color)),
+                                    content: Text(
+                                        "Are you sure you want to remove this checklist item for definite?",
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color)),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(true),
+                                          child: Text("Remove",
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color))),
+                                      FlatButton(
                                         onPressed: () =>
-                                            Navigator.of(context).pop(true),
-                                        child: Text("Remove",
+                                            Navigator.of(context).pop(false),
+                                        child: Text("Cancel",
                                             style: TextStyle(
                                                 color: Theme.of(context)
                                                     .textTheme
                                                     .bodyText1!
-                                                    .color))),
-                                    FlatButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(false),
-                                      child: Text("Cancel",
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color)),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
+                                                    .color)),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                            else if(direction == DismissDirection.startToEnd){
+                            }
                           },
                           onDismissed: (direction) {
+                            if(direction == DismissDirection.endToStart) {
                             Provider.of<ChecklistEntryModel>(context, listen: false)
                                 .deleteChecklistEntry(checklistEntry
                                 .entries
                             !.elementAt(index));
-                          }))
+                          }
+                            else if(direction == DismissDirection.startToEnd){
+
+                            }
+                        }))
                 ]));
           } else {
             return Center(
