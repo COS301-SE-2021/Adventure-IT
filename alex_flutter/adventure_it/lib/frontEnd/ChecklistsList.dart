@@ -364,7 +364,7 @@ class _AlertBox extends State <AlertBox> {
                                     .color)),
                         onPressed: () {
                           setState(() {
-                            _futureChecklist = api.createChecklist(nameController.text, descriptionController.text, userID, adventure!.adventureId);
+                            _futureChecklist = ChecklistApi.createChecklist(nameController.text, descriptionController.text, userID, adventure!.adventureId);
                           });
                           Navigator.of(context).pop();
                         },

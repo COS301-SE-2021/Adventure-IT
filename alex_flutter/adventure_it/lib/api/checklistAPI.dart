@@ -151,7 +151,7 @@ class ChecklistApi {
     return http.get(Uri.http(checklistApi, '/checklist/restoreChecklist/' + checklistID));
   }
 
-  Future<CreateChecklist> createChecklist(String title, String description, String creatorID, String adventureID) async {
+  static Future<CreateChecklist> createChecklist(String title, String description, String creatorID, String adventureID) async {
     final response = await http.post(
       Uri.parse('http://localhost:9008/checklist/create'), //get uri
       headers: <String, String>{

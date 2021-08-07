@@ -59,6 +59,13 @@ class ChecklistModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future addChecklist(Adventure adv, String a, String b, String c, String d) async {
+    await ChecklistApi.createChecklist(a, b, c, d);
+
+    fetchAllChecklists(adv);
+
+    notifyListeners();
+  }
 
   Future softDeleteChecklist(Checklist c) async {
     await ChecklistApi.softDeleteChecklist(c.id);
