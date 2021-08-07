@@ -108,13 +108,18 @@ public class UserController {
         service.removeFriend(id,friendID);
     }
 
+    @GetMapping(value="api/getFriendProfiles/{id}")
+    public List<GetUserByUUIDDTO>getFriendProfiles (@PathVariable UUID id) throws Exception {
+        return service.getFriendProfiles(id);
+    }
+
     @GetMapping(value="api/getByUserName/{userName}")
-    public void getUserIDByUserName(@PathVariable String userName) throws Exception {
-        service.getUserIDByUserName(userName);
+    public UUID getUserIDByUserName(@PathVariable String userName) throws Exception {
+        return service.getUserIDByUserName(userName);
     }
 
     @GetMapping(value="api/createFriendRequest/{ID1}/{ID2}")
-    public void createFriendRequest(@PathVariable UUID ID1,@PathVariable UUID ID2) throws Exception {
+    public void createFriendRequest(@PathVariable String ID1,@PathVariable String ID2) throws Exception {
         service.createFriendRequest(ID1,ID2);
     }
 

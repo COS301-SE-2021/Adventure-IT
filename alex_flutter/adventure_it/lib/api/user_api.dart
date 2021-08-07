@@ -83,10 +83,9 @@ class UserApi {
   {
     http.Response response =await _getFriends(userID);
     if (response.statusCode != 200) {
-      throw Exception('Failed to load list of checklists: ${response.body}');
+      throw Exception('Failed to load list of friends: ${response.body}');
     }
-
-    List<String> friends = (jsonDecode(response.body) as List<String>);
+    List<String> friends = (jsonDecode(response.body) as List).map((item) => item as String).toList();
 
     return friends;
   }
@@ -99,11 +98,31 @@ class UserApi {
   {
     http.Response response =await _getFriendRequests(userID);
     if (response.statusCode != 200) {
-      throw Exception('Failed to load list of checklists: ${response.body}');
+      throw Exception('Failed to load list of friend requests: ${response.body}');
     }
 
     List<FriendRequest> requests = (jsonDecode(response.body) as List)
         .map((x) => FriendRequest.fromJson(x))
+        .toList();
+
+    return requests;
+
+  }
+
+  static Future<http.Response> _getFriendRequests(String userID) async {
+    return http.get(Uri.http(userApi, 'api/GetFriendRequests/' + userID));
+  }
+
+
+  static Future<List<UserProfile>> getFriendProfiles(String userID) async
+  {
+    http.Response response =await _getFriendProfiles(userID);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load list of profiles for friends: ${response.body}');
+    }
+
+    List<UserProfile> requests = (jsonDecode(response.body) as List)
+        .map((x) => UserProfile.fromJson(x))
         .toList();
 
 
@@ -112,8 +131,8 @@ class UserApi {
 
   }
 
-  static Future<http.Response> _getFriendRequests(String userID) async {
-    return http.get(Uri.http(userApi, 'api/GetFriendRequests/' + userID));
+  static Future<http.Response> _getFriendProfiles(String userID) async {
+    return http.get(Uri.http(userApi, 'api/getFriendProfiles/' + userID));
   }
 
   static Future deleteFriend(String userID, String friendID) async
@@ -153,6 +172,37 @@ class UserApi {
 
   static Future<http.Response> _acceptFriendRequest(String requestID) async {
     return http.get(Uri.http(userApi, 'api/acceptFriendRequest/' + requestID));
+  }
+
+  static Future<String> searchUsername (String value) async
+  {
+    http.Response response =await _searchUsername(value);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to find user with username: ${response.body}');
+    }
+
+    print(response.body.toString());
+
+   String userID= (jsonDecode(response.body.toString()));
+
+    return userID;
+  }
+
+  static Future<http.Response> _searchUsername(String username) async {
+    return http.get(Uri.http(userApi, 'api/getByUserName/' + username));
+  }
+
+  static Future createFriendRequest (String from, String to) async
+  {
+    http.Response response =await _createFriendRequest(from, to);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to create friend request: ${response.body}');
+    }
+
+  }
+
+  static Future<http.Response> _createFriendRequest(String from, String to) async {
+    return http.get(Uri.http(userApi, 'api/createFriendRequest/' +from+"/"+to));
   }
 
 }
