@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:adventure_it/api/createUTOBudgetEntry.dart';
+
 import '/constants.dart';
 import '/api/budget.dart';
 import '/api/adventure.dart';
@@ -196,6 +198,38 @@ class BudgetApi {
       print('Status code: ${response.statusCode}');
       print('Body: ${response.body}');
       throw Exception('Failed to create a budget.');
+    }
+  }
+
+  static Future<CreateUTOBudgetEntry> createUTOBudget(String entryContainerID, String payer, String amount, String title, String description, String category, String payee) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:9007/budget/addUTOExpense'), //get uri
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'entryContainerID': entryContainerID,
+        'payer': payer,
+        'amount': amount,
+        'title': title,
+        'description': description,
+        'category': category,
+        'payee': payee
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      return CreateUTOBudgetEntry(entryContainerID: entryContainerID, payer: payer, amount: amount, title: title, description: description, category: category, payee: payee);
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      throw Exception('Failed to create a UTO budget entry.');
     }
   }
 }
