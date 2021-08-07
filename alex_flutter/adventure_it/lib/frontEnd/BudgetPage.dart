@@ -42,12 +42,12 @@ class BudgetPage extends StatelessWidget {
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Container(
                 height: MediaQuery.of(context).size.height * 0.3,
-                child:getReport(),
+                // child: getReport(),
               ),
               Spacer(),
               Container(
                 height: MediaQuery.of(context).size.height * 0.5,
-                child: getBudgetEntries(this.currentBudget),
+                child: GetBudgetEntries(this.currentBudget!),
               ),
               Spacer(),
               Row(children: [
@@ -88,7 +88,7 @@ class BudgetPage extends StatelessWidget {
                           icon: const Icon(Icons.add),
                           color: Theme.of(context).primaryColorDark)),
                 ),
-              Spacer(),
+                Spacer(),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
             ]));
@@ -183,7 +183,10 @@ class AlertBox extends State<_AlertBox> {
       )
     ];
 
-    if (userNames==null||userNames!.length == 0 || userNamesAndOther==null||userNamesAndOther!.length == 0) {
+    if (userNames == null ||
+        userNames!.length == 0 ||
+        userNamesAndOther == null ||
+        userNamesAndOther!.length == 0) {
       return AlertDialog(
           backgroundColor: Theme.of(context).primaryColorDark,
           content: Container(
@@ -318,8 +321,8 @@ class AlertBox extends State<_AlertBox> {
                         Spacer(),
                       ]),
                       Spacer(),
-                  Row(children: [
-                    Spacer(),
+                      Row(children: [
+                        Spacer(),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.2,
                           padding: EdgeInsets.symmetric(
@@ -354,7 +357,7 @@ class AlertBox extends State<_AlertBox> {
                                   hintText: 'Amount')),
                         ),
                         Spacer(),
-              ]),
+                      ]),
                       Spacer(),
                       Row(children: [
                         Spacer(),
@@ -393,9 +396,10 @@ class AlertBox extends State<_AlertBox> {
                         width: 300,
                         padding: EdgeInsets.symmetric(
                             horizontal:
-                            MediaQuery.of(context).size.width * 0.02),
+                                MediaQuery.of(context).size.width * 0.02),
                         child: TextField(
-                          enabled: payee!=null&&payee!.compareTo("Other")==0,
+                            enabled:
+                                payee != null && payee!.compareTo("Other") == 0,
                             style: TextStyle(
                                 color: Theme.of(context)
                                     .textTheme
@@ -531,216 +535,211 @@ class AlertBox extends State<_AlertBox> {
   }
 }
 
-class GetReport extends StatelessWidget
-{
+class GetBudgetEntries extends StatelessWidget {
   Budget? currentBudget;
-  GetReport(Budget b)
-  {
-    this.currentBudget=b;
+
+  GetBudgetEntries(Budget b) {
+    this.currentBudget = b;
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => BudgetEntryModel(currentBudget!),
-    child: Consumer<BudgetEntryModel>(
-    builder: (context, budgetEntryModel, child) {
-      if (budgetEntryModel.entries == null) {
-        return Center(
-            child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(
-                    Theme.of(context).accentColor)));
-      }
-      if (budgetEntryModel.entries!.length > 0) {
-        return Expanded(
-            flex: 2,
-            child: ListView(children: [
-              ...List.generate(
-                  deletedBudgetModel.deletedBudgets!.length,
+        child: Consumer<BudgetEntryModel>(
+            builder: (context, budgetEntryModel, child) {
+          if (budgetEntryModel.entries == null) {
+            return Center(
+                child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).accentColor)));
+          }
+          if (budgetEntryModel.entries!.length > 0) {
+            return Expanded(
+                flex: 2,
+                child: ListView(children: [
+                  ...List.generate(
+                      budgetEntryModel.entries!.length,
                       (index) => Dismissible(
-                      background: Container(
-                        // color: Theme.of(context).primaryColor,
-                        //   margin: const EdgeInsets.all(5),
-                        padding: EdgeInsets.all(
-                            MediaQuery.of(context).size.height / 60),
-                        child: Row(
-                          children: [
-                            new Spacer(),
-                            Icon(Icons.delete,
-                                color: Theme.of(context).accentColor,
-                                size: 35 *
-                                    MediaQuery.of(context).textScaleFactor),
-                          ],
-                        ),
-                      ),
-                      direction: DismissDirection.endToStart,
-                      key: Key(deletedBudgetModel.deletedBudgets!
-                          .elementAt(index)
-                          .id),
-                      child: Card(
-                          color: Theme.of(context).primaryColorDark,
-                          child: InkWell(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                          backgroundColor: Theme.of(context)
-                                              .primaryColorDark,
-                                          title: Text(
-                                            'Confirm Restoration',
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color),
-                                          ),
-                                          content: Text(
-                                            'Are you sure you want to restore this budget to your adventure?',
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color),
-                                          ),
-                                          actions: <Widget>[
-                                            FlatButton(
-                                              child: Text('Restore',
-                                                  style: TextStyle(
-                                                      color:
-                                                      Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .color)),
-                                              onPressed: () {
-                                                Provider.of<DeletedBudgetModel>(
-                                                    c!,
-                                                    listen: false)
-                                                    .restoreBudget(
-                                                    deletedBudgetModel
-                                                        .deletedBudgets!
-                                                        .elementAt(
-                                                        index));
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                            FlatButton(
-                                              child: Text('Cancel',
-                                                  style: TextStyle(
-                                                      color:
-                                                      Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .color)),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ]);
-                                    });
-                              },
-                              hoverColor:
-                              Theme.of(context).primaryColorLight,
-                              child: Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      flex: 4,
-                                      child: ListTile(
-                                        title: Text(
-                                            deletedBudgetModel
-                                                .deletedBudgets!
-                                                .elementAt(index)
-                                                .name,
-                                            style: TextStyle(
-                                                fontSize: 25 *
-                                                    MediaQuery.of(context)
-                                                        .textScaleFactor,
-                                                fontWeight: FontWeight.bold,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color)),
-                                        // subtitle:Text(adventures.elementAt(index).description),
-                                        subtitle: Text(
-                                            deletedBudgetModel
-                                                .deletedBudgets!
-                                                .elementAt(index)
-                                                .description,
-                                            style: TextStyle(
-                                                fontSize: 15 *
-                                                    MediaQuery.of(context)
-                                                        .textScaleFactor,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color)),
-                                      ),
+                          background: Container(
+                            // color: Theme.of(context).primaryColor,
+                            //   margin: const EdgeInsets.all(5),
+                            padding: EdgeInsets.all(
+                                MediaQuery.of(context).size.height / 60),
+                            child: Row(
+                              children: [
+                                new Spacer(),
+                                Icon(Icons.delete,
+                                    color: Theme.of(context).accentColor,
+                                    size: 35 *
+                                        MediaQuery.of(context).textScaleFactor),
+                              ],
+                            ),
+                          ),
+                          direction: DismissDirection.endToStart,
+                          key: Key(budgetEntryModel.entries!
+                              .elementAt(index)
+                              .budgetEntryID),
+                          child: Card(
+                              color: Theme.of(context).primaryColorDark,
+                              child:Material(
+                                color:Colors.transparent,
+                              child: InkWell(
+                                  hoverColor:
+                                      Theme.of(context).primaryColorLight,
+                                  child: Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 4,
+                                          child: ListTile(
+                                              title: Row(children: [
+                                                Text(
+                                                    budgetEntryModel.entries!
+                                                        .elementAt(index)
+                                                        .title,
+                                                    style: TextStyle(
+                                                        fontSize: 25 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .textScaleFactor,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color)),
+                                                Spacer(),
+                                                Text(
+                                                    budgetEntryModel.entries!
+                                                        .elementAt(index)
+                                                        .description,
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        fontSize: 15 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .textScaleFactor,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color)),
+                                              ]),
+                                              subtitle: Row(children: [
+                                                Text(
+                                                    budgetEntryModel.entries!
+                                                        .elementAt(index)
+                                                        .payer,
+                                                    style: TextStyle(
+                                                        fontSize: 15 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .textScaleFactor,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color)),
+                                                Spacer(),
+                                                Text(
+                                                    budgetEntryModel.entries!
+                                                        .elementAt(index)
+                                                        .amount
+                                                        .toString(),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 25 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .textScaleFactor,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color)),
+                                                Spacer(),
+                                                Text(
+                                                    budgetEntryModel.entries!
+                                                        .elementAt(index)
+                                                        .payee,
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        fontSize: 15 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .textScaleFactor,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color))
+                                              ])),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ))),
-                      confirmDismiss: (DismissDirection direction) async {
-                        return await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor:
-                              Theme.of(context).primaryColorDark,
-                              title: Text("Confirm Removal",
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .color)),
-                              content: Text(
-                                  "Are you sure you want to remove this budget for definite?",
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .color)),
-                              actions: <Widget>[
-                                FlatButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(true),
-                                    child: Text("Remove",
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color))),
-                                FlatButton(
-                                  onPressed: () =>
-                                      Navigator.of(context).pop(false),
-                                  child: Text("Cancel",
+                                  )))),
+                          confirmDismiss: (DismissDirection direction) async {
+                            return await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColorDark,
+                                  title: Text("Confirm Removal",
                                       style: TextStyle(
                                           color: Theme.of(context)
                                               .textTheme
                                               .bodyText1!
                                               .color)),
-                                ),
-                              ],
+                                  content: Text(
+                                      "Are you sure you want to remove this budget item for definite?",
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color)),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(true),
+                                        child: Text("Remove",
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color))),
+                                    FlatButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(false),
+                                      child: Text("Cancel",
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color)),
+                                    ),
+                                  ],
+                                );
+                              },
                             );
                           },
-                        );
-                      },
-                      onDismissed: (direction) {
-                        Provider.of<DeletedBudgetModel>(context,
-                            listen: false)
-                            .hardDeleteBudget(deletedBudgetModel
-                            .deletedBudgets!
-                            .elementAt(index));
-                      }))
-            ]));
-      } else {
-        return Center(
-            child: Text("It seems you're not one for recycling...",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-                    color: Theme.of(context).textTheme.bodyText1!.color)));
-      }
-    }));
+                          onDismissed: (direction) {
+                            Provider.of<BudgetEntryModel>(context,
+                                    listen: false)
+                                .deleteBudgetEntry(
+                                    budgetEntryModel.entries!.elementAt(index),
+                                    currentBudget!);
+                          }))
+                ]));
+          } else {
+            return Center(
+                child: Text("Well done! You owe no one money!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                        color: Theme.of(context).textTheme.bodyText1!.color)));
+          }
+        }));
   }
 }

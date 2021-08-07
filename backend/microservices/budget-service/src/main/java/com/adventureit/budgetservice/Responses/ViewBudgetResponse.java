@@ -25,14 +25,14 @@ public class ViewBudgetResponse {
         this.description = description;
         this.category = category;
         this.payee = payee;
-        this.payer=payer;
+        this.payer = payer;
     }
 
     public UUID getEntryContainerID() {
         return entryContainerID;
     }
 
-    public String getPayers() {
+    public String getPayer() {
         return payer;
     }
 

@@ -162,13 +162,14 @@ class BudgetEntryModel extends ChangeNotifier {
 
   Future fetchAllEntries(Budget b) async {
     _entries = await BudgetApi.getEntries(b);
+    print(_entries.toString());
 
     notifyListeners();
   }
 
 
-  Future deleteBudgetEntry(BudgetEntry c) async {
-    await BudgetApi.deleteEntry(c);
+  Future deleteBudgetEntry(BudgetEntry c, Budget b) async {
+    await BudgetApi.deleteEntry(c,b);
 
     var index = _entries!.indexWhere((element) => element.budgetEntryID == c.budgetEntryID);
     _entries!.removeAt(index);

@@ -141,6 +141,7 @@ class BudgetApi {
     if (response.statusCode != 200) {
       throw Exception('Failed to get budget entries: ${response.body}');
     }
+
     List<BudgetEntry> budgetEntries = (jsonDecode(response.body) as List)
         .map((x) => BudgetEntry.fromJson(x))
         .toList();
@@ -153,8 +154,8 @@ class BudgetApi {
     return http.get(Uri.http(budgetApi, '/budget/viewBudget/' + budgetID));
   }
 
-  static Future deleteEntry(BudgetEntry i) async {
-    http.Response response = await _deleteBudgetEntryRequest(i);
+  static Future deleteEntry(BudgetEntry i, Budget b) async {
+    http.Response response = await _deleteBudgetEntryRequest(i.budgetEntryID,b.id);
 
 
     if (response.statusCode != 200) {
@@ -163,9 +164,9 @@ class BudgetApi {
 
   }
 
-  static Future<http.Response> _deleteBudgetEntryRequest(BudgetEntryID) async {
+  static Future<http.Response> _deleteBudgetEntryRequest(BudgetEntryID, BudgetID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/removeEntry/' + BudgetEntryID));
+    return http.get(Uri.http(budgetApi, '/budget/removeEntry/' + BudgetEntryID+"/"+BudgetID));
   }
 
   Future<CreateBudget> createBudget(String name, String description, String creatorID, String adventureID) async {

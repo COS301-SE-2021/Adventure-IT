@@ -8,7 +8,7 @@ part 'budgetEntry.g.dart';
 class BudgetEntry {
   final String budgetEntryID;
   final String entryContainerID;
-  final String payer
+  final String payer;
   final double amount;
   final String title;
   final String description;

@@ -79,6 +79,7 @@ class FriendsPage extends State<Friends> {
                 Expanded(
                   child: ElevatedButton(
                       child: Text("Make Friends",
+                          textAlign: TextAlign.center,
                           style: new TextStyle(
                               color: Theme.of(context)
                                   .textTheme
