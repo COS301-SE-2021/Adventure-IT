@@ -55,9 +55,9 @@ public class MainControllerBudgetReroute {
         return restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/editBudget/", req, String.class);
     }
 
-    @GetMapping("/removeEntry/{id}/{budgetID}")
-    public String removeEntry(@PathVariable UUID id, @PathVariable UUID budgetID){
-        return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/removeEntry/"+id+"/"+budgetID, String.class);
+    @GetMapping("/removeEntry/{id}")
+    public String removeEntry(@PathVariable UUID id){
+        return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/removeEntry/"+id, String.class);
     }
 
     @GetMapping("/viewBudgetsByAdventure/{id}")

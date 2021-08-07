@@ -101,21 +101,16 @@ public class BudgetServiceImplementation implements BudgetService {
 
 
     @Override
-    public RemoveEntryResponse removeEntry(UUID id, UUID entryContainerID) throws Exception {
-        if (budgetRepository.findBudgetByBudgetID(entryContainerID) == null) {
-            throw new Exception("Budget does not exist.");
-        }
+    public RemoveEntryResponse removeEntry(UUID id) throws Exception {
         if (id == null) {
             throw new Exception("Entry ID not provided.");
         }
 
-        Budget budget = budgetRepository.findBudgetByBudgetID(entryContainerID);
-        BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryIDAndEntryContainerID(id, entryContainerID);
+        BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryID(id);
         if (entry == null) {
             throw new Exception("Entry does not exist.");
         }
 
-        budgetRepository.save(budget);
         budgetEntryRepository.delete(entry);
         return new RemoveEntryResponse(true);
     }
@@ -171,7 +166,7 @@ public class BudgetServiceImplementation implements BudgetService {
             throw new Exception("Description Field is null.");
         }
 
-        BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryIDAndEntryContainerID(req.getId(), req.getBudgetID());
+        BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryID(req.getId());
 
         if (entry == null) {
             throw new Exception("Entry does not exist.");
