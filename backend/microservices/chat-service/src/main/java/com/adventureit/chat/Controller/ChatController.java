@@ -1,18 +1,27 @@
 package com.adventureit.chat.Controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.adventureit.chat.Requests.CreateDirectChatRequest;
+import com.adventureit.chat.Service.ChatServiceImplementation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/chat")
 public class ChatController {
+
+    @Autowired
+    private ChatServiceImplementation service;
 
     @GetMapping("/test")
     String test(){
         return "Budget Controller is functioning";
     }
 
+    @PostMapping("/createDirectChat")
+    String createDirectChat(@RequestBody CreateDirectChatRequest req){
+        service.createDirectChat(req.getAdventureId(),req.getUser1Id(),req.getUser2Id());
+        return "Chat created";
+    }
 
 
 

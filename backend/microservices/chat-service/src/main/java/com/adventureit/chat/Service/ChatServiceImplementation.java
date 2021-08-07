@@ -25,7 +25,8 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     @Override
-    public String createDirectChat(UUID id, UUID adventureID, UUID user1, UUID user2) {
+    public String createDirectChat(UUID adventureID, UUID user1, UUID user2) {
+        UUID id = UUID.randomUUID();
         DirectChat directChat = new DirectChat(id,adventureID,user1,user2);
         chatRepository.save(directChat);
         return "Chat successfully created";

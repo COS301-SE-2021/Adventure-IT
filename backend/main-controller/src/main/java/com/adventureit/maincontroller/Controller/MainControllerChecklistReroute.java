@@ -80,7 +80,6 @@ public class MainControllerChecklistReroute {
         return restTemplate.postForObject("http://"+ IP + ":" + checklistPort + "/budget/editEntry/", req, String.class);
     }
 
-
     @GetMapping("/markEntry/{id}")
     public void markEntry(@PathVariable UUID id) throws Exception {
        restTemplate.getForObject("http://"+ IP + ":" + checklistPort + "/checklist/markEntry/"+id, String.class);
