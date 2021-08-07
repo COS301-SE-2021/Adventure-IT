@@ -8,7 +8,7 @@ import java.util.UUID;
 public class ViewBudgetResponse {
     private UUID budgetEntryID;
     private UUID entryContainerID;
-    private List<UUID> payers;
+   private String payer;
     double amount;
     String title;
     String description;
@@ -17,7 +17,7 @@ public class ViewBudgetResponse {
 
     public ViewBudgetResponse(){}
 
-    public ViewBudgetResponse(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, String payee) {
+    public ViewBudgetResponse(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, String payee, String payer) {
         this.budgetEntryID = id;
         this.entryContainerID = entryContainerID;
         this.amount = amount;
@@ -25,14 +25,15 @@ public class ViewBudgetResponse {
         this.description = description;
         this.category = category;
         this.payee = payee;
+        this.payer=payer;
     }
 
     public UUID getEntryContainerID() {
         return entryContainerID;
     }
 
-    public List<UUID> getPayers() {
-        return payers;
+    public String getPayers() {
+        return payer;
     }
 
     public UUID getBudgetEntryID() {
@@ -68,7 +69,7 @@ public class ViewBudgetResponse {
     }
 
     public void setPayers(List<UUID> payers) {
-        this.payers = payers;
+        this.payer = payer;
     }
 
     public void setDescription(String description) {

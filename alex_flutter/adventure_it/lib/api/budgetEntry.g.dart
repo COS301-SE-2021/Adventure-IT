@@ -10,7 +10,7 @@ BudgetEntry _$BudgetEntryFromJson(Map<String, dynamic> json) {
   return BudgetEntry(
     budgetEntryID: json['budgetEntryID'] as String,
     entryContainerID: json['entryContainerID'] as String,
-    payers: (json['payers'] as List<dynamic>).map((e) => e as String).toList(),
+    payer: json['payer'] as String,
     amount: (json['amount'] as num).toDouble(),
     title: json['title'] as String,
     description: json['description'] as String,
@@ -23,7 +23,7 @@ Map<String, dynamic> _$BudgetEntryToJson(BudgetEntry instance) =>
     <String, dynamic>{
       'budgetEntryID': instance.budgetEntryID,
       'entryContainerID': instance.entryContainerID,
-      'payers': instance.payers,
+      'payer': instance.payer,
       'amount': instance.amount,
       'title': instance.title,
       'description': instance.description,
