@@ -114,16 +114,16 @@ RegisterUserJunitTests {
         assertEquals("404 Bad Request", thrown.getMessage());
     }
 
-    @Test
-    @Description("This test tests whether the response object returned carries the correct information")
-    void TestRegisterUserResponse() throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
-        RegisterUserRequest req = new RegisterUserRequest(userName1,userlName1,username1,validEmail,validPassword,validPhoneNum);
-        assertNotNull(req);
-        RegisterUserResponse response = user.RegisterUser(req);
-        assertEquals("200 OK",response.getToken());
-        assertEquals(true,response.isSuccess());
-        assertEquals("User "+userName1+" "+userlName1+" successfully Registered",response.getMessage());
-    }
+//    @Test
+//    @Description("This test tests whether the response object returned carries the correct information")
+//    void TestRegisterUserResponse() throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
+//        RegisterUserRequest req = new RegisterUserRequest(userName1,userlName1,username1,validEmail,validPassword,validPhoneNum);
+//        assertNotNull(req);
+//        RegisterUserResponse response = user.RegisterUser(req);
+//        assertEquals("200 OK",response.getToken());
+//        assertEquals(true,response.isSuccess());
+//        assertEquals("User "+userName1+" "+userlName1+" successfully Registered",response.getMessage());
+//    }
 
 
 }
