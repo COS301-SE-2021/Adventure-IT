@@ -60,10 +60,10 @@ public class BudgetServiceImplementation implements BudgetService {
 
         for (BudgetEntry entry:entries) {
             if(entry instanceof UTUExpense){
-                list.add(new ViewBudgetResponse(entry.getId(),entry.getEntryContainerID(),entry.getAmount(),entry.getTitle(),entry.getDescription(),entry.getCategory(),((UTUExpense) entry).getPayee()));
+                list.add(new ViewBudgetResponse(entry.getId(),entry.getEntryContainerID(),entry.getPayer(),entry.getAmount(),entry.getTitle(),entry.getDescription(),entry.getCategory(),((UTUExpense) entry).getPayee()));
             }
             else{
-                list.add(new ViewBudgetResponse(entry.getId(),entry.getEntryContainerID(),entry.getAmount(),entry.getTitle(),entry.getDescription(),entry.getCategory(),((UTOExpense) entry).getPayee()));
+                list.add(new ViewBudgetResponse(entry.getId(),entry.getEntryContainerID(),entry.getPayer(),entry.getAmount(),entry.getTitle(),entry.getDescription(),entry.getCategory(),((UTOExpense) entry).getPayee()));
             }
         }
 
