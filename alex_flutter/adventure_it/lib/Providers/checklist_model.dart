@@ -62,6 +62,10 @@ class ChecklistModel extends ChangeNotifier {
   Future addChecklist(Adventure adv, String a, String b, String c, String d) async {
     await ChecklistApi.createChecklist(a, b, c, d);
 
+    for(var index=0; index < checklists!.length; index++) {
+      checklists!.removeAt(index);
+    }
+
     fetchAllChecklists(adv);
 
     notifyListeners();

@@ -239,9 +239,11 @@ class AlertBox extends StatefulWidget {
 }
 class _AlertBox extends State <AlertBox> {
   Adventure? adventure;
+  BuildContext? b;
 
   _AlertBox(Adventure i) {
     this.adventure = i;
+    b = ChecklistModel(adventure!) as BuildContext?;
   }
 
   double getSize(context) {
@@ -263,6 +265,17 @@ class _AlertBox extends State <AlertBox> {
 
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+        create: (context) => ChecklistModel(adventure!),
+      child:
+      Consumer<ChecklistModel>(builder: (context, checklist, child) {
+        if(checklist.checklists==null) {
+        return Center(
+          child: CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(
+            Theme.of(context).accentColor)));
+          }
+        else if (checklist.checklists!.length > 0) {
     return AlertDialog(
         backgroundColor: Theme.of(context).primaryColorDark,
         content: Container(
@@ -363,10 +376,8 @@ class _AlertBox extends State <AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () {
-                          setState(() {
-                            _futureChecklist = ChecklistApi.createChecklist(nameController.text, descriptionController.text, userID, adventure!.adventureId);
-                          });
-                          Navigator.of(context).pop();
+                          //Provider.of<ChecklistModel>(context, listen: false)
+                            //  .addChecklist(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
                         },
                       ),
                     )
@@ -375,6 +386,14 @@ class _AlertBox extends State <AlertBox> {
               )
             ],
           ),
-        ));
+        ));}
+        else {
+          return Center(
+            child: Text("Let's make a list and check it twice!",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+              color: Theme.of(context).textTheme.bodyText1!.color)));
+          }}));
   }
 }
