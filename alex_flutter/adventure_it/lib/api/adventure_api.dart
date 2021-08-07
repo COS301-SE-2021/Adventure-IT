@@ -35,15 +35,11 @@ class AdventureApi {
       throw Exception('Failed to load list of attendees: ${response.body}');
     }
 
-    List<String> userIDs = (jsonDecode(response.body) as List<dynamic>).cast<String>();
-    List <UserProfile> attendees=List.empty();
-    for(var i in userIDs)
-      {
-        if(i!="1660bd85-1c13-42c0-955c-63b1eda4e90b") {
-          UserProfile p = await UserApi.getUserByUUID(i);
-          attendees.add(p);
-        }
-      }
+    List<UserProfile> attendees = (jsonDecode(response.body) as List)
+        .map((x) => UserProfile.fromJson(x))
+        .toList();
+    print("here here "+attendees.toString());
+
     return attendees;//
   }
 
