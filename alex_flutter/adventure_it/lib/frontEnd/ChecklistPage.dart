@@ -107,9 +107,10 @@ class ChecklistPage extends StatelessWidget {
 
 class AlertBox extends StatelessWidget {
   Checklist? currentChecklist;
-
+  BuildContext? b;
   AlertBox(Checklist c) {
     this.currentChecklist = c;
+    b = ChecklistEntryModel(currentChecklist!) as BuildContext?;
   }
 
   double getSize(context) {
@@ -127,7 +128,18 @@ class AlertBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return ChangeNotifierProvider(
+        create: (context) => ChecklistEntryModel(currentChecklist!),
+        child:
+        Consumer<ChecklistEntryModel>(builder: (context, checklistEntry, child) {
+        if(checklistEntry.entries==null) {
+          return Center(
+            child: CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(
+              Theme.of(context).accentColor)));
+        }
+        else if (checklistEntry.entries!.length > 0) {
+        return AlertDialog(
           backgroundColor: Theme.of(context).primaryColorDark,
           content: Container(
             height: getSize(context),
@@ -199,19 +211,25 @@ class AlertBox extends StatelessWidget {
                                       .bodyText1!
                                       .color)),
                           onPressed: () {
-                            _futureChecklistEntry = ChecklistApi.createChecklistEntry(descriptionController.text, currentChecklist!.id);
-                            Navigator.of(context).pop();
+                            Provider.of<ChecklistEntryModel>(context, listen: false)
+                                .addChecklistEntry(currentChecklist!, descriptionController.text, currentChecklist!.id);
                           },
                         ),
                       ),
-                      Spacer(),
                     ],
                   ),
                 )
               ],
             ),
           )
-    );
+    );} else {
+      return Center(
+          child: Text("Let's make a list and check it twice!",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                  color: Theme.of(context).textTheme.bodyText1!.color)));
+    }}));
   }
 }
 

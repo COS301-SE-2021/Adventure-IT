@@ -211,8 +211,8 @@ class ChecklistApi {
     }
   }
 
-  static Future addChecklistEntry(ChecklistEntry i) async {
-    http.Response response = (await createChecklistEntry(i.title, i.entryContainerID)) as http.Response;
+  static Future addChecklistEntry(String t, String e) async {
+    http.Response response = (await createChecklistEntry(t, e)) as http.Response;
 
 
     if (response.statusCode != 200) {

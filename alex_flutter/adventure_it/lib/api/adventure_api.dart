@@ -70,7 +70,7 @@ class AdventureApi {
     return http.delete(Uri.http(adventureApi, '/adventure/remove/' + adventureID));
   }
 
-  Future<CreateAdventure> createAdventure(String name, String ownerId, LocalDate startDate, LocalDate endDate, String description, String location) async {
+  static Future<CreateAdventure> createAdventure(String name, String ownerId, LocalDate startDate, LocalDate endDate, String description, String location) async {
 
     final response = await http.post(
       Uri.parse('http://localhost:9001/adventure/create'), //get uri
@@ -101,5 +101,7 @@ class AdventureApi {
       throw Exception('Failed to create an adventure.');
     }
   }
+
+
 
 }

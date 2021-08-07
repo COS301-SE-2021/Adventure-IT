@@ -516,7 +516,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                       horizontal: 3, vertical: 20),
                                 ),
                                 onPressed: () {
-                                  _futureAdventure = api.createAdventure(
+                                  _futureAdventure = AdventureApi.createAdventure(
                                       nameController.text, ownerID,
                                       LocalDate.dateTime(dates!.start),
                                       LocalDate.dateTime(dates!.end),
