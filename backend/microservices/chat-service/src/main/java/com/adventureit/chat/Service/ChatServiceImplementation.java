@@ -33,7 +33,8 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     @Override
-    public String createGroupChat(UUID id, UUID adventureID, List<UUID> participants, String name) {
+    public String createGroupChat( UUID adventureID, List<UUID> participants, String name) {
+        UUID id = UUID.randomUUID();
         List<ColorPair> list = new ArrayList<ColorPair>();
         List<Integer> checked = new ArrayList<Integer>();
         Random rand = new Random();
