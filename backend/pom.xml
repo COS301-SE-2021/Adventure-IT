@@ -25,6 +25,7 @@
         <module>microservices/checklist-service</module>
         <module>microservices/itinerary-service</module>
         <module>microservices/chat-service</module>
+        <module>microservices/timeline-service</module>
         <module>service-registry</module>
         <module>main-controller</module>
     </modules>

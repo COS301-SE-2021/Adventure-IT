@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class AddUTOExpenseEntryRequest {
     private UUID entryContainerID;
-    private List<String> payers;
+    private String payer;
     double amount;
     String title;
     String description;
@@ -17,9 +17,9 @@ public class AddUTOExpenseEntryRequest {
 
     public AddUTOExpenseEntryRequest(){}
 
-    public AddUTOExpenseEntryRequest(@JsonProperty("entryContainerID") UUID entryContainerID, @JsonProperty("payers") List<String> payers, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("category") String category, @JsonProperty("payee") String payee) {
+    public AddUTOExpenseEntryRequest(@JsonProperty("entryContainerID") UUID entryContainerID, @JsonProperty("payer") String payer, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("category") String category, @JsonProperty("payee") String payee) {
         this.entryContainerID = entryContainerID;
-        this.payers = payers;
+        this.payer = payer;
         this.amount = amount;
         this.title = title;
         this.description = description;
@@ -31,12 +31,12 @@ public class AddUTOExpenseEntryRequest {
         return entryContainerID;
     }
 
-    public void setPayers(List<String> payers) {
-        this.payers = payers;
+    public String getPayer() {
+        return payer;
     }
 
-    public List<String> getPayers() {
-        return payers;
+    public void setPayer(String payer) {
+        this.payer = payer;
     }
 
     public Category getCategory() {

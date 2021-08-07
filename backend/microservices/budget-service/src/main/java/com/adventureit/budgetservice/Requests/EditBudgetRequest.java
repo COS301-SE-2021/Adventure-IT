@@ -13,18 +13,18 @@ public class EditBudgetRequest {
     String title;
     String description;
     Category category;
-    List<String> payers;
+    String payer;
     String payee;
 
     public EditBudgetRequest(){}
 
-    public EditBudgetRequest(@JsonProperty("id") UUID id, @JsonProperty("budgetID") UUID budgetID, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("payers") List<String> payers, @JsonProperty("payee") String payee){
+    public EditBudgetRequest(@JsonProperty("id") UUID id, @JsonProperty("budgetID") UUID budgetID, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("payer") String payer, @JsonProperty("payee") String payee){
         this.id = id;
         this.budgetID = budgetID;
         this.amount = amount;
         this.title = title;
         this.description = description;
-        this.payers = payers;
+        this.payer = payer;
         this.payee = payee;
     }
 
@@ -76,16 +76,16 @@ public class EditBudgetRequest {
         this.payee = payee;
     }
 
-    public void setPayers(List<String> payers) {
-        this.payers = payers;
+    public String getPayer() {
+        return payer;
+    }
+
+    public void setPayer(String payer) {
+        this.payer = payer;
     }
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public List<String> getPayers() {
-        return payers;
     }
 
     public Category getCategory() {

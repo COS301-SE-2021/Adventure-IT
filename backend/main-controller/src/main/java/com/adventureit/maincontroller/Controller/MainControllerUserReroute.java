@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/user")
 public class MainControllerUserReroute {
 
     @Autowired
@@ -26,6 +27,9 @@ public class MainControllerUserReroute {
 //        int userPort = userInstance.getPort();
 //        return restTemplate.getForObject("http://"+ userIP + ":" + userPort + "/user/GetUser/"+id.toString(), GetUserByUUIDDTO.class);
 //    }
+
+
+
 }
 
 

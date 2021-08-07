@@ -8,7 +8,9 @@ import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -19,6 +21,8 @@ public class ItineraryServiceImplementation implements ItineraryService {
     private ItineraryRepository itineraryRepository;
     @Autowired
     private ItineraryEntryRepository itineraryEntryRepository;
+
+    private RestTemplate restTemplate;
 
     @Autowired
     public ItineraryServiceImplementation(ItineraryRepository itineraryRepository, ItineraryEntryRepository itineraryEntryRepository) {
@@ -47,8 +51,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-
-    public String addItineraryEntry(String title, String description, UUID entryContainerID, UUID location, LocalDateTime timestamp) throws Exception {
+    public UUID addItineraryEntry(String title, String description, UUID entryContainerID, String location, String timestamp) throws Exception {
         if(title == null){
 
             throw new Exception("No title provided");
@@ -65,11 +68,12 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new Exception("Itinerary does not exist");
         }
 
-        ItineraryEntry newEntry = new ItineraryEntry(title,description,entryContainerID,location,timestamp);
+        LocalDateTime newTimestamp = LocalDateTime.parse(timestamp);
+        ItineraryEntry newEntry = new ItineraryEntry(title,description,entryContainerID,null,newTimestamp);
 
-        itineraryEntryRepository.save(newEntry);
+        ItineraryEntry entry = itineraryEntryRepository.save(newEntry);
         itineraryRepository.save(itinerary);
-        return "Itinerary Entry successfully added";
+        return entry.getId();
     }
 
     @Override
@@ -274,6 +278,13 @@ public class ItineraryServiceImplementation implements ItineraryService {
         }
 
         return new ItineraryEntryResponseDTO(next.getId(),next.getEntryContainerID(),next.getTitle(),next.getDescription(),next.isCompleted(),next.getLocation(),next.getTimestamp());
+    }
+
+    @Override
+    public void setItineraryEntryLocation(UUID itineraryID, UUID locationID) {
+        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryById(itineraryID);
+        entry.setLocation(locationID);
+        itineraryEntryRepository.save(entry);
     }
 
     @Override

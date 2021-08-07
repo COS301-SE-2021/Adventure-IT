@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/notification")
 public class MainControllerNotificationReroute {
 
     @Autowired

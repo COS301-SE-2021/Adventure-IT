@@ -94,13 +94,13 @@ public class BudgetController {
 
 	@PostMapping("/addUTOExpense")
 	public String addUTOExpense(@RequestBody AddUTOExpenseEntryRequest req) throws Exception {
-		AddUTOExpenseEntryResponse response = budgetServiceImplementation.addUTOExpenseEntry(req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayee());
+		AddUTOExpenseEntryResponse response = budgetServiceImplementation.addUTOExpenseEntry(req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayer(),req.getPayee());
 		return response.getMessage();
 	}
 
 	@PostMapping("/addUTUExpense")
 	public String addUTUExpense(@RequestBody AddUTUExpenseEntryRequest req) throws Exception {
-		AddUTUExpenseEntryResponse response = budgetServiceImplementation.addUTUExpenseEntry(req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayers(),req.getPayee());
+		AddUTUExpenseEntryResponse response = budgetServiceImplementation.addUTUExpenseEntry(req.getEntryContainerID(),req.getAmount(),req.getTitle(),req.getDescription(),req.getCategory(),req.getPayer(),req.getPayee());
 		return response.getMessage();
 	}
 

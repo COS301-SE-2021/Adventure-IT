@@ -10,9 +10,11 @@ import com.adventureit.adventureservice.Responses.*;
 import com.adventureit.adventureservice.Exceptions.NullFieldException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service()
@@ -20,6 +22,8 @@ public class AdventureServiceImplementation implements AdventureService {
 
     @Autowired
     private AdventureRepository adventureRepository;
+
+    private RestTemplate restTemplate;
 
     public AdventureServiceImplementation(AdventureRepository adventureRepository){
         this.adventureRepository = adventureRepository;
@@ -56,7 +60,12 @@ public class AdventureServiceImplementation implements AdventureService {
         else if (req.getName() == null){
             throw new NullFieldException("Create Adventure Request: Adventure Name NULL");
         }
-        Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(),req.getDescription(), UUID.randomUUID() , req.getOwnerId(), req.getStartDate(), req.getEndDate(),req.getLocation()));
+
+        //UUID location = UUID.fromString(Objects.requireNonNull(restTemplate.getForObject("http://" + "localhost" + ":" + "9006" + "/location/create/Pretoria", String.class)));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy");
+        LocalDate sd = LocalDate.parse(req.getStartDate(),formatter);
+        LocalDate ed = LocalDate.parse(req.getEndDate(),formatter);
+        Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(),req.getDescription(), UUID.randomUUID() , req.getOwnerId(), sd, ed,null));
         CreateAdventureResponse response = new CreateAdventureResponse(true);
         response.setAdventure(persistedAdventure);
         return response;
@@ -236,6 +245,13 @@ public class AdventureServiceImplementation implements AdventureService {
         }
 
         return adventure.getAttendees();
+    }
+
+    @Override
+    public void setAdventureLocation(UUID adventureID, UUID locationID) {
+        Adventure adventure = adventureRepository.findAdventureByAdventureId(adventureID);
+        adventure.setLocation(locationID);
+        adventureRepository.save(adventure);
     }
 
     @Override

@@ -34,10 +34,10 @@ public class LocalTests {
 
     @Test
     public void addEntries(){
-        budgetEntryRepository.save(new UTOExpense(UUID.randomUUID(),UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8"),200,"Entry1","Mock", Category.Accommodation, new ArrayList<String>(List.of("User1")),"Shop1"));
-        budgetEntryRepository.save(new UTOExpense(UUID.randomUUID(),UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8"),500,"Entry2","Mock", Category.Transport, new ArrayList<String>(List.of("User1", "User2")),"Shop2"));
-        budgetEntryRepository.save(new UTUExpense(UUID.randomUUID(),UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8"),1000,"Entry3","Mock", Category.Other, new ArrayList<String>(List.of("User1")),"User2"));
-        budgetEntryRepository.save(new UTUExpense(UUID.randomUUID(),UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8"),2000,"Entry4","Mock", Category.Other, new ArrayList<String>(List.of("User2","User3")),"User1"));
+//        budgetEntryRepository.save(new UTOExpense(UUID.randomUUID(),UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8"),200,"Entry1","Mock", Category.Accommodation, new ArrayList<String>(List.of("User1")),"Shop1"));
+//        budgetEntryRepository.save(new UTOExpense(UUID.randomUUID(),UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8"),500,"Entry2","Mock", Category.Transport, new ArrayList<String>(List.of("User1", "User2")),"Shop2"));
+//        budgetEntryRepository.save(new UTUExpense(UUID.randomUUID(),UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8"),1000,"Entry3","Mock", Category.Other, new ArrayList<String>(List.of("User1")),"User2"));
+//        budgetEntryRepository.save(new UTUExpense(UUID.randomUUID(),UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8"),2000,"Entry4","Mock", Category.Other, new ArrayList<String>(List.of("User2","User3")),"User1"));
     }
 
     @Test
