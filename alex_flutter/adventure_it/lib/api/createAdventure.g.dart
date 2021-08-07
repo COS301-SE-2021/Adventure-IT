@@ -13,6 +13,7 @@ CreateAdventure _$CreateAdventureFromJson(Map<String, dynamic> json) {
     startDate: json['startDate'] as String,
     endDate: json['endDate'] as String,
     description: json['description'] as String,
+    location: json['location'] as String,
   );
 }
 
@@ -23,4 +24,5 @@ Map<String, dynamic> _$CreateAdventureToJson(CreateAdventure instance) =>
       'startDate': instance.startDate,
       'endDate': instance.endDate,
       'description': instance.description,
+      'location': instance.location,
     };

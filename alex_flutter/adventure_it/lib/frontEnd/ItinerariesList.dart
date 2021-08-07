@@ -247,7 +247,6 @@ class AlertBox extends StatefulWidget {
 
   //controllers for the form fields
   String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
-  String advID = "aa722689-6dbb-474a-a50b-55261570027e";
 
   Future<CreateItinerary>? _futureItinerary;
   final nameController = TextEditingController();
@@ -356,7 +355,7 @@ class AlertBox extends StatefulWidget {
                                     .color)),
                         onPressed: () {
                           setState(() {
-                            _futureItinerary = ItineraryApi.createItinerary(nameController.text, descriptionController.text, userID, advID);
+                            _futureItinerary = ItineraryApi.createItinerary(nameController.text, descriptionController.text, userID, adventure!.adventureId);
                           });
                           Navigator.of(context).pop();
                         },

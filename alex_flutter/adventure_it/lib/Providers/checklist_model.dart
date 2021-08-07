@@ -59,6 +59,17 @@ class ChecklistModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future addChecklist(Adventure adv, String a, String b, String c, String d) async {
+    await ChecklistApi.createChecklist(a, b, c, d);
+
+    for(var index=0; index < checklists!.length; index++) {
+      checklists!.removeAt(index);
+    }
+
+    fetchAllChecklists(adv);
+
+    notifyListeners();
+  }
 
   Future softDeleteChecklist(Checklist c) async {
     await ChecklistApi.softDeleteChecklist(c.id);
@@ -97,6 +108,28 @@ class ChecklistEntryModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future addChecklistEntry(Checklist c, String a, String b) async {
+    await ChecklistApi.addChecklistEntry(a, b);
+
+    for(var index=0; index < _entries!.length; index++) {
+      _entries!.removeAt(index);
+    }
+
+    fetchAllEntries(c);
+
+    notifyListeners();
+}
+
+  Future editChecklistEntry(ChecklistEntry e, Checklist c, String s) async {
+    await ChecklistApi.checklistEdit(e, s);
+
+    var index = _entries!.indexWhere((element) => element.id == e.id);
+    _entries!.removeAt(index);
+
+    fetchAllEntries(c);
+
+    notifyListeners();
+  }
 
   Future deleteChecklistEntry(ChecklistEntry c) async {
     await ChecklistApi.deleteChecklistEntry(c);

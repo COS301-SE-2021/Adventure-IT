@@ -19,12 +19,13 @@ class AdventuresModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future addAdventure(Adventure adventure) async {
-  //   Adventure newAdventure = await AdventureApi.createAdventure(adventure);
-  //   _adventures.add(newAdventure);
-  //
-  //   notifyListeners();
-  // }
+   /*Future addAdventure(String a, String b, String c, String d, String e, String f) async {
+     Adventure newAdventure = (await AdventureApi.createAdventure(a, b, c, d, e, f)) as Adventure;
+
+     _adventures!.add(newAdventure);
+
+     notifyListeners();
+   }*/
 
 
   Future deleteAdventure(Adventure adventure) async {

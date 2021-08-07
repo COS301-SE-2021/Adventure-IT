@@ -513,7 +513,6 @@ class _AlertBox extends State<AlertBox> {
 
   //controllers for the form fields
   String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
-  String advID = "aa722689-6dbb-474a-a50b-55261570027e";
 
   final BudgetApi api = new BudgetApi();
   Future<CreateBudget>? _futureBudget;
@@ -623,11 +622,7 @@ class _AlertBox extends State<AlertBox> {
                                     .color)),
                         onPressed: () {
                           setState(() {
-                            _futureBudget = api.createBudget(
-                                nameController.text,
-                                descriptionController.text,
-                                userID,
-                                advID);
+                            _futureBudget = api.createBudget(nameController.text, descriptionController.text, userID, adventure!.adventureId);
                           });
                           Navigator.of(context).pop();
                         },
