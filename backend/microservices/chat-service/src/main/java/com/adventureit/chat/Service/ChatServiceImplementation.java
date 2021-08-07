@@ -2,6 +2,7 @@ package com.adventureit.chat.Service;
 
 import com.adventureit.chat.Entity.*;
 import com.adventureit.chat.Repository.ChatRepository;
+import com.adventureit.chat.Repository.ColorPairRepository;
 import com.adventureit.chat.Repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ public class ChatServiceImplementation implements ChatService {
     ChatRepository chatRepository;
     @Autowired
     MessageRepository messageRepository;
+    @Autowired
+    ColorPairRepository colorPairRepository;
 
     public ChatServiceImplementation(ChatRepository chatRepository,MessageRepository messageRepository){
         this.chatRepository = chatRepository;
@@ -44,6 +47,7 @@ public class ChatServiceImplementation implements ChatService {
                     randomCol = rand.nextInt(359)+1;
             checked.add(randomCol);
             list.add(new ColorPair(participant, randomCol));
+            colorPairRepository.save(new ColorPair(participant, randomCol));
         }
         GroupChat groupChat = new GroupChat(id,adventureID,participants,list,name);
         chatRepository.save(groupChat);

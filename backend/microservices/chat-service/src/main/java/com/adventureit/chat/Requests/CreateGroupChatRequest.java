@@ -10,7 +10,7 @@ public class CreateGroupChatRequest {
     private List<UUID> participants;
     private String name;
 
-    public CreateGroupChatRequest(@JsonProperty("adventureId") UUID adventureId, @JsonProperty("participants") List participants, @JsonProperty("name") String name) {
+    public CreateGroupChatRequest(@JsonProperty("adventureId") UUID adventureId, @JsonProperty("participants") List<UUID> participants, @JsonProperty("name") String name) {
         this.adventureId = adventureId;
         this.participants = participants;
         this.name = name;
