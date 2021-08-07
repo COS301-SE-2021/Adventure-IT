@@ -1,3 +1,4 @@
+import 'package:adventure_it/api/userProfile.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '/api/adventure.dart';
 import '/api/transactions.dart';
@@ -12,13 +13,15 @@ class FriendRequest {
   final String secondUser;
   final String createdDate;
   final bool accepted;
+  final String requester;
 
   FriendRequest({
     required this.id,
     required this.firstUser,
     required this.secondUser,
     required this.createdDate,
-    required this.accepted
+    required this.accepted,
+    required this.requester,
   });
 
   factory FriendRequest.fromJson(Map<String, dynamic> json) => _$FriendRequestFromJson(json);
