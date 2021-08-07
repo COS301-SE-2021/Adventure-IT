@@ -8,15 +8,19 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath> <!-- lookup parent locally -->
 	</parent>
-	<artifactId>location-service</artifactId>
+	<artifactId>timeline-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>location-service</name>
-	<description>The location service for adventure-it</description>
+	<name>timeline-service</name>
+	<description>The timline service for adventure-it</description>
 	<properties>
 		<java.version>11</java.version>
 		<spring-cloud.version>2020.0.3</spring-cloud.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -36,24 +40,23 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<groupId>com.adventure-it</groupId>
+			<artifactId>adventure-service</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>com.vaadin.external.google</groupId>
-            <artifactId>android-json</artifactId>
-            <version>0.0.20131108.vaadin1</version>
-            <scope>compile</scope>
-        </dependency>
+	</dependencies>
 
-    </dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

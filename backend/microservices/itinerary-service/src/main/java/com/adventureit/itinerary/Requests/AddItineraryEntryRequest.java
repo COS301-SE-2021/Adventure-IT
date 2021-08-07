@@ -8,18 +8,17 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class AddItineraryEntryRequest {
-    private RestTemplate restTemplate;
     private UUID entryContainerID;
     private String title;
     private String description;
-    private UUID location;
-    LocalDateTime timestamp;
+    private String location;
+    String timestamp;
 
-    public AddItineraryEntryRequest(@JsonProperty("title") String title,@JsonProperty("description") String description,@JsonProperty("entryContainerID") UUID entryContainerID,@JsonProperty("location") String location,@JsonProperty("timestamp") LocalDateTime timestamp) {
+    public AddItineraryEntryRequest(@JsonProperty("title") String title,@JsonProperty("description") String description,@JsonProperty("entryContainerID") UUID entryContainerID,@JsonProperty("location") String location,@JsonProperty("timestamp") String timestamp) {
         this.title = title;
         this.description = description;
         this.entryContainerID = entryContainerID;
-        this.location = UUID.fromString(Objects.requireNonNull(restTemplate.getForObject("http://" + "localhost" + ":" + "9999" + "main/location/create/" + location, String.class)));
+        this.location = location;
         this.timestamp = timestamp;
     }
 
@@ -31,7 +30,7 @@ public class AddItineraryEntryRequest {
         return title;
     }
 
-    public LocalDateTime getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
@@ -47,7 +46,7 @@ public class AddItineraryEntryRequest {
         this.title = title;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -55,11 +54,11 @@ public class AddItineraryEntryRequest {
         this.description = description;
     }
 
-    public UUID getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(UUID location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 }

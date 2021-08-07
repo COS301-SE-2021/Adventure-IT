@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface ItineraryService {
 
-    public String addItineraryEntry(String title, String description,  UUID entryContainerID,UUID location, LocalDateTime timestamp) throws Exception;
+    public UUID addItineraryEntry(String title, String description,  UUID entryContainerID,String location, String timestamp) throws Exception;
     public String createItinerary(String title, String description, UUID advID, UUID userID) throws Exception;
     public String removeItineraryEntry(UUID id) throws Exception;
     public String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description,UUID location, LocalDateTime timestamp) throws Exception;
@@ -23,4 +23,5 @@ public interface ItineraryService {
     public void markCompleted(UUID id) throws Exception;
     public String mockPopulate();
     public ItineraryEntryResponseDTO nextItem(UUID id);
+    public void setItineraryEntryLocation(UUID itineraryID, UUID locationID);
 }

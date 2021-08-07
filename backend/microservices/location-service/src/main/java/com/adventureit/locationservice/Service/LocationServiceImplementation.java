@@ -31,7 +31,7 @@ public class LocationServiceImplementation implements LocationService {
     @Override
     public UUID createLocation(String location) throws IOException, JSONException {
         String string1 = location.replace(" ","%20");
-        String string2 = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + string1 + "&inputtype=textquery&fields=formatted_address,name,place_id,photos&key=" + APIKey;
+        String string2 = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + string1 + "&inputtype=textquery&fields=formatted_address,name,place_id,photos&key=AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
 
         JSONObject json = new JSONObject(makeConnection(string2));
         Location location1 = new Location();
