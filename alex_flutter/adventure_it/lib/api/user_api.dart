@@ -8,10 +8,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class UserApi {
-  String? username;
-  String? uuid;
   bool hasToken = false;
-  late KeycloakUser _keycloakUser;
+  KeycloakUser? _keycloakUser;
+  UserProfile? _userProfile;
 
   // Secure Local Storage
   final storage = FlutterSecureStorage();
@@ -38,14 +37,12 @@ class UserApi {
 
   // Publically Exposed Login Method
   Future<bool> logIn(String username, String password) async {
-    await _attemptLogIn(username, password);
-    if (this.username != null) {
-      await this._fetchKeyCloakUser();
-      final userProfile =
-          await this._fetchBackendProfile(this._keycloakUser.id);
-
-      if (userProfile == null) {
-        // TODO: Register new user in backend
+    this._keycloakUser = await _attemptLogIn(username, password);
+    if (this._keycloakUser != null) {
+      final keycloakUser = this._keycloakUser!;
+      this._userProfile = await this._fetchBackendProfile(keycloakUser.id);
+      if (this._userProfile == null) {
+        this._userProfile = await this._registerBackendProfile(keycloakUser);
       }
       return true;
     } else {
@@ -54,7 +51,7 @@ class UserApi {
   }
 
   // Attempt Login to Keycloak (PRIVATE)
-  Future _attemptLogIn(String username, String password) async {
+  Future<KeycloakUser?> _attemptLogIn(String username, String password) async {
     var res = await http.post(Uri.parse(authApiGetToken), body: {
       "client_id": "adventure-it-maincontroller",
       "grant_type": "password",
@@ -66,9 +63,8 @@ class UserApi {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
     if (res.statusCode == 200) {
-      this.username = username;
       storage.write(key: "jwt", value: jsonDecode(res.body)["access_token"]);
-      this.hasToken = true;
+      return this._fetchKeyCloakUser(username);
     } else {
       debugPrint("Login Failed");
       debugPrint(res.body.toString());
@@ -93,33 +89,27 @@ class UserApi {
   }
 
   // Get user from Keycloak's Admin API (PRIVATE)
-  Future<void> _fetchKeyCloakUser() async {
-    if (this.username != null) {
-      final adminJWT = await this._adminLogIn();
-      late final responseJson;
-      final Map<String, String> queryParameters = {
-        'username': this.username!,
-        'max': '1'
-      };
-      final uri = Uri.parse(authApiAdmin +
-          'users?' +
-          Uri(queryParameters: queryParameters).query);
-      var res =
-          await http.get(uri, headers: {'Authorization': 'Bearer $adminJWT'});
-      if (res.statusCode == 200) {
-        responseJson = jsonDecode(res.body)[0];
-        this._keycloakUser = KeycloakUser.fromJson(responseJson);
-      } else {
-        debugPrint(res.body);
-        throw Exception("Could Not Fetch User UUID");
-      }
+  Future<KeycloakUser?> _fetchKeyCloakUser(username) async {
+    final adminJWT = await this._adminLogIn();
+    late final responseJson;
+    final Map<String, String> queryParameters = {
+      'username': username!,
+      'max': '1'
+    };
+    final uri = Uri.parse(
+        authApiAdmin + 'users?' + Uri(queryParameters: queryParameters).query);
+    var res =
+        await http.get(uri, headers: {'Authorization': 'Bearer $adminJWT'});
+    if (res.statusCode == 200) {
+      responseJson = jsonDecode(res.body)[0];
+      return KeycloakUser.fromJson(responseJson);
     } else {
-      throw Exception(
-          "Attempted to get user's UUID without successful login first");
+      debugPrint(res.body);
+      return null;
     }
   }
 
-  // Retrieve the backend user profile
+  // Retrieve the backend user profile (PRIVATE)
   Future<UserProfile?> _fetchBackendProfile(String targetUuid) async {
     debugPrint("Getting backend profile for: " + targetUuid);
     final res =
@@ -133,8 +123,33 @@ class UserApi {
       }
     } else if (res.statusCode == 200) {
       debugPrint("Backend profile exists");
-      debugPrint(jsonRes);
-      return new UserProfile.fromJson(jsonRes);
+      debugPrint(jsonRes.toString());
+      return new UserProfile.fromJson(jsonRes!);
     }
+  }
+
+  // Register a user in the backend (PRIVATE)
+  Future<UserProfile?> _registerBackendProfile(KeycloakUser userInfo) async {
+    debugPrint("Creating backend profile for: " + userInfo.username);
+    final res = await http.post(Uri.parse(userApi + "/api/RegisterUser/"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          "userID": userInfo.id,
+          "firstName": userInfo.firstName,
+          "lastName": userInfo.lastName,
+          "username": userInfo.username,
+          "email": userInfo.email
+        }));
+    return new UserProfile(
+        userID: userInfo.id,
+        username: userInfo.username,
+        firstname: userInfo.firstName,
+        lastname: userInfo.lastName,
+        email: userInfo.email,
+        phoneNumber: "00000000");
+  }
+
+  UserProfile? getUserProfile() {
+    return this._userProfile;
   }
 }
