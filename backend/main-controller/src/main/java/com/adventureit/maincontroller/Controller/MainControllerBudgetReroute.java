@@ -24,16 +24,6 @@ public class MainControllerBudgetReroute {
     private final String timelinePort = "9012";
     private final String budgetPort = "9007";
 
-//    @GetMapping("/createBudget")
-//    public String adventureTest(){
-//        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/test", String.class);
-//    }
-//
-//    @PostMapping(value = "/create")
-//    public CreateAdventureResponse createAdventure(@RequestBody CreateAdventureRequest req) {
-//        return restTemplate.postForObject("http://"+ IP + ":" + adventurePort + "/adventure/create/", req, CreateAdventureResponse.class);
-//    }
-
     @PostMapping(value ="/create")
     public String createBudget(@RequestBody CreateBudgetRequest req) {
         restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/create/", req, String.class);
