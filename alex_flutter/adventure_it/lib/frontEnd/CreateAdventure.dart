@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:adventure_it/Providers/adventure_model.dart';
 import 'package:adventure_it/Providers/location_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
@@ -126,6 +127,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
   final locationController = TextEditingController();
+  AdventuresModel adventuresModel = new AdventuresModel();
 
   @override
   Widget build(BuildContext context) {
@@ -515,14 +517,13 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 3, vertical: 20),
                                 ),
-                                onPressed: () {
-                                  _futureAdventure = AdventureApi.createAdventure(
-                                      nameController.text, ownerID,
-                                      LocalDate.dateTime(dates!.start),
-                                      LocalDate.dateTime(dates!.end),
-                                      descriptionController.text,
-                                      location!) as Future<
-                                      CreateAdventure>?;
+                                onPressed: () async {
+                                  adventuresModel.addAdventure(
+                                        nameController.text, ownerID,
+                                        LocalDate.dateTime(dates!.start),
+                                        LocalDate.dateTime(dates!.end),
+                                        descriptionController.text,
+                                        location!);
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
