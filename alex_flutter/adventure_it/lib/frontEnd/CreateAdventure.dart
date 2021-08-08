@@ -521,7 +521,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                       LocalDate.dateTime(dates!.start),
                                       LocalDate.dateTime(dates!.end),
                                       descriptionController.text,
-                                      locationController.text) as Future<
+                                      location!) as Future<
                                       CreateAdventure>?;
                                   Navigator.pushReplacement(
                                     context,
