@@ -1,4 +1,5 @@
 import 'package:adventure_it/Providers/checklist_model.dart';
+import 'package:adventure_it/Providers/checklist_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
@@ -373,9 +374,14 @@ class _AlertBox extends State <AlertBox> {
                                     .textTheme
                                     .bodyText1!
                                     .color)),
-                        onPressed: () {
-                          Provider.of<ChecklistModel>(context, listen: false)
-                             .addChecklist(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
+                        onPressed: () async {
+                          checklist.addChecklist(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Checklists(adventure)),
+                          );
                         },
                       ),
                     )

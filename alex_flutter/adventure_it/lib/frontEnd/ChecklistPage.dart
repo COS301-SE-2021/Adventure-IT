@@ -98,10 +98,8 @@ class ChecklistPage extends StatelessWidget {
 
 class AlertBox extends StatelessWidget {
   Checklist? currentChecklist;
-  BuildContext? b;
   AlertBox(Checklist c) {
     this.currentChecklist = c;
-    b = ChecklistEntryModel(currentChecklist!) as BuildContext?;
   }
 
   double getSize(context) {
@@ -202,8 +200,7 @@ class AlertBox extends StatelessWidget {
                                       .bodyText1!
                                       .color)),
                           onPressed: () {
-                            Provider.of<ChecklistEntryModel>(context, listen: false)
-                                .addChecklistEntry(currentChecklist!, descriptionController.text, currentChecklist!.id);
+                            checklistEntry.addChecklistEntry(currentChecklist!, descriptionController.text, currentChecklist!.id);
                           },
                         ),
                       ),

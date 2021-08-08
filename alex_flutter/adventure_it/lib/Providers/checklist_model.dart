@@ -64,6 +64,7 @@ class ChecklistModel extends ChangeNotifier {
 
     fetchAllChecklists(adv);
 
+    notifyListeners();
   }
 
   Future softDeleteChecklist(Checklist c) async {
@@ -105,10 +106,6 @@ class ChecklistEntryModel extends ChangeNotifier {
 
   Future addChecklistEntry(Checklist c, String a, String b) async {
     await ChecklistApi.addChecklistEntry(a, b);
-
-    for(var index=0; index < _entries!.length; index++) {
-      _entries!.removeAt(index);
-    }
 
     fetchAllEntries(c);
 
