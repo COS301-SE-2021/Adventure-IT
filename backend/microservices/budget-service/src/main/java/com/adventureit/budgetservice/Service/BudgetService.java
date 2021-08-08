@@ -14,7 +14,7 @@ public interface BudgetService {
     CreateBudgetResponse createBudget(String name, String description,UUID creatorID, UUID adventureID) throws Exception;
     List<ViewBudgetResponse> viewBudget(UUID id) throws Exception;
     AddUTUExpenseEntryResponse addUTUExpenseEntry(UUID entryContainerID, double amount, String title, String description, Category category, String payer, String payeeID) throws Exception;
-    RemoveEntryResponse removeEntry(UUID id, UUID entryContainerID) throws Exception;
+    RemoveEntryResponse removeEntry(UUID id) throws Exception;
     AddUTOExpenseEntryResponse addUTOExpenseEntry(UUID entryContainerID, double amount, String title, String description,Category category,String payer, String payee) throws Exception;
     EditBudgetResponse editBudget(EditBudgetRequest req) throws Exception;
     SoftDeleteResponse softDelete(SoftDeleteRequest req) throws Exception;

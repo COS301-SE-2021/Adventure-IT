@@ -110,9 +110,9 @@ public class BudgetController {
 		return response.getMessage();
 	}
 
-	@GetMapping("/removeEntry/{id}/{budgetID}")
-	public String removeEntry(@PathVariable UUID id, @PathVariable UUID budgetID) throws Exception {
-		RemoveEntryResponse response = budgetServiceImplementation.removeEntry(id, budgetID);
+	@GetMapping("/removeEntry/{id}")
+	public String removeEntry(@PathVariable UUID id) throws Exception {
+		RemoveEntryResponse response = budgetServiceImplementation.removeEntry(id);
 		return response.getMessage();
 	}
 
