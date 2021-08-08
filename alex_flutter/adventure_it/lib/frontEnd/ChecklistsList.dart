@@ -239,11 +239,9 @@ class AlertBox extends StatefulWidget {
 }
 class _AlertBox extends State <AlertBox> {
   Adventure? adventure;
-  BuildContext? b;
 
   _AlertBox(Adventure i) {
     this.adventure = i;
-    b = ChecklistModel(adventure!) as BuildContext?;
   }
 
   double getSize(context) {
@@ -376,8 +374,8 @@ class _AlertBox extends State <AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () {
-                          //Provider.of<ChecklistModel>(context, listen: false)
-                            //  .addChecklist(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
+                          Provider.of<ChecklistModel>(context, listen: false)
+                             .addChecklist(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
                         },
                       ),
                     )
