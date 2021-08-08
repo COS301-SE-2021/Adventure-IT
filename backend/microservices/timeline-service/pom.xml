@@ -11,7 +11,7 @@
 	<artifactId>timeline-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>timeline-service</name>
-	<description>The timline service for adventure-it</description>
+	<description>The timeline service for adventure-it</description>
 	<properties>
 		<java.version>11</java.version>
 		<spring-cloud.version>2020.0.3</spring-cloud.version>

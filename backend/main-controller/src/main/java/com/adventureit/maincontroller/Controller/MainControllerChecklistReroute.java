@@ -6,6 +6,8 @@ import com.adventureit.checklist.Requests.CreateChecklistRequest;
 import com.adventureit.checklist.Requests.EditChecklistEntryRequest;
 import com.adventureit.checklist.Responses.ChecklistEntryResponseDTO;
 import com.adventureit.checklist.Responses.ChecklistResponseDTO;
+import com.adventureit.timelineservice.Entity.TimelineType;
+import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -62,7 +64,10 @@ public class MainControllerChecklistReroute {
 
     @PostMapping("/create")
     public String createChecklist(@RequestBody CreateChecklistRequest req) throws Exception {
-        return restTemplate.postForObject("http://"+ IP + ":" + checklistPort + "/budget/create/", req, String.class);
+        restTemplate.postForObject("http://"+ IP + ":" + checklistPort + "/budget/create/", req, String.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(),req.getCreatorID(), TimelineType.CHECKLIST,req.getTitle()+" checklist has been created" );
+        String timelineResponse = restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        return timelineResponse;
     }
 
     @PostMapping("/addEntry")
