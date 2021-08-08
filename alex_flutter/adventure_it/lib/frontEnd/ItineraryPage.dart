@@ -5,6 +5,7 @@ import 'package:adventure_it/Providers/location_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/createItinerary.dart';
+import 'package:adventure_it/api/createItineraryEntry.dart';
 import 'package:adventure_it/api/itinerary.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
@@ -156,6 +157,10 @@ class _AlertBox extends State<AlertBox> {
   _AlertBox(Itinerary i) {
     this.currentItinerary = i;
   }
+
+  Future<CreateItineraryEntry>? _futureItineraryEntry;
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
