@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import '/api/adventure.dart';
-import '/api/transactions.dart';
+import '/api/report.dart';
 
 part 'createItinerary.g.dart';
 
