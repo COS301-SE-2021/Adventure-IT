@@ -2,6 +2,7 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:time_machine/time_machine.dart';
 
 
 class AdventuresModel extends ChangeNotifier {
@@ -19,13 +20,13 @@ class AdventuresModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future addAdventure(Adventure adventure) async {
-  //   Adventure newAdventure = await AdventureApi.createAdventure(adventure);
-  //   _adventures.add(newAdventure);
-  //
-  //   notifyListeners();
-  // }
+  Future addAdventure(String a, String b, LocalDate c, LocalDate d, String e, String f) async {
+    await AdventureApi.createAdventure(a, b, c, d, e, f);
 
+    fetchAllAdventures();
+
+    notifyListeners();
+  }
 
   Future deleteAdventure(Adventure adventure) async {
     await AdventureApi.removeAdventure(adventure.adventureId);

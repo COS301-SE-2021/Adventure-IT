@@ -55,6 +55,7 @@ class ItineraryModel extends ChangeNotifier {
 
   Future fetchAllItineraries(Adventure a) async {
     _itineraries = await ItineraryApi.getItineraries(a);
+    print(_itineraries!.length.toString());
 
     notifyListeners();
   }
@@ -99,7 +100,11 @@ class ItineraryEntryModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future addItineraryEntry(String a, String b, String c, String d, String e) async {
+    await ItineraryApi.createItineraryEntry(a, b, c, d, e);
 
+    notifyListeners();
+  }
 
   Future deleteItineraryEntry(ItineraryEntry c) async {
     await ItineraryApi.deleteItineraryEntry(c);

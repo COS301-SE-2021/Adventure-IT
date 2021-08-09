@@ -35,20 +35,16 @@ class AdventureApi {
       throw Exception('Failed to load list of attendees: ${response.body}');
     }
 
-    List<String> userIDs = (jsonDecode(response.body) as List<dynamic>).cast<String>();
-    List <UserProfile> attendees=List.empty();
-    for(var i in userIDs)
-      {
-        if(i!="1660bd85-1c13-42c0-955c-63b1eda4e90b") {
-          UserProfile p = await UserApi.getUserByUUID(i);
-          attendees.add(p);
-        }
-      }
+    List<UserProfile> attendees = (jsonDecode(response.body) as List)
+        .map((x) => UserProfile.fromJson(x))
+        .toList();
+    print("here here "+attendees.toString());
+
     return attendees;//
   }
 
   static Future<http.Response> _getAttendeesOfAdventure(adventureID) async {
-    return http.get(Uri.http(adventureApi, '/adventure/getAttendees/' + adventureID));
+    return http.get(Uri.http(mainApi, '/adventure/getAttendees/' + adventureID));
   }
 
 
@@ -70,10 +66,10 @@ class AdventureApi {
     return http.delete(Uri.http(adventureApi, '/adventure/remove/' + adventureID));
   }
 
-  Future<CreateAdventure> createAdventure(String name, String ownerId, LocalDate startDate, LocalDate endDate, String description) async {
+  static Future<CreateAdventure> createAdventure(String name, String ownerId, LocalDate startDate, LocalDate endDate, String description, String location) async {
 
     final response = await http.post(
-      Uri.parse('http://localhost:9001/adventure/create'), //get uri
+      Uri.parse('http://localhost:9999/adventure/create'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -82,7 +78,8 @@ class AdventureApi {
         'ownerId': ownerId,
         'startDate': startDate.toString(),
         'endDate': endDate.toString(),
-        'description': description
+        'description': description,
+        'location': location
       })
     );
 
@@ -91,7 +88,7 @@ class AdventureApi {
       // then parse the JSON.
       print('Status code: ${response.statusCode}');
       print('Body: ${response.body}');
-      return CreateAdventure(name: name, ownerId: ownerId, startDate: startDate, endDate: endDate, description: description);
+      return CreateAdventure(name: name, ownerId: ownerId, startDate: startDate.toString(), endDate: endDate.toString(), description: description, location: location);
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
@@ -100,5 +97,7 @@ class AdventureApi {
       throw Exception('Failed to create an adventure.');
     }
   }
+
+
 
 }

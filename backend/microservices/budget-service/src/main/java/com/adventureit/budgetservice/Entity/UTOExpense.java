@@ -16,13 +16,13 @@ public class UTOExpense extends BudgetEntry{
      * @param title title of entry
      * @param description short description of entry
      */
-    public UTOExpense(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, List<String> payers, String payee){
-        super(id,entryContainerID,amount,title,description, category, payers);
+    public UTOExpense(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, String payer, String payee){
+        super(id,entryContainerID,amount,title,description, category, payer);
         this.payee = payee;
     }
 
-    public UTOExpense(UUID entryContainerID, double amount, String title, String description, Category category, List<String> payers, String payee){
-        super(entryContainerID,amount,title,description, category, payers);
+    public UTOExpense(UUID entryContainerID, double amount, String title, String description, Category category, String payer, String payee){
+        super(entryContainerID,amount,title,description, category, payer);
         this.payee = payee;
     }
 
