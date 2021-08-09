@@ -46,12 +46,31 @@ public class ChatServiceImplementation implements ChatService {
                 while (checked.contains(randomCol))
                     randomCol = rand.nextInt(359)+1;
             checked.add(randomCol);
-            list.add(new ColorPair(participant, randomCol));
-            colorPairRepository.save(new ColorPair(participant, randomCol));
+            list.add(new ColorPair(adventureID,participant, randomCol));
+            colorPairRepository.save(new ColorPair(adventureID,participant, randomCol));
         }
         GroupChat groupChat = new GroupChat(id,adventureID,participants,list,name);
         chatRepository.save(groupChat);
         return "Group Chat successfully created";
+    }
+
+    @Override
+    public String addParticipant( UUID adventureID, UUID participant) {
+        Chat groupChat = chatRepository.findByAdventureID(adventureID);
+        groupChat.getParticipants().add(participant);
+        List<Integer> checked = new ArrayList<Integer>();
+        List<ColorPair> cp = colorPairRepository.findAllByAdventureId(adventureID);
+        Random rand = new Random();
+        for (int x =0; x<cp.size();x++) {
+            checked.add(cp.get(x).getColor());
+        }
+        int randval = rand.nextInt(359)+1;
+        while(checked.contains(randval)){
+             randval = rand.nextInt(359)+1;
+        }
+        colorPairRepository.save(new ColorPair(adventureID,participant,randval));
+        chatRepository.save(groupChat);
+        return participant+" successfully added to chat "+adventureID;
     }
 
     public int getUserColor(UUID groupChatID, UUID userID){
