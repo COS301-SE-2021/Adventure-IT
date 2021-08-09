@@ -51,6 +51,7 @@ class BudgetPage extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.2,
                 child: getReport(currentBudget!),
               ),
+              Spacer(),
               Container(
                   alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height / 11,
