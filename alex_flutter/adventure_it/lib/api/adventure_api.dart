@@ -47,6 +47,21 @@ class AdventureApi {
     return http.get(Uri.http(mainApi, '/adventure/getAttendees/' + adventureID));
   }
 
+  static Future addAttendee(Adventure a, String userID) async {
+    http.Response response =
+    await _addAttendee(a, userID);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to add attendee: ${response.body}');
+    }
+
+
+  }
+
+  static Future<http.Response> _addAttendee(adventure,userID) async {
+    return http.get(Uri.http(mainApi, '/adventure/addAttendee/' + adventure.adventureID+"/"+userID));
+  }
+
 
   static Future<http.Response> _getAdventuresByUUID(userID) async {
     return http.get(Uri.http(adventureApi, '/adventure/all/' + userID));
