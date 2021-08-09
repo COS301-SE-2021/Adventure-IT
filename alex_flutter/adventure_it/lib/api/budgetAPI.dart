@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:adventure_it/api/report.dart';
+
 import '/constants.dart';
 import '/api/budget.dart';
 import '/api/adventure.dart';
@@ -167,6 +169,27 @@ class BudgetApi {
   static Future<http.Response> _deleteBudgetEntryRequest(BudgetEntryID, BudgetID) async {
 
     return http.get(Uri.http(budgetApi, '/budget/removeEntry/' + BudgetEntryID+"/"+BudgetID));
+  }
+
+  static Future getReport(Budget b, String userID) async {
+    http.Response response = await _getReport(b,userID);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to get budget ${response.body}');
+    }
+
+    List<Report> reportEntries = (jsonDecode(response.body) as List)
+        .map((x) => Report.fromJson(x))
+        .toList();
+
+    return reportEntries;
+
+  }
+
+  static Future<http.Response> _getReport(Budget b, String userID) async {
+
+    return http.get(Uri.http(budgetApi, '/budget/generateIndividualReport/' +b.id+"/"+userID));
   }
 
   Future<CreateBudget> createBudget(String name, String description, String creatorID, String adventureID) async {

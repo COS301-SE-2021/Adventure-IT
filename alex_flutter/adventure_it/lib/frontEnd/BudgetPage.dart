@@ -39,17 +39,31 @@ class BudgetPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(height: MediaQuery.of(context).size.height / 60),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
-                // child: getReport(),
+                  alignment: Alignment.center,
+                  height: MediaQuery.of(context).size.height / 11,
+                  child: Text("Report",
+                      style: TextStyle(
+                          fontSize: 35 * MediaQuery.of(context).textScaleFactor,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).textTheme.bodyText1!.color))),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.2,
+                child: getReport(currentBudget!),
               ),
-              Spacer(),
               Container(
-                height: MediaQuery.of(context).size.height * 0.5,
+                  alignment: Alignment.center,
+                  height: MediaQuery.of(context).size.height / 11,
+                  child: Text("Budget",
+                      style: TextStyle(
+                          fontSize: 35 * MediaQuery.of(context).textScaleFactor,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).textTheme.bodyText1!.color))),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.4,
                 child: GetBudgetEntries(this.currentBudget!),
               ),
-              Spacer(),
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
               Row(children: [
                 Expanded(
                   flex: 1,
@@ -741,5 +755,128 @@ class GetBudgetEntries extends StatelessWidget {
                         color: Theme.of(context).textTheme.bodyText1!.color)));
           }
         }));
+  }
+}
+
+class getReport extends StatelessWidget {
+  Budget? currentBudget;
+
+  getReport(Budget b) {
+    this.currentBudget = b;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+        create: (context) => BudgetReportModel(currentBudget!,"AshFlo"),
+        child: Consumer<BudgetReportModel>(
+            builder: (context, budgetReportModel, child) {
+              if (budgetReportModel.reports == null) {
+                return Center(
+                    child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            Theme.of(context).accentColor)));
+              }
+              if (budgetReportModel.reports!.length > 0) {
+                return Expanded(
+                    flex: 2,
+                    child: ListView(children: [
+                      ...List.generate(
+                          budgetReportModel.reports!.length,
+                              (index) =>  Card(
+                                  color: Theme.of(context).primaryColorDark,
+                                      child: InkWell(
+                                          hoverColor:
+                                          Theme.of(context).primaryColorLight,
+                                          child: Container(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  flex: 4,
+                                                  child: ListTile(
+                                                      title: Row(children: [
+                                                        Text(
+                                                            budgetReportModel.reports!.elementAt(index).amount>0? "You": budgetReportModel.reports!.elementAt(index).payeeName,
+                                                            style: TextStyle(
+                                                                fontSize: 20 *
+                                                                    MediaQuery.of(
+                                                                        context)
+                                                                        .textScaleFactor,
+                                                                fontWeight:
+                                                                FontWeight.bold,
+                                                                color: Theme.of(context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color)),
+                                                        Spacer(),
+                                                        Text(
+                                                            budgetReportModel.reports!.elementAt(index).amount>0? " owe ": " owes ",
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: 12 *
+                                                                    MediaQuery.of(
+                                                                        context)
+                                                                        .textScaleFactor,
+                                                                color: Theme.of(context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color)),
+                                                        Spacer(),
+                                                        Text(
+                                                            budgetReportModel.reports!.elementAt(index).amount>0? budgetReportModel.reports!.elementAt(index).amount.toString(): (budgetReportModel.reports!.elementAt(index).amount*-1).toString(),
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: 20 *
+                                                                    MediaQuery.of(
+                                                                        context)
+                                                                        .textScaleFactor,
+                                                                color: Theme.of(context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color)),
+                                                        Spacer(),
+                                                        Text(
+                                                            " To ",
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: 12 *
+                                                                    MediaQuery.of(
+                                                                        context)
+                                                                        .textScaleFactor,
+                                                                color: Theme.of(context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color)),
+                                                        Spacer(),
+                                                        Text(
+                                                            budgetReportModel.reports!.elementAt(index).amount>0? budgetReportModel.reports!.elementAt(index).payeeName: "You",
+                                                            textAlign: TextAlign.right,
+                                                            style: TextStyle(
+                                                                fontSize: 20 *
+                                                                    MediaQuery.of(
+                                                                        context)
+                                                                        .textScaleFactor,
+                                                                color: Theme.of(context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color)),
+
+                                                      ]),
+                                                      ),
+                                                ),
+                                              ],
+                                            ),
+                                          ))),
+
+                      )]));
+              } else {
+                return Center(
+                    child: Text("Well done! You owe no one money!",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                            color: Theme.of(context).textTheme.bodyText1!.color)));
+              }
+            }));
   }
 }
