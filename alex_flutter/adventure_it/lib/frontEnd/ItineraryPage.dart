@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:adventure_it/Providers/itinerary_model.dart';
+import 'package:adventure_it/Providers/location_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/createItinerary.dart';
+import 'package:adventure_it/api/createItineraryEntry.dart';
 import 'package:adventure_it/api/itinerary.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
@@ -119,6 +123,8 @@ class _AlertBox extends State<AlertBox> {
   Itinerary? currentItinerary;
   DateTime? date = null;
   TimeOfDay? time = null;
+  String? location=null;
+  final _debouncer = Debouncer(milliseconds: 500);
 
   Map<int, Color> color = {
     50: Color.fromRGBO(32, 34, 45, .1),
@@ -151,6 +157,10 @@ class _AlertBox extends State<AlertBox> {
   _AlertBox(Itinerary i) {
     this.currentItinerary = i;
   }
+
+  Future<CreateItineraryEntry>? _futureItineraryEntry;
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -195,6 +205,7 @@ class _AlertBox extends State<AlertBox> {
                           style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText1!.color),
+                          controller: titleController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
@@ -222,6 +233,7 @@ class _AlertBox extends State<AlertBox> {
                           style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText1!.color),
+                          controller: descriptionController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
@@ -238,7 +250,7 @@ class _AlertBox extends State<AlertBox> {
                                       color: Theme.of(context).accentColor)),
                               hintText: 'Description')),
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     MaterialButton(
                         color: Theme.of(context).accentColor,
                         onPressed: () async {
@@ -255,7 +267,7 @@ class _AlertBox extends State<AlertBox> {
                                     .color,
                                 fontSize: 15 *
                                     MediaQuery.of(context).textScaleFactor))),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     MaterialButton(
                         color: Theme.of(context).accentColor,
                         onPressed: () async {
@@ -272,7 +284,173 @@ class _AlertBox extends State<AlertBox> {
                                     .color,
                                 fontSize: 15 *
                                     MediaQuery.of(context).textScaleFactor))),
-                    Spacer(),
+                    SizedBox(height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.02),
+                    MaterialButton(
+                        color: Theme
+                            .of(context)
+                            .accentColor,
+                        onPressed: () async {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                    backgroundColor: Theme
+                                        .of(context)
+                                        .primaryColorDark,
+                                    title: Stack(
+                                        overflow: Overflow.visible,
+                                        children: <Widget>[
+                                          Positioned(
+                                            right: -40.0,
+                                            top: -40.0,
+                                            child: InkResponse(
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: CircleAvatar(
+                                                child: Icon(Icons.close,
+                                                    color: Theme
+                                                        .of(context)
+                                                        .primaryColorDark),
+                                                backgroundColor: Theme
+                                                    .of(context)
+                                                    .accentColor,
+                                              ),
+                                            ),
+                                          ), Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text("Find Location",
+                                                    textAlign: TextAlign
+                                                        .center,
+                                                    style: TextStyle(
+                                                      color: Theme
+                                                          .of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color,
+                                                      fontSize: 25 *
+                                                          MediaQuery
+                                                              .of(
+                                                              context)
+                                                              .textScaleFactor,
+                                                      fontWeight: FontWeight
+                                                          .bold,
+                                                    )),
+                                                SizedBox(height: MediaQuery
+                                                    .of(context)
+                                                    .size
+                                                    .height * 0.01,width:300),TextField(
+                                                  style: TextStyle(
+                                                      color:
+                                                      Theme
+                                                          .of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color),
+                                                  decoration: InputDecoration(
+                                                      hintStyle: TextStyle(
+                                                          color: Theme
+                                                              .of(
+                                                              context)
+                                                              .textTheme
+                                                              .bodyText2!
+                                                              .color),
+                                                      filled: true,
+                                                      enabledBorder: InputBorder
+                                                          .none,
+                                                      errorBorder: InputBorder
+                                                          .none,
+                                                      disabledBorder: InputBorder
+                                                          .none,
+                                                      fillColor: Theme
+                                                          .of(context)
+                                                          .primaryColorLight,
+                                                      focusedBorder: OutlineInputBorder(
+                                                          borderSide: new BorderSide(
+                                                              color: Theme
+                                                                  .of(
+                                                                  context)
+                                                                  .accentColor)),
+                                                      hintText: 'Search for a place of interest'),
+                                                  onChanged: (value) {
+                                                    _debouncer.run(() {
+                                                      Provider.of<
+                                                          LocationModel>(
+                                                          context,
+                                                          listen: false)
+                                                          .fetchAllSuggestions(
+                                                          value);
+                                                    });},
+                                                ),
+                                              ])
+                                        ]),
+                                    content:
+                                    Container(
+                                        width:300,
+                                        child: Consumer<LocationModel>(
+                                            builder: (context, locationModel, child) {
+                                              return  locationModel.suggestions!
+                                                  .length > 0 ?
+                                              ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount: locationModel.suggestions!.length,
+                                                  itemBuilder: (context,
+                                                      index) {
+                                                    return
+                                                      InkWell(
+                                                          hoverColor:
+                                                          Theme.of(context).primaryColorLight,
+                                                          onTap: ()
+                                                          {
+                                                            setState(() {
+                                                              this.location=locationModel.suggestions!
+                                                                  .elementAt(index)
+                                                                  .description;
+                                                            });
+                                                            Navigator.of(context).pop();
+                                                          },
+                                                          child: Padding(padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01,horizontal: MediaQuery.of(context).size.width*0.01),child: Expanded(
+                                                              child: Text(
+                                                                locationModel.suggestions!
+                                                                    .elementAt(index)
+                                                                    .description,
+                                                                style: TextStyle(
+                                                                    fontSize: 16 *
+                                                                        MediaQuery
+                                                                            .of(
+                                                                            context)
+                                                                            .textScaleFactor,
+                                                                    fontWeight: FontWeight
+                                                                        .bold,
+                                                                    color: Theme
+                                                                        .of(
+                                                                        context)
+                                                                        .textTheme
+                                                                        .bodyText1!
+                                                                        .color
+                                                                ),
+                                                              )
+                                                          )));
+                                                  })
+                                                  : Container(height: 10);
+
+                                            })));
+                              });
+                        },
+
+                        child: Text(
+                            getTextLocation(), textAlign: TextAlign.center,style: new TextStyle(color: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color, fontSize: 15 * MediaQuery
+                            .of(context)
+                            .textScaleFactor))
+                    ),Spacer(),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
@@ -285,7 +463,7 @@ class _AlertBox extends State<AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          _futureItineraryEntry = ItineraryApi.createItineraryEntry(currentItinerary!.id, titleController.text, descriptionController.text, location!, (date!.toString()).substring(0, 10)+"T"+(time.toString()).substring(10,15));
                         },
                       ),
                     ),
@@ -396,9 +574,9 @@ class _AlertBox extends State<AlertBox> {
   double getSize(context) {
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      return MediaQuery.of(context).size.height * 0.49;
+      return MediaQuery.of(context).size.height * 0.60;
     } else {
-      return MediaQuery.of(context).size.height * 0.6;
+      return MediaQuery.of(context).size.height * 0.65;
     }
   }
 
@@ -410,6 +588,15 @@ class _AlertBox extends State<AlertBox> {
       final minutes = time!.minute.toString().padLeft(2, '0');
 
       return '$hours:$minutes';
+    }
+  }
+
+  String getTextLocation() {
+    if (location == null) {
+      return "Select Location";
+    }
+    else {
+      return location!;
     }
   }
 }
@@ -647,5 +834,20 @@ class ListItineraryItems extends StatelessWidget {
                         color: Theme.of(context).textTheme.bodyText1!.color)));
           }
         }));
+  }
+}
+
+class Debouncer {
+  final int milliseconds;
+  VoidCallback? action;
+  Timer? _timer;
+
+  Debouncer({required this.milliseconds});
+
+  run(VoidCallback action) {
+    if (null != _timer) {
+      _timer!.cancel();
+    }
+    _timer = Timer(Duration(milliseconds: milliseconds), action);
   }
 }

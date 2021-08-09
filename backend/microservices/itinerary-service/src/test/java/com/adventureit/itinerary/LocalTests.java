@@ -67,4 +67,21 @@ public class LocalTests {
         itineraryServiceImplementation.removeItineraryEntry(UUID.fromString("f730efb2-adbd-42c9-941e-d491146b44e3"));
     }
 
+    @Test
+    public void addLocations(){
+        ItineraryEntry entry;
+        entry = itineraryEntryRepository.findItineraryEntryById(UUID.fromString("ccef54cc-7418-4ab7-bbde-4850dd4778a0"));
+        entry.setLocation(UUID.fromString("8aa99666-647a-4dd0-a41c-4780442b61f2"));
+        itineraryEntryRepository.save(entry);
+
+        entry = itineraryEntryRepository.findItineraryEntryById(UUID.fromString("96d2201d-69b6-4eb5-b9c2-cdcdc9b577e1"));
+        entry.setLocation(UUID.fromString("c4c13905-6fee-4cf4-871f-7643efc90f2a"));
+        itineraryEntryRepository.save(entry);
+
+        entry = itineraryEntryRepository.findItineraryEntryById(UUID.fromString("2d5fc8a8-68d8-4616-8c0f-084376e4566c"));
+        entry.setLocation(UUID.fromString("2e074420-9889-499e-845c-0250fecde662"));
+        itineraryEntryRepository.save(entry);
+
+    }
+
 }

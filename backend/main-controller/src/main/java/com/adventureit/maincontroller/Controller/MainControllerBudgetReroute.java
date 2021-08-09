@@ -5,8 +5,8 @@ import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 import com.adventureit.budgetservice.Entity.Budget;
 import com.adventureit.budgetservice.Requests.*;
 import com.adventureit.budgetservice.Responses.*;
-import com.adventureit.timelineservice.Entity.TimelineType;
-import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
+//import com.adventureit.timelineservice.Entity.TimelineType;
+//import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -37,8 +37,7 @@ public class MainControllerBudgetReroute {
         restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/hardDelete/"+id+"/"+userID, String.class);
         CreateTimelineRequest req2 = new CreateTimelineRequest(id,userID, TimelineType.BUDGET,"Budget: "+id+" has been deleted" );
         return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
-
-    }
+ }
 
     @PostMapping("/editBudget")
     public String editBudget(@RequestBody EditBudgetRequest req){

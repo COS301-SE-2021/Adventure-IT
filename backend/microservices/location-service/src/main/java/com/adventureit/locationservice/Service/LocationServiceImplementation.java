@@ -2,6 +2,7 @@ package com.adventureit.locationservice.Service;
 
 import com.adventureit.locationservice.Entity.Location;
 import com.adventureit.locationservice.Repos.LocationRepository;
+import com.adventureit.locationservice.Responses.LocationResponseDTO;
 import com.adventureit.locationservice.Responses.ShortestPathResponseDTO;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +40,7 @@ public class LocationServiceImplementation implements LocationService {
             location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
         }
         else {
-            location1 = locationRepository.save(new Location(null,json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
+            location1 = locationRepository.save(new Location("",json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
         }
 
         return location1.getId();
@@ -144,5 +145,15 @@ public class LocationServiceImplementation implements LocationService {
         connection.disconnect();
 
         return response.toString();
+    }
+
+    @Override
+    public LocationResponseDTO getLocation(UUID id) throws Exception {
+        Location location = locationRepository.findLocationById(id);
+        if(location == null){
+            throw new Exception("Location does not exist");
+        }
+
+        return new LocationResponseDTO(location.getId(),location.getPhoto_reference(),location.getFormattedAddress(),location.getPlace_id());
     }
 }

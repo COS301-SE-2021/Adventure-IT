@@ -269,12 +269,12 @@ public class UserServiceImplementation  {
         return "Picture successfully removed";
     }
 
-    public String createFriendRequest(UUID ID1, UUID ID2) throws Exception {
-        if(repo.getUserByUserID(ID1) == null || repo.getUserByUserID(ID2) == null){
+    public String createFriendRequest(String ID1, String ID2) throws Exception {
+        if(repo.getUserByUserID(UUID.fromString(ID1)) == null || repo.getUserByUserID(UUID.fromString(ID2)) == null){
             throw new Exception("One or both of the users do not exist");
         }
 
-        Friend friend = new Friend(ID1, ID2);
+        Friend friend = new Friend(UUID.fromString(ID1), UUID.fromString(ID2));
         friendRepository.save(friend);
 
         return "Friend request sent";
@@ -325,18 +325,51 @@ public class UserServiceImplementation  {
         return friendUsers;
     }
 
+    public List<GetUserByUUIDDTO> getFriendProfiles(UUID id){
+
+        List<Friend> friendsByFirstUser = friendRepository.findByFirstUserEquals(id);
+        List<Friend> friendsBySecondUser = friendRepository.findBySecondUserEquals(id);
+        List<UUID> friendUsers = new ArrayList<>();
+
+        for (Friend friend : friendsByFirstUser) {
+            if(friend.isAccepted()){
+                friendUsers.add(friend.getSecondUser());
+            }
+        }
+        for (Friend friend : friendsBySecondUser) {
+            if(friend.isAccepted()) {
+                friendUsers.add(friend.getFirstUser());
+            }
+        }
+
+        List<GetUserByUUIDDTO> profileList = new ArrayList<>();
+
+        for (int i = 0; i < friendUsers.size(); i++)
+        {
+            GetUserByUUIDDTO toAdd=this.GetUserByUUID(friendUsers.get(i));
+            if(toAdd!=null)
+            profileList.add(toAdd);
+        }
+
+        return profileList;
+
+    }
+
     public List<GetFriendRequestsResponse> getFriendRequests(UUID id){
         List<Friend> requests = friendRepository.findBySecondUserEquals(id);
         List<GetFriendRequestsResponse> list = new ArrayList<>();
+        Users user;
 
         for (Friend f:requests) {
             if(!f.isAccepted()){
-                list.add(new GetFriendRequestsResponse(f.getId(),f.getFirstUser(),f.getSecondUser(),f.getCreatedDate(),f.isAccepted()));
+                user = repo.getUserByUserID(f.getFirstUser());
+                list.add(new GetFriendRequestsResponse(f.getId(),f.getFirstUser(),f.getSecondUser(),f.getCreatedDate(),f.isAccepted(),new GetUserByUUIDDTO(user.getUserID(),user.getUsername(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhoneNumber())));
             }
         }
 
         return list;
     }
+
 
     public void deleteFriendRequest(UUID id) throws Exception {
         Friend request = friendRepository.findFriendById(id);
@@ -372,6 +405,11 @@ public class UserServiceImplementation  {
         }
 
         return "Friend removed";
+    }
+
+    public UUID getUserIDByUserName(String userName){
+        Users user = repo.getUserByUsername(userName);
+        return  user.getUserID();
     }
 
     public void mockFriendships()

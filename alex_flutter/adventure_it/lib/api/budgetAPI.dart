@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:adventure_it/api/createUTOBudgetEntry.dart';
+
 import '/constants.dart';
 import '/api/budget.dart';
 import '/api/adventure.dart';
@@ -9,6 +11,7 @@ import 'dart:convert';
 import 'createBudget.dart';
 
 import 'budgetEntry.dart';
+import 'createUTUBudgetEntry.dart';
 
 class BudgetApi {
   static Future<List<Budget>> getBudgets(Adventure? a) async {
@@ -170,30 +173,96 @@ class BudgetApi {
 
   Future<CreateBudget> createBudget(String name, String description, String creatorID, String adventureID) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9007/api/budget/create'), //get uri
+      Uri.parse('http://localhost:9007/budget/create'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
         'name': name,
         'description': description,
-        'advID': adventureID,
-        'userID': creatorID
+        'adventureID': adventureID,
+        'creatorID': creatorID
       }),
 
 
     );
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
       print('Status code: ${response.statusCode}');
       print('Body: ${response.body}');
-      return CreateBudget(name: name, description: description, adventureID: adventureID, creatorID: creatorID);
+      return CreateBudget(name: name, description: description, creatorID: creatorID, adventureID: adventureID);
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
       throw Exception('Failed to create a budget.');
+    }
+  }
+
+  static Future<CreateUTOBudgetEntry> createUTOBudget(String entryContainerID, String payer, String amount, String title, String description, String category, String payee) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:9007/budget/addUTOExpense'), //get uri
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'entryContainerID': entryContainerID,
+        'payer': payer,
+        'amount': amount,
+        'title': title,
+        'description': description,
+        'category': category,
+        'payee': payee
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      return CreateUTOBudgetEntry(entryContainerID: entryContainerID, payer: payer, amount: amount, title: title, description: description, category: category, payee: payee);
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      throw Exception('Failed to create a UTO budget entry.');
+    }
+  }
+
+  static Future<CreateUTUBudgetEntry> createUTUBudget(String entryContainerID, String payer, String amount, String title, String description, String category, String payee) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:9007/budget/addUTUExpense'), //get uri
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'entryContainerID': entryContainerID,
+        'payer': payer,
+        'amount': amount,
+        'title': title,
+        'description': description,
+        'category': category,
+        'payee': payee
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      return CreateUTUBudgetEntry(entryContainerID: entryContainerID, payer: payer, amount: amount, title: title, description: description, category: category, payee: payee);
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      throw Exception('Failed to create a UTU budget entry.');
     }
   }
 }

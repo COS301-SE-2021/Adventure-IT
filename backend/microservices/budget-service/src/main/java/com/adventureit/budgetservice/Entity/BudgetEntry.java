@@ -12,8 +12,7 @@ public class BudgetEntry{
     @Id
     private UUID budgetEntryID;
     private UUID entryContainerID;
-    @ElementCollection (fetch= FetchType.EAGER)
-    private List<String> payers;
+    private String payer;
     double amount;
     String title;
     String description;
@@ -24,25 +23,25 @@ public class BudgetEntry{
     public BudgetEntry() {
     }
 
-    public BudgetEntry(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, List<String> payers){
+    public BudgetEntry(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, String payer){
         this.budgetEntryID = id;
         this.entryContainerID = entryContainerID;
         this.amount = amount;
         this.title = title;
         this.description = description;
         this.category = category;
-        this.payers = payers;
+        this.payer = payer;
         this.timestamp = LocalDateTime.now();
     }
 
-    public BudgetEntry(UUID entryContainerID, double amount, String title, String description, Category category, List<String> payers){
+    public BudgetEntry(UUID entryContainerID, double amount, String title, String description, Category category, String payer){
         this.budgetEntryID = UUID.randomUUID();
         this.entryContainerID = entryContainerID;
         this.amount = amount;
         this.title = title;
         this.description = description;
         this.category = category;
-        this.payers = payers;
+        this.payer = payer;
         this.timestamp = LocalDateTime.now();
     }
 
@@ -86,12 +85,12 @@ public class BudgetEntry{
         this.description = description;
     }
 
-    public List<String> getPayers() {
-        return payers;
+    public String getPayer() {
+        return payer;
     }
 
-    public void setPayers(List<String> payers) {
-        this.payers = payers;
+    public void setPayer(String payer) {
+        this.payer = payer;
     }
 
     public Category getCategory() {

@@ -34,14 +34,14 @@ public class MainControllerItineraryReroute {
     }
 
     @PostMapping(value = "/addEntry")
-    public String addItineraryEntry(@RequestBody AddItineraryEntryRequest req) {
+    public UUID addItineraryEntry(@RequestBody AddItineraryEntryRequest req) {
         UUID locationId = restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/create/"+req.getLocation(),UUID.class);
 
         UUID itineraryID = restTemplate.postForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/addEntry",req, UUID.class);
 
         restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/setLocation/" + itineraryID +"/"+ locationId ,String.class);
 
-        return "Entry Added";
+        return itineraryID;
     }
 
 

@@ -1,4 +1,5 @@
 import 'package:adventure_it/Providers/checklist_model.dart';
+import 'package:adventure_it/Providers/checklist_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
@@ -255,7 +256,6 @@ class _AlertBox extends State <AlertBox> {
 
   //controllers for the form fields
   String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
-  String advID = "aa722689-6dbb-474a-a50b-55261570027e";
 
   final ChecklistApi api = new ChecklistApi();
   Future<CreateChecklist>? _futureChecklist;
@@ -264,6 +264,17 @@ class _AlertBox extends State <AlertBox> {
 
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+        create: (context) => ChecklistModel(adventure!),
+      child:
+      Consumer<ChecklistModel>(builder: (context, checklist, child) {
+        if(checklist.checklists==null) {
+        return Center(
+          child: CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(
+            Theme.of(context).accentColor)));
+          }
+        else if (checklist.checklists!.length > 0) {
     return AlertDialog(
         backgroundColor: Theme.of(context).primaryColorDark,
         content: Container(
@@ -363,11 +374,14 @@ class _AlertBox extends State <AlertBox> {
                                     .textTheme
                                     .bodyText1!
                                     .color)),
-                        onPressed: () {
-                          setState(() {
-                            _futureChecklist = api.createChecklist(nameController.text, descriptionController.text, userID, advID);
-                          });
-                          Navigator.of(context).pop();
+                        onPressed: () async {
+                          checklist.addChecklist(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Checklists(adventure)),
+                          );
                         },
                       ),
                     )
@@ -376,6 +390,14 @@ class _AlertBox extends State <AlertBox> {
               )
             ],
           ),
-        ));
+        ));}
+        else {
+          return Center(
+            child: Text("Let's make a list and check it twice!",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+              color: Theme.of(context).textTheme.bodyText1!.color)));
+          }}));
   }
 }

@@ -6,6 +6,7 @@ import 'package:adventure_it/api/checklist.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
 import 'package:adventure_it/api/createChecklist.dart';
+import 'package:adventure_it/api/createChecklistEntry.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/frontEnd/ChecklistsList.dart';
@@ -36,15 +37,6 @@ class ChecklistPage extends StatelessWidget {
                 child: Text(currentChecklist!.title,
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
-            actions:[IconButton(
-                onPressed: () {
-                  {
-
-
-                  }
-                },
-                icon: const Icon(Icons.edit),
-                color: Theme.of(context).textTheme.bodyText1!.color),],
             backgroundColor: Theme.of(context).primaryColorDark),
         body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -106,7 +98,6 @@ class ChecklistPage extends StatelessWidget {
 
 class AlertBox extends StatelessWidget {
   Checklist? currentChecklist;
-
   AlertBox(Checklist c) {
     this.currentChecklist = c;
   }
@@ -120,9 +111,24 @@ class AlertBox extends StatelessWidget {
     }
   }
 
+  final ChecklistApi api = new ChecklistApi();
+  Future<CreateChecklistEntry>? _futureChecklistEntry;
+  final descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return ChangeNotifierProvider(
+        create: (context) => ChecklistEntryModel(currentChecklist!),
+        child:
+        Consumer<ChecklistEntryModel>(builder: (context, checklistEntry, child) {
+        if(checklistEntry.entries==null) {
+          return Center(
+            child: CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(
+              Theme.of(context).accentColor)));
+        }
+        else if (checklistEntry.entries!.length > 0) {
+        return AlertDialog(
           backgroundColor: Theme.of(context).primaryColorDark,
           content: Container(
             height: getSize(context),
@@ -163,6 +169,7 @@ class AlertBox extends StatelessWidget {
                             style: TextStyle(
                                 color:
                                 Theme.of(context).textTheme.bodyText1!.color),
+                            controller: descriptionController,
                             decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Theme.of(context)
@@ -193,21 +200,24 @@ class AlertBox extends StatelessWidget {
                                       .bodyText1!
                                       .color)),
                           onPressed: () {
-                            /*setState(() {
-                              _futureChecklist = api.createChecklist(nameController.text, descriptionController.text, userID, advID);
-                            });*/
-                            Navigator.of(context).pop();
+                            checklistEntry.addChecklistEntry(currentChecklist!, descriptionController.text, currentChecklist!.id);
                           },
                         ),
                       ),
-                      Spacer(),
                     ],
                   ),
                 )
               ],
             ),
           )
-    );
+    );} else {
+      return Center(
+          child: Text("Let's make a list and check it twice!",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                  color: Theme.of(context).textTheme.bodyText1!.color)));
+    }}));
   }
 }
 
@@ -229,8 +239,19 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
 
   Checklist? checklist;
   BuildContext? c;
+  final editController = TextEditingController();
+
   GetChecklistEntries(Checklist c) {
     this.checklist = c;
+  }
+
+  double getSize(context) {
+    if (MediaQuery.of(context).size.height >
+        MediaQuery.of(context).size.width) {
+      return MediaQuery.of(context).size.height * 0.49;
+    } else {
+      return MediaQuery.of(context).size.height * 0.6;
+    }
   }
 
   @override
@@ -261,6 +282,10 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                                 MediaQuery.of(context).size.height / 60),
                             child: Row(
                               children: [
+                                Icon(Icons.edit,
+                                  color: Theme.of(context).accentColor,
+                                  size: 35 *
+                                    MediaQuery.of(context).textScaleFactor),
                                 new Spacer(),
                                 Icon(Icons.delete,
                                     color: Theme.of(context).accentColor,
@@ -269,7 +294,6 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                               ],
                             ),
                           ),
-                          direction: DismissDirection.endToStart,
                           key: Key(checklistEntry.entries
                           !.elementAt(index)
                               .id),
@@ -285,12 +309,11 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                                           flex: 4,
                                           child: ListTile(
                                             leading:  Checkbox(value: checklistEntry.entries!.elementAt(index).completed,
-    onChanged: (bool? value) {
-
+                                            onChanged: (bool? value) {
                                                   checklistEntry.markEntry(checklistEntry.entries!.elementAt(index));
 
-    }// This is where we update the state when the checkbox is tapped
-),
+                                            }// This is where we update the state when the checkbox is tapped
+                                        ),
                                             title: Text(
                                                 checklistEntry.entries
                                                 !.elementAt(index)
@@ -310,56 +333,134 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                                     ),
                                   ))),
                           confirmDismiss: (DismissDirection direction) async {
-                            return await showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor:
-                                  Theme.of(context).primaryColorDark,
-                                  title: Text("Confirm Removal",
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color)),
-                                  content: Text(
-                                      "Are you sure you want to remove this checklist item for definite?",
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color)),
-                                  actions: <Widget>[
-                                    FlatButton(
+                            if(direction == DismissDirection.endToStart) {
+                              return await showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor:
+                                    Theme.of(context).primaryColorDark,
+                                    title: Text("Confirm Removal",
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color)),
+                                    content: Text(
+                                        "Are you sure you want to remove this checklist item for definite?",
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color)),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(true),
+                                          child: Text("Remove",
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color))),
+                                      FlatButton(
                                         onPressed: () =>
-                                            Navigator.of(context).pop(true),
-                                        child: Text("Remove",
+                                            Navigator.of(context).pop(false),
+                                        child: Text("Cancel",
                                             style: TextStyle(
                                                 color: Theme.of(context)
                                                     .textTheme
                                                     .bodyText1!
-                                                    .color))),
-                                    FlatButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(false),
-                                      child: Text("Cancel",
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color)),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
+                                                    .color)),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                            else if(direction == DismissDirection.startToEnd){
+                              return showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                              return AlertDialog(
+                                  backgroundColor: Theme.of(context).primaryColorDark,
+                                  content: Container(
+                                    height: getSize(context),
+                                    child: Stack(
+                                    overflow: Overflow.visible,
+                                    children: <Widget>[
+                                      Positioned(
+                                      right: -40.0,
+                                      top: -40.0,
+                                      child: InkResponse(
+                                        onTap: () {
+                                          Navigator.of(context).pop(false);
+                                        },
+                                        child: CircleAvatar(
+                                          child: Icon(Icons.close,
+                                          color: Theme.of(context).primaryColorDark),
+                                          backgroundColor: Theme.of(context).accentColor,
+                                        ),),),
+                            Column(
+                                // mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                  Text("Edit: " + checklistEntry.entries!.elementAt(index).title,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Theme.of(context).textTheme.bodyText1!.color,
+                                      fontSize: 25 * MediaQuery.of(context).textScaleFactor,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                              Spacer(),
+                              Container(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: MediaQuery.of(context).size.width * 0.02),
+                                child: TextField(
+                                  style: TextStyle(
+                                    color:
+                                    Theme.of(context).textTheme.bodyText1!.color),
+                                    controller: editController,
+                                    decoration: InputDecoration(
+                                      hintStyle: TextStyle(
+                                        color: Theme.of(context).textTheme.bodyText2!.color),
+                                        filled: true,
+                                        enabledBorder: InputBorder.none,
+                                        errorBorder: InputBorder.none,
+                                        disabledBorder: InputBorder.none,
+                                        fillColor: Theme.of(context).primaryColorLight,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: new BorderSide(
+                                          color: Theme.of(context).accentColor)),
+                                          hintText: 'Description')),
+                                ),
+                                Spacer(),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                  horizontal: MediaQuery.of(context).size.width * 0.02),
+                                  child: RaisedButton(
+                                  color: Theme.of(context).accentColor,
+                                  onPressed: () {
+                                    Navigator.of(context).pop(true);
+                                  },
+                                  child: Text("Edit",
+                                    style: TextStyle(
+                                    color: Theme.of(context).textTheme.bodyText1!.color))))])
+                            ])));});
+                            }
                           },
                           onDismissed: (direction) {
-                            Provider.of<ChecklistEntryModel>(context, listen: false)
-                                .deleteChecklistEntry(checklistEntry
-                                .entries
-                            !.elementAt(index));
-                          }))
+                            if(direction == DismissDirection.endToStart) {
+                              Provider.of<ChecklistEntryModel>(context, listen: false)
+                                  .deleteChecklistEntry(checklistEntry
+                                  .entries
+                                  !.elementAt(index));
+                          }
+                            else if(direction == DismissDirection.startToEnd){
+                              Provider.of<ChecklistEntryModel>(context, listen: false)
+                                  .editChecklistEntry(checklistEntry.entries!.elementAt(index), checklist!, editController.text);
+                            }
+                        }))
                 ]));
           } else {
             return Center(
