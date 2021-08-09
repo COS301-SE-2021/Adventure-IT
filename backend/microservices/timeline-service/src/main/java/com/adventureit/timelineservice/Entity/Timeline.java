@@ -9,16 +9,16 @@ import java.util.UUID;
 public class Timeline {
     @Id
     private UUID timelineID;
-    private UUID adventureID;
+    private UUID serviceID;
     private UUID userID;
     private String descrpition;
     private LocalDateTime timestamp;
     private TimelineType type;
 
 
-    public Timeline(UUID timelineID, UUID adventureID, UUID userID, String descrpition, LocalDateTime timestamp, TimelineType type) {
+    public Timeline(UUID timelineID, UUID serviceID, UUID userID, String descrpition, LocalDateTime timestamp, TimelineType type) {
         this.timelineID = timelineID;
-        this.adventureID = adventureID;
+        this.serviceID = serviceID;
         this.userID = userID;
         this.descrpition = descrpition;
         this.timestamp = timestamp;
@@ -38,11 +38,11 @@ public class Timeline {
     }
 
     public UUID getAdventureID() {
-        return adventureID;
+        return serviceID;
     }
 
     public void setAdventureID(UUID adventureID) {
-        this.adventureID = adventureID;
+        this.serviceID = adventureID;
     }
 
     public UUID getUserID() {

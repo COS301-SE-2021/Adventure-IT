@@ -5,29 +5,14 @@ import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.Responses.GetAdventuresByUserUUIDResponse;
 import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
 import com.adventureit.adventureservice.Responses.RemoveAdventureResponse;
-import com.adventureit.maincontroller.Requests.CreateAdventureDTO;
-import com.adventureit.maincontroller.Service.ConnectionFactory;
 import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.*;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,17 +50,15 @@ public class MainControllerAdventureReroute {
 
 
     @PostMapping(value = "/create")
-    public String createAdventure(@RequestBody CreateAdventureRequest req) {
+    public CreateAdventureResponse createAdventure(@RequestBody CreateAdventureRequest req) {
         System.out.println(req.getStartDate());
         //CreateAdventureRequest newReq = new CreateAdventureRequest(req.getName(),req.getDescription(),req.getOwnerId(),req.getStartDate(),req.getEndDate());
-
         //CreateAdventureRequest newReq =  new CreateAdventureRequest(req.getName(),req.getDescription(),req.getOwnerId(),req.getStartDate(),req.getEndDate(),req.getLocation());
         UUID locationId = restTemplate.getForObject("http://"+ IP + ":" + "9006" + "/location/create/"+req.getLocation(),UUID.class);
-        UUID adventureId = restTemplate.postForObject("http://"+ IP + ":" + adventurePort + "/adventure/create/",req, CreateAdventureResponse.class).getAdventure().getAdventureId();
+        CreateAdventureResponse response = restTemplate.postForObject("http://"+ IP + ":" + adventurePort + "/adventure/create/",req, CreateAdventureResponse.class);
+        UUID adventureId = response.getAdventure().getAdventureId();
         restTemplate.getForObject("http://"+ IP + ":" + "9001" + "/adventure/setLocation/"+adventureId.toString()+"/"+locationId.toString(),String.class);
-
-
-        return "IT worked";
+        return response;
     }
 
 

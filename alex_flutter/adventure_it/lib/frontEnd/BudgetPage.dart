@@ -178,6 +178,11 @@ class AlertBox extends State<_AlertBox> {
       )
     ];
 
+    final amountController = TextEditingController();
+    final titleController = TextEditingController();
+    final descriptionController = TextEditingController();
+    final categoryController = TextEditingController();
+
     if (userNames==null||userNames!.length == 0 || userNamesAndOther==null||userNamesAndOther!.length == 0) {
       return AlertDialog(
           backgroundColor: Theme.of(context).primaryColorDark,
@@ -233,6 +238,7 @@ class AlertBox extends State<_AlertBox> {
                                     .textTheme
                                     .bodyText1!
                                     .color),
+                            controller: titleController,
                             decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Theme.of(context)
@@ -264,6 +270,7 @@ class AlertBox extends State<_AlertBox> {
                                     .textTheme
                                     .bodyText1!
                                     .color),
+                            controller: descriptionController,
                             decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Theme.of(context)
@@ -330,6 +337,7 @@ class AlertBox extends State<_AlertBox> {
                                       .textTheme
                                       .bodyText1!
                                       .color),
+                              controller: amountController,
                               decoration: InputDecoration(
                                   hintStyle: TextStyle(
                                       color: Theme.of(context)
@@ -511,7 +519,13 @@ class AlertBox extends State<_AlertBox> {
                                       .bodyText1!
                                       .color)),
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            if(selectedCategory == 5) {
+                              //create UTU
+                            }
+
+                            else {
+                              //create UTO
+                            }
                           },
                         ),
                       ),

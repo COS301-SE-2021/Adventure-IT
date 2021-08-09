@@ -5,6 +5,7 @@ import 'package:adventure_it/Providers/location_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/createItinerary.dart';
+import 'package:adventure_it/api/createItineraryEntry.dart';
 import 'package:adventure_it/api/itinerary.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
@@ -157,6 +158,10 @@ class _AlertBox extends State<AlertBox> {
     this.currentItinerary = i;
   }
 
+  Future<CreateItineraryEntry>? _futureItineraryEntry;
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -200,6 +205,7 @@ class _AlertBox extends State<AlertBox> {
                           style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText1!.color),
+                          controller: titleController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
@@ -227,6 +233,7 @@ class _AlertBox extends State<AlertBox> {
                           style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText1!.color),
+                          controller: descriptionController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
@@ -456,7 +463,7 @@ class _AlertBox extends State<AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          _futureItineraryEntry = ItineraryApi.createItineraryEntry(currentItinerary!.id, titleController.text, descriptionController.text, location!, (date!.toString()).substring(0, 10)+"T"+(time.toString()).substring(10,15));
                         },
                       ),
                     ),
