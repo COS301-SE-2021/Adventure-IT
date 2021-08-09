@@ -160,6 +160,17 @@ class _ItinerariesList extends State<ItinerariesList> {
               Expanded(
                   flex: 4,
                   child: Container(
+                      decoration: new BoxDecoration(
+                          image: new DecorationImage(
+                              image: NetworkImage(
+                                  "https://lh5.googleusercontent.com/p/AF1QipM4-7EPQBFbTgOy5k7YXtJmLWtz7wwl-WwUq4jT=w408-h271-k-no"),
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                  Theme.of(context)
+                                      .backgroundColor
+                                      .withOpacity(0.25),
+                                  BlendMode.dstATop))
+                      ),
                       child: Column(children: [
                     Text("Next Stop!",
                         style: TextStyle(
