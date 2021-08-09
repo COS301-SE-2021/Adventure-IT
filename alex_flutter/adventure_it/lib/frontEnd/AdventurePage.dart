@@ -717,7 +717,7 @@ class AlertBox extends StatelessWidget {
                 width: 300,
                 child: Consumer<FriendModel>(
                     builder: (context, friendModel, child) {
-                  return friendModel.friends!.length > 0
+                  return friendModel.friends!=null&&friendModel.friends!.length > 0
                       ? ListView.builder(
                           shrinkWrap: true,
                           itemCount: friendModel.friends!.length,

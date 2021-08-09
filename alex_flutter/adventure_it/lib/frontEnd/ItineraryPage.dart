@@ -386,7 +386,7 @@ class _AlertBox extends State<AlertBox> {
                                         width:300,
                                         child: Consumer<LocationModel>(
                                             builder: (context, locationModel, child) {
-                                              return  locationModel.suggestions!
+                                              return locationModel.suggestions!=null&&locationModel.suggestions!
                                                   .length > 0 ?
                                               ListView.builder(
                                                   shrinkWrap: true,
