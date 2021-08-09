@@ -24,31 +24,20 @@ public class MainControllerBudgetReroute {
     private final String timelinePort = "9012";
     private final String budgetPort = "9007";
 
-//    @GetMapping("/createBudget")
-//    public String adventureTest(){
-//        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/test", String.class);
-//    }
-//
-//    @PostMapping(value = "/create")
-//    public CreateAdventureResponse createAdventure(@RequestBody CreateAdventureRequest req) {
-//        return restTemplate.postForObject("http://"+ IP + ":" + adventurePort + "/adventure/create/", req, CreateAdventureResponse.class);
-//    }
+    @PostMapping(value ="/create")
+    public String createBudget(@RequestBody CreateBudgetRequest req) {
+        restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/create/", req, String.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(),req.getCreatorID(), TimelineType.BUDGET,req.getName()+" budget has been created" );
+        String timelineResponse = restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        return timelineResponse;
+    }
 
-//    @PostMapping(value ="/create")
-//    public String createBudget(@RequestBody CreateBudgetRequest req) {
-//        restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/create/", req, String.class);
-//        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(),req.getCreatorID(), TimelineType.BUDGET,req.getName()+" budget has been created" );
-//        String timelineResponse = restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
-//        return timelineResponse;
-//    }
-//
-//    @GetMapping("/hardDelete/{id}/{userID}")
-//    public String hardDelete(@PathVariable UUID id, @PathVariable UUID userID){
-//        restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/hardDelete/"+id+"/"+userID, String.class);
-//        CreateTimelineRequest req2 = new CreateTimelineRequest(id,userID, TimelineType.BUDGET,"Budget: "+id+" has been deleted" );
-//        return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
-
-//    }
+    @GetMapping("/hardDelete/{id}/{userID}")
+    public String hardDelete(@PathVariable UUID id, @PathVariable UUID userID){
+        restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/hardDelete/"+id+"/"+userID, String.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(id,userID, TimelineType.BUDGET,"Budget: "+id+" has been deleted" );
+        return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+ }
 
     @PostMapping("/editBudget")
     public String editBudget(@RequestBody EditBudgetRequest req){

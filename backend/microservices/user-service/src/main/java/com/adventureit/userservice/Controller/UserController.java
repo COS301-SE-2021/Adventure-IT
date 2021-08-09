@@ -25,6 +25,7 @@ import java.util.UUID;
 /** This class implements the functionality of the UserAPI interface.*/
 @CrossOrigin("*")
 @RestController
+@RequestMapping("user")
 public class UserController {
 
     private final UserServiceImplementation service;
@@ -62,7 +63,7 @@ public class UserController {
     }
 
 
-    @GetMapping(value="/api/ConfirmToken")
+    @GetMapping(value="/api/ConfirmToken/{token}")
     public String ConfirmToken(@RequestParam("token") String token){
         return service.confirmToken(token);
     }
@@ -82,12 +83,12 @@ public class UserController {
         return service.acceptFriendRequest(id);
     }
 
-    @GetMapping(value="api/GetFriends/{id}")
+    @GetMapping(value="api/getFriends/{id}")
     public List<UUID> getFriends(@PathVariable UUID id){
         return service.getFriends(id);
     }
 
-    @GetMapping(value="api/GetFriendRequests/{id}")
+    @GetMapping(value="api/getFriendRequests/{id}")
     public List<GetFriendRequestsResponse> getFriendRequests(@PathVariable UUID id){
         return service.getFriendRequests(id);
     }
