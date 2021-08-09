@@ -205,6 +205,7 @@ class _AlertBox extends State<AlertBox> {
                           style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText1!.color),
+                          controller: titleController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
@@ -232,6 +233,7 @@ class _AlertBox extends State<AlertBox> {
                           style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText1!.color),
+                          controller: descriptionController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
@@ -461,7 +463,7 @@ class _AlertBox extends State<AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          _futureItineraryEntry = ItineraryApi.createItineraryEntry(currentItinerary!.id, titleController.text, descriptionController.text, location!, (date!.toString()).substring(0, 10)+"T"+(time.toString()).substring(10,15));
                         },
                       ),
                     ),
