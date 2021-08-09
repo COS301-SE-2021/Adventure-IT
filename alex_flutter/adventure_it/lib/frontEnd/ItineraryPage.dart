@@ -625,6 +625,15 @@ class ListItineraryItems extends StatelessWidget {
     this.currentItinerary = i;
   }
 
+  double getSize(context) {
+    if (MediaQuery.of(context).size.height >
+        MediaQuery.of(context).size.width) {
+      return MediaQuery.of(context).size.height * 0.60;
+    } else {
+      return MediaQuery.of(context).size.height * 0.65;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -669,6 +678,10 @@ class ListItineraryItems extends StatelessWidget {
                                 MediaQuery.of(context).size.height / 60),
                             child: Row(
                               children: [
+                                Icon(Icons.edit,
+                                    color: Theme.of(context).accentColor,
+                                    size: 35 *
+                                        MediaQuery.of(context).textScaleFactor),
                                 new Spacer(),
                                 Icon(Icons.delete,
                                     color: Theme.of(context).accentColor,
@@ -677,7 +690,6 @@ class ListItineraryItems extends StatelessWidget {
                               ],
                             ),
                           ),
-                          direction: DismissDirection.endToStart,
                           key: Key(entryModel.entries!.elementAt(index).id),
                           child: Card(
                               color: Theme.of(context).primaryColorDark,
@@ -774,6 +786,7 @@ class ListItineraryItems extends StatelessWidget {
                                 ),
                               )),
                           confirmDismiss: (DismissDirection direction) async {
+                            if(direction == DismissDirection.endToStart) {
                             return await showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -817,7 +830,56 @@ class ListItineraryItems extends StatelessWidget {
                                 );
                               },
                             );
-                          },
+                          }
+                          else if(direction == DismissDirection.startToEnd) {
+                            return showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: Theme.of(context).primaryColorDark,
+                                content: Container(
+                                  height: getSize(context),
+                                  child: Stack(
+                                    overflow: Overflow.visible,
+                                    children: <Widget>[
+                                    Positioned(
+                                      right: -40.0,
+                                      top: -40.0,
+                                      child: InkResponse(
+                                        onTap: () {
+                                        Navigator.of(context).pop(false);
+                                        },
+                                        child: CircleAvatar(
+                                          child: Icon(Icons.close,
+                                          color: Theme.of(context).primaryColorDark),
+                                          backgroundColor: Theme.of(context).accentColor,
+                                    ),),),
+                                    Column(
+                                      children: <Widget>[
+                                      Text("Edit: " + entryModel.entries!.elementAt(index).title,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Theme.of(context).textTheme.bodyText1!.color,
+                                          fontSize: 25 * MediaQuery.of(context).textScaleFactor,
+                                          fontWeight: FontWeight.bold,
+                                          )),
+                                    Spacer(),
+                                    Container(),
+                                    Spacer(),
+                                    Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: MediaQuery.of(context).size.width * 0.02),
+                                        child: RaisedButton(
+                                            color: Theme.of(context).accentColor,
+                                            onPressed: () {
+                                              Navigator.of(context).pop(true);
+                                            },
+                                            child: Text("Edit",
+                                                style: TextStyle(
+                                                    color: Theme.of(context).textTheme.bodyText1!.color)))
+                                    )
+                              ])])));});
+                          }},
                           onDismissed: (direction) {
                             Provider.of<ItineraryEntryModel>(context,
                                     listen: false)
