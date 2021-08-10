@@ -1,6 +1,7 @@
 package com.adventureit.chat.Service;
 
 import com.adventureit.chat.Entity.*;
+import com.adventureit.chat.Exceptions.GroupChatFullException;
 import com.adventureit.chat.Repository.ChatRepository;
 import com.adventureit.chat.Repository.ColorPairRepository;
 import com.adventureit.chat.Repository.MessageRepository;
@@ -60,6 +61,10 @@ public class ChatServiceImplementation implements ChatService {
         groupChat.getParticipants().add(participant);
         List<Integer> checked = new ArrayList<Integer>();
         List<ColorPair> cp = colorPairRepository.findAllByAdventureId(adventureID);
+
+        if(cp.size() >=360 ){
+            throw new GroupChatFullException("This group chat has reached maximum capacity");
+        }
         Random rand = new Random();
         for (int x =0; x<cp.size();x++) {
             checked.add(cp.get(x).getColor());
@@ -84,7 +89,6 @@ public class ChatServiceImplementation implements ChatService {
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
-
         DirectMessage message = new DirectMessage(id,sender,receiver,msg);
         messageRepository.save(message);
         chat.getMessages().add(id);
