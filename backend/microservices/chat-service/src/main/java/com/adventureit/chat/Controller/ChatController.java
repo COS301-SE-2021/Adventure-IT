@@ -1,5 +1,6 @@
 package com.adventureit.chat.Controller;
 
+import com.adventureit.chat.Entity.GroupMessage;
 import com.adventureit.chat.Entity.Message;
 import com.adventureit.chat.Requests.CreateDirectChatRequest;
 import com.adventureit.chat.Requests.CreateGroupChatRequest;
@@ -40,8 +41,8 @@ public class ChatController {
     }
 
     @GetMapping("/getMessageByID/{id}")
-    public Message getMessage(@PathVariable UUID id){
-        return service.getMessage(id);
+    public GroupMessage getMessage(@PathVariable UUID id){
+        return (GroupMessage) service.getMessage(id);
     }
 
 }

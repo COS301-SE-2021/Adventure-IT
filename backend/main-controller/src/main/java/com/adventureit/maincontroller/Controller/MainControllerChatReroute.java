@@ -48,20 +48,20 @@ public class MainControllerChatReroute {
     @GetMapping("/getGroupChat/{id}")
     public MainGroupChatResponseDTO getGroupChat(@PathVariable UUID id) throws Exception {
         GroupChatResponseDTO chat = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getGroupChat/" + id, GroupChatResponseDTO.class);
-        Message message = null;
+        GroupMessage message = null;
         GetUserByUUIDDTO user = null;
         List<GetUserByUUIDDTO> users = new ArrayList<>();
         List <MessageResponseDTO> list = new ArrayList<>();
 
         for (UUID ID:chat.getMessages()) {
-            message = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getMessageByID/" + ID, Message.class);
-            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/{id}" + message.getSender(), GetUserByUUIDDTO.class);
+            message = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getMessageByID/" + ID, GroupMessage.class);
+            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/" + message.getSender(), GetUserByUUIDDTO.class);
 
-            for (UUID x:((GroupMessage)message).getReceivers()) {
-                users.add(restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/{id}" + message.getSender(), GetUserByUUIDDTO.class));
+            for (UUID x:message.getReceivers()) {
+                users.add(restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/" + x, GetUserByUUIDDTO.class));
             }
 
-            list.add(new MessageResponseDTO(message.getId(),user,message.getMessage(), message.getTimestamp(),users,((GroupMessage)message).getRead()));
+            list.add(new MessageResponseDTO(message.getId(),user,message.getMessage(), message.getTimestamp(),users,message.getRead()));
         }
 
         return new MainGroupChatResponseDTO(chat.getId(),chat.getAdventureID(), chat.getParticipants(),list,chat.getName(), chat.getColors());
