@@ -60,10 +60,10 @@ public class BudgetServiceImplementation implements BudgetService {
 
         for (BudgetEntry entry:entries) {
             if(entry instanceof UTUExpense){
-                list.add(new ViewBudgetResponse(entry.getId(),entry.getEntryContainerID(),entry.getAmount(),entry.getTitle(),entry.getDescription(),entry.getCategory(),((UTUExpense) entry).getPayee()));
+                list.add(new ViewBudgetResponse(entry.getId(),entry.getEntryContainerID(),entry.getPayer(),entry.getAmount(),entry.getTitle(),entry.getDescription(),entry.getCategory(),((UTUExpense) entry).getPayee()));
             }
             else{
-                list.add(new ViewBudgetResponse(entry.getId(),entry.getEntryContainerID(),entry.getAmount(),entry.getTitle(),entry.getDescription(),entry.getCategory(),((UTOExpense) entry).getPayee()));
+                list.add(new ViewBudgetResponse(entry.getId(),entry.getEntryContainerID(),entry.getPayer(),entry.getAmount(),entry.getTitle(),entry.getDescription(),entry.getCategory(),((UTOExpense) entry).getPayee()));
             }
         }
 
@@ -101,21 +101,16 @@ public class BudgetServiceImplementation implements BudgetService {
 
 
     @Override
-    public RemoveEntryResponse removeEntry(UUID id, UUID entryContainerID) throws Exception {
-        if (budgetRepository.findBudgetByBudgetID(entryContainerID) == null) {
-            throw new Exception("Budget does not exist.");
-        }
+    public RemoveEntryResponse removeEntry(UUID id) throws Exception {
         if (id == null) {
             throw new Exception("Entry ID not provided.");
         }
 
-        Budget budget = budgetRepository.findBudgetByBudgetID(entryContainerID);
-        BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryIDAndEntryContainerID(id, entryContainerID);
+        BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryID(id);
         if (entry == null) {
             throw new Exception("Entry does not exist.");
         }
 
-        budgetRepository.save(budget);
         budgetEntryRepository.delete(entry);
         return new RemoveEntryResponse(true);
     }
@@ -171,7 +166,7 @@ public class BudgetServiceImplementation implements BudgetService {
             throw new Exception("Description Field is null.");
         }
 
-        BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryIDAndEntryContainerID(req.getId(), req.getBudgetID());
+        BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryID(req.getId());
 
         if (entry == null) {
             throw new Exception("Entry does not exist.");
@@ -334,31 +329,37 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
-    public List<Integer> getEntriesPerCategory(UUID budgetID) throws Exception {
-        if(budgetRepository.findBudgetByBudgetID(budgetID) == null){
-            throw new Exception("Budget does not exist");
-        }
-
-        List<BudgetEntry> budgetEntries = budgetEntryRepository.findBudgetEntryByEntryContainerID(budgetID);
+    public List<Integer> getEntriesPerCategory(UUID adventureID) throws Exception {
+        List<Budget> budgets = budgetRepository.findAllByAdventureID(adventureID);
+        List<BudgetEntry> budgetEntries = new ArrayList<>();
+        List<BudgetEntry> temp = new ArrayList<>();
         List<Integer> integers = new ArrayList<>(List.of(0,0,0,0,0));
 
+        for (Budget budget:budgets) {
+            temp = budgetEntryRepository.findBudgetEntryByEntryContainerID(budget.getBudgetId());
+            if(temp != null){
+                budgetEntries.addAll(temp);
+            }
+        }
 
-        for (BudgetEntry entry:budgetEntries) {
-            if(entry.getCategory() == Category.Accommodation){
-                integers.set(0,integers.get(0) + 1);
-            }
-            if(entry.getCategory() == Category.Activities){
-                integers.set(1,integers.get(1) + 1);
-            }
-            if(entry.getCategory() == Category.Food){
-                integers.set(2,integers.get(2) + 1);
-            }
-            if(entry.getCategory() == Category.Other){
-                integers.set(3,integers.get(3) + 1);
-            }
-            if(entry.getCategory() == Category.Transport){
-                integers.set(4,integers.get(4) + 1);
+        if(budgetEntries.size() != 0){
+            for (BudgetEntry entry:budgetEntries) {
+                if(entry.getCategory() == Category.Accommodation){
+                    integers.set(0,integers.get(0) + 1);
+                }
+                if(entry.getCategory() == Category.Activities){
+                    integers.set(1,integers.get(1) + 1);
+                }
+                if(entry.getCategory() == Category.Food){
+                    integers.set(2,integers.get(2) + 1);
+                }
+                if(entry.getCategory() == Category.Other){
+                    integers.set(3,integers.get(3) + 1);
+                }
+                if(entry.getCategory() == Category.Transport){
+                    integers.set(4,integers.get(4) + 1);
 
+                }
             }
         }
 

@@ -9,6 +9,8 @@ import com.adventureit.itinerary.Requests.CreateItineraryRequest;
 import com.adventureit.itinerary.Requests.EditItineraryEntryRequest;
 import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
+import com.adventureit.locationservice.Responses.LocationResponseDTO;
+import com.adventureit.maincontroller.Responses.MainItineraryEntryResponseDTO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -51,8 +53,17 @@ public class MainControllerItineraryReroute {
     }
 
     @GetMapping("/viewItinerary/{id}")
-    public List<ItineraryEntryResponseDTO> viewItinerary(@PathVariable UUID id){
-        return restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/viewItinerary/"+id, List.class);
+    public List<MainItineraryEntryResponseDTO> viewItinerary(@PathVariable UUID id){
+        List<ItineraryEntryResponseDTO> entries = restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/viewItinerary/"+id, List.class);
+        List<MainItineraryEntryResponseDTO> list = new ArrayList<>();
+        LocationResponseDTO location;
+
+        for (ItineraryEntryResponseDTO entry:entries) {
+            location = restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/getLocation/" + entry.getLocation(), LocationResponseDTO.class);
+            list.add(new MainItineraryEntryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getEntryContainerID(),entry.isCompleted(),location,entry.getTimestamp()));
+        }
+
+        return list;
     }
 
     @GetMapping("/softDelete/{id}/{userID}")

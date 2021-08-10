@@ -108,14 +108,16 @@ class Budgets extends StatelessWidget {
 class PieChartCaller extends StatefulWidget {
   List<Budget>? budgets;
   List<int>? categories;
+  int? total;
 
-  PieChartCaller(List<Budget>? b, List<int>? c) {
+  PieChartCaller(List<Budget>? b, List<int>? c, int total) {
     this.budgets = b;
     this.categories = c;
+    this.total=total;
   }
 
   @override
-  _PieChart createState() => _PieChart(budgets, categories!);
+  _PieChart createState() => _PieChart(budgets, categories!, total!);
 }
 
 class Data {
@@ -136,27 +138,33 @@ class _PieChart extends State<PieChartCaller> {
   List<Data> data = List.empty();
   List<int>? categories;
   List<Budget>? budgets;
+  int? total;
 
-  _PieChart(List<Budget>? b, List<int> categories) {
+  _PieChart(List<Budget>? b, List<int> categories, int total) {
     this.budgets = b;
     this.categories = categories;
+    this.total=total;
+
   }
 
   @override
   initState() {
+
+
     data = [
-      Data('Accommodation', categories!.elementAt(0), const Color(0xff3063b4)),
-      Data('Activities', categories!.elementAt(1), const Color(0xffb59194)),
-      Data('Food', categories!.elementAt(2), const Color(0xff931621)),
-      Data('Transport', categories!.elementAt(4), const Color(0xff419D78)),
-      Data('Other', categories!.elementAt(3), const Color(0xffC44536)),
+      Data('Accommodation', ((categories!.elementAt(0)/total!)*100).toInt(), const Color(0xff3063b4)),
+      Data('Activities', ((categories!.elementAt(1)/total!)*100).toInt(), const Color(0xffb59194)),
+      Data('Food', ((categories!.elementAt(2)/total!)*100).toInt(), const Color(0xff931621)),
+      Data('Transport', ((categories!.elementAt(4)/total!)*100).toInt(), const Color(0xff419D78)),
+      Data('Other', ((categories!.elementAt(3)/total!)*100).toInt(), const Color(0xffC44536)),
     ];
   }
 
   List<PieChartSectionData> getSections() => data
       .asMap()
       .map<int, PieChartSectionData>((index, data) {
-        print(data);
+        print(data.percent);
+
 
         final value = PieChartSectionData(
           color: data.color,
@@ -343,8 +351,13 @@ class BudgetList extends StatelessWidget {
   }
 
   Widget buildChild(budgetModel, context) {
-    if (budgetModel.categories.length > 0) {
-      return PieChartCaller(budgetModel.budgets, budgetModel.categories);
+    int total=0;
+    for(int i=0;i<5;i++)
+    {
+      total=(total+budgetModel.categories!.elementAt(i)).toInt();
+    }
+    if (total>0) {
+      return PieChartCaller(budgetModel.budgets, budgetModel.categories,total);
     } else
       return Center(
           child: Text(
