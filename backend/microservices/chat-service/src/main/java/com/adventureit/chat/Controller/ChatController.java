@@ -35,6 +35,11 @@ public class ChatController {
         return "Group Chat created";
     }
 
+    @GetMapping("/getGroupChatByAdventureID/{id}")
+    public GroupChatResponseDTO getGroupChatByAdventureID(@PathVariable UUID id) throws Exception {
+        return service.getGroupChatByAdventureID(id);
+    }
+
     @GetMapping("/getGroupChat/{id}")
     public GroupChatResponseDTO getGroupChat(@PathVariable UUID id) throws Exception {
         return service.getGroupChat(id);
