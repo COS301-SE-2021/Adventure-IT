@@ -34,7 +34,9 @@ class ItineraryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ChangeNotifierProvider(
+        create: (context) => ItineraryEntryModel(currentItinerary!),
+        builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
@@ -88,10 +90,11 @@ class ItineraryPage extends StatelessWidget {
                       child: IconButton(
                           onPressed: () {
                             {
+                              var provider = Provider.of<ItineraryEntryModel>(context, listen: false);
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return AlertBox(currentItinerary!);
+                                    return AlertBox(currentItinerary!, provider);
                                   });
                             }
                           },
@@ -104,16 +107,15 @@ class ItineraryPage extends StatelessWidget {
                 ),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ]));
+            ])));
   }
 }
 
 class AlertBox extends StatefulWidget {
   Itinerary? currentItinerary;
+  final ItineraryEntryModel itineraryEntryModel;
 
-  AlertBox(Itinerary i) {
-    this.currentItinerary = i;
-  }
+  AlertBox(this.currentItinerary, this.itineraryEntryModel);
 
   @override
   _AlertBox createState() => _AlertBox(currentItinerary!);
@@ -154,9 +156,7 @@ class _AlertBox extends State<AlertBox> {
     "December"
   ];
 
-  _AlertBox(Itinerary i) {
-    this.currentItinerary = i;
-  }
+  _AlertBox(this.currentItinerary);
 
   Future<CreateItineraryEntry>? _futureItineraryEntry;
   final titleController = TextEditingController();
@@ -462,8 +462,9 @@ class _AlertBox extends State<AlertBox> {
                                     .textTheme
                                     .bodyText1!
                                     .color)),
-                        onPressed: () {
-                          _futureItineraryEntry = ItineraryApi.createItineraryEntry(currentItinerary!.id, titleController.text, descriptionController.text, location!, (date!.toString()).substring(0, 10)+"T"+(time.toString()).substring(10,15));
+                        onPressed: () async {
+                          await widget.itineraryEntryModel.addItineraryEntry(currentItinerary!, currentItinerary!.id, titleController.text, descriptionController.text, location!, (date!.toString()).substring(0, 10)+"T"+(time.toString()).substring(10,15));
+                          Navigator.pop(context);
                         },
                       ),
                     ),
@@ -669,9 +670,7 @@ class _ListItineraryItems extends StatefulWidget
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => ItineraryEntryModel(currentItinerary!),
-        child: Consumer<ItineraryEntryModel>(
+    return Consumer<ItineraryEntryModel>(
             builder: (context, entryModel, child) {
           if (entryModel.entries == null) {
             return Center(
@@ -1163,7 +1162,7 @@ class _ListItineraryItems extends StatefulWidget
                         fontSize: 30 * MediaQuery.of(context).textScaleFactor,
                         color: Theme.of(context).textTheme.bodyText1!.color)));
           }
-        }));
+        });
   }
 
   Future<DateTime?> showDate() {
