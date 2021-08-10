@@ -726,7 +726,7 @@ class AlertBox extends StatelessWidget {
                                 hoverColor: Theme.of(context).primaryColorLight,
                                 onTap: () {
                                   AdventureApi.addAttendee(
-                                      currentAdventure!, userID);
+                                      currentAdventure!, friendModel.friends!.elementAt(index).userID);
                                   Navigator.of(context).pop();
                                 },
                                 child: Padding(

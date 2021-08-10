@@ -58,8 +58,8 @@ class AdventureApi {
 
   }
 
-  static Future<http.Response> _addAttendee(adventure,userID) async {
-    return http.get(Uri.http(mainApi, '/adventure/addAttendee/' + adventure.adventureID+"/"+userID));
+  static Future<http.Response> _addAttendee(Adventure adventure,String userID) async {
+    return http.get(Uri.http(adventureApi, '/adventure/addAttendees/' +adventure.adventureId+"/"+userID));
   }
 
 

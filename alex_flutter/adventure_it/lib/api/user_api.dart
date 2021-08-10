@@ -91,7 +91,7 @@ class UserApi {
   }
 
   static Future<http.Response> _getFriends(String userID) async {
-    return http.get(Uri.http(userApi, 'api/GetFriends/' + userID));
+    return http.get(Uri.http(userApi, 'user/api/GetFriends/' + userID));
   }
 
   static Future<List<FriendRequest>> getFriendRequests(String userID) async
@@ -110,7 +110,7 @@ class UserApi {
   }
 
   static Future<http.Response> _getFriendRequests(String userID) async {
-    return http.get(Uri.http(userApi, 'api/GetFriendRequests/' + userID));
+    return http.get(Uri.http(userApi, 'user/api/getFriendRequests/' + userID));
   }
 
 
@@ -132,7 +132,7 @@ class UserApi {
   }
 
   static Future<http.Response> _getFriendProfiles(String userID) async {
-    return http.get(Uri.http(userApi, 'api/getFriendProfiles/' + userID));
+    return http.get(Uri.http(userApi, 'user/api/getFriendProfiles/' + userID));
   }
 
   static Future deleteFriend(String userID, String friendID) async
@@ -145,7 +145,7 @@ class UserApi {
   }
 
   static Future<http.Response> _deleteFriend(String userID, String friendID) async {
-    return http.get(Uri.http(userApi, 'api/removeFriend/' + userID+"/"+friendID));
+    return http.get(Uri.http(userApi, 'user/api/removeFriend/' + userID+"/"+friendID));
   }
 
   static Future deleteFriendRequest(String requestID) async
@@ -158,7 +158,7 @@ class UserApi {
   }
 
   static Future<http.Response> _deleteFriendRequest(String requestID) async {
-    return http.get(Uri.http(userApi, 'api/deleteFriendRequest/' + requestID));
+    return http.get(Uri.http(userApi, 'user/api/deleteFriendRequest/' + requestID));
   }
 
   static Future acceptFriendRequest(String requestID) async
@@ -171,7 +171,7 @@ class UserApi {
   }
 
   static Future<http.Response> _acceptFriendRequest(String requestID) async {
-    return http.get(Uri.http(userApi, 'api/acceptFriendRequest/' + requestID));
+    return http.get(Uri.http(userApi, 'user/api/acceptFriendRequest/' + requestID));
   }
 
   static Future<String> searchUsername (String value) async
@@ -202,7 +202,7 @@ class UserApi {
   }
 
   static Future<http.Response> _createFriendRequest(String from, String to) async {
-    return http.get(Uri.http(userApi, 'api/createFriendRequest/' +from+"/"+to));
+    return http.get(Uri.http(userApi, 'user/api/createFriendRequest/' +from+"/"+to));
   }
 
 }
