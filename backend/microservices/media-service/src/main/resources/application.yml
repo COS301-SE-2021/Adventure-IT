@@ -10,6 +10,8 @@ spring:
     url: jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit
     username: postgres
     password: 310PB!Gq%f&J
+    hikari:
+      auto-commit: false
   jpa:
     hibernate:
       ddl-auto: update
