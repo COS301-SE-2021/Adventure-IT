@@ -29,7 +29,9 @@ class ChecklistPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ChangeNotifierProvider(
+        create: (context) => ChecklistEntryModel(currentChecklist!),
+        builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
@@ -45,7 +47,7 @@ class ChecklistPage extends StatelessWidget {
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Container(
                 height: MediaQuery.of(context).size.height * 0.75,
-                child: _GetChecklistEntries(currentChecklist!)
+                child: GetChecklistEntries(currentChecklist!)
               ),
               Spacer(),
               Row(children: [
@@ -60,8 +62,8 @@ class ChecklistPage extends StatelessWidget {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Checklists(
-                                        currentAdventure)));
+                                    builder: (context) =>
+                                      Checklists(currentAdventure)));
                           },
                           icon: const Icon(Icons.arrow_back_ios_new_rounded),
                           color: Theme.of(context).primaryColorDark)),
@@ -75,10 +77,11 @@ class ChecklistPage extends StatelessWidget {
                       child: IconButton(
                           onPressed: () {
                             {
+                              var provider = Provider.of<ChecklistEntryModel>(context, listen: false);
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return AlertBox(currentChecklist!);
+                                    return AlertBox(currentChecklist!, provider);
                                   });
                             }
                           },
@@ -92,15 +95,24 @@ class ChecklistPage extends StatelessWidget {
                 ),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ]));
+            ])));
   }
 }
 
-class AlertBox extends StatelessWidget {
+class AlertBox extends StatefulWidget {
   Checklist? currentChecklist;
-  AlertBox(Checklist c) {
-    this.currentChecklist = c;
-  }
+  final ChecklistEntryModel checklistEntryModel;
+
+  AlertBox(this.currentChecklist, this.checklistEntryModel);
+
+  @override
+  _AlertBox createState() => _AlertBox(currentChecklist!);
+}
+
+class _AlertBox extends State <AlertBox> {
+  Checklist? currentChecklist;
+
+  _AlertBox(this.currentChecklist);
 
   double getSize(context) {
     if (MediaQuery.of(context).size.height >
@@ -117,17 +129,6 @@ class AlertBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => ChecklistEntryModel(currentChecklist!),
-        child:
-        Consumer<ChecklistEntryModel>(builder: (context, checklistEntry, child) {
-        if(checklistEntry.entries==null) {
-          return Center(
-            child: CircularProgressIndicator(
-            valueColor: new AlwaysStoppedAnimation<Color>(
-              Theme.of(context).accentColor)));
-        }
-        else if (checklistEntry.entries!.length > 0) {
         return AlertDialog(
           backgroundColor: Theme.of(context).primaryColorDark,
           content: Container(
@@ -199,9 +200,9 @@ class AlertBox extends StatelessWidget {
                                       .textTheme
                                       .bodyText1!
                                       .color)),
-                          onPressed: () {
-                            Provider.of<ChecklistEntryModel>(context, listen: false)
-                            .addChecklistEntry(currentChecklist!, descriptionController.text, currentChecklist!.id);
+                          onPressed: () async {
+                            await widget.checklistEntryModel.addChecklistEntry(currentChecklist!, descriptionController.text, currentChecklist!.id);
+                            Navigator.pop(context);
                           },
                         ),
                       ),
@@ -211,35 +212,13 @@ class AlertBox extends StatelessWidget {
               ],
             ),
           )
-    );} else {
-      return Center(
-          child: Text("Let's make a list and check it twice!",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-                  color: Theme.of(context).textTheme.bodyText1!.color)));
-    }}));
+    );
   }
 }
 
-class _GetChecklistEntries extends StatefulWidget
-{
-    Checklist? checklist;
-
-    _GetChecklistEntries(Checklist c)
-    {
-      this.checklist=c;
-    }
-
-  @override
-  GetChecklistEntries createState() => GetChecklistEntries(checklist!);
-}
-
-
-class GetChecklistEntries extends State<_GetChecklistEntries> {
+class GetChecklistEntries extends StatelessWidget {
 
   Checklist? checklist;
-  BuildContext? c;
   final editController = TextEditingController();
 
   GetChecklistEntries(Checklist c) {
@@ -257,11 +236,8 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => ChecklistEntryModel(checklist!),
-        child:
+    return
         Consumer<ChecklistEntryModel>(builder: (context, checklistEntry, child) {
-          this.c=context;
           if(checklistEntry.entries==null) {
             return Center(
                 child: CircularProgressIndicator(
@@ -270,12 +246,9 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                             .of(context)
                             .accentColor)));
           }else if (checklistEntry.entries!.length > 0) {
-            return Expanded(
-                flex: 2,
-                child: ListView(children: [
-                  ...List.generate(
-                      checklistEntry.entries!.length,
-                          (index) => Dismissible(
+            return ListView.builder(
+                      itemCount: checklistEntry.entries!.length,
+                       itemBuilder: (context, index) => Dismissible(
                           background: Container(
                             // color: Theme.of(context).primaryColor,
                             //   margin: const EdgeInsets.all(5),
@@ -461,8 +434,7 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                               Provider.of<ChecklistEntryModel>(context, listen: false)
                                   .editChecklistEntry(checklistEntry.entries!.elementAt(index), checklist!, editController.text);
                             }
-                        }))
-                ]));
+                        }));
           } else {
             return Center(
                 child: Text("Let's make a list and check it twice!",
@@ -471,6 +443,6 @@ class GetChecklistEntries extends State<_GetChecklistEntries> {
                         fontSize: 30 * MediaQuery.of(context).textScaleFactor,
                         color: Theme.of(context).textTheme.bodyText1!.color)));
           }
-        }));
+        });
   }
 }
