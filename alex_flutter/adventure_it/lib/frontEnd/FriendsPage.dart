@@ -93,7 +93,7 @@ class FriendsPage extends State<Friends> {
                       onPressed: () {
                         UserApi.searchUsername(usernameController.text)
                             .then((value) {
-                              print(value);
+                          print(value);
                           if (value.compareTo("") != 0) {
                             UserApi.createFriendRequest(
                                 "1660bd85-1c13-42c0-955c-63b1eda4e90b", value);
@@ -315,7 +315,8 @@ class getFriendRequests extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) =>
+        create: (context)=>
+
             FriendRequestModel("1660bd85-1c13-42c0-955c-63b1eda4e90b"),
         child: Consumer<FriendRequestModel>(
             builder: (context, friendModel, child) {
@@ -401,7 +402,7 @@ class getFriendRequests extends StatelessWidget {
                                                                           context)
                                                                       .primaryColorDark,
                                                               title: Text(
-                                                                'Confirm Decline',
+                                                                'Decline',
                                                                 style: TextStyle(
                                                                     color: Theme.of(
                                                                             context)
@@ -426,11 +427,19 @@ class getFriendRequests extends StatelessWidget {
                                                               ),
                                                               actions: <Widget>[
                                                                 FlatButton(
-                                                                    onPressed: () =>
-                                                                        Navigator.of(context).pop(
-                                                                            true),
+                                                                    onPressed:
+                                                                        () {
+                                                                      Provider.of<FriendRequestModel>(this.c!, listen: false).deleteFriendRequest(friendModel
+                                                                          .friends!
+                                                                          .elementAt(
+                                                                              index)
+                                                                          .id);
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    },
                                                                     child: Text(
-                                                                        'Remove',
+                                                                        'Decline',
                                                                         style: TextStyle(
                                                                             color:
                                                                                 Theme.of(context).textTheme.bodyText1!.color))),
@@ -438,8 +447,7 @@ class getFriendRequests extends StatelessWidget {
                                                                   onPressed: () =>
                                                                       Navigator.of(
                                                                               context)
-                                                                          .pop(
-                                                                              false),
+                                                                          .pop(),
                                                                   child: Text(
                                                                       "Cancel",
                                                                       style: TextStyle(

@@ -13,7 +13,7 @@ import 'userProfile.dart';
 class UserApi {
   Future<RegisterUser> createUser(String firstName,String lastName,String username,String email,String phoneNumber,String password) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9002/api/RegisterUser'), //get uri
+      Uri.parse('http://localhost:9002/user/api/RegisterUser'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -44,7 +44,7 @@ class UserApi {
 
   Future<LoginUser> loginUser(String username, String password) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9002/api/LoginUser'), //get uri
+      Uri.parse('http://localhost:9002/user/api/LoginUser'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -67,7 +67,7 @@ class UserApi {
 
   static Future<UserProfile> getUserByUUID(String userID) async {
     print("in function");
-    http.Response response = await http.get(Uri.parse('http://localhost:9002/api/GetUser/' + userID));
+    http.Response response = await http.get(Uri.parse('http://localhost:9002/user/api/GetUser/' + userID));
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load user information: ${response.body}');
@@ -150,10 +150,12 @@ class UserApi {
 
   static Future deleteFriendRequest(String requestID) async
   {
+    print("success");
     http.Response response =await _deleteFriendRequest(requestID);
     if (response.statusCode != 200) {
       throw Exception('Failed to delete friendRequest: ${response.body}');
     }
+
 
   }
 
@@ -189,7 +191,7 @@ class UserApi {
   }
 
   static Future<http.Response> _searchUsername(String username) async {
-    return http.get(Uri.http(userApi, 'api/getByUserName/' + username));
+    return http.get(Uri.http(userApi, 'user/api/getByUserName/' + username));
   }
 
   static Future createFriendRequest (String from, String to) async
