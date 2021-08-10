@@ -24,27 +24,29 @@ public class MediaController {
         return "Media Controller is functional";
     }
 
-    @GetMapping("/test/uploaded")
-    public ResponseEntity<byte[]> testUploaded(){
+    @GetMapping(value = "/test/uploaded/{file}",
+            produces = { "application/pdf" })
+    public ResponseEntity<byte[]> testUploaded(@PathVariable String file){
         HttpHeaders headers = new HttpHeaders();
-        // Fetch byte array from backend & populate media variable here
+        System.out.println("Fetching file " + file); // debug
         Media storedMedia = mediaRepository.findMediaById(UUID.fromString("a8d9ce1d-65ee-4eb2-8003-4ce996b89c8d"));
         headers.setCacheControl(CacheControl.noCache().getHeaderValue()); // disabling caching for client who requests the resource
         ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(storedMedia.getData(), headers, HttpStatus.OK);
         return responseEntity;
     }
 
-    @PostMapping("/test/upload")
+    @PostMapping(value = "/test/upload")
     public HttpStatus testUploaded(@RequestParam("file") MultipartFile file){
         try {
             final byte[] content = file.getBytes();
             Media uploadedMedia = new Media(UUID.fromString("a8d9ce1d-65ee-4eb2-8003-4ce996b89c8d"), "TEST TYPE", "TEST NAME", "TEST DESCRIPTION", UUID.fromString("a8d9ce1d-65ee-4eb2-8003-4ce996b89c8d"), UUID.fromString("a8d9ce1d-65ee-4eb2-8003-4ce996b89c8d"));
+            uploadedMedia.setData(content);
             mediaRepository.save(uploadedMedia);
             return HttpStatus.OK;
         }
         catch(Exception e){
             e.printStackTrace();
-            return HttpStatus.BAD_REQUEST;
+            return HttpStatus.NO_CONTENT;
         }
 
     }
