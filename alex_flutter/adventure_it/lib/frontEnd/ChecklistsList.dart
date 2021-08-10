@@ -37,7 +37,7 @@ class Checklists extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => ChecklistModel(adventure!),
-    builder: (context, widget) => Scaffold(
+        builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
@@ -256,7 +256,6 @@ class _AlertBox extends State <AlertBox> {
   //controllers for the form fields
   String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
 
-  final ChecklistApi api = new ChecklistApi();
   Future<CreateChecklist>? _futureChecklist;
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
