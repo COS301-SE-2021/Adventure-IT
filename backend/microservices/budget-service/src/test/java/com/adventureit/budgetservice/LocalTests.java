@@ -42,7 +42,7 @@ public class LocalTests {
 
     @Test
     public void deleteEntries() throws Exception {
-        budgetServiceImplementation.removeEntry(UUID.fromString("4512be30-fa81-44a8-b195-fc6b07f5b3b4"),UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8"));
+        budgetServiceImplementation.removeEntry(UUID.fromString("4512be30-fa81-44a8-b195-fc6b07f5b3b4"));
     }
 
     @Test

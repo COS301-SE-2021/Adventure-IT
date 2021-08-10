@@ -81,20 +81,20 @@ class BudgetApi {
 
   }
 
-  static Future <List<int>> getNumberOfCategories (String budgetID) async
+  static Future <List<int>> getNumberOfCategories (Adventure a) async
   {
-    http.Response response = await _getNumberOfCategories(budgetID);
+    http.Response response = await _getNumberOfCategories(a.adventureId);
     if (response.statusCode != 200) {
-      throw Exception('Failed to get categories for budget: ${response.body}');
+      throw Exception('Failed to get categories: ${response.body}');
     }
     List<dynamic> categories = (jsonDecode(response.body) as List);
     List<int> intList = categories.map((s) => s as int).toList();
     return intList;
   }
 
-  static Future<http.Response> _getNumberOfCategories(budgetID) async {
+  static Future<http.Response> _getNumberOfCategories(adventureID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/getEntriesPerCategory/' + budgetID));
+    return http.get(Uri.http(budgetApi, '/budget/getEntriesPerCategory/' + adventureID));
   }
 
 

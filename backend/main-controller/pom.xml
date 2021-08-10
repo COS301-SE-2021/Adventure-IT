@@ -60,6 +60,12 @@
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+		<dependency>
+			<groupId>com.adventure-it</groupId>
+			<artifactId>location-service</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
         <dependency>
             <groupId>com.adventure-it</groupId>
             <artifactId>budget-service</artifactId>
