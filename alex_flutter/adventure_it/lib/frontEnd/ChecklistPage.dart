@@ -200,7 +200,8 @@ class AlertBox extends StatelessWidget {
                                       .bodyText1!
                                       .color)),
                           onPressed: () {
-                            checklistEntry.addChecklistEntry(currentChecklist!, descriptionController.text, currentChecklist!.id);
+                            Provider.of<ChecklistEntryModel>(context, listen: false)
+                            .addChecklistEntry(currentChecklist!, descriptionController.text, currentChecklist!.id);
                           },
                         ),
                       ),
