@@ -37,11 +37,12 @@ public class LocalTests {
         UUID userID1 = UUID.randomUUID();
         UUID userID2 = UUID.randomUUID();
         UUID userID3 = UUID.randomUUID();
+        UUID adventureID = UUID.randomUUID();
         UUID groupChatID = UUID.randomUUID();
         List<ColorPair> list = new ArrayList<ColorPair>();
-        list.add(new ColorPair(userID1,1));
-        list.add(new ColorPair(userID2,2));
-        list.add(new ColorPair(userID3,3));
+        list.add(new ColorPair(adventureID,userID1,1));
+        list.add(new ColorPair(adventureID,userID2,2));
+        list.add(new ColorPair(adventureID,userID3,3));
         List<UUID> participants = new ArrayList<>(List.of(userID1,userID2,userID3));
         chatServiceImplementation.createGroupChat(UUID.randomUUID(),participants,"Group Chat");
         Chat gc = new GroupChat(groupChatID,UUID.randomUUID(),participants,list,"Group Chat");

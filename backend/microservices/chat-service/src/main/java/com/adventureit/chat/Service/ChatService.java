@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ChatService {
+    public String addParticipant( UUID adventureID, UUID participant);
     public String createDirectChat(UUID adventureID, UUID user1, UUID user2);
     public String createGroupChat( UUID adventureID, List<UUID> participants, String name);
     public String sendDirectMessage(UUID id, UUID chatID,UUID sender, UUID receiver,String message) throws Exception;
