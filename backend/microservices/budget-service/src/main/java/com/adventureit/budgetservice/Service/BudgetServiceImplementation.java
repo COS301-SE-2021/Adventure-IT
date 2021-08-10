@@ -329,14 +329,18 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
-    public List<Integer> getEntriesPerCategory(UUID budgetID) throws Exception {
-        if(budgetRepository.findBudgetByBudgetID(budgetID) == null){
-            throw new Exception("Budget does not exist");
+    public List<Integer> getEntriesPerCategory(UUID adventureID) throws Exception {
+        if(budgetRepository.findBudgetByBudgetID(adventureID) == null){
+            throw new Exception("Adventure does not exist");
         }
 
-        List<BudgetEntry> budgetEntries = budgetEntryRepository.findBudgetEntryByEntryContainerID(budgetID);
+        List<Budget> budgets = budgetRepository.findAllByAdventureID(adventureID);
+        List<BudgetEntry> budgetEntries = new ArrayList<>();
         List<Integer> integers = new ArrayList<>(List.of(0,0,0,0,0));
 
+        for (Budget budget:budgets) {
+            budgetEntries.addAll(budgetEntryRepository.findBudgetEntryByEntryContainerID(budget.getBudgetId()));
+        }
 
         for (BudgetEntry entry:budgetEntries) {
             if(entry.getCategory() == Category.Accommodation){

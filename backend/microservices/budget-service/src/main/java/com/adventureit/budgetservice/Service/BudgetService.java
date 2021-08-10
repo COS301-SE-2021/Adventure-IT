@@ -27,6 +27,6 @@ public interface BudgetService {
     void mockCreateBudget(String name);
     void mockPopulateTrash();
     double calculateExpensesPerUser(UUID budgetID, String userName ) throws Exception;
-    List<Integer> getEntriesPerCategory(UUID budgetID) throws Exception;
+    List<Integer> getEntriesPerCategory(UUID adventureID) throws Exception;
 
 }
