@@ -149,4 +149,18 @@ public class Adventure{
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public UUID getLocation() {
+        return location;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+
 }

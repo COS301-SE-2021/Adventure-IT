@@ -11,6 +11,6 @@ import java.util.UUID;
 
 @Repository
 public interface BudgetEntryRepository extends JpaRepository<BudgetEntry,UUID> {
-    BudgetEntry findBudgetEntryByBudgetEntryIDAndEntryContainerID(UUID budgetEntryId, UUID budgetId);
     List<BudgetEntry> findBudgetEntryByEntryContainerID(UUID budgetId);
+    BudgetEntry findBudgetEntryByBudgetEntryID(UUID id);
 }
