@@ -5,6 +5,8 @@ import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 import com.adventureit.budgetservice.Entity.Budget;
 import com.adventureit.budgetservice.Requests.*;
 import com.adventureit.budgetservice.Responses.*;
+//import com.adventureit.timelineservice.Entity.TimelineType;
+//import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
 import com.adventureit.timelineservice.Entity.TimelineType;
 import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
 import org.springframework.web.bind.annotation.*;
@@ -24,16 +26,6 @@ public class MainControllerBudgetReroute {
     private final String timelinePort = "9012";
     private final String budgetPort = "9007";
 
-//    @GetMapping("/createBudget")
-//    public String adventureTest(){
-//        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/test", String.class);
-//    }
-//
-//    @PostMapping(value = "/create")
-//    public CreateAdventureResponse createAdventure(@RequestBody CreateAdventureRequest req) {
-//        return restTemplate.postForObject("http://"+ IP + ":" + adventurePort + "/adventure/create/", req, CreateAdventureResponse.class);
-//    }
-
     @PostMapping(value ="/create")
     public String createBudget(@RequestBody CreateBudgetRequest req) {
         restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/create/", req, String.class);
@@ -47,8 +39,7 @@ public class MainControllerBudgetReroute {
         restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/hardDelete/"+id+"/"+userID, String.class);
         CreateTimelineRequest req2 = new CreateTimelineRequest(id,userID, TimelineType.BUDGET,"Budget: "+id+" has been deleted" );
         return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
-
-    }
+ }
 
     @PostMapping("/editBudget")
     public String editBudget(@RequestBody EditBudgetRequest req){

@@ -19,7 +19,7 @@ public class LocalTests {
 
     @Test
     public void createDirectChat(){
-        chatServiceImplementation.createDirectChat(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID());
+        chatServiceImplementation.createDirectChat(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID());
     }
 
     @Test
@@ -43,7 +43,7 @@ public class LocalTests {
         list.add(new ColorPair(userID2,2));
         list.add(new ColorPair(userID3,3));
         List<UUID> participants = new ArrayList<>(List.of(userID1,userID2,userID3));
-        chatServiceImplementation.createGroupChat(groupChatID,UUID.randomUUID(),participants,"Group Chat");
+        chatServiceImplementation.createGroupChat(UUID.randomUUID(),participants,"Group Chat");
         Chat gc = new GroupChat(groupChatID,UUID.randomUUID(),participants,list,"Group Chat");
         System.out.println(gc.getColor(userID1));
     }

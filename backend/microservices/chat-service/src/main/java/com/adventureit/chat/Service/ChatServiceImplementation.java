@@ -2,6 +2,7 @@ package com.adventureit.chat.Service;
 
 import com.adventureit.chat.Entity.*;
 import com.adventureit.chat.Repository.ChatRepository;
+import com.adventureit.chat.Repository.ColorPairRepository;
 import com.adventureit.chat.Repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ public class ChatServiceImplementation implements ChatService {
     ChatRepository chatRepository;
     @Autowired
     MessageRepository messageRepository;
+    @Autowired
+    ColorPairRepository colorPairRepository;
 
     public ChatServiceImplementation(ChatRepository chatRepository,MessageRepository messageRepository){
         this.chatRepository = chatRepository;
@@ -25,14 +28,16 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     @Override
-    public String createDirectChat(UUID id, UUID adventureID, UUID user1, UUID user2) {
+    public String createDirectChat(UUID adventureID, UUID user1, UUID user2) {
+        UUID id = UUID.randomUUID();
         DirectChat directChat = new DirectChat(id,adventureID,user1,user2);
         chatRepository.save(directChat);
         return "Chat successfully created";
     }
 
     @Override
-    public String createGroupChat(UUID id, UUID adventureID, List<UUID> participants, String name) {
+    public String createGroupChat( UUID adventureID, List<UUID> participants, String name) {
+        UUID id = UUID.randomUUID();
         List<ColorPair> list = new ArrayList<ColorPair>();
         List<Integer> checked = new ArrayList<Integer>();
         Random rand = new Random();
@@ -42,6 +47,7 @@ public class ChatServiceImplementation implements ChatService {
                     randomCol = rand.nextInt(359)+1;
             checked.add(randomCol);
             list.add(new ColorPair(participant, randomCol));
+            colorPairRepository.save(new ColorPair(participant, randomCol));
         }
         GroupChat groupChat = new GroupChat(id,adventureID,participants,list,name);
         chatRepository.save(groupChat);

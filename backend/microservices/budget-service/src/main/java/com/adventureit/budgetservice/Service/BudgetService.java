@@ -4,7 +4,6 @@ import com.adventureit.budgetservice.Entity.Category;
 import com.adventureit.budgetservice.Requests.*;
 import com.adventureit.budgetservice.Responses.*;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +26,6 @@ public interface BudgetService {
     void mockCreateBudget(String name);
     void mockPopulateTrash();
     double calculateExpensesPerUser(UUID budgetID, String userName ) throws Exception;
-    List<Integer> getEntriesPerCategory(UUID budgetID) throws Exception;
+    List<Integer> getEntriesPerCategory(UUID adventureID) throws Exception;
 
 }

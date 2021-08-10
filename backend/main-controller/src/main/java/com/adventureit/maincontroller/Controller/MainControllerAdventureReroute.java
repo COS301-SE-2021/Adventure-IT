@@ -5,29 +5,17 @@ import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.Responses.GetAdventuresByUserUUIDResponse;
 import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
 import com.adventureit.adventureservice.Responses.RemoveAdventureResponse;
-import com.adventureit.maincontroller.Requests.CreateAdventureDTO;
-import com.adventureit.maincontroller.Service.ConnectionFactory;
+import com.adventureit.locationservice.Entity.Location;
+import com.adventureit.locationservice.Responses.LocationResponseDTO;
+import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
 import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.*;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +31,7 @@ public class MainControllerAdventureReroute {
     private final String IP = "localhost";
     private final String adventurePort = "9001";
     private final String userPort = "9002";
+    private final String locationPort = "9006";
 
     @GetMapping("/test")
     public String adventureTest(){
@@ -65,23 +54,30 @@ public class MainControllerAdventureReroute {
 
 
     @PostMapping(value = "/create")
-    public String createAdventure(@RequestBody CreateAdventureRequest req) {
+    public CreateAdventureResponse createAdventure(@RequestBody CreateAdventureRequest req) {
         System.out.println(req.getStartDate());
         //CreateAdventureRequest newReq = new CreateAdventureRequest(req.getName(),req.getDescription(),req.getOwnerId(),req.getStartDate(),req.getEndDate());
-
         //CreateAdventureRequest newReq =  new CreateAdventureRequest(req.getName(),req.getDescription(),req.getOwnerId(),req.getStartDate(),req.getEndDate(),req.getLocation());
         UUID locationId = restTemplate.getForObject("http://"+ IP + ":" + "9006" + "/location/create/"+req.getLocation(),UUID.class);
-        UUID adventureId = restTemplate.postForObject("http://"+ IP + ":" + adventurePort + "/adventure/create/",req, CreateAdventureResponse.class).getAdventure().getAdventureId();
+        CreateAdventureResponse response = restTemplate.postForObject("http://"+ IP + ":" + adventurePort + "/adventure/create/",req, CreateAdventureResponse.class);
+        UUID adventureId = response.getAdventure().getAdventureId();
         restTemplate.getForObject("http://"+ IP + ":" + "9001" + "/adventure/setLocation/"+adventureId.toString()+"/"+locationId.toString(),String.class);
-
-
-        return "IT worked";
+        return response;
     }
 
 
     @GetMapping("/all")
-    public List<GetAllAdventuresResponse> getAllAdventures() {
-        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/all", List.class);
+    public List<AdventureResponseDTO> getAllAdventures() {
+        List<GetAllAdventuresResponse> adventures = restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/all", List.class);
+        LocationResponseDTO location;
+        List<AdventureResponseDTO> list = new ArrayList<>();
+
+        for (GetAllAdventuresResponse response:adventures) {
+            location = restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/getLocation/" + response.getLocation(), LocationResponseDTO.class);
+            list.add(new AdventureResponseDTO(response.getName(),response.getDescription(),response.getAdventureId(),response.getOwnerId(),response.getStartDate(),response.getEndDate(),location));
+        }
+
+        return list;
     }
 
     @GetMapping("/setLocation/{adventureId}/{locationId}")
@@ -90,28 +86,51 @@ public class MainControllerAdventureReroute {
     }
 
     @GetMapping("/all/{id}")
-    public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUserUUID(@PathVariable UUID id){
-        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/all/"+id, List.class);
+    public List<AdventureResponseDTO> getAllAdventuresByUserUUID(@PathVariable UUID id){
+        List<GetAdventuresByUserUUIDResponse> adventures = restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/all/"+id, List.class);;
+        LocationResponseDTO location;
+        List<AdventureResponseDTO> list = new ArrayList<>();
 
+        for (GetAdventuresByUserUUIDResponse response:adventures) {
+            location = restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/getLocation/" + response.getLocation(), LocationResponseDTO.class);
+            list.add(new AdventureResponseDTO(response.getName(),response.getDescription(),response.getAdventureId(),response.getOwnerId(),response.getStartDate(),response.getEndDate(),location));
+        }
+
+        return list;
     }
 
     @GetMapping("/owner/{id}")
-    public List<GetAdventuresByUserUUIDResponse> getAdventuresByOwnerUUID(@PathVariable UUID id){
-        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/owner/"+id, List.class);
+    public List<AdventureResponseDTO> getAdventuresByOwnerUUID(@PathVariable UUID id){
+        List<GetAdventuresByUserUUIDResponse> adventures = restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/owner/"+id, List.class);
+        LocationResponseDTO location;
+        List<AdventureResponseDTO> list = new ArrayList<>();
 
+        for (GetAdventuresByUserUUIDResponse response:adventures) {
+            location = restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/getLocation/" + response.getLocation(), LocationResponseDTO.class);
+            list.add(new AdventureResponseDTO(response.getName(),response.getDescription(),response.getAdventureId(),response.getOwnerId(),response.getStartDate(),response.getEndDate(),location));
+        }
+
+        return list;
     }
 
     @GetMapping("/attendee/{id}")
-    public List<GetAdventuresByUserUUIDResponse> getAdventuresByAttendeeUUID(@PathVariable UUID id){
-        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/attendee/"+id, List.class);
+    public List<AdventureResponseDTO> getAdventuresByAttendeeUUID(@PathVariable UUID id){
+        List<GetAdventuresByUserUUIDResponse> adventures = restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/attendee/"+id, List.class);
+        LocationResponseDTO location;
+        List<AdventureResponseDTO> list = new ArrayList<>();
 
+        for (GetAdventuresByUserUUIDResponse response:adventures) {
+            location = restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/getLocation/" + response.getLocation(), LocationResponseDTO.class);
+            list.add(new AdventureResponseDTO(response.getName(),response.getDescription(),response.getAdventureId(),response.getOwnerId(),response.getStartDate(),response.getEndDate(),location));
+        }
+
+        return list;
     }
 
     @DeleteMapping("/remove/{id}/{userID}")
     public RemoveAdventureResponse removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
         return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/remove/"+id+"/"+userID, RemoveAdventureResponse.class);
     }
-
 
 }
 
