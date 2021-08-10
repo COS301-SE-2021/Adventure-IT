@@ -198,10 +198,7 @@ class AlertBox extends State<_AlertBox> {
       )
     ];
 
-    if (userNames == null ||
-        userNames!.length == 0 ||
-        userNamesAndOther == null ||
-        userNamesAndOther!.length == 0) {
+
     final amountController = TextEditingController();
     final titleController = TextEditingController();
     final descriptionController = TextEditingController();
@@ -758,8 +755,7 @@ class GetBudgetEntries extends StatelessWidget {
                             Provider.of<BudgetEntryModel>(context,
                                     listen: false)
                                 .deleteBudgetEntry(
-                                    budgetEntryModel.entries!.elementAt(index),
-                                    currentBudget!);
+                                    budgetEntryModel.entries!.elementAt(index));
                           }))
                 ]));
           } else {
