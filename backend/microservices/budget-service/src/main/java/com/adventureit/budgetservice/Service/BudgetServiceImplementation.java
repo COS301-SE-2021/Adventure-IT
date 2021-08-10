@@ -330,34 +330,36 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
     public List<Integer> getEntriesPerCategory(UUID adventureID) throws Exception {
-        if(budgetRepository.findBudgetByBudgetID(adventureID) == null){
-            throw new Exception("Adventure does not exist");
-        }
-
         List<Budget> budgets = budgetRepository.findAllByAdventureID(adventureID);
         List<BudgetEntry> budgetEntries = new ArrayList<>();
+        List<BudgetEntry> temp = new ArrayList<>();
         List<Integer> integers = new ArrayList<>(List.of(0,0,0,0,0));
 
         for (Budget budget:budgets) {
-            budgetEntries.addAll(budgetEntryRepository.findBudgetEntryByEntryContainerID(budget.getBudgetId()));
+            temp = budgetEntryRepository.findBudgetEntryByEntryContainerID(budget.getBudgetId());
+            if(temp != null){
+                budgetEntries.addAll(temp);
+            }
         }
 
-        for (BudgetEntry entry:budgetEntries) {
-            if(entry.getCategory() == Category.Accommodation){
-                integers.set(0,integers.get(0) + 1);
-            }
-            if(entry.getCategory() == Category.Activities){
-                integers.set(1,integers.get(1) + 1);
-            }
-            if(entry.getCategory() == Category.Food){
-                integers.set(2,integers.get(2) + 1);
-            }
-            if(entry.getCategory() == Category.Other){
-                integers.set(3,integers.get(3) + 1);
-            }
-            if(entry.getCategory() == Category.Transport){
-                integers.set(4,integers.get(4) + 1);
+        if(budgetEntries.size() != 0){
+            for (BudgetEntry entry:budgetEntries) {
+                if(entry.getCategory() == Category.Accommodation){
+                    integers.set(0,integers.get(0) + 1);
+                }
+                if(entry.getCategory() == Category.Activities){
+                    integers.set(1,integers.get(1) + 1);
+                }
+                if(entry.getCategory() == Category.Food){
+                    integers.set(2,integers.get(2) + 1);
+                }
+                if(entry.getCategory() == Category.Other){
+                    integers.set(3,integers.get(3) + 1);
+                }
+                if(entry.getCategory() == Category.Transport){
+                    integers.set(4,integers.get(4) + 1);
 
+                }
             }
         }
 
