@@ -21,5 +21,6 @@ public interface AdventureService{
     public void mockPopulate();
     public List<UUID> getAttendees(UUID id) throws Exception;
     public void setAdventureLocation(UUID adventureID, UUID locationID);
+    public void addAttendees(UUID adventureID, UUID userID) throws Exception;
 //   public AddUserToAdventureResponse AddUserToAdventure(AddUserToAdventureRequest req);
 }

@@ -7,6 +7,8 @@ import com.adventureit.budgetservice.Requests.*;
 import com.adventureit.budgetservice.Responses.*;
 //import com.adventureit.timelineservice.Entity.TimelineType;
 //import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
+import com.adventureit.timelineservice.Entity.TimelineType;
+import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -44,9 +46,9 @@ public class MainControllerBudgetReroute {
         return restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/editBudget/", req, String.class);
     }
 
-    @GetMapping("/removeEntry/{id}/{budgetID}")
-    public String removeEntry(@PathVariable UUID id, @PathVariable UUID budgetID){
-        return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/removeEntry/"+id+"/"+budgetID, String.class);
+    @GetMapping("/removeEntry/{id}")
+    public String removeEntry(@PathVariable UUID id){
+        return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/removeEntry/"+id, String.class);
     }
 
     @GetMapping("/viewBudgetsByAdventure/{id}")

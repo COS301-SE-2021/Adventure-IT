@@ -70,4 +70,9 @@ public class AdventureController {
     public List<UUID> getAttendees(@PathVariable UUID id) throws Exception {
         return adventureServiceImplementation.getAttendees(id);
     }
+
+    @GetMapping("/addAttendees/{adventureID}/{userID}")
+    public void addAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID) throws Exception {
+        adventureServiceImplementation.addAttendees(adventureID,userID);
+    }
 }
