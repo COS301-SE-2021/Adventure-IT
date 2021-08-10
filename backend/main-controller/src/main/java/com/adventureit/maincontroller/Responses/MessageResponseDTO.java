@@ -1,4 +1,4 @@
-package com.adventureit.maincontroller.Requests;
+package com.adventureit.maincontroller.Responses;
 
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
 

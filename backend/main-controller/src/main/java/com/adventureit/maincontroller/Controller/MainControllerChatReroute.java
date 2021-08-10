@@ -1,13 +1,10 @@
 package com.adventureit.maincontroller.Controller;
 
-import com.adventureit.budgetservice.Entity.BudgetEntry;
 import com.adventureit.chat.Entity.GroupMessage;
-import com.adventureit.chat.Entity.Message;
 import com.adventureit.chat.Requests.CreateDirectChatRequest;
 import com.adventureit.chat.Requests.CreateGroupChatRequest;
 import com.adventureit.chat.Responses.GroupChatResponseDTO;
-import com.adventureit.maincontroller.Requests.MainGroupChatResponseDTO;
-import com.adventureit.maincontroller.Requests.MessageResponseDTO;
+import com.adventureit.maincontroller.Responses.MessageResponseDTO;
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
