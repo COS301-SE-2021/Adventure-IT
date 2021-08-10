@@ -4,7 +4,6 @@ import com.adventureit.budgetservice.Entity.Category;
 import com.adventureit.budgetservice.Requests.*;
 import com.adventureit.budgetservice.Responses.*;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 import java.util.UUID;
