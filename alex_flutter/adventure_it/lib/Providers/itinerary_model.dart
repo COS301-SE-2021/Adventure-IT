@@ -71,12 +71,10 @@ class ItineraryModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future addItinerary(String a, String b, String c, String d) async {
+  Future addItinerary(Adventure adv, String a, String b, String c, String d) async {
     await ItineraryApi.createItinerary(a, b, c, d);
 
-    //fetchAllItineraries();
-
-    notifyListeners();
+    await fetchAllItineraries(adv);
   }
 
 }
@@ -100,10 +98,10 @@ class ItineraryEntryModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future addItineraryEntry(String a, String b, String c, String d, String e) async {
+  Future addItineraryEntry(Itinerary i, String a, String b, String c, String d, String e) async {
     await ItineraryApi.createItineraryEntry(a, b, c, d, e);
 
-    notifyListeners();
+    await fetchAllEntries(i);
   }
 
   Future deleteItineraryEntry(ItineraryEntry c) async {

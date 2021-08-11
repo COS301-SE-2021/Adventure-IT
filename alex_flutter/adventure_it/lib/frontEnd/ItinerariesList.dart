@@ -26,7 +26,9 @@ class Itineraries extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ChangeNotifierProvider(
+        create: (context) => ItineraryModel(adventure!),
+        builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
@@ -71,10 +73,11 @@ class Itineraries extends StatelessWidget {
                       child: IconButton(
                           onPressed: () {
                             {
+                              var provider = Provider.of<ItineraryModel>(context, listen: false);
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return AlertBox(adventure!);
+                                    return AlertBox(adventure!, provider);
                                   });
                             }
                           },
@@ -101,7 +104,7 @@ class Itineraries extends StatelessWidget {
                 ),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ]));
+            ])));
   }
 }
 
@@ -146,9 +149,7 @@ class _ItinerariesList extends State<ItinerariesList> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => ItineraryModel(a!),
-        child:
+    return
             Consumer<ItineraryModel>(builder: (context, itineraryModel, child) {
           if (itineraryModel.itineraries == null || next == null) {
             return Center(
@@ -240,27 +241,22 @@ class _ItinerariesList extends State<ItinerariesList> {
                     ])
                   ]))),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-              Expanded(
-                  flex: 13,
-                  child: ListView(children: [
-                    ...List.generate(
-                        itineraryModel.itineraries!.length,
-                        (index) => Dismissible(
-                            background: Container(
-                              // color: Theme.of(context).primaryColor,
-                              //   margin: const EdgeInsets.all(5),
-                              padding: EdgeInsets.all(
-                                  MediaQuery.of(context).size.height / 60),
-                              child: Row(
-                                children: [
-                                  new Spacer(),
-                                  Icon(Icons.delete,
-                                      color: Theme.of(context).accentColor,
-                                      size: 35 *
-                                          MediaQuery.of(context)
-                                              .textScaleFactor),
+              ListView.builder(
+                      itemCount: itineraryModel.itineraries!.length,
+                      itemBuilder: (context, index) => Dismissible(
+                          background: Container(
+                            // color: Theme.of(context).primaryColor,
+                            //   margin: const EdgeInsets.all(5),
+                            padding: EdgeInsets.all(
+                                MediaQuery.of(context).size.height / 60),
+                            child: Row(
+                              children: [
+                                new Spacer(),
+                                Icon(Icons.delete,
+                                    color: Theme.of(context).accentColor,
+                                    size: 35 *
+                                        MediaQuery.of(context).textScaleFactor),
                                 ],
-                              ),
                             ),
                             direction: DismissDirection.endToStart,
                             key: Key(itineraryModel.itineraries!
@@ -338,16 +334,15 @@ class _ItinerariesList extends State<ItinerariesList> {
                         fontSize: 30 * MediaQuery.of(context).textScaleFactor,
                         color: Theme.of(context).textTheme.bodyText1!.color)));
           }
-        }));
+        });
   }
 }
 
 class AlertBox extends StatefulWidget {
   Adventure? adventure;
+  final ItineraryModel itineraryModel;
 
-  AlertBox(Adventure a) {
-    this.adventure = a;
-  }
+  AlertBox(this.adventure, this.itineraryModel);
 
   @override
   _AlertBox createState() => _AlertBox(adventure!);
@@ -356,9 +351,7 @@ class AlertBox extends StatefulWidget {
 class _AlertBox extends State<AlertBox> {
   Adventure? adventure;
 
-  _AlertBox(Adventure i) {
-    this.adventure = i;
-  }
+  _AlertBox(this.adventure);
 
   double getSize(context) {
     if (MediaQuery.of(context).size.height >
@@ -477,15 +470,9 @@ class _AlertBox extends State<AlertBox> {
                                     .textTheme
                                     .bodyText1!
                                     .color)),
-                        onPressed: () {
-                          setState(() {
-                            _futureItinerary = ItineraryApi.createItinerary(
-                                nameController.text,
-                                descriptionController.text,
-                                userID,
-                                adventure!.adventureId);
-                          });
-                          Navigator.of(context).pop();
+                        onPressed: () async {
+                            await widget.itineraryModel.addItinerary(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
+                            Navigator.pop(context);
                         },
                       ),
                     )

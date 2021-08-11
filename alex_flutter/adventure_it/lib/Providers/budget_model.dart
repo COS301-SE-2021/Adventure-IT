@@ -117,7 +117,11 @@ class BudgetModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future addBudget(Adventure adv, String a, String b, String c, String d) async {
+    await BudgetApi.createBudget(a, b, c, d);
 
+    await fetchAllBudgets(adv);
+  }
 
 }
 
