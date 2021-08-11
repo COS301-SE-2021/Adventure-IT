@@ -15,6 +15,7 @@ public interface ChatService {
     public void markDirectMessageRead(UUID id) throws Exception;
     public void markGroupMessageRead(UUID id, UUID userID) throws Exception;
     public GroupChatResponseDTO getGroupChat(UUID id) throws Exception;
+    public GroupChatResponseDTO getGroupChatByAdventureID(UUID id) throws Exception;
     public Message getMessage(UUID id);
 
 }

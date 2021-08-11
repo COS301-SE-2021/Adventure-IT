@@ -1,5 +1,6 @@
 package com.adventureit.chat.Controller;
 
+import com.adventureit.chat.Entity.GroupMessage;
 import com.adventureit.chat.Entity.Message;
 import com.adventureit.chat.Requests.CreateDirectChatRequest;
 import com.adventureit.chat.Requests.CreateGroupChatRequest;
@@ -34,14 +35,19 @@ public class ChatController {
         return "Group Chat created";
     }
 
+    @GetMapping("/getGroupChatByAdventureID/{id}")
+    public GroupChatResponseDTO getGroupChatByAdventureID(@PathVariable UUID id) throws Exception {
+        return service.getGroupChatByAdventureID(id);
+    }
+
     @GetMapping("/getGroupChat/{id}")
     public GroupChatResponseDTO getGroupChat(@PathVariable UUID id) throws Exception {
         return service.getGroupChat(id);
     }
 
     @GetMapping("/getMessageByID/{id}")
-    public Message getMessage(@PathVariable UUID id){
-        return service.getMessage(id);
+    public GroupMessage getMessage(@PathVariable UUID id){
+        return (GroupMessage) service.getMessage(id);
     }
 
 }

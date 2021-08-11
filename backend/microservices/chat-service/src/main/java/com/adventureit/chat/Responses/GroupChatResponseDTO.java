@@ -21,6 +21,8 @@ public class GroupChatResponseDTO {
         this.colors =colors;
     }
 
+    public GroupChatResponseDTO(){}
+
     public UUID getId() {
         return id;
     }

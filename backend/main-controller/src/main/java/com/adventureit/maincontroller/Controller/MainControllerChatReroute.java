@@ -1,5 +1,6 @@
 package com.adventureit.maincontroller.Controller;
 
+import com.adventureit.budgetservice.Entity.BudgetEntry;
 import com.adventureit.chat.Entity.GroupMessage;
 import com.adventureit.chat.Entity.Message;
 import com.adventureit.chat.Requests.CreateDirectChatRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,25 +47,39 @@ public class MainControllerChatReroute {
         return restTemplate.postForObject("http://"+ IP + ":" + chatPort + "/chat/createGroupChat",req, String.class);
     }
 
-    @GetMapping("/getGroupChat/{id}")
-    public MainGroupChatResponseDTO getGroupChat(@PathVariable UUID id) throws Exception {
+    @GetMapping("/getMessages/{id}")
+    public List<MessageResponseDTO> getMessages(@PathVariable UUID id) throws Exception {
         GroupChatResponseDTO chat = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getGroupChat/" + id, GroupChatResponseDTO.class);
-        Message message = null;
+        GroupMessage message = null;
         GetUserByUUIDDTO user = null;
         List<GetUserByUUIDDTO> users = new ArrayList<>();
         List <MessageResponseDTO> list = new ArrayList<>();
 
         for (UUID ID:chat.getMessages()) {
-            message = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getMessageByID/" + ID, Message.class);
-            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/{id}" + message.getSender(), GetUserByUUIDDTO.class);
+            message = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getMessageByID/" + ID, GroupMessage.class);
+            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/" + message.getSender(), GetUserByUUIDDTO.class);
 
-            for (UUID x:((GroupMessage)message).getReceivers()) {
-                users.add(restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/{id}" + message.getSender(), GetUserByUUIDDTO.class));
+            for (UUID x:message.getReceivers()) {
+                users.add(restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/" + x, GetUserByUUIDDTO.class));
             }
 
-            list.add(new MessageResponseDTO(message.getId(),user,message.getMessage(), message.getTimestamp(),users,((GroupMessage)message).getRead()));
+            list.add(new MessageResponseDTO(message.getId(),user,message.getMessage(), message.getTimestamp(),users,message.getRead()));
         }
 
-        return new MainGroupChatResponseDTO(chat.getId(),chat.getAdventureID(), chat.getParticipants(),list,chat.getName(), chat.getColors());
+        list.sort(new Comparator<MessageResponseDTO>() {
+            @Override
+            public int compare(MessageResponseDTO o1, MessageResponseDTO o2) {
+                return o1.getTimestamp().compareTo(o2.getTimestamp());
+            }
+        });
+
+        return list;
     }
+
+    @GetMapping("/getGroupChatByAdventureID/{id}")
+    public GroupChatResponseDTO getGroupChat(@PathVariable UUID id) throws Exception {
+        return restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getGroupChatByAdventureID/" + id, GroupChatResponseDTO.class);
+    }
+
+
 }
