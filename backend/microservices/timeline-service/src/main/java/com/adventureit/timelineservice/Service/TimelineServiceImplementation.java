@@ -13,9 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Service
+@Service("TimelineServiceImplementation")
 public class TimelineServiceImplementation {
-
 
     private TimelineRepository repo;
 
@@ -45,7 +44,7 @@ public class TimelineServiceImplementation {
     }
 
     public String deleteTimelineByAdventureID(UUID adventureID){
-        List<Timeline> list = repo. findAllByAdventureID(adventureID);
+        List<Timeline> list = repo.findAllByAdventureID(adventureID);
         if(list == null){
             throw new TimelineDoesNotExistException("Timeline does not exist for adventure: "+ adventureID);
         }
