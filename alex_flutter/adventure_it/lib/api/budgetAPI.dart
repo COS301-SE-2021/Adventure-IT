@@ -289,4 +289,36 @@ class BudgetApi {
       throw Exception('Failed to create a UTU budget entry.');
     }
   }
+
+  static Future<http.Response> editBudgetEntry(String id, String entryContainerID, String payer, String amount, String title, String description, String payee) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:9007/budget/addUTUExpense'), //get uri
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'id': id,
+        'entryContainerID': entryContainerID,
+        'payer': payer,
+        'amount': amount,
+        'title': title,
+        'description': description,
+        'payee': payee
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      return response;
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      throw Exception('Failed to create a UTU budget entry.');
+    }
+  }
 }
