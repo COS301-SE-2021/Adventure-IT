@@ -171,7 +171,7 @@ class BudgetApi {
     return http.get(Uri.http(budgetApi, '/budget/removeEntry/' + BudgetEntryID));
   }
 
-  Future<CreateBudget> createBudget(String name, String description, String creatorID, String adventureID) async {
+  static Future<CreateBudget> createBudget(String name, String description, String creatorID, String adventureID) async {
     final response = await http.post(
       Uri.parse('http://localhost:9007/budget/create'), //get uri
       headers: <String, String>{

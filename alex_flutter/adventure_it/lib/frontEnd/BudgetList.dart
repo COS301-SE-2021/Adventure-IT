@@ -26,7 +26,9 @@ class Budgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ChangeNotifierProvider(
+        create: (context) => BudgetModel(adventure!, "patricia"),
+        builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
@@ -71,10 +73,11 @@ class Budgets extends StatelessWidget {
                       child: IconButton(
                           onPressed: () {
                             {
+                              var provider = Provider.of<BudgetModel>(context, listen: false);
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return AlertBox(adventure!);
+                                    return AlertBox(adventure!, provider);
                                   });
                             }
                           },
@@ -101,7 +104,7 @@ class Budgets extends StatelessWidget {
                 ),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ]));
+            ])));
   }
 }
 
@@ -370,9 +373,7 @@ class BudgetList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => BudgetModel(a!, "patricia"),
-        child: Consumer<BudgetModel>(builder: (context, budgetModel, child) {
+    return Consumer<BudgetModel>(builder: (context, budgetModel, child) {
           if (budgetModel.budgets == null ||
               budgetModel.expenses == null ||
               budgetModel.categories == null) {
@@ -384,12 +385,10 @@ class BudgetList extends StatelessWidget {
             return Column(children: [
               Expanded(flex: 8, child: buildChild(budgetModel, context)),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-              Expanded(
-                  flex: 6,
-                  child: ListView(children: [
-                    ...List.generate(
-                        budgetModel.budgets!.length,
-                        (index) => Dismissible(
+              ListView(children: [
+                    ListView.builder(
+                        itemCount: budgetModel.budgets!.length,
+                        itemBuilder: (context, index) => Dismissible(
                             background: Container(
                               // color: Theme.of(context).primaryColor,
                               //   margin: const EdgeInsets.all(5),
@@ -482,7 +481,7 @@ class BudgetList extends StatelessWidget {
                                   .softDeleteBudget(
                                       budgetModel.budgets!.elementAt(index));
                             }))
-                  ]))
+                  ])
             ]);
           } else {
             return Center(
@@ -492,16 +491,15 @@ class BudgetList extends StatelessWidget {
                         fontSize: 30 * MediaQuery.of(context).textScaleFactor,
                         color: Theme.of(context).textTheme.bodyText1!.color)));
           }
-        }));
+        });
   }
 }
 
 class AlertBox extends StatefulWidget {
   Adventure? adventure;
+  final BudgetModel budgetModel;
 
-  AlertBox(Adventure a) {
-    adventure = a;
-  }
+  AlertBox(this.adventure, this.budgetModel);
 
   @override
   _AlertBox createState() => _AlertBox(adventure!);
@@ -511,9 +509,7 @@ class _AlertBox extends State<AlertBox> {
   bool isChecked = false;
   Adventure? adventure;
 
-  _AlertBox(Adventure a) {
-    this.adventure = a;
-  }
+  _AlertBox(this.adventure);
 
   double getSize(context) {
     if (MediaQuery.of(context).size.height >
@@ -527,7 +523,6 @@ class _AlertBox extends State<AlertBox> {
   //controllers for the form fields
   String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
 
-  final BudgetApi api = new BudgetApi();
   Future<CreateBudget>? _futureBudget;
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -633,11 +628,9 @@ class _AlertBox extends State<AlertBox> {
                                     .textTheme
                                     .bodyText1!
                                     .color)),
-                        onPressed: () {
-                          setState(() {
-                            _futureBudget = api.createBudget(nameController.text, descriptionController.text, userID, adventure!.adventureId);
-                          });
-                          Navigator.of(context).pop();
+                        onPressed: () async {
+                          await widget.budgetModel.addBudget(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
+                          Navigator.pop(context);
                         },
                       ),
                     ),
