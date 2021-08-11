@@ -17,6 +17,8 @@ public class GetUserByUUIDDTO {
         this.email = email;
     }
 
+    public GetUserByUUIDDTO(){}
+
     public UUID getUserID() {
         return userID;
     }

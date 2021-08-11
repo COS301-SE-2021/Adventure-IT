@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class AddUTUExpenseEntryRequest {
-    private UUID budgetEntryID;
     private UUID entryContainerID;
-    private List<String> payers;
+    private String payer;
     double amount;
     String title;
     String description;
@@ -19,14 +18,13 @@ public class AddUTUExpenseEntryRequest {
 
     public AddUTUExpenseEntryRequest(){}
 
-    public AddUTUExpenseEntryRequest(@JsonProperty("budgetEntryID") UUID budgetEntryID, @JsonProperty("entryContainerID") UUID entryContainerID, @JsonProperty("payers") List<String> payers, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("category") Category category, @JsonProperty("payee") String payee) {
-        this.budgetEntryID = budgetEntryID;
+    public AddUTUExpenseEntryRequest(@JsonProperty("entryContainerID") UUID entryContainerID, @JsonProperty("payer") String payer, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("category") String category, @JsonProperty("payee") String payee) {
         this.entryContainerID = entryContainerID;
-        this.payers = payers;
+        this.payer = payer;
         this.amount = amount;
         this.title = title;
         this.description = description;
-        this.category = category;
+        this.category = Category.valueOf(category);
         this.payee = payee;
     }
 
@@ -38,20 +36,8 @@ public class AddUTUExpenseEntryRequest {
         return payee;
     }
 
-    public List<String> getPayers() {
-        return payers;
-    }
-
-    public UUID getBudgetEntryID() {
-        return budgetEntryID;
-    }
-
     public UUID getEntryContainerID() {
         return entryContainerID;
-    }
-
-    public void setBudgetEntryID(UUID budgetEntryID) {
-        this.budgetEntryID = budgetEntryID;
     }
 
     public void setCategory(Category category) {
@@ -87,8 +73,12 @@ public class AddUTUExpenseEntryRequest {
         this.amount = amount;
     }
 
-    public void setPayers(List<String> payers) {
-        this.payers = payers;
+    public String getPayer() {
+        return payer;
+    }
+
+    public void setPayer(String payer) {
+        this.payer = payer;
     }
 
     public void setPayee(String payee) {

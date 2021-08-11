@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'package:adventure_it/Providers/friends_model.dart';
+import 'package:provider/provider.dart';
+
 import 'ChecklistsList.dart';
 import 'FileList.dart';
 import 'GroupChat.dart';
@@ -18,6 +21,7 @@ import 'package:flutter/foundation.dart';
 
 import '../api/budget.dart';
 import 'MediaList.dart';
+import 'Navbar.dart';
 import 'TimelinePage.dart';
 
 //Shows the page of an adventure and allows the user to look at budgets, itineraries etc
@@ -159,22 +163,21 @@ class AdventurePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-
             title: Center(
                 child: Text(currentAdventure!.name,
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
-            actions:[IconButton(
-                onPressed: () {
-                  {
-
-
-                  }
-                },
-                icon: const Icon(Icons.edit),
-                color: Theme.of(context).textTheme.bodyText1!.color),],
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    {}
+                  },
+                  icon: const Icon(Icons.edit),
+                  color: Theme.of(context).textTheme.bodyText1!.color),
+            ],
             backgroundColor: Theme.of(context).primaryColorDark),
         body: Center(
             child: Container(
@@ -613,44 +616,144 @@ class AdventurePage extends StatelessWidget {
                         ),
                       ])),
                   Spacer(),
-                  Row(children: [
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).accentColor,
-                              shape: BoxShape.circle),
-                          child: IconButton(
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            HomepageStartupCaller()));
-                              },
-                              icon:
-                                  const Icon(Icons.arrow_back_ios_new_rounded),
-                              color: Theme.of(context).primaryColorDark)),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-
-                    )),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).accentColor,
-                              shape: BoxShape.circle),
-                          child: IconButton(
-                              onPressed: () {
-
-                              },
-                              icon:
-                              const Icon(Icons.share),
-                              color: Theme.of(context).primaryColorDark))),
-                  ],),SizedBox(height: MediaQuery.of(context).size.height / 60),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).accentColor,
+                                shape: BoxShape.circle),
+                            child: IconButton(
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              HomepageStartupCaller()));
+                                },
+                                icon: const Icon(
+                                    Icons.arrow_back_ios_new_rounded),
+                                color: Theme.of(context).primaryColorDark)),
+                      ),
+                      Expanded(flex: 1, child: Container()),
+                      Expanded(
+                          flex: 1,
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).accentColor,
+                                  shape: BoxShape.circle),
+                              child: IconButton(
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertBox(currentAdventure!);
+                                        });
+                                  },
+                                  icon: const Icon(Icons.share),
+                                  color: Theme.of(context).primaryColorDark))),
+                    ],
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height / 60),
                 ]))));
+  }
+}
+
+class AlertBox extends StatelessWidget {
+  Adventure? currentAdventure;
+
+  AlertBox(Adventure a) {
+    currentAdventure = a;
+  }
+
+  double getSize(context) {
+    if (MediaQuery.of(context).size.height >
+        MediaQuery.of(context).size.width) {
+      return MediaQuery.of(context).size.height * 0.49;
+    } else {
+      return MediaQuery.of(context).size.height * 0.6;
+    }
+  }
+
+  //controllers for the form fields
+  String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        backgroundColor: Theme.of(context).primaryColorDark,
+        title: Stack(overflow: Overflow.visible, children: <Widget>[
+          Positioned(
+            right: -40.0,
+            top: -40.0,
+            child: InkResponse(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: CircleAvatar(
+                child: Icon(Icons.close,
+                    color: Theme.of(context).primaryColorDark),
+                backgroundColor: Theme.of(context).accentColor,
+              ),
+            ),
+          ),
+          Column(mainAxisSize: MainAxisSize.min, children: [
+            Text("Add Friend To Adventure",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontSize: 25 * MediaQuery.of(context).textScaleFactor,
+                  fontWeight: FontWeight.bold,
+                )),
+            SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01, width: 300)
+          ])
+        ]),
+        content: ChangeNotifierProvider(
+            create: (context) =>
+                FriendModel("1660bd85-1c13-42c0-955c-63b1eda4e90b"),
+            child: Container(
+                width: 300,
+                child: Consumer<FriendModel>(
+                    builder: (context, friendModel, child) {
+                  return friendModel.friends!=null&&friendModel.friends!.length > 0
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: friendModel.friends!.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                                hoverColor: Theme.of(context).primaryColorLight,
+                                onTap: () {
+                                  AdventureApi.addAttendee(
+                                      currentAdventure!, friendModel.friends!.elementAt(index).userID);
+                                  Navigator.of(context).pop();
+                                },
+                                child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01,
+                                        horizontal:
+                                            MediaQuery.of(context).size.width *
+                                                0.01),
+                                    child: Expanded(
+                                        child: Text(
+                                      friendModel.friends!
+                                          .elementAt(index)
+                                          .username,
+                                      style: TextStyle(
+                                          fontSize: 20 *
+                                              MediaQuery.of(context)
+                                                  .textScaleFactor,
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color),
+                                    ))));
+                          })
+                      : Container(height: 10);
+                }))));
   }
 }

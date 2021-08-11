@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
+import 'Navbar.dart';
 class GroupChat extends StatelessWidget {
   Adventure? currentAdventure;
 
@@ -38,20 +39,9 @@ class Chats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-            leading: IconButton(
-                onPressed: () {
-                  {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => (AdventurePage(a))),
-                    );
-                  }
-                },
-                icon: const Icon(Icons.arrow_back_ios),
-                color: Theme.of(context).textTheme.bodyText1!.color),
             title: Center(
                 child: Text("Group Chat",
                     style: new TextStyle(

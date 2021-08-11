@@ -1,24 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'transactions.dart';
+part of 'editChecklistEntry.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Transaction _$TransactionFromJson(Map<String, dynamic> json) {
-  return Transaction(
-    amount: (json['amount'] as num).toDouble(),
+EditChecklistEntry _$EditChecklistEntryFromJson(Map<String, dynamic> json) {
+  return EditChecklistEntry(
     id: json['id'] as String,
-    description: json['description'] as String,
     title: json['title'] as String,
+    entryContainerID: json['entryContainerID'] as String,
   );
 }
 
-Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
+Map<String, dynamic> _$EditChecklistEntryToJson(EditChecklistEntry instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'amount': instance.amount,
-      'description': instance.description,
+      'entryContainerID': instance.entryContainerID,
       'title': instance.title,
     };

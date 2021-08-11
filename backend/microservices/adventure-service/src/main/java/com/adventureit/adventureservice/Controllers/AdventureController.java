@@ -35,6 +35,12 @@ public class AdventureController {
         return adventureServiceImplementation.getAllAdventures();
     }
 
+    @GetMapping("/setLocation/{adventureId}/{locationId}")
+    public String setLocationAdventures(@PathVariable UUID adventureId,@PathVariable UUID locationId) {
+        adventureServiceImplementation.setAdventureLocation(adventureId,locationId);
+        return "Working";
+    }
+
     @GetMapping("/all/{id}")
     public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUserUUID(@PathVariable UUID id){
         return adventureServiceImplementation.getallAdventuresByUUID(id);
@@ -55,8 +61,18 @@ public class AdventureController {
         return adventureServiceImplementation.createAdventure(req);
     }
 
-    @DeleteMapping("/remove/{id}")
-    public RemoveAdventureResponse removeAdventure(@PathVariable UUID id){
-        return adventureServiceImplementation.removeAdventure(id);
+    @DeleteMapping("/remove/{id}/{userID}")
+    public RemoveAdventureResponse removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+        return adventureServiceImplementation.removeAdventure(id, userID);
+    }
+    
+    @GetMapping("/getAttendees/{id}")
+    public List<UUID> getAttendees(@PathVariable UUID id) throws Exception {
+        return adventureServiceImplementation.getAttendees(id);
+    }
+
+    @GetMapping("/addAttendees/{adventureID}/{userID}")
+    public void addAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID) throws Exception {
+        adventureServiceImplementation.addAttendees(adventureID,userID);
     }
 }

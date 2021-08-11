@@ -15,9 +15,9 @@ import com.adventureit.userservice.Responses.LoginUserDTO;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
 import com.adventureit.userservice.Token.RegistrationToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,7 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service("UserServiceImplementation")
-public class UserServiceImplementation implements UserDetailsService {
+public class UserServiceImplementation  {
 
 
 
@@ -145,16 +145,16 @@ public class UserServiceImplementation implements UserDetailsService {
         return new LoginUserDTO(true,"Login Successful: Welcome to Adventure-it");
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Users user =  repo.getUserByUsername(s);
-        if(user ==null){
-           throw new UsernameNotFoundException("User not found");
-        }
-
-        return user;
-
-    }
+//    @Override
+//    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+//        Users user =  repo.getUserByUsername(s);
+//        if(user ==null){
+//           throw new UsernameNotFoundException("User not found");
+//        }
+//
+//        return user;
+//
+//    }
 
 
     public String updateProfilePicture(MultipartFile file, UUID id) throws Exception {
@@ -210,12 +210,12 @@ public class UserServiceImplementation implements UserDetailsService {
         return "Picture successfully removed";
     }
 
-    public String createFriendRequest(UUID ID1, UUID ID2) throws Exception {
-        if(repo.getUserByUserID(ID1) == null || repo.getUserByUserID(ID2) == null){
+    public String createFriendRequest(String ID1, String ID2) throws Exception {
+        if(repo.getUserByUserID(UUID.fromString(ID1)) == null || repo.getUserByUserID(UUID.fromString(ID2)) == null){
             throw new Exception("One or both of the users do not exist");
         }
 
-        Friend friend = new Friend(ID1, ID2);
+        Friend friend = new Friend(UUID.fromString(ID1), UUID.fromString(ID2));
         friendRepository.save(friend);
 
         return "Friend request sent";
@@ -266,16 +266,106 @@ public class UserServiceImplementation implements UserDetailsService {
         return friendUsers;
     }
 
+    public List<GetUserByUUIDDTO> getFriendProfiles(UUID id){
+
+        List<Friend> friendsByFirstUser = friendRepository.findByFirstUserEquals(id);
+        List<Friend> friendsBySecondUser = friendRepository.findBySecondUserEquals(id);
+        List<UUID> friendUsers = new ArrayList<>();
+
+        for (Friend friend : friendsByFirstUser) {
+            if(friend.isAccepted()){
+                friendUsers.add(friend.getSecondUser());
+            }
+        }
+        for (Friend friend : friendsBySecondUser) {
+            if(friend.isAccepted()) {
+                friendUsers.add(friend.getFirstUser());
+            }
+        }
+
+        List<GetUserByUUIDDTO> profileList = new ArrayList<>();
+
+        for (int i = 0; i < friendUsers.size(); i++)
+        {
+            GetUserByUUIDDTO toAdd=this.GetUserByUUID(friendUsers.get(i));
+            if(toAdd!=null)
+            profileList.add(toAdd);
+        }
+
+        return profileList;
+
+    }
+
     public List<GetFriendRequestsResponse> getFriendRequests(UUID id){
         List<Friend> requests = friendRepository.findBySecondUserEquals(id);
         List<GetFriendRequestsResponse> list = new ArrayList<>();
+        Users user;
 
         for (Friend f:requests) {
             if(!f.isAccepted()){
-                list.add(new GetFriendRequestsResponse(f.getId(),f.getFirstUser(),f.getSecondUser(),f.getCreatedDate(),f.isAccepted()));
+                user = repo.getUserByUserID(f.getFirstUser());
+                list.add(new GetFriendRequestsResponse(f.getId(),f.getFirstUser(),f.getSecondUser(),f.getCreatedDate(),f.isAccepted(),new GetUserByUUIDDTO(user.getUserID(),user.getUsername(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhoneNumber())));
             }
         }
 
         return list;
+    }
+
+
+    public void deleteFriendRequest(UUID id) throws Exception {
+        Friend request = friendRepository.findFriendById(id);
+        if(request == null || request.isAccepted()){
+            throw new Exception("Friend Request doesn't exist");
+        }
+
+        friendRepository.delete(request);
+    }
+
+    public String removeFriend(UUID id, UUID friend) throws Exception {
+        List<Friend> friendList1 = friendRepository.findByFirstUserEquals(id);
+        List<Friend> friendList2 = friendRepository.findBySecondUserEquals(id);
+        boolean flag = false;
+
+        for (Friend f:friendList1) {
+            if(f.getSecondUser().equals(friend) && f.isAccepted()){
+                friendRepository.delete(f);
+                flag = true;
+                break;
+            }
+        }
+        for (Friend f:friendList2) {
+            if(f.getFirstUser().equals(friend) && f.isAccepted()){
+                friendRepository.delete(f);
+                flag = true;
+                break;
+            }
+        }
+
+        if(flag == false){
+            throw new Exception("Friend does not exist");
+        }
+
+        return "Friend removed";
+    }
+
+    public UUID getUserIDByUserName(String userName){
+        Users user = repo.getUserByUsername(userName);
+        return  user.getUserID();
+    }
+
+    public void mockFriendships()
+    {
+        Friend toSave = new Friend (UUID.fromString("1660bd85-1c13-42c0-955c-63b1eda4e90b"),UUID.fromString("69e8eb21-eb63-4c83-9187-181a648bb759"));
+        toSave.setAccepted(true);
+        friendRepository.save(toSave);
+
+        toSave = new Friend (UUID.fromString("1660bd85-1c13-42c0-955c-63b1eda4e90b"),UUID.fromString("3f21ea6b-2288-42f3-9175-39adfafea9ab"));
+        toSave.setAccepted(true);
+        friendRepository.save(toSave);
+
+        toSave = new Friend (UUID.fromString("3f21ea6b-2288-42f3-9175-39adfafea9ab"),UUID.fromString("86f26dff-8e17-4a82-a671-816ed611d712"));
+        friendRepository.save(toSave);
+
+
     }
 }

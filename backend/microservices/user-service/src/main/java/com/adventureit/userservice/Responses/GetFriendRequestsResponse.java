@@ -1,5 +1,7 @@
 package com.adventureit.userservice.Responses;
 
+import com.adventureit.userservice.Entities.Users;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,13 +11,15 @@ public class GetFriendRequestsResponse {
     private UUID secondUser;
     private Date createdDate;
     boolean accepted;
+    private String requester;
 
-    public GetFriendRequestsResponse(UUID id,UUID firstUser, UUID secondUser, Date createdDate, boolean accepted){
+    public GetFriendRequestsResponse(UUID id,UUID firstUser, UUID secondUser, Date createdDate, boolean accepted, GetUserByUUIDDTO requester){
         this.id = id;
         this.firstUser = firstUser;
         this.secondUser = secondUser;
         this.createdDate = createdDate;
         this.accepted = accepted;
+        this.requester = requester.getUsername();
     }
 
     public UUID getId() {
@@ -56,5 +60,13 @@ public class GetFriendRequestsResponse {
 
     public boolean isAccepted() {
         return accepted;
+    }
+
+    public String getRequester() {
+        return requester;
+    }
+
+    public void setRequester(String requester) {
+        this.requester = requester;
     }
 }

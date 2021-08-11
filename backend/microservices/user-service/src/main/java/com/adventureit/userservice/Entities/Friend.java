@@ -1,5 +1,7 @@
 package com.adventureit.userservice.Entities;
 
+
+
 import javax.persistence.*;
 import java.util.Date;
 

@@ -25,6 +25,7 @@ import java.util.UUID;
 /** This class implements the functionality of the UserAPI interface.*/
 @CrossOrigin("*")
 @RestController
+@RequestMapping("user")
 public class UserController {
 
     private final UserServiceImplementation service;
@@ -75,14 +76,45 @@ public class UserController {
         return service.acceptFriendRequest(id);
     }
 
-    @GetMapping(value="api/GetFriends/{id}")
+    @GetMapping(value="api/getFriends/{id}")
     public List<UUID> getFriends(@PathVariable UUID id){
         return service.getFriends(id);
     }
 
-    @GetMapping(value="api/GetFriendRequests/{id}")
+    @GetMapping(value="api/getFriendRequests/{id}")
     public List<GetFriendRequestsResponse> getFriendRequests(@PathVariable UUID id){
         return service.getFriendRequests(id);
+    }
+
+    @GetMapping(value="api/populateFriends")
+    public void mockFriends()
+    {
+        service.mockFriendships();
+    }
+
+    @GetMapping(value="api/deleteFriendRequest/{id}")
+    public void deleteRequest(@PathVariable UUID id) throws Exception {
+        service.deleteFriendRequest(id);
+    }
+
+    @GetMapping(value="api/removeFriend/{id}/{friendID}")
+    public void deleteRequest(@PathVariable UUID id, @PathVariable UUID friendID) throws Exception {
+        service.removeFriend(id,friendID);
+    }
+
+    @GetMapping(value="api/getFriendProfiles/{id}")
+    public List<GetUserByUUIDDTO>getFriendProfiles (@PathVariable UUID id) throws Exception {
+        return service.getFriendProfiles(id);
+    }
+
+    @GetMapping(value="api/getByUserName/{userName}")
+    public UUID getUserIDByUserName(@PathVariable String userName) throws Exception {
+        return service.getUserIDByUserName(userName);
+    }
+
+    @GetMapping(value="api/createFriendRequest/{ID1}/{ID2}")
+    public void createFriendRequest(@PathVariable String ID1,@PathVariable String ID2) throws Exception {
+        service.createFriendRequest(ID1,ID2);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.adventureit.checklist.Entity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,6 +39,15 @@ public class Checklist{
         this.adventureID = adventureID;
         this.creatorID = creatorID;
         this.id = id;
+        deleted = false;
+    }
+
+    public Checklist(String title, String description, UUID creatorID, UUID adventureID) {
+        this.title = title;
+        this.description = description;
+        this.adventureID = adventureID;
+        this.creatorID = creatorID;
+        this.id = UUID.randomUUID();
         deleted = false;
     }
 

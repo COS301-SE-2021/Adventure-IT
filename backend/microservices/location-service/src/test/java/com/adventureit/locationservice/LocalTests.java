@@ -22,19 +22,18 @@ public class LocalTests {
 
     @Test
     public void createLocation() throws IOException, JSONException {
-        locationServiceImplementation.createLocation(UUID.randomUUID(),"Eeufees Rd, Groenkloof 358-Jr, Pretoria, 0027");
-        locationServiceImplementation.createLocation(UUID.randomUUID(),"Government Ave, Pretoria, 0002");
-        locationServiceImplementation.createLocation(UUID.randomUUID(),"2 Cussonia Street, Brummeria, Pretoria, 0184");
-        locationServiceImplementation.createLocation(UUID.randomUUID(),"Christina De Wit Ave, Road, Pretoria, 0027");
+        locationServiceImplementation.createLocation("Johannesburg");
+        locationServiceImplementation.createLocation("Pretoria");
+        locationServiceImplementation.createLocation("Cape Town");
     }
 
     @Test
     public void shortestPath() throws JSONException, IOException {
-        UUID id1 = UUID.fromString("47bd0046-6b1d-4d71-b778-a4e0fd4af0a2");
-        UUID id2 = UUID.fromString("28866507-22ee-4ffb-b205-7ada06d39491");
-        UUID id3 = UUID.fromString("a03d8710-1ed5-4fbd-8dfa-5dc7c1be73fd");
-        UUID id4 = UUID.fromString("3bd0db1c-1ca0-4f9e-8045-942d310be0dd");
-        locationServiceImplementation.shortestPath(UUID.fromString("c5d3c334-30a2-4993-b032-3dad6134acc0"),new ArrayList<>(List.of(id1,id2,id3,id4)));
+        UUID id1 = UUID.fromString("f5b76b34-1c15-4623-a4c0-094b710db4ce");
+        UUID id2 = UUID.fromString("c9589a3b-f794-4c43-984f-09dcec12aefe");
+        UUID id3 = UUID.fromString("f2c39d25-2e50-4a9b-b589-d7d271bd3ff2");
+        UUID id4 = UUID.fromString("ecc1cf1b-ae9e-4409-8e5b-51f7013881af");
+        locationServiceImplementation.shortestPath(UUID.fromString("d650e30e-4bc3-42f2-8c2a-43eaef957e70"),new ArrayList<>(List.of(id1,id2,id3,id4)));
     }
 
 //    @Test

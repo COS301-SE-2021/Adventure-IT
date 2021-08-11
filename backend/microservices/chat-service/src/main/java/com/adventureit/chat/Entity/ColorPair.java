@@ -8,15 +8,21 @@ import java.util.UUID;
 public class ColorPair {
     @Id
     UUID userID;
+    UUID adventureId;
     int color;
 
-    public ColorPair(UUID userID, int color) {
+    public ColorPair(UUID userID, UUID adventureId, int color) {
         this.userID = userID;
+        this.adventureId = adventureId;
         this.color = color;
     }
 
     public ColorPair() {
 
+    }
+
+    public UUID getAdventureId() {
+        return adventureId;
     }
 
     public UUID getUserID() {

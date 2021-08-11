@@ -21,6 +21,7 @@ import 'AdventurePage.dart';
 
 import '../api/budget.dart';
 import 'ItinerariesList.dart';
+import 'Navbar.dart';
 
 class ItineraryTrash extends StatelessWidget {
   Adventure? adventure;
@@ -32,6 +33,7 @@ class ItineraryTrash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
@@ -138,7 +140,11 @@ class DeletedItineraryList extends StatelessWidget {
                                           return AlertDialog(
                                               backgroundColor:
                                               Theme.of(context).primaryColorDark,
-                                              title: Text('Confirm Restoration'),
+                                              title: Text('Confirm Restoration',style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color),),
                                               content:
                                                     Text(
                                                         'Are you sure you want to restore this itinerary to your adventure?',style: TextStyle(

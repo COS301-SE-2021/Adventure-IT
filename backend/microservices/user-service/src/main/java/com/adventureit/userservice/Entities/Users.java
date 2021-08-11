@@ -3,8 +3,8 @@ package com.adventureit.userservice.Entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name="users", schema = "public")
-public class Users implements UserDetails {
+public class Users  {
 
 
 
@@ -64,26 +64,26 @@ public class Users implements UserDetails {
         return username;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//
+//        return !this.locked;
+//    }
 
-    @Override
-    public boolean isAccountNonLocked() {
-
-        return !this.locked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.enabled;
-    }
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return this.enabled;
+//    }
 
     public Boolean getEnabled() {
         return enabled;
@@ -152,10 +152,10 @@ public class Users implements UserDetails {
         this.email = email;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return null;
+//    }
 
     // Only here to satisfy inheritance constraint (will NOT be used for anything)
     @Override

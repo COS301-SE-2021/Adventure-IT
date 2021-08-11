@@ -2,6 +2,7 @@ package com.adventureit.locationservice.Service;
 
 import com.adventureit.locationservice.Entity.Location;
 import com.adventureit.locationservice.Repos.LocationRepository;
+import com.adventureit.locationservice.Responses.LocationResponseDTO;
 import com.adventureit.locationservice.Responses.ShortestPathResponseDTO;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,12 +29,21 @@ public class LocationServiceImplementation implements LocationService {
     private final String APIKey = System.getenv("Google Maps API Key");
 
     @Override
-    public void createLocation(UUID id, String location) throws IOException, JSONException {
+    public UUID createLocation(String location) throws IOException, JSONException {
         String string1 = location.replace(" ","%20");
-        String string2 = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + string1 + "&inputtype=textquery&fields=formatted_address,name,place_id&key=" + APIKey;
+        String string2 = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + string1 + "&inputtype=textquery&fields=formatted_address,name,place_id,photos&key=AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
 
         JSONObject json = new JSONObject(makeConnection(string2));
-        locationRepository.save(new Location(id,json.getJSONArray("candidates").getJSONObject(0).getString("name"),json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
+        Location location1 = new Location();
+
+        if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
+            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
+        }
+        else {
+            location1 = locationRepository.save(new Location("",json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
+        }
+
+        return location1.getId();
     }
 
     @Override
@@ -49,7 +59,9 @@ public class LocationServiceImplementation implements LocationService {
 
         JSONObject json = new JSONObject(makeConnection(string1));
 
-        System.out.println(getOrder(id,locations,json));
+        for (String i:getOrder(id,locations,json)) {
+            System.out.println(i);
+        }
         System.out.println(getTotalDistance(json));
         System.out.println(getTotalDuration(json));
 
@@ -66,13 +78,13 @@ public class LocationServiceImplementation implements LocationService {
         }
 
         List<String> order = new ArrayList<>();
-        order.add(locationRepository.findLocationById(id).getName());
+        order.add(locationRepository.findLocationById(id).getFormattedAddress());
 
         for (int k: numbers) {
-            order.add(locationRepository.findLocationById(locations.get(k)).getName());
+            order.add(locationRepository.findLocationById(locations.get(k)).getFormattedAddress());
         }
 
-        order.add(locationRepository.findLocationById(id).getName());
+        order.add(locationRepository.findLocationById(id).getFormattedAddress());
 
         return order;
     }
@@ -133,5 +145,15 @@ public class LocationServiceImplementation implements LocationService {
         connection.disconnect();
 
         return response.toString();
+    }
+
+    @Override
+    public LocationResponseDTO getLocation(UUID id) throws Exception {
+        Location location = locationRepository.findLocationById(id);
+        if(location == null){
+            throw new Exception("Location does not exist");
+        }
+
+        return new LocationResponseDTO(location.getId(),location.getPhoto_reference(),location.getFormattedAddress(),location.getPlace_id());
     }
 }

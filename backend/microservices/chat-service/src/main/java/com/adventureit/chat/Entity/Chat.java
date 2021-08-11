@@ -11,7 +11,6 @@ public class Chat {
     @Id
     @NotNull
     UUID id;
-    @NotNull
     UUID adventureID;
     @ElementCollection (fetch=FetchType.EAGER)
     List<UUID> participants = new ArrayList<>();
@@ -61,4 +60,5 @@ public class Chat {
     }
 
     public int getColor(UUID userID){ return 1; }
+
 }

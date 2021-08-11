@@ -18,13 +18,14 @@ public class Adventure{
     private String name;
     private UUID adventureId;
     private UUID ownerId;
-    @ElementCollection
+    @ElementCollection (fetch = FetchType.EAGER)
     private List<UUID> attendees;
     @ElementCollection //remove
     private List<UUID> Containers;
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
+    private UUID location;
 
 
     /**
@@ -38,15 +39,16 @@ public class Adventure{
      * @param adventureId
      * @param ownerId
      */
-    public Adventure(String name, String description, UUID adventureId, UUID ownerId, LocalDate sd, LocalDate ed){
+    public Adventure(String name, String description, UUID adventureId, UUID ownerId, LocalDate sd, LocalDate ed, UUID location){
         this.name=name;
         this.description = description;
         this.adventureId=adventureId;
         this.ownerId = ownerId;
-        this.attendees = new ArrayList<UUID>();
+        this.attendees = new ArrayList<UUID>(List.of(ownerId));
         this.Containers = new ArrayList<UUID>();
         this.startDate=sd;
         this.endDate=ed;
+        this.location = location;
     }
 
 
@@ -136,6 +138,10 @@ public class Adventure{
         this.adventureId = adventureId;
     }
 
+    public void setLocation(UUID location) {
+        this.location = location;
+    }
+
     public void setAttendees(List<UUID> attendees) {
         this.attendees = attendees;
     }
@@ -143,4 +149,18 @@ public class Adventure{
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public UUID getLocation() {
+        return location;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+
 }

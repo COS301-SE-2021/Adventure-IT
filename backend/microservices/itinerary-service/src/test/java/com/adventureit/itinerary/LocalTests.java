@@ -43,11 +43,11 @@ public class LocalTests {
     public void addEntries(){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        ItineraryEntry mockEntry1 = new ItineraryEntry("Mock Entry 1","Mock", UUID.randomUUID(),UUID.fromString("4d29e8bd-429a-45e3-864c-a9709581414d"),"Location 1", LocalDateTime.parse("1986-04-08 12:30",format));
-        ItineraryEntry mockEntry2 = new ItineraryEntry("Mock Entry 2","Mock",UUID.randomUUID(),UUID.fromString("4d29e8bd-429a-45e3-864c-a9709581414d"),"Location 2",LocalDateTime.parse("2021-08-01 12:30",format));
-        ItineraryEntry mockEntry3 = new ItineraryEntry("Mock Entry 3","Mock",UUID.randomUUID(),UUID.fromString("3638992e-23c1-474c-af52-e2e5a162e6bc"),"Location 3",LocalDateTime.parse("2021-08-02 20:00",format));
-        ItineraryEntry mockEntry4 = new ItineraryEntry("Mock Entry 3","Mock",UUID.randomUUID(),UUID.fromString("e311281c-6e9b-4c32-88eb-53dc10f44089"),"Location 3",LocalDateTime.parse("2021-08-01 20:30",format));
-        ItineraryEntry mockEntry5 = new ItineraryEntry("Mock Entry 3","Mock",UUID.randomUUID(),UUID.fromString("31358b18-9a7a-44da-af3f-e6d10fd501ed"),"Location 3",LocalDateTime.parse("2021-08-08 22:30",format));
+        ItineraryEntry mockEntry1 = new ItineraryEntry("Mock Entry 1","Mock",UUID.randomUUID(),UUID.fromString("4d29e8bd-429a-45e3-864c-a9709581414d"),UUID.randomUUID(), LocalDateTime.parse("1986-04-08 12:30",format));
+        ItineraryEntry mockEntry2 = new ItineraryEntry("Mock Entry 2","Mock",UUID.randomUUID(),UUID.fromString("4d29e8bd-429a-45e3-864c-a9709581414d"),UUID.randomUUID(),LocalDateTime.parse("2021-08-01 12:30",format));
+        ItineraryEntry mockEntry3 = new ItineraryEntry("Mock Entry 3","Mock",UUID.randomUUID(),UUID.fromString("3638992e-23c1-474c-af52-e2e5a162e6bc"),UUID.randomUUID(),LocalDateTime.parse("2021-08-02 20:00",format));
+        ItineraryEntry mockEntry4 = new ItineraryEntry("Mock Entry 3","Mock",UUID.randomUUID(),UUID.fromString("e311281c-6e9b-4c32-88eb-53dc10f44089"),UUID.randomUUID(),LocalDateTime.parse("2021-08-01 20:30",format));
+        ItineraryEntry mockEntry5 = new ItineraryEntry("Mock Entry 3","Mock",UUID.randomUUID(),UUID.fromString("31358b18-9a7a-44da-af3f-e6d10fd501ed"),UUID.randomUUID(),LocalDateTime.parse("2021-08-08 22:30",format));
 
         itineraryEntryRepository.save(mockEntry1);
         itineraryEntryRepository.save(mockEntry2);
@@ -61,4 +61,27 @@ public class LocalTests {
         ItineraryEntryResponseDTO responseDTO = itineraryServiceImplementation.nextItem(UUID.fromString("1b28689d-0dbd-49b4-9959-f838d4918e0d"));
         System.out.println(responseDTO.getTimestamp());
     }
+
+    @Test
+    public void remove() throws Exception {
+        itineraryServiceImplementation.removeItineraryEntry(UUID.fromString("f730efb2-adbd-42c9-941e-d491146b44e3"));
+    }
+
+    @Test
+    public void addLocations(){
+        ItineraryEntry entry;
+        entry = itineraryEntryRepository.findItineraryEntryById(UUID.fromString("ccef54cc-7418-4ab7-bbde-4850dd4778a0"));
+        entry.setLocation(UUID.fromString("8aa99666-647a-4dd0-a41c-4780442b61f2"));
+        itineraryEntryRepository.save(entry);
+
+        entry = itineraryEntryRepository.findItineraryEntryById(UUID.fromString("96d2201d-69b6-4eb5-b9c2-cdcdc9b577e1"));
+        entry.setLocation(UUID.fromString("c4c13905-6fee-4cf4-871f-7643efc90f2a"));
+        itineraryEntryRepository.save(entry);
+
+        entry = itineraryEntryRepository.findItineraryEntryById(UUID.fromString("2d5fc8a8-68d8-4616-8c0f-084376e4566c"));
+        entry.setLocation(UUID.fromString("2e074420-9889-499e-845c-0250fecde662"));
+        itineraryEntryRepository.save(entry);
+
+    }
+
 }

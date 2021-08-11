@@ -36,4 +36,11 @@ public class GroupChat extends Chat {
         return -1;
     }
 
+    public List<ColorPair> getColors() {
+        return colors;
+    }
+
+    public void setColors(List<ColorPair> colors) {
+        this.colors = colors;
+    }
 }
