@@ -2,6 +2,7 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/budget.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/api/budgetEntry.dart';
+import 'package:adventure_it/api/report.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -50,19 +51,12 @@ class BudgetModel extends ChangeNotifier {
 
   BudgetModel(Adventure a, String userName) {
     fetchAllBudgets(a).then((budgets) {budgets != null? _budgets = budgets:List.empty();
-      if(_budgets!=null&&_budgets!.length>0) {
-        calculateCategories().then((categories) {
-          categories != null ? _categories = categories : List.empty();
+
+        calculateCategories(a).then((categories) {
+          categories != null ? _categories = categories : List<int>.filled(5, 0);
         });
         calculateExpenses(userName).then((expenses) =>
-        expenses != null ? _expenses = expenses : List.empty());
-      }
-      else {
-        _categories = List.empty();
-        _expenses=List.empty();
-      }
-
-
+        expenses != null ? _expenses = expenses : List<String>.filled(budgets.length, "0"));
     });
   }
 
@@ -91,32 +85,14 @@ class BudgetModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future calculateCategories() async
+  Future calculateCategories(Adventure a) async
   {
-    var temp = List<int>.filled(5, 0, growable: true);
-      int total=0;
-      for (var i in budgets!) {
-        var toBe = List<int>.filled(5, 0, growable: true);
-        toBe.removeRange(0,5);
-        await BudgetApi.getNumberOfCategories(i.id).then((value) {
-          for (var j = 0; j < 5; j++) {
-            total = total + value.elementAt(j);
-            int k = temp.elementAt(j) + value.elementAt(j);
-            toBe.add(k);
-          }
-          temp.removeRange(0, 5);
-          temp.addAll(toBe);
+        await BudgetApi.getNumberOfCategories(a).then((value) {
+
+          _categories=value;
+
         });
-      }
 
-    var toBe = List<int>.filled(5, 0, growable: true);
-    toBe.removeRange(0,5);
-      for(int i=0;i<5;i++)
-        {
-          toBe.add(((temp.elementAt(i)/total)*100).toInt());
-        }
-
-      _categories=toBe;
 
     notifyListeners();
 
@@ -141,7 +117,11 @@ class BudgetModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future addBudget(Adventure adv, String a, String b, String c, String d) async {
+    await BudgetApi.createBudget(a, b, c, d);
 
+    await fetchAllBudgets(adv);
+  }
 
 }
 
@@ -162,6 +142,7 @@ class BudgetEntryModel extends ChangeNotifier {
 
   Future fetchAllEntries(Budget b) async {
     _entries = await BudgetApi.getEntries(b);
+    print(_entries.toString());
 
     notifyListeners();
   }
@@ -175,4 +156,27 @@ class BudgetEntryModel extends ChangeNotifier {
 
     notifyListeners();
   }
+}
+
+class BudgetReportModel extends ChangeNotifier {
+
+  List<Report>? _reports = null;
+
+
+  BudgetReportModel(Budget b, String userID) {
+    fetchAllEntries(b,userID).then((entries) =>
+    entries != null
+        ? _reports = entries
+        : List.empty());
+  }
+
+  List<Report>? get reports => _reports?.toList();
+
+  Future fetchAllEntries(Budget b, String userID) async {
+    _reports = await BudgetApi.getReport(b,userID);
+
+
+    notifyListeners();
+  }
+
 }

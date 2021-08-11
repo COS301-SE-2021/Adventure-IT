@@ -16,8 +16,9 @@ public class GetAdventuresByUserUUIDResponse {
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
+    private UUID location;
 
-    public GetAdventuresByUserUUIDResponse(long id, String name, UUID adventureId, UUID ownerID, List<UUID> attendees, List<UUID> containers, LocalDate startDate, LocalDate endDate, String description){
+    public GetAdventuresByUserUUIDResponse(long id, String name, UUID adventureId, UUID ownerID, List<UUID> attendees, List<UUID> containers, LocalDate startDate, LocalDate endDate, String description, UUID location){
         this.id = id;
         this.name = name;
         this.adventureId = adventureId;
@@ -27,6 +28,7 @@ public class GetAdventuresByUserUUIDResponse {
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
+        this.location = location;
     }
 
     public void setId(long id) {
@@ -103,4 +105,11 @@ public class GetAdventuresByUserUUIDResponse {
         return ownerId;
     }
 
+    public UUID getLocation() {
+        return location;
+    }
+
+    public void setLocation(UUID location) {
+        this.location = location;
+    }
 }

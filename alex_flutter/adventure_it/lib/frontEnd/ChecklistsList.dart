@@ -35,7 +35,9 @@ class Checklists extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ChangeNotifierProvider(
+        create: (context) => ChecklistModel(adventure!),
+        builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
@@ -81,15 +83,17 @@ class Checklists extends StatelessWidget {
                       child: IconButton(
                           onPressed: () {
                             {
+                              var provider = Provider.of<ChecklistModel>(context, listen: false);
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return AlertBox(adventure!);
+                                    return AlertBox(adventure!, provider);
                                   });
                             }
                           },
                           icon: const Icon(Icons.add),
-                          color: Theme.of(context).primaryColorDark)),
+                          color: Theme.of(context).primaryColorDark),
+                  ),
                 ),
                 Expanded(
                   flex: 1,
@@ -111,7 +115,7 @@ class Checklists extends StatelessWidget {
                 ),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ]));
+            ]),),);
   }
 }
 
@@ -124,22 +128,21 @@ class ChecklistList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => ChecklistModel(a!),
-        child:
+    return
             Consumer<ChecklistModel>(builder: (context, checklistModel, child) {
+              print("===============print====================");
+              if (checklistModel.checklists != null)
+                print(checklistModel.checklists!.length);
+
           if (checklistModel.checklists == null) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
           } else if (checklistModel.checklists!.length > 0) {
-            return Expanded(
-                flex: 2,
-                child: ListView(children: [
-                  ...List.generate(
-                      checklistModel.checklists!.length,
-                      (index) => Dismissible(
+            return ListView.builder(
+                    itemCount:                      checklistModel.checklists!.length,
+                      itemBuilder: (context, index) => Dismissible(
                           background: Container(
                             // color: Theme.of(context).primaryColor,
                             //   margin: const EdgeInsets.all(5),
@@ -213,8 +216,7 @@ class ChecklistList extends StatelessWidget {
                             Provider.of<ChecklistModel>(context, listen: false)
                                 .softDeleteChecklist(checklistModel.checklists!
                                     .elementAt(index));
-                          }))
-                ]));
+                          }));
           } else {
             return Center(
                 child: Text("Let's get you organised!",
@@ -223,16 +225,15 @@ class ChecklistList extends StatelessWidget {
                         fontSize: 30 * MediaQuery.of(context).textScaleFactor,
                         color: Theme.of(context).textTheme.bodyText1!.color)));
           }
-        }));
+        });
   }
 }
 
 class AlertBox extends StatefulWidget {
   Adventure? adventure;
+  final ChecklistModel checklistModel;
 
-  AlertBox(Adventure a) {
-    this.adventure = a;
-  }
+  AlertBox(this.adventure, this.checklistModel);
 
   @override
   _AlertBox createState() => _AlertBox(adventure!);
@@ -241,9 +242,7 @@ class AlertBox extends StatefulWidget {
 class _AlertBox extends State <AlertBox> {
   Adventure? adventure;
 
-  _AlertBox(Adventure i) {
-    this.adventure = i;
-  }
+  _AlertBox(this.adventure);
 
   double getSize(context) {
     if (MediaQuery.of(context).size.height >
@@ -257,24 +256,12 @@ class _AlertBox extends State <AlertBox> {
   //controllers for the form fields
   String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
 
-  final ChecklistApi api = new ChecklistApi();
   Future<CreateChecklist>? _futureChecklist;
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => ChecklistModel(adventure!),
-      child:
-      Consumer<ChecklistModel>(builder: (context, checklist, child) {
-        if(checklist.checklists==null) {
-        return Center(
-          child: CircularProgressIndicator(
-            valueColor: new AlwaysStoppedAnimation<Color>(
-            Theme.of(context).accentColor)));
-          }
-        else if (checklist.checklists!.length > 0) {
     return AlertDialog(
         backgroundColor: Theme.of(context).primaryColorDark,
         content: Container(
@@ -375,13 +362,8 @@ class _AlertBox extends State <AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () async {
-                          checklist.addChecklist(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Checklists(adventure)),
-                          );
+                          await widget.checklistModel.addChecklist(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
+                          Navigator.pop(context);
                         },
                       ),
                     )
@@ -390,14 +372,6 @@ class _AlertBox extends State <AlertBox> {
               )
             ],
           ),
-        ));}
-        else {
-          return Center(
-            child: Text("Let's make a list and check it twice!",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-              color: Theme.of(context).textTheme.bodyText1!.color)));
-          }}));
+        ));
   }
 }

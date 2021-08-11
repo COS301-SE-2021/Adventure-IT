@@ -34,7 +34,9 @@ class ItineraryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ChangeNotifierProvider(
+        create: (context) => ItineraryEntryModel(currentItinerary!),
+        builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
@@ -58,7 +60,7 @@ class ItineraryPage extends StatelessWidget {
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Container(
                 height: MediaQuery.of(context).size.height * 0.75,
-                child: ListItineraryItems(currentAdventure!, currentItinerary!),
+                child: _ListItineraryItems(currentAdventure!, currentItinerary!),
               ),
               Spacer(),
               Row(children: [
@@ -88,10 +90,11 @@ class ItineraryPage extends StatelessWidget {
                       child: IconButton(
                           onPressed: () {
                             {
+                              var provider = Provider.of<ItineraryEntryModel>(context, listen: false);
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return AlertBox(currentItinerary!);
+                                    return AlertBox(currentItinerary!, provider);
                                   });
                             }
                           },
@@ -104,16 +107,15 @@ class ItineraryPage extends StatelessWidget {
                 ),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ]));
+            ])));
   }
 }
 
 class AlertBox extends StatefulWidget {
   Itinerary? currentItinerary;
+  final ItineraryEntryModel itineraryEntryModel;
 
-  AlertBox(Itinerary i) {
-    this.currentItinerary = i;
-  }
+  AlertBox(this.currentItinerary, this.itineraryEntryModel);
 
   @override
   _AlertBox createState() => _AlertBox(currentItinerary!);
@@ -154,9 +156,7 @@ class _AlertBox extends State<AlertBox> {
     "December"
   ];
 
-  _AlertBox(Itinerary i) {
-    this.currentItinerary = i;
-  }
+  _AlertBox(this.currentItinerary);
 
   Future<CreateItineraryEntry>? _futureItineraryEntry;
   final titleController = TextEditingController();
@@ -393,7 +393,7 @@ class _AlertBox extends State<AlertBox> {
                                         width:300,
                                         child: Consumer<LocationModel>(
                                             builder: (context, locationModel, child) {
-                                              return  locationModel.suggestions!
+                                              return locationModel.suggestions!=null&&locationModel.suggestions!
                                                   .length > 0 ?
                                               ListView.builder(
                                                   shrinkWrap: true,
@@ -462,8 +462,9 @@ class _AlertBox extends State<AlertBox> {
                                     .textTheme
                                     .bodyText1!
                                     .color)),
-                        onPressed: () {
-                          _futureItineraryEntry = ItineraryApi.createItineraryEntry(currentItinerary!.id, titleController.text, descriptionController.text, location!, (date!.toString()).substring(0, 10)+"T"+(time.toString()).substring(10,15));
+                        onPressed: () async {
+                          await widget.itineraryEntryModel.addItineraryEntry(currentItinerary!, currentItinerary!.id, titleController.text, descriptionController.text, location!, (date!.toString()).substring(0, 10)+"T"+(time.toString()).substring(10,15));
+                          Navigator.pop(context);
                         },
                       ),
                     ),
@@ -601,7 +602,21 @@ class _AlertBox extends State<AlertBox> {
   }
 }
 
-class ListItineraryItems extends StatelessWidget {
+class _ListItineraryItems extends StatefulWidget
+{
+  Adventure? currentAdventure;
+  Itinerary? currentItinerary;
+
+  _ListItineraryItems(Adventure a, Itinerary i) {
+    this.currentAdventure = a;
+    this.currentItinerary = i;
+  }
+
+  @override
+  ListItineraryItems createState() => ListItineraryItems(currentAdventure!, currentItinerary!);
+}
+
+  class ListItineraryItems extends State<_ListItineraryItems> {
   List<String> months = [
     "January",
     "February",
@@ -618,18 +633,44 @@ class ListItineraryItems extends StatelessWidget {
   ];
   Adventure? currentAdventure;
   Itinerary? currentItinerary;
-  DateTime? date;
+  DateTime? date = null;
+  TimeOfDay? time = null;
+  String? location=null;
+  final _debouncer = Debouncer(milliseconds: 500);
+
+  Map<int, Color> color = {
+    50: Color.fromRGBO(32, 34, 45, .1),
+    100: Color.fromRGBO(32, 34, 45, .2),
+    200: Color.fromRGBO(32, 34, 45, .3),
+    300: Color.fromRGBO(32, 34, 45, .4),
+    400: Color.fromRGBO(32, 34, 45, .5),
+    500: Color.fromRGBO(32, 34, 45, .6),
+    600: Color.fromRGBO(32, 34, 45, .7),
+    700: Color.fromRGBO(32, 34, 45, .8),
+    800: Color.fromRGBO(32, 34, 45, .9),
+    900: Color.fromRGBO(32, 34, 45, 1),
+  };
 
   ListItineraryItems(Adventure a, Itinerary i) {
     this.currentAdventure = a;
     this.currentItinerary = i;
   }
 
+  double getSize(context) {
+    if (MediaQuery.of(context).size.height >
+        MediaQuery.of(context).size.width) {
+      return MediaQuery.of(context).size.height * 0.60;
+    } else {
+      return MediaQuery.of(context).size.height * 0.65;
+    }
+  }
+
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => ItineraryEntryModel(currentItinerary!),
-        child: Consumer<ItineraryEntryModel>(
+    return Consumer<ItineraryEntryModel>(
             builder: (context, entryModel, child) {
           if (entryModel.entries == null) {
             return Center(
@@ -669,6 +710,10 @@ class ListItineraryItems extends StatelessWidget {
                                 MediaQuery.of(context).size.height / 60),
                             child: Row(
                               children: [
+                                Icon(Icons.edit,
+                                    color: Theme.of(context).accentColor,
+                                    size: 35 *
+                                        MediaQuery.of(context).textScaleFactor),
                                 new Spacer(),
                                 Icon(Icons.delete,
                                     color: Theme.of(context).accentColor,
@@ -677,13 +722,23 @@ class ListItineraryItems extends StatelessWidget {
                               ],
                             ),
                           ),
-                          direction: DismissDirection.endToStart,
                           key: Key(entryModel.entries!.elementAt(index).id),
                           child: Card(
                               color: Theme.of(context).primaryColorDark,
                               child: InkWell(
                                 hoverColor: Theme.of(context).primaryColorLight,
                                 child: Container(
+                                  decoration: new BoxDecoration(
+                                      image: new DecorationImage(
+                                          image: NetworkImage(
+                                              "https://lh5.googleusercontent.com/p/AF1QipM4-7EPQBFbTgOy5k7YXtJmLWtz7wwl-WwUq4jT=w408-h271-k-no"),
+                                          fit: BoxFit.cover,
+                                          colorFilter: ColorFilter.mode(
+                                              Theme.of(context)
+                                                  .backgroundColor
+                                                  .withOpacity(0.25),
+                                              BlendMode.dstATop))
+                                  ),
                                   child: Row(children: <Widget>[
                                     Expanded(
                                         flex: 4,
@@ -774,6 +829,7 @@ class ListItineraryItems extends StatelessWidget {
                                 ),
                               )),
                           confirmDismiss: (DismissDirection direction) async {
+                            if(direction == DismissDirection.endToStart) {
                             return await showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -817,12 +873,296 @@ class ListItineraryItems extends StatelessWidget {
                                 );
                               },
                             );
-                          },
+                          }
+                          else if(direction == DismissDirection.startToEnd) {
+                            return showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: Theme.of(context).primaryColorDark,
+                                content: Container(
+                                  height: getSize(context),
+                                  child: Stack(
+                                    overflow: Overflow.visible,
+                                    children: <Widget>[
+                                    Positioned(
+                                      right: -40.0,
+                                      top: -40.0,
+                                      child: InkResponse(
+                                        onTap: () {
+                                        Navigator.of(context).pop(false);
+                                        },
+                                        child: CircleAvatar(
+                                          child: Icon(Icons.close,
+                                          color: Theme.of(context).primaryColorDark),
+                                          backgroundColor: Theme.of(context).accentColor,
+                                    ),),),
+                                    Column(
+                                      children: <Widget>[
+                                      Text("Edit: " + entryModel.entries!.elementAt(index).title,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Theme.of(context).textTheme.bodyText1!.color,
+                                          fontSize: 25 * MediaQuery.of(context).textScaleFactor,
+                                          fontWeight: FontWeight.bold,
+                                          )),
+                                    Spacer(),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.5,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: MediaQuery.of(context).size.width * 0.02),
+                                        child: TextField(
+                                          style: TextStyle(
+                                            color:
+                                            Theme.of(context).textTheme.bodyText1!.color),
+                                            controller: titleController,
+                                            decoration: InputDecoration(
+                                              hintStyle: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2!
+                                                  .color),
+                                              filled: true,
+                                              enabledBorder: InputBorder.none,
+                                              errorBorder: InputBorder.none,
+                                              disabledBorder: InputBorder.none,
+                                              fillColor: Theme.of(context).primaryColorLight,
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: new BorderSide(
+                                                color: Theme.of(context).accentColor)),
+                                                hintText: 'Title')),
+                                                ),
+                                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.5,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: MediaQuery.of(context).size.width * 0.02),
+                                        child: TextField(
+                                          maxLength: 255,
+                                          maxLines: 3,
+                                          style: TextStyle(
+                                            color:
+                                            Theme.of(context).textTheme.bodyText1!.color),
+                                          controller: descriptionController,
+                                          decoration: InputDecoration(
+                                            hintStyle: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2!
+                                                .color),
+                                          filled: true,
+                                          enabledBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                          fillColor: Theme.of(context).primaryColorLight,
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: new BorderSide(
+                                            color: Theme.of(context).accentColor)),
+                                            hintText: 'Description')),
+                                    ),
+                                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                                    MaterialButton(
+                                      color: Theme.of(context).accentColor,
+                                      onPressed: () async {
+                                        DateTime? picked = await showDate();
+                                        if (picked != null) {
+                                        setState(() => date = picked);
+                                      }},
+                                      child: Text(getTextDate(),
+                                      style: new TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color,
+                                      fontSize: 15 *
+                                      MediaQuery.of(context).textScaleFactor))),
+                                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                                    MaterialButton(
+                                      color: Theme.of(context).accentColor,
+                                      onPressed: () async {
+                                        TimeOfDay? picked = await showTime();
+                                        if (picked != null) {
+                                        setState(() => time = picked);
+                                      }},
+                                      child: Text(getTextTime(),
+                                      style: new TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color,
+                                      fontSize: 15 *
+                                      MediaQuery.of(context).textScaleFactor))),
+                                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                                    MaterialButton(
+                                      color: Theme
+                                          .of(context)
+                                          .accentColor,
+                                      onPressed: () async {
+                                        showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          backgroundColor: Theme
+                                              .of(context)
+                                              .primaryColorDark,
+                                          title: Stack(
+                                            overflow: Overflow.visible,
+                                            children: <Widget>[
+                                            Positioned(
+                                              right: -40.0,
+                                              top: -40.0,
+                                              child: InkResponse(
+                                                onTap: () {
+                                                Navigator.of(context).pop();
+                                                },
+                                              child: CircleAvatar(
+                                              child: Icon(Icons.close,
+                                              color: Theme
+                                                  .of(context)
+                                                  .primaryColorDark),
+                                              backgroundColor: Theme
+                                                  .of(context)
+                                                  .accentColor,
+                                              ),),),
+                                          Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text("Find Location",
+                                              textAlign: TextAlign
+                                                  .center,
+                                              style: TextStyle(
+                                                color: Theme
+                                                    .of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color,
+                                                fontSize: 25 *
+                                                MediaQuery
+                                                    .of(
+                                                context)
+                                                    .textScaleFactor,
+                                                fontWeight: FontWeight
+                                                    .bold,
+                                              )),
+                                          SizedBox(height: MediaQuery.of(context).size.height * 0.01,width:300),
+                                          TextField(
+                                            style: TextStyle(
+                                              color:
+                                              Theme
+                                                  .of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                              decoration: InputDecoration(
+                                                hintStyle: TextStyle(
+                                                color: Theme
+                                                    .of(
+                                                context)
+                                                    .textTheme
+                                                    .bodyText2!
+                                                    .color),
+                                              filled: true,
+                                              enabledBorder: InputBorder
+                                                  .none,
+                                              errorBorder: InputBorder
+                                                  .none,
+                                              disabledBorder: InputBorder
+                                                  .none,
+                                              fillColor: Theme
+                                                  .of(context)
+                                                  .primaryColorLight,
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: new BorderSide(
+                                                color: Theme
+                                                    .of(
+                                                context)
+                                                    .accentColor)),
+                                                hintText: 'Search for a place of interest'),
+                                                  onChanged: (value) {
+                                                    _debouncer.run(() {
+                                                    Provider.of<
+                                                    LocationModel>(
+                                                    context,
+                                                    listen: false)
+                                                        .fetchAllSuggestions(
+                                                    value);
+                                                });},
+                                              ),
+                                            ])
+                                          ]),
+                                        content:
+                                        Container(
+                                          width:300,
+                                          child: Consumer<LocationModel>(
+                                            builder: (context, locationModel, child) {
+                                            return  locationModel.suggestions!.length > 0 ?
+                                            ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: locationModel.suggestions!.length,
+                                              itemBuilder: (context,
+                                              index) {
+                                              return InkWell(
+                                                hoverColor:
+                                                Theme.of(context).primaryColorLight,
+                                                onTap: () {
+                                                  setState(() {
+                                                  this.location=locationModel.suggestions!
+                                                      .elementAt(index)
+                                                      .description;
+                                                  });
+                                                  Navigator.of(context).pop();
+                                                  },
+                                                child: Padding(padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.01,horizontal: MediaQuery.of(context).size.width*0.01),child: Expanded(
+                                                  child: Text(
+                                                    locationModel.suggestions!
+                                                        .elementAt(index)
+                                                        .description,
+                                                    style: TextStyle(
+                                                      fontSize: 16 *
+                                                      MediaQuery
+                                                          .of(
+                                                      context)
+                                                          .textScaleFactor,
+                                                      fontWeight: FontWeight
+                                                          .bold,
+                                                      color: Theme
+                                                          .of(
+                                                      context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color
+                                                    ),
+                                                  )
+                                            )));})
+                                                : Container(height: 10);
+                                        })));});}),
+                                    Spacer(),
+                                    Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: MediaQuery.of(context).size.width * 0.02),
+                                        child: RaisedButton(
+                                            color: Theme.of(context).accentColor,
+                                            onPressed: () {
+                                              Navigator.of(context).pop(true);
+                                            },
+                                            child: Text("Edit",
+                                                style: TextStyle(
+                                                    color: Theme.of(context).textTheme.bodyText1!.color)))
+                                    )
+                              ])])));});
+                          }},
                           onDismissed: (direction) {
-                            Provider.of<ItineraryEntryModel>(context,
-                                    listen: false)
-                                .deleteItineraryEntry(
-                                    entryModel.entries!.elementAt(index));
+                            if(direction == DismissDirection.endToStart) {
+                              Provider.of<ItineraryEntryModel>(context,
+                                  listen: false)
+                                  .deleteItineraryEntry(
+                                  entryModel.entries!.elementAt(index));
+                            }
+
+                            else if(direction == DismissDirection.startToEnd) {
+                              Provider.of<ItineraryEntryModel>(context, listen: false)
+                                  .editItineraryEntry(entryModel.entries!.elementAt(index), currentItinerary!, entryModel.entries!.elementAt(index).id, currentItinerary!.id, titleController.text, descriptionController.text, location!, (date!.toString()).substring(0, 10)+"T"+(time.toString()).substring(10,15));
+                            }
                           });
                     }));
           } else {
@@ -833,7 +1173,122 @@ class ListItineraryItems extends StatelessWidget {
                         fontSize: 30 * MediaQuery.of(context).textScaleFactor,
                         color: Theme.of(context).textTheme.bodyText1!.color)));
           }
-        }));
+        });
+  }
+
+  Future<DateTime?> showDate() {
+    return showDatePicker(
+      context: context,
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData(
+            primarySwatch: Colors.grey,
+            splashColor: Color(0xff20222D),
+            textTheme: TextTheme(
+              subtitle1: TextStyle(color: Color(0xffA7AAB9)),
+              button: TextStyle(
+                  color: Color(0xffA7AAB9), fontWeight: FontWeight.bold),
+            ),
+            textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                  primary: Color(0xffA7AAB9), // button text color
+                )),
+            accentColor: Color(0xff6A7AC7),
+            colorScheme: ColorScheme.light(
+                primary: Color(0xff20222D),
+                primaryVariant: Color(0xff20222D),
+                secondaryVariant: Color(0xff20222D),
+                onSecondary: Color(0xff20222D),
+                onPrimary: Color(0xffA7AAB9),
+                surface: Color(0xff20222D),
+                onSurface: Color(0xffA7AAB9),
+                secondary: Color(0xff6A7AC7)),
+            dialogBackgroundColor: Color(0xff484D64),
+          ),
+          child: child!,
+        );
+      },
+      initialDate: date ?? DateTime.now(),
+      firstDate: new DateTime(DateTime.now().year - 5),
+      lastDate: new DateTime(DateTime.now().year + 5),
+    );
+  }
+
+  Future<TimeOfDay?> showTime() {
+    return showTimePicker(
+      context: context,
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData(
+            primarySwatch: MaterialColor(0xFF20222D, color),
+            splashColor: Color(0xff20222D),
+            timePickerTheme: TimePickerThemeData(
+                helpTextStyle: TextStyle(
+                  color: Color(0xffA7AAB9),
+                )),
+            textTheme: TextTheme(
+              subtitle1: TextStyle(color: Color(0xffA7AAB9)),
+              bodyText2: TextStyle(color: Color(0xffA7AAB9)),
+              bodyText1: TextStyle(color: Color(0xffA7AAB9)),
+              subtitle2: TextStyle(color: Color(0xffA7AAB9)),
+              button: TextStyle(
+                  color: Color(0xffA7AAB9), fontWeight: FontWeight.bold),
+            ),
+            textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                  primary: Color(0xffA7AAB9), // button text color
+                )),
+            accentColor: Color(0xff6A7AC7),
+            colorScheme: ColorScheme.light(
+                primary: Color(0xff6A7AC7),
+                primaryVariant: Color(0xff484D64),
+                secondaryVariant: Color(0xff484D64),
+                onSecondary: Color(0xffA7AAB9),
+                onPrimary: Color(0xffA7AAB9),
+                surface: Color(0xff20222D),
+                onSurface: Color(0xffA7AAB9),
+                secondary: Color(0xff6A7AC7)),
+            dialogBackgroundColor: Color(0xff484D64),
+            backgroundColor: Color(0xff484D64),
+          ),
+          child: child!,
+        );
+      },
+      initialTime: TimeOfDay.now(),
+    );
+  }
+
+  String getTextDate() {
+    if (date == null) {
+      return "Select Date";
+    } else {
+      String x = date!.day.toString() +
+          " " +
+          months.elementAt(date!.month - 1) +
+          " " +
+          date!.year.toString();
+      return x;
+    }
+  }
+
+  String getTextTime() {
+    if (time == null) {
+      return 'Select Time';
+    } else {
+      final hours = time!.hour.toString().padLeft(2, '0');
+      final minutes = time!.minute.toString().padLeft(2, '0');
+
+      return '$hours:$minutes';
+    }
+  }
+
+  String getTextLocation() {
+    if (location == null) {
+      return "Select Location";
+    }
+    else {
+      return location!;
+    }
   }
 }
 

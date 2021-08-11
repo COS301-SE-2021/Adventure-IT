@@ -37,11 +37,12 @@ public class LocalTests {
         UUID userID1 = UUID.randomUUID();
         UUID userID2 = UUID.randomUUID();
         UUID userID3 = UUID.randomUUID();
+        UUID adventureID = UUID.randomUUID();
         UUID groupChatID = UUID.randomUUID();
         List<ColorPair> list = new ArrayList<ColorPair>();
-        list.add(new ColorPair(userID1,1));
-        list.add(new ColorPair(userID2,2));
-        list.add(new ColorPair(userID3,3));
+        list.add(new ColorPair(adventureID,userID1,1));
+        list.add(new ColorPair(adventureID,userID2,2));
+        list.add(new ColorPair(adventureID,userID3,3));
         List<UUID> participants = new ArrayList<>(List.of(userID1,userID2,userID3));
         chatServiceImplementation.createGroupChat(UUID.randomUUID(),participants,"Group Chat");
         Chat gc = new GroupChat(groupChatID,UUID.randomUUID(),participants,list,"Group Chat");
@@ -50,7 +51,7 @@ public class LocalTests {
 
     @Test
     public void sendGroupMessage() throws Exception {
-        chatServiceImplementation.sendGroupMessage(UUID.randomUUID(),UUID.fromString("0d53dc76-a7ac-4356-816b-409ac6afde9d"),UUID.fromString("46366b5d-1435-4440-b990-a4a928f852f6"),"Mock Message");
+        chatServiceImplementation.sendGroupMessage(UUID.randomUUID(),UUID.fromString("8e1f8bda-ed48-487b-aafe-264ab3b9e207"),UUID.fromString("62e16947-d8cd-405a-ab3e-c93a99ba539c"),"Mock Message");
     }
 
     @Test

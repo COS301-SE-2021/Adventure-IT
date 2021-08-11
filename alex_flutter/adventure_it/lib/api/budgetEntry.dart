@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import '/api/adventure.dart';
-import '/api/transactions.dart';
+import '/api/report.dart';
 
 part 'budgetEntry.g.dart';
 //
@@ -8,7 +8,7 @@ part 'budgetEntry.g.dart';
 class BudgetEntry {
   final String budgetEntryID;
   final String entryContainerID;
-  final List<String> payers;
+  final String payer;
   final double amount;
   final String title;
   final String description;
@@ -18,7 +18,7 @@ class BudgetEntry {
   BudgetEntry({
     required this.budgetEntryID,
     required this.entryContainerID,
-    required this.payers,
+    required this.payer,
     required this.amount,
     required this.title,
     required this.description,

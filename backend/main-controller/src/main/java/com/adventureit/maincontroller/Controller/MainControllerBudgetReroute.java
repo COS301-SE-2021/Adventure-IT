@@ -3,10 +3,13 @@ package com.adventureit.maincontroller.Controller;
 
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 import com.adventureit.budgetservice.Entity.Budget;
+import com.adventureit.budgetservice.Entity.BudgetEntry;
 import com.adventureit.budgetservice.Requests.*;
 import com.adventureit.budgetservice.Responses.*;
 //import com.adventureit.timelineservice.Entity.TimelineType;
 //import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
+import com.adventureit.timelineservice.Entity.TimelineType;
+import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -41,7 +44,11 @@ public class MainControllerBudgetReroute {
 
     @PostMapping("/editBudget")
     public String editBudget(@RequestBody EditBudgetRequest req){
-        return restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/editBudget/", req, String.class);
+        restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/editBudget/", req, String.class);
+        UUID budgetID = req.getBudgetID();
+        UUID adventureId = restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetId/"+budgetID, BudgetResponseDTO.class).getAdventureID();
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId,null, TimelineType.BUDGET,"Budget: "+req.getTitle()+" has been edited" );
+        return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 
     @GetMapping("/removeEntry/{id}")
@@ -108,6 +115,13 @@ public class MainControllerBudgetReroute {
     public List<ReportResponseDTO> generateIndividualReport(@PathVariable UUID id,@PathVariable String userName) throws Exception {
         return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/restoreBudget/"+id+"/"+userName, List.class);
     }
+
+    @GetMapping("/getBudgetByBudgetId/{id}")
+    public BudgetResponseDTO generateIndividualReport(@PathVariable UUID id) throws Exception {
+        return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetId/"+id, BudgetResponseDTO.class);
+    }
+
+
 
 
 

@@ -4,13 +4,12 @@ import com.adventureit.budgetservice.Entity.Category;
 import com.adventureit.budgetservice.Requests.*;
 import com.adventureit.budgetservice.Responses.*;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface BudgetService {
-
+    BudgetResponseDTO getBudgetByBudgetId(UUID budgetId);
     CreateBudgetResponse createBudget(String name, String description,UUID creatorID, UUID adventureID) throws Exception;
     List<ViewBudgetResponse> viewBudget(UUID id) throws Exception;
     AddUTUExpenseEntryResponse addUTUExpenseEntry(UUID entryContainerID, double amount, String title, String description, Category category, String payer, String payeeID) throws Exception;
@@ -27,6 +26,6 @@ public interface BudgetService {
     void mockCreateBudget(String name);
     void mockPopulateTrash();
     double calculateExpensesPerUser(UUID budgetID, String userName ) throws Exception;
-    List<Integer> getEntriesPerCategory(UUID budgetID) throws Exception;
+    List<Integer> getEntriesPerCategory(UUID adventureID) throws Exception;
 
 }

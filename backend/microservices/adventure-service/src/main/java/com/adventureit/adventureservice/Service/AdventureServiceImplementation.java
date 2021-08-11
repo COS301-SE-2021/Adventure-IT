@@ -143,7 +143,7 @@ public class AdventureServiceImplementation implements AdventureService {
 
         List<GetAllAdventuresResponse> list = new ArrayList<>();
         for (Adventure a:allAdventures) {
-            list.add(new GetAllAdventuresResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription()));
+            list.add(new GetAllAdventuresResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
         }
 
         return list;
@@ -166,7 +166,7 @@ public class AdventureServiceImplementation implements AdventureService {
 
         List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
         for (Adventure a:userAdventures) {
-            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription()));
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
         }
 
         return list;
@@ -189,7 +189,7 @@ public class AdventureServiceImplementation implements AdventureService {
 
         List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
         for (Adventure a:userAdventures) {
-            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription()));
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
         }
 
         return list;
@@ -212,7 +212,7 @@ public class AdventureServiceImplementation implements AdventureService {
 
         List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
         for (Adventure a:userAdventures) {
-            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription()));
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
         }
 
         return list;
@@ -251,6 +251,17 @@ public class AdventureServiceImplementation implements AdventureService {
     public void setAdventureLocation(UUID adventureID, UUID locationID) {
         Adventure adventure = adventureRepository.findAdventureByAdventureId(adventureID);
         adventure.setLocation(locationID);
+        adventureRepository.save(adventure);
+    }
+
+    @Override
+    public void addAttendees(UUID adventureID, UUID userID) throws Exception {
+        Adventure adventure = adventureRepository.findAdventureByAdventureId(adventureID);
+        if(adventure == null){
+            throw new Exception("Adventure does not exist");
+        }
+
+        adventure.getAttendees().add(userID);
         adventureRepository.save(adventure);
     }
 

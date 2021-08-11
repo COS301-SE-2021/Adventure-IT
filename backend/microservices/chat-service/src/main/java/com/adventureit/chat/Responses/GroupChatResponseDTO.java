@@ -1,31 +1,27 @@
-package com.adventureit.chat.Entity;
+package com.adventureit.chat.Responses;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import com.adventureit.chat.Entity.ColorPair;
 
-@Entity
-public class Chat {
-    @Id
-    @NotNull
+import java.util.*;
+
+public class GroupChatResponseDTO {
     UUID id;
     UUID adventureID;
-    @ElementCollection (fetch=FetchType.EAGER)
     List<UUID> participants = new ArrayList<>();
-    @ElementCollection
     List<UUID> messages = new ArrayList<>();
+    private String name;
+    private List<ColorPair> colors;
 
-
-
-    public Chat(){}
-
-    public Chat(UUID id, UUID adventureID,List<UUID> participants){
+    public GroupChatResponseDTO(UUID id, UUID adventureID, List<UUID> participants, List<UUID> messages, String name,List<ColorPair> colors){
         this.id = id;
         this.adventureID = adventureID;
         this.participants = participants;
+        this.messages = messages;
+        this.name = name;
+        this.colors =colors;
     }
+
+    public GroupChatResponseDTO(){}
 
     public UUID getId() {
         return id;
@@ -59,6 +55,19 @@ public class Chat {
         this.messages = messages;
     }
 
-    public int getColor(UUID userID){ return 1; }
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<ColorPair> getColors() {
+        return colors;
+    }
+
+    public void setColors(List<ColorPair> colors) {
+        this.colors = colors;
+    }
 }

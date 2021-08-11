@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import '/api/adventure.dart';
-import '/api/transactions.dart';
 
 part 'createUTOBudgetEntry.g.dart';
 

@@ -13,7 +13,7 @@ import 'userProfile.dart';
 class UserApi {
   Future<RegisterUser> createUser(String firstName,String lastName,String username,String email,String phoneNumber,String password) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9002/api/RegisterUser'), //get uri
+      Uri.parse('http://localhost:9002/user/api/RegisterUser'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -44,7 +44,7 @@ class UserApi {
 
   Future<LoginUser> loginUser(String username, String password) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9002/api/LoginUser'), //get uri
+      Uri.parse('http://localhost:9002/user/api/LoginUser'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -67,7 +67,7 @@ class UserApi {
 
   static Future<UserProfile> getUserByUUID(String userID) async {
     print("in function");
-    http.Response response = await http.get(Uri.parse('http://localhost:9002/api/GetUser/' + userID));
+    http.Response response = await http.get(Uri.parse('http://localhost:9002/user/api/GetUser/' + userID));
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load user information: ${response.body}');
@@ -91,7 +91,7 @@ class UserApi {
   }
 
   static Future<http.Response> _getFriends(String userID) async {
-    return http.get(Uri.http(userApi, 'api/GetFriends/' + userID));
+    return http.get(Uri.http(userApi, 'user/api/GetFriends/' + userID));
   }
 
   static Future<List<FriendRequest>> getFriendRequests(String userID) async
@@ -110,7 +110,7 @@ class UserApi {
   }
 
   static Future<http.Response> _getFriendRequests(String userID) async {
-    return http.get(Uri.http(userApi, 'api/GetFriendRequests/' + userID));
+    return http.get(Uri.http(userApi, 'user/api/getFriendRequests/' + userID));
   }
 
 
@@ -132,7 +132,7 @@ class UserApi {
   }
 
   static Future<http.Response> _getFriendProfiles(String userID) async {
-    return http.get(Uri.http(userApi, 'api/getFriendProfiles/' + userID));
+    return http.get(Uri.http(userApi, 'user/api/getFriendProfiles/' + userID));
   }
 
   static Future deleteFriend(String userID, String friendID) async
@@ -145,20 +145,22 @@ class UserApi {
   }
 
   static Future<http.Response> _deleteFriend(String userID, String friendID) async {
-    return http.get(Uri.http(userApi, 'api/removeFriend/' + userID+"/"+friendID));
+    return http.get(Uri.http(userApi, 'user/api/removeFriend/' + userID+"/"+friendID));
   }
 
   static Future deleteFriendRequest(String requestID) async
   {
+    print("success");
     http.Response response =await _deleteFriendRequest(requestID);
     if (response.statusCode != 200) {
       throw Exception('Failed to delete friendRequest: ${response.body}');
     }
 
+
   }
 
   static Future<http.Response> _deleteFriendRequest(String requestID) async {
-    return http.get(Uri.http(userApi, 'api/deleteFriendRequest/' + requestID));
+    return http.get(Uri.http(userApi, 'user/api/deleteFriendRequest/' + requestID));
   }
 
   static Future acceptFriendRequest(String requestID) async
@@ -171,7 +173,7 @@ class UserApi {
   }
 
   static Future<http.Response> _acceptFriendRequest(String requestID) async {
-    return http.get(Uri.http(userApi, 'api/acceptFriendRequest/' + requestID));
+    return http.get(Uri.http(userApi, 'user/api/acceptFriendRequest/' + requestID));
   }
 
   static Future<String> searchUsername (String value) async
@@ -189,7 +191,7 @@ class UserApi {
   }
 
   static Future<http.Response> _searchUsername(String username) async {
-    return http.get(Uri.http(userApi, 'api/getByUserName/' + username));
+    return http.get(Uri.http(userApi, 'user/api/getByUserName/' + username));
   }
 
   static Future createFriendRequest (String from, String to) async
@@ -202,7 +204,7 @@ class UserApi {
   }
 
   static Future<http.Response> _createFriendRequest(String from, String to) async {
-    return http.get(Uri.http(userApi, 'api/createFriendRequest/' +from+"/"+to));
+    return http.get(Uri.http(userApi, 'user/api/createFriendRequest/' +from+"/"+to));
   }
 
 }
