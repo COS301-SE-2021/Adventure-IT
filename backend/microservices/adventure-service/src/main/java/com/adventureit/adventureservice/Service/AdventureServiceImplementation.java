@@ -262,6 +262,7 @@ public class AdventureServiceImplementation implements AdventureService {
         }
 
         adventure.getAttendees().add(userID);
+        adventureRepository.save(adventure);
     }
 
     @Override

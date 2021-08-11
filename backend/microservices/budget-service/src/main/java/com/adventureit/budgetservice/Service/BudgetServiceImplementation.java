@@ -116,6 +116,12 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
+    public BudgetResponseDTO getBudgetByBudgetId(UUID budgetId){
+        Budget budget = budgetRepository.findBudgetByBudgetID(budgetId);
+        return new BudgetResponseDTO(budget.getBudgetId(),budget.getName(),budget.getCreatorID(),budget.getAdventureID(),budget.isDeleted(),budget.getDescription());
+    }
+
+    @Override
     public AddUTOExpenseEntryResponse addUTOExpenseEntry(UUID entryContainerID, double amount, String title, String description,Category category,String payer, String payee) throws Exception {
         if(budgetRepository.findBudgetByBudgetID(entryContainerID) == null){
 

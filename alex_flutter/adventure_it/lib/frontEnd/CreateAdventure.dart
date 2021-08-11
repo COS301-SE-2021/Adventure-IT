@@ -434,7 +434,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                       width:300,
                                   child: Consumer<LocationModel>(
                                       builder: (context, locationModel, child) {
-                                        return  locationModel.suggestions!
+                                        return  locationModel.suggestions!=null&&locationModel.suggestions!
                                                 .length > 0 ?
                                             ListView.builder(
                                                 shrinkWrap: true,

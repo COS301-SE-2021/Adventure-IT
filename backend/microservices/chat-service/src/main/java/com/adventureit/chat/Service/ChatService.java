@@ -1,5 +1,8 @@
 package com.adventureit.chat.Service;
 
+import com.adventureit.chat.Entity.Message;
+import com.adventureit.chat.Responses.GroupChatResponseDTO;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -11,5 +14,8 @@ public interface ChatService {
     public String sendGroupMessage(UUID id, UUID chatID,UUID sender,String message) throws Exception;
     public void markDirectMessageRead(UUID id) throws Exception;
     public void markGroupMessageRead(UUID id, UUID userID) throws Exception;
+    public GroupChatResponseDTO getGroupChat(UUID id) throws Exception;
+    public GroupChatResponseDTO getGroupChatByAdventureID(UUID id) throws Exception;
+    public Message getMessage(UUID id);
 
 }

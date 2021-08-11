@@ -5,6 +5,7 @@ import com.adventureit.chat.Exceptions.GroupChatFullException;
 import com.adventureit.chat.Repository.ChatRepository;
 import com.adventureit.chat.Repository.ColorPairRepository;
 import com.adventureit.chat.Repository.MessageRepository;
+import com.adventureit.chat.Responses.GroupChatResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -136,5 +137,30 @@ public class ChatServiceImplementation implements ChatService {
 
         message.getRead().replace(userID,true);
         messageRepository.save(message);
+    }
+
+    @Override
+    public GroupChatResponseDTO getGroupChatByAdventureID(UUID id) throws Exception {
+        GroupChat chat = (GroupChat) chatRepository.findByAdventureID(id);
+        if(chat == null){
+            throw new Exception("Chat does not exist");
+        }
+
+        return new GroupChatResponseDTO(chat.getId(),chat.getAdventureID(),chat.getParticipants(),chat.getMessages(),chat.getName(), chat.getColors());
+    }
+
+    @Override
+    public GroupChatResponseDTO getGroupChat(UUID id) throws Exception {
+        GroupChat chat = (GroupChat) chatRepository.findChatById(id);
+        if(chat == null){
+            throw new Exception("Chat does not exist");
+        }
+
+        return new GroupChatResponseDTO(chat.getId(),chat.getAdventureID(),chat.getParticipants(),chat.getMessages(),chat.getName(), chat.getColors());
+    }
+
+    @Override
+    public Message getMessage(UUID id) {
+        return messageRepository.findMessageById(id);
     }
 }

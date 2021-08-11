@@ -136,4 +136,8 @@ public class BudgetController {
 		return budgetServiceImplementation.generateIndividualReport(userName,id);
 	}
 
+	@GetMapping("getBudgetByBudgetId/{id}")
+	public BudgetResponseDTO getBudgetByBudgetId(@PathVariable UUID budgetId) {
+		return budgetServiceImplementation.getBudgetByBudgetId(budgetId);
+	}
 }
