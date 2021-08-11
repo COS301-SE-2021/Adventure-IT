@@ -393,7 +393,7 @@ class _AlertBox extends State<AlertBox> {
                                         width:300,
                                         child: Consumer<LocationModel>(
                                             builder: (context, locationModel, child) {
-                                              return  locationModel.suggestions!
+                                              return locationModel.suggestions!=null&&locationModel.suggestions!
                                                   .length > 0 ?
                                               ListView.builder(
                                                   shrinkWrap: true,
@@ -696,6 +696,17 @@ class ListItineraryItems extends StatelessWidget {
                               child: InkWell(
                                 hoverColor: Theme.of(context).primaryColorLight,
                                 child: Container(
+                                  decoration: new BoxDecoration(
+                                      image: new DecorationImage(
+                                          image: NetworkImage(
+                                              "https://lh5.googleusercontent.com/p/AF1QipM4-7EPQBFbTgOy5k7YXtJmLWtz7wwl-WwUq4jT=w408-h271-k-no"),
+                                          fit: BoxFit.cover,
+                                          colorFilter: ColorFilter.mode(
+                                              Theme.of(context)
+                                                  .backgroundColor
+                                                  .withOpacity(0.25),
+                                              BlendMode.dstATop))
+                                  ),
                                   child: Row(children: <Widget>[
                                     Expanded(
                                         flex: 4,

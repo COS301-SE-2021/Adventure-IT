@@ -41,7 +41,7 @@ class Budgets extends StatelessWidget {
             children: <Widget>[
               Spacer(),
               Container(
-                  height: MediaQuery.of(context).size.height * 0.80,
+                  height: MediaQuery.of(context).size.height * 0.78,
                   child: BudgetList(adventure)),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Row(children: [

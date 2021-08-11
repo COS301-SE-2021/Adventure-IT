@@ -3,6 +3,7 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/createItinerary.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
+import 'package:adventure_it/api/itineraryEntry.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 
@@ -40,8 +41,8 @@ class Itineraries extends StatelessWidget {
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Container(
-                  height: MediaQuery.of(context).size.height * 0.75,
-                  child: ItinerariesList(adventure)),
+                  height: MediaQuery.of(context).size.height * 0.80,
+                  child: ItinerariesList(adventure!)),
               Spacer(),
               Row(children: [
                 Expanded(
@@ -104,11 +105,43 @@ class Itineraries extends StatelessWidget {
   }
 }
 
-class ItinerariesList extends StatelessWidget {
-  Adventure? a;
+class ItinerariesList extends StatefulWidget {
+  Adventure? currentAdventure;
 
-  ItinerariesList(Adventure? adventure) {
+  ItinerariesList(Adventure a) {
+    currentAdventure = a;
+  }
+
+  @override
+  _ItinerariesList createState() => _ItinerariesList(currentAdventure);
+}
+
+class _ItinerariesList extends State<ItinerariesList> {
+  Adventure? a;
+  ItineraryEntry? next;
+
+  List<String> months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
+  _ItinerariesList(Adventure? adventure) {
     this.a = adventure;
+    ItineraryApi.getNextEntry(a!).then((value) {
+      setState(() {
+        next = value;
+      });
+    });
   }
 
   @override
@@ -117,93 +150,185 @@ class ItinerariesList extends StatelessWidget {
         create: (context) => ItineraryModel(a!),
         child:
             Consumer<ItineraryModel>(builder: (context, itineraryModel, child) {
-              if (itineraryModel.itineraries == null) {
-                return Center(
-                    child: CircularProgressIndicator(
-                        valueColor: new AlwaysStoppedAnimation<Color>(
-                            Theme.of(context).accentColor)));
-              } else if (itineraryModel.itineraries!.length > 0) {
-            return Expanded(
-                flex: 2,
-                child: ListView(children: [
-                  ...List.generate(
-                      itineraryModel.itineraries!.length,
-                      (index) => Dismissible(
-                          background: Container(
-                            // color: Theme.of(context).primaryColor,
-                            //   margin: const EdgeInsets.all(5),
-                            padding: EdgeInsets.all(
-                                MediaQuery.of(context).size.height / 60),
-                            child: Row(
-                              children: [
-                                new Spacer(),
-                                Icon(Icons.delete,
-                                    color: Theme.of(context).accentColor,
-                                    size: 35 *
-                                        MediaQuery.of(context).textScaleFactor),
-                              ],
+          if (itineraryModel.itineraries == null || next == null) {
+            return Center(
+                child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).accentColor)));
+          } else if (itineraryModel.itineraries!.length > 0) {
+            return Column(children: [
+              Expanded(
+                  flex: 4,
+                  child: Container(
+                      decoration: new BoxDecoration(
+                          image: new DecorationImage(
+                              image: NetworkImage(
+                                  "https://lh5.googleusercontent.com/p/AF1QipM4-7EPQBFbTgOy5k7YXtJmLWtz7wwl-WwUq4jT=w408-h271-k-no"),
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                  Theme.of(context)
+                                      .backgroundColor
+                                      .withOpacity(0.25),
+                                  BlendMode.dstATop))
+                      ),
+                      child: Column(children: [
+                    Text("Next Stop!",
+                        style: TextStyle(
+                            fontSize:
+                                30 * MediaQuery.of(context).textScaleFactor,
+                            fontWeight: FontWeight.bold,
+                            color:
+                                Theme.of(context).textTheme.bodyText1!.color)),
+                    Text(next!.title,
+                        style: TextStyle(
+                            fontSize:
+                                40 * MediaQuery.of(context).textScaleFactor,
+                            fontWeight: FontWeight.bold,
+                            color:
+                                Theme.of(context).textTheme.bodyText1!.color)),
+                    Row(children: [
+                      Expanded(
+                          child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(children: [
+                          WidgetSpan(
+                              child: Icon(
+                            Icons.location_on,
+                            size: 15,
+                            color: Theme.of(context).textTheme.bodyText1!.color,
+                          )),
+                          TextSpan(
+                              text: " " + next!.location,
+                              style: TextStyle(
+                                  fontSize: 15 *
+                                      MediaQuery.of(context).textScaleFactor,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color))
+                        ]),
+                      )),
+                      Spacer(),
+                      Expanded(
+                        child: Text(
+                            DateTime.parse(next!.timestamp).day.toString() +
+                                " " +
+                                months[
+                                    DateTime.parse(next!.timestamp).month - 1] +
+                                " " +
+                                DateTime.parse(next!.timestamp)
+                                    .year
+                                    .toString() +
+                                " " +
+                                DateTime.parse(next!.timestamp)
+                                    .hour
+                                    .toString() +
+                                ":" +
+                                DateTime.parse(next!.timestamp)
+                                    .minute
+                                    .toString(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize:
+                                    15 * MediaQuery.of(context).textScaleFactor,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color)),
+                      ),
+                    ])
+                  ]))),
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
+              Expanded(
+                  flex: 13,
+                  child: ListView(children: [
+                    ...List.generate(
+                        itineraryModel.itineraries!.length,
+                        (index) => Dismissible(
+                            background: Container(
+                              // color: Theme.of(context).primaryColor,
+                              //   margin: const EdgeInsets.all(5),
+                              padding: EdgeInsets.all(
+                                  MediaQuery.of(context).size.height / 60),
+                              child: Row(
+                                children: [
+                                  new Spacer(),
+                                  Icon(Icons.delete,
+                                      color: Theme.of(context).accentColor,
+                                      size: 35 *
+                                          MediaQuery.of(context)
+                                              .textScaleFactor),
+                                ],
+                              ),
                             ),
-                          ),
-                          direction: DismissDirection.endToStart,
-                          key: Key(
-                              itineraryModel.itineraries!.elementAt(index).id),
-                          child: Card(
-                              color: Theme.of(context).primaryColorDark,
-                              child: InkWell(
-                                  hoverColor:
-                                      Theme.of(context).primaryColorLight,
-                                  onTap: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ItineraryPage(
-                                                itineraryModel.itineraries
-                                                    !.elementAt(index),a)));
-                                  },
-                                  child: Container(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 4,
-                                          child: ListTile(
-                                            title: Text(
-                                                itineraryModel
-                                                    .itineraries
-                                                    !.elementAt(index)
-                                                    .title,
-                                                style: TextStyle(
-                                                    fontSize: 25 *
-                                                        MediaQuery.of(context)
-                                                            .textScaleFactor,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color)),
-                                            // subtitle:Text(adventures.elementAt(index).description),
-                                            subtitle: Text(
-                                                itineraryModel.itineraries
-                                                    !.elementAt(index)
-                                                    .description,
-                                                style: TextStyle(
-                                                    fontSize: 15 *
-                                                        MediaQuery.of(context)
-                                                            .textScaleFactor,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color)),
+                            direction: DismissDirection.endToStart,
+                            key: Key(itineraryModel.itineraries!
+                                .elementAt(index)
+                                .id),
+                            child: Card(
+                                color: Theme.of(context).primaryColorDark,
+                                child: InkWell(
+                                    hoverColor:
+                                        Theme.of(context).primaryColorLight,
+                                    onTap: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ItineraryPage(
+                                                      itineraryModel
+                                                          .itineraries!
+                                                          .elementAt(index),
+                                                      a)));
+                                    },
+                                    child: Container(
+                                      child: Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 4,
+                                            child: ListTile(
+                                              title: Text(
+                                                  itineraryModel.itineraries!
+                                                      .elementAt(index)
+                                                      .title,
+                                                  style: TextStyle(
+                                                      fontSize: 25 *
+                                                          MediaQuery.of(context)
+                                                              .textScaleFactor,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color)),
+                                              // subtitle:Text(adventures.elementAt(index).description),
+                                              subtitle: Text(
+                                                  itineraryModel.itineraries!
+                                                      .elementAt(index)
+                                                      .description,
+                                                  style: TextStyle(
+                                                      fontSize: 15 *
+                                                          MediaQuery.of(context)
+                                                              .textScaleFactor,
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color)),
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ))),
-                          onDismissed: (direction) {
-                            Provider.of<ItineraryModel>(context, listen: false)
-                                .softDeleteItinerary(itineraryModel.itineraries
-                                    !.elementAt(index));
-                          }))
-                ]));
+                                        ],
+                                      ),
+                                    ))),
+                            onDismissed: (direction) {
+                              Provider.of<ItineraryModel>(context,
+                                      listen: false)
+                                  .softDeleteItinerary(itineraryModel
+                                      .itineraries!
+                                      .elementAt(index));
+                            }))
+                  ]))
+            ]);
           } else {
             return Center(
                 child: Text(
@@ -226,15 +351,14 @@ class AlertBox extends StatefulWidget {
 
   @override
   _AlertBox createState() => _AlertBox(adventure!);
-
 }
-  class _AlertBox extends State <AlertBox> {
+
+class _AlertBox extends State<AlertBox> {
   Adventure? adventure;
 
   _AlertBox(Adventure i) {
     this.adventure = i;
   }
-
 
   double getSize(context) {
     if (MediaQuery.of(context).size.height >
@@ -355,7 +479,11 @@ class AlertBox extends StatefulWidget {
                                     .color)),
                         onPressed: () {
                           setState(() {
-                            _futureItinerary = ItineraryApi.createItinerary(nameController.text, descriptionController.text, userID, adventure!.adventureId);
+                            _futureItinerary = ItineraryApi.createItinerary(
+                                nameController.text,
+                                descriptionController.text,
+                                userID,
+                                adventure!.adventureId);
                           });
                           Navigator.of(context).pop();
                         },

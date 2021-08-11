@@ -2,6 +2,7 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/budget.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/api/budgetEntry.dart';
+import 'package:adventure_it/api/report.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -137,6 +138,7 @@ class BudgetEntryModel extends ChangeNotifier {
 
   Future fetchAllEntries(Budget b) async {
     _entries = await BudgetApi.getEntries(b);
+    print(_entries.toString());
 
     notifyListeners();
   }
@@ -150,4 +152,27 @@ class BudgetEntryModel extends ChangeNotifier {
 
     notifyListeners();
   }
+}
+
+class BudgetReportModel extends ChangeNotifier {
+
+  List<Report>? _reports = null;
+
+
+  BudgetReportModel(Budget b, String userID) {
+    fetchAllEntries(b,userID).then((entries) =>
+    entries != null
+        ? _reports = entries
+        : List.empty());
+  }
+
+  List<Report>? get reports => _reports?.toList();
+
+  Future fetchAllEntries(Budget b, String userID) async {
+    _reports = await BudgetApi.getReport(b,userID);
+
+
+    notifyListeners();
+  }
+
 }

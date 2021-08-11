@@ -170,6 +170,27 @@ class ItineraryApi {
     }
   }
 
+  static Future<ItineraryEntry> getNextEntry(Adventure a) async {
+    http.Response response =
+    await _getNextEntry(a);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load next entry: ${response.body}');
+    }
+
+
+    ItineraryEntry entry = ItineraryEntry.fromJson(jsonDecode(response.body));
+
+    return entry;
+  }
+
+
+
+  static Future<http.Response> _getNextEntry(Adventure a) async {
+
+    return http.get(Uri.http(itineraryApi, '/itinerary/getNextEntry/' + a.adventureId));
+  }
+
   static Future<CreateItineraryEntry> createItineraryEntry(String entryContainerID, String title, String description, String location, String timestamp) async {
     final response = await http.post(
       Uri.parse('http://localhost:9999/itinerary/addEntry'), //get uri
