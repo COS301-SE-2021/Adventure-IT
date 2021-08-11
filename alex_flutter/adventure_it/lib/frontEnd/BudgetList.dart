@@ -44,6 +44,7 @@ class Budgets extends StatelessWidget {
               Spacer(),
               Container(
                   height: MediaQuery.of(context).size.height * 0.80,
+                  width: MediaQuery.of(context).size.width,
                   child: BudgetList(adventure)),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Row(children: [
@@ -382,11 +383,11 @@ class BudgetList extends StatelessWidget {
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
           } else if (budgetModel.budgets!.length > 0) {
-            return Column(children: [
-              Expanded(flex: 8, child: buildChild(budgetModel, context)),
+            return Column(
+                children: [
+            Expanded(flex: 8, child: buildChild(budgetModel, context)),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-              ListView(children: [
-                    ListView.builder(
+                   Expanded(flex: 6, child: ListView.builder(
                         itemCount: budgetModel.budgets!.length,
                         itemBuilder: (context, index) => Dismissible(
                             background: Container(
@@ -481,8 +482,7 @@ class BudgetList extends StatelessWidget {
                                   .softDeleteBudget(
                                       budgetModel.budgets!.elementAt(index));
                             }))
-                  ])
-            ]);
+                   )]);
           } else {
             return Center(
                 child: Text("Start planning how to spend your money!",
