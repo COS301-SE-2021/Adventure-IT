@@ -3,11 +3,11 @@ package com.adventureit.userservice.Responses;
 import java.util.UUID;
 
 public class GetUserByUUIDDTO {
-    private final UUID userID;
-    private final String username;
-    private final String firstname;
-    private final String lastname;
-    private final String email;
+    private UUID userID;
+    private String username;
+    private String firstname;
+    private String lastname;
+    private String email;
 
     public GetUserByUUIDDTO(UUID userID, String username, String firstname, String lastname, String email) {
         this.userID = userID;

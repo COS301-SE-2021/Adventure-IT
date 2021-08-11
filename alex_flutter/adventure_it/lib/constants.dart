@@ -11,7 +11,5 @@ final authApiGetToken = kIsWeb
 final authApiAdmin = kIsWeb
     ? "http://localhost:8080/auth/admin/realms/adventure-it/"
     : "http://10.0.2.2:8080/auth/admin/realms/adventure-it/";
-final userApi=kIsWeb?"localhost:9002": "10.0.2.2:9002";
-final mainApi=kIsWeb?"localhost:9999": "10.0.2.2:9999";
-
-final googleMapsKey="AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
+final mainApi = kIsWeb ? "localhost:9999" : "10.0.2.2:9999";
+final googleMapsKey = "AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";

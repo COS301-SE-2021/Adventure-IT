@@ -304,7 +304,7 @@ public class UserServiceImplementation  {
         for (Friend f:requests) {
             if(!f.isAccepted()){
                 user = repo.getUserByUserID(f.getFirstUser());
-                list.add(new GetFriendRequestsResponse(f.getId(),f.getFirstUser(),f.getSecondUser(),f.getCreatedDate(),f.isAccepted(),new GetUserByUUIDDTO(user.getUserID(),user.getUsername(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhoneNumber())));
+                list.add(new GetFriendRequestsResponse(f.getId(),f.getFirstUser(),f.getSecondUser(),f.getCreatedDate(),f.isAccepted(),new GetUserByUUIDDTO(user.getUserID(),user.getUsername(),user.getFirstname(),user.getLastname(),user.getEmail())));
             }
         }
 
