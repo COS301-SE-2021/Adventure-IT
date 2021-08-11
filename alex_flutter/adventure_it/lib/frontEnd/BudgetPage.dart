@@ -1,6 +1,8 @@
 import 'package:adventure_it/Providers/budget_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
+import 'package:adventure_it/api/createUTOBudgetEntry.dart';
+import 'package:adventure_it/api/createUTUBudgetEntry.dart';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
@@ -26,7 +28,9 @@ class BudgetPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ChangeNotifierProvider(
+        create: (context) => BudgetEntryModel(currentBudget!),
+        builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
@@ -92,11 +96,12 @@ class BudgetPage extends StatelessWidget {
                       child: IconButton(
                           onPressed: () {
                             {
+                              var provider = Provider.of<BudgetEntryModel>(context, listen: false);
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return _AlertBox(
-                                        currentBudget!, currentAdventure!);
+                                        currentBudget!, currentAdventure!, provider);
                                   });
                             }
                           },
@@ -106,18 +111,16 @@ class BudgetPage extends StatelessWidget {
                 Spacer(),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ]));
+            ])));
   }
 }
 
 class _AlertBox extends StatefulWidget {
   Budget? b;
   Adventure? a;
+  final BudgetEntryModel budgetEntryModel;
 
-  _AlertBox(Budget budget, Adventure a) {
-    this.b = budget;
-    this.a = a;
-  }
+  _AlertBox(this.b, this.a, this.budgetEntryModel);
 
   @override
   AlertBox createState() => AlertBox(b!, a!);
@@ -198,11 +201,13 @@ class AlertBox extends State<_AlertBox> {
       )
     ];
 
-
+    final categoryNames = ["Transport", "Food", "Accommodation", "Activities", "Other"];
+    final BudgetApi api = new BudgetApi();
+    Future<CreateUTOBudgetEntry>? _futureUTOBudget;
+    Future<CreateUTUBudgetEntry>? _futureUTUBudget;
     final amountController = TextEditingController();
     final titleController = TextEditingController();
     final descriptionController = TextEditingController();
-    final categoryController = TextEditingController();
 
     if (userNames==null||userNames!.length == 0 || userNamesAndOther==null||userNamesAndOther!.length == 0) {
       return AlertDialog(
@@ -540,13 +545,15 @@ class AlertBox extends State<_AlertBox> {
                                       .textTheme
                                       .bodyText1!
                                       .color)),
-                          onPressed: () {
+                          onPressed: () async {
                             if(selectedCategory == 5) {
-                              //create UTU
+                              await widget.budgetEntryModel.addUTUBudgetEntry(b!, b!.id, payer!, amountController.text, titleController.text, descriptionController.text, categoryNames[selectedCategory!-1], payee!);
+                              Navigator.pop(context);
                             }
 
                             else {
-                              //create UTO
+                              await widget.budgetEntryModel.addUTOBudgetEntry(b!, b!.id, payer!, amountController.text, titleController.text, descriptionController.text, categoryNames[selectedCategory!-1], payee!);
+                              Navigator.pop(context);
                             }
                           },
                         ),
@@ -571,9 +578,7 @@ class GetBudgetEntries extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => BudgetEntryModel(currentBudget!),
-        child: Consumer<BudgetEntryModel>(
+    return Consumer<BudgetEntryModel>(
             builder: (context, budgetEntryModel, child) {
           if (budgetEntryModel.entries == null) {
             return Center(
@@ -582,12 +587,9 @@ class GetBudgetEntries extends StatelessWidget {
                         Theme.of(context).accentColor)));
           }
           if (budgetEntryModel.entries!.length > 0) {
-            return Expanded(
-                flex: 2,
-                child: ListView(children: [
-                  ...List.generate(
-                      budgetEntryModel.entries!.length,
-                      (index) => Dismissible(
+            return ListView.builder(
+                      itemCount: budgetEntryModel.entries!.length,
+                      itemBuilder: (context, index) => Dismissible(
                           background: Container(
                             // color: Theme.of(context).primaryColor,
                             //   margin: const EdgeInsets.all(5),
@@ -756,8 +758,7 @@ class GetBudgetEntries extends StatelessWidget {
                                     listen: false)
                                 .deleteBudgetEntry(
                                     budgetEntryModel.entries!.elementAt(index));
-                          }))
-                ]));
+                          }));
           } else {
             return Center(
                 child: Text("Well done! You owe no one money!",
@@ -766,7 +767,7 @@ class GetBudgetEntries extends StatelessWidget {
                         fontSize: 30 * MediaQuery.of(context).textScaleFactor,
                         color: Theme.of(context).textTheme.bodyText1!.color)));
           }
-        }));
+        });
   }
 }
 

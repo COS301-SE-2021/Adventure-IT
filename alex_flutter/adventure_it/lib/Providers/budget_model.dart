@@ -156,6 +156,18 @@ class BudgetEntryModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future addUTUBudgetEntry(Budget budget, String a, String b, String c, String d, String e, String f, String g) async {
+    await BudgetApi.createUTUBudget(a, b, c, d, e, f, g);
+
+    await fetchAllEntries(budget);
+  }
+
+  Future addUTOBudgetEntry(Budget budget, String a, String b, String c, String d, String e, String f, String g) async {
+    await BudgetApi.createUTOBudget(a, b, c, d, e, f, g);
+
+    await fetchAllEntries(budget);
+  }
 }
 
 class BudgetReportModel extends ChangeNotifier {
