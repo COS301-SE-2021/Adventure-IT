@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class EditItineraryEntryRequest {
     RestTemplate restTemplate;
-    java.util.UUID id;
+    UUID id;
     UUID entryContainerID;
     String title;
     String description;
