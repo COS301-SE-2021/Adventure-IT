@@ -171,12 +171,12 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                   ]),
                                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                                   Row(children: [
-                                    Expanded(
-                                        child: Text(user.phoneNumber,
-                                            textAlign: TextAlign.center,
-                                            style: new TextStyle(
-                                                color: Theme.of(context).textTheme.bodyText1!.color,
-                                                fontSize: MediaQuery.of(context).size.height * 0.03))),
+                                    // Expanded(
+                                    //     child: Text(user.phoneNumber,
+                                    //         textAlign: TextAlign.center,
+                                    //         style: new TextStyle(
+                                    //             color: Theme.of(context).textTheme.bodyText1!.color,
+                                    //             fontSize: MediaQuery.of(context).size.height * 0.03))),
                                     Expanded(
                                       child: Container(
                                           margin: EdgeInsets.symmetric(

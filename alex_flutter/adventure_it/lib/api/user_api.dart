@@ -146,8 +146,7 @@ class UserApi {
         username: userInfo.username,
         firstname: userInfo.firstName,
         lastname: userInfo.lastName,
-        email: userInfo.email,
-        phoneNumber: "00000000");
+        email: userInfo.email,);
   }
 
   UserProfile? getUserProfile() {
@@ -203,7 +202,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriendProfiles(String userID) async {
-    return http.get(Uri.http(userApi, 'user/api/getFriendProfiles/' + userID));
+    return http.get(Uri.parse(userApi+'/user/api/getFriendProfiles/'+userID));
   }
 
   Future deleteFriend(String userID, String friendID) async {
