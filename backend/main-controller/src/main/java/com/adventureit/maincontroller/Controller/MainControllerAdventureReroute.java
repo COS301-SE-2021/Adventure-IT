@@ -45,8 +45,8 @@ public class MainControllerAdventureReroute {
         Users user;
         System.out.println(users);
         for (int x = 0; x < users.size(); x++){
-            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/" + users.get(x) , Users.class);
-            list.add(new GetUserByUUIDDTO(user.getUserID(),user.getUsername(), user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhoneNumber()));
+            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/" + users.get(x) , Users.class);
+            list.add(new GetUserByUUIDDTO(user.getUserID(),user.getUsername(), user.getFirstname(),user.getLastname(),user.getEmail()));
         }
         return list;
     }

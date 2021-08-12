@@ -54,10 +54,10 @@ public class MainControllerChatReroute {
 
         for (UUID ID:chat.getMessages()) {
             message = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getMessageByID/" + ID, GroupMessage.class);
-            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/" + message.getSender(), GetUserByUUIDDTO.class);
+            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/" + message.getSender(), GetUserByUUIDDTO.class);
 
             for (UUID x:message.getReceivers()) {
-                users.add(restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/" + x, GetUserByUUIDDTO.class));
+                users.add(restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/" + x, GetUserByUUIDDTO.class));
             }
 
             list.add(new MessageResponseDTO(message.getId(),user,message.getMessage(), message.getTimestamp(),users,message.getRead()));
