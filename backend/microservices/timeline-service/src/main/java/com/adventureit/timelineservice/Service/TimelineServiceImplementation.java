@@ -23,11 +23,11 @@ public class TimelineServiceImplementation {
         this.repo = repo;
     }
 
-    public String createTimelineEntry(UUID adventureID, UUID userID, String description, TimelineType type){
+    public String createTimelineEntry(UUID adventureID, String description, TimelineType type){
         UUID timelineID = UUID.randomUUID();
         LocalDateTime time= LocalDateTime.now();
-        repo.save(new Timeline(timelineID,adventureID,userID,description,time,type));
-        return "New timeline entry created for adventure "+adventureID+" by user "+userID;
+        repo.save(new Timeline(timelineID,adventureID,description,time,type));
+        return "New timeline entry created for adventure "+adventureID;
     }
 
     public List<TimelineDTO> GetTimelineByAdventureID(UUID adventureID){
@@ -38,7 +38,7 @@ public class TimelineServiceImplementation {
         }
         List<TimelineDTO> returnList = new ArrayList<>();
         for(Timeline entry: list){
-            returnList.add(new TimelineDTO(entry.getTimelineID(),entry.getAdventureID(),entry.getUserID(),entry.getDescrpition(),entry.getTimestamp(),entry.getType()));
+            returnList.add(new TimelineDTO(entry.getTimelineID(),entry.getAdventureID(),entry.getDescrpition(),entry.getTimestamp(),entry.getType()));
         }
         return returnList;
     }

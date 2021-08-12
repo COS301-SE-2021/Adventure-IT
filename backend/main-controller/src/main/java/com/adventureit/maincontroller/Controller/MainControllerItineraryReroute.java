@@ -3,6 +3,7 @@ package com.adventureit.maincontroller.Controller;
 
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
+import com.adventureit.budgetservice.Responses.BudgetResponseDTO;
 import com.adventureit.itinerary.Entity.Itinerary;
 import com.adventureit.itinerary.Requests.AddItineraryEntryRequest;
 import com.adventureit.itinerary.Requests.CreateItineraryRequest;
@@ -11,6 +12,8 @@ import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 import com.adventureit.locationservice.Responses.LocationResponseDTO;
 import com.adventureit.maincontroller.Responses.MainItineraryEntryResponseDTO;
+import com.adventureit.timelineservice.Entity.TimelineType;
+import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,7 +31,7 @@ public class MainControllerItineraryReroute {
     private final String userPort = "9002";
     private final String locationPort = "9006";
     private final String itineraryPort = "9009";
-
+    private final String timelinePort = "9012";
 
     @GetMapping("/test")
     public String itineraryTest(){
@@ -38,10 +41,12 @@ public class MainControllerItineraryReroute {
     @PostMapping(value = "/addEntry")
     public UUID addItineraryEntry(@RequestBody AddItineraryEntryRequest req) {
         UUID locationId = restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/create/"+req.getLocation(),UUID.class);
-
         UUID itineraryID = restTemplate.postForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/addEntry",req, UUID.class);
-
         restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/setLocation/" + itineraryID +"/"+ locationId ,String.class);
+        UUID adventureId = restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/getItineraryId/"+budgetID, BudgetResponseDTO.class).getAdventureID();
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Budget: "+req.getTitle()+" has been edited" );
+        restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+
 
         return itineraryID;
     }
