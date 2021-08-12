@@ -64,27 +64,6 @@ public class Users  {
         return username;
     }
 
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//
-//        return !this.locked;
-//    }
-
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return this.enabled;
-//    }
-
     public Boolean getEnabled() {
         return enabled;
     }
@@ -150,17 +129,6 @@ public class Users  {
      */
     public void setEmail(String email) {
         this.email = email;
-    }
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return null;
-//    }
-
-    // Only here to satisfy inheritance constraint (will NOT be used for anything)
-    @Override
-    public String getPassword() {
-        return null;
     }
 
     public byte[] getProfilePicture() {

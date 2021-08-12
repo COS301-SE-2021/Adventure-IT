@@ -5,20 +5,12 @@ import com.adventureit.userservice.Entities.Friend;
 import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Exceptions.*;
 import com.adventureit.userservice.Repository.FriendRepository;
-import com.adventureit.userservice.Repository.RegistrationTokenRepository;
 import com.adventureit.userservice.Repository.UserRepository;
-import com.adventureit.userservice.Requests.LoginUserRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Responses.GetFriendRequestsResponse;
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
-import com.adventureit.userservice.Responses.LoginUserDTO;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
-import com.adventureit.userservice.Token.RegistrationToken;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -124,38 +116,6 @@ public class UserServiceImplementation  {
         }
         return new GetUserByUUIDDTO(newUser.getUserID(),newUser.getUsername(),newUser.getFirstname(), newUser.getLastname(), newUser.getEmail());
     }
-
-
-    public LoginUserDTO LoginUser(LoginUserRequest req){
-        String username = req.getUsername();
-        String password = req.getPassword();
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(15);
-
-
-        assert repo != null;
-        Users user = repo.getUserByUsername(username);
-        if(user==null){
-            throw new UserDoesNotExistException("User with username: "+username+" does not exist");
-        }
-        else if(!passwordEncoder.matches(password, user.getPassword())){
-            throw new InvalidUserPasswordException("User password does not match email");
-        }
-
-
-        return new LoginUserDTO(true,"Login Successful: Welcome to Adventure-it");
-    }
-
-//    @Override
-//    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-//        Users user =  repo.getUserByUsername(s);
-//        if(user ==null){
-//           throw new UsernameNotFoundException("User not found");
-//        }
-//
-//        return user;
-//
-//    }
-
 
     public String updateProfilePicture(MultipartFile file, UUID id) throws Exception {
         if(file ==null){
