@@ -257,7 +257,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                     size: 35 *
                                         MediaQuery.of(context).textScaleFactor),
                                 ],
-                            ),
+                            )),
                             direction: DismissDirection.endToStart,
                             key: Key(itineraryModel.itineraries!
                                 .elementAt(index)
@@ -323,8 +323,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                       .itineraries!
                                       .elementAt(index));
                             }))
-                  ]))
-            ]);
+              ]);
           } else {
             return Center(
                 child: Text(
