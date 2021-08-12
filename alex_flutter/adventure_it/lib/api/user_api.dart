@@ -166,7 +166,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriends(String userID) async {
-    return http.get(Uri.http(userApi, 'user/api/GetFriends/' + userID));
+    return http.get(Uri.http(userApi, 'user/GetFriends/' + userID));
   }
 
   Future<List<FriendRequest>> getFriendRequests(String userID) async {
@@ -184,7 +184,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriendRequests(String userID) async {
-    return http.get(Uri.http(userApi, 'user/api/getFriendRequests/' + userID));
+    return http.get(Uri.http(userApi, 'user/getFriendRequests/' + userID));
   }
 
   Future<List<UserProfile>> getFriendProfiles(String userID) async {
@@ -202,7 +202,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriendProfiles(String userID) async {
-    return http.get(Uri.parse(userApi+'/user/api/getFriendProfiles/'+userID));
+    return http.get(Uri.parse(userApi+'/user/getFriendProfiles/'+userID));
   }
 
   Future deleteFriend(String userID, String friendID) async {
@@ -214,7 +214,7 @@ class UserApi {
 
   Future<http.Response> _deleteFriend(String userID, String friendID) async {
     return http.get(
-        Uri.http(userApi, 'user/api/removeFriend/' + userID + "/" + friendID));
+        Uri.http(userApi, 'user/removeFriend/' + userID + "/" + friendID));
   }
 
   Future deleteFriendRequest(String requestID) async {
@@ -227,7 +227,7 @@ class UserApi {
 
   Future<http.Response> _deleteFriendRequest(String requestID) async {
     return http
-        .get(Uri.http(userApi, 'user/api/deleteFriendRequest/' + requestID));
+        .get(Uri.http(userApi, 'user/deleteFriendRequest/' + requestID));
   }
 
   Future acceptFriendRequest(String requestID) async {
@@ -239,7 +239,7 @@ class UserApi {
 
   Future<http.Response> _acceptFriendRequest(String requestID) async {
     return http
-        .get(Uri.http(userApi, 'user/api/acceptFriendRequest/' + requestID));
+        .get(Uri.http(userApi, 'user/acceptFriendRequest/' + requestID));
   }
 
   Future<String> searchUsername(String value) async {
@@ -256,7 +256,7 @@ class UserApi {
   }
 
   Future<http.Response> _searchUsername(String username) async {
-    return http.get(Uri.http(userApi, 'user/api/getByUserName/' + username));
+    return http.get(Uri.http(userApi, 'user/getByUserName/' + username));
   }
 
   Future createFriendRequest(String from, String to) async {
@@ -268,6 +268,6 @@ class UserApi {
 
   Future<http.Response> _createFriendRequest(String from, String to) async {
     return http.get(
-        Uri.http(userApi, 'user/api/createFriendRequest/' + from + "/" + to));
+        Uri.http(userApi, 'user/createFriendRequest/' + from + "/" + to));
   }
 }
