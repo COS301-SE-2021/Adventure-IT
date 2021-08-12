@@ -21,7 +21,7 @@ import '../api/budget.dart';
 import 'Navbar.dart';
 
 class Friends extends StatefulWidget {
-  Friends() {}
+  Friends();
 
   @override
   FriendsPage createState() => FriendsPage();
@@ -30,6 +30,7 @@ class Friends extends StatefulWidget {
 class FriendsPage extends State<Friends> {
   UserProfile? user;
   bool friendList = true;
+  UserApi _userApi=UserApi.getInstance();
 
   FriendsPage();
 
@@ -91,11 +92,11 @@ class FriendsPage extends State<Friends> {
                             EdgeInsets.symmetric(horizontal: 3, vertical: 20),
                       ),
                       onPressed: () {
-                        UserApi.searchUsername(usernameController.text)
+                        _userApi.searchUsername(usernameController.text)
                             .then((value) {
                           print(value);
                           if (value.compareTo("") != 0) {
-                            UserApi.createFriendRequest(
+                            _userApi.createFriendRequest(
                                 "1660bd85-1c13-42c0-955c-63b1eda4e90b", value);
                           }
                         });
