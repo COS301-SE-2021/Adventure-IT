@@ -90,14 +90,24 @@ public class MainControllerBudgetReroute {
 
     @PostMapping("/addUTOExpense")
     public String addUTOExpense(@RequestBody AddUTOExpenseEntryRequest req) throws Exception {
-        return restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/addUTOExpense/", req, String.class);
-
+        String returnString = restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/addUTOExpense/", req, String.class);
+        BudgetResponseDTO response = restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetId/"+req.getEntryContainerID(), BudgetResponseDTO.class);
+        UUID adventureId =response.getAdventureID();
+        String name = response.getName();
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Budget: "+name+" has been updated" );
+        restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        return returnString;
     }
 
     @PostMapping("/addUTUExpense")
     public String addUTUExpense(@RequestBody AddUTUExpenseEntryRequest req) throws Exception {
-        return restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/addUTUExpense/", req, String.class);
-
+        String returnString = restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/addUTUExpense/", req, String.class);
+        BudgetResponseDTO response = restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetId/"+req.getEntryContainerID(), BudgetResponseDTO.class);
+        UUID adventureId =response.getAdventureID();
+        String name = response.getName();
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Budget: "+name+" has been updated" );
+        restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        return returnString;
     }
 
 
