@@ -57,6 +57,10 @@ public class MainControllerChatReroute {
         List<GetUserByUUIDDTO> users = new ArrayList<>();
         List <GroupMessageResponseDTO> list = new ArrayList<>();
 
+        if(chat.getMessages().isEmpty()){
+            throw new Exception("No messages available");
+        }
+
         for (UUID ID:chat.getMessages()) {
             message = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getGroupMessageByID/" + ID, GroupMessage.class);
             user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/" + message.getSender(), GetUserByUUIDDTO.class);
@@ -105,6 +109,10 @@ public class MainControllerChatReroute {
         GetUserByUUIDDTO user = null;
         GetUserByUUIDDTO x = null;
         List <DirectMessageResponseDTO> list = new ArrayList<>();
+
+        if(chat.getMessages().isEmpty()){
+            throw new Exception("No messages available");
+        }
 
         for (UUID ID:chat.getMessages()) {
             message = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getDirectMessageByID/" + ID, DirectMessage.class);
