@@ -1,32 +1,48 @@
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
+import 'package:adventure_it/api/chatAPI.dart';
+import 'package:adventure_it/api/directChat.dart';
+import 'package:adventure_it/api/directChatMessage.dart';
+import 'package:adventure_it/api/groupChat.dart';
+import 'package:adventure_it/api/groupChatMessage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:time_machine/time_machine.dart';
 
 
-class ChatModel extends ChangeNotifier {
-  List<GroupMessage>? _messages = null;
+class GroupChatModel extends ChangeNotifier {
+  List<GroupChatMessage>? _messages = null;
   Adventure? currentAdventure;
 
-  ChatModel(Adventure a) {
+  GroupChatModel(Adventure a) {
     this.currentAdventure=a;
     fetchAllMessages().then((messages) => messages != null? _messages = messages:List.empty());
   }
 
-  List<GroupMessage>? get messages => _messages?.toList();
+  List<GroupChatMessage>? get messages => _messages?.toList();
 
   Future fetchAllMessages() async {
-    GroupChat chat=await ChatApi.getGroupChatByAdventure(currentAdventure);
-    _messages = await ChatApi.getMessagesForGroupChat(chat.id);
+    GroupChat chat=await ChatApi.getGroupChat(currentAdventure);
+    _messages = await ChatApi.getGroupChatMessage(chat.id);
     notifyListeners();
   }
 
-  Future addMessage(String a, String b, LocalDate c, LocalDate d, String e, String f) async {
-    await ChatApi.addMessageToGroupChat(a, b, c, d, e, f);
 
-    fetchAllMessages();
+}
 
+class DirectChatModel extends ChangeNotifier {
+  List<DirectChatMessage>? _messages = null;
+
+  DirectChatModel(String user1, String user2) {
+
+    fetchAllMessages(user1, user2).then((messages) => messages != null? _messages = messages:List.empty());
+  }
+
+  List<DirectChatMessage>? get messages => _messages?.toList();
+
+  Future fetchAllMessages(String user1, String user2) async {
+    DirectChat chat=await ChatApi.getDirectChat(user1,user2);
+    _messages = await ChatApi.getDirectChatMessage(chat.id);
     notifyListeners();
   }
 
