@@ -11,13 +11,22 @@ public class GroupChat extends Chat {
     private String name;
     @OneToMany
     private List<ColorPair> colors;
+    UUID adventureID;
 
     public GroupChat(){}
 
     public GroupChat(UUID id, UUID adventureID, List<UUID> participants,List<ColorPair> colors, String name){
-        super(id,adventureID,participants);
+        super(id,participants);
         this.name = name;
         this.colors = colors;
+        this.adventureID = adventureID;
+    }
+
+    public GroupChat(UUID adventureID, List<UUID> participants,List<ColorPair> colors, String name){
+        super(participants);
+        this.name = name;
+        this.colors = colors;
+        this.adventureID = adventureID;
     }
 
     public String getName() {
@@ -42,5 +51,13 @@ public class GroupChat extends Chat {
 
     public void setColors(List<ColorPair> colors) {
         this.colors = colors;
+    }
+
+    public UUID getAdventureID() {
+        return adventureID;
+    }
+
+    public void setAdventureID(UUID adventureID) {
+        this.adventureID = adventureID;
     }
 }

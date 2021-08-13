@@ -6,13 +6,11 @@ import java.util.UUID;
 
 public class DirectChatResponseDTO {
     UUID id;
-    UUID adventureID;
     List<UUID> participants = new ArrayList<>();
     List<UUID> messages = new ArrayList<>();
 
-    public DirectChatResponseDTO(UUID id, UUID adventureID, List<UUID> participants, List<UUID> messages) {
+    public DirectChatResponseDTO(UUID id, List<UUID> participants, List<UUID> messages) {
         this.id = id;
-        this.adventureID = adventureID;
         this.participants = participants;
         this.messages = messages;
     }
@@ -23,14 +21,6 @@ public class DirectChatResponseDTO {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public UUID getAdventureID() {
-        return adventureID;
-    }
-
-    public void setAdventureID(UUID adventureID) {
-        this.adventureID = adventureID;
     }
 
     public List<UUID> getParticipants() {

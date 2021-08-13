@@ -19,7 +19,7 @@ public class LocalTests {
 
     @Test
     public void createDirectChat(){
-        chatServiceImplementation.createDirectChat(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID());
+        chatServiceImplementation.createDirectChat(UUID.randomUUID(),UUID.randomUUID());
     }
 
     @Test

@@ -11,7 +11,6 @@ public class Chat {
     @Id
     @NotNull
     UUID id;
-    UUID adventureID;
     @ElementCollection (fetch=FetchType.EAGER)
     List<UUID> participants = new ArrayList<>();
     @ElementCollection
@@ -21,9 +20,13 @@ public class Chat {
 
     public Chat(){}
 
-    public Chat(UUID id, UUID adventureID,List<UUID> participants){
+    public Chat(UUID id,List<UUID> participants){
         this.id = id;
-        this.adventureID = adventureID;
+        this.participants = participants;
+    }
+
+    public Chat(List<UUID> participants){
+        this.id = UUID.randomUUID();
         this.participants = participants;
     }
 
@@ -35,13 +38,6 @@ public class Chat {
         this.id = id;
     }
 
-    public UUID getAdventureID() {
-        return adventureID;
-    }
-
-    public void setAdventureID(UUID adventureID) {
-        this.adventureID = adventureID;
-    }
 
     public List<UUID> getParticipants() {
         return participants;
