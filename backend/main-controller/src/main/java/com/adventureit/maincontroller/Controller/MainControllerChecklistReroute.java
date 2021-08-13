@@ -98,7 +98,6 @@ public class MainControllerChecklistReroute {
         UUID adventureId = restTemplate.getForObject("http://"+ IP + ":" + checklistPort + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class).getAdventureID();
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Checklist: "+req.getTitle()+" has been edited" );
         return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
-
     }
 
     @GetMapping("/markEntry/{id}")
