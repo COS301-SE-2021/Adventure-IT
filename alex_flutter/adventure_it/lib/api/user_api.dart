@@ -130,7 +130,6 @@ class UserApi {
 
   // Register a user in the backend (PRIVATE)
   Future<UserProfile?> _registerBackendProfile(KeycloakUser userInfo) async {
-    debugPrint("Creating backend profile for: " + userInfo.username);
     final res = await http.post(Uri.parse(userApi + "/RegisterUser/"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
@@ -277,5 +276,28 @@ class UserApi {
   Future<void> _store(key, value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(key, value);
+  }
+
+  Future<bool> registerKeycloakUser(
+      firstname, lastname, username, email, password) async {
+    final adminJWT = await this._adminLogIn();
+    final response =
+        await http.post(Uri.parse(authApiAdmin + '/users/'), body: '''
+      {
+        "firstName" : "$firstname",
+        "lastName" : "$lastname", 
+        "username" : "$username", 
+        "email" : "$email"
+      },
+      headers: {'Authorization': 'Bearer $adminJWT'}
+    ''');
+    // TODO figure out why this isn't working
+    // Getting a 401 error here
+    if (response.body == "success") {
+      return true;
+    } else {
+      print(response.body);
+      return false;
+    }
   }
 }
