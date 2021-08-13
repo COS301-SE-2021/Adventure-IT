@@ -179,7 +179,7 @@ public class ChatServiceImplementation implements ChatService {
             throw new Exception("Chat does not exist");
         }
 
-        return new DirectChatResponseDTO(chat.getId(),chat.getAdventureID(),chat.getParticipants(),chat.getMessages());
+        return new DirectChatResponseDTO(chat.getId(),chat.getParticipants(),chat.getMessages());
     }
 
     @Override
@@ -190,7 +190,7 @@ public class ChatServiceImplementation implements ChatService {
             throw new Exception("Chat does not exist");
         }
 
-        return new DirectChatResponseDTO(chat.getId(),chat.getAdventureID(),chat.getParticipants(),chat.getMessages());
+        return new DirectChatResponseDTO(chat.getId(),chat.getParticipants(),chat.getMessages());
     }
 
     @Override
