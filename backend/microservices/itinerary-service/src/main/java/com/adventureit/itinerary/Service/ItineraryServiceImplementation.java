@@ -249,10 +249,10 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public ItineraryEntryResponseDTO nextItem(UUID id) {
+    public ItineraryEntryResponseDTO nextItem(UUID id) throws Exception {
         ItineraryEntry next = null;
         List<ItineraryEntry> entries = new ArrayList<>();
-        List<ItineraryEntry> temp = null;
+        List<ItineraryEntry> temp;
 
         List<Itinerary> itineraries = itineraryRepository.findAllByAdventureID(id);
 
@@ -275,6 +275,10 @@ public class ItineraryServiceImplementation implements ItineraryService {
                 next = entry;
                 break;
             }
+        }
+
+        if(next == null){
+            throw new Exception("No items available");
         }
 
         return new ItineraryEntryResponseDTO(next.getId(),next.getEntryContainerID(),next.getTitle(),next.getDescription(),next.isCompleted(),next.getLocation(),next.getTimestamp());

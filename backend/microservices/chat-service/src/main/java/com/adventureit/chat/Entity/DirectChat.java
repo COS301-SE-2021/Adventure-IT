@@ -17,4 +17,6 @@ public class DirectChat extends Chat{
         this.adventureID = adventureID;
         this.participants = participants;
     }
+
+
 }

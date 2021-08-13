@@ -5,6 +5,7 @@ import com.adventureit.chat.Exceptions.GroupChatFullException;
 import com.adventureit.chat.Repository.ChatRepository;
 import com.adventureit.chat.Repository.ColorPairRepository;
 import com.adventureit.chat.Repository.MessageRepository;
+import com.adventureit.chat.Responses.DirectChatResponseDTO;
 import com.adventureit.chat.Responses.GroupChatResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,21 +86,21 @@ public class ChatServiceImplementation implements ChatService {
 
     @Override
     @Transactional
-    public String sendDirectMessage(UUID id, UUID chatID,UUID sender, UUID receiver, String msg) throws Exception {
+    public String sendDirectMessage(UUID chatID,UUID sender, UUID receiver, String msg) throws Exception {
         Chat chat = chatRepository.findChatById(chatID);
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
-        DirectMessage message = new DirectMessage(id,sender,receiver,msg);
+        DirectMessage message = new DirectMessage(sender,receiver,msg);
         messageRepository.save(message);
-        chat.getMessages().add(id);
+        chat.getMessages().add(message.getId());
         chatRepository.save(chat);
         return "Message Sent";
     }
 
     @Override
     @Transactional
-    public String sendGroupMessage(UUID id, UUID chatID, UUID sender,String msg) throws Exception {
+    public String sendGroupMessage(UUID chatID, UUID sender,String msg) throws Exception {
         Chat chat = chatRepository.findChatById(chatID);
         if(chat == null){
             throw new Exception("Chat does not exist");
@@ -108,9 +109,9 @@ public class ChatServiceImplementation implements ChatService {
         List<UUID> rec = new ArrayList<>(chat.getParticipants());
         rec.remove(sender);
 
-        GroupMessage message = new GroupMessage(id,sender,rec,msg);
+        GroupMessage message = new GroupMessage(sender,rec,msg);
         messageRepository.save(message);
-        chat.getMessages().add(id);
+        chat.getMessages().add(message.getId());
         chatRepository.save(chat);
 
         return "Message Sent";
@@ -157,6 +158,39 @@ public class ChatServiceImplementation implements ChatService {
         }
 
         return new GroupChatResponseDTO(chat.getId(),chat.getAdventureID(),chat.getParticipants(),chat.getMessages(),chat.getName(), chat.getColors());
+    }
+
+    @Override
+    public DirectChatResponseDTO getDirectChat(UUID ID1, UUID ID2) throws Exception {
+        List<Chat> chats = chatRepository.findAllByParticipantsContaining(ID1);
+        Chat chat = null;
+        if(chats.isEmpty()){
+            throw new Exception("Chat does not exist");
+        }
+
+        for (Chat c:chats) {
+            if(c.getParticipants().contains(ID2)){
+                chat = c;
+                break;
+            }
+        }
+
+        if(chat ==null){
+            throw new Exception("Chat does not exist");
+        }
+
+        return new DirectChatResponseDTO(chat.getId(),chat.getAdventureID(),chat.getParticipants(),chat.getMessages());
+    }
+
+    @Override
+    public DirectChatResponseDTO getDirectChatByID(UUID id) throws Exception {
+        DirectChat chat = (DirectChat) chatRepository.findChatById(id);
+
+        if(chat == null){
+            throw new Exception("Chat does not exist");
+        }
+
+        return new DirectChatResponseDTO(chat.getId(),chat.getAdventureID(),chat.getParticipants(),chat.getMessages());
     }
 
     @Override

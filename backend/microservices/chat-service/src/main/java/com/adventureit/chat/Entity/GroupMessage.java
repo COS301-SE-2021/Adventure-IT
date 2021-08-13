@@ -30,6 +30,18 @@ public class GroupMessage extends Message{
         }
     }
 
+    public GroupMessage(UUID sender, List<UUID> receivers, String message){
+        this.id = UUID.randomUUID();
+        this.sender = sender;
+        this.receivers = receivers;
+        this.message = message;
+        this.timestamp = LocalDateTime.now();
+
+        for (UUID ID: receivers) {
+            read.put(ID,false);
+        }
+    }
+
     public Map<UUID, Boolean> getRead() {
         return read;
     }
