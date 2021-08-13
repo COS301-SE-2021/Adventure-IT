@@ -197,4 +197,14 @@ public class ChatServiceImplementation implements ChatService {
     public Message getMessage(UUID id) {
         return messageRepository.findMessageById(id);
     }
+
+    @Override
+    public void deleteChat(UUID id) throws Exception {
+        Chat chat = chatRepository.findChatById(id);
+        if(chat == null){
+            throw new Exception("Chat does not exist");
+        }
+
+        chatRepository.delete(chat);
+    }
 }

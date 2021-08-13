@@ -412,6 +412,15 @@ public class UserServiceImplementation  {
         return  user.getUserID();
     }
 
+    public Friend getFriendRequest(UUID id) throws Exception {
+        Friend request = friendRepository.findFriendById(id);
+        if(request == null || request.isAccepted()){
+            throw new Exception("Friend Request doesn't exist");
+        }
+
+        return request;
+    }
+
     public void mockFriendships()
     {
         Friend toSave = new Friend (UUID.fromString("1660bd85-1c13-42c0-955c-63b1eda4e90b"),UUID.fromString("69e8eb21-eb63-4c83-9187-181a648bb759"));

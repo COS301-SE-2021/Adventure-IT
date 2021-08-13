@@ -1,6 +1,9 @@
 package com.adventureit.maincontroller.Controller;
 
 
+import com.adventureit.chat.Requests.CreateDirectChatRequest;
+import com.adventureit.chat.Responses.DirectChatResponseDTO;
+import com.adventureit.userservice.Entities.Friend;
 import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
@@ -28,6 +31,7 @@ public class MainControllerUserReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final String IP = "localhost";
     private final String userPort = "9002";
+    private final String chatPort = "9010";
 
 
 //    @RequestMapping("/api/GetUser/{id}")
@@ -73,8 +77,11 @@ public class MainControllerUserReroute {
 
     @GetMapping(value = "/api/acceptFriendRequest/{id}")
     public String acceptFriend(@PathVariable UUID id){
-        return restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/acceptFriendRequest/"+id, String.class);
-
+        restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/acceptFriendRequest/"+id, String.class);
+        Friend friend = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/getFriendRequest/"+id, Friend.class);
+        CreateDirectChatRequest request = new CreateDirectChatRequest(friend.getFirstUser(),friend.getSecondUser());
+        restTemplate.postForObject("http://"+ IP + ":" + chatPort + "/chat/createDirectChat", request,String.class);
+        return "Done";
     }
 
     @GetMapping(value="api/getFriends/{id}")
@@ -102,8 +109,9 @@ public class MainControllerUserReroute {
 
     @GetMapping(value="api/removeFriend/{id}/{friendID}")
     public void deleteRequest(@PathVariable UUID id, @PathVariable UUID friendID){
-       restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/removeFriend/"+id+"/"+friendID, List.class);
-
+        DirectChatResponseDTO chat = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getDirectChat/"+id+"/"+friendID, DirectChatResponseDTO.class);
+        restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/deleteChat/"+ chat.getId(), String.class);
+        restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/removeFriend/"+id+"/"+friendID, String.class);
     }
 
 
