@@ -19,6 +19,14 @@ public class DirectMessage extends Message{
         this.timestamp = LocalDateTime.now();
     }
 
+    public DirectMessage( UUID sender, UUID receiver, String message){
+        this.id = UUID.randomUUID();
+        this.sender = sender;
+        this.receiver = receiver;
+        this.message = message;
+        this.timestamp = LocalDateTime.now();
+    }
+
     public Boolean getRead() {
         return read;
     }

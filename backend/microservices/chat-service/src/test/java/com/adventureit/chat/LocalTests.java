@@ -24,7 +24,7 @@ public class LocalTests {
 
     @Test
     public void sendDirectMessage() throws Exception {
-        chatServiceImplementation.sendDirectMessage(UUID.randomUUID(),UUID.fromString("666c61a3-81fc-49f5-a100-626a7e3c44a4"),UUID.randomUUID(),UUID.randomUUID(),"Hello");
+        chatServiceImplementation.sendDirectMessage(UUID.fromString("666c61a3-81fc-49f5-a100-626a7e3c44a4"),UUID.randomUUID(),UUID.randomUUID(),"Hello");
     }
 
     @Test
@@ -51,7 +51,7 @@ public class LocalTests {
 
     @Test
     public void sendGroupMessage() throws Exception {
-        chatServiceImplementation.sendGroupMessage(UUID.randomUUID(),UUID.fromString("8e1f8bda-ed48-487b-aafe-264ab3b9e207"),UUID.fromString("62e16947-d8cd-405a-ab3e-c93a99ba539c"),"Mock Message");
+        chatServiceImplementation.sendGroupMessage(UUID.fromString("8e1f8bda-ed48-487b-aafe-264ab3b9e207"),UUID.fromString("62e16947-d8cd-405a-ab3e-c93a99ba539c"),"Mock Message");
     }
 
     @Test
