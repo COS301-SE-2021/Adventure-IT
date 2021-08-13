@@ -12,7 +12,7 @@ class GroupChatMessage {
   final String id;
   final UserProfile sender;
   final String message;
-  final LocalDateTime timestamp;
+  final String timestamp;
   final List<UserProfile> receivers;
   final Map<String, bool> read;
 

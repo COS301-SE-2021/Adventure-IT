@@ -14,7 +14,7 @@ class DirectChatMessage {
   final UserProfile receiver;
   final String message;
   final bool read;
-  final LocalDateTime timestamp;
+  final String timestamp;
 
 
   DirectChatMessage(

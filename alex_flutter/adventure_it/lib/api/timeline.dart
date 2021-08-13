@@ -12,7 +12,7 @@ class Timeline {
   final String adventureID;
   final String userID;
   final String descrpition;
-  final LocalDateTime timestamp;
+  final String timestamp;
   final String type;
 
   Timeline(
