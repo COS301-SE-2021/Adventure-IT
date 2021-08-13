@@ -113,8 +113,7 @@ class UserApi {
   // Retrieve the backend user profile (PRIVATE)
   Future<UserProfile?> _fetchBackendProfile(String targetUuid) async {
     debugPrint("Getting backend profile for: " + targetUuid);
-    final res =
-        await http.get(Uri.parse(userApi + "/api/GetUser/" + targetUuid));
+    final res = await http.get(Uri.parse(userApi + "/GetUser/" + targetUuid));
     final jsonRes = jsonDecode(res.body);
     if (res.statusCode == 500) {
       if (jsonRes['message'] ==
@@ -132,7 +131,7 @@ class UserApi {
   // Register a user in the backend (PRIVATE)
   Future<UserProfile?> _registerBackendProfile(KeycloakUser userInfo) async {
     debugPrint("Creating backend profile for: " + userInfo.username);
-    final res = await http.post(Uri.parse(userApi + "/api/RegisterUser/"),
+    final res = await http.post(Uri.parse(userApi + "/RegisterUser/"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           "userID": userInfo.id,
@@ -142,11 +141,12 @@ class UserApi {
           "email": userInfo.email
         }));
     return new UserProfile(
-        userID: userInfo.id,
-        username: userInfo.username,
-        firstname: userInfo.firstName,
-        lastname: userInfo.lastName,
-        email: userInfo.email,);
+      userID: userInfo.id,
+      username: userInfo.username,
+      firstname: userInfo.firstName,
+      lastname: userInfo.lastName,
+      email: userInfo.email,
+    );
   }
 
   UserProfile? getUserProfile() {
@@ -202,7 +202,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriendProfiles(String userID) async {
-    return http.get(Uri.parse(userApi+'/user/getFriendProfiles/'+userID));
+    return http.get(Uri.parse(userApi + '/user/getFriendProfiles/' + userID));
   }
 
   Future deleteFriend(String userID, String friendID) async {
@@ -213,8 +213,8 @@ class UserApi {
   }
 
   Future<http.Response> _deleteFriend(String userID, String friendID) async {
-    return http.get(
-        Uri.http(userApi, 'user/removeFriend/' + userID + "/" + friendID));
+    return http
+        .get(Uri.http(userApi, 'user/removeFriend/' + userID + "/" + friendID));
   }
 
   Future deleteFriendRequest(String requestID) async {
@@ -226,8 +226,7 @@ class UserApi {
   }
 
   Future<http.Response> _deleteFriendRequest(String requestID) async {
-    return http
-        .get(Uri.http(userApi, 'user/deleteFriendRequest/' + requestID));
+    return http.get(Uri.http(userApi, 'user/deleteFriendRequest/' + requestID));
   }
 
   Future acceptFriendRequest(String requestID) async {
@@ -238,8 +237,7 @@ class UserApi {
   }
 
   Future<http.Response> _acceptFriendRequest(String requestID) async {
-    return http
-        .get(Uri.http(userApi, 'user/acceptFriendRequest/' + requestID));
+    return http.get(Uri.http(userApi, 'user/acceptFriendRequest/' + requestID));
   }
 
   Future<String> searchUsername(String value) async {
@@ -267,7 +265,7 @@ class UserApi {
   }
 
   Future<http.Response> _createFriendRequest(String from, String to) async {
-    return http.get(
-        Uri.http(userApi, 'user/createFriendRequest/' + from + "/" + to));
+    return http
+        .get(Uri.http(userApi, 'user/createFriendRequest/' + from + "/" + to));
   }
 }
