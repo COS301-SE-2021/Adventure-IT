@@ -16,7 +16,7 @@ GroupChat _$GroupChatFromJson(Map<String, dynamic> json) {
     messages:
         (json['messages'] as List<dynamic>).map((e) => e as String).toList(),
     name: json['name'] as String,
-    colors: json['colors'] as List<dynamic>,
+    colors: json['colors'] as List<ColorPair>,
   );
 }
 

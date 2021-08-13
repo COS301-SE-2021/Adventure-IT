@@ -2,6 +2,8 @@ import 'dart:core';
 
 import 'package:json_annotation/json_annotation.dart';
 
+import 'colorPair.dart';
+
 
 part 'groupChat.g.dart';
 
