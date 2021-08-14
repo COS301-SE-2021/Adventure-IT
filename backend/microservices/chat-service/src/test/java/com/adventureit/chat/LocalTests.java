@@ -1,6 +1,5 @@
 package com.adventureit.chat;
 
-import com.adventureit.chat.Entity.Chat;
 import com.adventureit.chat.Entity.ColorPair;
 import com.adventureit.chat.Entity.GroupChat;
 import com.adventureit.chat.Service.ChatServiceImplementation;
@@ -40,12 +39,12 @@ public class LocalTests {
         UUID adventureID = UUID.randomUUID();
         UUID groupChatID = UUID.randomUUID();
         List<ColorPair> list = new ArrayList<ColorPair>();
-        list.add(new ColorPair(adventureID,userID1,1));
-        list.add(new ColorPair(adventureID,userID2,2));
-        list.add(new ColorPair(adventureID,userID3,3));
+        list.add(new ColorPair(UUID.randomUUID(),adventureID,userID1,1));
+        list.add(new ColorPair(UUID.randomUUID(),adventureID,userID2,2));
+        list.add(new ColorPair(UUID.randomUUID(),adventureID,userID3,3));
         List<UUID> participants = new ArrayList<>(List.of(userID1,userID2,userID3));
         chatServiceImplementation.createGroupChat(UUID.randomUUID(),participants,"Group Chat");
-        Chat gc = new GroupChat(groupChatID,UUID.randomUUID(),participants,list,"Group Chat");
+        GroupChat gc = new GroupChat(groupChatID,UUID.randomUUID(),participants,list,"Group Chat");
         System.out.println(gc.getColor(userID1));
     }
 
