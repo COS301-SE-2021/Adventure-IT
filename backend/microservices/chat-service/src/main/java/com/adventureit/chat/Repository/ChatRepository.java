@@ -10,6 +10,5 @@ import java.util.UUID;
 @Repository
 public interface ChatRepository extends JpaRepository<Chat, UUID> {
     Chat findChatById(UUID id);
-    Chat findByAdventureID(UUID adventureId);
     List<Chat> findAllByParticipantsContaining(UUID id);
 }

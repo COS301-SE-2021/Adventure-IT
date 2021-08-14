@@ -28,12 +28,12 @@ public class ChatController {
 
     @PostMapping("/createDirectChat")
     public String createDirectChat(@RequestBody CreateDirectChatRequest req){
-        service.createDirectChat(req.getAdventureId(),req.getUser1Id(),req.getUser2Id());
+        service.createDirectChat(req.getUser1Id(),req.getUser2Id());
         return "Chat created";
     }
 
     @PostMapping("/createGroupChat")
-    public String createDirectChat(@RequestBody CreateGroupChatRequest req){
+    public String createGroupChat(@RequestBody CreateGroupChatRequest req){
         service.createGroupChat(req.getAdventureId(),req.getParticipants(),req.getName());
         return "Group Chat created";
     }
