@@ -17,7 +17,7 @@ public class GroupChat{
     @ElementCollection
     List<UUID> messages = new ArrayList<>();
 
-    private String name;
+    private String name = "General chat";
     @OneToMany
     private List<ColorPair> colors;
     UUID adventureID;
