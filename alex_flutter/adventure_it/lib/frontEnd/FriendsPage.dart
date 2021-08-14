@@ -15,13 +15,14 @@ import 'AdventurePage.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter/material.dart';
+import 'DirectChat.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
 import 'Navbar.dart';
 
 class Friends extends StatefulWidget {
-  Friends() {}
+  Friends();
 
   @override
   FriendsPage createState() => FriendsPage();
@@ -208,6 +209,13 @@ class getFriends extends StatelessWidget {
                           child: Card(
                               color: Theme.of(context).primaryColorDark,
                               child: InkWell(
+                                onTap:(){
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DirectChat(friendModel.friends!.elementAt(index))));
+                                },
                                   hoverColor:
                                       Theme.of(context).primaryColorLight,
                                   child: Container(

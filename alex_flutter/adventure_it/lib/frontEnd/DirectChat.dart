@@ -2,8 +2,10 @@
 import 'package:adventure_it/Providers/chat_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
+import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:adventure_it/frontEnd/FriendsPage.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
 import 'AdventurePage.dart';
@@ -13,23 +15,23 @@ import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
 import 'Navbar.dart';
-class GroupChat extends StatelessWidget {
-  Adventure? adventure;
+class DirectChat extends StatelessWidget {
+  UserProfile? user2;
 
-  GroupChat(Adventure? a) {
-    this.adventure = a;
+ DirectChat(UserProfile user2) {
+    this.user2=user2;
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => GroupChatModel(adventure!),
+        create: (context) => DirectChatModel("1660bd85-1c13-42c0-955c-63b1eda4e90b",user2!.userID),
         builder: (context, widget) => Scaffold(
             drawer: NavDrawer(),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             appBar: AppBar(
                 title: Center(
-                    child: Text(adventure!.name+"\'s Group Chat",
+                    child: Text("Chat with "+user2!.username,
                         style: new TextStyle(
                             color: Theme.of(context).textTheme.bodyText1!.color))),
                 backgroundColor: Theme.of(context).primaryColorDark),
@@ -40,7 +42,7 @@ class GroupChat extends StatelessWidget {
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
                   Container(
                       height: MediaQuery.of(context).size.height * 0.80,
-                      child: MessageList(adventure!)),
+                      child: MessageList()),
                   Spacer(),
                   Row(children: [
                     Expanded(
@@ -55,7 +57,7 @@ class GroupChat extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            AdventurePage(adventure)));
+                                            Friends()));
                               },
                               icon: const Icon(Icons.arrow_back_ios_new_rounded),
                               color: Theme.of(context).primaryColorDark)),
@@ -102,18 +104,14 @@ class GroupChat extends StatelessWidget {
 }
 
 class MessageList extends StatefulWidget {
-  Adventure? currentAdventure;
 
-  MessageList(Adventure a) {
-    currentAdventure = a;
-  }
+  MessageList();
 
   @override
-  _MessageList createState() => _MessageList(currentAdventure);
+  _MessageList createState() => _MessageList();
 }
 
 class _MessageList extends State<MessageList> {
-  Adventure? a;
 
   List<String> months = [
     "January",
@@ -130,15 +128,12 @@ class _MessageList extends State<MessageList> {
     "December"
   ];
 
-  _MessageList(Adventure? adventure) {
-    this.a = adventure;
-
-  }
+  _MessageList();
 
   @override
   Widget build(BuildContext context) {
     return
-      Consumer<GroupChatModel>(builder: (context, chatModel, child) {
+      Consumer<DirectChatModel>(builder: (context, chatModel, child) {
         if (chatModel.messages == null) {
           return Center(
               child: CircularProgressIndicator(
@@ -186,7 +181,10 @@ class _MessageList extends State<MessageList> {
     color: chatModel.messages!.elementAt(index).sender.userID=="1660bd85-1c13-42c0-955c-63b1eda4e90b"?Theme.of(context)
         .textTheme
         .bodyText2!
-        .color: HSLColor.fromAHSL(1,chatModel.chat!.colors.elementAt(chatModel.chat!.colors.indexWhere((element) => element.userID==chatModel.messages!.elementAt(index).sender.userID)).color*1.0,100,70).toColor(),
+        .color: Theme.of(context)
+        .textTheme
+        .bodyText1!
+        .color,
     )), Text(
     DateTime.parse(chatModel.messages!
         .elementAt(index)
@@ -205,7 +203,7 @@ class _MessageList extends State<MessageList> {
         .color: Theme.of(context)
         .textTheme
         .bodyText1!
-        .color))]),
+        .color,))]),
     subtitle: Text(chatModel.messages!.elementAt(index).message,
     style: TextStyle(
     fontSize: 15 *
@@ -218,7 +216,7 @@ class _MessageList extends State<MessageList> {
         .color: Theme.of(context)
         .textTheme
         .bodyText1!
-        .color)),
+        .color,)),
     )),);}));
         } else {
           return Center(
