@@ -25,7 +25,7 @@ class DirectChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => DirectChatModel("1660bd85-1c13-42c0-955c-63b1eda4e90b",user2!.userID),
+        create: (context) => DirectChatModel(user2!.userID, "1660bd85-1c13-42c0-955c-63b1eda4e90b"),
         builder: (context, widget) => Scaffold(
             drawer: NavDrawer(),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -33,71 +33,76 @@ class DirectChat extends StatelessWidget {
                 title: Center(
                     child: Text("Chat with "+user2!.username,
                         style: new TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1!.color))),
+                            color:
+                            Theme.of(context).textTheme.bodyText1!.color))),
                 backgroundColor: Theme.of(context).primaryColorDark),
             body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
-                  Container(
-                      height: MediaQuery.of(context).size.height * 0.80,
+                  Expanded(
                       child: MessageList()),
-                  Spacer(),
-                  Row(children: [
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).accentColor,
-                              shape: BoxShape.circle),
-                          child: IconButton(
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            Friends()));
-                              },
-                              icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                              color: Theme.of(context).primaryColorDark)),
-                    ),
-                    Expanded(
-                      flex: 8,
-                      child: TextField(
-                          style: TextStyle(
-                              color:
-                              Theme.of(context).textTheme.bodyText1!.color),
-                          decoration: InputDecoration(
-                              hintStyle: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2!
-                                      .color),
-                              filled: true,
-                              enabledBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                              disabledBorder: InputBorder.none,
-                              fillColor: Theme.of(context).primaryColorLight,
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: new BorderSide(
-                                      color: Theme.of(context).accentColor)),
-                              hintText: 'Start typing...')),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).accentColor,
-                              shape: BoxShape.circle),
-                          child: IconButton(
-                              onPressed: () {
-
-                              },
-                              icon: const Icon(Icons.send_rounded),
-                              color: Theme.of(context).primaryColorDark))
-                          ), //Your widget here,
-                  ]),
+                  SizedBox(height: MediaQuery.of(context).size.height / 60),
+                  Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Spacer(),
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).accentColor,
+                                  shape: BoxShape.circle),
+                              child: IconButton(
+                                  onPressed: () {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Friends()));
+                                  },
+                                  icon:
+                                  const Icon(Icons.arrow_back_ios_new_rounded),
+                                  color: Theme.of(context).primaryColorDark)),
+                        ),
+                        Spacer(),
+                        Expanded(
+                          flex: 12,
+                          child: TextField(
+                              style: TextStyle(
+                                  color:
+                                  Theme.of(context).textTheme.bodyText1!.color),
+                              decoration: InputDecoration(
+                                  hintStyle: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color),
+                                  filled: true,
+                                  enabledBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                  fillColor: Theme.of(context).primaryColorLight,
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: new BorderSide(
+                                          color: Theme.of(context).accentColor)),
+                                  hintText: 'Start typing...')),
+                        ),
+                        Spacer(),
+                        Expanded(
+                            flex: 2,
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context).accentColor,
+                                    shape: BoxShape.circle),
+                                child: IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.send_rounded),
+                                    color: Theme.of(context)
+                                        .primaryColorDark))),
+                        Spacer(),//Your widget here,
+                      ]),
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
                 ])));
   }

@@ -41,13 +41,15 @@ class GroupChat extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
-                  Container(
-                      height: MediaQuery.of(context).size.height * 0.75,
+                  Expanded(
                       child: MessageList(adventure!)),
-                  Spacer(),
-                  Row(children: [
+                SizedBox(height: MediaQuery.of(context).size.height / 60),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                      children: [
+                    Spacer(),
                     Expanded(
-                      flex: 1,
+                      flex: 2,
                       child: Container(
                           decoration: BoxDecoration(
                               color: Theme.of(context).accentColor,
@@ -64,8 +66,9 @@ class GroupChat extends StatelessWidget {
                                   const Icon(Icons.arrow_back_ios_new_rounded),
                               color: Theme.of(context).primaryColorDark)),
                     ),
+                    Spacer(),
                     Expanded(
-                      flex: 8,
+                      flex: 12,
                       child: TextField(
                           style: TextStyle(
                               color:
@@ -86,8 +89,9 @@ class GroupChat extends StatelessWidget {
                                       color: Theme.of(context).accentColor)),
                               hintText: 'Start typing...')),
                     ),
+                    Spacer(),
                     Expanded(
-                        flex: 1,
+                        flex: 2,
                         child: Container(
                             decoration: BoxDecoration(
                                 color: Theme.of(context).accentColor,
@@ -96,7 +100,8 @@ class GroupChat extends StatelessWidget {
                                 onPressed: () {},
                                 icon: const Icon(Icons.send_rounded),
                                 color: Theme.of(context)
-                                    .primaryColorDark))), //Your widget here,
+                                    .primaryColorDark))),
+                    Spacer(),//Your widget here,
                   ]),
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
                 ])));
