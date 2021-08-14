@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import 'colorPair.dart';
 import 'createBudget.dart';
 
 import 'budgetEntry.dart';
@@ -52,12 +53,12 @@ class ChatApi {
   }
 
   static Future<http.Response> _getGroupChatMessages(chatID) async {
-    return http.get(Uri.http(mainApi, '/getGroupMessages/' + chatID));
+    return http.get(Uri.http(mainApi, '/chat/getGroupMessages/' + chatID));
   }
 
   static Future<http.Response> _getGroupChat(adventureID) async {
     return http.get(
-        Uri.http(mainApi, '/getGroupChatByAdventureID/' + adventureID));
+        Uri.http(mainApi, '/chat/getGroupChatByAdventureID/' + adventureID));
   }
 
   static Future<DirectChat> getDirectChat(String user1, String user2) async {
@@ -75,7 +76,7 @@ class ChatApi {
 
   static Future<http.Response> _getDirectChat(String user1, String user2) async {
     return http.get(
-        Uri.http(mainApi, '/getDirectChat/'+user1+'/'+user2));
+        Uri.http(mainApi, '/chat/getDirectChat/'+user1+'/'+user2));
   }
 
   static Future<List<DirectChatMessage>> getDirectChatMessage(chatID) async {
@@ -97,7 +98,7 @@ class ChatApi {
   }
 
   static Future<http.Response> _getDirectChatMessages(chatID) async {
-    return http.get(Uri.http(mainApi, '/getDirectMessages/' + chatID));
+    return http.get(Uri.http(mainApi, '/chat/getDirectMessages/' + chatID));
   }
 
 
