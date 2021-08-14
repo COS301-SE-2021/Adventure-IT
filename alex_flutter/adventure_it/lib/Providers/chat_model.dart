@@ -12,6 +12,7 @@ import 'package:time_machine/time_machine.dart';
 
 class GroupChatModel extends ChangeNotifier {
   List<GroupChatMessage>? _messages = null;
+  GroupChat? _chat=null;
   Adventure? currentAdventure;
 
   GroupChatModel(Adventure a) {
@@ -20,10 +21,11 @@ class GroupChatModel extends ChangeNotifier {
   }
 
   List<GroupChatMessage>? get messages => _messages?.toList();
+  GroupChat? get chat => _chat;
 
   Future fetchAllMessages() async {
-    GroupChat chat=await ChatApi.getGroupChat(currentAdventure);
-    _messages = await ChatApi.getGroupChatMessage(chat.id);
+    _chat=await ChatApi.getGroupChat(currentAdventure);
+    _messages = await ChatApi.getGroupChatMessage(_chat!.id);
     notifyListeners();
   }
 
@@ -32,6 +34,7 @@ class GroupChatModel extends ChangeNotifier {
 
 class DirectChatModel extends ChangeNotifier {
   List<DirectChatMessage>? _messages = null;
+  DirectChat? _chat=null;
 
   DirectChatModel(String user1, String user2) {
 
@@ -39,10 +42,11 @@ class DirectChatModel extends ChangeNotifier {
   }
 
   List<DirectChatMessage>? get messages => _messages?.toList();
+  DirectChat? get chat => _chat;
 
   Future fetchAllMessages(String user1, String user2) async {
-    DirectChat chat=await ChatApi.getDirectChat(user1,user2);
-    _messages = await ChatApi.getDirectChatMessage(chat.id);
+    _chat=await ChatApi.getDirectChat(user1,user2);
+    _messages = await ChatApi.getDirectChatMessage(_chat!.id);
     notifyListeners();
   }
 
