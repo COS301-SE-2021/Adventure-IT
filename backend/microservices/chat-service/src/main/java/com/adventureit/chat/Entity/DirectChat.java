@@ -19,7 +19,7 @@ public class DirectChat{
     @ElementCollection(fetch= FetchType.EAGER)
     List<UUID> participants = new ArrayList<>();
     @ElementCollection
-    List<UUID> messages = new ArrayList<>();
+    List<UUID> messages = new ArrayList<>(); // REMOVE
 
     public DirectChat(){}
 

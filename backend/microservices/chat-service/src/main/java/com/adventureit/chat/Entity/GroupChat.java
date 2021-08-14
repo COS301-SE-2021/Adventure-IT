@@ -12,10 +12,12 @@ public class GroupChat{
     @Id
     @NotNull
     UUID groupChatId;
+
     @ElementCollection(fetch= FetchType.EAGER)
     List<UUID> participants = new ArrayList<>();
+
     @ElementCollection
-    List<UUID> messages = new ArrayList<>();
+    List<UUID> messages = new ArrayList<>();  // WANTS TO REMOVE
 
     private String name = "General chat";
     @OneToMany
