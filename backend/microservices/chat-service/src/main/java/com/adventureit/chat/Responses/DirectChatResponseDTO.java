@@ -23,7 +23,6 @@ public class DirectChatResponseDTO {
         this.id = id;
     }
 
-
     public List<UUID> getParticipants() {
         return participants;
     }

@@ -31,10 +31,9 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     @Override
-
     public String createDirectChat(UUID user1, UUID user2) {
         UUID id = UUID.randomUUID();
-        DirectChat directChat = new DirectChat(id,user1,user2);
+        DirectChat directChat = new DirectChat(user1,user2);
         chatRepository.save(directChat);
         return "Chat successfully created";
     }
@@ -197,5 +196,15 @@ public class ChatServiceImplementation implements ChatService {
     @Override
     public Message getMessage(UUID id) {
         return messageRepository.findMessageById(id);
+    }
+
+    @Override
+    public void deleteChat(UUID id) throws Exception {
+        Chat chat = chatRepository.findChatById(id);
+        if(chat == null){
+            throw new Exception("Chat does not exist");
+        }
+
+        chatRepository.delete(chat);
     }
 }

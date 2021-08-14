@@ -25,6 +25,11 @@ public class Chat {
         this.participants = participants;
     }
 
+    public Chat(List<UUID> participants){
+        this.id = UUID.randomUUID();
+        this.participants = participants;
+    }
+
     public UUID getId() {
         return id;
     }
@@ -32,6 +37,7 @@ public class Chat {
     public void setId(UUID id) {
         this.id = id;
     }
+
 
     public List<UUID> getParticipants() {
         return participants;

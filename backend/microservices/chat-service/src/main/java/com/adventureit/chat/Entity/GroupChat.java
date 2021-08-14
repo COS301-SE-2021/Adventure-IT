@@ -8,10 +8,10 @@ import java.util.UUID;
 @Entity
 public class GroupChat extends Chat {
 
-    private UUID adventureID;
     private String name;
     @OneToMany
     private List<ColorPair> colors;
+    UUID adventureID;
 
     public GroupChat(){}
 
@@ -19,7 +19,14 @@ public class GroupChat extends Chat {
         super(id,participants);
         this.name = name;
         this.colors = colors;
-        this.adventureID=adventureID;
+        this.adventureID = adventureID;
+    }
+
+    public GroupChat(UUID adventureID, List<UUID> participants,List<ColorPair> colors, String name){
+        super(participants);
+        this.name = name;
+        this.colors = colors;
+        this.adventureID = adventureID;
     }
 
     public String getName() {
@@ -42,9 +49,15 @@ public class GroupChat extends Chat {
         return colors;
     }
 
-    public UUID getAdventureID(){return adventureID;};
-
     public void setColors(List<ColorPair> colors) {
         this.colors = colors;
+    }
+
+    public UUID getAdventureID() {
+        return adventureID;
+    }
+
+    public void setAdventureID(UUID adventureID) {
+        this.adventureID = adventureID;
     }
 }

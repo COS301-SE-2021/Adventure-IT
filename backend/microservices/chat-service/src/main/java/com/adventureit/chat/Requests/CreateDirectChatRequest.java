@@ -13,7 +13,6 @@ public class CreateDirectChatRequest {
         this.user2Id = user2Id;
     }
 
-
     public UUID getUser1Id() {
         return user1Id;
     }
