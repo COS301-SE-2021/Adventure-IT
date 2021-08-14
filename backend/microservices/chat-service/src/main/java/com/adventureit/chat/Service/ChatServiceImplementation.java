@@ -142,7 +142,8 @@ public class ChatServiceImplementation implements ChatService {
 
     @Override
     public GroupChatResponseDTO getGroupChatByAdventureID(UUID id) throws Exception {
-        GroupChat chat = (GroupChat) chatRepository.findByAdventureID(id);
+        List <GroupChat> chats = chatRepository.;
+        for(groupchats)
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
