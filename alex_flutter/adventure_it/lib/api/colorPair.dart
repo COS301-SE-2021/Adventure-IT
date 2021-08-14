@@ -10,12 +10,14 @@ class ColorPair {
   final String userID;
   final String adventureId;
   final int color;
+  final String colorPairId;
 
 
   ColorPair(
       {required this.userID,
       required this.adventureId,
       required this.color,
+        required this.colorPairId
       });
 
   factory ColorPair.fromJson(Map<String, dynamic> json) =>
