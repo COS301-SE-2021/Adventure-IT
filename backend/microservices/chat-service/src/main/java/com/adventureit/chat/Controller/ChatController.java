@@ -82,6 +82,6 @@ public class ChatController {
 
     @GetMapping("/deleteChat/{id}")
     public void deleteChat(@PathVariable UUID id) throws Exception {
-        service.deleteChat(id);
+        service.deleteDirectChat(id);
     }
 }

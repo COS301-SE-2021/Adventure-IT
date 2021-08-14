@@ -2,8 +2,9 @@ package com.adventureit.chat.Service;
 
 import com.adventureit.chat.Entity.*;
 import com.adventureit.chat.Exceptions.GroupChatFullException;
-import com.adventureit.chat.Repository.ChatRepository;
 import com.adventureit.chat.Repository.ColorPairRepository;
+import com.adventureit.chat.Repository.DirectChatRepository;
+import com.adventureit.chat.Repository.GroupChatRepository;
 import com.adventureit.chat.Repository.MessageRepository;
 import com.adventureit.chat.Responses.DirectChatResponseDTO;
 import com.adventureit.chat.Responses.GroupChatResponseDTO;
@@ -18,23 +19,25 @@ import java.util.UUID;
 
 @Service
 public class ChatServiceImplementation implements ChatService {
-    @Autowired
-    ChatRepository chatRepository;
-    @Autowired
+
+    GroupChatRepository groupChatRepository;
+    DirectChatRepository directChatRepository;
     MessageRepository messageRepository;
-    @Autowired
     ColorPairRepository colorPairRepository;
 
-    public ChatServiceImplementation(ChatRepository chatRepository,MessageRepository messageRepository){
-        this.chatRepository = chatRepository;
+    @Autowired
+    public ChatServiceImplementation(ColorPairRepository colorPairRepository,DirectChatRepository directChatRepository,GroupChatRepository groupChatRepository,MessageRepository messageRepository){
+        this.groupChatRepository = groupChatRepository;
+        this.directChatRepository = directChatRepository;
         this.messageRepository = messageRepository;
+        this.colorPairRepository = colorPairRepository;
     }
 
     @Override
     public String createDirectChat(UUID user1, UUID user2) {
         UUID id = UUID.randomUUID();
         DirectChat directChat = new DirectChat(user1,user2);
-        chatRepository.save(directChat);
+        directChatRepository.save(directChat);
         return "Chat successfully created";
     }
 
@@ -49,17 +52,18 @@ public class ChatServiceImplementation implements ChatService {
                 while (checked.contains(randomCol))
                     randomCol = rand.nextInt(359)+1;
             checked.add(randomCol);
-            list.add(new ColorPair(adventureID,participant, randomCol));
-            colorPairRepository.save(new ColorPair(adventureID,participant, randomCol));
+            UUID colorpairId =UUID.randomUUID();
+            list.add(new ColorPair(colorpairId,adventureID,participant, randomCol));
+            colorPairRepository.save(new ColorPair(colorpairId,adventureID,participant, randomCol));
         }
         GroupChat groupChat = new GroupChat(id,adventureID,participants,list,name);
-        chatRepository.save(groupChat);
+        groupChatRepository.save(groupChat);
         return "Group Chat successfully created";
     }
 
     @Override
     public String addParticipant( UUID adventureID, UUID participant) {
-        Chat groupChat = chatRepository.findByAdventureID(adventureID);
+        GroupChat groupChat = groupChatRepository.findAllByAdventureID(adventureID);
         groupChat.getParticipants().add(participant);
         List<Integer> checked = new ArrayList<Integer>();
         List<ColorPair> cp = colorPairRepository.findAllByAdventureId(adventureID);
@@ -75,33 +79,33 @@ public class ChatServiceImplementation implements ChatService {
         while(checked.contains(randval)){
              randval = rand.nextInt(359)+1;
         }
-        colorPairRepository.save(new ColorPair(adventureID,participant,randval));
-        chatRepository.save(groupChat);
+        colorPairRepository.save(new ColorPair(UUID.randomUUID(),adventureID,participant,randval));
+        groupChatRepository.save(groupChat);
         return participant+" successfully added to chat "+adventureID;
     }
 
     public int getUserColor(UUID groupChatID, UUID userID){
-        return chatRepository.findChatById(groupChatID).getColor(userID);
+        return groupChatRepository.findByGroupChatId(groupChatID).getColor(userID);
     }
 
     @Override
     @Transactional
     public String sendDirectMessage(UUID chatID,UUID sender, UUID receiver, String msg) throws Exception {
-        Chat chat = chatRepository.findChatById(chatID);
+        DirectChat chat = directChatRepository.findByDirectChatId(chatID);
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
         DirectMessage message = new DirectMessage(sender,receiver,msg);
         messageRepository.save(message);
         chat.getMessages().add(message.getId());
-        chatRepository.save(chat);
+        directChatRepository.save(chat);
         return "Message Sent";
     }
 
     @Override
     @Transactional
     public String sendGroupMessage(UUID chatID, UUID sender,String msg) throws Exception {
-        Chat chat = chatRepository.findChatById(chatID);
+        GroupChat chat = groupChatRepository.findByGroupChatId(chatID);
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
@@ -112,7 +116,7 @@ public class ChatServiceImplementation implements ChatService {
         GroupMessage message = new GroupMessage(sender,rec,msg);
         messageRepository.save(message);
         chat.getMessages().add(message.getId());
-        chatRepository.save(chat);
+        groupChatRepository.save(chat);
 
         return "Message Sent";
     }
@@ -142,34 +146,29 @@ public class ChatServiceImplementation implements ChatService {
 
     @Override
     public GroupChatResponseDTO getGroupChatByAdventureID(UUID id) throws Exception {
-        List <GroupChat> chats = chatRepository.;
-        for(groupchats)
-        if(chat == null){
-            throw new Exception("Chat does not exist");
-        }
-
-        return new GroupChatResponseDTO(chat.getId(),chat.getAdventureID(),chat.getParticipants(),chat.getMessages(),chat.getName(), chat.getColors());
+        GroupChat chats = groupChatRepository.findAllByAdventureID(id);
+        return new GroupChatResponseDTO(chats.getGroupChatId(),chats.getAdventureID(),chats.getParticipants(),chats.getMessages(),chats.getName(), chats.getColors());
     }
 
     @Override
     public GroupChatResponseDTO getGroupChat(UUID id) throws Exception {
-        GroupChat chat = (GroupChat) chatRepository.findChatById(id);
+        GroupChat chat = groupChatRepository.findByGroupChatId(id);
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
 
-        return new GroupChatResponseDTO(chat.getId(),chat.getAdventureID(),chat.getParticipants(),chat.getMessages(),chat.getName(), chat.getColors());
+        return new GroupChatResponseDTO(chat.getGroupChatId(),chat.getAdventureID(),chat.getParticipants(),chat.getMessages(),chat.getName(), chat.getColors());
     }
 
     @Override
     public DirectChatResponseDTO getDirectChat(UUID ID1, UUID ID2) throws Exception {
-        List<Chat> chats = chatRepository.findAllByParticipantsContaining(ID1);
-        Chat chat = null;
+        List<DirectChat> chats = directChatRepository.findAllByParticipantsContaining(ID1);
+        DirectChat chat = null;
         if(chats.isEmpty()){
             throw new Exception("Chat does not exist");
         }
 
-        for (Chat c:chats) {
+        for (DirectChat c:chats) {
             if(c.getParticipants().contains(ID2)){
                 chat = c;
                 break;
@@ -180,18 +179,18 @@ public class ChatServiceImplementation implements ChatService {
             throw new Exception("Chat does not exist");
         }
 
-        return new DirectChatResponseDTO(chat.getId(),chat.getParticipants(),chat.getMessages());
+        return new DirectChatResponseDTO(chat.getDirectChatId(),chat.getParticipants(),chat.getMessages());
     }
 
     @Override
     public DirectChatResponseDTO getDirectChatByID(UUID id) throws Exception {
-        DirectChat chat = (DirectChat) chatRepository.findChatById(id);
+        DirectChat chat = directChatRepository.findByDirectChatId(id);
 
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
 
-        return new DirectChatResponseDTO(chat.getId(),chat.getParticipants(),chat.getMessages());
+        return new DirectChatResponseDTO(chat.getDirectChatId(),chat.getParticipants(),chat.getMessages());
     }
 
     @Override
@@ -200,12 +199,22 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     @Override
-    public void deleteChat(UUID id) throws Exception {
-        Chat chat = chatRepository.findChatById(id);
+    public void deleteDirectChat(UUID id) throws Exception {
+        DirectChat chat = directChatRepository.findByDirectChatId(id);
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
 
-        chatRepository.delete(chat);
+        directChatRepository.delete(chat);
+    }
+
+    @Override
+    public void deleteGroupChat(UUID id) throws Exception {
+        GroupChat chat = groupChatRepository.findByGroupChatId(id);
+        if(chat == null){
+            throw new Exception("Chat does not exist");
+        }
+
+       groupChatRepository.delete(chat);
     }
 }

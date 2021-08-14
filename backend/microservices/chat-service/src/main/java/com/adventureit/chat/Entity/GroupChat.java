@@ -11,7 +11,7 @@ public class GroupChat{
 
     @Id
     @NotNull
-    UUID id;
+    UUID groupChatId;
     @ElementCollection(fetch= FetchType.EAGER)
     List<UUID> participants = new ArrayList<>();
     @ElementCollection
@@ -24,15 +24,16 @@ public class GroupChat{
 
     public GroupChat(){}
 
-    public GroupChat(UUID id, UUID adventureID, List<UUID> participants,List<ColorPair> colors, String name){
-        super(id,participants);
+    public GroupChat(UUID groupChatId, UUID adventureID, List<UUID> participants, List<ColorPair> colors, String name){
+        this.groupChatId = groupChatId;
+        this.participants=participants;
         this.name = name;
         this.colors = colors;
         this.adventureID = adventureID;
     }
 
     public GroupChat(UUID adventureID, List<UUID> participants,List<ColorPair> colors, String name){
-        super(participants);
+        this.participants=participants;
         this.name = name;
         this.colors = colors;
         this.adventureID = adventureID;
@@ -68,5 +69,17 @@ public class GroupChat{
 
     public void setAdventureID(UUID adventureID) {
         this.adventureID = adventureID;
+    }
+
+    public UUID getGroupChatId() {
+        return groupChatId;
+    }
+
+    public List<UUID> getParticipants() {
+        return participants;
+    }
+
+    public List<UUID> getMessages() {
+        return messages;
     }
 }

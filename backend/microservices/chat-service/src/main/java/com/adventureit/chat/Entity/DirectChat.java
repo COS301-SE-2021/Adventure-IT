@@ -15,7 +15,7 @@ public class DirectChat{
 
     @Id
     @NotNull
-    UUID id;
+    UUID directChatId;
     @ElementCollection(fetch= FetchType.EAGER)
     List<UUID> participants = new ArrayList<>();
     @ElementCollection
@@ -23,18 +23,27 @@ public class DirectChat{
 
     public DirectChat(){}
 
-    public DirectChat(UUID id, UUID user1, UUID user2){
+    public DirectChat(UUID directChatId, UUID user1, UUID user2){
         List<UUID> participants = new ArrayList<>(List.of(user1,user2));
-        this.id = id;
+        this.directChatId = directChatId;
         this.participants = participants;
     }
 
     public DirectChat( UUID user1, UUID user2){
         List<UUID> participants = new ArrayList<>(List.of(user1,user2));
-        this.id = UUID.randomUUID();
+        this.directChatId = UUID.randomUUID();
         this.participants = participants;
     }
 
+    public UUID getDirectChatId() {
+        return directChatId;
+    }
 
+    public List<UUID> getParticipants() {
+        return participants;
+    }
 
+    public List<UUID> getMessages() {
+        return messages;
+    }
 }
