@@ -1,13 +1,25 @@
 package com.adventureit.chat.Entity;
 
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-public class DirectChat extends Chat{
+public class DirectChat{
+
+    @Id
+    @NotNull
+    UUID id;
+    @ElementCollection(fetch= FetchType.EAGER)
+    List<UUID> participants = new ArrayList<>();
+    @ElementCollection
+    List<UUID> messages = new ArrayList<>();
 
     public DirectChat(){}
 
@@ -22,6 +34,7 @@ public class DirectChat extends Chat{
         this.id = UUID.randomUUID();
         this.participants = participants;
     }
+
 
 
 }
