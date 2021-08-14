@@ -53,9 +53,9 @@ class FriendsPage extends State<Friends> {
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Row(mainAxisSize: MainAxisSize.max, children: [
-                Spacer(flex: 2),
+                Spacer(flex: 1),
                 Expanded(
-                    flex: 6,
+                    flex: 7,
                     child: TextField(
                         controller: usernameController,
                         style: TextStyle(
@@ -78,37 +78,32 @@ class FriendsPage extends State<Friends> {
                             hintText: 'Username'))),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.01),
                 Expanded(
-                  child: ElevatedButton(
-                      child: Text("Make Friends",
-                          textAlign: TextAlign.center,
-                          style: new TextStyle(
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .color)),
-                      style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).accentColor,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 3, vertical: 20),
-                      ),
-                      onPressed: () {
-                        UserApi.searchUsername(usernameController.text)
-                            .then((value) {
-                          print(value);
-                          if (value.compareTo("") != 0) {
-                            UserApi.createFriendRequest(
-                                "1660bd85-1c13-42c0-955c-63b1eda4e90b", value);
-                          }
-                        });
-                      }),
-                ),
-                Spacer(flex: 2),
+                    flex: 1,
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).accentColor,
+                            shape: BoxShape.circle),
+                        child: IconButton(
+                            onPressed: () {
+
+    UserApi.searchUsername(usernameController.text)
+        .then((value) {
+    print(value);
+    if (value.compareTo("") != 0) {
+    UserApi.createFriendRequest(
+    "1660bd85-1c13-42c0-955c-63b1eda4e90b", value);
+
+                            }});},
+                            icon: const Icon(Icons.send_rounded),
+                            color: Theme.of(context).primaryColorDark))
+                ), //Your widget he
+                Spacer(flex: 1),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 40),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Spacer(flex: 2),
+                    Spacer(flex: 1),
                     Expanded(
                         flex: 3,
                         child: ElevatedButton(
@@ -131,7 +126,7 @@ class FriendsPage extends State<Friends> {
                                 print(friendList);
                               });
                             })),
-                    Spacer(flex: 2),
+                    Spacer(flex: 1),
                     Expanded(
                         flex: 3,
                         child: ElevatedButton(
@@ -140,7 +135,7 @@ class FriendsPage extends State<Friends> {
                                     color: Theme.of(context)
                                         .textTheme
                                         .bodyText1!
-                                        .color)),
+                                        .color), textAlign:TextAlign.center),
                             style: ElevatedButton.styleFrom(
                               primary: friendList
                                   ? Theme.of(context).primaryColorDark
@@ -154,7 +149,7 @@ class FriendsPage extends State<Friends> {
                                 print(friendList);
                               });
                             })),
-                    Spacer(flex: 2),
+                    Spacer(flex: 1),
                   ]),
               SizedBox(height: MediaQuery.of(context).size.height / 50),
               Container(
