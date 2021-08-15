@@ -41,22 +41,20 @@ public class UserController {
      *
      * @param req will take in a RegisterUserRequest object
      * @return a RegisterUserResponse object in json format to front end
-     * @throws InvalidUserEmailException       if the user email is invalid
-     * @throws InvalidUserPhoneNumberException if the user phone number is invalid
-     * @throws InvalidUserPasswordException    if the user password is invalid
-     * @throws InvalidRequestException         if the request body is null
+     * @throws InvalidUserEmailException if the user email is invalid
+     * @throws InvalidRequestException if the request body is null
      */
-    @PostMapping(value = "api/RegisterUser", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "RegisterUser", consumes = "application/json", produces = "application/json")
     public RegisterUserResponse RegisterUser(@RequestBody RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
         return service.RegisterUser(req);
     }
 
-    @GetMapping(value = "/user/test")
-    public String test() {
+    @GetMapping(value="test")
+    public String test(){
         return "User controller is working";
     }
 
-    @PostMapping(value = "api/updatePicture", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "updatePicture", consumes = "application/json", produces = "application/json")
     public String updatePicture(@RequestBody UpdatePictureRequest req) throws Exception {
         File f = new File(req.getPath());
         byte[] content = Files.readAllBytes(f.toPath());
@@ -80,7 +78,7 @@ public class UserController {
         return service.GetUserByUUID(id);
     }
 
-    @GetMapping(value = "api/acceptFriendRequest/{id}")
+    @GetMapping(value = "acceptFriendRequest/{id}")
     public String acceptFriend(@PathVariable UUID id) throws Exception {
         return service.acceptFriendRequest(id);
     }

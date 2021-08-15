@@ -217,7 +217,8 @@ class BudgetApi {
       print('Status code: ${response.statusCode}');
       print('Body: ${response.body}');
       return CreateBudget(name: name, description: description, creatorID: creatorID, adventureID: adventureID);
-    } else {
+    }
+    else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       print('Status code: ${response.statusCode}');

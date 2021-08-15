@@ -31,6 +31,7 @@ class Friends extends StatefulWidget {
 class FriendsPage extends State<Friends> {
   UserProfile? user;
   bool friendList = true;
+  UserApi _userApi=UserApi.getInstance();
 
   FriendsPage();
 

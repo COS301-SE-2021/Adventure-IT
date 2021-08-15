@@ -5,20 +5,12 @@ import com.adventureit.userservice.Entities.Friend;
 import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Exceptions.*;
 import com.adventureit.userservice.Repository.FriendRepository;
-import com.adventureit.userservice.Repository.RegistrationTokenRepository;
 import com.adventureit.userservice.Repository.UserRepository;
-import com.adventureit.userservice.Requests.LoginUserRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Responses.GetFriendRequestsResponse;
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
-import com.adventureit.userservice.Responses.LoginUserDTO;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
-import com.adventureit.userservice.Token.RegistrationToken;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,15 +30,12 @@ public class UserServiceImplementation  {
 
 
 
-    private  BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     private final UserRepository repo;
-    private final RegistrationTokenRepository tokenrepo;
     private final FriendRepository friendRepository;
 
     @Autowired
-    public UserServiceImplementation(UserRepository repo, RegistrationTokenRepository tokenrepo, FriendRepository friendRepository) {
+    public UserServiceImplementation(UserRepository repo, FriendRepository friendRepository) {
         this.repo = repo;
-        this.tokenrepo = tokenrepo;
         this.friendRepository = friendRepository;
     }
 
@@ -80,12 +69,10 @@ public class UserServiceImplementation  {
         if(req==null){
             throw new InvalidRequestException("404 Bad Request");
         }
-        UUID userId = UUID.randomUUID();
+        UUID userId = req.getUserID();
         String firstName = req.getfName();
         String lastName = req.getlName();
         String email = req.getEmail();
-        String password = req.getPassword();
-        String phoneNum = req.getPhoneNum();
         String username = req.getUsername();
         /*generate Regex for email, password and phone number*/
         String emailRegex = "^(.+)@(.+)$";
@@ -95,48 +82,19 @@ public class UserServiceImplementation  {
         Pattern emailPattern = Pattern.compile(emailRegex);
         Matcher emailMatcher = emailPattern.matcher(email);
 
-        Pattern passwordPattern = Pattern.compile(passwordRegex);
-        Matcher passwordMatcher = passwordPattern.matcher(password);
-
-        Pattern phoneNumPattern = Pattern.compile(phoneNumRegex);
-        Matcher phoneNumMatcher = phoneNumPattern.matcher(phoneNum);
-
         /*Exception handling for invalid email,password or phone number*/
         if(!emailMatcher.matches()){
             throw new InvalidUserEmailException("User email is incorrect - Unable to process registration");
         }
-        if(!passwordMatcher.matches()){
-            throw new InvalidUserPasswordException("User password is incorrect - Unable to process registration");
-        }
-        if(!phoneNumMatcher.matches()){
-            throw new InvalidUserPhoneNumberException("User phone number is incorrect - Unable to process registration");
-        }
         if(repo.getUserByEmail(email)!=null){
             throw new InvalidRequestException("User already exists");
         }
-        //TODO Decide on password encryption method
-
-        String passwordHashed = encoder.encode(password);
 
         /*New User has been created*/
-        Users newUser = new Users(userId,username,firstName,lastName,email,passwordHashed,phoneNum);
+        Users newUser = new Users(userId,username,firstName,lastName,email);
         repo.save(newUser);
 
-        String token = UUID.randomUUID().toString();
-        RegistrationToken regToken = new RegistrationToken(
-                token,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(30),
-                null,
-                newUser);
-
-        tokenrepo.save(regToken);
-
-
-
-
-
-        return new RegisterUserResponse(true,regToken ,"User "+firstName+" "+lastName+" successfully Registered");
+        return new RegisterUserResponse(true,"User "+firstName+" "+lastName+" successfully Registered");
     }
 
     /**
@@ -156,64 +114,7 @@ public class UserServiceImplementation  {
         if(newUser == null) {
             throw new UserDoesNotExistException("User does not exist - user is not registered as an Adventure-IT member");
         }
-        return new GetUserByUUIDDTO(newUser.getUserID(),newUser.getUsername(),newUser.getFirstname(), newUser.getLastname(), newUser.getEmail(), newUser.getPhoneNumber());
-    }
-
-
-    public LoginUserDTO LoginUser(LoginUserRequest req){
-        String username = req.getUsername();
-        String password = req.getPassword();
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(15);
-
-
-        assert repo != null;
-        Users user = repo.getUserByUsername(username);
-        if(user==null){
-            throw new UserDoesNotExistException("User with username: "+username+" does not exist");
-        }
-        else if(!passwordEncoder.matches(password, user.getPassword())){
-            throw new InvalidUserPasswordException("User password does not match email");
-        }
-
-
-        return new LoginUserDTO(true,"Login Successful: Welcome to Adventure-it");
-    }
-
-//    @Override
-//    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-//        Users user =  repo.getUserByUsername(s);
-//        if(user ==null){
-//           throw new UsernameNotFoundException("User not found");
-//        }
-//
-//        return user;
-//
-//    }
-
-
-    @Transactional
-    public String confirmToken(String token){
-        RegistrationToken regToken = tokenrepo.findByToken(token);
-
-        if(regToken == null){
-            /*Throw token not found*/
-        }
-
-        if(regToken.getTimeConfirmed()!=null){
-            /*throw email already confirmed*/
-        }
-
-        LocalDateTime expiredAt = regToken.getTimeExpires();
-
-        if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
-        }
-
-
-        tokenrepo.updateConfirmedAt(regToken.getToken(), LocalDateTime.now());
-        regToken.getUser().setEnabled(true);
-
-        return "confirmed";
+        return new GetUserByUUIDDTO(newUser.getUserID(),newUser.getUsername(),newUser.getFirstname(), newUser.getLastname(), newUser.getEmail());
     }
 
     public String updateProfilePicture(MultipartFile file, UUID id) throws Exception {
@@ -363,7 +264,7 @@ public class UserServiceImplementation  {
         for (Friend f:requests) {
             if(!f.isAccepted()){
                 user = repo.getUserByUserID(f.getFirstUser());
-                list.add(new GetFriendRequestsResponse(f.getId(),f.getFirstUser(),f.getSecondUser(),f.getCreatedDate(),f.isAccepted(),new GetUserByUUIDDTO(user.getUserID(),user.getUsername(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhoneNumber())));
+                list.add(new GetFriendRequestsResponse(f.getId(),f.getFirstUser(),f.getSecondUser(),f.getCreatedDate(),f.isAccepted(),new GetUserByUUIDDTO(user.getUserID(),user.getUsername(),user.getFirstname(),user.getLastname(),user.getEmail())));
             }
         }
 
