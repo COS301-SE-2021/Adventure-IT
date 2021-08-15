@@ -99,7 +99,6 @@ public class ChatServiceImplementation implements ChatService {
         }
         DirectMessage message = new DirectMessage(sender,receiver,msg);
         messageRepository.save(message);
-        chat.getMessages().add(message.getId());
         directChatRepository.save(chat);
         return "Message Sent";
     }
@@ -117,7 +116,6 @@ public class ChatServiceImplementation implements ChatService {
 
         GroupMessage message = new GroupMessage(sender,rec,msg);
         messageRepository.save(message);
-        chat.getMessages().add(message.getId());
         groupChatRepository.save(chat);
 
         return "Message Sent";
@@ -149,7 +147,15 @@ public class ChatServiceImplementation implements ChatService {
     @Override
     public GroupChatResponseDTO getGroupChatByAdventureID(UUID id) throws Exception {
         GroupChat chats = groupChatRepository.findAllByAdventureID(id);
-        return new GroupChatResponseDTO(chats.getGroupChatId(),chats.getAdventureID(),chats.getParticipants(),chats.getMessages(),chats.getName(), chats.getColors());
+        if(chats == null){
+            throw new Exception("Chat does not exist");
+        }
+        List<UUID> messageIds = new ArrayList<>();
+        List<Message> messages = messageRepository.findAllByChatId(chats.getGroupChatId());
+        for(int i = 0;i<messages.size();i++){
+            messageIds.add(messages.get(i).getId());
+        }
+        return new GroupChatResponseDTO(chats.getGroupChatId(),chats.getAdventureID(),chats.getParticipants(),messageIds,chats.getName(), chats.getColors());
     }
 
     @Override
@@ -158,8 +164,13 @@ public class ChatServiceImplementation implements ChatService {
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
+        List<UUID> messageIds = new ArrayList<>();
+        List<Message> messages = messageRepository.findAllByChatId(chat.getGroupChatId());
+        for(int i = 0;i<messages.size();i++){
+            messageIds.add(messages.get(i).getId());
+        }
 
-        return new GroupChatResponseDTO(chat.getGroupChatId(),chat.getAdventureID(),chat.getParticipants(),chat.getMessages(),chat.getName(), chat.getColors());
+        return new GroupChatResponseDTO(chat.getGroupChatId(),chat.getAdventureID(),chat.getParticipants(),messageIds,chat.getName(), chat.getColors());
     }
 
     @Override
@@ -180,8 +191,13 @@ public class ChatServiceImplementation implements ChatService {
         if(chat ==null){
             throw new Exception("Chat does not exist");
         }
+        List<UUID> messageIds = new ArrayList<>();
+        List<Message> messages = messageRepository.findAllByChatId(chat.getDirectChatId());
+        for(int i = 0;i<messages.size();i++){
+            messageIds.add(messages.get(i).getId());
+        }
 
-        return new DirectChatResponseDTO(chat.getDirectChatId(),chat.getParticipants(),chat.getMessages());
+        return new DirectChatResponseDTO(chat.getDirectChatId(),chat.getParticipants(),messageIds);
     }
 
     @Override
@@ -191,8 +207,13 @@ public class ChatServiceImplementation implements ChatService {
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
+        List<UUID> messageIds = new ArrayList<>();
+        List<Message> messages = messageRepository.findAllByChatId(chat.getDirectChatId());
+        for(int i = 0;i<messages.size();i++){
+            messageIds.add(messages.get(i).getId());
+        }
 
-        return new DirectChatResponseDTO(chat.getDirectChatId(),chat.getParticipants(),chat.getMessages());
+        return new DirectChatResponseDTO(chat.getDirectChatId(),chat.getParticipants(),messageIds);
     }
 
     @Override

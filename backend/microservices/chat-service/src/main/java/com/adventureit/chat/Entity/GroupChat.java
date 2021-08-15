@@ -16,8 +16,6 @@ public class GroupChat{
     @ElementCollection(fetch= FetchType.EAGER)
     List<UUID> participants = new ArrayList<>();
 
-    @ElementCollection
-    List<UUID> messages = new ArrayList<>();  // WANTS TO REMOVE
 
     private String name = "General chat";
     @OneToMany
@@ -81,7 +79,4 @@ public class GroupChat{
         return participants;
     }
 
-    public List<UUID> getMessages() {
-        return messages;
-    }
 }
