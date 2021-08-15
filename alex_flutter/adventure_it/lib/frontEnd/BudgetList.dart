@@ -155,7 +155,7 @@ class _PieChart extends State<PieChartCaller> {
   @override
   initState() {
 
-
+    super.initState();
     data = [
       Data('Accommodation', ((categories!.elementAt(0)/total!)*100).toInt(), const Color(0xff3063b4)),
       Data('Activities', ((categories!.elementAt(1)/total!)*100).toInt(), const Color(0xffb59194)),
@@ -384,6 +384,7 @@ class BudgetList extends StatelessWidget {
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
           } else if (budgetModel.budgets!.length > 0) {
+            //print("page count: "+budgetModel.budgets!.length.toString());
             return Column(
                 children: [
             Expanded(flex: 8, child: buildChild(budgetModel, context)),
@@ -630,7 +631,7 @@ class _AlertBox extends State<AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () async {
-                          await widget.budgetModel.addBudget(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
+                          await widget.budgetModel.addBudget(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId, "John");
                           Navigator.pop(context);
                         },
                       ),

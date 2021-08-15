@@ -1,7 +1,6 @@
 package com.adventureit.maincontroller.Responses;
 
-/*import com.adventureit.locationservice.Entity.Location;
-import com.adventureit.locationservice.Responses.LocationResponseDTO;*/
+import com.adventureit.locationservice.Responses.LocationResponseDTO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,9 +17,9 @@ public class AdventureResponseDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
-    /*private LocationResponseDTO location;*/
+    private LocationResponseDTO location;
 
-    public AdventureResponseDTO(String name, String description, UUID adventureId, UUID ownerId, LocalDate sd, LocalDate ed) {//, LocationResponseDTO location) {
+    public AdventureResponseDTO(String name, String description, UUID adventureId, UUID ownerId, LocalDate sd, LocalDate ed,LocationResponseDTO location) {
         this.name = name;
         this.description = description;
         this.adventureId = adventureId;
@@ -29,7 +28,7 @@ public class AdventureResponseDTO {
         this.Containers = new ArrayList<UUID>();
         this.startDate = sd;
         this.endDate = ed;
-        //this.location = location;
+        this.location = location;
     }
 
     public String getName() {
@@ -108,7 +107,7 @@ public class AdventureResponseDTO {
         Containers = containers;
     }
 
-    /*public LocationResponseDTO getLocation() {
+    public LocationResponseDTO getLocation() {
         return location;
-    }*/
+    }
 }

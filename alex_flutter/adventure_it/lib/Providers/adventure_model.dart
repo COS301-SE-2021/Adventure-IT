@@ -16,8 +16,7 @@ class AdventuresModel extends ChangeNotifier {
   List<Adventure>? get adventures => _adventures?.toList();
 
   Future fetchAllAdventures() async {
-    UserApi _userApi=UserApi.getInstance();
-    _adventures = await AdventureApi.getAdventuresByUUID(_userApi.getUserProfile()!.userID);
+    _adventures = await AdventureApi.getAdventuresByUUID(UserApi.getInstance().getUserProfile()!.userID);
 
     notifyListeners();
   }
