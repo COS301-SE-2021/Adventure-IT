@@ -95,7 +95,7 @@ class UserApi {
     late final responseJson;
     final Map<String, dynamic> queryParameters = {
       'username': username!,
-      'exact': true
+      'exact': "true"
     };
     final uri = Uri.parse(
         authApiAdmin + 'users?' + Uri(queryParameters: queryParameters).query);
