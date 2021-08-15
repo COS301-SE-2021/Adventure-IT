@@ -15,13 +15,14 @@ import 'AdventurePage.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter/material.dart';
+import 'DirectChat.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
 import 'Navbar.dart';
 
 class Friends extends StatefulWidget {
-  Friends() {}
+  Friends();
 
   @override
   FriendsPage createState() => FriendsPage();
@@ -30,6 +31,7 @@ class Friends extends StatefulWidget {
 class FriendsPage extends State<Friends> {
   UserProfile? user;
   bool friendList = true;
+  UserApi _userApi=UserApi.getInstance();
 
   FriendsPage();
 
@@ -52,9 +54,9 @@ class FriendsPage extends State<Friends> {
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Row(mainAxisSize: MainAxisSize.max, children: [
-                Spacer(flex: 2),
+                Spacer(flex: 1),
                 Expanded(
-                    flex: 6,
+                    flex: 7,
                     child: TextField(
                         controller: usernameController,
                         style: TextStyle(
@@ -77,37 +79,32 @@ class FriendsPage extends State<Friends> {
                             hintText: 'Username'))),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.01),
                 Expanded(
-                  child: ElevatedButton(
-                      child: Text("Make Friends",
-                          textAlign: TextAlign.center,
-                          style: new TextStyle(
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .color)),
-                      style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).accentColor,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 3, vertical: 20),
-                      ),
-                      onPressed: () {
-                        UserApi.searchUsername(usernameController.text)
-                            .then((value) {
-                          print(value);
-                          if (value.compareTo("") != 0) {
-                            UserApi.createFriendRequest(
-                                "1660bd85-1c13-42c0-955c-63b1eda4e90b", value);
-                          }
-                        });
-                      }),
-                ),
-                Spacer(flex: 2),
+                    flex: 1,
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).accentColor,
+                            shape: BoxShape.circle),
+                        child: IconButton(
+                            onPressed: () {
+
+    _userApi.searchUsername(usernameController.text)
+        .then((value) {
+    print(value);
+    if (value.compareTo("") != 0) {
+    _userApi.createFriendRequest(
+    _userApi.getUserProfile()!.userID, value);
+
+                            }});},
+                            icon: const Icon(Icons.send_rounded),
+                            color: Theme.of(context).primaryColorDark))
+                ), //Your widget he
+                Spacer(flex: 1),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 40),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Spacer(flex: 2),
+                    Spacer(flex: 1),
                     Expanded(
                         flex: 3,
                         child: ElevatedButton(
@@ -127,10 +124,9 @@ class FriendsPage extends State<Friends> {
                             onPressed: () {
                               setState(() {
                                 this.friendList = true;
-                                print(friendList);
                               });
                             })),
-                    Spacer(flex: 2),
+                    Spacer(flex: 1),
                     Expanded(
                         flex: 3,
                         child: ElevatedButton(
@@ -139,7 +135,7 @@ class FriendsPage extends State<Friends> {
                                     color: Theme.of(context)
                                         .textTheme
                                         .bodyText1!
-                                        .color)),
+                                        .color), textAlign:TextAlign.center),
                             style: ElevatedButton.styleFrom(
                               primary: friendList
                                   ? Theme.of(context).primaryColorDark
@@ -150,10 +146,9 @@ class FriendsPage extends State<Friends> {
                             onPressed: () {
                               setState(() {
                                 this.friendList = false;
-                                print(friendList);
                               });
                             })),
-                    Spacer(flex: 2),
+                    Spacer(flex: 1),
                   ]),
               SizedBox(height: MediaQuery.of(context).size.height / 50),
               Container(
@@ -166,6 +161,7 @@ class FriendsPage extends State<Friends> {
 
 class getFriends extends StatelessWidget {
   BuildContext? c;
+  UserApi _userApi=UserApi.getInstance();
 
   getFriends();
 
@@ -173,7 +169,7 @@ class getFriends extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) =>
-            FriendModel("1660bd85-1c13-42c0-955c-63b1eda4e90b"),
+            FriendModel(_userApi.getUserProfile()!.userID),
         child: Consumer<FriendModel>(builder: (context, friendModel, child) {
           if (friendModel.friends == null) {
             return Center(
@@ -208,6 +204,13 @@ class getFriends extends StatelessWidget {
                           child: Card(
                               color: Theme.of(context).primaryColorDark,
                               child: InkWell(
+                                onTap:(){
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DirectChat(friendModel.friends!.elementAt(index))));
+                                },
                                   hoverColor:
                                       Theme.of(context).primaryColorLight,
                                   child: Container(
@@ -309,6 +312,7 @@ class getFriends extends StatelessWidget {
 
 class getFriendRequests extends StatelessWidget {
   BuildContext? c;
+  UserApi _userApi=UserApi.getInstance();
 
   getFriendRequests();
 
@@ -317,7 +321,7 @@ class getFriendRequests extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (context)=>
 
-            FriendRequestModel("1660bd85-1c13-42c0-955c-63b1eda4e90b"),
+            FriendRequestModel(_userApi.getUserProfile()!.userID),
         child: Consumer<FriendRequestModel>(
             builder: (context, friendModel, child) {
           this.c = context;

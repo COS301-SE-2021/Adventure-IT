@@ -20,5 +20,6 @@ public interface ChatService {
     public Message getMessage(UUID id);
     public DirectChatResponseDTO getDirectChat(UUID ID1, UUID ID2) throws Exception;
     public DirectChatResponseDTO getDirectChatByID(UUID id) throws Exception;
-    public void deleteChat(UUID id) throws Exception;
+    public void deleteDirectChat(UUID id) throws Exception;
+    public void deleteGroupChat(UUID id) throws Exception;
 }

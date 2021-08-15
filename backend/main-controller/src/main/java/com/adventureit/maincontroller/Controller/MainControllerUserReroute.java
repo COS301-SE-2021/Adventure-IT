@@ -42,17 +42,18 @@ public class MainControllerUserReroute {
 //        return restTemplate.getForObject("http://"+ userIP + ":" + userPort + "/user/GetUser/"+id.toString(), GetUserByUUIDDTO.class);
 //    }
 
-    @PostMapping(value = "api/RegisterUser", consumes = "application/json", produces = "application/json")
+
+    @PostMapping(value = "RegisterUser", consumes = "application/json", produces = "application/json")
     public RegisterUserResponse RegisterUser(@RequestBody RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
         return restTemplate.postForObject("http://"+ IP + ":" + userPort + "/user/RegisterUser/",req, RegisterUserResponse.class);
     }
 
-    @GetMapping(value="/user/test")
+    @GetMapping(value="test")
     public String test(){
         return "User controller is working";
     }
 
-    @PostMapping(value = "api/updatePicture", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "updatePicture", consumes = "application/json", produces = "application/json")
     public String updatePicture(@RequestBody UpdatePictureRequest req) throws Exception {
        return restTemplate.postForObject("http://"+ IP + ":" + userPort + "/user/updatePicture/",req, String.class);
     }
@@ -64,7 +65,7 @@ public class MainControllerUserReroute {
 
     }
 
-    @PostMapping(value = "/api/LoginUser", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "LoginUser", consumes = "application/json", produces = "application/json")
     public LoginUserDTO Login(@RequestBody LoginUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
         return restTemplate.postForObject("http://"+ IP + ":" + userPort + "/user/LoginUser/",req, LoginUserDTO.class);
     }
@@ -75,7 +76,7 @@ public class MainControllerUserReroute {
 
     }
 
-    @GetMapping(value = "/api/acceptFriendRequest/{id}")
+    @GetMapping(value = "acceptFriendRequest/{id}")
     public String acceptFriend(@PathVariable UUID id){
         restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/acceptFriendRequest/"+id, String.class);
         Friend friend = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/getFriendRequest/"+id, Friend.class);
@@ -84,30 +85,30 @@ public class MainControllerUserReroute {
         return "Done";
     }
 
-    @GetMapping(value="api/getFriends/{id}")
+    @GetMapping(value="getFriends/{id}")
     public List<UUID> getFriends(@PathVariable UUID id){
         return restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/getFriends/"+id, List.class);
 
     }
 
-    @GetMapping(value="api/GetFriendRequests/{id}")
+    @GetMapping(value="GetFriendRequests/{id}")
     public List<GetFriendRequestsResponse> getFriendRequests(@PathVariable UUID id){
         return restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetFriendRequests/"+id, List.class);
 
     }
 
-    @GetMapping(value="api/populateFriends")
+    @GetMapping(value="populateFriends")
     public void mockFriends() {
         restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/populateFriends", String.class);
     }
 
-    @GetMapping(value="api/deleteFriendRequest/{id}")
+    @GetMapping(value="deleteFriendRequest/{id}")
     public void deleteRequest(@PathVariable UUID id) {
         restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/deleteFriendRequest/"+id, List.class);
 
     }
 
-    @GetMapping(value="api/removeFriend/{id}/{friendID}")
+    @GetMapping(value="removeFriend/{id}/{friendID}")
     public void deleteRequest(@PathVariable UUID id, @PathVariable UUID friendID){
         DirectChatResponseDTO chat = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getDirectChat/"+id+"/"+friendID, DirectChatResponseDTO.class);
         restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/deleteChat/"+ chat.getId(), String.class);

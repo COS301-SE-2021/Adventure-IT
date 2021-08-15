@@ -8,7 +8,6 @@ class UserProfile {
   final String firstname;
   final String lastname;
   final String email;
-  final String phoneNumber;
 
   UserProfile({
     required this.userID,
@@ -16,7 +15,6 @@ class UserProfile {
     required this.firstname,
     required this.lastname,
     required this.email,//
-    required this.phoneNumber
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) =>
