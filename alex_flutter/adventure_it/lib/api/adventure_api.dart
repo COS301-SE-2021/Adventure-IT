@@ -64,7 +64,7 @@ class AdventureApi {
 
 
   static Future<http.Response> _getAdventuresByUUID(userID) async {
-    return http.get(Uri.http(adventureApi, '/adventure/all/' + userID));
+    return http.get(Uri.http(mainApi, '/adventure/all/' + userID));
   }
 
   static Future removeAdventure(String adventureId) async {
