@@ -130,6 +130,7 @@ class UserApi {
 
   // Register a user in the backend (PRIVATE)
   Future<UserProfile?> _registerBackendProfile(KeycloakUser userInfo) async {
+    debugPrint("Registering backend profile for $userInfo.username");
     final res = await http.post(Uri.parse(userApi + "/RegisterUser/"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
@@ -212,8 +213,8 @@ class UserApi {
   }
 
   Future<http.Response> _deleteFriend(String userID, String friendID) async {
-    return http
-        .get(Uri.http(userApi, '/user/removeFriend/' + userID + "/" + friendID));
+    return http.get(
+        Uri.http(userApi, '/user/removeFriend/' + userID + "/" + friendID));
   }
 
   Future deleteFriendRequest(String requestID) async {
@@ -225,7 +226,8 @@ class UserApi {
   }
 
   Future<http.Response> _deleteFriendRequest(String requestID) async {
-    return http.get(Uri.http(userApi, '/user/deleteFriendRequest/' + requestID));
+    return http
+        .get(Uri.http(userApi, '/user/deleteFriendRequest/' + requestID));
   }
 
   Future acceptFriendRequest(String requestID) async {
@@ -236,7 +238,8 @@ class UserApi {
   }
 
   Future<http.Response> _acceptFriendRequest(String requestID) async {
-    return http.get(Uri.http(userApi, '/user/acceptFriendRequest/' + requestID));
+    return http
+        .get(Uri.http(userApi, '/user/acceptFriendRequest/' + requestID));
   }
 
   Future<String> searchUsername(String value) async {
