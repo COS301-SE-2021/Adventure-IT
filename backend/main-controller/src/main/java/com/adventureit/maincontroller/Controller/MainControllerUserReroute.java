@@ -42,6 +42,17 @@ public class MainControllerUserReroute {
 //        return restTemplate.getForObject("http://"+ userIP + ":" + userPort + "/user/GetUser/"+id.toString(), GetUserByUUIDDTO.class);
 //    }
 
+    @GetMapping(value="/ConfirmToken/{token}")
+    public String ConfirmToken(@RequestParam("token") String token){
+        return restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/ConfirmToken/"+token, String.class);
+
+    }
+
+    @PostMapping(value = "/api/LoginUser", consumes = "application/json", produces = "application/json")
+    public LoginUserDTO Login(@RequestBody LoginUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
+        return restTemplate.postForObject("http://"+ IP + ":" + userPort + "/user/LoginUser/",req, LoginUserDTO.class);
+    }
+
     @PostMapping(value = "api/RegisterUser", consumes = "application/json", produces = "application/json")
     public RegisterUserResponse RegisterUser(@RequestBody RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
         return restTemplate.postForObject("http://"+ IP + ":" + userPort + "/user/RegisterUser/",req, RegisterUserResponse.class);
