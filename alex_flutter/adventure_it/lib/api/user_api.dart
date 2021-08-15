@@ -93,9 +93,9 @@ class UserApi {
   Future<KeycloakUser?> _fetchKeyCloakUser(username) async {
     final adminJWT = await this._adminLogIn();
     late final responseJson;
-    final Map<String, String> queryParameters = {
+    final Map<String, dynamic> queryParameters = {
       'username': username!,
-      'max': '1'
+      'exact': true
     };
     final uri = Uri.parse(
         authApiAdmin + 'users?' + Uri(queryParameters: queryParameters).query);
