@@ -87,11 +87,11 @@ class FriendsPage extends State<Friends> {
                         child: IconButton(
                             onPressed: () {
 
-    UserApi.searchUsername(usernameController.text)
+    _userApi.searchUsername(usernameController.text)
         .then((value) {
     print(value);
     if (value.compareTo("") != 0) {
-    UserApi.createFriendRequest(
+    _userApi.createFriendRequest(
     "1660bd85-1c13-42c0-955c-63b1eda4e90b", value);
 
                             }});},
