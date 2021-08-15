@@ -20,8 +20,6 @@ public class Adventure{
     private UUID ownerId;
     @ElementCollection (fetch = FetchType.EAGER)
     private List<UUID> attendees;
-    @ElementCollection //remove
-    private List<UUID> Containers;
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
@@ -45,7 +43,6 @@ public class Adventure{
         this.adventureId=adventureId;
         this.ownerId = ownerId;
         this.attendees = new ArrayList<UUID>(List.of(ownerId));
-        this.Containers = new ArrayList<UUID>();
         this.startDate=sd;
         this.endDate=ed;
         this.location = location;
@@ -96,21 +93,7 @@ public class Adventure{
      * Adventure service to retrieve adventure's Containers
      * @return Containers
      */
-    public List<UUID> getContainers(){
-        return Containers;
-    }
 
-    /**
-     * Adventure service to set adventure's Containers
-     * @param  containers
-     */
-    public void setContainers(List<UUID> containers){
-        this.Containers = containers;
-    }
-
-    public void addContainer(UUID container){
-        this.Containers.add(container);
-    }
 
     public void addAttendee(UUID attendeeID){
         this.attendees.add(attendeeID);

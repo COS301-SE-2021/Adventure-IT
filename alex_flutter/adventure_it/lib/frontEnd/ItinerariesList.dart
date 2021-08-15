@@ -234,7 +234,13 @@ class _ItinerariesList extends State<ItinerariesList> {
                                     .bodyText1!
                                     .color)),
                     ])
-                  ]):Container()),
+                  ]): Center(
+                          child: Text(
+                              "There's nothing coming up next. Is this the end?",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                                  color: Theme.of(context).textTheme.bodyText1!.color))))),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Expanded(flex: 6, child: ListView.builder(
                       itemCount: itineraryModel.itineraries!.length,
@@ -252,8 +258,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                     size: 35 *
                                         MediaQuery.of(context).textScaleFactor),
                                 ],
-                              ),
-                            ),
+                            )),
                             direction: DismissDirection.endToStart,
                             key: Key(itineraryModel.itineraries!
                                 .elementAt(index)
@@ -319,7 +324,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                       .itineraries!
                                       .elementAt(index));
                             }))
-              )]);
+              ]);
           } else {
             return Center(
                 child: Text(

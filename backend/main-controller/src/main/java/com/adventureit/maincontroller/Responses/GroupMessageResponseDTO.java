@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class MessageResponseDTO {
+public class GroupMessageResponseDTO {
     UUID id;
     GetUserByUUIDDTO sender;
     String message;
@@ -16,7 +16,7 @@ public class MessageResponseDTO {
     List<GetUserByUUIDDTO> receivers;
     Map<UUID, Boolean> read = new HashMap<>();
 
-    public MessageResponseDTO(UUID id, GetUserByUUIDDTO sender, String message, LocalDateTime timestamp, List<GetUserByUUIDDTO> receivers, Map<UUID,Boolean> read){
+    public GroupMessageResponseDTO(UUID id, GetUserByUUIDDTO sender, String message, LocalDateTime timestamp, List<GetUserByUUIDDTO> receivers, Map<UUID,Boolean> read){
         this.id = id;
         this.sender = sender;
         this.message = message;
