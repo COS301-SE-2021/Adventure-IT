@@ -1,6 +1,5 @@
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
-import 'package:adventure_it/api/user_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:time_machine/time_machine.dart';
@@ -16,7 +15,7 @@ class AdventuresModel extends ChangeNotifier {
   List<Adventure>? get adventures => _adventures?.toList();
 
   Future fetchAllAdventures() async {
-    _adventures = await AdventureApi.getAdventuresByUUID(UserApi.getInstance().getUserProfile()!.userID);
+    _adventures = await AdventureApi.getAdventuresByUUID("1660bd85-1c13-42c0-955c-63b1eda4e90b");
 
     notifyListeners();
   }

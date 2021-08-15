@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:adventure_it/api/createChecklistEntry.dart';
-import 'package:adventure_it/api/user_api.dart';
 
 import '/constants.dart';
 import '/api/checklist.dart';
@@ -138,18 +137,18 @@ class ChecklistApi {
 
   static Future<http.Response> _deleteChecklistRequest(checklistID) async {
 
-    return http.get(Uri.http(checklistApi, '/checklist/softDelete/' + checklistID+"/"+UserApi.getInstance().getUserProfile()!.userID));
+    return http.get(Uri.http(checklistApi, '/checklist/softDelete/' + checklistID));
   }
 
   static Future<http.Response> _hardDeleteChecklistRequest(checklistID) async {
 
-    return http.get(Uri.http(checklistApi, '/checklist/hardDelete/' + checklistID+"/"+UserApi.getInstance().getUserProfile()!.userID));
+    return http.get(Uri.http(checklistApi, '/checklist/hardDelete/' + checklistID));
   }
 
 
   static Future<http.Response> _restoreChecklistRequest(checklistID) async {
 
-    return http.get(Uri.http(checklistApi, '/checklist/restoreChecklist/' + checklistID+"/"+UserApi.getInstance().getUserProfile()!.userID));
+    return http.get(Uri.http(checklistApi, '/checklist/restoreChecklist/' + checklistID));
   }
 
   static Future<CreateChecklist> createChecklist(String title, String description, String creatorID, String adventureID) async {

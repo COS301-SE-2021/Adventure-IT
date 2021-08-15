@@ -3,7 +3,6 @@ import 'package:adventure_it/Providers/chat_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/userProfile.dart';
-import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/frontEnd/FriendsPage.dart';
@@ -26,7 +25,7 @@ class DirectChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => DirectChatModel(user2!.userID, UserApi.getInstance().getUserProfile()!.userID),
+        create: (context) => DirectChatModel(user2!.userID, "1660bd85-1c13-42c0-955c-63b1eda4e90b"),
         builder: (context, widget) => Scaffold(
             drawer: NavDrawer(),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -203,7 +202,7 @@ class _MessageList extends State<MessageList> {
                                 fontSize: 15 *
                                     MediaQuery.of(context).textScaleFactor,
                                 fontWeight: FontWeight.bold,
-                                color: chatModel.messages!.elementAt(index).sender.userID==UserApi.getInstance().getUserProfile()!.userID?Theme.of(context).accentColor: Theme.of(context)
+                                color: chatModel.messages!.elementAt(index).sender.userID=="1660bd85-1c13-42c0-955c-63b1eda4e90b"?Theme.of(context).accentColor: Theme.of(context)
                                     .textTheme
                                     .bodyText1!
                                     .color

@@ -44,17 +44,17 @@ public class UserController {
      * @throws InvalidUserEmailException if the user email is invalid
      * @throws InvalidRequestException if the request body is null
      */
-    @PostMapping(value = "/RegisterUser", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "RegisterUser", consumes = "application/json", produces = "application/json")
     public RegisterUserResponse RegisterUser(@RequestBody RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
         return service.RegisterUser(req);
     }
 
-    @GetMapping(value="/test")
+    @GetMapping(value="test")
     public String test(){
         return "User controller is working";
     }
 
-    @PostMapping(value = "/updatePicture", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "updatePicture", consumes = "application/json", produces = "application/json")
     public String updatePicture(@RequestBody UpdatePictureRequest req) throws Exception {
         File f = new File(req.getPath());
         byte[] content = Files.readAllBytes(f.toPath());
@@ -63,57 +63,57 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/GetUser/{id}")
+    @GetMapping(value = "GetUser/{id}")
     public GetUserByUUIDDTO getUserByUUID(@PathVariable UUID id) {
         return service.GetUserByUUID(id);
     }
 
-    @GetMapping(value = "/acceptFriendRequest/{id}")
+    @GetMapping(value = "acceptFriendRequest/{id}")
     public String acceptFriend(@PathVariable UUID id) throws Exception {
         return service.acceptFriendRequest(id);
     }
 
-    @GetMapping(value = "/getFriends/{id}")
+    @GetMapping(value = "getFriends/{id}")
     public List<UUID> getFriends(@PathVariable UUID id) {
         return service.getFriends(id);
     }
 
-    @GetMapping(value = "/getFriendRequests/{id}")
+    @GetMapping(value = "getFriendRequests/{id}")
     public List<GetFriendRequestsResponse> getFriendRequests(@PathVariable UUID id) {
         return service.getFriendRequests(id);
     }
 
-    @GetMapping(value = "/populateFriends")
+    @GetMapping(value = "populateFriends")
     public void mockFriends() {
         service.mockFriendships();
     }
 
-    @GetMapping(value = "/deleteFriendRequest/{id}")
+    @GetMapping(value = "deleteFriendRequest/{id}")
     public void deleteRequest(@PathVariable UUID id) throws Exception {
         service.deleteFriendRequest(id);
     }
 
-    @GetMapping(value = "/removeFriend/{id}/{friendID}")
+    @GetMapping(value = "removeFriend/{id}/{friendID}")
     public void deleteRequest(@PathVariable UUID id, @PathVariable UUID friendID) throws Exception {
         service.removeFriend(id, friendID);
     }
 
-    @GetMapping(value = "/getFriendProfiles/{id}")
+    @GetMapping(value = "getFriendProfiles/{id}")
     public List<GetUserByUUIDDTO> getFriendProfiles(@PathVariable UUID id) throws Exception {
         return service.getFriendProfiles(id);
     }
 
-    @GetMapping(value = "/getByUserName/{userName}")
+    @GetMapping(value = "getByUserName/{userName}")
     public UUID getUserIDByUserName(@PathVariable String userName) throws Exception {
         return service.getUserIDByUserName(userName);
     }
 
-    @GetMapping(value = "/createFriendRequest/{ID1}/{ID2}")
+    @GetMapping(value = "createFriendRequest/{ID1}/{ID2}")
     public void createFriendRequest(@PathVariable String ID1, @PathVariable String ID2) throws Exception {
         service.createFriendRequest(ID1, ID2);
     }
 
-    @GetMapping("/getFriendRequest/{id}")
+    @GetMapping("getFriendRequest/{id}")
     public Friend getFriendRequest(@PathVariable UUID id) throws Exception {
         return service.getFriendRequest(id);
     }
