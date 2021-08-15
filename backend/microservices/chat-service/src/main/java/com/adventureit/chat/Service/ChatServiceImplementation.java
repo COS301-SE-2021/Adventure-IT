@@ -152,8 +152,8 @@ public class ChatServiceImplementation implements ChatService {
         }
         List<UUID> messageIds = new ArrayList<>();
         List<Message> messages = messageRepository.findAllByChatId(chats.getGroupChatId());
-        for(int i = 0;i<messages.size();i++){
-            messageIds.add(messages.get(i).getId());
+        for (Message message : messages) {
+            messageIds.add(message.getId());
         }
         return new GroupChatResponseDTO(chats.getGroupChatId(),chats.getAdventureID(),chats.getParticipants(),messageIds,chats.getName(), chats.getColors());
     }
@@ -166,8 +166,8 @@ public class ChatServiceImplementation implements ChatService {
         }
         List<UUID> messageIds = new ArrayList<>();
         List<Message> messages = messageRepository.findAllByChatId(chat.getGroupChatId());
-        for(int i = 0;i<messages.size();i++){
-            messageIds.add(messages.get(i).getId());
+        for (Message message : messages) {
+            messageIds.add(message.getId());
         }
 
         return new GroupChatResponseDTO(chat.getGroupChatId(),chat.getAdventureID(),chat.getParticipants(),messageIds,chat.getName(), chat.getColors());
@@ -193,8 +193,8 @@ public class ChatServiceImplementation implements ChatService {
         }
         List<UUID> messageIds = new ArrayList<>();
         List<Message> messages = messageRepository.findAllByChatId(chat.getDirectChatId());
-        for(int i = 0;i<messages.size();i++){
-            messageIds.add(messages.get(i).getId());
+        for (Message message : messages) {
+            messageIds.add(message.getId());
         }
 
         return new DirectChatResponseDTO(chat.getDirectChatId(),chat.getParticipants(),messageIds);
@@ -209,8 +209,8 @@ public class ChatServiceImplementation implements ChatService {
         }
         List<UUID> messageIds = new ArrayList<>();
         List<Message> messages = messageRepository.findAllByChatId(chat.getDirectChatId());
-        for(int i = 0;i<messages.size();i++){
-            messageIds.add(messages.get(i).getId());
+        for (Message message : messages) {
+            messageIds.add(message.getId());
         }
 
         return new DirectChatResponseDTO(chat.getDirectChatId(),chat.getParticipants(),messageIds);
