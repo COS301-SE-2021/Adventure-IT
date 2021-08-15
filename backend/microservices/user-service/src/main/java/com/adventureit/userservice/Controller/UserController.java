@@ -63,16 +63,6 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "ConfirmToken/{token}")
-    public String ConfirmToken(@RequestParam("token") String token) {
-        return service.confirmToken(token);
-    }
-
-    @PostMapping(value = "LoginUser", consumes = "application/json", produces = "application/json")
-    public LoginUserDTO Login(@RequestBody LoginUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
-        return service.LoginUser(req);
-    }
-
     @GetMapping(value = "GetUser/{id}")
     public GetUserByUUIDDTO getUserByUUID(@PathVariable UUID id) {
         return service.GetUserByUUID(id);
