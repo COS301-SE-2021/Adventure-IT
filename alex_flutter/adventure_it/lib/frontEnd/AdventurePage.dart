@@ -677,7 +677,7 @@ class AlertBox extends StatelessWidget {
   }
 
   //controllers for the form fields
-  String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
+  //String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
 
   @override
   Widget build(BuildContext context) {

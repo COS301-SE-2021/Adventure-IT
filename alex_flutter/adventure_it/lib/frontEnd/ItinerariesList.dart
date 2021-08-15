@@ -240,7 +240,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-                                  color: Theme.of(context).textTheme.bodyText1!.color))))),
+                                  color: Theme.of(context).textTheme.bodyText1!.color)))),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Expanded(flex: 6, child: ListView.builder(
                       itemCount: itineraryModel.itineraries!.length,
@@ -324,7 +324,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                       .itineraries!
                                       .elementAt(index));
                             }))
-              ]);
+              )]);
           } else {
             return Center(
                 child: Text(
