@@ -113,7 +113,7 @@ class UserApi {
   // Retrieve the backend user profile (PRIVATE)
   Future<UserProfile?> _fetchBackendProfile(String targetUuid) async {
     debugPrint("Getting backend profile for: " + targetUuid);
-    final res = await http.get(Uri.parse(userApi + "/GetUser/" + targetUuid));
+    final res = await http.get(Uri.parse(userApi + "/user/GetUser/" + targetUuid));
     final jsonRes = jsonDecode(res.body);
     if (res.statusCode == 500) {
       if (jsonRes['message'] ==
@@ -131,7 +131,7 @@ class UserApi {
   // Register a user in the backend (PRIVATE)
   Future<UserProfile?> _registerBackendProfile(KeycloakUser userInfo) async {
     debugPrint("Registering backend profile for $userInfo.username");
-    final res = await http.post(Uri.parse(userApi + "/RegisterUser/"),
+    final res = await http.post(Uri.parse(userApi + "/user/RegisterUser/"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           "userID": userInfo.id,
