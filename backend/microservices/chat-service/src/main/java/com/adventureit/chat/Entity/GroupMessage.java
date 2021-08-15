@@ -11,29 +11,23 @@ import java.util.UUID;
 
 @Entity
 public class GroupMessage extends Message{
-    @ElementCollection
-    List<UUID> receivers;
     @ElementCollection (fetch = FetchType.EAGER)
     Map<UUID, Boolean> read = new HashMap<>();
 
     public GroupMessage(){}
 
-    public GroupMessage(UUID id, UUID sender, List<UUID> receivers, String message){
+    public GroupMessage(UUID id, UUID sender, String message){
         this.id = id;
         this.sender = sender;
-        this.receivers = receivers;
         this.message = message;
         this.timestamp = LocalDateTime.now();
 
-        for (UUID ID: receivers) {
-            read.put(ID,false);
-        }
+
     }
 
     public GroupMessage(UUID sender, List<UUID> receivers, String message){
         this.id = UUID.randomUUID();
         this.sender = sender;
-        this.receivers = receivers;
         this.message = message;
         this.timestamp = LocalDateTime.now();
 
@@ -50,11 +44,4 @@ public class GroupMessage extends Message{
         this.read = read;
     }
 
-    public List<UUID> getReceivers() {
-        return receivers;
-    }
-
-    public void setReceivers(List<UUID> receivers) {
-        this.receivers = receivers;
-    }
 }

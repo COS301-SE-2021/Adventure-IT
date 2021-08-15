@@ -1,5 +1,7 @@
 package com.adventureit.chat.Requests;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
 
 public class SendGroupMessageRequestDTO {
@@ -7,7 +9,7 @@ public class SendGroupMessageRequestDTO {
     UUID sender;
     String msg;
 
-    public SendGroupMessageRequestDTO(UUID chatID, UUID sender,String msg){
+    public SendGroupMessageRequestDTO(@JsonProperty("chatId")UUID chatID,@JsonProperty("sender") UUID sender,@JsonProperty("message") String msg){
         this.chatID = chatID;
         this.sender = sender;
         this.msg = msg;

@@ -13,8 +13,7 @@ Report _$ReportFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ReportToJson(Report instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'payeeName': instance.payeeName,
       'amount': instance.amount,
     };

@@ -4,6 +4,13 @@ server:
 spring:
   application:
     name: MAIN-CONTROLLER
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/auth/realms/adventure-it
+
+
 
 eureka:
   client:

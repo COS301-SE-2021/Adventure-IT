@@ -33,7 +33,7 @@ public class ChatController {
     }
 
     @PostMapping("/createGroupChat")
-    public String createDirectChat(@RequestBody CreateGroupChatRequest req){
+    public String createGroupChat(@RequestBody CreateGroupChatRequest req){
         service.createGroupChat(req.getAdventureId(),req.getParticipants(),req.getName());
         return "Group Chat created";
     }
@@ -82,6 +82,6 @@ public class ChatController {
 
     @GetMapping("/deleteChat/{id}")
     public void deleteChat(@PathVariable UUID id) throws Exception {
-        service.deleteChat(id);
+        service.deleteDirectChat(id);
     }
 }

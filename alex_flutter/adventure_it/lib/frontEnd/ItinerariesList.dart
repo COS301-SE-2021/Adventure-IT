@@ -151,7 +151,7 @@ class _ItinerariesList extends State<ItinerariesList> {
   Widget build(BuildContext context) {
     return
             Consumer<ItineraryModel>(builder: (context, itineraryModel, child) {
-          if (itineraryModel.itineraries == null || next == null) {
+          if (itineraryModel.itineraries == null) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
@@ -172,7 +172,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                       .withOpacity(0.25),
                                   BlendMode.dstATop))
                       ),
-                      child: Column(children: [
+                      child: next!=null? Column(children: [
                     Text("Next Stop!",
                         style: TextStyle(
                             fontSize:
@@ -239,7 +239,13 @@ class _ItinerariesList extends State<ItinerariesList> {
                                     .color)),
                       ),
                     ])
-                  ]))),
+                  ]): Center(
+                          child: Text(
+                              "There's nothing coming up next. Is this the end?",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                                  color: Theme.of(context).textTheme.bodyText1!.color))))),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               ListView.builder(
                       itemCount: itineraryModel.itineraries!.length,
@@ -257,7 +263,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                     size: 35 *
                                         MediaQuery.of(context).textScaleFactor),
                                 ],
-                            ),
+                            )),
                             direction: DismissDirection.endToStart,
                             key: Key(itineraryModel.itineraries!
                                 .elementAt(index)
@@ -323,8 +329,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                       .itineraries!
                                       .elementAt(index));
                             }))
-                  ]))
-            ]);
+              ]);
           } else {
             return Center(
                 child: Text(
