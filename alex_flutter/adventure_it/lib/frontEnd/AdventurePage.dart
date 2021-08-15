@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:adventure_it/Providers/friends_model.dart';
+import 'package:adventure_it/api/user_api.dart';
 import 'package:provider/provider.dart';
 
 import 'ChecklistsList.dart';
@@ -677,7 +678,7 @@ class AlertBox extends StatelessWidget {
   }
 
   //controllers for the form fields
-  String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
+  String userID = UserApi.getInstance().getUserProfile()!.userID;
 
   @override
   Widget build(BuildContext context) {
@@ -712,7 +713,7 @@ class AlertBox extends StatelessWidget {
         ]),
         content: ChangeNotifierProvider(
             create: (context) =>
-                FriendModel("1660bd85-1c13-42c0-955c-63b1eda4e90b"),
+                FriendModel(userID),
             child: Container(
                 width: 300,
                 child: Consumer<FriendModel>(
