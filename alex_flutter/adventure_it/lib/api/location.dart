@@ -8,15 +8,15 @@ part 'location.g.dart';
 class Location {
 
   final String id;
-  final String photoReference;
+  final String photo_reference;
   final String formattedAddress;
-  final String placeId;
+  final String place_id;
 
   Location({
     required this.id,
-    required this.photoReference,
+    required this.photo_reference,
     required this.formattedAddress,
-    required this.placeId
+    required this.place_id
   });
 
   factory Location.fromJson(Map<String, dynamic> json) => _$LocationFromJson(json);
