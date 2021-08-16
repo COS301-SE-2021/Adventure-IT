@@ -36,24 +36,17 @@ class UserApi {
 
   // Publically Exposed Login Method
   Future<bool> logIn(String username, String password) async {
-    // this._keycloakUser = await _attemptLogIn(username, password);
-    // if (this._keycloakUser != null) {
-    //   final keycloakUser = this._keycloakUser!;
-    //   this._userProfile = await this._fetchBackendProfile(keycloakUser.id);
-    //   if (this._userProfile == null) {
-    //     this._userProfile = await this._registerBackendProfile(keycloakUser);
-    //   }
-    //   return true;
-    // } else {
-    //   return false;
-    // }
-    this._userProfile = new UserProfile(
-        userID: "5dd40fd4-93ef-4405-ba8e-01b717a17f2a",
-        username: "sim",
-        firstname: "Simran",
-        lastname: "Rathilal",
-        email: "u19212314@tuks.co.za");
-    return true; // TODO: REMOVE TEMPORARY KEYCLOAK FIX
+    this._keycloakUser = await _attemptLogIn(username, password);
+    if (this._keycloakUser != null) {
+      final keycloakUser = this._keycloakUser!;
+      this._userProfile = await this._fetchBackendProfile(keycloakUser.id);
+      if (this._userProfile == null) {
+        this._userProfile = await this._registerBackendProfile(keycloakUser);
+      }
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // Attempt Login to Keycloak (PRIVATE)
