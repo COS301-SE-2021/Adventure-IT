@@ -170,7 +170,7 @@ class AdventureList extends StatelessWidget {
                                                     !.elementAt(index)
                                                     .name,
                                                 style: TextStyle(
-                                                    fontSize: 25 *
+                                                    fontSize: 30 *
                                                         MediaQuery.of(context)
                                                             .textScaleFactor,
                                                     fontWeight: FontWeight.bold,
@@ -179,23 +179,27 @@ class AdventureList extends StatelessWidget {
                                                         .bodyText1!
                                                         .color)),
                                             // subtitle:Text(adventures.elementAt(index).description),
-                                            subtitle: Column(children: [Text(
+                                            subtitle: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [Text(
                                                 adventureModel.adventures
                                                     !.elementAt(index)
                                                     .description,
                                                 style: TextStyle(
-                                                    fontSize: 15 *
+                                                    fontSize: 20 *
                                                         MediaQuery.of(context)
                                                             .textScaleFactor,
                                                     color: Theme.of(context)
                                                         .textTheme
                                                         .bodyText1!
-                                                        .color)),RichText(
+                                                        .color)),
+                                                  SizedBox(height: MediaQuery.of(context).size.height*0.005),
+                                                  RichText(
                                         text: TextSpan(children: [
                                           WidgetSpan(
                                               child: Icon(
                                                 Icons.location_on,
-                                                size:11,
+                                                size:12,
                                                 color: Theme.of(context)
                                                     .textTheme
                                                     .bodyText1!
@@ -207,7 +211,7 @@ class AdventureList extends StatelessWidget {
                                                       .elementAt(index)
                                                       .location.formattedAddress,
                                               style: TextStyle(
-                                                  fontSize: 11 *
+                                                  fontSize: 12 *
                                                       MediaQuery.of(
                                                           context)
                                                           .textScaleFactor,
