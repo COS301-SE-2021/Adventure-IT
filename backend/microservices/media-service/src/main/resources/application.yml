@@ -11,6 +11,7 @@ spring:
     username: postgres
     password: 310PB!Gq%f&J
     hikari:
+      maximum-pool-size: 2
       auto-commit: false
       maximum-pool-size: 2
   jpa:
