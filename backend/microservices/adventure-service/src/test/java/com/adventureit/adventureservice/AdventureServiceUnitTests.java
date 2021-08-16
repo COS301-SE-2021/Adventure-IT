@@ -4,10 +4,7 @@ import com.adventureit.adventureservice.Entity.Adventure;
 import com.adventureit.adventureservice.Repository.AdventureRepository;
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
-import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
-import com.adventureit.adventureservice.Responses.GetAdventuresByUserUUIDResponse;
-import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
-import com.adventureit.adventureservice.Responses.RemoveAdventureResponse;
+import com.adventureit.adventureservice.Responses.*;
 import com.adventureit.adventureservice.Service.AdventureServiceImplementation;
 import com.adventureit.adventureservice.Exceptions.AdventureNotFoundException;
 import jdk.jfr.Description;
@@ -76,6 +73,29 @@ public class AdventureServiceUnitTests {
         //Then
         Assertions.assertEquals(adventureId,request.getId());
     }
+
+
+    /**
+     * Testing Response Objects
+     */
+
+    @Test
+    @Description("Testing GetAdventureRequest to make sure that all parameters passed in are correctly retrieved")
+    public void createAdventureResponseTest(){
+        //Given
+        Boolean success = true;
+        String message = "Adventure was successfully created";
+        Adventure mockAdventure = new Adventure("Mock Adventure 1","Mock Description 1", adventureId1, validUserID1, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 1),UUID.randomUUID());
+
+        //When
+        CreateAdventureResponse response = new CreateAdventureResponse(success,message,mockAdventure);
+
+        //Then
+        Assertions.assertEquals(success, response.isSuccess());
+        Assertions.assertEquals(message, response.getMessage());
+        Assertions.assertEquals(mockAdventure, response.getAdventure());
+    }
+
 
     @Test
     @Description("Ensuring that the creator of a number of adventures can view these adventures")
