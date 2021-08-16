@@ -139,21 +139,41 @@ class Register extends State<RegisterCaller> {
                         horizontal: MediaQuery.of(context).size.width * 0.05,
                         vertical: MediaQuery.of(context).size.width * 0.01),
                   ),
-                  onPressed: () {
-                    this.api.registerKeycloakUser(
+                  onPressed: () async {
+                    bool success = await this.api.registerKeycloakUser(
                         firstNameController.text,
                         lastNameController.text,
                         usernameController.text,
                         emailController.text,
                         passwordController.text);
+                    if (success) {
+                      this
+                          .api
+                          .displayDialog(context, "Success!",
+                              "You have been successfully registered, please check your email inbox for an account verification link.")
+                          .then((x) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginCaller()),
+                        );
+                      });
+                    } else {
+                      this
+                          .api
+                          .displayDialog(context, "Oops!",
+                              "Looks like something went wrong, please confirm your details and try again")
+                          .then((x) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterCaller()),
+                        );
+                      });
+                    }
                     // setState(() {
                     //   _futureUser = api.createUser(firstNameController.text,lastNameController.text,usernameController.text,emailController.text,phoneNumberController.text,passwordController.text);
                     // });
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomepageStartupCaller()),
-                    );
                   }),
               SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               RichText(

@@ -116,8 +116,7 @@ class Login extends State<LoginCaller> {
                           builder: (context) => HomepageStartupCaller()),
                     );
                   } else {
-                    displayDialog(context, "An Error Occurred",
-                        "No account was found matching that username and password");
+                    api.displayDialog(context, "Oops!", api.message);
                   }
                 }),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
@@ -157,10 +156,3 @@ class Login extends State<LoginCaller> {
         ))));
   }
 }
-
-void displayDialog(BuildContext context, String title, String text) =>
-    showDialog(
-      context: context,
-      builder: (context) =>
-          AlertDialog(title: Text(title), content: Text(text)),
-    );

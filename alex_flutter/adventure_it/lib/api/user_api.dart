@@ -6,12 +6,15 @@ import 'package:adventure_it/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:adventure_it/api/friendRequest.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class UserApi {
   bool hasToken = false;
+  String message = "";
   KeycloakUser? _keycloakUser;
   UserProfile? _userProfile;
 
@@ -67,8 +70,12 @@ class UserApi {
       this._store("refresh_token", jsonDecode(res.body)["refresh_token"]);
       return this._fetchKeyCloakUser(username);
     } else {
-      debugPrint("Login Failed");
-      debugPrint(res.body.toString());
+      String errorMessage = jsonDecode(res.body)['error_description'];
+      if (errorMessage == "Account is not fully set up") {
+        this.message = "Email Unverified";
+      } else {
+        this.message = errorMessage;
+      }
     }
   }
 
@@ -278,26 +285,45 @@ class UserApi {
     await prefs.setString(key, value);
   }
 
+  // Register a user in Keycloak
   Future<bool> registerKeycloakUser(
       firstname, lastname, username, email, password) async {
     final adminJWT = await this._adminLogIn();
-    final response =
-        await http.post(Uri.parse(authApiAdmin + '/users/'), body: '''
-      {
-        "firstName" : "$firstname",
-        "lastName" : "$lastname", 
-        "username" : "$username", 
-        "email" : "$email"
-      },
-      headers: {'Authorization': 'Bearer $adminJWT'}
-    ''');
-    // TODO figure out why this isn't working
-    // Getting a 401 error here
-    if (response.body == "success") {
+    final res = await http.post(Uri.parse(authApiAdmin + 'users/'),
+        body: jsonEncode(<String, dynamic>{
+          "firstName": "$firstname",
+          "lastName": "$lastname",
+          "username": "$username",
+          "email": "$email",
+          "credentials": [
+            {"type": "password", "value": "$password", "temporary": false}
+          ],
+          "enabled": "true"
+        }),
+        headers: {
+          'Authorization': 'Bearer $adminJWT',
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+    if (res.statusCode == 201) {
+      String newUser = (await this._fetchKeyCloakUser(username))!.id;
+      final res = await http.put(
+          Uri.parse(authApiAdmin + 'users/$newUser/send-verify-email'),
+          headers: {
+            'Authorization': 'Bearer $adminJWT',
+            'Content-Type': 'application/json; charset=UTF-8'
+          });
+      debugPrint(res.body);
       return true;
     } else {
-      print(response.body);
+      debugPrint(res.body);
       return false;
     }
   }
+
+  Future<void> displayDialog(BuildContext context, String title, String text) =>
+      showDialog(
+        context: context,
+        builder: (context) =>
+            AlertDialog(title: Text(title), content: Text(text)),
+      );
 }
