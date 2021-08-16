@@ -1,15 +1,16 @@
-
-
+import 'package:adventure_it/Providers/timeline_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:provider/provider.dart';
 import 'AdventurePage.dart';
 
 import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
+import 'Navbar.dart';
 class TimePage extends StatelessWidget {
   Adventure? currentAdventure;
 
@@ -38,26 +39,50 @@ class TimeLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBar: AppBar(
-            leading: IconButton(
-                onPressed: () {
-                  {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => (AdventurePage(a))),
-                    );
-                  }
-                },
-                icon: const Icon(Icons.arrow_back_ios),
-                color: Theme.of(context).textTheme.bodyText1!.color),
-            title: Center(
-                child: Text("Timeline",
-                    style: new TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color))),
-            backgroundColor: Theme.of(context).primaryColorDark),
-        body: SingleChildScrollView( child: Center()));
+    return ChangeNotifierProvider(
+        create: (context) => TimelineModel(a!),
+        builder: (context, widget) => Scaffold(
+            drawer: NavDrawer(),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            appBar: AppBar(
+                title: Center(
+                    child: Text("Timeline",
+                        style: new TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1!.color))),
+                backgroundColor: Theme.of(context).primaryColorDark),
+            body: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: MediaQuery.of(context).size.height / 60),
+                  Container(
+                      height: MediaQuery.of(context).size.height * 0.75,
+                      //child: GetChecklistEntries(currentChecklist!)
+                  ),
+                  Spacer(),
+                  Row(children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).accentColor,
+                              shape: BoxShape.circle),
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AdventurePage(a)));
+                              },
+                              icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                              color: Theme.of(context).primaryColorDark)),
+                    ),
+                  ]),
+                  SizedBox(height: MediaQuery.of(context).size.height / 60),
+                ]
+                )
+        )
+    );
   }
 }
