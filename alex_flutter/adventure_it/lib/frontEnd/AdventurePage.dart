@@ -186,8 +186,7 @@ class AdventurePage extends StatelessWidget {
                 height: MediaQuery.of(context).size.height,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(
-                            "https://lh5.googleusercontent.com/p/AF1QipM4-7EPQBFbTgOy5k7YXtJmLWtz7wwl-WwUq4jT=w408-h271-k-no"),
+                        image: NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+currentAdventure!.location.photo_reference+"&maxwidth=500&key="+googleMapsKey),
                         fit: BoxFit.cover,
                         colorFilter: ColorFilter.mode(
                             Theme.of(context).backgroundColor.withOpacity(0.25),
@@ -713,7 +712,7 @@ class AlertBox extends StatelessWidget {
         ]),
         content: ChangeNotifierProvider(
             create: (context) =>
-                FriendModel("1660bd85-1c13-42c0-955c-63b1eda4e90b"),
+                FriendModel(UserApi.getInstance().getUserProfile()!.userID),
             child: Container(
                 width: 300,
                 child: Consumer<FriendModel>(

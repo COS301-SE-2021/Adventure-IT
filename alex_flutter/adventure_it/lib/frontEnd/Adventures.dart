@@ -1,6 +1,7 @@
 import 'package:adventure_it/Providers/adventure_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
+import 'package:adventure_it/api/locationAPI.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 
@@ -96,6 +97,7 @@ class AdventureList extends StatelessWidget {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -151,8 +153,7 @@ class AdventureList extends StatelessWidget {
                                   child: Container(
                                     decoration: new BoxDecoration(
                                         image: new DecorationImage(
-                                            image: NetworkImage(
-                                                "https://lh5.googleusercontent.com/p/AF1QipM4-7EPQBFbTgOy5k7YXtJmLWtz7wwl-WwUq4jT=w408-h271-k-no"),
+                                            image: NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+adventureModel.adventures!.elementAt(index).location.photo_reference+"&maxwidth=500&key="+googleMapsKey),
                                             fit: BoxFit.cover,
                                             colorFilter: ColorFilter.mode(
                                                 Theme.of(context)
