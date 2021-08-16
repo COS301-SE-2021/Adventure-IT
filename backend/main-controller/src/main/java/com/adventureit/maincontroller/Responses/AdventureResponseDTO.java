@@ -75,9 +75,9 @@ public class AdventureResponseDTO {
         this.ownerId = ownerId;
     }
 
-    /*public void setLocation(LocationResponseDTO location) {
+    public void setLocation(LocationResponseDTO location) {
         this.location = location;
-    }*/
+    }
 
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;

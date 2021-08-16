@@ -291,8 +291,7 @@ class getFriends extends StatelessWidget {
                           },
                           onDismissed: (direction) {
                             Provider.of<FriendModel>(context, listen: false)
-                                .deleteFriend(
-                                    "1660bd85-1c13-42c0-955c-63b1eda4e90b",
+                                .deleteFriend(UserApi.getInstance().getUserProfile()!.userID,
                                     friendModel.friends!
                                         .elementAt(index)
                                         .userID);

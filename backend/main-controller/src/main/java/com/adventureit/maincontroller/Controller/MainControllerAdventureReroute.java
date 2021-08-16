@@ -6,12 +6,15 @@ import com.adventureit.adventureservice.Responses.GetAdventuresByUserUUIDRespons
 import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
 import com.adventureit.adventureservice.Responses.RemoveAdventureResponse;
 import com.adventureit.chat.Requests.CreateGroupChatRequest;
+import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
 import com.adventureit.locationservice.Entity.Location;
 import com.adventureit.locationservice.Responses.LocationResponseDTO;
 
 import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
 import com.adventureit.timelineservice.Entity.TimelineType;
 import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
+import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
+import com.adventureit.maincontroller.Responses.MainItineraryEntryResponseDTO;
 import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
 import com.netflix.discovery.EurekaClient;
@@ -79,8 +82,18 @@ public class MainControllerAdventureReroute {
 
     @GetMapping("/all/{id}")
 
-    public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUserUUID(@PathVariable UUID id){
-        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/all/"+id, List.class);
+    public List<AdventureResponseDTO> getAllAdventuresByUserUUID(@PathVariable UUID id){
+
+        List <AdventureResponseDTO> listToReturn = new ArrayList<>();
+        List<GetAdventuresByUserUUIDResponse> list=restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/all/"+id, List.class);
+        LocationResponseDTO location;
+
+        for (GetAdventuresByUserUUIDResponse entry:list) {
+            location = restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/getLocation/" + entry.getLocation(), LocationResponseDTO.class);
+            listToReturn.add(new AdventureResponseDTO(entry.getName(),entry.getDescription(),entry.getAdventureId(),entry.getOwnerId(),entry.getStartDate(),entry.getEndDate(),location));
+        }
+
+        return listToReturn;
     }
 
     @GetMapping("/owner/{id}")
