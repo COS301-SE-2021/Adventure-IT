@@ -179,7 +179,7 @@ class AdventureList extends StatelessWidget {
                                                         .bodyText1!
                                                         .color)),
                                             // subtitle:Text(adventures.elementAt(index).description),
-                                            subtitle: Text(
+                                            subtitle: Column(children: [Text(
                                                 adventureModel.adventures
                                                     !.elementAt(index)
                                                     .description,
@@ -190,7 +190,32 @@ class AdventureList extends StatelessWidget {
                                                     color: Theme.of(context)
                                                         .textTheme
                                                         .bodyText1!
-                                                        .color)),
+                                                        .color)),RichText(
+                                        text: TextSpan(children: [
+                                          WidgetSpan(
+                                              child: Icon(
+                                                Icons.location_on,
+                                                size:11,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color,
+                                              )),
+                                          TextSpan(
+                                              text: " " +
+                                                  adventureModel.adventures!
+                                                      .elementAt(index)
+                                                      .location.formattedAddress,
+                                              style: TextStyle(
+                                                  fontSize: 11 *
+                                                      MediaQuery.of(
+                                                          context)
+                                                          .textScaleFactor,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color))
+                                        ]),)]),
                                           ),
                                         ),
                                         Expanded(
