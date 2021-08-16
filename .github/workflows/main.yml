@@ -26,6 +26,8 @@ jobs:
         working-directory: backend/
         run: |
           chmod +x ./mvnw
+          ./mvnw clean
+          ./mvnw compile
           ./mvnw --batch-mode test
           
         
