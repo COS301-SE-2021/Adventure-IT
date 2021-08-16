@@ -16,33 +16,33 @@ import java.util.UUID;
 public class NotificationIntegrationTest {
 
 
-    @Mock
-    NotificationRepository mockRepo;
-
-    @Mock
-    //UserRepository mockUserRepo;
-
-    @Autowired
-    UserService userSUT;
-
-    @Autowired
-    NotificationService noteSUT;
-
-    UUID userId1U = UUID.fromString("9d2a50a0-3648-41f2-b344-08a4459a7f27");
-    String userName1 = "User1";
-    String userlName1 = "Surname1";
-    String validEmail = "u19024143@tuks.co.za";
-    String validPassword = "ValidPass123!";
-    String validPhoneNum = "0794083124";
-
-    Date date1 = new Date();
-    String mockMessage1 = "Test message 1";
-    UUID notificationId1U = UUID.fromString("6042edfd-a908-4364-a5ef-69f060bdf3da");
-
-
-    Notification note1 = new Notification(notificationId1U,userId1U,mockMessage1,date1,null);
-
-
+//    @Mock
+//    NotificationRepository mockRepo;
+//
+//    @Mock
+//    //UserRepository mockUserRepo;
+//
+//    @Autowired
+//    UserService userSUT;
+//
+//    @Autowired
+//    NotificationService noteSUT;
+//
+//    UUID userId1U = UUID.fromString("9d2a50a0-3648-41f2-b344-08a4459a7f27");
+//    String userName1 = "User1";
+//    String userlName1 = "Surname1";
+//    String validEmail = "u19024143@tuks.co.za";
+//    String validPassword = "ValidPass123!";
+//    String validPhoneNum = "0794083124";
+//
+//    Date date1 = new Date();
+//    String mockMessage1 = "Test message 1";
+//    UUID notificationId1U = UUID.fromString("6042edfd-a908-4364-a5ef-69f060bdf3da");
+//
+//
+//    Notification note1 = new Notification(notificationId1U,userId1U,mockMessage1,date1,null);
+//
+//
 
 
 }

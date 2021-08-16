@@ -96,6 +96,25 @@ public class AdventureServiceUnitTests {
         Assertions.assertEquals(mockAdventure, response.getAdventure());
     }
 
+    @Test
+    @Description("Testing GetAdventureByUUIDResponse to make sure that all parameters passed in are correctly retrieved")
+    public void getAdventureByUUIDResponseTest(){
+        //Given
+        Boolean success = true;
+        String message = "Adventure was successfully created";
+        Adventure mockAdventure = new Adventure("Mock Adventure 1","Mock Description 1", adventureId1, validUserID1, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 1),UUID.randomUUID());
+
+        //When
+        CreateAdventureResponse response = new CreateAdventureResponse(success,message,mockAdventure);
+
+        //Then
+        Assertions.assertEquals(success, response.isSuccess());
+        Assertions.assertEquals(message, response.getMessage());
+        Assertions.assertEquals(mockAdventure, response.getAdventure());
+    }
+
+
+
 
     @Test
     @Description("Ensuring that the creator of a number of adventures can view these adventures")

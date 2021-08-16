@@ -70,7 +70,6 @@
 			<groupId>com.adventure-it</groupId>
 			<artifactId>user-service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>
