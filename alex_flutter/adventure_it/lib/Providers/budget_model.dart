@@ -50,9 +50,13 @@ class BudgetModel extends ChangeNotifier {
 
 
   BudgetModel(Adventure a, String userName) {
-    fetchAllBudgets(a, userName).then((budgets) {budgets != null? _budgets = budgets:List.empty();
+    fetchAllBudgets(a).then((budgets) {budgets != null? _budgets = budgets:List.empty();
 
-
+        calculateCategories(a).then((categories) {
+          categories != null ? _categories = categories : List<int>.filled(5, 0);
+        });
+        calculateExpenses(userName).then((expenses) =>
+        expenses != null ? _expenses = expenses : List<String>.filled(budgets.length, "0"));
     });
   }
 
@@ -61,13 +65,9 @@ class BudgetModel extends ChangeNotifier {
   List <int>? get categories=>_categories?.toList();
 
 
-  Future fetchAllBudgets(Adventure a, String userName) async {
+  Future fetchAllBudgets(Adventure a) async {
     _budgets = await BudgetApi.getBudgets(a);
-    calculateCategories(a).then((categories) {
-      categories != null ? _categories = categories : List<int>.filled(5, 0);
-    });
-    calculateExpenses(userName).then((expenses) =>
-    expenses != null ? _expenses = expenses : List<String>.filled(_budgets!.length, "0"));
+
     notifyListeners();
   }
 
@@ -117,10 +117,10 @@ class BudgetModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future addBudget(Adventure adv, String a, String b, String c, String d, String uN) async {
+  Future addBudget(Adventure adv, String a, String b, String c, String d) async {
     await BudgetApi.createBudget(a, b, c, d);
 
-    await fetchAllBudgets(adv, uN);
+    await fetchAllBudgets(adv);
   }
 
 }

@@ -1,5 +1,6 @@
 package com.adventureit.maincontroller.Responses;
 
+import com.adventureit.locationservice.Entity.Location;
 import com.adventureit.locationservice.Responses.LocationResponseDTO;
 
 import java.time.LocalDate;
@@ -19,7 +20,7 @@ public class AdventureResponseDTO {
     private String description;
     private LocationResponseDTO location;
 
-    public AdventureResponseDTO(String name, String description, UUID adventureId, UUID ownerId, LocalDate sd, LocalDate ed,LocationResponseDTO location) {
+    public AdventureResponseDTO(String name, String description, UUID adventureId, UUID ownerId, LocalDate sd, LocalDate ed) {//, LocationResponseDTO location) {
         this.name = name;
         this.description = description;
         this.adventureId = adventureId;

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:adventure_it/api/createItineraryEntry.dart';
-import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import '/api/itinerary.dart';
 import '/api/adventure.dart';
@@ -13,8 +12,6 @@ import 'itineraryEntry.dart';
 import 'createItinerary.dart';
 
 class ItineraryApi {
-
-
   static Future<List<Itinerary>> getItineraries(Adventure? a) async {
     http.Response response =
     await _getItineraries(a!.adventureId);
@@ -128,18 +125,18 @@ class ItineraryApi {
 
   static Future<http.Response> _deleteItineraryRequest(itineraryID) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/softDelete/' + itineraryID+"/"+UserApi.getInstance().getUserProfile()!.userID));
+    return http.get(Uri.http(itineraryApi, '/itinerary/softDelete/' + itineraryID));
   }
 
   static Future<http.Response> _hardDeleteItineraryRequest(itineraryID) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/hardDelete/' + itineraryID+"/"+UserApi.getInstance().getUserProfile()!.userID));
+    return http.get(Uri.http(itineraryApi, '/itinerary/hardDelete/' + itineraryID));
   }
 
 
   static Future<http.Response> _restoreItineraryRequest(itineraryID) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/restoreItinerary/' + itineraryID+"/"+UserApi.getInstance().getUserProfile()!.userID));
+    return http.get(Uri.http(itineraryApi, '/itinerary/restoreItinerary/' + itineraryID));
   }
 
   static Future<CreateItinerary> createItinerary(String title, String description, String creatorID, String adventureID) async {

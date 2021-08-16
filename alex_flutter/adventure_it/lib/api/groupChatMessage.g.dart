@@ -12,6 +12,7 @@ GroupChatMessage _$GroupChatMessageFromJson(Map<String, dynamic> json) {
     sender: UserProfile.fromJson(json['sender'] as Map<String, dynamic>),
     message: json['message'] as String,
     timestamp: json['timestamp'] as String,
+
     read: Map<String, bool>.from(json['read'] as Map),
   );
 }

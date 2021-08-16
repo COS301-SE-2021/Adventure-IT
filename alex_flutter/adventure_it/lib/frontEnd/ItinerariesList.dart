@@ -158,7 +158,9 @@ class _ItinerariesList extends State<ItinerariesList> {
                         Theme.of(context).accentColor)));
           } else if (itineraryModel.itineraries!.length > 0) {
             return Column(children: [
-              Container(
+              Expanded(
+                  flex: 4,
+                  child: Container(
                       decoration: new BoxDecoration(
                           image: new DecorationImage(
                               image: NetworkImage(
@@ -170,7 +172,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                       .withOpacity(0.25),
                                   BlendMode.dstATop))
                       ),
-                      child: next!= null? Column(children: [
+                      child: next!=null? Column(children: [
                     Text("Next Stop!",
                         style: TextStyle(
                             fontSize:
@@ -186,7 +188,8 @@ class _ItinerariesList extends State<ItinerariesList> {
                             color:
                                 Theme.of(context).textTheme.bodyText1!.color)),
                     Row(children: [
-                      RichText(
+                      Expanded(
+                          child: RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(children: [
                           WidgetSpan(
@@ -196,7 +199,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                             color: Theme.of(context).textTheme.bodyText1!.color,
                           )),
                           TextSpan(
-                              text: " " + next!.location.formattedAddress,
+                              text: " " + next!.location,
                               style: TextStyle(
                                   fontSize: 15 *
                                       MediaQuery.of(context).textScaleFactor,
@@ -205,9 +208,10 @@ class _ItinerariesList extends State<ItinerariesList> {
                                       .bodyText1!
                                       .color))
                         ]),
-                      ),
+                      )),
                       Spacer(),
-                      Text(
+                      Expanded(
+                        child: Text(
                             DateTime.parse(next!.timestamp).day.toString() +
                                 " " +
                                 months[
@@ -233,6 +237,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                     .textTheme
                                     .bodyText1!
                                     .color)),
+                      ),
                     ])
                   ]): Center(
                           child: Text(
@@ -240,9 +245,9 @@ class _ItinerariesList extends State<ItinerariesList> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-                                  color: Theme.of(context).textTheme.bodyText1!.color)))),
+                                  color: Theme.of(context).textTheme.bodyText1!.color))))),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-              Expanded(flex: 6, child: ListView.builder(
+              ListView.builder(
                       itemCount: itineraryModel.itineraries!.length,
                       itemBuilder: (context, index) => Dismissible(
                           background: Container(
@@ -324,7 +329,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                       .itineraries!
                                       .elementAt(index));
                             }))
-              )]);
+              ]);
           } else {
             return Center(
                 child: Text(

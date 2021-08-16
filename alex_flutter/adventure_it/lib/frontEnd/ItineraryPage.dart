@@ -792,7 +792,7 @@ class _ListItineraryItems extends StatefulWidget
                                                     text: " " +
                                                         entryModel.entries!
                                                             .elementAt(index)
-                                                            .location.formattedAddress,
+                                                            .location,
                                                     style: TextStyle(
                                                         decoration: entryModel.entries!
                                                             .elementAt(index)

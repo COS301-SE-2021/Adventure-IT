@@ -2,7 +2,6 @@ import 'package:adventure_it/Providers/budget_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/createBudget.dart';
-import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -28,7 +27,7 @@ class Budgets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => BudgetModel(adventure!, UserApi.getInstance().getUserProfile()!.username),
+        create: (context) => BudgetModel(adventure!, "patricia"),
         builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -155,7 +154,7 @@ class _PieChart extends State<PieChartCaller> {
   @override
   initState() {
 
-    super.initState();
+
     data = [
       Data('Accommodation', ((categories!.elementAt(0)/total!)*100).toInt(), const Color(0xff3063b4)),
       Data('Activities', ((categories!.elementAt(1)/total!)*100).toInt(), const Color(0xffb59194)),
@@ -384,7 +383,6 @@ class BudgetList extends StatelessWidget {
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
           } else if (budgetModel.budgets!.length > 0) {
-            //print("page count: "+budgetModel.budgets!.length.toString());
             return Column(
                 children: [
             Expanded(flex: 8, child: buildChild(budgetModel, context)),
@@ -631,7 +629,7 @@ class _AlertBox extends State<AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () async {
-                          await widget.budgetModel.addBudget(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId, "John");
+                          await widget.budgetModel.addBudget(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
                           Navigator.pop(context);
                         },
                       ),

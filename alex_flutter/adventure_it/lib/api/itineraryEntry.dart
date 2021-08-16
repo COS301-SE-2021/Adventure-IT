@@ -1,4 +1,3 @@
-import 'package:adventure_it/api/location.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:time_machine/time_machine.dart';
 import '/api/adventure.dart';
@@ -14,8 +13,8 @@ class ItineraryEntry {
   final String title;
   final String description;
   final bool completed;
+  final String location;
   final String timestamp;
-  final Location location;
 
   ItineraryEntry({
     required this.title,

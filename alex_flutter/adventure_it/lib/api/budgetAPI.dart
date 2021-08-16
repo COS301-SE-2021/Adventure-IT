@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:adventure_it/api/createUTOBudgetEntry.dart';
 
 import 'package:adventure_it/api/report.dart';
-import 'package:adventure_it/api/user_api.dart';
 
 import '/constants.dart';
 import '/api/budget.dart';
@@ -109,18 +108,18 @@ class BudgetApi {
 
   static Future<http.Response> _deleteBudgetRequest(budgetID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/softDelete/' + budgetID+"/"+UserApi.getInstance().getUserProfile()!.userID));
+    return http.get(Uri.http(budgetApi, '/budget/softDelete/' + budgetID));
   }
 
   static Future<http.Response> _hardDeleteBudgetRequest(budgetID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/hardDelete/' + budgetID+"/"+UserApi.getInstance().getUserProfile()!.userID));
+    return http.get(Uri.http(budgetApi, '/budget/hardDelete/' + budgetID));
   }
 
 
   static Future<http.Response> _restoreBudgetRequest(budgetID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/restoreBudget/' + budgetID+"/"+UserApi.getInstance().getUserProfile()!.userID));
+    return http.get(Uri.http(budgetApi, '/budget/restoreBudget/' + budgetID));
   }
 
   static Future <String> getTotalOfExpenses(Budget b, String userID) async {
