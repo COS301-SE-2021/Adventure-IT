@@ -15,7 +15,7 @@ class UserApi {
   UserProfile? _userProfile;
 
   // TODO: Use ENV for sensitive information
-  final String keycloakClientSecret = "e0ddc4e5-7d32-4340-843f-bd7d736d1100";
+  final String keycloakClientSecret = "f0e75041-7324-4949-bb90-bcd3ddda5bc6";
 
   // Start: Singleton Design Pattern
   static UserApi _instance = new UserApi._();
