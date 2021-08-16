@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
-public class AddMediaRequest {
+public class AddFileRequest {
     String type;
     String name;
     String description;
@@ -12,9 +12,8 @@ public class AddMediaRequest {
     UUID owner;
     MultipartFile file;
 
-    public AddMediaRequest(){}
-
-    public AddMediaRequest(String type, String name, String description, UUID adventureID, UUID owner, MultipartFile file){
+    public AddFileRequest(String type, String name, String description, UUID adventureID, UUID owner, MultipartFile file) {
+        this.type = type;
         this.name = name;
         this.description = description;
         this.adventureID = adventureID;
@@ -22,44 +21,44 @@ public class AddMediaRequest {
         this.file = file;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getType() {
         return type;
     }
 
-    public void setOwner(UUID owner) {
-        this.owner = owner;
-    }
-
-    public UUID getOwner() {
-        return owner;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setAdventureID(UUID adventureID) {
-        this.adventureID = adventureID;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public UUID getAdventureID() {
         return adventureID;
+    }
+
+    public void setAdventureID(UUID adventureID) {
+        this.adventureID = adventureID;
+    }
+
+    public UUID getOwner() {
+        return owner;
+    }
+
+    public void setOwner(UUID owner) {
+        this.owner = owner;
     }
 
     public MultipartFile getFile() {
