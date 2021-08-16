@@ -53,7 +53,7 @@ class ItineraryApi {
 
   static Future<http.Response> _getItineraryEntries(itineraryID) async {
 
-    return http.get(Uri.http(mainApi, '/itinerary/viewItinerary/' + itineraryID));
+    return http.get(Uri.http(mainApi,'/itinerary/viewItinerary/' + itineraryID));
   }
 
   static Future<List<Itinerary>> getDeletedItinerary(adventureId) async {
