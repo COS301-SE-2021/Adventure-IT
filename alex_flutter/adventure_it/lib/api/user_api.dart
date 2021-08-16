@@ -104,6 +104,7 @@ class UserApi {
       responseJson = jsonDecode(res.body)[0];
       return KeycloakUser.fromJson(responseJson);
     } else {
+      debugPrint("Error fetching keycloak user");
       debugPrint(res.body);
       return null;
     }
@@ -129,7 +130,8 @@ class UserApi {
 
   // Register a user in the backend (PRIVATE)
   Future<UserProfile?> _registerBackendProfile(KeycloakUser userInfo) async {
-    debugPrint("Registering backend profile for $userInfo.username");
+    String username = userInfo.username;
+    debugPrint("Registering backend profile for $username");
     final res = await http.post(Uri.parse(userApi + "/user/RegisterUser/"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
