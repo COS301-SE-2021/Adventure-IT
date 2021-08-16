@@ -19,17 +19,6 @@ public class AdventureController {
     @Autowired
     AdventureServiceImplementation adventureServiceImplementation;
 
-    @GetMapping("/test")
-    public String test(){
-        return "Adventure Controller is functional \n";
-    }
-
-    @GetMapping("/populate")
-    public String populate(){
-        adventureServiceImplementation.mockPopulate();
-        return "Mock adventures populated \n";
-    }
-
     @GetMapping("/all")
     public List<GetAllAdventuresResponse> getAllAdventures() {
         return adventureServiceImplementation.getAllAdventures();

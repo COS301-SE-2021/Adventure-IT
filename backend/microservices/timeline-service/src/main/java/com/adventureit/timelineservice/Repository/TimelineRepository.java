@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Repository
 public interface TimelineRepository extends JpaRepository<Timeline, UUID> {
-    List<Timeline> findAllByAdventureID(UUID adventureID);
-    Timeline findByTimelineID(UUID timelineID);
-    void removeAllByAdventureID(UUID adventureID);
+    List<Timeline> findAllByAdventureId(UUID adventureID);
+    Timeline findByTimelineId(UUID timelineID);
+    void removeAllByAdventureId(UUID adventureID);
 }

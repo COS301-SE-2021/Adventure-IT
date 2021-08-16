@@ -8,20 +8,20 @@ import java.util.UUID;
 @Entity
 public class Timeline {
     @Id
-    private UUID timelineID;
-    private UUID adventureID;
-    private String descrpition;
+    private UUID timelineId;
+    private UUID adventureId;
+    private String description;
     private LocalDateTime timestamp;
     private TimelineType type;
 
 
 
-    public Timeline(UUID timelineID, UUID adventureID, String descrpition, LocalDateTime timestamp, TimelineType type) {
-        this.timelineID = timelineID;
-        this.adventureID = adventureID;
+    public Timeline(UUID timelineId, UUID adventureId, String description, LocalDateTime timestamp, TimelineType type) {
+        this.timelineId = timelineId;
+        this.adventureId = adventureId;
 
 
-        this.descrpition = descrpition;
+        this.description = description;
         this.timestamp = timestamp;
         this.type = type;
     }
@@ -30,28 +30,28 @@ public class Timeline {
 
     }
 
-    public UUID getTimelineID() {
-        return timelineID;
+    public UUID getTimelineId() {
+        return timelineId;
     }
 
-    public void setTimelineID(UUID timelineID) {
-        this.timelineID = timelineID;
+    public void setTimelineId(UUID timelineID) {
+        this.timelineId = timelineID;
     }
 
-    public UUID getAdventureID() {
-        return adventureID;
+    public UUID getAdventureId() {
+        return adventureId;
     }
 
-    public void setAdventureID(UUID adventureID) {
-        this.adventureID = adventureID;
+    public void setAdventureId(UUID adventureID) {
+        this.adventureId = adventureID;
     }
 
-    public String getDescrpition() {
-        return descrpition;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescrpition(String descrpition) {
-        this.descrpition = descrpition;
+    public void setDescription(String descrpition) {
+        this.description = descrpition;
     }
 
     public LocalDateTime getTimestamp() {

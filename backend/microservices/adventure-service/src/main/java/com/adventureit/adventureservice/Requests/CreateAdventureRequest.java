@@ -11,11 +11,8 @@ import java.util.UUID;
 
 public class CreateAdventureRequest{
 
-    private RestTemplate restTemplate;
-
     private String name;
     private String description;
-
     private UUID ownerId;
     private ArrayList<String> group;
     private String startDate;
@@ -45,14 +42,8 @@ public class CreateAdventureRequest{
         this.name = name;
     }
 
-
-
     public UUID getOwnerId(){
         return ownerId;
-    }
-
-    public void setOwner(UUID ownerId){
-        this.ownerId = ownerId;
     }
 
     public String getDescription(){
@@ -79,19 +70,4 @@ public class CreateAdventureRequest{
         this.description = description;
     }
 
-//    //public void setEndDate(LocalDate endDate) {
-//        this.endDate = endDate;
-//    }
-
-//    public void setStartDate(LocalDate startDate) {
-//        this.startDate = startDate;
-//    }
-
-    public void setOwnerId(UUID ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public void setGroup(ArrayList<String> group) {
-        this.group = group;
-    }
 }

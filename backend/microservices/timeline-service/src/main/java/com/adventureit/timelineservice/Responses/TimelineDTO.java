@@ -2,35 +2,34 @@ package com.adventureit.timelineservice.Responses;
 
 import com.adventureit.timelineservice.Entity.TimelineType;
 
-import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class TimelineDTO {
-    final private UUID timelineID;
-    final private UUID adventureID;
-    final private String descrpition;
+    final private UUID timelineId;
+    final private UUID adventureId;
+    final private String description;
     final private LocalDateTime timestamp;
     final private TimelineType type;
 
-    public TimelineDTO(UUID timelineID, UUID adventureID, String descrpition, LocalDateTime timestamp, TimelineType type) {
-        this.timelineID = timelineID;
-        this.adventureID = adventureID;
-        this.descrpition = descrpition;
+    public TimelineDTO(UUID timelineId, UUID adventureID, String description, LocalDateTime timestamp, TimelineType type) {
+        this.timelineId = timelineId;
+        this.adventureId = adventureID;
+        this.description = description;
         this.timestamp = timestamp;
         this.type = type;
     }
 
-    public UUID getTimelineID() {
-        return timelineID;
+    public UUID getTimelineId() {
+        return timelineId;
     }
 
-    public UUID getAdventureID() {
-        return adventureID;
+    public UUID getAdventureId() {
+        return adventureId;
     }
 
-    public String getDescrpition() {
-        return descrpition;
+    public String getDescription() {
+        return description;
     }
 
     public LocalDateTime getTimestamp() {

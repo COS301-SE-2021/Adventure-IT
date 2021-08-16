@@ -31,25 +31,25 @@ public class TimelineServiceImplementation {
     }
 
     public List<TimelineDTO> GetTimelineByAdventureID(UUID adventureID){
-        List<Timeline> list =repo.findAllByAdventureID(adventureID);
+        List<Timeline> list =repo.findAllByAdventureId(adventureID);
 
         if(list == null){
              throw new TimelineDoesNotExistException("Timeline does not exist for adventure: "+ adventureID);
         }
         List<TimelineDTO> returnList = new ArrayList<>();
         for(Timeline entry: list){
-            returnList.add(new TimelineDTO(entry.getTimelineID(),entry.getAdventureID(),entry.getDescrpition(),entry.getTimestamp(),entry.getType()));
+            returnList.add(new TimelineDTO(entry.getTimelineId(),entry.getAdventureId(),entry.getDescription(),entry.getTimestamp(),entry.getType()));
         }
         return returnList;
     }
 
     public String deleteTimelineByAdventureID(UUID adventureID){
-        List<Timeline> list = repo.findAllByAdventureID(adventureID);
+        List<Timeline> list = repo.findAllByAdventureId(adventureID);
         if(list == null){
             throw new TimelineDoesNotExistException("Timeline does not exist for adventure: "+ adventureID);
         }
 
-        repo.removeAllByAdventureID(adventureID);
+        repo.removeAllByAdventureId(adventureID);
         return "Timeline for adventure: "+adventureID+" has been deleted";
     }
 
