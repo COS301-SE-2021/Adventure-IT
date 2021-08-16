@@ -25,7 +25,7 @@ class NavDrawer extends StatelessWidget {
               image: ExactAssetImage('assets/logo.png'))),
       )),
           ListTile(
-            leading: Icon(Icons.location_city_outlined),
+            leading: Icon(Icons.location_city_outlined,color:Theme.of(context).accentColor),
             title: Text('Adventure',
                 style: new TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
             onTap: () => {
@@ -37,7 +37,7 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.person_outline_outlined),
+            leading: Icon(Icons.person_outline_outlined,color:Theme.of(context).accentColor),
             title: Text('Profile'),
             onTap: () => {
               Navigator.pushReplacement(
@@ -48,7 +48,7 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.people_outline_outlined),
+            leading: Icon(Icons.people_outline_outlined,color:Theme.of(context).accentColor),
             title: Text('Friend List'),
             onTap: () => {Navigator.pushReplacement(
             context,
@@ -56,18 +56,13 @@ class NavDrawer extends StatelessWidget {
             builder: (context) => Friends())),},
           ),
           ListTile(
-            leading: Icon(Icons.doorbell_rounded),
-            title: Text('Notifications'),
-            onTap: () => {},
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
+            leading: Icon(Icons.settings,color:Theme.of(context).accentColor),
             title: Text('Settings'),
             onTap: () => {},
           ),
           ListTile(
             tileColor: Colors.red,
-            leading: Icon(Icons.power_settings_new),
+            leading: Icon(Icons.power_settings_new,color:Theme.of(context).accentColor),
             title: Text('Logout'),
             onTap: () => {
               Navigator.pushReplacement(

@@ -1,7 +1,7 @@
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '/api/adventure.dart';
-import '/api/transactions.dart';
+import '/api/report.dart';
 
 part 'friendRequest.g.dart';
 

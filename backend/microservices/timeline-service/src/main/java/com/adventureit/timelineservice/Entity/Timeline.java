@@ -15,9 +15,12 @@ public class Timeline {
     private TimelineType type;
 
 
+
     public Timeline(UUID timelineID, UUID adventureID, String descrpition, LocalDateTime timestamp, TimelineType type) {
         this.timelineID = timelineID;
         this.adventureID = adventureID;
+
+
         this.descrpition = descrpition;
         this.timestamp = timestamp;
         this.type = type;

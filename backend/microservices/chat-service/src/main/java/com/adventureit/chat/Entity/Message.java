@@ -13,14 +13,17 @@ public class Message {
     @NotNull
     UUID sender;
     @NotNull
+    UUID chatId;
+    @NotNull
     String message;
     @NotNull
     LocalDateTime timestamp;
 
-    public Message(UUID id, UUID sender, String message){
+    public Message(UUID id, UUID sender,UUID chatId, String message){
         this.id = id;
         this.sender = sender;
         this.message = message;
+        this.chatId= chatId;
         this.timestamp = LocalDateTime.now();
     }
 
@@ -52,8 +55,10 @@ public class Message {
     }
 
     public UUID getSender() {
-        return sender;
+        return this.sender;
     }
+
+    public UUID getChatId(){return this.chatId;}
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;

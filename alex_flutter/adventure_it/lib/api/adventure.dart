@@ -7,7 +7,6 @@ part 'adventure.g.dart';
 class Adventure {
   final String adventureId;
   final List<String> attendees;
-  final List<String> containers;
   final String name;
   final String ownerId;
   final String startDate;
@@ -18,7 +17,6 @@ class Adventure {
       {required this.adventureId,
         required this.ownerId,
         required this.attendees,
-        required this.containers,
         required this.name,
         required this.startDate,
         required this.endDate,

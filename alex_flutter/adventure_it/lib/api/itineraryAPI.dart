@@ -155,7 +155,7 @@ class ItineraryApi {
 
     );
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
       print('Status code: ${response.statusCode}');
@@ -168,6 +168,27 @@ class ItineraryApi {
       print('Body: ${response.body}');
       throw Exception('Failed to create an itinerary.');
     }
+  }
+
+  static Future<ItineraryEntry> getNextEntry(Adventure a) async {
+    http.Response response =
+    await _getNextEntry(a);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load next entry: ${response.body}');
+    }
+
+
+    ItineraryEntry entry = ItineraryEntry.fromJson(jsonDecode(response.body));
+
+    return entry;
+  }
+
+
+
+  static Future<http.Response> _getNextEntry(Adventure a) async {
+
+    return http.get(Uri.http(itineraryApi, '/itinerary/getNextEntry/' + a.adventureId));
   }
 
   static Future<CreateItineraryEntry> createItineraryEntry(String entryContainerID, String title, String description, String location, String timestamp) async {

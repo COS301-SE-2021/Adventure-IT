@@ -1,0 +1,16 @@
+version: "3.3"
+
+services:
+  keycloak:
+    image: bitnami/keycloak:latest
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: 102.133.179.69
+      DB_DATABASE: adventureit
+      DB_USER: postgres
+      DB_SCHEMA: keycloak
+      DB_PASSWORD: xy7chRinmA5Fp32fS5Qeqedx
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: Pa55w0rd
+    ports:
+      - 8080:8080

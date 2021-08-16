@@ -143,7 +143,7 @@ public class AdventureServiceImplementation implements AdventureService {
 
         List<GetAllAdventuresResponse> list = new ArrayList<>();
         for (Adventure a:allAdventures) {
-            list.add(new GetAllAdventuresResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
+            list.add(new GetAllAdventuresResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
         }
 
         return list;
@@ -166,7 +166,7 @@ public class AdventureServiceImplementation implements AdventureService {
 
         List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
         for (Adventure a:userAdventures) {
-            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
         }
 
         return list;
@@ -189,7 +189,7 @@ public class AdventureServiceImplementation implements AdventureService {
 
         List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
         for (Adventure a:userAdventures) {
-            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
         }
 
         return list;
@@ -212,7 +212,7 @@ public class AdventureServiceImplementation implements AdventureService {
 
         List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
         for (Adventure a:userAdventures) {
-            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(), a.getContainers(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
         }
 
         return list;
@@ -262,6 +262,7 @@ public class AdventureServiceImplementation implements AdventureService {
         }
 
         adventure.getAttendees().add(userID);
+        adventureRepository.save(adventure);
     }
 
     @Override
@@ -272,13 +273,6 @@ public class AdventureServiceImplementation implements AdventureService {
         Adventure mockAdventure1 = new Adventure("Mock Adventure 1","Mock Description 1 Mock Description 1Mock Description 1 Mock Description 1 Mock Description 1 Mock Description", UUID.randomUUID(), mockOwnerID, LocalDate.of(2021, 7, 5),LocalDate.of(2021, 7, 9),UUID.randomUUID());
         Adventure mockAdventure2 = new Adventure("Mock Adventure 2","Mock Description 2", UUID.randomUUID(), mockOwnerID, LocalDate.of(2021, 1, 3),LocalDate.of(2022, 1, 2),UUID.randomUUID());
         Adventure mockAdventure3 = new Adventure("Mock Adventure 3", "Mock Description 3",UUID.randomUUID(), mockAttendeeID, LocalDate.of(2022, 1, 4),LocalDate.of(2022, 1, 22),UUID.randomUUID());
-
-        mockAdventure1.addContainer(UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8"));
-        mockAdventure1.addContainer(UUID.fromString("26356837-f076-41ec-85fa-f578df7e3717"));
-        mockAdventure2.addContainer(UUID.fromString("2bb5e28c-90de-4830-ae83-f4f459898e6a"));
-        mockAdventure2.addContainer(UUID.fromString("1b4534b4-65e6-4dc7-9961-65743940c86f"));
-        mockAdventure3.addContainer(UUID.fromString("27f68e13-c8b9-4db8-915b-766e71efc16a"));
-        mockAdventure3.addContainer(UUID.fromString("dcee3250-c653-4cd4-9edc-f77bd6b6eb3f"));
 
         mockAdventure1.addAttendee(mockAttendeeID);
         mockAdventure2.addAttendee(mockAttendeeID);
