@@ -3,7 +3,8 @@ package com.adventureit.notificationservice;
 import com.adventureit.notificationservice.Entity.Notification;
 import com.adventureit.notificationservice.Repos.NotificationRepository;
 import com.adventureit.notificationservice.Service.NotificationService;
-import com.adventureit.userservice.Entities.Users;
+
+
 import com.adventureit.userservice.Service.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -42,10 +43,6 @@ public class NotificationIntegrationTest {
     Notification note1 = new Notification(notificationId1U,userId1U,mockMessage1,date1,null);
 
 
-    @Test
-    void testIntegrationwithUser(){
-
-    }
 
 
 }

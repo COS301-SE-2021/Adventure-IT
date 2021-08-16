@@ -26,18 +26,18 @@ public class UserServiceIntegrationTests {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Test
-    @Order(1)
-    @Description("Ensure that the User Controller loads")
-    public void userControllerLoads() throws Exception {
-        Assertions.assertNotNull(userController);
-    }
-
-    @Test
-    @Order(2)
-    @Description("Ensure that the controller is accepting traffic and responding")
-    public void httpTest_returnResponse(){
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/api/test", String.class),"User controller is working");
-    }
+//    @Test
+//    @Order(1)
+//    @Description("Ensure that the User Controller loads")
+//    public void userControllerLoads() throws Exception {
+//        Assertions.assertNotNull(userController);
+//    }
+//
+//    @Test
+//    @Order(2)
+//    @Description("Ensure that the controller is accepting traffic and responding")
+//    public void httpTest_returnResponse(){
+//        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/api/test", String.class),"User controller is working");
+//    }
 
 }

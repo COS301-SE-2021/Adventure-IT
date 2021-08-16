@@ -7,9 +7,13 @@ spring:
     application:
         name: BUDGET-SERVICE
     datasource:
-        url: jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit
+        url: jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5
         username: postgres
         password: 310PB!Gq%f&J
+        hikari:
+            maximum-pool-size: 2
+
+
     jpa:
         hibernate:
             ddl-auto: update
