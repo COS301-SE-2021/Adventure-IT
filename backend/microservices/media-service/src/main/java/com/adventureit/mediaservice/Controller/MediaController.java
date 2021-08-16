@@ -1,10 +1,12 @@
 package com.adventureit.mediaservice.Controller;
 
-import com.adventureit.mediaservice.Entity.Media;
+import com.adventureit.mediaservice.Entity.FileInfo;
 import com.adventureit.mediaservice.Entity.MediaInfo;
+import com.adventureit.mediaservice.Repository.FileInfoRepository;
+import com.adventureit.mediaservice.Repository.FileRepository;
 import com.adventureit.mediaservice.Repository.MediaInfoRepository;
 import com.adventureit.mediaservice.Repository.MediaRepository;
-import com.netflix.discovery.converters.Auto;
+import com.adventureit.mediaservice.Service.MediaServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -17,24 +19,33 @@ import java.util.UUID;
 @RequestMapping("/media")
 public class MediaController {
     @Autowired
-    private MediaRepository mediaRepository;
+    private MediaServiceImplementation mediaServiceImplementation;
 
     @Autowired
-    private MediaInfoRepository mediaInfoRepository;
+    MediaInfoRepository mediaInfoRepository;
+
+    @Autowired
+    MediaRepository mediaRepository;
+
+    @Autowired
+    FileRepository fileRepository;
+
+    @Autowired
+    FileInfoRepository fileInfoRepository;
 
     @GetMapping("/test")
     public String test(){
         return "Media Controller is functional";
     }
 
-    @GetMapping(value = "/uploaded/{file}")
-    public ResponseEntity<byte[]> testUploaded(@PathVariable UUID file){
-        HttpHeaders headers = new HttpHeaders();
-        Media storedMedia = mediaRepository.findMediaById(file);
-        headers.setCacheControl(CacheControl.noCache().getHeaderValue()); // disabling caching for client who requests the resource
-        headers.setContentType(MediaType.parseMediaType(storedMedia.getType()));
-        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(storedMedia.getData(), headers, HttpStatus.OK);
-        return responseEntity;
+    @GetMapping(value = "/mediaUploaded/{file}")
+    public ResponseEntity<byte[]> testMediaUploaded(@PathVariable UUID file){
+        return mediaServiceImplementation.testMediaUploaded(file);
+    }
+
+    @GetMapping(value = "/fileUploaded/{file}")
+    public ResponseEntity<byte[]> testFileUploaded(@PathVariable UUID file){
+        return mediaServiceImplementation.testFileUploaded(file);
     }
 
     @GetMapping(value = "/getUserMediaList/{id}")
@@ -42,26 +53,38 @@ public class MediaController {
         return mediaInfoRepository.findAllByOwner(id);
     }
 
-    @GetMapping(value = "/getAdventureFileList/{id}")
-    public List<MediaInfo> getAdventureFileList(@PathVariable UUID id){
+    @GetMapping(value = "/getAdventureMediaList/{id}")
+    public List<MediaInfo> getAdventureMediaList(@PathVariable UUID id){
         return mediaInfoRepository.findAllByAdventureID(id);
     }
 
-    @PostMapping("/upload")
-    public HttpStatus uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("userid") UUID userId, @RequestParam("adventureid") UUID adventureId){
-        try {
-            final byte[] content = file.getBytes();
-            Media uploadedMedia = new Media(UUID.randomUUID(), file.getContentType(), file.getName(), "DESCRIPTION", adventureId , userId);
-            MediaInfo uploadedMediaInfo = new MediaInfo(uploadedMedia.getId(), uploadedMedia.getType(), uploadedMedia.getName(), uploadedMedia.getDescription(), uploadedMedia.getAdventureID(), uploadedMedia.getOwner());
-            uploadedMedia.setData(content);
-            mediaRepository.save(uploadedMedia);
-            mediaInfoRepository.save(uploadedMediaInfo);
-            return HttpStatus.OK;
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return HttpStatus.NO_CONTENT;
-        }
+    @GetMapping(value = "/getUserFileList/{id}")
+    public List<FileInfo> getUserFileList(@PathVariable UUID id){
+        return fileInfoRepository.findAllByOwner(id);
+    }
 
+    @GetMapping(value = "/getAdventureFileList/{id}")
+    public List<FileInfo> getAdventureFileList(@PathVariable UUID id){
+        return fileInfoRepository.findAllByAdventureID(id);
+    }
+
+    @PostMapping("/uploadMedia")
+    public HttpStatus uploadMedia(@RequestParam("file") MultipartFile file, @RequestParam("userid") UUID userId, @RequestParam("adventureid") UUID adventureId){
+        return mediaServiceImplementation.uploadMedia(file,userId,adventureId);
+    }
+
+    @PostMapping("/uploadFile")
+    public HttpStatus uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("userid") UUID userId, @RequestParam("adventureid") UUID adventureId){
+        return mediaServiceImplementation.uploadFile(file,userId,adventureId);
+    }
+
+    @GetMapping("/changeMediaAccess/{id}")
+    public void changeMediaAccess(@PathVariable UUID id) {
+        mediaServiceImplementation.changeMediaAccess(id);
+    }
+
+    @GetMapping("/changeFileAccess/{id}")
+    public void changeFileAccess(@PathVariable UUID id) {
+        mediaServiceImplementation.changeFileAccess(id);
     }
 }

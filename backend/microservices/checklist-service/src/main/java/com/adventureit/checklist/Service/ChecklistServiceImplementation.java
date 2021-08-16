@@ -4,6 +4,7 @@ import com.adventureit.checklist.Entity.Checklist;
 import com.adventureit.checklist.Entity.ChecklistEntry;
 import com.adventureit.checklist.Repository.ChecklistEntryRepository;
 import com.adventureit.checklist.Repository.ChecklistRepository;
+import com.adventureit.checklist.Requests.ChecklistDTO;
 import com.adventureit.checklist.Responses.ChecklistEntryResponseDTO;
 import com.adventureit.checklist.Responses.ChecklistResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -220,6 +221,12 @@ public class ChecklistServiceImplementation implements ChecklistService {
         }
 
         return list;
+    }
+
+    @Override
+    public ChecklistDTO getChecklistByChecklistId(UUID checklistId){
+        Checklist check = checklistRepository.findChecklistById(checklistId);
+        return new ChecklistDTO(check.getId(),check.getCreatorID(),check.getAdventureID(),check.getTitle(),check.getDescription(),check.isDeleted());
     }
 
     @Override

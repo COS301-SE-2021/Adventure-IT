@@ -31,7 +31,7 @@ public class TimelineController {
 
     @PostMapping("/createTimeline")
     public String createTimeline(@RequestBody CreateTimelineRequest req){
-        return service.createTimelineEntry(req.getAdventureID(),req.getUserID(),req.getDescription(),req.getType());
+        return service.createTimelineEntry(req.getAdventureID(),req.getDescription(),req.getType());
     }
 
 

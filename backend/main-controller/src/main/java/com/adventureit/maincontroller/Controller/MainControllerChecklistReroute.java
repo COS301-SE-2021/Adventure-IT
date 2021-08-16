@@ -1,7 +1,9 @@
 package com.adventureit.maincontroller.Controller;
 
 
+import com.adventureit.budgetservice.Responses.BudgetResponseDTO;
 import com.adventureit.checklist.Requests.AddChecklistEntryRequest;
+import com.adventureit.checklist.Requests.ChecklistDTO;
 import com.adventureit.checklist.Requests.CreateChecklistRequest;
 import com.adventureit.checklist.Requests.EditChecklistEntryRequest;
 import com.adventureit.checklist.Responses.ChecklistEntryResponseDTO;
@@ -59,20 +61,29 @@ public class MainControllerChecklistReroute {
 
     @GetMapping("/hardDelete/{id}/{userID}")
     public String hardDelete(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
-        return restTemplate.getForObject("http://"+ IP + ":" + checklistPort + "/checklist/hardDelete/"+id+"/"+userID, String.class);
+        restTemplate.getForObject("http://"+ IP + ":" + checklistPort + "/checklist/hardDelete/"+id+"/"+userID, String.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(id, TimelineType.BUDGET,"Budget: "+id+" has been deleted" );
+        return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+
     }
 
     @PostMapping("/create")
     public String createChecklist(@RequestBody CreateChecklistRequest req) throws Exception {
-        restTemplate.postForObject("http://"+ IP + ":" + checklistPort + "/budget/create/", req, String.class);
-        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(),req.getCreatorID(), TimelineType.CHECKLIST,req.getTitle()+" checklist has been created" );
+        restTemplate.postForObject("http://"+ IP + ":" + checklistPort + "/checklist/create/", req, String.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(), TimelineType.CHECKLIST,req.getTitle()+" checklist has been created" );
         String timelineResponse = restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return timelineResponse;
     }
 
     @PostMapping("/addEntry")
     public String addEntry(@RequestBody AddChecklistEntryRequest req) throws Exception {
-        return restTemplate.postForObject("http://"+ IP + ":" + checklistPort + "/budget/addEntry/", req, String.class);
+        String returnString = restTemplate.postForObject("http://"+ IP + ":" + checklistPort + "/checklist/addEntry/", req, String.class);
+        UUID checklistID = req.getEntryContainerID();
+        UUID adventureId = restTemplate.getForObject("http://"+ IP + ":" + checklistPort + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class).getAdventureID();
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Checklist: "+req.getTitle()+" has been edited" );
+        restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        return returnString;
+
     }
 
     @GetMapping("/removeEntry/{id}")
@@ -82,7 +93,11 @@ public class MainControllerChecklistReroute {
 
     @PostMapping("/editEntry")
     public String editEntry(@RequestBody EditChecklistEntryRequest req) throws Exception {
-        return restTemplate.postForObject("http://"+ IP + ":" + checklistPort + "/budget/editEntry/", req, String.class);
+        restTemplate.postForObject("http://"+ IP + ":" + checklistPort + "/checklist/editEntry/", req, String.class);
+        UUID checklistID = req.getEntryContainerID();
+        UUID adventureId = restTemplate.getForObject("http://"+ IP + ":" + checklistPort + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class).getAdventureID();
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Checklist: "+req.getTitle()+" has been edited" );
+        return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 
     @GetMapping("/markEntry/{id}")
