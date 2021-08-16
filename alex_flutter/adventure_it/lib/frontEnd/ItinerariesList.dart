@@ -123,6 +123,7 @@ class ItinerariesList extends StatefulWidget {
 class _ItinerariesList extends State<ItinerariesList> {
   Adventure? a;
   ItineraryEntry? next;
+  bool check=false;
 
   List<String> months = [
     "January",
@@ -143,6 +144,9 @@ class _ItinerariesList extends State<ItinerariesList> {
     this.a = adventure;
     ItineraryApi.getNextEntry(a!).then((value) {
       setState(() {
+
+        check=true;
+
         next = value;
       });
     });
@@ -152,7 +156,7 @@ class _ItinerariesList extends State<ItinerariesList> {
   Widget build(BuildContext context) {
     return
             Consumer<ItineraryModel>(builder: (context, itineraryModel, child) {
-          if (itineraryModel.itineraries == null) {
+          if (itineraryModel.itineraries == null||check==false) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
@@ -160,12 +164,12 @@ class _ItinerariesList extends State<ItinerariesList> {
           } else if (itineraryModel.itineraries!.length > 0) {
             return Column(children: [
               Expanded(
-                  flex: 4,
+                  flex: 3,
                   child: Container(
                       decoration: new BoxDecoration(
                           image: new DecorationImage(
-                              image: NetworkImage(
-                                  "https://lh5.googleusercontent.com/p/AF1QipM4-7EPQBFbTgOy5k7YXtJmLWtz7wwl-WwUq4jT=w408-h271-k-no"),
+                              image: next!=null?
+                                  NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+next!.location.photo_reference+"&maxwidth=500&key="+googleMapsKey):NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+a!.location.photo_reference+"&maxwidth=500&key="+googleMapsKey) ,
                               fit: BoxFit.cover,
                               colorFilter: ColorFilter.mode(
                                   Theme.of(context)
@@ -174,6 +178,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                   BlendMode.dstATop))
                       ),
                       child: next!=null? Column(children: [
+                        Spacer(),
                     Text("Next Stop!",
                         style: TextStyle(
                             fontSize:
@@ -239,7 +244,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                     .bodyText1!
                                     .color)),
                       ),
-                    ])
+                    ]),Spacer(),
                   ]): Center(
                           child: Text(
                               "There's nothing coming up next. Is this the end?",
