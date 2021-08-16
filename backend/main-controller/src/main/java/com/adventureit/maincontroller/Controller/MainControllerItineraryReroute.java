@@ -7,13 +7,17 @@ import com.adventureit.itinerary.Requests.EditItineraryEntryRequest;
 import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 import com.adventureit.locationservice.Responses.LocationResponseDTO;
+import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
 import com.adventureit.maincontroller.Responses.MainItineraryEntryResponseDTO;
 import com.adventureit.timelineservice.Entity.TimelineType;
 import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,14 +58,28 @@ public class MainControllerItineraryReroute {
 
     @GetMapping("/viewItinerary/{id}")
     public List<MainItineraryEntryResponseDTO> viewItinerary(@PathVariable UUID id){
-        List<ItineraryEntryResponseDTO> entries = restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/viewItinerary/"+id, List.class);
+        List<LinkedHashMap> entries = restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/viewItinerary/"+id, List.class);
         List<MainItineraryEntryResponseDTO> list = new ArrayList<>();
         LocationResponseDTO location;
 
-        for (ItineraryEntryResponseDTO entry:entries) {
-            location = restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/getLocation/" + entry.getLocation(), LocationResponseDTO.class);
-            list.add(new MainItineraryEntryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getEntryContainerID(),entry.isCompleted(),location,entry.getTimestamp()));
+        for (LinkedHashMap entry :
+                entries) {
+            try {
+                LocationResponseDTO itineraryLocation = restTemplate.getForObject("http://localhost:9006/location/getLocation/"+(String)entry.get("location"), LocationResponseDTO.class);
+                MainItineraryEntryResponseDTO responseObject = new MainItineraryEntryResponseDTO((String)entry.get("title"), (String)entry.get("description"), UUID.fromString((String)entry.get("id")), UUID.fromString((String)entry.get("entryContainerID")), (Boolean)entry.get("completed"),itineraryLocation, LocalDateTime.parse((String)entry.get("timestamp")));
+
+               list.add(responseObject);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+
         }
+
+//        for (ItineraryEntryResponseDTO entry:entries) {
+//            location = restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/getLocation/" + entry.getLocation(), LocationResponseDTO.class);
+//            list.add(new MainItineraryEntryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getEntryContainerID(),entry.isCompleted(),location,entry.getTimestamp()));
+//        }
 
         return list;
     }
@@ -123,8 +141,7 @@ public class MainControllerItineraryReroute {
     public MainItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id){
         ItineraryEntryResponseDTO entry = restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/getNextEntry/"+id, ItineraryEntryResponseDTO.class);
         LocationResponseDTO location = restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/getLocation/" + entry.getLocation(), LocationResponseDTO.class);
-        MainItineraryEntryResponseDTO returnEntry = new MainItineraryEntryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getEntryContainerID(),entry.isCompleted(),location,entry.getTimestamp());
-        return returnEntry;
+        return new MainItineraryEntryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getEntryContainerID(),entry.isCompleted(),location,entry.getTimestamp());
     }
 
     @GetMapping("/setLocation/{itineraryId}/{locationID}")
