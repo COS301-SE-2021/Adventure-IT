@@ -12,6 +12,9 @@ public class ItineraryEntryResponseDTO {
     private UUID location;
     LocalDateTime timestamp;
 
+    public ItineraryEntryResponseDTO() {
+    }
+
     public ItineraryEntryResponseDTO(UUID id, UUID entryContainerID, String title, String description, boolean completed, UUID location, LocalDateTime timestamp){
         this.title = title;
         this.description=description;
