@@ -54,7 +54,7 @@ class ChatApi {
   }
 
   static Future<http.Response> _getGroupChatMessages(chatID) async {
-    return http.get(Uri.parse(mainApi+'/chat/getGroupMessages/' + chatID));
+    return http.get(Uri.http(mainApi,'/chat/getGroupMessages/' + chatID));
   }
 
   static Future<http.Response> _getGroupChat(adventureID) async {
