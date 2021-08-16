@@ -161,7 +161,7 @@ class _MessageList extends State<MessageList> {
   @override
   Widget build(BuildContext context) {
     return Consumer<GroupChatModel>(builder: (context, chatModel, child) {
-      if (chatModel.messages == null) {
+      if (chatModel.messages == null&&chatModel.chat==null) {
         return Center(
             child: CircularProgressIndicator(
                 valueColor: new AlwaysStoppedAnimation<Color>(

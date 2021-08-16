@@ -25,7 +25,12 @@ class GroupChatModel extends ChangeNotifier {
 
   Future fetchAllMessages() async {
     _chat=await ChatApi.getGroupChat(currentAdventure);
-    _messages = await ChatApi.getGroupChatMessage(_chat!.id);
+    if(_chat!.messages.isEmpty)
+      {
+        _messages=List.empty();
+      }
+    else
+      _messages = await ChatApi.getGroupChatMessage(_chat!.id);
     notifyListeners();
   }
 
