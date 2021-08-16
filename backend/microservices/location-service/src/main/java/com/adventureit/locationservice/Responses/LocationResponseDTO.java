@@ -15,6 +15,10 @@ public class LocationResponseDTO {
         this.place_id = place_id;
     }
 
+    public LocationResponseDTO(){
+
+    }
+
     public String getPhoto_reference() {
         return photo_reference;
     }
