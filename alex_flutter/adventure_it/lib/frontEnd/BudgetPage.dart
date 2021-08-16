@@ -4,6 +4,7 @@ import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/createUTOBudgetEntry.dart';
 import 'package:adventure_it/api/createUTUBudgetEntry.dart';
 import 'package:adventure_it/api/userProfile.dart';
+import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/services.dart';
@@ -1174,7 +1175,7 @@ class getReport extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => BudgetReportModel(currentBudget!,"AshFlo"),
+        create: (context) => BudgetReportModel(currentBudget!,UserApi.getInstance().getUserProfile()!.username),
         child: Consumer<BudgetReportModel>(
             builder: (context, budgetReportModel, child) {
               if (budgetReportModel.reports == null) {

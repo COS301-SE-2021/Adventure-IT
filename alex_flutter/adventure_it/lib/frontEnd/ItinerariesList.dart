@@ -4,6 +4,7 @@ import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/createItinerary.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
+import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 
@@ -368,7 +369,7 @@ class _AlertBox extends State<AlertBox> {
   }
 
   //controllers for the form fields
-  String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
+  String userID = UserApi.getInstance().getUserProfile()!.userID;
 
   Future<CreateItinerary>? _futureItinerary;
   final nameController = TextEditingController();

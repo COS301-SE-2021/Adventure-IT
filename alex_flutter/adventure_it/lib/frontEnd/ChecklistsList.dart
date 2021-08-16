@@ -4,6 +4,7 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
 import 'package:adventure_it/api/createChecklist.dart';
+import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/frontEnd/ChecklistsTrash.dart';
@@ -130,7 +131,6 @@ class ChecklistList extends StatelessWidget {
   Widget build(BuildContext context) {
     return
             Consumer<ChecklistModel>(builder: (context, checklistModel, child) {
-              print("===============print====================");
               if (checklistModel.checklists != null)
                 print(checklistModel.checklists!.length);
 
@@ -254,7 +254,7 @@ class _AlertBox extends State <AlertBox> {
   }
 
   //controllers for the form fields
-  String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
+  String userID = UserApi.getInstance().getUserProfile()!.userID;
 
   Future<CreateChecklist>? _futureChecklist;
   final nameController = TextEditingController();

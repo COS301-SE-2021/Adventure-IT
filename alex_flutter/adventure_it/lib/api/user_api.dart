@@ -191,7 +191,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriendRequests(String userID) async {
-    return http.get(Uri.http(userApi, '/user/getFriendRequests/' + userID));
+    return http.get(Uri.parse(userApi+'/user/getFriendRequests/' + userID));
   }
 
   Future<List<UserProfile>> getFriendProfiles(String userID) async {

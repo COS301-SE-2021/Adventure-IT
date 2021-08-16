@@ -92,7 +92,7 @@ class FriendsPage extends State<Friends> {
     print(value);
     if (value.compareTo("") != 0) {
     _userApi.createFriendRequest(
-    "1660bd85-1c13-42c0-955c-63b1eda4e90b", value);
+        UserApi.getInstance().getUserProfile()!.userID, value);
 
                             }});},
                             icon: const Icon(Icons.send_rounded),
@@ -170,7 +170,7 @@ class getFriends extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) =>
-            FriendModel("1660bd85-1c13-42c0-955c-63b1eda4e90b"),
+            FriendModel(UserApi.getInstance().getUserProfile()!.userID),
         child: Consumer<FriendModel>(builder: (context, friendModel, child) {
           if (friendModel.friends == null) {
             return Center(
@@ -320,7 +320,7 @@ class getFriendRequests extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (context)=>
 
-            FriendRequestModel("1660bd85-1c13-42c0-955c-63b1eda4e90b"),
+            FriendRequestModel(UserApi.getInstance().getUserProfile()!.userID),
         child: Consumer<FriendRequestModel>(
             builder: (context, friendModel, child) {
           this.c = context;
