@@ -1,10 +1,6 @@
 package com.adventureit.maincontroller.Controller;
 
 
-import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
-import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
-import com.adventureit.budgetservice.Responses.BudgetResponseDTO;
-import com.adventureit.itinerary.Entity.Itinerary;
 import com.adventureit.itinerary.Requests.AddItineraryEntryRequest;
 import com.adventureit.itinerary.Requests.CreateItineraryRequest;
 import com.adventureit.itinerary.Requests.EditItineraryEntryRequest;
@@ -124,8 +120,11 @@ public class MainControllerItineraryReroute {
     }
 
     @GetMapping("/getNextEntry/{id}")
-    public ItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id){
-        return restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/getNextEntry/"+id, ItineraryEntryResponseDTO.class);
+    public MainItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id){
+        ItineraryEntryResponseDTO entry = restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/getNextEntry/"+id, ItineraryEntryResponseDTO.class);
+        LocationResponseDTO location = restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/getLocation/" + entry.getLocation(), LocationResponseDTO.class);
+        MainItineraryEntryResponseDTO returnEntry = new MainItineraryEntryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getEntryContainerID(),entry.isCompleted(),location,entry.getTimestamp());
+        return returnEntry;
     }
 
     @GetMapping("/setLocation/{itineraryId}/{locationID}")
