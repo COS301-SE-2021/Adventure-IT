@@ -1,5 +1,7 @@
 package com.adventureit.budgetservice.Requests;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
 
 public class HardDeleteRequest {
@@ -7,8 +9,8 @@ public class HardDeleteRequest {
 
     public HardDeleteRequest(){}
 
-    public HardDeleteRequest(UUID id){
-        this.id = id;
+    public HardDeleteRequest(@JsonProperty("id") String id){
+        this.id = UUID.fromString(id);
     }
 
     public void setId(UUID id) {

@@ -1,56 +1,76 @@
 package com.adventureit.budgetservice.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.ArrayList;
+import javax.persistence.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
-public class BudgetEntry {
+
+public class BudgetEntry{
     @Id
-    private UUID id;
+    private UUID budgetEntryID;
+    private UUID entryContainerID;
+    private String payer;
     double amount;
     String title;
     String description;
-//    ArrayList<Media> attachments;
+    @Enumerated(EnumType.STRING)
+    Category category;
+    LocalDateTime timestamp;
 
-    /**
-     * BudgetEntry model Constructor which takes in the following parameters:
-     * @param id BudgetEntry id
-     * @param amount amount used in specific entry
-     * @param title title of entry
-     * @param description short description of entry
-     */
-    public BudgetEntry(UUID id,double amount,String title,String description){
-        this.id = id;
+    public BudgetEntry() {
+    }
+
+    public BudgetEntry(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, String payer){
+        this.budgetEntryID = id;
+        this.entryContainerID = entryContainerID;
         this.amount = amount;
         this.title = title;
         this.description = description;
-//        this.attachments = attachments;
+        this.category = category;
+        this.payer = payer;
+        this.timestamp = LocalDateTime.now();
     }
 
-    /**
-     * Default Constructors
-     */
-    public BudgetEntry() {
-
+    public BudgetEntry(UUID entryContainerID, double amount, String title, String description, Category category, String payer){
+        this.budgetEntryID = UUID.randomUUID();
+        this.entryContainerID = entryContainerID;
+        this.amount = amount;
+        this.title = title;
+        this.description = description;
+        this.category = category;
+        this.payer = payer;
+        this.timestamp = LocalDateTime.now();
     }
 
-    /**
-     * Getters and Setters
-     */
     public UUID getId() {
-        return id;
+        return budgetEntryID;
     }
 
     public void setId(UUID id) {
-        this.id = id;
+        this.budgetEntryID = id;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public UUID getEntryContainerID() {
+        return entryContainerID;
+    }
+
+    public void setEntryContainerID(UUID entryContainerID) {
+        this.entryContainerID = entryContainerID;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void setTitle(String title) {
@@ -61,15 +81,39 @@ public class BudgetEntry {
         return description;
     }
 
-    public String getTitle() {
-        return title;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public String getPayer() {
+        return payer;
     }
 
-    public double getAmount() {
-        return amount;
+    public void setPayer(String payer) {
+        this.payer = payer;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setBudgetEntryID(UUID budgetEntryID) {
+        this.budgetEntryID = budgetEntryID;
+    }
+
+    public UUID getBudgetEntryID() {
+        return budgetEntryID;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 }
