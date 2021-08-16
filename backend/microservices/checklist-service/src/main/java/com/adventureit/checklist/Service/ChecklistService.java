@@ -1,6 +1,7 @@
 package com.adventureit.checklist.Service;
 
 import com.adventureit.checklist.Entity.Checklist;
+import com.adventureit.checklist.Requests.ChecklistDTO;
 import com.adventureit.checklist.Responses.ChecklistEntryResponseDTO;
 import com.adventureit.checklist.Responses.ChecklistResponseDTO;
 import org.springframework.stereotype.Service;
@@ -22,4 +23,5 @@ public interface ChecklistService {
     public String restoreChecklist(UUID id,UUID userID) throws Exception;
     public List<ChecklistEntryResponseDTO> viewChecklist(UUID id) throws Exception;
     public String mockPopulate();
+    public ChecklistDTO getChecklistByChecklistId(UUID checklistId);
 }

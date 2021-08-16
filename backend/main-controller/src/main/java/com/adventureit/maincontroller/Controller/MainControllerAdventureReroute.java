@@ -8,7 +8,10 @@ import com.adventureit.adventureservice.Responses.RemoveAdventureResponse;
 import com.adventureit.chat.Requests.CreateGroupChatRequest;
 import com.adventureit.locationservice.Entity.Location;
 import com.adventureit.locationservice.Responses.LocationResponseDTO;
-//import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
+
+import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
+import com.adventureit.timelineservice.Entity.TimelineType;
+import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
 import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
 import com.netflix.discovery.EurekaClient;
@@ -32,6 +35,7 @@ public class MainControllerAdventureReroute {
     private final String userPort = "9002";
     private final String chatPort = "9010";
     private final String locationPort = "9006";
+    private final String timelinePort = "9012";
 
     @GetMapping("/test")
     public String adventureTest(){
@@ -92,6 +96,15 @@ public class MainControllerAdventureReroute {
     @DeleteMapping("/remove/{id}/{userID}")
     public RemoveAdventureResponse removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
         return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/remove/"+id+"/"+userID, RemoveAdventureResponse.class);
+    }
+
+    @GetMapping("/addAttendees/{adventureID}/{userID}")
+    public String addAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID) throws Exception {
+        restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/addAttendees/"+adventureID+"/"+userID, String.class);
+        GetUserByUUIDDTO response = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/addAttendees/"+userID, GetUserByUUIDDTO.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureID, TimelineType.ADVENTURE,response.getUsername()+" has been added to this adventure" );
+        return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+
     }
 
 }
