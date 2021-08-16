@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:adventure_it/api/createItineraryEntry.dart';
+import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import '/api/itinerary.dart';
 import '/api/adventure.dart';
@@ -52,7 +53,7 @@ class ItineraryApi {
 
   static Future<http.Response> _getItineraryEntries(itineraryID) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/viewItinerary/' + itineraryID));
+    return http.get(Uri.http(mainApi, '/itinerary/viewItinerary/' + itineraryID));
   }
 
   static Future<List<Itinerary>> getDeletedItinerary(adventureId) async {
@@ -125,18 +126,18 @@ class ItineraryApi {
 
   static Future<http.Response> _deleteItineraryRequest(itineraryID) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/softDelete/' + itineraryID));
+    return http.get(Uri.http(itineraryApi, '/itinerary/softDelete/' + itineraryID+"/"+UserApi.getInstance().getUserProfile()!.userID));
   }
 
   static Future<http.Response> _hardDeleteItineraryRequest(itineraryID) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/hardDelete/' + itineraryID));
+    return http.get(Uri.http(itineraryApi, '/itinerary/hardDelete/' + itineraryID+"/"+UserApi.getInstance().getUserProfile()!.userID));
   }
 
 
   static Future<http.Response> _restoreItineraryRequest(itineraryID) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/restoreItinerary/' + itineraryID));
+    return http.get(Uri.http(itineraryApi, '/itinerary/restoreItinerary/' + itineraryID+"/"+UserApi.getInstance().getUserProfile()!.userID));
   }
 
   static Future<CreateItinerary> createItinerary(String title, String description, String creatorID, String adventureID) async {
@@ -188,7 +189,7 @@ class ItineraryApi {
 
   static Future<http.Response> _getNextEntry(Adventure a) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/getNextEntry/' + a.adventureId));
+    return http.get(Uri.http(mainApi, '/itinerary/getNextEntry/' + a.adventureId));
   }
 
   static Future<CreateItineraryEntry> createItineraryEntry(String entryContainerID, String title, String description, String location, String timestamp) async {
