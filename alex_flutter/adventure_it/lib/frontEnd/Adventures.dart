@@ -187,7 +187,7 @@ class AdventureList extends StatelessWidget {
                                                     !.elementAt(index)
                                                     .description,
                                                 style: TextStyle(
-                                                    fontSize: 20 *
+                                                    fontSize: 15 *
                                                         MediaQuery.of(context)
                                                             .textScaleFactor,
                                                     color: Theme.of(context)
@@ -220,7 +220,7 @@ class AdventureList extends StatelessWidget {
                                                       .textTheme
                                                       .bodyText1!
                                                       .color))
-                                        ]),)]),
+                                        ]),),SizedBox(height: MediaQuery.of(context).size.height*0.005),]),
                                           ),
                                         ),
                                         Expanded(
