@@ -109,6 +109,25 @@ public class MediaController {
             e.printStackTrace();
             return HttpStatus.NO_CONTENT;
         }
+    }
 
+    @GetMapping("/changeMediaAccess/{id}")
+    public void changeMediaAccess(@PathVariable UUID id) {
+        Media media = mediaRepository.findMediaById(id);
+        MediaInfo mediaInfo = mediaInfoRepository.findMediaById(id);
+        media.setPublicAccess(!media.getPublicAccess());
+        mediaInfo.setPublicAccess(!mediaInfo.getPublicAccess());
+        mediaRepository.save(media);
+        mediaInfoRepository.save(mediaInfo);
+    }
+
+    @GetMapping("/changeFileAccess/{id}")
+    public void changeFileAccess(@PathVariable UUID id) {
+        File file = fileRepository.findFileById(id);
+        FileInfo fileInfo = fileInfoRepository.findFileInfoById(id);
+        file.setPublicAccess(!file.getPublicAccess());
+        fileInfo.setPublicAccess(!fileInfo.getPublicAccess());
+        fileRepository.save(file);
+        fileInfoRepository.save(fileInfo);
     }
 }
