@@ -292,6 +292,12 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
+    public ItineraryResponseDTO getItineraryById(UUID itineraryID) {
+        Itinerary entry = itineraryRepository.findItineraryById(itineraryID);
+        return new ItineraryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getCreatorID(),entry.getAdventureID(),entry.getDeleted());
+    }
+
+    @Override
     public String mockPopulate() {
         final UUID mockItineraryID1 = UUID.fromString("d99dde68-664a-4618-9bb6-4b5dca7d40a8");
         final UUID mockItineraryID2 = UUID.fromString("d99dde68-664a-4618-9bb6-4b4dca7d40a8");

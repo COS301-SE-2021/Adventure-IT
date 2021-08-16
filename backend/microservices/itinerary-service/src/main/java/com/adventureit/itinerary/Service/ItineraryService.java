@@ -24,4 +24,5 @@ public interface ItineraryService {
     public String mockPopulate();
     public ItineraryEntryResponseDTO nextItem(UUID id) throws Exception;
     public void setItineraryEntryLocation(UUID itineraryID, UUID locationID);
+    public ItineraryResponseDTO getItineraryById(UUID itineraryID);
 }
