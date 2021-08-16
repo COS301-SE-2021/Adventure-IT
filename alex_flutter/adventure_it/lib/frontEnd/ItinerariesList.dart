@@ -248,7 +248,9 @@ class _ItinerariesList extends State<ItinerariesList> {
                                   fontSize: 30 * MediaQuery.of(context).textScaleFactor,
                                   color: Theme.of(context).textTheme.bodyText1!.color))))),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-              ListView.builder(
+              Expanded(
+                flex: 8,
+              child: ListView.builder(
                       itemCount: itineraryModel.itineraries!.length,
                       itemBuilder: (context, index) => Dismissible(
                           background: Container(
@@ -330,7 +332,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                       .itineraries!
                                       .elementAt(index));
                             }))
-              ]);
+              )]);
           } else {
             return Center(
                 child: Text(
