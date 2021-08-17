@@ -97,7 +97,6 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
     public String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description, UUID location, LocalDateTime timestamp ) throws Exception {
         if(itineraryRepository.findItineraryById(entryContainerID) == null){
-
             throw new Exception("Itinerary does not exist.");
         }
         if (id == null) {
