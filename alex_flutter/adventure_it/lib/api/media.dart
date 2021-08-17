@@ -15,15 +15,14 @@ class Media {
   final bool publicAccess;
 
   Media(
-      {     required this.id,
+      {required this.id,
       required this.type,
       required this.name,
       required this.adventureID,
       required this.owner,
       required this.publicAccess});
 
-  factory Media.fromJson(Map<String, dynamic> json) =>
-      _$MediaFromJson(json);
+  factory Media.fromJson(Map<String, dynamic> json) => _$MediaFromJson(json);
 
   Map<String, dynamic> toJson() => _$MediaToJson(this);
 }
