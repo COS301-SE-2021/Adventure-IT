@@ -3,6 +3,7 @@ import 'package:adventure_it/api/createUTOBudgetEntry.dart';
 import 'package:adventure_it/api/groupChatMessage.dart';
 
 import 'package:adventure_it/api/report.dart';
+import 'package:adventure_it/api/sendDirectMessage.dart';
 
 import '/constants.dart';
 import '/api/budget.dart';
@@ -101,5 +102,33 @@ class ChatApi {
     return http.get(Uri.http(mainApi, '/chat/getDirectMessages/' + chatID));
   }
 
+  static Future<SendDirectMessage> sendDirectMessage(String chatID, String sender, String receiver, String msg) async {
 
+    final response = await http.post(
+        Uri.parse('http://localhost:9010/chat/sendDirectMessage'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'chatID': chatID,
+          'sender': sender,
+          'receiver': receiver,
+          'msg': msg
+        })
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      return SendDirectMessage(chatID: chatID, sender: sender, receiver: receiver, msg: msg);
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      throw Exception('Failed to send a direct message.');
+    }
+  }
 }
