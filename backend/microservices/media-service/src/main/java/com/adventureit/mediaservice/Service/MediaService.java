@@ -15,5 +15,6 @@ public interface MediaService {
     public HttpStatus uploadFile(MultipartFile file,UUID userId, UUID adventureId);
     public void changeMediaAccess(UUID id);
     public void changeFileAccess(UUID id);
-
+    public void deleteMedia(UUID id,UUID userID) throws Exception;
+    public void deleteFile(UUID id,UUID userID) throws Exception;
 }
