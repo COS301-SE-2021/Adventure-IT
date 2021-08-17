@@ -13,7 +13,7 @@ public class RemoveAdventureResponse {
         return message;
     }
 
-    public boolean getSuccess(){
+    public boolean isSuccess() {
         return success;
     }
 }
