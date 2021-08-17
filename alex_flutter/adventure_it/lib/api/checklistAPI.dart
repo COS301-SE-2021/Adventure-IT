@@ -30,7 +30,7 @@ class ChecklistApi {
   }
 
   static Future<http.Response> _getChecklists(adventureID) async {
-    return http.get(Uri.http(checklistApi, 'checklist/viewChecklistsByAdventure/' + adventureID));
+    return http.get(Uri.http(mainApi, 'checklist/viewChecklistsByAdventure/' + adventureID));
   }
 
   static Future<List<Checklist>> getDeletedChecklist(adventureId) async {
@@ -89,7 +89,7 @@ class ChecklistApi {
 
   static Future<http.Response> _completeEntry(checklistID) async {
 
-    return http.get(Uri.http(checklistApi, '/checklist/markEntry/' + checklistID));
+    return http.get(Uri.http(mainApi, '/checklist/markEntry/' + checklistID));
   }
 
   static Future<List<ChecklistEntry>> getChecklistEntries(Checklist i) async {
@@ -110,7 +110,7 @@ class ChecklistApi {
 
   static Future<http.Response> _getChecklistEntries(checklistID) async {
 
-    return http.get(Uri.http(checklistApi, '/checklist/viewChecklist/' + checklistID));
+    return http.get(Uri.http(mainApi, '/checklist/viewChecklist/' + checklistID));
   }
 
   static Future deleteChecklistEntry(ChecklistEntry i) async {
@@ -125,35 +125,35 @@ class ChecklistApi {
 
   static Future<http.Response> _deleteChecklistEntryRequest(ChecklistEntryID) async {
 
-    return http.get(Uri.http(checklistApi, '/checklist/removeEntry/' + ChecklistEntryID));
+    return http.get(Uri.http(mainApi, '/checklist/removeEntry/' + ChecklistEntryID));
   }
 
 
 
   static Future<http.Response> _getDeletedChecklistsResponse(adventureId) async {
 
-    return http.get(Uri.http(checklistApi, '/checklist/viewTrash/' + adventureId));
+    return http.get(Uri.http(mainApi, '/checklist/viewTrash/' + adventureId));
   }
 
   static Future<http.Response> _deleteChecklistRequest(checklistID) async {
 
-    return http.get(Uri.http(checklistApi, '/checklist/softDelete/' + checklistID));
+    return http.get(Uri.http(mainApi, '/checklist/softDelete/' + checklistID));
   }
 
   static Future<http.Response> _hardDeleteChecklistRequest(checklistID) async {
 
-    return http.get(Uri.http(checklistApi, '/checklist/hardDelete/' + checklistID));
+    return http.get(Uri.http(mainApi, '/checklist/hardDelete/' + checklistID));
   }
 
 
   static Future<http.Response> _restoreChecklistRequest(checklistID) async {
 
-    return http.get(Uri.http(checklistApi, '/checklist/restoreChecklist/' + checklistID));
+    return http.get(Uri.http(mainApi, '/checklist/restoreChecklist/' + checklistID));
   }
 
   static Future<CreateChecklist> createChecklist(String title, String description, String creatorID, String adventureID) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9008/checklist/create'), //get uri
+      Uri.parse('http://localhost:9999/checklist/create'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -184,7 +184,7 @@ class ChecklistApi {
 
   static Future<CreateChecklistEntry> createChecklistEntry(String title, String entryContainerID) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9008/checklist/addEntry'),
+      Uri.parse('http://localhost:9999/checklist/addEntry'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -213,7 +213,7 @@ class ChecklistApi {
 
   static Future<http.Response> editChecklistEntry(String id, String entryContainerID, String title) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9008/checklist/editEntry'),
+      Uri.parse('http://localhost:9999/checklist/editEntry'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
