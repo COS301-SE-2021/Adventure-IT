@@ -60,17 +60,8 @@ public class AdventureServiceImplementation implements AdventureService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy");
         LocalDate sd = LocalDate.parse(req.getStartDate(),formatter);
         LocalDate ed = LocalDate.parse(req.getEndDate(),formatter);
-        Adventure persistedAdventure = adventureRepository.save(
-                new Adventure(
-                        req.getName(),
-                        req.getDescription(),
-                        UUID.randomUUID() ,
-                        req.getOwnerId(),
-                        sd,
-                        ed,
-                        null
-                        )
-                );
+        Adventure persistedAdventure = new Adventure(req.getName(),req.getDescription(), UUID.randomUUID() , req.getOwnerId(), sd, ed, null);
+        adventureRepository.save(persistedAdventure);
         return new CreateAdventureResponse(true, persistedAdventure);
     }
 

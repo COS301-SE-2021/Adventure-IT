@@ -30,6 +30,7 @@ public class TimelineServiceImplementation {
         return "New timeline entry created for adventure "+adventureID;
     }
 
+
     public List<TimelineDTO> GetTimelineByAdventureID(UUID adventureID){
         List<Timeline> list =repo.findAllByAdventureId(adventureID);
 
@@ -42,6 +43,7 @@ public class TimelineServiceImplementation {
         }
         return returnList;
     }
+
 
     public String deleteTimelineByAdventureID(UUID adventureID){
         List<Timeline> list = repo.findAllByAdventureId(adventureID);

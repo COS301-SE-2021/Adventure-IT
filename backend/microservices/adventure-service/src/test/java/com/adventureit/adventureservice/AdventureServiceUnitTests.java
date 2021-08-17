@@ -191,43 +191,33 @@ public class AdventureServiceUnitTests {
      * Testing Adventure Service Implementation
      */
 
-//    @Test
-//    @Description("Ensuring that the creator of a number of adventures can view these adventures")
-//    public void createAdventureTest(){
-//        //Given
-//        String name = "Test name";
-//        String description = "Test description";
-//        UUID ownerId = UUID.randomUUID();
-//        String startDate = "Thursday, 05 August 2021";
-//        String endDate = "Tuesday, 10 August 2021";
-//        String location = "Johannesburg";
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy");
-//        LocalDate formattedStartDate = LocalDate.parse(startDate,formatter);
-//        LocalDate formattedEndDate = LocalDate.parse(endDate,formatter);
-//        CreateAdventureRequest request = new CreateAdventureRequest(name,description,ownerId,startDate,endDate,location);
-//        //When
-//        Assertions.assertDoesNotThrow(()->{
-//
-//            CreateAdventureResponse response = adventureService.createAdventure(request);
-//            //Then
-//            Assertions.assertEquals(true, response.isSuccess());
-//            Assertions.assertEquals("Adventure was successfully created", response.getMessage());
-//            Assertions.assertNotNull(response.getAdventure());
-//            Assertions.assertEquals(ownerId, response.getAdventure().getOwnerId());
-//            Assertions.assertEquals(name, response.getAdventure().getName());
-//        });
-//    }
-//
-
-
+    @Test
+    @Description("Ensuring that the creator of a number of adventures can view these adventures")
+    public void createAdventureTest(){
+        //Given
+        String name = "Test name";
+        String description = "Test description";
+        UUID ownerId = UUID.randomUUID();
+        String startDate = "Thursday, 05 August 2021";
+        String endDate = "Tuesday, 10 August 2021";
+        String location = "Johannesburg";
+        CreateAdventureRequest request = new CreateAdventureRequest(name,description,ownerId,startDate,endDate,location);
+        //When
+        Assertions.assertDoesNotThrow(()->{
+            CreateAdventureResponse response = adventureService.createAdventure(request);
+            //Then
+            Assertions.assertEquals(true, response.isSuccess());
+            Assertions.assertEquals("Adventure was successfully created", response.getMessage());
+            Assertions.assertNotNull(response.getAdventure());
+            Assertions.assertEquals(ownerId, response.getAdventure().getOwnerId());
+            Assertions.assertEquals(name, response.getAdventure().getName());
+        });
+    }
 
     @Test
     @Description("Ensuring that the creator of a number of adventures can view these adventures")
     public void creatorExistingAdventures_ReturnAdventures(){
         Mockito.when(adventureRepository.findByOwnerId(validUserID1)).thenReturn(List.of(mockAdventure1, mockAdventure2, mockAdventure3));
-
-
-
     }
 
     @Test
@@ -238,28 +228,13 @@ public class AdventureServiceUnitTests {
             });
     }
 
-//    @Test
-//    @Description("Ensuring that an attendee of multiple adventures can view these adventures")
-//    public void attendeeExistingAdventures_ReturnAdventures(){
-//        Mockito.when(adventureRepository.findByAttendees(validUserID2)).thenReturn(List.of(mockAdventure1, mockAdventure2));
-//
-//        List<GetAdventuresByUserUUIDResponse> res = adventureService.getAdventureByAttendeeUUID(validUserID2);
-//        Assertions.assertEquals(2,res.size());
-//    }
-
     @Test
     @Description("Ensuring that an attendee of multiple adventures can view these adventures")
     public void attendeeExistingAdventures_ReturnNoAdventureFound(){
         Assertions.assertThrows(AdventureNotFoundException.class, ()-> adventureService.getAdventureByAttendeeUUID(validUserID2));
     }
 
-//    @Test
-//    @Description("Ensuring that all adventures are returned when there are existing adventures")
-//    public void getAllAdventuresExistingAdventures_ReturnAdventures(){
-//        Mockito.when(adventureRepository.findAll()).thenReturn(List.of(mockAdventure1, mockAdventure2, mockAdventure3));
-//        List<GetAllAdventuresResponse> res = adventureService.getAllAdventures();
-//        Assertions.assertEquals(3,res.size() );
-//    }
+
 
     @Test
     @Description("Ensuring that the appropriate exception is thrown when getAllAdventures is called without any adventures stored")
@@ -305,5 +280,22 @@ public class AdventureServiceUnitTests {
             GetAdventureByUUIDResponse res = adventureService.getAdventureByUUID(req);
         });
     }
+
+    //    @Test
+//    @Description("Ensuring that all adventures are returned when there are existing adventures")
+//    public void getAllAdventuresExistingAdventures_ReturnAdventures(){
+//        Mockito.when(adventureRepository.findAll()).thenReturn(List.of(mockAdventure1, mockAdventure2, mockAdventure3));
+//        List<GetAllAdventuresResponse> res = adventureService.getAllAdventures();
+//        Assertions.assertEquals(3,res.size() );
+//    }
+
+    //    @Test
+//    @Description("Ensuring that an attendee of multiple adventures can view these adventures")
+//    public void attendeeExistingAdventures_ReturnAdventures(){
+//        Mockito.when(adventureRepository.findByAttendees(validUserID2)).thenReturn(List.of(mockAdventure1, mockAdventure2));
+//
+//        List<GetAdventuresByUserUUIDResponse> res = adventureService.getAdventureByAttendeeUUID(validUserID2);
+//        Assertions.assertEquals(2,res.size());
+//    }
     
 }
