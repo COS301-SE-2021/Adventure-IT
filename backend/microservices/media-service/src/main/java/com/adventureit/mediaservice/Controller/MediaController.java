@@ -92,4 +92,14 @@ public class MediaController {
     public void changeFileAccess(@PathVariable UUID id) {
         mediaServiceImplementation.changeFileAccess(id);
     }
+
+    @GetMapping("/deleteFile/{id}/{userID}")
+    public void deleteFile(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+        mediaServiceImplementation.deleteFile(id,userID);
+    }
+
+    @GetMapping("/deleteMedia/{id}/{userID}")
+    public void deleteMedia(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+        mediaServiceImplementation.deleteMedia(id,userID);
+    }
 }

@@ -103,4 +103,35 @@ public class MediaServiceImplementation implements MediaService{
         fileRepository.save(file);
         fileInfoRepository.save(fileInfo);
     }
+
+    @Override
+    public void deleteFile(UUID id, UUID userID) throws Exception {
+        File file = fileRepository.findFileById(id);
+        if(file == null){
+            throw new Exception("File does not exist");
+        }
+
+        if(!file.getOwner().equals(userID)){
+            throw new Exception("User not Authorised");
+        }
+
+        fileRepository.delete(file);
+    }
+
+    @Override
+    public void deleteMedia(UUID id, UUID userID) throws Exception {
+        Media media = mediaRepository.findMediaById(id);
+        MediaInfo mediaInfo = mediaInfoRepository.findMediaById(id);
+
+        if(media == null || mediaInfo == null){
+            throw new Exception("Media does not exist");
+        }
+
+        if(!media.getOwner().equals(userID)){
+            throw new Exception("User not Authorised");
+        }
+
+        mediaRepository.delete(media);
+        mediaInfoRepository.delete(mediaInfo);
+    }
 }
