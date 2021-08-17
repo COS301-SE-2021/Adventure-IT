@@ -60,7 +60,7 @@ public class MediaController {
 
     @GetMapping(value = "/getUserFileList/{id}")
     public List<FileInfo> getUserFileList(@PathVariable UUID id){
-        return fileInfoRepository.findAllByOwner(id);
+        return fileInfoRepository.findAllByOwnerAndPublicAccessEquals(id,true);
     }
 
     @GetMapping(value = "/getUserPrivateFileList/{id}")
