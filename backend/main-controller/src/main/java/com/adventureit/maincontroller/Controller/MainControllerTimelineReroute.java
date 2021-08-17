@@ -21,13 +21,13 @@ public class MainControllerTimelineReroute {
     private final String IP = "localhost";
     private final String timelinePort = "9012";
 
-    @GetMapping("/getTimelineByAdventure")
+    @GetMapping("/getTimelineByAdventure/{id}")
     public List<TimelineDTO> getTimelineByAdventureID(@PathVariable UUID id) throws Exception {
         return restTemplate.getForObject("http://"+ IP + ":" + timelinePort + "/timeline/getTimelineByAdventure/"+id, List.class);
 
     }
 
-    @GetMapping("/deleteTimelineByAdventureID")
+    @GetMapping("/deleteTimelineByAdventureID/{id}")
     public String deleteTimelineByAdventureID(@PathVariable UUID id){
         return restTemplate.getForObject("http://"+ IP + ":" + timelinePort + "/timeline/deleteTimelineByAdventureID/"+id, String.class);
 
