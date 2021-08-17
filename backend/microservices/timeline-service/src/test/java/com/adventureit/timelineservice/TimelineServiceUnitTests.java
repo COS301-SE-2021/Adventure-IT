@@ -1,11 +1,8 @@
 package com.adventureit.timelineservice;
 
-
-import com.adventureit.adventureservice.Exceptions.AdventureNotFoundException;
-import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
-import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
 import com.adventureit.timelineservice.Entity.Timeline;
 import com.adventureit.timelineservice.Entity.TimelineType;
+import com.adventureit.timelineservice.Exceptions.TimelineDoesNotExistException;
 import com.adventureit.timelineservice.Repository.TimelineRepository;
 import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
 import com.adventureit.timelineservice.Responses.TimelineDTO;
@@ -13,7 +10,6 @@ import com.adventureit.timelineservice.Service.TimelineServiceImplementation;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -24,24 +20,18 @@ import java.util.UUID;
 @SpringBootTest
 public class TimelineServiceUnitTests {
 
-    @Mock
     TimelineRepository timelineRepo = Mockito.mock(TimelineRepository.class);
 
     TimelineServiceImplementation service = new TimelineServiceImplementation(timelineRepo);
 
     UUID mockTimelineId1 = UUID.randomUUID();
-    UUID mockTimelineId2 = UUID.randomUUID();
-    UUID mockTimelineId3 = UUID.randomUUID();
     UUID mockAdventureId = UUID.randomUUID();
     TimelineType mockType = TimelineType.BUDGET;
     LocalDateTime mockTime = LocalDateTime.now();
     String mockDescription1 = "This is a mock timeline 1";
-    String mockDescription2 = "This is a mock timeline 2";
-    String mockDescription3 = "This is a mock timeline 3";
+
 
     Timeline mockTimeline1 = new Timeline(mockTimelineId1,mockAdventureId,mockDescription1,mockTime,mockType);
-    Timeline mockTimeline2 = new Timeline(mockTimelineId2,mockAdventureId,mockDescription2,mockTime,mockType);
-    Timeline mockTimeline3 = new Timeline(mockTimelineId3,mockAdventureId,mockDescription3,mockTime,mockType);
 
     /**
      * Testing Request Objects
@@ -126,23 +116,40 @@ public class TimelineServiceUnitTests {
     @Test
     @Description("Testing the getTimelineByAdventureId service")
     public void getTimelineByAdventureIdFailureTest(){
-
         //Given
         UUID incorrectAdventureId = UUID.randomUUID();
-        UUID correctAdventureId = UUID.randomUUID();
 
         //When
-        Mockito.when(timelineRepo.save(Mockito.any())).thenReturn(mockTimeline1);
-
-//        Assertions.assertEquals("New timeline entry created for adventure "+mockAdventureId,response);
-//        final UUID mockId = UUID.randomUUID();
-//        GetAdventureByUUIDRequest req = new GetAdventureByUUIDRequest(mockId);
-//        Assertions.assertThrows(AdventureNotFoundException.class, ()->{
-//            GetAdventureByUUIDResponse res = service.GetTimelineByAdventureID(mockAdventureId);
-//        });
+        Mockito.when(timelineRepo.findAllByAdventureId(incorrectAdventureId)).thenReturn(null);
+        Assertions.assertThrows(TimelineDoesNotExistException.class, ()->
+                service.GetTimelineByAdventureID(incorrectAdventureId));
 
     }
 
+    @Test
+    @Description("Testing the deletem,koTimelineByAdventureId service")
+    public void deleteTimelineByAdventureID(){
+        //Given
+        UUID correctAdventureId = UUID.randomUUID();
 
+        //When
+        Mockito.when(timelineRepo.findAllByAdventureId(correctAdventureId)).thenReturn(List.of(mockTimeline1));
+        String response = service.deleteTimelineByAdventureID(correctAdventureId);
+        //Then
+        Assertions.assertEquals("Timeline for adventure: "+correctAdventureId+" has been deleted",response);
+    }
+
+    @Test
+    @Description("Testing the getTimelineByAdventureId service")
+    public void deleteTimelineByAdventureIdFailureTest(){
+        //Given
+        UUID incorrectAdventureId = UUID.randomUUID();
+
+        //When
+        Mockito.when(timelineRepo.findAllByAdventureId(incorrectAdventureId)).thenReturn(null);
+        Assertions.assertThrows(TimelineDoesNotExistException.class, ()->
+                service.deleteTimelineByAdventureID(incorrectAdventureId));
+
+    }
 
 }

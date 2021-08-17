@@ -33,7 +33,7 @@ public class TimelineServiceImplementation {
 
 
     public List<TimelineDTO> GetTimelineByAdventureID(UUID adventureID){
-        List<Timeline> list =repo.findAllByAdventureId(adventureID);
+        List<Timeline> list = repo.findAllByAdventureId(adventureID);
 
         if(list == null){
              throw new TimelineDoesNotExistException("Timeline does not exist for adventure: "+ adventureID);
