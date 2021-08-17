@@ -84,7 +84,7 @@ public class ItineraryController {
 
     @PostMapping("/editEntry")
     public String editItineraryEntry(@RequestBody EditItineraryEntryRequest req) throws Exception {
-        return itineraryServiceImplementation.editItineraryEntry(req.getId(),req.getEntryContainerID(),req.getTitle(),req.getDescription(),req.getLocation(),req.getTimestamp());
+        return itineraryServiceImplementation.editItineraryEntry(req.getId(),req.getEntryContainerID(),req.getTitle(),req.getDescription(),req.getLocationId(),req.getTimestamp());
     }
 
     @GetMapping("/removeEntry/{id}")
