@@ -7,6 +7,7 @@ import com.adventureit.mediaservice.Repository.FileRepository;
 import com.adventureit.mediaservice.Repository.MediaInfoRepository;
 import com.adventureit.mediaservice.Repository.MediaRepository;
 import com.adventureit.mediaservice.Service.MediaServiceImplementation;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -81,6 +82,11 @@ public class MediaController {
     @PostMapping("/uploadFile")
     public HttpStatus uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("userid") UUID userId, @RequestParam("adventureid") UUID adventureId){
         return mediaServiceImplementation.uploadFile(file,userId,adventureId);
+    }
+    
+    @PostMapping("/printJson")
+    public String printJson(@RequestBody JSONObject jsonObject){
+        return jsonObject.toString();
     }
 
     @GetMapping("/changeMediaAccess/{id}")
