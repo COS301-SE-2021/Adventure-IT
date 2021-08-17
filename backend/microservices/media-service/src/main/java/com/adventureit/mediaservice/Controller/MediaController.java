@@ -63,6 +63,11 @@ public class MediaController {
         return fileInfoRepository.findAllByOwner(id);
     }
 
+    @GetMapping(value = "/getUserPrivateFileList/{id}")
+    public List<FileInfo> getUserPrivateFileList(@PathVariable UUID id){
+        return fileInfoRepository.findAllByOwnerAndPublicAccessEquals(id,false);
+    }
+
     @GetMapping(value = "/getAdventureFileList/{id}")
     public List<FileInfo> getAdventureFileList(@PathVariable UUID id){
         return fileInfoRepository.findAllByAdventureID(id);
