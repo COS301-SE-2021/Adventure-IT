@@ -12,19 +12,17 @@ public class GetAllAdventuresResponse {
     private UUID adventureId;
     private UUID ownerId;
     private List<UUID> attendees;
-    private List<UUID> containers;
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
     private UUID location;
 
-    public GetAllAdventuresResponse(long id, String name, UUID adventureId, UUID ownerID, List<UUID> attendees, List<UUID> containers, LocalDate startDate,LocalDate endDate, String description, UUID location){
+    public GetAllAdventuresResponse(long id, String name, UUID adventureId, UUID ownerID, List<UUID> attendees, LocalDate startDate,LocalDate endDate, String description, UUID location){
         this.id = id;
         this.name = name;
         this.adventureId = adventureId;
         this.ownerId = ownerID;
         this.attendees = attendees;
-        this.containers = containers;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
@@ -51,9 +49,6 @@ public class GetAllAdventuresResponse {
         this.attendees = attendees;
     }
 
-    public void setContainers(List<UUID> containers) {
-        this.containers = containers;
-    }
 
     public void setOwnerId(UUID ownerId) {
         this.ownerId = ownerId;
@@ -71,9 +66,6 @@ public class GetAllAdventuresResponse {
         return attendees;
     }
 
-    public List<UUID> getContainers() {
-        return containers;
-    }
 
     public long getId() {
         return id;

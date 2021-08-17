@@ -22,6 +22,7 @@ public interface ItineraryService {
     public List<ItineraryEntryResponseDTO> viewItinerary(UUID id) throws Exception;
     public void markCompleted(UUID id) throws Exception;
     public String mockPopulate();
-    public ItineraryEntryResponseDTO nextItem(UUID id);
+    public ItineraryEntryResponseDTO nextItem(UUID id) throws Exception;
     public void setItineraryEntryLocation(UUID itineraryID, UUID locationID);
+    public ItineraryResponseDTO getItineraryById(UUID itineraryID);
 }

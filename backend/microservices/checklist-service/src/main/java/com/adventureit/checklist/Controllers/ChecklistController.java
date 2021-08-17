@@ -95,4 +95,9 @@ public class ChecklistController {
         checklistServiceImplementation.markChecklistEntry(id);
 
     }
+
+    @GetMapping("/getChecklist/{id}")
+    public ChecklistDTO getChecklistByChecklistId(@PathVariable UUID id){
+        return checklistServiceImplementation.getChecklistByChecklistId(id);
+    }
 }

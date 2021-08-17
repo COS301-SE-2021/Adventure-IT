@@ -13,3 +13,4 @@ final authApiAdmin = kIsWeb
     : "http://10.0.2.2:8080/auth/admin/realms/adventure-it/";
 final mainApi = kIsWeb ? "localhost:9999" : "10.0.2.2:9999";
 final googleMapsKey = "AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
+final chatApi=kIsWeb?"localhost:9010":"10.0.2.2:9010";

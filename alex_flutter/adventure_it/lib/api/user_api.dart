@@ -5,19 +5,19 @@ import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:adventure_it/api/friendRequest.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserApi {
   bool hasToken = false;
   KeycloakUser? _keycloakUser;
   UserProfile? _userProfile;
-
-  // Secure Local Storage
-  final storage = FlutterSecureStorage();
+  String message = "";
 
   // TODO: Use ENV for sensitive information
-  final String keycloakClientSecret = "e0ddc4e5-7d32-4340-843f-bd7d736d1100";
+  final String keycloakClientSecret = "f0e75041-7324-4949-bb90-bcd3ddda5bc6";
 
   // Start: Singleton Design Pattern
   static UserApi _instance = new UserApi._();
@@ -25,7 +25,7 @@ class UserApi {
   // Private constructor
   UserApi._() {
     // Check if there's an access token
-    final jwtToken = storage.read(key: 'jwt');
+    final jwtToken = this._retrieve('jwt');
     if (jwtToken != null) {
       this.hasToken = true;
     }
@@ -64,11 +64,13 @@ class UserApi {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
     if (res.statusCode == 200) {
-      storage.write(key: "jwt", value: jsonDecode(res.body)["access_token"]);
+      this._store("jwt", jsonDecode(res.body)["access_token"]);
+      this._store("refresh_token", jsonDecode(res.body)["refresh_token"]);
       return this._fetchKeyCloakUser(username);
     } else {
       debugPrint("Login Failed");
       debugPrint(res.body.toString());
+      this.message = jsonDecode(res.body)['error_description'];
     }
   }
 
@@ -105,6 +107,7 @@ class UserApi {
       responseJson = jsonDecode(res.body)[0];
       return KeycloakUser.fromJson(responseJson);
     } else {
+      debugPrint("Error fetching keycloak user");
       debugPrint(res.body);
       return null;
     }
@@ -114,7 +117,7 @@ class UserApi {
   Future<UserProfile?> _fetchBackendProfile(String targetUuid) async {
     debugPrint("Getting backend profile for: " + targetUuid);
     final res =
-        await http.get(Uri.parse(userApi + "/api/GetUser/" + targetUuid));
+        await http.get(Uri.parse(userApi + "/user/GetUser/" + targetUuid));
     final jsonRes = jsonDecode(res.body);
     if (res.statusCode == 500) {
       if (jsonRes['message'] ==
@@ -131,10 +134,11 @@ class UserApi {
 
   // Register a user in the backend (PRIVATE)
   Future<UserProfile?> _registerBackendProfile(KeycloakUser userInfo) async {
-    debugPrint("Creating backend profile for: " + userInfo.username);
-    final res = await http.post(Uri.parse(userApi + "/api/RegisterUser/"),
+    String username = userInfo.username;
+    debugPrint("Registering backend profile for $username");
+    final res = await http.post(Uri.parse(userApi + "/user/RegisterUser/"),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
+        body: jsonEncode(<String, dynamic>{
           "userID": userInfo.id,
           "firstName": userInfo.firstName,
           "lastName": userInfo.lastName,
@@ -142,11 +146,12 @@ class UserApi {
           "email": userInfo.email
         }));
     return new UserProfile(
-        userID: userInfo.id,
-        username: userInfo.username,
-        firstname: userInfo.firstName,
-        lastname: userInfo.lastName,
-        email: userInfo.email,);
+      userID: userInfo.id,
+      username: userInfo.username,
+      firstname: userInfo.firstName,
+      lastname: userInfo.lastName,
+      email: userInfo.email,
+    );
   }
 
   UserProfile? getUserProfile() {
@@ -166,7 +171,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriends(String userID) async {
-    return http.get(Uri.http(userApi, 'user/GetFriends/' + userID));
+    return http.get(Uri.http(userApi, '/user/GetFriends/' + userID));
   }
 
   Future<List<FriendRequest>> getFriendRequests(String userID) async {
@@ -184,7 +189,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriendRequests(String userID) async {
-    return http.get(Uri.http(userApi, 'user/getFriendRequests/' + userID));
+    return http.get(Uri.parse(userApi + '/user/getFriendRequests/' + userID));
   }
 
   Future<List<UserProfile>> getFriendProfiles(String userID) async {
@@ -202,7 +207,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriendProfiles(String userID) async {
-    return http.get(Uri.parse(userApi+'/user/getFriendProfiles/'+userID));
+    return http.get(Uri.parse(userApi + '/user/getFriendProfiles/' + userID));
   }
 
   Future deleteFriend(String userID, String friendID) async {
@@ -214,7 +219,7 @@ class UserApi {
 
   Future<http.Response> _deleteFriend(String userID, String friendID) async {
     return http.get(
-        Uri.http(userApi, 'user/removeFriend/' + userID + "/" + friendID));
+        Uri.http(userApi, '/user/removeFriend/' + userID + "/" + friendID));
   }
 
   Future deleteFriendRequest(String requestID) async {
@@ -227,7 +232,7 @@ class UserApi {
 
   Future<http.Response> _deleteFriendRequest(String requestID) async {
     return http
-        .get(Uri.http(userApi, 'user/deleteFriendRequest/' + requestID));
+        .get(Uri.http(userApi, '/user/deleteFriendRequest/' + requestID));
   }
 
   Future acceptFriendRequest(String requestID) async {
@@ -239,7 +244,7 @@ class UserApi {
 
   Future<http.Response> _acceptFriendRequest(String requestID) async {
     return http
-        .get(Uri.http(userApi, 'user/acceptFriendRequest/' + requestID));
+        .get(Uri.http(userApi, '/user/acceptFriendRequest/' + requestID));
   }
 
   Future<String> searchUsername(String value) async {
@@ -256,7 +261,7 @@ class UserApi {
   }
 
   Future<http.Response> _searchUsername(String username) async {
-    return http.get(Uri.http(userApi, 'user/getByUserName/' + username));
+    return http.get(Uri.http(userApi, '/user/getByUserName/' + username));
   }
 
   Future createFriendRequest(String from, String to) async {
@@ -267,7 +272,60 @@ class UserApi {
   }
 
   Future<http.Response> _createFriendRequest(String from, String to) async {
-    return http.get(
-        Uri.http(userApi, 'user/createFriendRequest/' + from + "/" + to));
+    return http
+        .get(Uri.http(userApi, '/user/createFriendRequest/' + from + "/" + to));
   }
+
+  Future<String?> _retrieve(key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key);
+  }
+
+  Future<void> _store(key, value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(key, value);
+  }
+
+  Future<bool> registerKeycloakUser(
+      firstname, lastname, username, email, password) async {
+    final adminJWT = await this._adminLogIn();
+    var response = await http.post(Uri.parse(authApiAdmin + 'users/'),
+        body: jsonEncode(<String, dynamic>{
+          "firstName": "$firstname",
+          "lastName": "$lastname",
+          "username": "$username",
+          "email": "$email",
+          "enabled": true,
+          "credentials": [
+            {"temporary": false, "type": "password", "value": password}
+          ]
+        }),
+        headers: {
+          'Authorization': 'Bearer $adminJWT',
+          'Content-Type': 'application/json'
+        });
+    print("### Received keycloak registration response ###");
+    if (response.statusCode == 201) {
+      String userId = (await this._fetchKeyCloakUser(username))!.id;
+      response = await http.put(
+          Uri.parse(authApiAdmin + "users/" + userId + "/send-verify-email"),
+          headers: {
+            'Authorization': 'Bearer $adminJWT',
+            'Content-Type': 'application/json'
+          });
+      print(response.body);
+      return true;
+    } else {
+      this.message = response.body;
+      return false;
+    }
+  }
+
+  Future<void> displayDialog(
+          BuildContext context, String title, String text) async =>
+      await showDialog(
+        context: context,
+        builder: (context) =>
+            AlertDialog(title: Text(title), content: Text(text)),
+      );
 }

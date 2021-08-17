@@ -120,8 +120,8 @@ class CreateAdventure extends State<CreateAdventureCaller> {
   };
 
   //controllers for the form fields
-  String ownerID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
-
+  //String ownerID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
+  //final UserApi userApi = new UserApi._();
   final AdventureApi api = new AdventureApi();
   Future<CreateAdventure>? _futureAdventure;
   final nameController = TextEditingController();
@@ -518,8 +518,9 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                       horizontal: 3, vertical: 20),
                                 ),
                                 onPressed: () async {
+                                  //print(UserApi.getInstance().getUserProfile()!.userID);
                                   adventuresModel.addAdventure(
-                                        nameController.text, ownerID,
+                                        nameController.text, UserApi.getInstance().getUserProfile()!.userID,
                                         LocalDate.dateTime(dates!.start),
                                         LocalDate.dateTime(dates!.end),
                                         descriptionController.text,

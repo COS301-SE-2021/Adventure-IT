@@ -1,5 +1,6 @@
 package com.adventureit.userservice.Controller;
 
+import com.adventureit.userservice.Entities.Friend;
 import com.adventureit.userservice.Exceptions.InvalidRequestException;
 import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
@@ -31,12 +32,13 @@ public class UserController {
     private final UserServiceImplementation service;
 
     @Autowired
-    public UserController(UserServiceImplementation service){
+    public UserController(UserServiceImplementation service) {
         this.service = service;
     }
 
     /**
      * Register User that is mapped from our mock controller for testing purposes
+     *
      * @param req will take in a RegisterUserRequest object
      * @return a RegisterUserResponse object in json format to front end
      * @throws InvalidUserEmailException if the user email is invalid
@@ -60,8 +62,9 @@ public class UserController {
         return service.updateProfilePicture(file, req.getId());
     }
 
-    @GetMapping(value="GetUser/{id}")
-    public GetUserByUUIDDTO getUserByUUID(@PathVariable UUID id){
+
+    @GetMapping(value = "GetUser/{id}")
+    public GetUserByUUIDDTO getUserByUUID(@PathVariable UUID id) {
         return service.GetUserByUUID(id);
     }
 
@@ -70,45 +73,50 @@ public class UserController {
         return service.acceptFriendRequest(id);
     }
 
-    @GetMapping(value="getFriends/{id}")
-    public List<UUID> getFriends(@PathVariable UUID id){
+    @GetMapping(value = "getFriends/{id}")
+    public List<UUID> getFriends(@PathVariable UUID id) {
         return service.getFriends(id);
     }
 
-    @GetMapping(value="getFriendRequests/{id}")
-    public List<GetFriendRequestsResponse> getFriendRequests(@PathVariable UUID id){
+    @GetMapping(value = "getFriendRequests/{id}")
+    public List<GetFriendRequestsResponse> getFriendRequests(@PathVariable UUID id) {
         return service.getFriendRequests(id);
     }
 
-    @GetMapping(value="populateFriends")
-    public void mockFriends()
-    {
+    @GetMapping(value = "populateFriends")
+    public void mockFriends() {
         service.mockFriendships();
     }
 
-    @GetMapping(value="deleteFriendRequest/{id}")
+    @GetMapping(value = "deleteFriendRequest/{id}")
     public void deleteRequest(@PathVariable UUID id) throws Exception {
         service.deleteFriendRequest(id);
     }
 
-    @GetMapping(value="removeFriend/{id}/{friendID}")
+    @GetMapping(value = "removeFriend/{id}/{friendID}")
     public void deleteRequest(@PathVariable UUID id, @PathVariable UUID friendID) throws Exception {
-        service.removeFriend(id,friendID);
+        service.removeFriend(id, friendID);
     }
 
-    @GetMapping(value="getFriendProfiles/{id}")
-    public List<GetUserByUUIDDTO>getFriendProfiles (@PathVariable UUID id) throws Exception {
+    @GetMapping(value = "getFriendProfiles/{id}")
+    public List<GetUserByUUIDDTO> getFriendProfiles(@PathVariable UUID id) throws Exception {
         return service.getFriendProfiles(id);
     }
 
-    @GetMapping(value="getByUserName/{userName}")
+    @GetMapping(value = "getByUserName/{userName}")
     public UUID getUserIDByUserName(@PathVariable String userName) throws Exception {
         return service.getUserIDByUserName(userName);
     }
 
-    @GetMapping(value="createFriendRequest/{ID1}/{ID2}")
-    public void createFriendRequest(@PathVariable String ID1,@PathVariable String ID2) throws Exception {
-        service.createFriendRequest(ID1,ID2);
+    @GetMapping(value = "createFriendRequest/{ID1}/{ID2}")
+    public void createFriendRequest(@PathVariable String ID1, @PathVariable String ID2) throws Exception {
+        service.createFriendRequest(ID1, ID2);
     }
+
+    @GetMapping("getFriendRequest/{id}")
+    public Friend getFriendRequest(@PathVariable UUID id) throws Exception {
+        return service.getFriendRequest(id);
+    }
+
 
 }

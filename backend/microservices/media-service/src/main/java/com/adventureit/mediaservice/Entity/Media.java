@@ -13,6 +13,7 @@ public class Media {
     private String description;
     private UUID adventureID;
     private UUID owner;
+    private boolean publicAccess = true;
     @Lob
     private byte[] data;
 
@@ -20,6 +21,15 @@ public class Media {
 
     public Media(UUID id, String type, String name, String description, UUID adventureID, UUID owner){
         this.id = id;
+        this.name = name;
+        this.description = description;
+        this.adventureID = adventureID;
+        this.owner = owner;
+        this.type = type;
+    }
+
+    public Media(String type, String name, String description, UUID adventureID, UUID owner){
+        this.id = UUID.randomUUID();
         this.name = name;
         this.description = description;
         this.adventureID = adventureID;
@@ -83,4 +93,11 @@ public class Media {
         return type;
     }
 
+    public void setPublicAccess(boolean publicAccess) {
+        this.publicAccess = publicAccess;
+    }
+
+    public boolean getPublicAccess() {
+        return publicAccess;
+    }
 }

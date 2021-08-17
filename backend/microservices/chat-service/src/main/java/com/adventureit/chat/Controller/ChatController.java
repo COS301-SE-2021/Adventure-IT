@@ -1,9 +1,12 @@
 package com.adventureit.chat.Controller;
 
+import com.adventureit.chat.Entity.DirectMessage;
 import com.adventureit.chat.Entity.GroupMessage;
-import com.adventureit.chat.Entity.Message;
 import com.adventureit.chat.Requests.CreateDirectChatRequest;
 import com.adventureit.chat.Requests.CreateGroupChatRequest;
+import com.adventureit.chat.Requests.SendDirectMessageRequestDTO;
+import com.adventureit.chat.Requests.SendGroupMessageRequestDTO;
+import com.adventureit.chat.Responses.DirectChatResponseDTO;
 import com.adventureit.chat.Responses.GroupChatResponseDTO;
 import com.adventureit.chat.Service.ChatServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +28,12 @@ public class ChatController {
 
     @PostMapping("/createDirectChat")
     public String createDirectChat(@RequestBody CreateDirectChatRequest req){
-        service.createDirectChat(req.getAdventureId(),req.getUser1Id(),req.getUser2Id());
+        service.createDirectChat(req.getUser1Id(),req.getUser2Id());
         return "Chat created";
     }
 
     @PostMapping("/createGroupChat")
-    public String createDirectChat(@RequestBody CreateGroupChatRequest req){
+    public String createGroupChat(@RequestBody CreateGroupChatRequest req){
         service.createGroupChat(req.getAdventureId(),req.getParticipants(),req.getName());
         return "Group Chat created";
     }
@@ -45,9 +48,40 @@ public class ChatController {
         return service.getGroupChat(id);
     }
 
-    @GetMapping("/getMessageByID/{id}")
-    public GroupMessage getMessage(@PathVariable UUID id){
+    @GetMapping("/getDirectChat/{ID1}/{ID2}")
+    public DirectChatResponseDTO getDirectChat(@PathVariable UUID ID1,@PathVariable UUID ID2) throws Exception {
+        return service.getDirectChat(ID1, ID2);
+    }
+
+    @GetMapping("/getDirectChatByID/{id}")
+    public DirectChatResponseDTO getDirectChat(@PathVariable UUID id) throws Exception {
+        return service.getDirectChatByID(id);
+    }
+
+    @GetMapping("/getGroupMessageByID/{id}")
+    public GroupMessage getGroupMessage(@PathVariable UUID id){
         return (GroupMessage) service.getMessage(id);
     }
 
+    @GetMapping("/getDirectMessageByID/{id}")
+    public DirectMessage getDirectMessage(@PathVariable UUID id){
+        return (DirectMessage) service.getMessage(id);
+    }
+
+    @PostMapping("/sendGroupMessage")
+    public String sendGroupMessage(@RequestBody SendGroupMessageRequestDTO request) throws Exception {
+        service.sendGroupMessage(request.getChatID(),request.getSender(),request.getMsg());
+        return "Message sent";
+    }
+
+    @PostMapping("/sendDirectMessage")
+    public String sendGroupMessage(@RequestBody SendDirectMessageRequestDTO request) throws Exception {
+        service.sendGroupMessage(request.getChatID(),request.getSender(),request.getMsg());
+        return "Message sent";
+    }
+
+    @GetMapping("/deleteChat/{id}")
+    public void deleteChat(@PathVariable UUID id) throws Exception {
+        service.deleteDirectChat(id);
+    }
 }
