@@ -2,7 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'dart:core';
+import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:mime/mime.dart';
+
+
 
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/placeSearch.dart';
@@ -52,18 +56,21 @@ class MediaApi {
   }
 
   static Future<http.Response> _addMedia(PlatformFile file, Adventure a) async {
-    FormData formData = new FormData.fromMap({
-      'userid': UserApi.getInstance().getUserProfile()!.userID,
-      'adventureid': a.adventureId,
-      'file': http.MultipartFile.fromBytes(
-        'media',
-        file.bytes!.cast<int>(),
-        filename: file.name,
-      ) // if you a file is type of file then no need to create File()
-    });
 
-   Response response=await Dio().post("http://localhost:9005/media/mediaUpload", data: formData);
-   return response.data;
+    final mimeType = lookupMimeType(file.name); // 'image/jpeg'
+    var request = http.MultipartRequest('POST', Uri.parse('http://'+mediaApi+'/media/uploadMedia'));
+      request.fields['userid'] = UserApi.getInstance().getUserProfile()!.userID;
+      request.fields['adventureid']=a.adventureId;
+      request.files.add(http.MultipartFile.fromBytes(
+          'file',
+          file.bytes!.cast<int>(),
+          filename: file.name,
+        contentType:new MediaType.parse(mimeType!)
+        ));
+
+
+    var x= await request.send();
+    return await http.Response.fromStream(x);
   }
 
 
