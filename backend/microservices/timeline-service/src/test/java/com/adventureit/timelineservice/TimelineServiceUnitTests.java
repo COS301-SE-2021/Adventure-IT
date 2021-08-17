@@ -1,6 +1,9 @@
 package com.adventureit.timelineservice;
 
 
+import com.adventureit.adventureservice.Exceptions.AdventureNotFoundException;
+import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
+import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
 import com.adventureit.timelineservice.Entity.Timeline;
 import com.adventureit.timelineservice.Entity.TimelineType;
 import com.adventureit.timelineservice.Repository.TimelineRepository;
@@ -106,7 +109,7 @@ public class TimelineServiceUnitTests {
 
     @Test
     @Description("Testing the getTimelineByAdventureId service")
-    public void getTimelineByAdvntureIdTest(){
+    public void getTimelineByAdventureIdTest(){
 
         //Given
         UUID mockAdventureId = UUID.randomUUID();
@@ -119,5 +122,27 @@ public class TimelineServiceUnitTests {
 
         Assertions.assertEquals("New timeline entry created for adventure "+mockAdventureId,response);
     }
+
+    @Test
+    @Description("Testing the getTimelineByAdventureId service")
+    public void getTimelineByAdventureIdFailureTest(){
+
+        //Given
+        UUID incorrectAdventureId = UUID.randomUUID();
+        UUID correctAdventureId = UUID.randomUUID();
+
+        //When
+        Mockito.when(timelineRepo.save(Mockito.any())).thenReturn(mockTimeline1);
+
+//        Assertions.assertEquals("New timeline entry created for adventure "+mockAdventureId,response);
+//        final UUID mockId = UUID.randomUUID();
+//        GetAdventureByUUIDRequest req = new GetAdventureByUUIDRequest(mockId);
+//        Assertions.assertThrows(AdventureNotFoundException.class, ()->{
+//            GetAdventureByUUIDResponse res = service.GetTimelineByAdventureID(mockAdventureId);
+//        });
+
+    }
+
+
 
 }
