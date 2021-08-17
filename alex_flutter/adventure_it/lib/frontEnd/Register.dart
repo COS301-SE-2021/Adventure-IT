@@ -139,21 +139,37 @@ class Register extends State<RegisterCaller> {
                         horizontal: MediaQuery.of(context).size.width * 0.05,
                         vertical: MediaQuery.of(context).size.width * 0.01),
                   ),
-                  onPressed: () {
-                    this.api.registerKeycloakUser(
+                  onPressed: () async {
+                    bool success = await this.api.registerKeycloakUser(
                         firstNameController.text,
                         lastNameController.text,
                         usernameController.text,
                         emailController.text,
                         passwordController.text);
-                    // setState(() {
-                    //   _futureUser = api.createUser(firstNameController.text,lastNameController.text,usernameController.text,emailController.text,phoneNumberController.text,passwordController.text);
-                    // });
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomepageStartupCaller()),
-                    );
+                    if (success) {
+                      this
+                          .api
+                          .displayDialog(context, "Success!",
+                              "Please check your email inbox for a verification link")
+                          .then((val) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginCaller()),
+                        );
+                      });
+                    } else {
+                      this
+                          .api
+                          .displayDialog(context, "Error!", this.api.message)
+                          .then((val) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterCaller()),
+                        );
+                      });
+                    }
                   }),
               SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               RichText(

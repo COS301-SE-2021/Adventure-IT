@@ -60,7 +60,12 @@ public class MediaController {
 
     @GetMapping(value = "/getUserFileList/{id}")
     public List<FileInfo> getUserFileList(@PathVariable UUID id){
-        return fileInfoRepository.findAllByOwner(id);
+        return fileInfoRepository.findAllByOwnerAndPublicAccessEquals(id,true);
+    }
+
+    @GetMapping(value = "/getUserPrivateFileList/{id}")
+    public List<FileInfo> getUserPrivateFileList(@PathVariable UUID id){
+        return fileInfoRepository.findAllByOwnerAndPublicAccessEquals(id,false);
     }
 
     @GetMapping(value = "/getAdventureFileList/{id}")
@@ -86,5 +91,15 @@ public class MediaController {
     @GetMapping("/changeFileAccess/{id}")
     public void changeFileAccess(@PathVariable UUID id) {
         mediaServiceImplementation.changeFileAccess(id);
+    }
+
+    @GetMapping("/deleteFile/{id}/{userID}")
+    public void deleteFile(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+        mediaServiceImplementation.deleteFile(id,userID);
+    }
+
+    @GetMapping("/deleteMedia/{id}/{userID}")
+    public void deleteMedia(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+        mediaServiceImplementation.deleteMedia(id,userID);
     }
 }

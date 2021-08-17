@@ -1,5 +1,6 @@
 import 'package:adventure_it/api/loginUser.dart';
 import 'package:adventure_it/api/user_api.dart';
+import 'package:adventure_it/frontEnd/ForgotPassword.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:developer';
@@ -116,8 +117,8 @@ class Login extends State<LoginCaller> {
                           builder: (context) => HomepageStartupCaller()),
                     );
                   } else {
-                    displayDialog(context, "An Error Occurred",
-                        "No account was found matching that username and password");
+                    api.displayDialog(
+                        context, "An Error Occurred", api.message);
                   }
                 }),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
@@ -150,17 +151,10 @@ class Login extends State<LoginCaller> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProfileCaller()),
+                              builder: (context) => ForgotPasswordCaller()),
                         );
                       }))
           ],
         ))));
   }
 }
-
-void displayDialog(BuildContext context, String title, String text) =>
-    showDialog(
-      context: context,
-      builder: (context) =>
-          AlertDialog(title: Text(title), content: Text(text)),
-    );
