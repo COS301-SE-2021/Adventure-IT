@@ -13,7 +13,7 @@ class TimelineModel extends ChangeNotifier {
     timeline != null ? _timeline = timeline : List.empty());
   }
 
-  List<Timeline>? get adventures => _timeline?.toList();
+  List<Timeline>? get timeline => _timeline?.toList();
 
   Future fetchTimeline(Adventure a) async {
     _timeline = await TimelineAPI.viewTimeline(a);

@@ -7,8 +7,8 @@ import 'adventure.dart';
 
 class TimelineAPI {
   static Future<List<Timeline>> viewTimeline(Adventure? a) async {
-    http.Response response = await http.post(
-        Uri.parse('http://localhost:9008/timeline/getTimelineByAdventure/' + a!.adventureId));
+    http.Response response = await http.get(
+        Uri.parse('http://localhost:9999/timeline/getTimelineByAdventure/' + a!.adventureId));
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load the timeline list: ${response.body}');
