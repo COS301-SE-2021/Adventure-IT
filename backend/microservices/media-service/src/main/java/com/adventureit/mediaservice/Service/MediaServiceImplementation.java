@@ -107,7 +107,9 @@ public class MediaServiceImplementation implements MediaService{
     @Override
     public void deleteFile(UUID id, UUID userID) throws Exception {
         File file = fileRepository.findFileById(id);
-        if(file == null){
+        FileInfo fileInfo = fileInfoRepository.findFileInfoById(id);
+
+        if(file == null || fileInfo == null){
             throw new Exception("File does not exist");
         }
 
@@ -116,6 +118,7 @@ public class MediaServiceImplementation implements MediaService{
         }
 
         fileRepository.delete(file);
+        fileInfoRepository.delete(fileInfo);
     }
 
     @Override
