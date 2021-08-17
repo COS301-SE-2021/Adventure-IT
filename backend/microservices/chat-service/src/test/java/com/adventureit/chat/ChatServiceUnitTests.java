@@ -1,6 +1,7 @@
 package com.adventureit.chat;
 
 
+import com.adventureit.chat.Entity.DirectChat;
 import com.adventureit.chat.Repository.ColorPairRepository;
 import com.adventureit.chat.Repository.DirectChatRepository;
 import com.adventureit.chat.Repository.GroupChatRepository;
@@ -30,6 +31,16 @@ public class ChatServiceUnitTests{
     ColorPairRepository colorPairRepository = Mockito.mock(ColorPairRepository.class);
 
     ChatServiceImplementation service = new ChatServiceImplementation(colorPairRepository,directChatRepository,groupChatRepository,messageRepository);
+
+    UUID mockChatID =UUID.randomUUID();
+    UUID mockUser1Id = UUID.randomUUID();
+    UUID mockUser2Id = UUID.randomUUID();
+
+
+    DirectChat mockDirectChat = new DirectChat(mockChatID, mockUser1Id, mockUser2Id);
+
+
+
 
     @Test
     @Description("Testing to make sure that the CreateTimelineRequest returns the correct parameters that were passed in")
@@ -104,6 +115,23 @@ public class ChatServiceUnitTests{
         Assertions.assertEquals(mockChatID, mockRequest.getChatID());
         Assertions.assertEquals(mockSender, mockRequest.getSender());
         Assertions.assertEquals(mockMessage, mockRequest.getMsg());
+
+    }
+
+    @Test
+    @Description("Testing to make sure that the CreateTimelineRequest returns the correct parameters that were passed in")
+    public void createDirectChat(){
+
+        //Given
+        UUID user1 = UUID.randomUUID();
+        UUID user2 = UUID.randomUUID();
+
+        //When
+        Mockito.when(directChatRepository.save(Mockito.any())).thenReturn(mockDirectChat);
+
+        //Then
+        String response = service.createDirectChat(user1,user2);
+        Assertions.assertEquals("Chat successfully created", response);
 
     }
 
