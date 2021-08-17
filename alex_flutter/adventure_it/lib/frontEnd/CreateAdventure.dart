@@ -120,7 +120,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
   };
 
   //controllers for the form fields
-  String ownerID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
+  String ownerID=UserApi.getInstance().getUserProfile()!.userID;
 
   final AdventureApi api = new AdventureApi();
   Future<CreateAdventure>? _futureAdventure;
