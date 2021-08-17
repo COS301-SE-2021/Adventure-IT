@@ -5,7 +5,7 @@ import com.adventureit.notificationservice.Repos.NotificationRepository;
 import com.adventureit.notificationservice.Service.NotificationService;
 
 
-import com.adventureit.userservice.Service.UserService;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
