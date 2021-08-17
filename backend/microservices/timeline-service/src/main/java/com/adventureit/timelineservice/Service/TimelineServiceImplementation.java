@@ -16,6 +16,7 @@ import java.util.UUID;
 @Service("TimelineServiceImplementation")
 public class TimelineServiceImplementation {
 
+    @Autowired
     private TimelineRepository repo;
 
     @Autowired
