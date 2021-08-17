@@ -8,7 +8,7 @@ public class RemoveEntryResponse {
 
     public RemoveEntryResponse(boolean success){
         this.success = success;
-        this.message = "Income Entry successfully removed.";
+        this.message = "Entry successfully removed.";
     }
 
     public String getMessage() {
