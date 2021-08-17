@@ -7,7 +7,7 @@ part 'uploadMedia.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class UploadMedia {
-  final MultipartFile file;
+  final String file;
   final String userId;
   final String adventureId;
 
