@@ -38,7 +38,6 @@ class AdventureApi {
     List<UserProfile> attendees = (jsonDecode(response.body) as List)
         .map((x) => UserProfile.fromJson(x))
         .toList();
-    print("here here "+attendees.toString());
 
     return attendees;//
   }
