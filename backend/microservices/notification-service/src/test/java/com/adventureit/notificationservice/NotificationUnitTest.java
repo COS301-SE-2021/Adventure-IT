@@ -12,6 +12,7 @@ import com.adventureit.notificationservice.Service.NotificationService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
 import java.util.Date;
 import java.util.List;
@@ -21,14 +22,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 
-
+@SpringBootTest
 public class NotificationUnitTest {
 
-    @Mock
+
     private NotificationRepository mockNotificationRepository = Mockito.mock(NotificationRepository.class);
 
-
-    @Mock
     private JavaMailSender mail = Mockito.mock(JavaMailSender.class);
 
     private NotificationService notificationSUT = new NotificationService(mail, mockNotificationRepository);
