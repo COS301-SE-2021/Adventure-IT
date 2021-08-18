@@ -35,8 +35,9 @@ public class MainControllerBudgetReroute {
 
     @GetMapping("/hardDelete/{id}/{userID}")
     public String hardDelete(@PathVariable UUID id, @PathVariable UUID userID){
-        restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/hardDelete/"+id+"/"+userID, String.class);
-        CreateTimelineRequest req2 = new CreateTimelineRequest(id, TimelineType.BUDGET,"Budget: "+id+" has been deleted" );
+        BudgetResponseDTO response = restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetId/"+id, BudgetResponseDTO.class);
+        restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/hardDelete/"+id+"/"+userID, String.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.BUDGET,"Budget: "+id+" has been deleted" );
         return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
  }
 
