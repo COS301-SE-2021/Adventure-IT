@@ -2,8 +2,6 @@
 import 'package:adventure_it/Providers/itinerary_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
-import 'package:adventure_it/api/mediaDownloadsOffline.dart';
-import 'package:adventure_it/api/mediaDownloadsOnline.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/foundation.dart';
