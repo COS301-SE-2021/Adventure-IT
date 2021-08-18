@@ -1,7 +1,5 @@
 package com.adventureit.adventureservice.Responses;
 
-import com.adventureit.adventureservice.Entity.Adventure;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -45,15 +43,6 @@ public class GetAllAdventuresResponse {
         this.adventureId = adventureId;
     }
 
-    public void setAttendees(List<UUID> attendees) {
-        this.attendees = attendees;
-    }
-
-
-    public void setOwnerId(UUID ownerId) {
-        this.ownerId = ownerId;
-    }
-
     public String getName() {
         return name;
     }
@@ -62,37 +51,12 @@ public class GetAllAdventuresResponse {
         return description;
     }
 
-    public List<UUID> getAttendees() {
-        return attendees;
-    }
-
-
     public long getId() {
         return id;
     }
 
     public UUID getAdventureId() {
         return adventureId;
-    }
-
-    public UUID getOwnerId() {
-        return ownerId;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
     }
 
     public UUID getLocation() {
