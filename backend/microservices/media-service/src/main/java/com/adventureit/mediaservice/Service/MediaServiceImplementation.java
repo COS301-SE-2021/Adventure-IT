@@ -54,7 +54,7 @@ public class MediaServiceImplementation implements MediaService{
     public HttpStatus uploadMedia(MultipartFile file, UUID userId, UUID adventureId) {
         try {
             final byte[] content = file.getBytes();
-            Media uploadedMedia = new Media(UUID.randomUUID(), file.getContentType(), file.getName(), "DESCRIPTION", adventureId , userId);
+            Media uploadedMedia = new Media(UUID.randomUUID(), file.getContentType(), file.getOriginalFilename(), "DESCRIPTION", adventureId , userId);
             MediaInfo uploadedMediaInfo = new MediaInfo(uploadedMedia.getId(), uploadedMedia.getType(), uploadedMedia.getName(), uploadedMedia.getDescription(), uploadedMedia.getAdventureID(), uploadedMedia.getOwner(),uploadedMedia.getPublicAccess());
             uploadedMedia.setData(content);
             mediaRepository.save(uploadedMedia);

@@ -24,6 +24,7 @@ class ChatApi {
   static Future<GroupChat> getGroupChat(Adventure? a) async {
     http.Response response =
     await _getGroupChat(a!.adventureId);
+    print(response.body);
 
     if (response.statusCode != 200) {
       throw Exception('Failed to find group chat: ${response.body}');
@@ -53,12 +54,12 @@ class ChatApi {
   }
 
   static Future<http.Response> _getGroupChatMessages(chatID) async {
-    return http.get(Uri.http(mainApi, '/chat/getGroupMessages/' + chatID));
+    return http.get(Uri.http(mainApi,'/chat/getGroupMessages/' + chatID));
   }
 
   static Future<http.Response> _getGroupChat(adventureID) async {
     return http.get(
-        Uri.http(mainApi, '/chat/getGroupChatByAdventureID/' + adventureID));
+        Uri.http(mainApi,'/chat/getGroupChatByAdventureID/' + adventureID));
   }
 
   static Future<DirectChat> getDirectChat(String user1, String user2) async {
@@ -76,7 +77,7 @@ class ChatApi {
 
   static Future<http.Response> _getDirectChat(String user1, String user2) async {
     return http.get(
-        Uri.http(mainApi, '/chat/getDirectChat/'+user1+'/'+user2));
+        Uri.http(mainApi,'/chat/getDirectChat/'+user1+'/'+user2));
   }
 
   static Future<List<DirectChatMessage>> getDirectChatMessage(chatID) async {

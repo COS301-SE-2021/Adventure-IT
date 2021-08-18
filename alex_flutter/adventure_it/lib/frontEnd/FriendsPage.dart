@@ -92,7 +92,7 @@ class FriendsPage extends State<Friends> {
     print(value);
     if (value.compareTo("") != 0) {
     _userApi.createFriendRequest(
-    _userApi.getUserProfile()!.userID, value);
+        UserApi.getInstance().getUserProfile()!.userID, value);
 
                             }});},
                             icon: const Icon(Icons.send_rounded),
@@ -124,6 +124,7 @@ class FriendsPage extends State<Friends> {
                             onPressed: () {
                               setState(() {
                                 this.friendList = true;
+                                print(friendList);
                               });
                             })),
                     Spacer(flex: 1),
@@ -146,6 +147,7 @@ class FriendsPage extends State<Friends> {
                             onPressed: () {
                               setState(() {
                                 this.friendList = false;
+                                print(friendList);
                               });
                             })),
                     Spacer(flex: 1),
@@ -161,7 +163,6 @@ class FriendsPage extends State<Friends> {
 
 class getFriends extends StatelessWidget {
   BuildContext? c;
-  UserApi _userApi=UserApi.getInstance();
 
   getFriends();
 
@@ -169,7 +170,7 @@ class getFriends extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) =>
-            FriendModel(_userApi.getUserProfile()!.userID),
+            FriendModel(UserApi.getInstance().getUserProfile()!.userID),
         child: Consumer<FriendModel>(builder: (context, friendModel, child) {
           if (friendModel.friends == null) {
             return Center(
@@ -291,8 +292,7 @@ class getFriends extends StatelessWidget {
                           },
                           onDismissed: (direction) {
                             Provider.of<FriendModel>(context, listen: false)
-                                .deleteFriend(
-                                    "1660bd85-1c13-42c0-955c-63b1eda4e90b",
+                                .deleteFriend(UserApi.getInstance().getUserProfile()!.userID,
                                     friendModel.friends!
                                         .elementAt(index)
                                         .userID);
@@ -312,7 +312,6 @@ class getFriends extends StatelessWidget {
 
 class getFriendRequests extends StatelessWidget {
   BuildContext? c;
-  UserApi _userApi=UserApi.getInstance();
 
   getFriendRequests();
 
@@ -321,7 +320,7 @@ class getFriendRequests extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (context)=>
 
-            FriendRequestModel(_userApi.getUserProfile()!.userID),
+            FriendRequestModel(UserApi.getInstance().getUserProfile()!.userID),
         child: Consumer<FriendRequestModel>(
             builder: (context, friendModel, child) {
           this.c = context;

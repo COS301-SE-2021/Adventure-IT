@@ -131,7 +131,6 @@ class ChecklistList extends StatelessWidget {
   Widget build(BuildContext context) {
     return
             Consumer<ChecklistModel>(builder: (context, checklistModel, child) {
-              //print("===============print====================");
               if (checklistModel.checklists != null)
                 print(checklistModel.checklists!.length);
 
@@ -255,7 +254,7 @@ class _AlertBox extends State <AlertBox> {
   }
 
   //controllers for the form fields
-  //String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
+  String userID = UserApi.getInstance().getUserProfile()!.userID;
 
   Future<CreateChecklist>? _futureChecklist;
   final nameController = TextEditingController();
@@ -363,7 +362,7 @@ class _AlertBox extends State <AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () async {
-                          await widget.checklistModel.addChecklist(adventure!, nameController.text, descriptionController.text, UserApi.getInstance().getUserProfile()!.userID, adventure!.adventureId);
+                          await widget.checklistModel.addChecklist(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
                           Navigator.pop(context);
                         },
                       ),

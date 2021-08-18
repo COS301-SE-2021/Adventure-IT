@@ -16,7 +16,7 @@ class DeletedItineraryModel extends ChangeNotifier{
 
   Future restoreItinerary(Itinerary it) async {
     await ItineraryApi.restoreItinerry(it.id);
-    print('in here');
+
 
     var index = _deletedItineraries!.indexWhere((element) => element.id == it.id);
     _deletedItineraries!.removeAt(index);

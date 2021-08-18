@@ -13,7 +13,7 @@ ItineraryEntry _$ItineraryEntryFromJson(Map<String, dynamic> json) {
     id: json['id'] as String,
     entryContainerID: json['entryContainerID'] as String,
     completed: json['completed'] as bool,
-    location: json['location'] as String,
+    location: Location.fromJson(json['location'] as Map<String, dynamic>),
     timestamp: json['timestamp'] as String,
   );
 }
@@ -25,6 +25,6 @@ Map<String, dynamic> _$ItineraryEntryToJson(ItineraryEntry instance) =>
       'title': instance.title,
       'description': instance.description,
       'completed': instance.completed,
-      'location': instance.location,
+      'location': instance.location.toJson(),
       'timestamp': instance.timestamp,
     };

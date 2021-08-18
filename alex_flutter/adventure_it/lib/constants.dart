@@ -14,3 +14,4 @@ final authApiAdmin = kIsWeb
 final mainApi = kIsWeb ? "localhost:9999" : "10.0.2.2:9999";
 final googleMapsKey = "AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
 final chatApi=kIsWeb?"localhost:9010":"10.0.2.2:9010";
+final mediaApi=kIsWeb?"localhost:9005":"10.0.2.2:9005";

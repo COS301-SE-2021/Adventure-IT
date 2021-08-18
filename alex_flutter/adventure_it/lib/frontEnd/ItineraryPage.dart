@@ -44,14 +44,6 @@ class ItineraryPage extends StatelessWidget {
                 child: Text(currentItinerary!.title,
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    {}
-                  },
-                  icon: const Icon(Icons.edit),
-                  color: Theme.of(context).textTheme.bodyText1!.color),
-            ],
             backgroundColor: Theme.of(context).primaryColorDark),
         body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -730,8 +722,7 @@ class _ListItineraryItems extends StatefulWidget
                                 child: Container(
                                   decoration: new BoxDecoration(
                                       image: new DecorationImage(
-                                          image: NetworkImage(
-                                              "https://lh5.googleusercontent.com/p/AF1QipM4-7EPQBFbTgOy5k7YXtJmLWtz7wwl-WwUq4jT=w408-h271-k-no"),
+                                          image: entryModel.entries!.elementAt(index).location.photo_reference==null?NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+currentAdventure!.location.photo_reference+"&maxwidth=500&key="+googleMapsKey):NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+entryModel.entries!.elementAt(index).location.photo_reference+"&maxwidth=500&key="+googleMapsKey),
                                           fit: BoxFit.cover,
                                           colorFilter: ColorFilter.mode(
                                               Theme.of(context)
@@ -743,6 +734,7 @@ class _ListItineraryItems extends StatefulWidget
                                     Expanded(
                                         flex: 4,
                                         child: ListTile(
+                                          isThreeLine: true,
                                             title: Text(
                                                 entryModel.entries!
                                                     .elementAt(index)
@@ -792,7 +784,7 @@ class _ListItineraryItems extends StatefulWidget
                                                     text: " " +
                                                         entryModel.entries!
                                                             .elementAt(index)
-                                                            .location,
+                                                            .location.formattedAddress,
                                                     style: TextStyle(
                                                         decoration: entryModel.entries!
                                                             .elementAt(index)

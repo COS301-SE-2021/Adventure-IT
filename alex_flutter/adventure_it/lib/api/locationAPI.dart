@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:core';
+import 'dart:core';
 
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/placeSearch.dart';
@@ -11,6 +13,9 @@ import 'loginUser.dart';
 import 'userProfile.dart';
 
 class LocationApi {
+
+
+
 
   static Future<List<PlaceSearch>> getSuggestions(String query) async {
     http.Response response =

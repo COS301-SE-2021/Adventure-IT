@@ -1,6 +1,7 @@
 import 'package:adventure_it/Providers/adventure_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
+import 'package:adventure_it/api/locationAPI.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 
@@ -96,6 +97,7 @@ class AdventureList extends StatelessWidget {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -151,8 +153,7 @@ class AdventureList extends StatelessWidget {
                                   child: Container(
                                     decoration: new BoxDecoration(
                                         image: new DecorationImage(
-                                            image: NetworkImage(
-                                                "https://lh5.googleusercontent.com/p/AF1QipM4-7EPQBFbTgOy5k7YXtJmLWtz7wwl-WwUq4jT=w408-h271-k-no"),
+                                            image: NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+adventureModel.adventures!.elementAt(index).location.photo_reference+"&maxwidth=500&key="+googleMapsKey),
                                             fit: BoxFit.cover,
                                             colorFilter: ColorFilter.mode(
                                                 Theme.of(context)
@@ -170,7 +171,7 @@ class AdventureList extends StatelessWidget {
                                                     !.elementAt(index)
                                                     .name,
                                                 style: TextStyle(
-                                                    fontSize: 25 *
+                                                    fontSize: 30 *
                                                         MediaQuery.of(context)
                                                             .textScaleFactor,
                                                     fontWeight: FontWeight.bold,
@@ -179,7 +180,9 @@ class AdventureList extends StatelessWidget {
                                                         .bodyText1!
                                                         .color)),
                                             // subtitle:Text(adventures.elementAt(index).description),
-                                            subtitle: Text(
+                                            subtitle: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [Text(
                                                 adventureModel.adventures
                                                     !.elementAt(index)
                                                     .description,
@@ -191,6 +194,33 @@ class AdventureList extends StatelessWidget {
                                                         .textTheme
                                                         .bodyText1!
                                                         .color)),
+                                                  SizedBox(height: MediaQuery.of(context).size.height*0.005),
+                                                  RichText(
+                                        text: TextSpan(children: [
+                                          WidgetSpan(
+                                              child: Icon(
+                                                Icons.location_on,
+                                                size:12,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color,
+                                              )),
+                                          TextSpan(
+                                              text: " " +
+                                                  adventureModel.adventures!
+                                                      .elementAt(index)
+                                                      .location.formattedAddress,
+                                              style: TextStyle(
+                                                  fontSize: 12 *
+                                                      MediaQuery.of(
+                                                          context)
+                                                          .textScaleFactor,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color))
+                                        ]),),SizedBox(height: MediaQuery.of(context).size.height*0.005),]),
                                           ),
                                         ),
                                         Expanded(

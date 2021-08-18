@@ -1,3 +1,4 @@
+import 'package:adventure_it/api/location.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:time_machine/time_machine.dart';
 
@@ -12,6 +13,7 @@ class Adventure {
   final String startDate;
   final String endDate;
   final String description;
+  final Location location;
 
   Adventure(
       {required this.adventureId,
@@ -20,7 +22,8 @@ class Adventure {
         required this.name,
         required this.startDate,
         required this.endDate,
-        required this.description});
+        required this.description,
+      required this.location});
 
   factory Adventure.fromJson(Map<String, dynamic> json) =>
       _$AdventureFromJson(json);

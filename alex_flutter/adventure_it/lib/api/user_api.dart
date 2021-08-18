@@ -119,7 +119,9 @@ class UserApi {
     final res =
         await http.get(Uri.parse(userApi + "/user/GetUser/" + targetUuid));
     final jsonRes = jsonDecode(res.body);
-    if (res.statusCode == 500) {
+    print(jsonRes);
+    print(res.statusCode);
+    if (res.statusCode == 404) {
       if (jsonRes['message'] ==
           "User does not exist - user is not registered as an Adventure-IT member") {
         debugPrint("Backend profile does not exist");
@@ -138,13 +140,14 @@ class UserApi {
     debugPrint("Registering backend profile for $username");
     final res = await http.post(Uri.parse(userApi + "/user/RegisterUser/"),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(<String, dynamic>{
+        body: jsonEncode(<String, String>{
           "userID": userInfo.id,
           "firstName": userInfo.firstName,
           "lastName": userInfo.lastName,
           "username": userInfo.username,
           "email": userInfo.email
         }));
+    print(res.body);
     return new UserProfile(
       userID: userInfo.id,
       username: userInfo.username,
@@ -160,7 +163,7 @@ class UserApi {
 
   Future<List<String>> getFriends(String userID) async {
     http.Response response = await _getFriends(userID);
-    if (response.statusCode != 200) {
+    if (response.statusCode != 200) { 
       throw Exception('Failed to load list of friends: ${response.body}');
     }
     List<String> friends = (jsonDecode(response.body) as List)
@@ -171,7 +174,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriends(String userID) async {
-    return http.get(Uri.http(userApi, '/user/GetFriends/' + userID));
+    return http.get(Uri.parse(userApi + '/user/GetFriends/' + userID));
   }
 
   Future<List<FriendRequest>> getFriendRequests(String userID) async {
@@ -219,7 +222,7 @@ class UserApi {
 
   Future<http.Response> _deleteFriend(String userID, String friendID) async {
     return http.get(
-        Uri.http(userApi, '/user/removeFriend/' + userID + "/" + friendID));
+        Uri.parse(userApi + '/user/removeFriend/' + userID + "/" + friendID));
   }
 
   Future deleteFriendRequest(String requestID) async {
@@ -232,7 +235,7 @@ class UserApi {
 
   Future<http.Response> _deleteFriendRequest(String requestID) async {
     return http
-        .get(Uri.http(userApi, '/user/deleteFriendRequest/' + requestID));
+        .get(Uri.parse(userApi + '/user/deleteFriendRequest/' + requestID));
   }
 
   Future acceptFriendRequest(String requestID) async {
@@ -244,7 +247,7 @@ class UserApi {
 
   Future<http.Response> _acceptFriendRequest(String requestID) async {
     return http
-        .get(Uri.http(userApi, '/user/acceptFriendRequest/' + requestID));
+        .get(Uri.parse(userApi + '/user/acceptFriendRequest/' + requestID));
   }
 
   Future<String> searchUsername(String value) async {
@@ -261,7 +264,7 @@ class UserApi {
   }
 
   Future<http.Response> _searchUsername(String username) async {
-    return http.get(Uri.http(userApi, '/user/getByUserName/' + username));
+    return http.get(Uri.parse(userApi + '/user/getByUserName/' + username));
   }
 
   Future createFriendRequest(String from, String to) async {
@@ -272,8 +275,8 @@ class UserApi {
   }
 
   Future<http.Response> _createFriendRequest(String from, String to) async {
-    return http
-        .get(Uri.http(userApi, '/user/createFriendRequest/' + from + "/" + to));
+    return http.get(
+        Uri.parse(userApi + '/user/createFriendRequest/' + from + "/" + to));
   }
 
   Future<String?> _retrieve(key) async {

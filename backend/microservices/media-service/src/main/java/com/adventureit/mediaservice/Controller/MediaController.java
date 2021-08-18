@@ -75,8 +75,13 @@ public class MediaController {
     }
 
     @PostMapping("/uploadMedia")
-    public HttpStatus uploadMedia(@RequestParam("file") MultipartFile file, @RequestParam("userid") UUID userId, @RequestParam("adventureid") UUID adventureId){
+    public HttpStatus uploadMedia(@RequestPart MultipartFile file, @RequestParam("userid") UUID userId, @RequestParam("adventureid") UUID adventureId){
         return mediaServiceImplementation.uploadMedia(file,userId,adventureId);
+    }
+
+    @PostMapping("/uploadMediaTest")
+    public void uploadMediaTest(@RequestBody Object req){
+        System.out.println(req.toString());
     }
 
     @PostMapping("/uploadFile")

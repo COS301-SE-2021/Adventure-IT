@@ -9,15 +9,15 @@ part of 'location.dart';
 Location _$LocationFromJson(Map<String, dynamic> json) {
   return Location(
     id: json['id'] as String,
-    photoReference: json['photoReference'] as String,
+    photo_reference: json['photo_reference'] as String,
     formattedAddress: json['formattedAddress'] as String,
-    placeId: json['placeId'] as String,
+    place_id: json['place_id'] as String,
   );
 }
 
 Map<String, dynamic> _$LocationToJson(Location instance) => <String, dynamic>{
       'id': instance.id,
-      'photoReference': instance.photoReference,
+      'photo_reference': instance.photo_reference,
       'formattedAddress': instance.formattedAddress,
-      'placeId': instance.placeId,
+      'place_id': instance.place_id,
     };

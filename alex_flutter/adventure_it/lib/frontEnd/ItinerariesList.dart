@@ -4,6 +4,7 @@ import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/createItinerary.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
+import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 
@@ -122,6 +123,7 @@ class ItinerariesList extends StatefulWidget {
 class _ItinerariesList extends State<ItinerariesList> {
   Adventure? a;
   ItineraryEntry? next;
+  bool check=false;
 
   List<String> months = [
     "January",
@@ -142,6 +144,9 @@ class _ItinerariesList extends State<ItinerariesList> {
     this.a = adventure;
     ItineraryApi.getNextEntry(a!).then((value) {
       setState(() {
+
+        check=true;
+
         next = value;
       });
     });
@@ -151,18 +156,20 @@ class _ItinerariesList extends State<ItinerariesList> {
   Widget build(BuildContext context) {
     return
             Consumer<ItineraryModel>(builder: (context, itineraryModel, child) {
-          if (itineraryModel.itineraries == null) {
+          if (itineraryModel.itineraries == null||check==false) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
           } else if (itineraryModel.itineraries!.length > 0) {
             return Column(children: [
-              Container(
+              Expanded(
+                  flex: 3,
+                  child: Container(
                       decoration: new BoxDecoration(
                           image: new DecorationImage(
-                              image: NetworkImage(
-                                  "https://lh5.googleusercontent.com/p/AF1QipM4-7EPQBFbTgOy5k7YXtJmLWtz7wwl-WwUq4jT=w408-h271-k-no"),
+                              image: next!=null?
+                                  NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+next!.location.photo_reference+"&maxwidth=500&key="+googleMapsKey):NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+a!.location.photo_reference+"&maxwidth=500&key="+googleMapsKey) ,
                               fit: BoxFit.cover,
                               colorFilter: ColorFilter.mode(
                                   Theme.of(context)
@@ -170,7 +177,8 @@ class _ItinerariesList extends State<ItinerariesList> {
                                       .withOpacity(0.25),
                                   BlendMode.dstATop))
                       ),
-                      child: next!= null? Column(children: [
+                      child: next!=null? Column(children: [
+                        Spacer(),
                     Text("Next Stop!",
                         style: TextStyle(
                             fontSize:
@@ -186,7 +194,8 @@ class _ItinerariesList extends State<ItinerariesList> {
                             color:
                                 Theme.of(context).textTheme.bodyText1!.color)),
                     Row(children: [
-                      RichText(
+                      Expanded(
+                          child: RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(children: [
                           WidgetSpan(
@@ -196,7 +205,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                             color: Theme.of(context).textTheme.bodyText1!.color,
                           )),
                           TextSpan(
-                              text: " " + next!.location,
+                              text: " " + next!.location.formattedAddress,
                               style: TextStyle(
                                   fontSize: 15 *
                                       MediaQuery.of(context).textScaleFactor,
@@ -205,9 +214,10 @@ class _ItinerariesList extends State<ItinerariesList> {
                                       .bodyText1!
                                       .color))
                         ]),
-                      ),
+                      )),
                       Spacer(),
-                      Text(
+                      Expanded(
+                        child: Text(
                             DateTime.parse(next!.timestamp).day.toString() +
                                 " " +
                                 months[
@@ -233,16 +243,19 @@ class _ItinerariesList extends State<ItinerariesList> {
                                     .textTheme
                                     .bodyText1!
                                     .color)),
-                    ])
+                      ),
+                    ]),Spacer(),
                   ]): Center(
                           child: Text(
                               "There's nothing coming up next. Is this the end?",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-                                  color: Theme.of(context).textTheme.bodyText1!.color)))),
+                                  color: Theme.of(context).textTheme.bodyText1!.color))))),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-              Expanded(flex: 6, child: ListView.builder(
+              Expanded(
+                flex: 8,
+              child: ListView.builder(
                       itemCount: itineraryModel.itineraries!.length,
                       itemBuilder: (context, index) => Dismissible(
                           background: Container(
@@ -363,7 +376,7 @@ class _AlertBox extends State<AlertBox> {
   }
 
   //controllers for the form fields
-  String userID = "1660bd85-1c13-42c0-955c-63b1eda4e90b";
+  String userID = UserApi.getInstance().getUserProfile()!.userID;
 
   Future<CreateItinerary>? _futureItinerary;
   final nameController = TextEditingController();

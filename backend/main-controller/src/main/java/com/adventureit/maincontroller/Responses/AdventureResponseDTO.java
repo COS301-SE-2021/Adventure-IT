@@ -1,5 +1,6 @@
 package com.adventureit.maincontroller.Responses;
 
+import com.adventureit.locationservice.Entity.Location;
 import com.adventureit.locationservice.Responses.LocationResponseDTO;
 
 import java.time.LocalDate;
@@ -13,22 +14,19 @@ public class AdventureResponseDTO {
     private UUID adventureId;
     private UUID ownerId;
     private List<UUID> attendees;
-    private List<UUID> Containers;
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
     private LocationResponseDTO location;
 
-    public AdventureResponseDTO(String name, String description, UUID adventureId, UUID ownerId, LocalDate sd, LocalDate ed,LocationResponseDTO location) {
+    public AdventureResponseDTO(String name, String description, UUID adventureId, UUID ownerId, LocalDate sd, LocalDate ed) {
         this.name = name;
         this.description = description;
         this.adventureId = adventureId;
         this.ownerId = ownerId;
         this.attendees = new ArrayList<UUID>(List.of(ownerId));
-        this.Containers = new ArrayList<UUID>();
         this.startDate = sd;
         this.endDate = ed;
-        this.location = location;
     }
 
     public String getName() {
@@ -59,9 +57,6 @@ public class AdventureResponseDTO {
         return adventureId;
     }
 
-    public List<UUID> getContainers() {
-        return Containers;
-    }
 
     public List<UUID> getAttendees() {
         return attendees;
@@ -75,9 +70,9 @@ public class AdventureResponseDTO {
         this.ownerId = ownerId;
     }
 
-    /*public void setLocation(LocationResponseDTO location) {
+    public void setLocation(LocationResponseDTO location) {
         this.location = location;
-    }*/
+    }
 
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
@@ -103,9 +98,6 @@ public class AdventureResponseDTO {
         this.adventureId = adventureId;
     }
 
-    public void setContainers(List<UUID> containers) {
-        Containers = containers;
-    }
 
     public LocationResponseDTO getLocation() {
         return location;

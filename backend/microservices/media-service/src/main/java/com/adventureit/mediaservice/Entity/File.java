@@ -20,6 +20,8 @@ public class File {
     @Lob
     private byte[] data;
 
+    public File(){}
+
     public File(UUID id, String type, String name, String description, UUID adventureID, UUID owner) {
         this.id = id;
         this.type = type;

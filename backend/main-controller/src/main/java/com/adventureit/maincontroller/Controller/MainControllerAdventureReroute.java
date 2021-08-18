@@ -1,25 +1,34 @@
 package com.adventureit.maincontroller.Controller;
 
+import com.adventureit.adventureservice.Entity.Adventure;
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.Responses.GetAdventuresByUserUUIDResponse;
 import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
 import com.adventureit.adventureservice.Responses.RemoveAdventureResponse;
 import com.adventureit.chat.Requests.CreateGroupChatRequest;
+import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
 import com.adventureit.locationservice.Entity.Location;
 import com.adventureit.locationservice.Responses.LocationResponseDTO;
 
 import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
 import com.adventureit.timelineservice.Entity.TimelineType;
 import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
+import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
+import com.adventureit.maincontroller.Responses.MainItineraryEntryResponseDTO;
+//import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
+import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
 import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -79,8 +88,24 @@ public class MainControllerAdventureReroute {
 
     @GetMapping("/all/{id}")
 
-    public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUserUUID(@PathVariable UUID id){
-        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/all/"+id, List.class);
+    public List<AdventureResponseDTO> getAllAdventuresByUserUUID(@PathVariable UUID id){
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<LinkedHashMap> adventures = restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/all/"+id, List.class);
+        List<AdventureResponseDTO> returnList = new ArrayList<AdventureResponseDTO>();
+        for (LinkedHashMap adventure :
+                adventures) {
+            try {
+                AdventureResponseDTO responseObject = new AdventureResponseDTO((String)adventure.get("name"), (String)adventure.get("description"), UUID.fromString((String)adventure.get("adventureId")), UUID.fromString((String)adventure.get("ownerId")), LocalDate.parse((String)adventure.get("startDate")), LocalDate.parse((String)adventure.get("endDate")));
+                LocationResponseDTO adventureLocation = restTemplate.getForObject("http://localhost:9006/location/getLocation/"+(String)adventure.get("location"), LocationResponseDTO.class);
+                responseObject.setLocation(adventureLocation);
+                returnList.add(responseObject);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+
+        }
+        return returnList;
     }
 
     @GetMapping("/owner/{id}")

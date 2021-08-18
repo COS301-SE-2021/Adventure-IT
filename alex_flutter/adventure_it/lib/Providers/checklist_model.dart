@@ -31,7 +31,6 @@ class DeletedChecklistModel extends ChangeNotifier{
 
   Future restoreChecklist(Checklist check) async {
     await ChecklistApi.restoreChecklist(check.id);
-    print('in here');
 
     var index = _deletedChecklists!.indexWhere((element) => element.id == check.id);
     _deletedChecklists!.removeAt(index);

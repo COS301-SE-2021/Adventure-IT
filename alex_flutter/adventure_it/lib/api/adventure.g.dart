@@ -16,6 +16,7 @@ Adventure _$AdventureFromJson(Map<String, dynamic> json) {
     startDate: json['startDate'] as String,
     endDate: json['endDate'] as String,
     description: json['description'] as String,
+    location: Location.fromJson(json['location'] as Map<String, dynamic>),
   );
 }
 
@@ -27,4 +28,5 @@ Map<String, dynamic> _$AdventureToJson(Adventure instance) => <String, dynamic>{
       'startDate': instance.startDate,
       'endDate': instance.endDate,
       'description': instance.description,
+      'location': instance.location.toJson(),
     };
