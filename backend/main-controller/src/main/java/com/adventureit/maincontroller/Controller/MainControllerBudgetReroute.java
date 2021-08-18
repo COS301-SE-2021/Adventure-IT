@@ -126,7 +126,7 @@ public class MainControllerBudgetReroute {
 
     @GetMapping("/generateIndividualReport/{id}/{userName}")
     public List<ReportResponseDTO> generateIndividualReport(@PathVariable UUID id,@PathVariable String userName) throws Exception {
-        return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/restoreBudget/"+id+"/"+userName, List.class);
+        return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/generateIndividualReport/"+id+"/"+userName, List.class);
     }
 
     @GetMapping("/getBudgetByBudgetId/{id}")
