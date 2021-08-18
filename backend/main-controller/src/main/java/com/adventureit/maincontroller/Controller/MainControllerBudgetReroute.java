@@ -120,8 +120,8 @@ public class MainControllerBudgetReroute {
     }
 
     @GetMapping("/getReportList/{id}")
-    public List<String> getReportList(@PathVariable UUID id) throws Exception {
-        return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/restoreBudget/"+id, List.class);
+    public List<String> getReportList(@PathVariable UUID id) {
+        return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getReportList/"+id, List.class);
     }
 
     @GetMapping("/generateIndividualReport/{id}/{userName}")
@@ -130,7 +130,7 @@ public class MainControllerBudgetReroute {
     }
 
     @GetMapping("/getBudgetByBudgetId/{id}")
-    public BudgetResponseDTO generateIndividualReport(@PathVariable UUID id) throws Exception {
+    public BudgetResponseDTO generateIndividualReport(@PathVariable UUID id) {
         return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetId/"+id, BudgetResponseDTO.class);
     }
 

@@ -119,8 +119,8 @@ public class MainControllerAdventureReroute {
     }
 
     @DeleteMapping("/remove/{id}/{userID}")
-    public RemoveAdventureResponse removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
-        return restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/remove/"+id+"/"+userID, RemoveAdventureResponse.class);
+    public void removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+         restTemplate.delete("http://"+ IP + ":" + adventurePort + "/adventure/remove/"+id+"/"+userID, RemoveAdventureResponse.class);
     }
 
     @GetMapping("/addAttendees/{adventureID}/{userID}")
