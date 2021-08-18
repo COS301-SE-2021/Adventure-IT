@@ -80,7 +80,7 @@ public class MainControllerChecklistReroute {
         String returnString = restTemplate.postForObject("http://"+ IP + ":" + checklistPort + "/checklist/addEntry/", req, String.class);
         UUID checklistID = req.getEntryContainerID();
         UUID adventureId = restTemplate.getForObject("http://"+ IP + ":" + checklistPort + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class).getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Checklist: "+req.getTitle()+" has been edited" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,"Checklist: "+req.getTitle()+" has been edited" );
         restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
 

@@ -200,7 +200,7 @@ public class ChatServiceUnitTests{
         String message = "Test message";
         UUID mockUserId =UUID.randomUUID();
         GroupChat mockGroupChat = new GroupChat(mockGroupChatID,mockAdventureId,participants,colors,name);
-        Mockito.when(groupChatRepository.findByGroupChatId(mockGroupChatID)).thenReturn(mockGroupChat);
+        Mockito.when(groupChatRepository.findGroupChatByGroupChatId(mockGroupChatID)).thenReturn(mockGroupChat);
 
         //When
         String response = service.sendGroupMessage(mockGroupChatID,mockUserId,message);
@@ -217,7 +217,7 @@ public class ChatServiceUnitTests{
         UUID incorrectMockGroupChatID = UUID.randomUUID();
         String message = "Test message";
         UUID mockUserId =UUID.randomUUID();
-        Mockito.when(groupChatRepository.findByGroupChatId(incorrectMockGroupChatID)).thenReturn(null);
+        Mockito.when(groupChatRepository.findGroupChatByGroupChatId(incorrectMockGroupChatID)).thenReturn(null);
 
         //When
         Assertions.assertThrows(Exception.class, ()->
@@ -280,7 +280,7 @@ public class ChatServiceUnitTests{
         String message = "Test message";
         UUID mockUserId =UUID.randomUUID();
         GroupChat mockGroupChat = new GroupChat(mockGroupChatID,mockAdventureId,participants,colors,name);
-        Mockito.when(groupChatRepository.findByGroupChatId(mockGroupChatID)).thenReturn(mockGroupChat);
+        Mockito.when(groupChatRepository.findGroupChatByGroupChatId(mockGroupChatID)).thenReturn(mockGroupChat);
 
         //When
         GroupChatResponseDTO response = service.getGroupChat(mockGroupChatID);

@@ -144,7 +144,6 @@ class _ItinerariesList extends State<ItinerariesList> {
     this.a = adventure;
     ItineraryApi.getNextEntry(a!).then((value) {
       setState(() {
-
         check=true;
 
         next = value;
@@ -155,7 +154,7 @@ class _ItinerariesList extends State<ItinerariesList> {
   @override
   Widget build(BuildContext context) {
     return
-            Consumer<ItineraryModel>(builder: (context, itineraryModel, child) {
+      Consumer<ItineraryModel>(builder: (context, itineraryModel, child) {
           if (itineraryModel.itineraries == null||check==false) {
             return Center(
                 child: CircularProgressIndicator(

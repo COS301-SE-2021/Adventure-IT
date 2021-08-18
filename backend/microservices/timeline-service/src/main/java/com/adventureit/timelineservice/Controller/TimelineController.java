@@ -19,12 +19,12 @@ public class TimelineController {
     TimelineServiceImplementation service;
 
 
-    @GetMapping("/getTimelineByAdventure")
+    @GetMapping("/getTimelineByAdventure/{id}")
     public List<TimelineDTO> getTimelineByAdventureID(@PathVariable UUID id) throws Exception {
         return service.GetTimelineByAdventureID(id);
     }
 
-    @GetMapping("/deleteTimelineByAdventureID")
+    @GetMapping("/deleteTimelineByAdventureID/{id}")
     public String deleteTimelineByAdventureID(@PathVariable UUID id){
         return service.deleteTimelineByAdventureID(id);
     }
