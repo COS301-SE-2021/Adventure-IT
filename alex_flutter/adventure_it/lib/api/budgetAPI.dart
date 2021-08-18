@@ -109,18 +109,18 @@ class BudgetApi {
 
   static Future<http.Response> _deleteBudgetRequest(budgetID) async {
 
-    return http.get(Uri.http(mainApi, '/budget/softDelete/' + budgetID));
+    return http.get(Uri.http(mainApi, '/budget/softDelete/' + budgetID + '/' + UserApi.getInstance().getUserProfile()!.userID));
   }
 
   static Future<http.Response> _hardDeleteBudgetRequest(budgetID) async {
 
-    return http.get(Uri.http(mainApi, '/budget/hardDelete/' + budgetID));
+    return http.get(Uri.http(mainApi, '/budget/hardDelete/' + budgetID + '/' + UserApi.getInstance().getUserProfile()!.userID));
   }
 
 
   static Future<http.Response> _restoreBudgetRequest(budgetID) async {
 
-    return http.get(Uri.http(mainApi, '/budget/restoreBudget/' + budgetID));
+    return http.get(Uri.http(mainApi, '/budget/restoreBudget/' + budgetID + '/' + UserApi.getInstance().getUserProfile()!.userID));
   }
 
   static Future <String> getTotalOfExpenses(Budget b, String userID) async {
