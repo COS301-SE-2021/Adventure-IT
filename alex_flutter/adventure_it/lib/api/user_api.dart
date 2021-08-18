@@ -16,7 +16,6 @@ class UserApi {
   String message = "";
   KeycloakUser? _keycloakUser;
   UserProfile? _userProfile;
-  String message = "";
 
   // TODO: Use ENV for sensitive information
   final String keycloakClientSecret = "f0e75041-7324-4949-bb90-bcd3ddda5bc6";
@@ -40,6 +39,7 @@ class UserApi {
 
   // Publically Exposed Login Method
   Future<bool> logIn(String username, String password) async {
+    print("Attempting login for $username");
     this._keycloakUser = await _attemptLogIn(username, password);
     if (this._keycloakUser != null) {
       final keycloakUser = this._keycloakUser!;
@@ -168,7 +168,7 @@ class UserApi {
 
   Future<List<String>> getFriends(String userID) async {
     http.Response response = await _getFriends(userID);
-    if (response.statusCode != 200) { 
+    if (response.statusCode != 200) {
       throw Exception('Failed to load list of friends: ${response.body}');
     }
     List<String> friends = (jsonDecode(response.body) as List)
@@ -324,7 +324,7 @@ class UserApi {
       debugPrint(res.body);
       return true;
     } else {
-      this.message = response.body;
+      this.message = res.body;
       debugPrint(res.body);
       return false;
     }
