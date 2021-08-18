@@ -46,6 +46,11 @@ public class ChatServiceIntegrationTests {
         Assertions.assertNotNull(chatController);
     }
 
+    @Test
+    @Description("Ensure that the controller is accepting traffic and responding")
+    public void httpTest_returnResponse(){
+        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/chat/test", String.class),"Chat Controller is functioning");
+    }
 
     @Test
     @Description("Ensure that the view function works")
@@ -55,6 +60,5 @@ public class ChatServiceIntegrationTests {
         GroupChat groupChat = new GroupChat(id,adventureID,new ArrayList<>(),new ArrayList<>(),"General");
         groupChatRepository.saveAndFlush(groupChat);
         this.restTemplate.getForObject("http://localhost:" + port + "/chat/getGroupChatByAdventureID/"+id, List.class);
-
     }
 }
