@@ -92,7 +92,7 @@ public class UserUnitTests {
         //Then
         assertEquals(user1,mockRequest.getID1());
         assertEquals(user2,mockRequest.getID2());
-        assertEquals(freiendId,mockRequest.getID2());
+        assertEquals(freiendId,mockRequest.getId());
     }
 
     @Test
@@ -116,7 +116,7 @@ public class UserUnitTests {
         String path = "MOCK PATH";
 
         //When
-        UpdatePictureRequest mockRequest = new UpdatePictureRequest(mockId,path);
+        UpdatePictureRequest mockRequest = new UpdatePictureRequest(path,mockId);
 
         //Then
         assertEquals(UUID.fromString(mockId),mockRequest.getId());
