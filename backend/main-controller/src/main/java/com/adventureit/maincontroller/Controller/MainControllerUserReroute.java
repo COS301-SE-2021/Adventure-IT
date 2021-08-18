@@ -11,10 +11,7 @@ import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
 import com.adventureit.userservice.Requests.LoginUserRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Requests.UpdatePictureRequest;
-import com.adventureit.userservice.Responses.GetFriendRequestsResponse;
-import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
-import com.adventureit.userservice.Responses.LoginUserDTO;
-import com.adventureit.userservice.Responses.RegisterUserResponse;
+import com.adventureit.userservice.Responses.*;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -116,7 +113,21 @@ public class MainControllerUserReroute {
     }
 
 
+    @GetMapping(value = "getByUserName/{userName}")
+    public UUID getUserIDByUserName(@PathVariable String userName) throws Exception {
+        return restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/getByUserName/"+ userName, UUID.class);
+    }
 
+    @GetMapping(value = "createFriendRequest/{ID1}/{ID2}")
+    public void createFriendRequest(@PathVariable String ID1, @PathVariable String ID2) throws Exception {
+        restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/createFriendRequest/"+ ID1+"/"+ID2, UUID.class);
+
+    }
+
+    @GetMapping("getFriendRequest/{id}")
+    public FriendDTO getFriendRequest(@PathVariable UUID id) throws Exception {
+        return restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/createFriendRequest/"+ id, FriendDTO.class);
+    }
 }
 
 

@@ -9,10 +9,7 @@ import com.adventureit.userservice.Requests.LoginUserRequest;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
 import com.adventureit.userservice.Requests.AcceptFriendRequest;
 import com.adventureit.userservice.Requests.UpdatePictureRequest;
-import com.adventureit.userservice.Responses.GetFriendRequestsResponse;
-import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
-import com.adventureit.userservice.Responses.LoginUserDTO;
-import com.adventureit.userservice.Responses.RegisterUserResponse;
+import com.adventureit.userservice.Responses.*;
 import com.adventureit.userservice.Service.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
@@ -114,7 +111,7 @@ public class UserController {
     }
 
     @GetMapping("getFriendRequest/{id}")
-    public Friend getFriendRequest(@PathVariable UUID id) throws Exception {
+    public FriendDTO getFriendRequest(@PathVariable UUID id) throws Exception {
         return service.getFriendRequest(id);
     }
 
