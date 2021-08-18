@@ -31,7 +31,8 @@ class BudgetPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => BudgetEntryModel(currentBudget!),
-        builder: (context, widget) => Scaffold(
+        builder: (context, widget) => ChangeNotifierProvider(
+        create: (context) => BudgetReportModel(currentBudget!,UserApi.getInstance().getUserProfile()!.username),builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
@@ -112,7 +113,7 @@ class BudgetPage extends StatelessWidget {
                 Spacer(),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ])));
+            ]))));
   }
 }
 
@@ -1128,6 +1129,8 @@ class GetBudgetEntries extends StatelessWidget {
                                                   .color)),
                                                   onPressed: () {
                                                     Navigator.of(context).pop(true);
+                                                    Provider.of<BudgetReportModel>(context,
+                                                        listen: false).fetchAllEntries(currentBudget!, UserApi.getInstance().getUserProfile()!.username);
                                                   }
                                                   )
                                                 )
@@ -1147,6 +1150,8 @@ class GetBudgetEntries extends StatelessWidget {
                                   listen: false)
                                   .deleteBudgetEntry(
                                   budgetEntryModel.entries!.elementAt(index));
+                              Provider.of<BudgetReportModel>(context,
+                                  listen: false).fetchAllEntries(currentBudget!, UserApi.getInstance().getUserProfile()!.username);
                             }
                             else if(direction == DismissDirection.startToEnd) {
                               Provider.of<BudgetEntryModel>(context, listen: false)
@@ -1174,9 +1179,8 @@ class getReport extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => BudgetReportModel(currentBudget!,UserApi.getInstance().getUserProfile()!.username),
-        child: Consumer<BudgetReportModel>(
+
+        return Consumer<BudgetReportModel>(
             builder: (context, budgetReportModel, child) {
               if (budgetReportModel.reports == null) {
                 return Center(
@@ -1284,6 +1288,6 @@ class getReport extends StatelessWidget {
                             fontSize: 30 * MediaQuery.of(context).textScaleFactor,
                             color: Theme.of(context).textTheme.bodyText1!.color)));
               }
-            }));
+            });
   }
 }
