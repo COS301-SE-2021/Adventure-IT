@@ -77,7 +77,7 @@ class AdventureApi {
 
 
   static Future<http.Response> _removeAdventure(adventureID) async {
-    return http.delete(Uri.http(mainApi, '/adventure/remove/' + adventureID + '/' + UserApi.getInstance().getUserProfile()!.userID));
+    return http.get(Uri.http(mainApi, '/adventure/remove/' + adventureID + '/' + UserApi.getInstance().getUserProfile()!.userID));
   }
 
   static Future<CreateAdventure> createAdventure(String name, String ownerId, LocalDate startDate, LocalDate endDate, String description, String location) async {
