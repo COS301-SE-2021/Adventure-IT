@@ -82,13 +82,13 @@ public class UserServiceImplementation  {
         Pattern emailPattern = Pattern.compile(emailRegex);
         Matcher emailMatcher = emailPattern.matcher(email);
 
-        /*Exception handling for invalid email,password or phone number*/
-        if(!emailMatcher.matches()){
-            throw new InvalidUserEmailException("User email is incorrect - Unable to process registration");
-        }
-        if(repo.getUserByEmail(email)!=null){
-            throw new InvalidRequestException("User already exists");
-        }
+//        /*Exception handling for invalid email,password or phone number*/
+//        if(!emailMatcher.matches()){
+//            throw new InvalidUserEmailException("User email is incorrect - Unable to process registration");
+//        }
+//        if(repo.getUserByEmail(email)!=null){
+//            throw new InvalidRequestException("User already exists");
+//        }
 
         /*New User has been created*/
         Users newUser = new Users(userId,username,firstName,lastName,email);
