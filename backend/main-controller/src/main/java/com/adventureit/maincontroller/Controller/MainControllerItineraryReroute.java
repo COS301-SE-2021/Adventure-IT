@@ -96,7 +96,7 @@ public class MainControllerItineraryReroute {
 
     @GetMapping("/restoreItinerary/{id}/{userID}")
     public String restoreItinerary(@PathVariable UUID id,@PathVariable UUID userID){
-        return restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/restoreItinerary/"+id, String.class);
+        return restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/restoreItinerary/"+id+"/"+userID, String.class);
     }
 
     @GetMapping("/hardDelete/{id}/{userID}")
