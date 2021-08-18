@@ -7,7 +7,7 @@ import 'dart:ui';
 import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:mime/mime.dart';
-
+import 'dart:html' as html;
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/placeSearch.dart';
 import 'package:adventure_it/api/registerUser.dart';
@@ -85,6 +85,12 @@ class MediaApi {
       );
       print(_taskid);
     }
+  }
+
+  static void web_requestMediaDownload(Media currentMedia) {
+    html.window.open(
+        'http://' + mediaApi + "/media/mediaUploaded/" + currentMedia.id,
+        currentMedia.name);
   }
 
   static void downloadCallback(

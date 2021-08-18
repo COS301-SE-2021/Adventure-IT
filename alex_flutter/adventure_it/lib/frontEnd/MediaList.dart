@@ -5,6 +5,7 @@ import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
@@ -144,8 +145,13 @@ class MediaList extends StatelessWidget {
               color: Theme.of(context).primaryColorDark,
               child: InkWell(
                   onTap: () {
-                    MediaApi.requestMediaDownload(
-                        context, mediaModel.media!.elementAt(index));
+                    if (kIsWeb) {
+                      MediaApi.web_requestMediaDownload(
+                          mediaModel.media!.elementAt(index));
+                    } else {
+                      MediaApi.requestMediaDownload(
+                          context, mediaModel.media!.elementAt(index));
+                    }
                   },
                   hoverColor: Theme.of(context).primaryColorLight,
                   child: Container(

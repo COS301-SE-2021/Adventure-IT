@@ -6,6 +6,7 @@ import 'package:adventure_it/api/mediaDownloadsOffline.dart';
 import 'package:adventure_it/api/mediaDownloadsOnline.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,10 @@ import 'frontEnd/Login.dart';
 import 'frontEnd/HomepageStartup.dart';
 
 void main() async {
-  await FlutterDownloader.initialize();
-  FlutterDownloader.registerCallback(MediaApi.downloadCallback);
+  if (!kIsWeb) {
+    await FlutterDownloader.initialize();
+    FlutterDownloader.registerCallback(MediaApi.downloadCallback);
+  }
   runApp(
     MyApp(),
   );
