@@ -138,18 +138,18 @@ class ChecklistApi {
 
   static Future<http.Response> _deleteChecklistRequest(checklistID) async {
 
-    return http.get(Uri.http(mainApi, '/checklist/softDelete/' + checklistID));
+    return http.get(Uri.http(mainApi, '/checklist/softDelete/' + checklistID + '/' + UserApi.getInstance().getUserProfile()!.userID));
   }
 
   static Future<http.Response> _hardDeleteChecklistRequest(checklistID) async {
 
-    return http.get(Uri.http(mainApi, '/checklist/hardDelete/' + checklistID));
+    return http.get(Uri.http(mainApi, '/checklist/hardDelete/' + checklistID + '/' + UserApi.getInstance().getUserProfile()!.userID));
   }
 
 
   static Future<http.Response> _restoreChecklistRequest(checklistID) async {
 
-    return http.get(Uri.http(mainApi, '/checklist/restoreChecklist/' + checklistID));
+    return http.get(Uri.http(mainApi, '/checklist/restoreChecklist/' + checklistID + '/' + UserApi.getInstance().getUserProfile()!.userID));
   }
 
   static Future<CreateChecklist> createChecklist(String title, String description, String creatorID, String adventureID) async {

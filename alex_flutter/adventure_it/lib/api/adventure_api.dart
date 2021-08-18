@@ -66,8 +66,8 @@ class AdventureApi {
     return http.get(Uri.http(mainApi,'/adventure/all/' + userID));
   }
 
-  static Future removeAdventure(String adventureId) async {
-    http.Response response = await _removeAdventure(adventureId);
+  static Future removeAdventure(String adventureId, String ownerId) async {
+    http.Response response = await _removeAdventure(adventureId, ownerId);
 
 
     if (response.statusCode != 200) {
@@ -76,8 +76,8 @@ class AdventureApi {
   }
 
 
-  static Future<http.Response> _removeAdventure(adventureID) async {
-    return http.delete(Uri.http(mainApi, '/adventure/remove/' + adventureID));
+  static Future<http.Response> _removeAdventure(adventureID, ownerId) async {
+    return http.delete(Uri.http(mainApi, '/adventure/remove/' + adventureID + '/' + ownerId));
   }
 
   static Future<CreateAdventure> createAdventure(String name, String ownerId, LocalDate startDate, LocalDate endDate, String description, String location) async {
