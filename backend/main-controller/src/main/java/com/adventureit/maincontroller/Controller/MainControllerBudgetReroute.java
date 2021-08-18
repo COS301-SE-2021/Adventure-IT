@@ -35,8 +35,9 @@ public class MainControllerBudgetReroute {
 
     @GetMapping("/hardDelete/{id}/{userID}")
     public String hardDelete(@PathVariable UUID id, @PathVariable UUID userID){
-        restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/hardDelete/"+id+"/"+userID, String.class);
-        CreateTimelineRequest req2 = new CreateTimelineRequest(id, TimelineType.BUDGET,"Budget: "+id+" has been deleted" );
+        BudgetResponseDTO response = restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetId/"+id, BudgetResponseDTO.class);
+        restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/hardDelete/"+id+"/"+userID, String.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.BUDGET,"Budget: "+id+" has been deleted" );
         return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
  }
 
@@ -44,15 +45,16 @@ public class MainControllerBudgetReroute {
     public String editBudget(@RequestBody EditBudgetRequest req){
         restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/editBudget/", req, String.class);
         UUID budgetID = req.getBudgetID();
-        UUID adventureId = restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetId/"+budgetID, BudgetResponseDTO.class).getAdventureID();
+        UUID adventureId = restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetEntryId/"+budgetID, BudgetResponseDTO.class).getAdventureID();
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Budget: "+req.getTitle()+" has been edited" );
         return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 
     @GetMapping("/removeEntry/{id}")
     public String removeEntry(@PathVariable UUID id){
-        restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/removeEntry/"+id, String.class);
-        BudgetResponseDTO response = restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetId/"+id, BudgetResponseDTO.class);
+        BudgetResponseDTO response = restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetEntryId/"+id, BudgetResponseDTO.class);
+        restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/removeEntry/"+id, String.class);
+
         UUID adventureId =response.getAdventureID();
         String name = response.getName();
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Budget: "+name+" has been deleted" );
@@ -120,17 +122,17 @@ public class MainControllerBudgetReroute {
     }
 
     @GetMapping("/getReportList/{id}")
-    public List<String> getReportList(@PathVariable UUID id) throws Exception {
-        return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/restoreBudget/"+id, List.class);
+    public List<String> getReportList(@PathVariable UUID id) {
+        return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getReportList/"+id, List.class);
     }
 
     @GetMapping("/generateIndividualReport/{id}/{userName}")
     public List<ReportResponseDTO> generateIndividualReport(@PathVariable UUID id,@PathVariable String userName) throws Exception {
-        return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/restoreBudget/"+id+"/"+userName, List.class);
+        return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/generateIndividualReport/"+id+"/"+userName, List.class);
     }
 
     @GetMapping("/getBudgetByBudgetId/{id}")
-    public BudgetResponseDTO generateIndividualReport(@PathVariable UUID id) throws Exception {
+    public BudgetResponseDTO generateIndividualReport(@PathVariable UUID id) {
         return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetId/"+id, BudgetResponseDTO.class);
     }
 

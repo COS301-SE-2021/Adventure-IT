@@ -45,49 +45,45 @@ Future removeMedia(String id) async {
     notifyListeners();
 }
 
-  // Future deleteAdventure(Adventure adventure) async {
-  //   await AdventureApi.removeAdventure(adventure.adventureId);
-  //
-  //   var index = _adventures!.indexWhere((element) => element.adventureId == adventure.adventureId);
-  //   _adventures!.removeAt(index);
-  //
-  //   notifyListeners();
-  // }
 
 }
 
-// class FileModel extends ChangeNotifier {
-//   List<Media>? _media = null;
-//   Adventure? adventure=null;
-//
-//   FileModel(Adventure a) {
-//     this.adventure=a;
-//     fetchAllFiles().then((media) => media != null? _media = media:List.empty());
-//   }
-//
-//   List<Media>? get media => _media?.toList();
-//
-//   Future fetchAllFiles() async {
-//     _media = await MediaApi.getAllFiles(adventure);
-//
-//     notifyListeners();
-//   }
-//
-//   Future addFiles(List<PlatformFile> files) async {
-//     await MediaApi.addFile(files,adventure);
-//
-//     fetchAllFiles();
-//
-//     notifyListeners();
-//   }
-//
-// // Future deleteAdventure(Adventure adventure) async {
-// //   await AdventureApi.removeAdventure(adventure.adventureId);
-// //
-// //   var index = _adventures!.indexWhere((element) => element.adventureId == adventure.adventureId);
-// //   _adventures!.removeAt(index);
-// //
-// //   notifyListeners();
-// // }
-//
-// }
+class FileModel extends ChangeNotifier {
+  List<Media>? _files = null;
+  Adventure? adventure=null;
+
+  FileModel(Adventure a) {
+    this.adventure=a;
+    fetchAllFiles().then((file) => file != null? _files = file:List.empty());
+  }
+
+  List<Media>? get files => _files?.toList();
+
+  Future fetchAllFiles() async {
+    _files = await FileApi.getAllFiles(adventure!);
+
+    notifyListeners();
+  }
+
+  Future addFiles(List<PlatformFile> files) async {
+    await FileApi.addFile(files,adventure!);
+
+    fetchAllFiles();
+
+    notifyListeners();
+  }
+
+  Future removeFiles(String id) async {
+    await FileApi.removeFile(id);
+
+    var index = _files!.indexWhere((element) => element.id == id);
+    _files!.removeAt(index);
+
+    notifyListeners();
+  }
+
+
+}
+
+
+

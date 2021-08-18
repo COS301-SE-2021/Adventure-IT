@@ -630,7 +630,7 @@ class _AlertBox extends State<AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () async {
-                          await widget.budgetModel.addBudget(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
+                          await widget.budgetModel.addBudget(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId, UserApi.getInstance().getUserProfile()!.username);
                           Navigator.pop(context);
                         },
                       ),

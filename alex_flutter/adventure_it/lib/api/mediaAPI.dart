@@ -114,3 +114,95 @@ class MediaApi {
     send!.send([id, status, progress]);
   }
 }
+
+class FileApi {
+  static Future<List<Media>> getAllFiles(Adventure a) async {
+    http.Response response = await _getAllFiles(a.adventureId);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load media: ${response.body}');
+    }
+
+    List<Media> files = (jsonDecode(response.body) as List)
+        .map((x) => Media.fromJson(x))
+        .toList();
+
+    return files;
+  }
+
+  static Future<http.Response> _getAllFiles(String adventureID) async {
+    return http
+        .get(Uri.http(mediaApi, "/media/getAdventureFileList/" + adventureID));
+  }
+
+  static Future removeFile(String id) async {
+    http.Response response = await _removeFile(id);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to remove media: ${response.body}');
+    }
+
+  }
+
+  static Future<http.Response> _removeFile(String id) async {
+    return http
+        .get(Uri.http(mediaApi, "/media/deleteFile/"+id+"/"+UserApi.getInstance().getUserProfile()!.userID));
+  }
+
+  static Future addFile(List<PlatformFile> files, Adventure a) async {
+    for (int i = 0; i < files.length; i++) {
+      http.Response response = await _addFile(files.elementAt(i), a);
+
+      if (response.statusCode != 200) {
+        throw Exception('Failed to upload failed: ${response.body}');
+      }
+    }
+  }
+
+  static Future<http.Response> _addFile(PlatformFile file, Adventure a) async {
+    final mimeType = lookupMimeType(file.name); // 'image/jpeg'
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('http://' + mediaApi + '/media/uploadFile'));
+    request.fields['userid'] = UserApi.getInstance().getUserProfile()!.userID;
+    request.fields['adventureid'] = a.adventureId;
+    request.files.add(http.MultipartFile.fromBytes(
+        'file', file.bytes!.cast<int>(),
+        filename: file.name, contentType: new MediaType.parse(mimeType!)));
+
+    var x = await request.send();
+    return await http.Response.fromStream(x);
+  }
+
+  static Future<void> requestFileDownload(context, Media currentMedia) async {
+    Directory? rootDirectory = await DownloadsPathProvider.downloadsDirectory;
+    String? filepath = await FilesystemPicker.open(
+        title: 'Save to Downloads folder',
+        context: context,
+        rootDirectory: rootDirectory!,
+        fsType: FilesystemType.folder,
+        pickText: 'Save file to this folder');
+    if (filepath != null) {
+      String? _taskid = await FlutterDownloader.enqueue(
+        url: 'http://' + mediaApi + "/media/fileUploaded/" + currentMedia.id,
+        fileName: currentMedia.name,
+        savedDir: filepath,
+        showNotification: true,
+        openFileFromNotification: true,
+      );
+      print(_taskid);
+    }
+  }
+
+  static void web_requestFileDownload(Media currentMedia) {
+    html.window.open(
+        'http://' + mediaApi + "/media/fileUploaded/" + currentMedia.id,
+        currentMedia.name);
+  }
+
+  static void downloadCallback(
+      String id, DownloadTaskStatus status, int progress) {
+    final SendPort? send =
+    IsolateNameServer.lookupPortByName('downloader_send_port');
+    send!.send([id, status, progress]);
+  }
+}
