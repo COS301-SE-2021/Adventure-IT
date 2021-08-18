@@ -90,7 +90,7 @@ public class MainControllerUserReroute {
 
     @GetMapping(value="GetFriendRequests/{id}")
     public List<GetFriendRequestsResponse> getFriendRequests(@PathVariable UUID id){
-        return restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetFriendRequests/"+id, List.class);
+        return restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/getFriendRequests/"+id, List.class);
 
     }
 
@@ -126,7 +126,7 @@ public class MainControllerUserReroute {
 
     @GetMapping("getFriendRequest/{id}")
     public FriendDTO getFriendRequest(@PathVariable UUID id) throws Exception {
-        return restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/createFriendRequest/"+ id, FriendDTO.class);
+        return restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/getFriendRequest/"+ id, FriendDTO.class);
     }
 }
 
