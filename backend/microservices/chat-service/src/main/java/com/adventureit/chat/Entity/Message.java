@@ -10,13 +10,13 @@ import java.util.UUID;
 public class Message {
     @Id
     UUID id;
-    @NotNull
+    //@NotNull
     UUID sender;
-    @NotNull
+    //@NotNull
     UUID chatId;
-    @NotNull
+    //@NotNull
     String message;
-    @NotNull
+    //@NotNull
     LocalDateTime timestamp;
 
     public Message(UUID id, UUID sender,UUID chatId, String message){
