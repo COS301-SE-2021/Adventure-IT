@@ -36,6 +36,15 @@ class MediaModel extends ChangeNotifier {
     notifyListeners();
   }
 
+Future removeMedia(String id) async {
+    await MediaApi.removeMedia(id);
+
+    var index = _media!.indexWhere((element) => element.id == id);
+    _media!.removeAt(index);
+
+    notifyListeners();
+}
+
   // Future deleteAdventure(Adventure adventure) async {
   //   await AdventureApi.removeAdventure(adventure.adventureId);
   //
