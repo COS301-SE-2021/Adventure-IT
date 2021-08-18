@@ -7,6 +7,7 @@ import com.adventureit.mediaservice.Repository.FileRepository;
 import com.adventureit.mediaservice.Repository.MediaInfoRepository;
 import com.adventureit.mediaservice.Repository.MediaRepository;
 import com.adventureit.mediaservice.Service.MediaServiceImplementation;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +61,12 @@ public class MediaController {
 
     @GetMapping(value = "/getUserFileList/{id}")
     public List<FileInfo> getUserFileList(@PathVariable UUID id){
-        return fileInfoRepository.findAllByOwner(id);
+        return fileInfoRepository.findAllByOwnerAndPublicAccessEquals(id,true);
+    }
+
+    @GetMapping(value = "/getUserPrivateFileList/{id}")
+    public List<FileInfo> getUserPrivateFileList(@PathVariable UUID id){
+        return fileInfoRepository.findAllByOwnerAndPublicAccessEquals(id,false);
     }
 
     @GetMapping(value = "/getAdventureFileList/{id}")
@@ -77,6 +83,11 @@ public class MediaController {
     public HttpStatus uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("userid") UUID userId, @RequestParam("adventureid") UUID adventureId){
         return mediaServiceImplementation.uploadFile(file,userId,adventureId);
     }
+    
+    @PostMapping("/printJson")
+    public String printJson(@RequestBody JSONObject jsonObject){
+        return jsonObject.toString();
+    }
 
     @GetMapping("/changeMediaAccess/{id}")
     public void changeMediaAccess(@PathVariable UUID id) {
@@ -86,5 +97,15 @@ public class MediaController {
     @GetMapping("/changeFileAccess/{id}")
     public void changeFileAccess(@PathVariable UUID id) {
         mediaServiceImplementation.changeFileAccess(id);
+    }
+
+    @GetMapping("/deleteFile/{id}/{userID}")
+    public void deleteFile(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+        mediaServiceImplementation.deleteFile(id,userID);
+    }
+
+    @GetMapping("/deleteMedia/{id}/{userID}")
+    public void deleteMedia(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+        mediaServiceImplementation.deleteMedia(id,userID);
     }
 }

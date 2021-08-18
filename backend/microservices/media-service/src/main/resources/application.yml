@@ -13,6 +13,7 @@ spring:
     hikari:
       maximum-pool-size: 2
       auto-commit: false
+      maximum-pool-size: 2
   jpa:
     hibernate:
       ddl-auto: update

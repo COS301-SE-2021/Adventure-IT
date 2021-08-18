@@ -6,7 +6,7 @@ import 'package:adventure_it/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:adventure_it/api/friendRequest.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,9 +14,10 @@ class UserApi {
   bool hasToken = false;
   KeycloakUser? _keycloakUser;
   UserProfile? _userProfile;
+  String message = "";
 
   // TODO: Use ENV for sensitive information
-  final String keycloakClientSecret = "e0ddc4e5-7d32-4340-843f-bd7d736d1100";
+  final String keycloakClientSecret = "f0e75041-7324-4949-bb90-bcd3ddda5bc6";
 
   // Start: Singleton Design Pattern
   static UserApi _instance = new UserApi._();
@@ -37,24 +38,17 @@ class UserApi {
 
   // Publically Exposed Login Method
   Future<bool> logIn(String username, String password) async {
-    // this._keycloakUser = await _attemptLogIn(username, password);
-    // if (this._keycloakUser != null) {
-    //   final keycloakUser = this._keycloakUser!;
-    //   this._userProfile = await this._fetchBackendProfile(keycloakUser.id);
-    //   if (this._userProfile == null) {
-    //     this._userProfile = await this._registerBackendProfile(keycloakUser);
-    //   }
-    //   return true;
-    // } else {
-    //   return false;
-    // }
-    this._userProfile = new UserProfile(
-        userID: "5dd40fd4-93ef-4405-ba8e-01b717a17f2a",
-        username: "sim",
-        firstname: "Simran",
-        lastname: "Rathilal",
-        email: "u19212314@tuks.co.za");
-    return true; // TODO: REMOVE TEMPORARY KEYCLOAK FIX
+    this._keycloakUser = await _attemptLogIn(username, password);
+    if (this._keycloakUser != null) {
+      final keycloakUser = this._keycloakUser!;
+      this._userProfile = await this._fetchBackendProfile(keycloakUser.id);
+      if (this._userProfile == null) {
+        this._userProfile = await this._registerBackendProfile(keycloakUser);
+      }
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // Attempt Login to Keycloak (PRIVATE)
@@ -76,6 +70,7 @@ class UserApi {
     } else {
       debugPrint("Login Failed");
       debugPrint(res.body.toString());
+      this.message = jsonDecode(res.body)['error_description'];
     }
   }
 
@@ -112,6 +107,7 @@ class UserApi {
       responseJson = jsonDecode(res.body)[0];
       return KeycloakUser.fromJson(responseJson);
     } else {
+      debugPrint("Error fetching keycloak user");
       debugPrint(res.body);
       return null;
     }
@@ -120,7 +116,8 @@ class UserApi {
   // Retrieve the backend user profile (PRIVATE)
   Future<UserProfile?> _fetchBackendProfile(String targetUuid) async {
     debugPrint("Getting backend profile for: " + targetUuid);
-    final res = await http.get(Uri.parse(userApi + "/user/GetUser/" + targetUuid));
+    final res =
+        await http.get(Uri.parse(userApi + "/user/GetUser/" + targetUuid));
     final jsonRes = jsonDecode(res.body);
     if (res.statusCode == 500) {
       if (jsonRes['message'] ==
@@ -137,10 +134,11 @@ class UserApi {
 
   // Register a user in the backend (PRIVATE)
   Future<UserProfile?> _registerBackendProfile(KeycloakUser userInfo) async {
-    debugPrint("Registering backend profile for $userInfo.username");
+    String username = userInfo.username;
+    debugPrint("Registering backend profile for $username");
     final res = await http.post(Uri.parse(userApi + "/user/RegisterUser/"),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
+        body: jsonEncode(<String, dynamic>{
           "userID": userInfo.id,
           "firstName": userInfo.firstName,
           "lastName": userInfo.lastName,
@@ -191,7 +189,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriendRequests(String userID) async {
-    return http.get(Uri.parse(userApi+'/user/getFriendRequests/'+ userID));
+    return http.get(Uri.parse(userApi + '/user/getFriendRequests/' + userID));
   }
 
   Future<List<UserProfile>> getFriendProfiles(String userID) async {
@@ -291,23 +289,43 @@ class UserApi {
   Future<bool> registerKeycloakUser(
       firstname, lastname, username, email, password) async {
     final adminJWT = await this._adminLogIn();
-    final response =
-        await http.post(Uri.parse(authApiAdmin + '/users/'), body: '''
-      {
-        "firstName" : "$firstname",
-        "lastName" : "$lastname", 
-        "username" : "$username", 
-        "email" : "$email"
-      },
-      headers: {'Authorization': 'Bearer $adminJWT'}
-    ''');
-    // TODO figure out why this isn't working
-    // Getting a 401 error here
-    if (response.body == "success") {
+    var response = await http.post(Uri.parse(authApiAdmin + 'users/'),
+        body: jsonEncode(<String, dynamic>{
+          "firstName": "$firstname",
+          "lastName": "$lastname",
+          "username": "$username",
+          "email": "$email",
+          "enabled": true,
+          "credentials": [
+            {"temporary": false, "type": "password", "value": password}
+          ]
+        }),
+        headers: {
+          'Authorization': 'Bearer $adminJWT',
+          'Content-Type': 'application/json'
+        });
+    print("### Received keycloak registration response ###");
+    if (response.statusCode == 201) {
+      String userId = (await this._fetchKeyCloakUser(username))!.id;
+      response = await http.put(
+          Uri.parse(authApiAdmin + "users/" + userId + "/send-verify-email"),
+          headers: {
+            'Authorization': 'Bearer $adminJWT',
+            'Content-Type': 'application/json'
+          });
+      print(response.body);
       return true;
     } else {
-      print(response.body);
+      this.message = response.body;
       return false;
     }
   }
+
+  Future<void> displayDialog(
+          BuildContext context, String title, String text) async =>
+      await showDialog(
+        context: context,
+        builder: (context) =>
+            AlertDialog(title: Text(title), content: Text(text)),
+      );
 }
