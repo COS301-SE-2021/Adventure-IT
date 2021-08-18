@@ -24,6 +24,7 @@ public class MainControllerTimelineReroute {
     @GetMapping("/getTimelineByAdventure/{id}")
     public List<TimelineDTO> getTimelineByAdventureID(@PathVariable UUID id) throws Exception {
         return restTemplate.getForObject("http://"+ IP + ":" + timelinePort + "/timeline/getTimelineByAdventure/"+id, List.class);
+
     }
 
     @GetMapping("/deleteTimelineByAdventureID/{id}")

@@ -97,7 +97,6 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
     public String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description, UUID location, LocalDateTime timestamp ) throws Exception {
         if(itineraryRepository.findItineraryById(entryContainerID) == null){
-
             throw new Exception("Itinerary does not exist.");
         }
         if (id == null) {
@@ -293,7 +292,8 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
     @Override
     public ItineraryResponseDTO getItineraryById(UUID itineraryID) {
-        Itinerary entry = itineraryRepository.findItineraryById(itineraryID);
+        ItineraryEntry entry1 = itineraryEntryRepository.findItineraryEntryById(itineraryID);
+        Itinerary entry = itineraryRepository.findItineraryById(entry1.getEntryContainerID());
         return new ItineraryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getCreatorID(),entry.getAdventureID(),entry.getDeleted());
     }
 
