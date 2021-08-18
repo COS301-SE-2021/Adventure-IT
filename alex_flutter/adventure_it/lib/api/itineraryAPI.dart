@@ -126,18 +126,18 @@ class ItineraryApi {
 
   static Future<http.Response> _deleteItineraryRequest(itineraryID) async {
 
-    return http.get(Uri.http(mainApi, '/itinerary/softDelete/' + itineraryID));
+    return http.get(Uri.http(mainApi, '/itinerary/softDelete/' + itineraryID + '/' + UserApi.getInstance().getUserProfile()!.userID));
   }
 
   static Future<http.Response> _hardDeleteItineraryRequest(itineraryID) async {
 
-    return http.get(Uri.http(mainApi, '/itinerary/hardDelete/' + itineraryID));
+    return http.get(Uri.http(mainApi, '/itinerary/hardDelete/' + itineraryID + '/' + UserApi.getInstance().getUserProfile()!.userID));
   }
 
 
   static Future<http.Response> _restoreItineraryRequest(itineraryID) async {
 
-    return http.get(Uri.http(mainApi, '/itinerary/restoreItinerary/' + itineraryID));
+    return http.get(Uri.http(mainApi, '/itinerary/restoreItinerary/' + itineraryID + '/' + UserApi.getInstance().getUserProfile()!.userID));
   }
 
   static Future<CreateItinerary> createItinerary(String title, String description, String creatorID, String adventureID) async {
