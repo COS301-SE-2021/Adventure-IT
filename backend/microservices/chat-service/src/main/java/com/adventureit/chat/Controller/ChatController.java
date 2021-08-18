@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import javax.ws.rs.PathParam;
 import java.util.UUID;
 
 @RestController
@@ -84,6 +85,11 @@ public class ChatController {
     public String sendGroupMessage(@RequestBody SendDirectMessageRequestDTO request) throws Exception {
         service.sendGroupMessage(request.getChatID(),request.getSender(),request.getMsg());
         return "Message sent";
+    }
+
+    @GetMapping("/addParticipant/{advID}/{participantID}")
+    public String addParticipant(@PathVariable UUID advID, @PathVariable UUID participantID){
+        return service.addParticipant(advID, participantID);
     }
 
     @GetMapping("/deleteChat/{id}")
