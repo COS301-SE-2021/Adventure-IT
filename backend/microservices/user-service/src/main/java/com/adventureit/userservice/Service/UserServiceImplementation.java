@@ -7,6 +7,7 @@ import com.adventureit.userservice.Exceptions.*;
 import com.adventureit.userservice.Repository.FriendRepository;
 import com.adventureit.userservice.Repository.UserRepository;
 import com.adventureit.userservice.Requests.RegisterUserRequest;
+import com.adventureit.userservice.Responses.FriendDTO;
 import com.adventureit.userservice.Responses.GetFriendRequestsResponse;
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
 import com.adventureit.userservice.Responses.RegisterUserResponse;
@@ -315,13 +316,13 @@ public class UserServiceImplementation  {
         return  user.getUserID();
     }
 
-    public Friend getFriendRequest(UUID id) throws Exception {
+    public FriendDTO getFriendRequest(UUID id) throws Exception {
         Friend request = friendRepository.findFriendById(id);
         if(request == null || request.isAccepted()){
             throw new Exception("Friend Request doesn't exist");
         }
 
-        return request;
+        return new FriendDTO(request.getId(),request.getFirstUser(), request.getSecondUser(),request.getCreatedDate(),request.isAccepted());
     }
 
     public void mockFriendships()
