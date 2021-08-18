@@ -106,7 +106,7 @@ class ChatApi {
   static Future<SendDirectMessage> sendDirectMessage(String chatID, String sender, String receiver, String msg) async {
 
     final response = await http.post(
-        Uri.parse('http://localhost:9010/chat/sendDirectMessage'),
+        Uri.parse('http://localhost:9999/chat/sendDirectMessage'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -136,7 +136,7 @@ class ChatApi {
   static Future<SendGroupMessage> sendGroupMessage(String chatID, String sender, String msg) async {
 
     final response = await http.post(
-        Uri.parse('http://localhost:9010/chat/sendGroupMessage'),
+        Uri.parse('http://localhost:9999/chat/sendGroupMessage'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
