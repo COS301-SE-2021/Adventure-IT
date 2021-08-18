@@ -131,7 +131,7 @@ class ChecklistEntryModel extends ChangeNotifier {
     await ChecklistApi.completeEntry(c.id);
     var index = _entries!.indexWhere((element) => element.id == c.id);
 
-    fetchAllEntries(this.c!);
+    _entries!.elementAt(index).completed=!_entries!.elementAt(index).completed;
 
 
     notifyListeners();

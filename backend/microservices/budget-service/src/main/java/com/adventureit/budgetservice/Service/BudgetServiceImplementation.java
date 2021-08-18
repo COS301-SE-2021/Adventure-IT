@@ -116,14 +116,7 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
-    public BudgetResponseDTO getBudgetByBudgetEntryId(UUID budgetId){
-        BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryID(budgetId);
-        Budget budget = budgetRepository.findBudgetByBudgetID(entry.getEntryContainerID());
-        return new BudgetResponseDTO(budget.getBudgetId(),budget.getName(),budget.getCreatorID(),budget.getAdventureID(),budget.isDeleted(),budget.getDescription());
-    }
-
-    @Override
-    public BudgetResponseDTO getBudgetByBudgetContainerId(UUID budgetId){
+    public BudgetResponseDTO getBudgetByBudgetId(UUID budgetId){
         Budget budget = budgetRepository.findBudgetByBudgetID(budgetId);
         return new BudgetResponseDTO(budget.getBudgetId(),budget.getName(),budget.getCreatorID(),budget.getAdventureID(),budget.isDeleted(),budget.getDescription());
     }

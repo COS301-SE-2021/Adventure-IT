@@ -31,8 +31,7 @@ class BudgetPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => BudgetEntryModel(currentBudget!),
-        builder: (context, widget) => ChangeNotifierProvider(
-        create: (context) => BudgetReportModel(currentBudget!,UserApi.getInstance().getUserProfile()!.username),builder: (context, widget) => Scaffold(
+        builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
@@ -68,7 +67,7 @@ class BudgetPage extends StatelessWidget {
                           color: Theme.of(context).textTheme.bodyText1!.color))),
               Container(
                 height: MediaQuery.of(context).size.height * 0.4,
-                child: _GetBudgetEntries(this.currentBudget!, this.currentAdventure!),
+                child: GetBudgetEntries(this.currentBudget!),
               ),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Row(children: [
@@ -113,7 +112,7 @@ class BudgetPage extends StatelessWidget {
                 Spacer(),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ]))));
+            ])));
   }
 }
 
@@ -203,14 +202,13 @@ class AlertBox extends State<_AlertBox> {
       )
     ];
 
-    final categoryNames = ["Accommodation", "Activities", "Food", "Transport", "Other"];
+    final categoryNames = ["Transport", "Food", "Accommodation", "Activities", "Other"];
     final BudgetApi api = new BudgetApi();
     Future<CreateUTOBudgetEntry>? _futureUTOBudget;
     Future<CreateUTUBudgetEntry>? _futureUTUBudget;
     final amountController = TextEditingController();
     final titleController = TextEditingController();
     final descriptionController = TextEditingController();
-    final String payerController;
 
     if (userNames==null||userNames!.length == 0 || userNamesAndOther==null||userNamesAndOther!.length == 0) {
       return AlertDialog(
@@ -572,51 +570,11 @@ class AlertBox extends State<_AlertBox> {
   }
 }
 
-class _GetBudgetEntries extends StatefulWidget {
+class GetBudgetEntries extends StatelessWidget {
   Budget? currentBudget;
-  Adventure? currentAdventure;
 
-  _GetBudgetEntries(Budget b, Adventure a) {
+  GetBudgetEntries(Budget b) {
     this.currentBudget = b;
-    this.currentAdventure = a;
-  }
-
-  @override
-  GetBudgetEntries createState() => GetBudgetEntries(currentBudget!, currentAdventure!);
-}
-
-class GetBudgetEntries extends State<_GetBudgetEntries> {
-  Budget? currentBudget;
-  Adventure? currentAdventure;
-  List<UserProfile> users = List.empty();
-
-  GetBudgetEntries(Budget b, Adventure a) {
-    this.currentBudget = b;
-    AdventureApi.getAttendeesOfAdventure(a.adventureId).then((value) {
-      setState(() {
-        users = value;
-      });
-      var temp1 = List<String>.filled(users.length, "", growable: true);
-      temp1.removeRange(0, users.length);
-
-      var temp2 = List<String>.filled(users.length, "", growable: true);
-      temp2.removeRange(0, users.length);
-
-      for (int i = 0; i < users.length; i++) {
-        temp1.add(value.elementAt(i).username);
-      }
-      for (int i = 0; i < users.length; i++) {
-        temp2.add(value.elementAt(i).username);
-      }
-      temp2.add("Other");
-
-      setState(() {
-        print(temp1.toString());
-        print(temp2.toString());
-        userNames = temp1;
-        userNamesAndOther = temp2;
-      });
-    });
   }
 
   double getSize(context) {
@@ -873,7 +831,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                               Center(
                                                 child: Column(
                                                  children: <Widget>[
-                                                  Text("Edit entry",
+                                                  Text("Add Item To Budget",
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       color: Theme.of(context).textTheme.bodyText1!.color,
@@ -955,9 +913,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                           .color)),
                                                     value: payer,
                                                     onChanged: (String? newValue) {
-                                                      setState(() {
-                                                        payer = newValue!;
-                                                      });
+                                                      payer = newValue!;
                                                     },
                                                   items: userNames!.map((String user) {
                                                   return new DropdownMenuItem<String>(
@@ -1026,9 +982,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                         .color)),
                                                     value: payee,
                                                   onChanged: (String? newValue) {
-                                                    setState(() {
-                                                      payee = newValue!;
-                                                    });
+                                                    payee = newValue!;
                                                   },
                                                   items: userNamesAndOther!.map((String user) {
                                                   return new DropdownMenuItem<String>(
@@ -1156,9 +1110,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                     )
                                                   ],
                                                   onChanged: (int? value) {
-                                                    setState(() {
-                                                      selectedCategory = value;
-                                                    });
+                                                    selectedCategory = value;
                                                   },
                                                   ),
                                                 Spacer(),
@@ -1168,7 +1120,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                   MediaQuery.of(context).size.width * 0.02),
                                                   child: RaisedButton(
                                                   color: Theme.of(context).accentColor,
-                                                  child: Text("Edit",
+                                                  child: Text("Create",
                                                   style: TextStyle(
                                                   color: Theme.of(context)
                                                       .textTheme
@@ -1176,8 +1128,6 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                   .color)),
                                                   onPressed: () {
                                                     Navigator.of(context).pop(true);
-                                                    Provider.of<BudgetReportModel>(context,
-                                                        listen: false).fetchAllEntries(currentBudget!, UserApi.getInstance().getUserProfile()!.username);
                                                   }
                                                   )
                                                 )
@@ -1197,8 +1147,6 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                   listen: false)
                                   .deleteBudgetEntry(
                                   budgetEntryModel.entries!.elementAt(index));
-                              Provider.of<BudgetReportModel>(context,
-                                  listen: false).fetchAllEntries(currentBudget!, UserApi.getInstance().getUserProfile()!.username);
                             }
                             else if(direction == DismissDirection.startToEnd) {
                               Provider.of<BudgetEntryModel>(context, listen: false)
@@ -1226,8 +1174,9 @@ class getReport extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-        return Consumer<BudgetReportModel>(
+    return ChangeNotifierProvider(
+        create: (context) => BudgetReportModel(currentBudget!,UserApi.getInstance().getUserProfile()!.username),
+        child: Consumer<BudgetReportModel>(
             builder: (context, budgetReportModel, child) {
               if (budgetReportModel.reports == null) {
                 return Center(
@@ -1335,6 +1284,6 @@ class getReport extends StatelessWidget {
                             fontSize: 30 * MediaQuery.of(context).textScaleFactor,
                             color: Theme.of(context).textTheme.bodyText1!.color)));
               }
-            });
+            }));
   }
 }

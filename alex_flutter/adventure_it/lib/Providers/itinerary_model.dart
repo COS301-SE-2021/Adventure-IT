@@ -114,13 +114,14 @@ class ItineraryEntryModel extends ChangeNotifier {
   }
 
   Future editItineraryEntry(ItineraryEntry entry, Itinerary i, String a, String b, String c, String d, String e, String f) async {
-    print("============================correctly reaching model==================================");
     await ItineraryApi.itineraryEdit(a, b, c, d, e, f);
-    print("============================correctly reaching function==================================");
+
     var index = _entries!.indexWhere((element) => element.id == entry.id);
     _entries!.removeAt(index);
 
     fetchAllEntries(i);
+
+    notifyListeners();
   }
 
 

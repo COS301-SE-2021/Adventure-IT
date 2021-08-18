@@ -84,7 +84,7 @@ public class ItineraryController {
 
     @PostMapping("/editEntry")
     public String editItineraryEntry(@RequestBody EditItineraryEntryRequest req) throws Exception {
-        return itineraryServiceImplementation.editItineraryEntry(req.getId(),req.getEntryContainerID(),req.getTitle(),req.getDescription(),req.getLocationId(),req.getTimestamp());
+        return itineraryServiceImplementation.editItineraryEntry(req.getId(),req.getEntryContainerID(),req.getTitle(),req.getDescription(),req.getLocation(),req.getTimestamp());
     }
 
     @GetMapping("/removeEntry/{id}")
@@ -107,9 +107,9 @@ public class ItineraryController {
         itineraryServiceImplementation.setItineraryEntryLocation(itineraryId,locationID);
     }
 
-    @GetMapping("/getItineraryById/{itineraryId}")
-    public ItineraryResponseDTO getItineraryById(@PathVariable UUID itineraryId){
-        return itineraryServiceImplementation.getItineraryById(itineraryId);
+    @GetMapping("/getItineraryById/{itineraryId}/")
+    public void setLocation(@PathVariable UUID itineraryId) throws Exception {
+        itineraryServiceImplementation.getItineraryById(itineraryId);
     }
 
 }

@@ -11,7 +11,7 @@ class Timeline {
   final String timelineID;
   final String adventureID;
   final String userID;
-  final String description;
+  final String descrpition;
   final String timestamp;
   final String type;
 
@@ -19,7 +19,7 @@ class Timeline {
       {  required this.timelineID,
       required this.adventureID,
       required this.userID,
-      required this.description,
+      required this.descrpition,
       required this.timestamp,
       required this.type});
 

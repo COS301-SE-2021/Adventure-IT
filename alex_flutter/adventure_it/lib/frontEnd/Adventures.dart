@@ -22,14 +22,12 @@ class HomePage_Pages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PageController controller = PageController(initialPage: 0);
-    return ChangeNotifierProvider(
-        create: (context) => AdventuresModel(),
-    child: PageView(
+    return PageView(
         scrollDirection: Axis.horizontal,
         controller: controller,
         children: <Widget>[
           HomePage_Pages_Adventures(),
-        ]));
+        ]);
   }
 }
 
@@ -102,8 +100,9 @@ class AdventureList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-        return Consumer<AdventuresModel>(
+    return ChangeNotifierProvider(
+        create: (context) => AdventuresModel(),
+        child: Consumer<AdventuresModel>(
             builder: (context, adventureModel, child) {
           if (adventureModel.adventures == null) {
             return Center(
@@ -301,6 +300,6 @@ class AdventureList extends StatelessWidget {
                         fontSize: 30 * MediaQuery.of(context).textScaleFactor,
                         color: Theme.of(context).textTheme.bodyText1!.color)));
           }
-        });
+        }));
   }
 }

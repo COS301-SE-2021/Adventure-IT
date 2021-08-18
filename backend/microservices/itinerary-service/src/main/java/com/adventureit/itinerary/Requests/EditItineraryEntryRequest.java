@@ -8,13 +8,12 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class EditItineraryEntryRequest {
-    RestTemplate restTemplate = new RestTemplate();
+    RestTemplate restTemplate;
     UUID id;
     UUID entryContainerID;
     String title;
     String description;
-    String location;
-    UUID locationId;
+    UUID location;
     LocalDateTime timestamp;
 
     public EditItineraryEntryRequest(@JsonProperty("id") UUID id,@JsonProperty("entryContainerID") UUID entryContainerID,@JsonProperty("title") String title,@JsonProperty("description") String description,@JsonProperty("location") String location,@JsonProperty("timestamp") LocalDateTime timestamp){
@@ -22,7 +21,7 @@ public class EditItineraryEntryRequest {
         this.entryContainerID = entryContainerID;
         this.title = title;
         this.description = description;
-        this.location = location; //= UUID.fromString(Objects.requireNonNull(restTemplate.getForObject("http://" + "localhost" + ":" + "9999" + "/location/create/" + location, String.class)));
+        this.location = UUID.fromString(Objects.requireNonNull(restTemplate.getForObject("http://" + "localhost" + ":" + "9999" + "main/location/create/" + location, String.class)));
         this.timestamp = timestamp;
     }
 
@@ -50,19 +49,11 @@ public class EditItineraryEntryRequest {
         this.description = description;
     }
 
-    public String getLocation() {
+    public UUID getLocation() {
         return location;
     }
 
-    public void setLocationId(UUID locationId) {
-        this.locationId = locationId;
-    }
-
-    public UUID getLocationId() {
-        return locationId;
-    }
-
-    public void setLocation(String location) {
+    public void setLocation(UUID location) {
         this.location = location;
     }
 

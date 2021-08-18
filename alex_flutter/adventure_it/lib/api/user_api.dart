@@ -179,7 +179,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriends(String userID) async {
-    return http.get(Uri.http(mainApi, '/user/GetFriends/' + userID));
+    return http.get(Uri.parse(userApi + '/user/GetFriends/' + userID));
   }
 
   Future<List<FriendRequest>> getFriendRequests(String userID) async {
@@ -197,7 +197,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriendRequests(String userID) async {
-    return http.get(Uri.parse(mainApi+'/user/getFriendRequests/'+ userID));
+    return http.get(Uri.parse(userApi + '/user/getFriendRequests/' + userID));
   }
 
   Future<List<UserProfile>> getFriendProfiles(String userID) async {
@@ -227,7 +227,7 @@ class UserApi {
 
   Future<http.Response> _deleteFriend(String userID, String friendID) async {
     return http.get(
-        Uri.http(mainApi, '/user/removeFriend/' + userID + "/" + friendID));
+        Uri.parse(userApi + '/user/removeFriend/' + userID + "/" + friendID));
   }
 
   Future deleteFriendRequest(String requestID) async {
@@ -240,7 +240,7 @@ class UserApi {
 
   Future<http.Response> _deleteFriendRequest(String requestID) async {
     return http
-        .get(Uri.http(mainApi, '/user/deleteFriendRequest/' + requestID));
+        .get(Uri.parse(userApi + '/user/deleteFriendRequest/' + requestID));
   }
 
   Future acceptFriendRequest(String requestID) async {
@@ -252,7 +252,7 @@ class UserApi {
 
   Future<http.Response> _acceptFriendRequest(String requestID) async {
     return http
-        .get(Uri.http(mainApi, '/user/acceptFriendRequest/' + requestID));
+        .get(Uri.parse(userApi + '/user/acceptFriendRequest/' + requestID));
   }
 
   Future<String> searchUsername(String value) async {

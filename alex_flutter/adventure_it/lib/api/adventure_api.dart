@@ -58,7 +58,7 @@ class AdventureApi {
   }
 
   static Future<http.Response> _addAttendee(Adventure adventure,String userID) async {
-    return http.get(Uri.http(mainApi, '/adventure/addAttendees/' +adventure.adventureId+"/"+userID));
+    return http.get(Uri.http(adventureApi, '/adventure/addAttendees/' +adventure.adventureId+"/"+userID));
   }
 
 
@@ -77,7 +77,7 @@ class AdventureApi {
 
 
   static Future<http.Response> _removeAdventure(adventureID) async {
-    return http.get(Uri.http(mainApi, '/adventure/remove/' + adventureID + '/' + UserApi.getInstance().getUserProfile()!.userID));
+    return http.delete(Uri.http(mainApi, '/adventure/remove/' + adventureID+"/"+UserApi.getInstance().getUserProfile()!.userID));
   }
 
   static Future<CreateAdventure> createAdventure(String name, String ownerId, LocalDate startDate, LocalDate endDate, String description, String location) async {
