@@ -9,9 +9,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class UserApi {
   bool hasToken = false;
+  String message = "";
   KeycloakUser? _keycloakUser;
   UserProfile? _userProfile;
   String message = "";
@@ -68,9 +70,12 @@ class UserApi {
       this._store("refresh_token", jsonDecode(res.body)["refresh_token"]);
       return this._fetchKeyCloakUser(username);
     } else {
-      debugPrint("Login Failed");
-      debugPrint(res.body.toString());
-      this.message = jsonDecode(res.body)['error_description'];
+      String errorMessage = jsonDecode(res.body)['error_description'];
+      if (errorMessage == "Account is not fully set up") {
+        this.message = "Email Unverified";
+      } else {
+        this.message = errorMessage;
+      }
     }
   }
 
@@ -95,9 +100,9 @@ class UserApi {
   Future<KeycloakUser?> _fetchKeyCloakUser(username) async {
     final adminJWT = await this._adminLogIn();
     late final responseJson;
-    final Map<String, String> queryParameters = {
+    final Map<String, dynamic> queryParameters = {
       'username': username!,
-      'max': '1'
+      'exact': "true"
     };
     final uri = Uri.parse(
         authApiAdmin + 'users?' + Uri(queryParameters: queryParameters).query);
@@ -289,37 +294,38 @@ class UserApi {
     await prefs.setString(key, value);
   }
 
+  // Register a user in Keycloak
   Future<bool> registerKeycloakUser(
       firstname, lastname, username, email, password) async {
     final adminJWT = await this._adminLogIn();
-    var response = await http.post(Uri.parse(authApiAdmin + 'users/'),
+    final res = await http.post(Uri.parse(authApiAdmin + 'users/'),
         body: jsonEncode(<String, dynamic>{
           "firstName": "$firstname",
           "lastName": "$lastname",
           "username": "$username",
           "email": "$email",
-          "enabled": true,
           "credentials": [
-            {"temporary": false, "type": "password", "value": password}
-          ]
+            {"type": "password", "value": "$password", "temporary": false}
+          ],
+          "enabled": "true"
         }),
         headers: {
           'Authorization': 'Bearer $adminJWT',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json; charset=UTF-8'
         });
-    print("### Received keycloak registration response ###");
-    if (response.statusCode == 201) {
-      String userId = (await this._fetchKeyCloakUser(username))!.id;
-      response = await http.put(
-          Uri.parse(authApiAdmin + "users/" + userId + "/send-verify-email"),
+    if (res.statusCode == 201) {
+      String newUser = (await this._fetchKeyCloakUser(username))!.id;
+      final res = await http.put(
+          Uri.parse(authApiAdmin + 'users/$newUser/send-verify-email'),
           headers: {
             'Authorization': 'Bearer $adminJWT',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json; charset=UTF-8'
           });
-      print(response.body);
+      debugPrint(res.body);
       return true;
     } else {
       this.message = response.body;
+      debugPrint(res.body);
       return false;
     }
   }

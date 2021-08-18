@@ -117,8 +117,7 @@ class Login extends State<LoginCaller> {
                           builder: (context) => HomepageStartupCaller()),
                     );
                   } else {
-                    api.displayDialog(
-                        context, "An Error Occurred", api.message);
+                    api.displayDialog(context, "Oops!", api.message);
                   }
                 }),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
