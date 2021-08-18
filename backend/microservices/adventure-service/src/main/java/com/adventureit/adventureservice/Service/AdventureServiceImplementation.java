@@ -54,21 +54,15 @@ public class AdventureServiceImplementation implements AdventureService {
         if(req.getOwnerId() == null ){
             throw new NullFieldException("Create Adventure Request: Owner Id NULL");
         }
-//        else if (req.getId() == null) {
-//            throw new NullFieldException("Create Adventure Request: Adventure Id NULL");
-//        }
         else if (req.getName() == null){
             throw new NullFieldException("Create Adventure Request: Adventure Name NULL");
         }
-
-        //UUID location = UUID.fromString(Objects.requireNonNull(restTemplate.getForObject("http://" + "localhost" + ":" + "9006" + "/location/create/Pretoria", String.class)));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy");
         LocalDate sd = LocalDate.parse(req.getStartDate(),formatter);
         LocalDate ed = LocalDate.parse(req.getEndDate(),formatter);
-        Adventure persistedAdventure = this.adventureRepository.save(new Adventure(req.getName(),req.getDescription(), UUID.randomUUID() , req.getOwnerId(), sd, ed,null));
-        CreateAdventureResponse response = new CreateAdventureResponse(true);
-        response.setAdventure(persistedAdventure);
-        return response;
+        Adventure persistedAdventure = new Adventure(req.getName(),req.getDescription(), UUID.randomUUID() , req.getOwnerId(), sd, ed, null);
+        adventureRepository.save(persistedAdventure);
+        return new CreateAdventureResponse(true, persistedAdventure);
     }
 
     /**

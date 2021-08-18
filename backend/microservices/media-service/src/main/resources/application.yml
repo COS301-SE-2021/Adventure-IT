@@ -5,7 +5,7 @@ server:
 
 spring:
   application:
-    name: MEDIA-SERVICE
+    name: BUDGET-SERVICE
   datasource:
     url: jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5
     username: postgres

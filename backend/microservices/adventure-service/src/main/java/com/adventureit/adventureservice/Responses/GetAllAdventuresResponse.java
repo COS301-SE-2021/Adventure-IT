@@ -63,6 +63,22 @@ public class GetAllAdventuresResponse {
         return location;
     }
 
+    public UUID getOwnerId() {
+        return ownerId;
+    }
+
+    public List<UUID> getAttendees() {
+        return attendees;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
     public void setLocation(UUID location) {
         this.location = location;
     }

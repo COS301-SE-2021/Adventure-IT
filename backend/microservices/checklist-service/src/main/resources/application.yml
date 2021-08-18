@@ -6,7 +6,6 @@ server:
 spring:
   application:
     name: CHECKLIST-SERVICE
-
   datasource:
     url: jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5
     username: postgres

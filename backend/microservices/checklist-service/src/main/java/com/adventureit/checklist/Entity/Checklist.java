@@ -65,14 +65,7 @@ public class Checklist{
      * @param adventureID
      * The UUID of the adventure to which the checklist belongs
      */
-    public Checklist(String title, String description, List<UUID> entries, UUID id, UUID creatorID, UUID adventureID) {
-        this.title = title;
-        this.description = description;
-        this.adventureID = adventureID;
-        this.creatorID = creatorID;
-        this.id = id;
-        deleted = false;
-    }
+
 
     /**
      * Get a checklist entry at a provided index

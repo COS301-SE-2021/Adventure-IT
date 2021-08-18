@@ -29,8 +29,10 @@ import java.util.regex.Pattern;
 public class UserServiceImplementation  {
 
 
-
+    @Autowired
     private final UserRepository repo;
+
+    @Autowired
     private final FriendRepository friendRepository;
 
     @Autowired

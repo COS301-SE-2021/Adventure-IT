@@ -45,7 +45,7 @@ public class ChecklistController {
     }
 
     @GetMapping("/viewChecklist/{id}")
-    public List<ChecklistEntryResponseDTO> viewCheckist(@PathVariable UUID id) throws Exception {
+    public List<ChecklistEntryResponseDTO> viewChecklist(@PathVariable UUID id) throws Exception {
         return checklistServiceImplementation.viewChecklist(id);
     }
 

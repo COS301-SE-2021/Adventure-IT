@@ -16,6 +16,7 @@ import java.util.UUID;
 @Service("TimelineServiceImplementation")
 public class TimelineServiceImplementation {
 
+    @Autowired
     private TimelineRepository repo;
 
     @Autowired
@@ -30,8 +31,9 @@ public class TimelineServiceImplementation {
         return "New timeline entry created for adventure "+adventureID;
     }
 
+
     public List<TimelineDTO> GetTimelineByAdventureID(UUID adventureID){
-        List<Timeline> list =repo.findAllByAdventureId(adventureID);
+        List<Timeline> list = repo.findAllByAdventureId(adventureID);
 
         if(list == null){
              throw new TimelineDoesNotExistException("Timeline does not exist for adventure: "+ adventureID);
@@ -42,6 +44,7 @@ public class TimelineServiceImplementation {
         }
         return returnList;
     }
+
 
     public String deleteTimelineByAdventureID(UUID adventureID){
         List<Timeline> list = repo.findAllByAdventureId(adventureID);

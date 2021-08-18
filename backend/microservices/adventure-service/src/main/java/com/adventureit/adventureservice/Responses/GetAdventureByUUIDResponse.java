@@ -7,7 +7,7 @@ public class GetAdventureByUUIDResponse {
     private Adventure adventure;
 
     /**
-     * This ojcect will store the response attributes from the GetAdventureByUUID service, currently a mock
+     * This object will store the response attributes from the GetAdventureByUUID service, currently a mock
      * adventure will be sent back for testing purposes but for future implementation an adventure will be found from the database
      *
      * @param success success attribute to indicate whether the service was successful
