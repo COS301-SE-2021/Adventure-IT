@@ -60,13 +60,13 @@ class FileModel extends ChangeNotifier {
   List<Media>? get files => _files?.toList();
 
   Future fetchAllFiles() async {
-    _files = await MediaApi.getAllFiles(adventure!);
+    _files = await FileApi.getAllFiles(adventure!);
 
     notifyListeners();
   }
 
   Future addFiles(List<PlatformFile> files) async {
-    await MediaApi.addFiles(files,adventure!);
+    await FileApi.addFile(files,adventure!);
 
     fetchAllFiles();
 
@@ -74,7 +74,7 @@ class FileModel extends ChangeNotifier {
   }
 
   Future removeFiles(String id) async {
-    await MediaApi.removeFile(id);
+    await FileApi.removeFile(id);
 
     var index = _files!.indexWhere((element) => element.id == id);
     _files!.removeAt(index);
