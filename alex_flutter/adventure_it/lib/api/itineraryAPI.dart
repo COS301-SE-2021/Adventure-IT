@@ -47,12 +47,12 @@ class ItineraryApi {
 
   static Future<http.Response> _getItineraries(adventureID) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/viewItinerariesByAdventure/' + adventureID));
+    return http.get(Uri.http(mainApi, '/itinerary/viewItinerariesByAdventure/' + adventureID));
   }
 
   static Future<http.Response> _getItineraryEntries(itineraryID) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/viewItinerary/' + itineraryID));
+    return http.get(Uri.http(mainApi, '/itinerary/viewItinerary/' + itineraryID));
   }
 
   static Future<List<Itinerary>> getDeletedItinerary(adventureId) async {
@@ -115,33 +115,33 @@ class ItineraryApi {
 
   static Future<http.Response> _getDeletedItinerariesResponse(adventureId) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/viewTrash/' + adventureId));
+    return http.get(Uri.http(mainApi, '/itinerary/viewTrash/' + adventureId));
   }
 
   static Future<http.Response> _deleteItineraryEntryRequest(itineraryEntryID) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/removeEntry/' + itineraryEntryID));
+    return http.get(Uri.http(mainApi, '/itinerary/removeEntry/' + itineraryEntryID));
   }
 
   static Future<http.Response> _deleteItineraryRequest(itineraryID) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/softDelete/' + itineraryID));
+    return http.get(Uri.http(mainApi, '/itinerary/softDelete/' + itineraryID));
   }
 
   static Future<http.Response> _hardDeleteItineraryRequest(itineraryID) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/hardDelete/' + itineraryID));
+    return http.get(Uri.http(mainApi, '/itinerary/hardDelete/' + itineraryID));
   }
 
 
   static Future<http.Response> _restoreItineraryRequest(itineraryID) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/restoreItinerary/' + itineraryID));
+    return http.get(Uri.http(mainApi, '/itinerary/restoreItinerary/' + itineraryID));
   }
 
   static Future<CreateItinerary> createItinerary(String title, String description, String creatorID, String adventureID) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9009/itinerary/create'), //get uri
+      Uri.parse('http://localhost:9999/itinerary/create'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -188,7 +188,7 @@ class ItineraryApi {
 
   static Future<http.Response> _getNextEntry(Adventure a) async {
 
-    return http.get(Uri.http(itineraryApi, '/itinerary/getNextEntry/' + a.adventureId));
+    return http.get(Uri.http(mainApi, '/itinerary/getNextEntry/' + a.adventureId));
   }
 
   static Future<CreateItineraryEntry> createItineraryEntry(String entryContainerID, String title, String description, String location, String timestamp) async {
@@ -225,7 +225,7 @@ class ItineraryApi {
 
   static Future<http.Response> itineraryEdit(String id, String entryContainerID, String title, String description, String location, String timestamp) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9008/checklist/editEntry'),
+      Uri.parse('http://localhost:9999/itinerary/editEntry'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -252,7 +252,7 @@ class ItineraryApi {
       // then throw an exception.
       print('Status code: ${response.statusCode}');
       print('Body: ${response.body}');
-      throw Exception('Failed to edit a checklist entry.');
+      throw Exception('Failed to edit an itinerary entry.');
     }
   }
 }
