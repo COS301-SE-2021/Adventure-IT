@@ -154,9 +154,10 @@ class MediaList extends StatelessWidget {
                     image:
                         mediaModel.media!.elementAt(index).type.contains("mp4")
                             ? Image.asset("assets/logo.png").image
-                            : NetworkImage(
-                                "http://localhost:9005/media/mediaUploaded/" +
-                                    mediaModel.media!.elementAt(index).id),
+                            : NetworkImage("http://" +
+                                mediaApi +
+                                "/media/mediaUploaded/" +
+                                mediaModel.media!.elementAt(index).id),
                     fit: BoxFit.cover,
                   ))))),
           staggeredTileBuilder: (int index) =>
