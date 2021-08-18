@@ -44,7 +44,7 @@ public class MainControllerItineraryReroute {
         UUID itineraryID = restTemplate.postForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/addEntry",req, UUID.class);
         restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/setLocation/" + itineraryID +"/"+ locationId ,String.class);
 
-        UUID adventureId = restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/getItineraryById/"+itineraryID, ItineraryResponseDTO.class).getAdventureID();
+        UUID adventureId = restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/getItineraryById/"+req.getEntryContainerID(), ItineraryResponseDTO.class).getAdventureID();
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Itinerary: "+req.getTitle()+" has been updated" );
         restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return itineraryID;
@@ -96,14 +96,14 @@ public class MainControllerItineraryReroute {
 
     @GetMapping("/restoreItinerary/{id}/{userID}")
     public String restoreItinerary(@PathVariable UUID id,@PathVariable UUID userID){
-        return restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/restoreItinerary/"+id, String.class);
+        return restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/restoreItinerary/"+id+"/"+userID, String.class);
     }
 
     @GetMapping("/hardDelete/{id}/{userID}")
     public String hardDelete(@PathVariable UUID id, @PathVariable UUID userID){
-        String returnString = restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/hardDelete/"+id+"/"+userID, String.class);
         ItineraryResponseDTO response = restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/getItineraryById/"+id, ItineraryResponseDTO.class);
-        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.BUDGET,"Itinerary: "+response.getTitle()+" has been deleted" );
+        String returnString = restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/hardDelete/"+id+"/"+userID, String.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.ITINERARY,"Itinerary: "+response.getTitle()+" has been deleted" );
         restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
     }
@@ -120,9 +120,16 @@ public class MainControllerItineraryReroute {
 
     @PostMapping("/editEntry")
     public String editItineraryEntry(@RequestBody EditItineraryEntryRequest req){
+        UUID locationId = restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/create/"+req.getLocation(),UUID.class);
+        req.setLocationId(locationId);
         String returnString = restTemplate.postForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/editEntry/", req, String.class);
         UUID adventureId = restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/getItineraryById/"+req.getEntryContainerID(), ItineraryResponseDTO.class).getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Itinerary: "+req.getTitle()+" has been edited" );
+
+
+
+
+
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY,"Itinerary: "+req.getTitle()+" has been edited" );
         restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
     }
@@ -130,6 +137,7 @@ public class MainControllerItineraryReroute {
     @GetMapping("/removeEntry/{id}")
     public String removeItineraryEntry(@PathVariable UUID id){
         return restTemplate.getForObject("http://"+ IP + ":" + itineraryPort + "/itinerary/removeEntry/"+id, String.class);
+
     }
 
     @GetMapping("/markEntry/{id}")

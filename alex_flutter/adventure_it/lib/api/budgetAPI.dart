@@ -33,7 +33,7 @@ class BudgetApi {
   }
 
   static Future<http.Response> _getBudgets(adventureID) async {
-    return http.get(Uri.http(budgetApi, '/budget/viewBudgetsByAdventure/' + adventureID));
+    return http.get(Uri.http(mainApi, '/budget/viewBudgetsByAdventure/' + adventureID));
   }
 
   static Future<List<Budget>> getDeletedBudgets(adventureId) async {
@@ -97,30 +97,30 @@ class BudgetApi {
 
   static Future<http.Response> _getNumberOfCategories(adventureID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/getEntriesPerCategory/' + adventureID));
+    return http.get(Uri.http(mainApi, '/budget/getEntriesPerCategory/' + adventureID));
   }
 
 
 
   static Future<http.Response> _getDeletedBudgetsResponse(adventureId) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/viewTrash/' + adventureId));
+    return http.get(Uri.http(mainApi, '/budget/viewTrash/' + adventureId));
   }
 
   static Future<http.Response> _deleteBudgetRequest(budgetID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/softDelete/' + budgetID+"/"+UserApi.getInstance().getUserProfile()!.userID));
+    return http.get(Uri.http(mainApi, '/budget/softDelete/' + budgetID + '/' + UserApi.getInstance().getUserProfile()!.userID));
   }
 
   static Future<http.Response> _hardDeleteBudgetRequest(budgetID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/hardDelete/' + budgetID+"/"+UserApi.getInstance().getUserProfile()!.userID));
+    return http.get(Uri.http(mainApi, '/budget/hardDelete/' + budgetID + '/' + UserApi.getInstance().getUserProfile()!.userID));
   }
 
 
   static Future<http.Response> _restoreBudgetRequest(budgetID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/restoreBudget/' + budgetID+"/"+UserApi.getInstance().getUserProfile()!.userID));
+    return http.get(Uri.http(mainApi, '/budget/restoreBudget/' + budgetID + '/' + UserApi.getInstance().getUserProfile()!.userID));
   }
 
   static Future <String> getTotalOfExpenses(Budget b, String userID) async {
@@ -131,13 +131,12 @@ class BudgetApi {
       return "0";
     }
 
-    print(response.body);
     return response.body;
   }
 
   static Future<http.Response> _getTotalOfExpenses(budgetID,userID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/expenseTotal/'+budgetID+"/"+userID));
+    return http.get(Uri.http(budgetApi, '/budget/calculateExpense/'+budgetID+"/"+userID));
   }
 
   static Future <List<BudgetEntry>> getEntries(Budget b) async {
@@ -157,11 +156,11 @@ class BudgetApi {
 
   static Future<http.Response> _getEntries(budgetID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/viewBudget/' + budgetID));
+    return http.get(Uri.http(mainApi, '/budget/viewBudget/' + budgetID));
   }
 
   static Future deleteEntry(BudgetEntry i) async {
-    http.Response response = await _deleteBudgetEntryRequest(i);
+    http.Response response = await _deleteBudgetEntryRequest(i.budgetEntryID);
 
 
     if (response.statusCode != 200) {
@@ -172,15 +171,15 @@ class BudgetApi {
 
   static Future<http.Response> _deleteBudgetEntryRequest(BudgetEntryID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/removeEntry/' + BudgetEntryID));
+    return http.get(Uri.http(mainApi, '/budget/removeEntry/' + BudgetEntryID));
   }
 
-  static Future getReport(Budget b, String userID) async {
+  static Future<List<Report>?> getReport(Budget b, String userID) async {
     http.Response response = await _getReport(b,userID);
 
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to get budget ${response.body}');
+      return null;
     }
 
     List<Report> reportEntries = (jsonDecode(response.body) as List)
@@ -193,12 +192,12 @@ class BudgetApi {
 
   static Future<http.Response> _getReport(Budget b, String userID) async {
 
-    return http.get(Uri.http(budgetApi, '/budget/generateIndividualReport/' +b.id+"/"+userID));
+    return http.get(Uri.http(mainApi, '/budget/generateIndividualReport/' +b.id+"/"+userID));
   }
 
   static Future<CreateBudget> createBudget(String name, String description, String creatorID, String adventureID) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9007/budget/create'), //get uri
+      Uri.parse('http://localhost:9999/budget/create'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -230,7 +229,7 @@ class BudgetApi {
 
   static Future<CreateUTOBudgetEntry> createUTOBudget(String entryContainerID, String payer, String amount, String title, String description, String category, String payee) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9007/budget/addUTOExpense'), //get uri
+      Uri.parse('http://localhost:9999/budget/addUTOExpense'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -262,7 +261,7 @@ class BudgetApi {
 
   static Future<CreateUTUBudgetEntry> createUTUBudget(String entryContainerID, String payer, String amount, String title, String description, String category, String payee) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9007/budget/addUTUExpense'), //get uri
+      Uri.parse('http://localhost:9999/budget/addUTUExpense'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -294,7 +293,7 @@ class BudgetApi {
 
   static Future<http.Response> editBudgetEntry(String id, String entryContainerID, String payer, String amount, String title, String description, String payee) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9007/budget/addUTUExpense'), //get uri
+      Uri.parse('http://localhost:9999/budget/editBudget'), //get uri
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -320,7 +319,7 @@ class BudgetApi {
       // then throw an exception.
       print('Status code: ${response.statusCode}');
       print('Body: ${response.body}');
-      throw Exception('Failed to create a UTU budget entry.');
+      throw Exception('Failed to edit the budget entry.');
     }
   }
 }
