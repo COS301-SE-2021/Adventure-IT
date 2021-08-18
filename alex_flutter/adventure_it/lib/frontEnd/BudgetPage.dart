@@ -203,7 +203,7 @@ class AlertBox extends State<_AlertBox> {
       )
     ];
 
-    final categoryNames = ["Transport", "Food", "Accommodation", "Activities", "Other"];
+    final categoryNames = ["Accommodation", "Activities", "Food", "Transport", "Other"];
     final BudgetApi api = new BudgetApi();
     Future<CreateUTOBudgetEntry>? _futureUTOBudget;
     Future<CreateUTUBudgetEntry>? _futureUTUBudget;
