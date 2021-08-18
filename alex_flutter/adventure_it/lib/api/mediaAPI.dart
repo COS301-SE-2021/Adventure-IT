@@ -43,6 +43,20 @@ class MediaApi {
         .get(Uri.http(mediaApi, "/media/getAdventureMediaList/" + adventureID));
   }
 
+  static Future removeMedia(String id) async {
+    http.Response response = await _removeMedia(id);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to remove media: ${response.body}');
+    }
+
+  }
+
+  static Future<http.Response> _removeMedia(String id) async {
+    return http
+        .get(Uri.http(mediaApi, "/media/deleteMedia/"+id+"/"+UserApi.getInstance().getUserProfile()!.userID));
+  }
+
   static Future addMedia(List<PlatformFile> files, Adventure a) async {
     for (int i = 0; i < files.length; i++) {
       http.Response response = await _addMedia(files.elementAt(i), a);
