@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
-import 'dart:core';
-import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:mime/mime.dart';
 
 
