@@ -161,7 +161,7 @@ class BudgetApi {
   }
 
   static Future deleteEntry(BudgetEntry i) async {
-    http.Response response = await _deleteBudgetEntryRequest(i);
+    http.Response response = await _deleteBudgetEntryRequest(i.budgetEntryID);
 
 
     if (response.statusCode != 200) {
