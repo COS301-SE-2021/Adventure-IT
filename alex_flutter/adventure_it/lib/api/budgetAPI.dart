@@ -175,12 +175,12 @@ class BudgetApi {
     return http.get(Uri.http(mainApi, '/budget/removeEntry/' + BudgetEntryID));
   }
 
-  static Future getReport(Budget b, String userID) async {
+  static Future<List<Report>?> getReport(Budget b, String userID) async {
     http.Response response = await _getReport(b,userID);
 
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to get budget ${response.body}');
+      return null;
     }
 
     List<Report> reportEntries = (jsonDecode(response.body) as List)
