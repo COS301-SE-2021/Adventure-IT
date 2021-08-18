@@ -19,20 +19,15 @@ public class AdventureController {
     @Autowired
     AdventureServiceImplementation adventureServiceImplementation;
 
-    @GetMapping("/test")
-    public String test(){
-        return "Adventure Controller is functional \n";
-    }
-
-    @GetMapping("/populate")
-    public String populate(){
-        adventureServiceImplementation.mockPopulate();
-        return "Mock adventures populated \n";
-    }
-
     @GetMapping("/all")
     public List<GetAllAdventuresResponse> getAllAdventures() {
         return adventureServiceImplementation.getAllAdventures();
+    }
+
+    @GetMapping("/setLocation/{adventureId}/{locationId}")
+    public String setLocationAdventures(@PathVariable UUID adventureId,@PathVariable UUID locationId) {
+        adventureServiceImplementation.setAdventureLocation(adventureId,locationId);
+        return "Working";
     }
 
     @GetMapping("/all/{id}")
@@ -55,8 +50,18 @@ public class AdventureController {
         return adventureServiceImplementation.createAdventure(req);
     }
 
-    @DeleteMapping("/remove/{id}")
-    public RemoveAdventureResponse removeAdventure(@PathVariable UUID id){
-        return adventureServiceImplementation.removeAdventure(id);
+    @DeleteMapping("/remove/{id}/{userID}")
+    public RemoveAdventureResponse removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+        return adventureServiceImplementation.removeAdventure(id, userID);
+    }
+    
+    @GetMapping("/getAttendees/{id}")
+    public List<UUID> getAttendees(@PathVariable UUID id) throws Exception {
+        return adventureServiceImplementation.getAttendees(id);
+    }
+
+    @GetMapping("/addAttendees/{adventureID}/{userID}")
+    public void addAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID) throws Exception {
+        adventureServiceImplementation.addAttendees(adventureID,userID);
     }
 }

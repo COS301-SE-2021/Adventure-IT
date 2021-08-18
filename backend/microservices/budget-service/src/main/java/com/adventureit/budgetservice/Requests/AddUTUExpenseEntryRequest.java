@@ -7,56 +7,43 @@ import java.util.List;
 import java.util.UUID;
 
 public class AddUTUExpenseEntryRequest {
-    private UUID budgetEntryID;
     private UUID entryContainerID;
-    private List<UUID> payers;
+    private String payer;
     double amount;
     String title;
     String description;
     Category category;
-    UUID payeeID;
+    String payee;
 
 
     public AddUTUExpenseEntryRequest(){}
 
-    public AddUTUExpenseEntryRequest(@JsonProperty("budgetEntryID") UUID budgetEntryID, @JsonProperty("entryContainerID") UUID entryContainerID, @JsonProperty("payers") List<UUID> payers, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("category") Category category, @JsonProperty("payeeID") UUID payeeID) {
-        this.budgetEntryID = budgetEntryID;
+    public AddUTUExpenseEntryRequest(@JsonProperty("entryContainerID") UUID entryContainerID, @JsonProperty("payer") String payer, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("category") String category, @JsonProperty("payee") String payee) {
         this.entryContainerID = entryContainerID;
-        this.payers = payers;
+        this.payer = payer;
         this.amount = amount;
         this.title = title;
         this.description = description;
-        this.category = category;
-        this.payeeID = payeeID;
+        this.category = Category.valueOf(category);
+        this.payee = payee;
     }
 
     public Category getCategory() {
         return category;
     }
 
-    public List<UUID> getPayers() {
-        return payers;
-    }
-
-    public UUID getBudgetEntryID() {
-        return budgetEntryID;
+    public String getPayee() {
+        return payee;
     }
 
     public UUID getEntryContainerID() {
         return entryContainerID;
     }
 
-    public void setBudgetEntryID(UUID budgetEntryID) {
-        this.budgetEntryID = budgetEntryID;
-    }
-
     public void setCategory(Category category) {
         this.category = category;
     }
 
-    public void setPayers(List<UUID> payers) {
-        this.payers = payers;
-    }
 
     public void setEntryContainerID(UUID entryContainerID) {
         this.entryContainerID = entryContainerID;
@@ -86,7 +73,15 @@ public class AddUTUExpenseEntryRequest {
         this.amount = amount;
     }
 
-    public UUID getPayeeID() {
-        return payeeID;
+    public String getPayer() {
+        return payer;
+    }
+
+    public void setPayer(String payer) {
+        this.payer = payer;
+    }
+
+    public void setPayee(String payee) {
+        this.payee = payee;
     }
 }

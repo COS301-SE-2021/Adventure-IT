@@ -19,8 +19,20 @@ public class CreateAdventureResponse {
 
 
     public CreateAdventureResponse(boolean success){
-        this.success = true;
+        this.success = success;
         this.message = "Adventure was successfully created";
+    }
+
+    public CreateAdventureResponse(boolean success, String message, Adventure adventure) {
+        this.success = success;
+        this.message = message;
+        this.adventure = adventure;
+    }
+
+    public CreateAdventureResponse(boolean success, Adventure adventure) {
+        this.success = success;
+        this.message = "Adventure was successfully created";
+        this.adventure = adventure;
     }
 
     public Adventure getAdventure(){

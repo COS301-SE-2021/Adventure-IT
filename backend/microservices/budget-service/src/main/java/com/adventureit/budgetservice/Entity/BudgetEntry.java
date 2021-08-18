@@ -2,6 +2,7 @@ package com.adventureit.budgetservice.Entity;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,34 +12,37 @@ public class BudgetEntry{
     @Id
     private UUID budgetEntryID;
     private UUID entryContainerID;
-    @ElementCollection (fetch= FetchType.EAGER)
-    private List<UUID> payers;
+    private String payer;
     double amount;
     String title;
     String description;
     @Enumerated(EnumType.STRING)
     Category category;
+    LocalDateTime timestamp;
 
     public BudgetEntry() {
     }
 
-    public BudgetEntry(UUID id, UUID entryContainerID, double amount, String title, String description, Category category) {
+    public BudgetEntry(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, String payer){
         this.budgetEntryID = id;
         this.entryContainerID = entryContainerID;
         this.amount = amount;
         this.title = title;
         this.description = description;
         this.category = category;
+        this.payer = payer;
+        this.timestamp = LocalDateTime.now();
     }
 
-    public BudgetEntry(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, List<UUID> payers){
-        this.budgetEntryID = id;
+    public BudgetEntry(UUID entryContainerID, double amount, String title, String description, Category category, String payer){
+        this.budgetEntryID = UUID.randomUUID();
         this.entryContainerID = entryContainerID;
         this.amount = amount;
         this.title = title;
         this.description = description;
         this.category = category;
-        this.payers = payers;
+        this.payer = payer;
+        this.timestamp = LocalDateTime.now();
     }
 
     public UUID getId() {
@@ -81,12 +85,12 @@ public class BudgetEntry{
         this.description = description;
     }
 
-    public List<UUID> getPayers() {
-        return payers;
+    public String getPayer() {
+        return payer;
     }
 
-    public void setPayers(List<UUID> payers) {
-        this.payers = payers;
+    public void setPayer(String payer) {
+        this.payer = payer;
     }
 
     public Category getCategory() {
@@ -103,5 +107,13 @@ public class BudgetEntry{
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 }

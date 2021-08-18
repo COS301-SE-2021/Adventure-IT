@@ -4,14 +4,15 @@ import com.adventureit.itinerary.Entity.Itinerary;
 import com.adventureit.itinerary.Entity.ItineraryEntry;
 import com.adventureit.itinerary.Repository.ItineraryEntryRepository;
 import com.adventureit.itinerary.Repository.ItineraryRepository;
+import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ItineraryServiceImplementation implements ItineraryService {
@@ -21,125 +22,110 @@ public class ItineraryServiceImplementation implements ItineraryService {
     @Autowired
     private ItineraryEntryRepository itineraryEntryRepository;
 
+    private RestTemplate restTemplate;
+
     @Autowired
-    public ItineraryServiceImplementation(ItineraryRepository itineraryRepository, ItineraryEntryRepository itineraryEntryRepository){
+    public ItineraryServiceImplementation(ItineraryRepository itineraryRepository, ItineraryEntryRepository itineraryEntryRepository) {
         this.itineraryRepository = itineraryRepository;
         this.itineraryEntryRepository = itineraryEntryRepository;
     }
 
     @Override
-    public String createItinerary(String title, String description, UUID id, UUID advID, UUID userID) throws Exception {
-        if(title == null){
+    public String createItinerary(String title, String description, UUID advID, UUID userID) throws Exception {
+        if (title == null) {
             throw new Exception("No title provided");
         }
-        if(description == null){
+        if (description == null) {
             throw new Exception("No description provided");
         }
-        if(id == null){
-            throw new Exception("No ID provided");
-        }
-        if(userID == null){
+        if (userID == null) {
             throw new Exception("No Creator ID provided");
         }
-        if(advID == null){
+        if (advID == null) {
             throw new Exception("No Adventure ID provided");
         }
-        if(itineraryRepository.findItineraryById(id) != null){
-            throw new Exception("Itinerary already exists");
-        }
 
-        Itinerary itinerary = new Itinerary(title,description,id,advID,userID);
+        Itinerary itinerary = new Itinerary(title, description, advID, userID);
         itineraryRepository.save(itinerary);
         return "Itinerary successfully created";
     }
 
     @Override
-    public String addItineraryEntry(String title, String description, UUID id, UUID entryContainerID, String location, LocalDateTime timestamp) throws Exception {
+    public UUID addItineraryEntry(String title, String description, UUID entryContainerID, String location, String timestamp) throws Exception {
         if(title == null){
+
             throw new Exception("No title provided");
         }
-        if(description == null){
+        if (description == null) {
             throw new Exception("No description provided");
         }
-        if(id == null){
-            throw new Exception("No ID provided");
-        }
-        if(entryContainerID == null){
+        if (entryContainerID == null) {
             throw new Exception("No Itinerary ID provided");
         }
 
         Itinerary itinerary = itineraryRepository.findItineraryById(entryContainerID);
-        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryByIdAndEntryContainerID(id, entryContainerID);
-        if(itinerary == null){
+        if (itinerary == null) {
             throw new Exception("Itinerary does not exist");
         }
-        if(entry != null){
-            throw new Exception("Itinerary Entry already exist");
-        }
 
-        ItineraryEntry newEntry = new ItineraryEntry(title,description,id,entryContainerID,location,timestamp);
-        itineraryEntryRepository.save(newEntry);
+        LocalDateTime newTimestamp = LocalDateTime.parse(timestamp);
+        ItineraryEntry newEntry = new ItineraryEntry(title,description,entryContainerID,null,newTimestamp);
+
+        ItineraryEntry entry = itineraryEntryRepository.save(newEntry);
         itineraryRepository.save(itinerary);
-        return "Itinerary Entry successfully added";
+        return entry.getId();
     }
 
     @Override
-    public String removeItineraryEntry(UUID id, UUID entryContainerID) throws Exception {
-        if(id == null){
+    public String removeItineraryEntry(UUID id) throws Exception {
+        if (id == null) {
             throw new Exception("No ID provided");
         }
-        if(entryContainerID == null){
-            throw new Exception("No Itinerary ID provided");
-        }
 
-        Itinerary itinerary = itineraryRepository.findItineraryById(entryContainerID);
-        if(itinerary == null){
-            throw new Exception("Itinerary does not exist");
-        }
+        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryById(id);
 
-        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryByIdAndEntryContainerID(id, entryContainerID);
-
-        if(entry == null){
+        if (entry == null) {
             throw new Exception("Itinerary Entry does not exist");
         }
 
-        itineraryEntryRepository.delete(itineraryEntryRepository.findItineraryEntryById(id));
-        itineraryRepository.save(itinerary);
+        itineraryEntryRepository.delete(entry);
 
         return "Itinerary Entry successfully removed";
     }
 
     @Override
-    public String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description, String location, LocalDateTime timestamp ) throws Exception {
+
+    public String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description, UUID location, LocalDateTime timestamp ) throws Exception {
         if(itineraryRepository.findItineraryById(entryContainerID) == null){
+
             throw new Exception("Itinerary does not exist.");
         }
-        if(id == null){
+        if (id == null) {
             throw new Exception("Entry ID not provided.");
         }
-        if(entryContainerID == null){
+        if (entryContainerID == null) {
             throw new Exception("Itinerary ID not provided");
         }
-        if(title == null){
+        if (title == null) {
             throw new Exception("Title Field is null.");
         }
-        if(description == null){
+        if (description == null) {
             throw new Exception("Description Field is null.");
         }
 
         Itinerary itinerary = itineraryRepository.findItineraryById(entryContainerID);
         ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryByIdAndEntryContainerID(id, entryContainerID);
 
-        if(entry == null){
+        if (entry == null) {
             throw new Exception("Entry does not exist.");
         }
 
         ItineraryEntry newEntry = itineraryEntryRepository.findItineraryEntryById(id);
 
-        if(!description.equals("")){
+        if (!description.equals("")) {
             newEntry.setDescription(description);
         }
-        if(!title.equals("")){
+        if (!title.equals("")) {
             newEntry.setTitle(title);
         }
         if(!location.equals("")){
@@ -154,15 +140,18 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public String softDelete(UUID id) throws Exception {
-        if(id == null){
+    public String softDelete(UUID id,UUID userID) throws Exception {
+        if (id == null) {
             throw new Exception("Itinerary ID not provided.");
         }
 
-        Itinerary itinerary = itineraryRepository.findItineraryByIdAndDeleted(id,false);
+        Itinerary itinerary = itineraryRepository.findItineraryByIdAndDeleted(id, false);
 
-        if(itinerary == null){
+        if (itinerary == null) {
             throw new Exception("Itinerary does not exist.");
+        }
+        if(!userID.equals(itinerary.getCreatorID())){
+            throw new Exception("User not Authorised");
         }
 
         itinerary.setDeleted(true);
@@ -171,55 +160,81 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public String hardDelete(UUID id) throws Exception {
-        if(id == null){
+    public String hardDelete(UUID id,UUID userID) throws Exception {
+        if (id == null) {
             throw new Exception("Itinerary ID not provided.");
         }
 
-        Itinerary itinerary = itineraryRepository.findItineraryByIdAndDeleted(id,true);
+        Itinerary itinerary = itineraryRepository.findItineraryByIdAndDeleted(id, true);
 
-        if(itinerary == null){
+        if (itinerary == null) {
             throw new Exception("Itinerary is not in trash.");
         }
+        if(!userID.equals(itinerary.getCreatorID())){
+            throw new Exception("User not Authorised");
+        }
 
+        List<ItineraryEntry> entries = itineraryEntryRepository.findAllByEntryContainerID(id);
 
         itineraryRepository.delete(itinerary);
-        itineraryEntryRepository.removeAllByEntryContainerID(id);
+
+        for (ItineraryEntry entry:entries) {
+            itineraryEntryRepository.delete(entry);
+        }
 
         return "Itinerary deleted";
     }
 
     @Override
     public List<ItineraryResponseDTO> viewTrash(UUID id) throws Exception {
-        List<Itinerary> itinerary = itineraryRepository.findAllByDeletedEquals(true);
+
+        List<Itinerary> itinerary = itineraryRepository.findAllByAdventureID(id);
         List<ItineraryResponseDTO> list = new ArrayList<>();
         for (Itinerary b:itinerary) {
-            if(b.getAdventureID() == id){
+            if(b.getDeleted()){
                 list.add(new ItineraryResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.getDeleted()));
+
             }
         }
         return list;
     }
 
-    public String restoreItinerary(UUID id) throws Exception {
-        if(itineraryRepository.findItineraryById(id) == null){
+    public String restoreItinerary(UUID id,UUID userID) throws Exception {
+        if (itineraryRepository.findItineraryById(id) == null) {
             throw new Exception("Itinerary does not exist.");
         }
 
         Itinerary itinerary = itineraryRepository.findItineraryById(id);
+
+        if(!userID.equals(itinerary.getCreatorID())){
+            throw new Exception("User not Authorised");
+        }
+
         itinerary.setDeleted(false);
         itineraryRepository.save(itinerary);
         return "Itinerary was restored";
     }
 
     @Override
-    public ItineraryResponseDTO viewItinerary(UUID id) throws Exception {
+    public List<ItineraryEntryResponseDTO> viewItinerary(UUID id) throws Exception {
         Itinerary itinerary = itineraryRepository.findItineraryByIdAndDeleted(id, false);
-        if(itinerary == null){
+        if (itinerary == null) {
             throw new Exception("Itinerary does not exist");
         }
 
-        return new ItineraryResponseDTO(itinerary.getTitle(),itinerary.getDescription(),itinerary.getId(),itinerary.getCreatorID(), itinerary.getAdventureID(),itinerary.getDeleted());
+        List<ItineraryEntry> entries = itineraryEntryRepository.findAllByEntryContainerID(id);
+        List<ItineraryEntryResponseDTO> list = new ArrayList<>();
+
+        for (ItineraryEntry entry:entries) {
+            list.add(new ItineraryEntryResponseDTO(entry.getId(),entry.getEntryContainerID(),entry.getTitle(),entry.getDescription(),entry.isCompleted(),entry.getLocation(),entry.getTimestamp()));
+            list.sort(new Comparator<ItineraryEntryResponseDTO>(){ @Override
+            public int compare(ItineraryEntryResponseDTO o1, ItineraryEntryResponseDTO o2) {
+                return o1.getTimestamp().compareTo(o2.getTimestamp());
+            }});
+
+            }
+
+        return list;
     }
 
     @Override
@@ -234,34 +249,84 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
+    public ItineraryEntryResponseDTO nextItem(UUID id) throws Exception {
+        ItineraryEntry next = null;
+        List<ItineraryEntry> entries = new ArrayList<>();
+        List<ItineraryEntry> temp;
+
+        List<Itinerary> itineraries = itineraryRepository.findAllByAdventureID(id);
+
+        for (Itinerary i:itineraries) {
+            if(!i.getDeleted()){
+                temp = itineraryEntryRepository.findAllByEntryContainerID(i.getId());
+                entries.addAll(temp);
+            }
+        }
+
+        entries.sort(new Comparator<ItineraryEntry>() {
+            @Override
+            public int compare(ItineraryEntry o1, ItineraryEntry o2) {
+                return o1.getTimestamp().compareTo(o2.getTimestamp());
+            }
+        });
+
+        for (ItineraryEntry entry:entries) {
+            if(entry.getTimestamp().compareTo(LocalDateTime.now()) > 0){
+                next = entry;
+                break;
+            }
+        }
+
+        if(next == null){
+            throw new Exception("No items available");
+        }
+
+        return new ItineraryEntryResponseDTO(next.getId(),next.getEntryContainerID(),next.getTitle(),next.getDescription(),next.isCompleted(),next.getLocation(),next.getTimestamp());
+    }
+
+    @Override
+    public void setItineraryEntryLocation(UUID itineraryID, UUID locationID) {
+        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryById(itineraryID);
+        entry.setLocation(locationID);
+        itineraryEntryRepository.save(entry);
+    }
+
+    @Override
+    public ItineraryResponseDTO getItineraryById(UUID itineraryID) {
+        Itinerary entry = itineraryRepository.findItineraryById(itineraryID);
+        return new ItineraryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getCreatorID(),entry.getAdventureID(),entry.getDeleted());
+    }
+
+    @Override
     public String mockPopulate() {
         final UUID mockItineraryID1 = UUID.fromString("d99dde68-664a-4618-9bb6-4b5dca7d40a8");
-        final UUID mockItineraryID2 = UUID.fromString("1e635afb-bde0-4f1a-b705-714218590a63");
-        final UUID mockItineraryID3 = UUID.fromString("dc8ab797-5fce-4c25-9023-f0004a6fdb3b");
+        final UUID mockItineraryID2 = UUID.fromString("d99dde68-664a-4618-9bb6-4b4dca7d40a8");
+        final UUID mockItineraryID3 = UUID.fromString("d99dde68-664a-4618-9bb6-4b5dca7d30a8");
 
         final UUID mockEntryID1 = UUID.fromString("96d2201d-69b6-4eb5-b9c2-cdcdc9b577e1");
         final UUID mockEntryID2 = UUID.fromString("b4ef54cc-7418-4ab7-bbde-4850dd4778a0");
         final UUID mockEntryID3 = UUID.fromString("2d5fc8a8-68d8-4616-8c0f-084376e4566c");
 
-        final UUID mockAdventureID1 = UUID.fromString("4b251a3e-9b8a-4d66-8b31-4aeab52f1489");
-        final UUID mockAdventureID2 = UUID.fromString("7a56ff82-ff67-4588-8e4d-9af54b1e1b81");
-        final UUID mockAdventureID3 = UUID.fromString("a2797bde-faca-43a8-b421-69c2d4bb0756");
+        final UUID mockAdventureID1 = UUID.fromString("948f3e05-4bca-49ba-8955-fb936992fe02");
+        final UUID mockAdventureID2 = UUID.fromString("948f3e05-4bca-49ba-8955-fb936992fe02");
+        final UUID mockAdventureID3 = UUID.fromString("948f3e05-4bca-49ba-8955-fb936992fe02");
 
         final UUID mockCreatorID1 = UUID.fromString("cbebcd3a-d15a-4e62-ac49-060e744f8896");
         final UUID mockCreatorID2 = UUID.fromString("0bb497d1-fb67-4cfa-bac1-0f1ac7a64fb2");
         final UUID mockCreatorID3 = UUID.fromString("b9655784-7591-49b1-9f57-a4ffd835d079");
 
-        ItineraryEntry mockEntry1 = new ItineraryEntry("Mock Entry 1","Mock",mockEntryID1,mockItineraryID1,"Location 1",LocalDateTime.now());
-        ItineraryEntry mockEntry2 = new ItineraryEntry("Mock Entry 2","Mock",mockEntryID2,mockItineraryID2,"Location 2",LocalDateTime.now());
-        ItineraryEntry mockEntry3 = new ItineraryEntry("Mock Entry 3","Mock",mockEntryID3,mockItineraryID3,"Location 3",LocalDateTime.now());
+
+        ItineraryEntry mockEntry1 = new ItineraryEntry("Mock Entry 1","Mock",mockEntryID1,mockItineraryID1,UUID.randomUUID(),LocalDateTime.now());
+        ItineraryEntry mockEntry2 = new ItineraryEntry("Mock Entry 2","Mock",mockEntryID2,mockItineraryID1,UUID.randomUUID(),LocalDateTime.now());
+        ItineraryEntry mockEntry3 = new ItineraryEntry("Mock Entry 3","Mock",mockEntryID3,mockItineraryID1,UUID.randomUUID(),LocalDateTime.now());
 
         itineraryEntryRepository.save(mockEntry1);
         itineraryEntryRepository.save(mockEntry2);
         itineraryEntryRepository.save(mockEntry3);
 
-        Itinerary mockItinerary1 = new Itinerary("Mock Itinerary 1","Mock",mockItineraryID1,mockCreatorID1,mockAdventureID1);
-        Itinerary mockItinerary2 = new Itinerary("Mock Itinerary 2","Mock",mockItineraryID2,mockCreatorID2,mockAdventureID2);
-        Itinerary mockItinerary3 = new Itinerary("Mock Itinerary 3","Mock",mockItineraryID3,mockCreatorID3,mockAdventureID3);
+        Itinerary mockItinerary1 = new Itinerary("Mock Itinerary 1", "Mock", mockItineraryID1, mockCreatorID1, mockAdventureID1);
+        Itinerary mockItinerary2 = new Itinerary("Mock Itinerary 2", "Mock", mockItineraryID2, mockCreatorID2, mockAdventureID2);
+        Itinerary mockItinerary3 = new Itinerary("Mock Itinerary 3", "Mock", mockItineraryID3, mockCreatorID3, mockAdventureID3);
 
         itineraryRepository.save(mockItinerary1);
         itineraryRepository.save(mockItinerary2);

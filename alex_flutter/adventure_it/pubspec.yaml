@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -25,10 +25,20 @@ dependencies:
     sdk: flutter
   http: ^0.13.3
   time_machine: ^0.9.16
-  date_range_picker: ^1.0.5
   date_count_down: ^0.0.2
   provider: ^5.0.0
-
+  shared_preferences: ^2.0.6
+  flutter_secure_storage: ^4.2.1
+  numberpicker: ^2.1.1
+  grouped_list: ^4.1.0
+  fl_chart: ^0.36.3
+  flutter_downloader: ^1.6.1
+  file_picker: ^4.0.0
+  http_parser: ^4.0.0
+  flutter_staggered_grid_view: ^0.4.0
+  path_provider: ^2.0.2
+  downloads_path_provider: ^0.1.0
+  filesystem_picker: ^2.0.0-nullsafety.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -44,7 +54,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -58,6 +67,7 @@ flutter:
   # The following line specifies the logo dependency
   assets:
     - assets/adventure.PNG
+    - assets/logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

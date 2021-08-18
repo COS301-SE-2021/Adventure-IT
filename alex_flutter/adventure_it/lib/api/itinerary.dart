@@ -1,6 +1,7 @@
+import 'package:adventure_it/api/location.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '/api/adventure.dart';
-import '/api/transactions.dart';
+import '/api/report.dart';
 
 part 'itinerary.g.dart';
 
@@ -11,7 +12,6 @@ class Itinerary {
   final String id;
   final String creatorID;
   final String adventureID;
-  final List<String> entries;
   final bool deleted;
 
   Itinerary({
@@ -20,8 +20,7 @@ class Itinerary {
     required this.id,
     required this.creatorID,
     required this.adventureID,
-    required this.entries,
-    required this.deleted
+    required this.deleted,
   });
 
   factory Itinerary.fromJson(Map<String, dynamic> json) => _$ItineraryFromJson(json);

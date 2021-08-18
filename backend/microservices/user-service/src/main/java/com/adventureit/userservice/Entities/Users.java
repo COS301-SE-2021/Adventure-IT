@@ -3,8 +3,8 @@ package com.adventureit.userservice.Entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name="users", schema = "public")
-public class Users implements UserDetails {
+public class Users  {
 
 
 
@@ -28,8 +28,6 @@ public class Users implements UserDetails {
     private String firstname;
     private String lastname;
     private String email;
-    private String password;
-    private String phoneNumber;
     private Boolean enabled = false;
     @Lob
     private byte [] profilePicture;
@@ -44,18 +42,14 @@ public class Users implements UserDetails {
      * @param firstname
      * @param lastname
      * @param email
-     * @param password
-     * @param phoneNumber
      */
 
-    public Users(UUID userID, String username, String firstname, String lastname, String email, String password, String phoneNumber) {
+    public Users(UUID userID, String username, String firstname, String lastname, String email) {
         this.userID = userID;
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
         this.enabled =false;
     }
 
@@ -68,27 +62,6 @@ public class Users implements UserDetails {
 
     public String getUsername() {
         return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-
-        return !this.locked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.enabled;
     }
 
     public Boolean getEnabled() {
@@ -156,40 +129,6 @@ public class Users implements UserDetails {
      */
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    /**
-     * User service to retrieve users User password
-     * @return password
-     */
-    public String getPassword() {
-        return password;
-    }
-    /**
-     * User service to set User ID
-     * @param password
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    /**
-     * User service to retrieve users User phone number
-     * @return phoneNumber
-     */
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-    /**
-     * User service to set User ID
-     * @param phoneNumber
-     */
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public byte[] getProfilePicture() {

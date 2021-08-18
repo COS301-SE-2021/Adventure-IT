@@ -1,6 +1,7 @@
 import 'package:adventure_it/Providers/adventure_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
+import 'package:adventure_it/api/locationAPI.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 
@@ -53,24 +54,25 @@ class HomePage_Pages_Adventures extends StatelessWidget {
       AdventureList(),
       SizedBox(height: MediaQuery.of(context).size.height / 60),
       Expanded(
-        flex: 1,
+          flex: 1,
           child: Align(
-        alignment: FractionalOffset.bottomCenter,
-        child: Container(
-            decoration: BoxDecoration(
-                color: Theme.of(context).accentColor, shape: BoxShape.circle),
-            child: IconButton(
-                onPressed: () {
-                  {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CreateAdventureCaller()));
-                  }
-                },
-                icon: const Icon(Icons.add),
-                color: Theme.of(context).primaryColorDark)),
-      ) //Your widget here,
+            alignment: FractionalOffset.bottomCenter,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).accentColor,
+                    shape: BoxShape.circle),
+                child: IconButton(
+                    onPressed: () {
+                      {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateAdventureCaller()));
+                      }
+                    },
+                    icon: const Icon(Icons.add),
+                    color: Theme.of(context).primaryColorDark)),
+          ) //Your widget here,
           ),
       SizedBox(height: MediaQuery.of(context).size.height / 60),
     ]);
@@ -95,178 +97,209 @@ class AdventureList extends StatelessWidget {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<AdventuresModel>(builder: (context, adventureModel, child) {
-      Center(
-          child: CircularProgressIndicator(
-              valueColor: new AlwaysStoppedAnimation<Color>(
-                  Theme.of(context).accentColor)));
-      if (adventureModel.adventures!.length > 0) {
-        return Expanded(
-            flex: 2,
-            child: ListView(children: [
-          ...List.generate(
-              adventureModel.adventures!.length,
-              (index) => Dismissible(
-                  background: Container(
-                    // color: Theme.of(context).primaryColor,
-                    //   margin: const EdgeInsets.all(5),
-                    padding:
-                        EdgeInsets.all(MediaQuery.of(context).size.height / 60),
-                    child: Row(
-                      children: [
-                        new Spacer(),
-                        Icon(Icons.delete,
-                            color: Theme.of(context).accentColor,
-                            size: 35 * MediaQuery.of(context).textScaleFactor),
-                      ],
-                    ),
-                  ),
-                  direction: DismissDirection.endToStart,
-                  key: Key(
-                      adventureModel.adventures.elementAt(index).adventureId),
-                  child: Card(
-                      color: Theme.of(context).primaryColorDark,
-                      child: InkWell(
-                          hoverColor: Theme.of(context).primaryColorLight,
-                          onTap: () {
-                            // Future<List<Budget>> budgetsFuture =
-                            // BudgetApi.getBudgets(
-                            //     adventures.elementAt(index));
-                            //     Navigator.pushReplacement(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //           builder: (context) => Adventure_Budgets(
-                            //           budgetsFuture: budgetsFuture,
-                            //           adventure:
-                            //           adventures.elementAt(index))));
+    return ChangeNotifierProvider(
+        create: (context) => AdventuresModel(),
+        child: Consumer<AdventuresModel>(
+            builder: (context, adventureModel, child) {
+          if (adventureModel.adventures == null) {
+            return Center(
+                child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).accentColor)));
+          } else if (adventureModel.adventures!.length > 0) {
 
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AdventurePage(
-                                        adventureModel.adventures
-                                            .elementAt(index))));
-                          },
-                          child: Container(
-                            decoration: new BoxDecoration(
-                                image: new DecorationImage(
-                                    image: NetworkImage(
-                                        "https://lh5.googleusercontent.com/p/AF1QipM4-7EPQBFbTgOy5k7YXtJmLWtz7wwl-WwUq4jT=w408-h271-k-no"),
-                                    fit: BoxFit.cover,
-                                    colorFilter: ColorFilter.mode(
-                                        Theme.of(context)
-                                            .backgroundColor
-                                            .withOpacity(0.25),
-                                        BlendMode.dstATop))),
+            return Expanded(
+                flex: 2,
+                child: ListView(children: [
+                  ...List.generate(
+                      adventureModel.adventures!.length,
+                      (index) => Dismissible(
+                          background: Container(
+                            // color: Theme.of(context).primaryColor,
+                            //   margin: const EdgeInsets.all(5),
+                            padding: EdgeInsets.all(
+                                MediaQuery.of(context).size.height / 60),
                             child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 4,
-                                  child: ListTile(
-                                    title: Text(
-                                        adventureModel.adventures
-                                            .elementAt(index)
-                                            .name,
-                                        style: TextStyle(
-                                            fontSize: 25 *
-                                                MediaQuery.of(context)
-                                                    .textScaleFactor,
-                                            fontWeight: FontWeight.bold,
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color)),
-                                    // subtitle:Text(adventures.elementAt(index).description),
-                                    subtitle: Text(
-                                        adventureModel.adventures
-                                            .elementAt(index)
-                                            .description,
-                                        style: TextStyle(
-                                            fontSize: 15 *
-                                                MediaQuery.of(context)
-                                                    .textScaleFactor,
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color)),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                      getDate(adventureModel.adventures
-                                          .elementAt(index)),
-                                      textAlign: TextAlign.center,
+                              children: [
+                                new Spacer(),
+                                Icon(Icons.delete,
+                                    color: Theme.of(context).accentColor,
+                                    size: 35 *
+                                        MediaQuery.of(context).textScaleFactor),
+                              ],
+                            ),
+                          ),
+                          direction: DismissDirection.endToStart,
+                          key: Key(adventureModel.adventures
+                              !.elementAt(index)
+                              .adventureId),
+                          child: Card(
+                              color: Theme.of(context).primaryColorDark,
+                              child: InkWell(
+                                  hoverColor:
+                                      Theme.of(context).primaryColorLight,
+                                  onTap: () {
+
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => AdventurePage(
+                                                adventureModel.adventures
+                                                    !.elementAt(index))));
+                                  },
+                                  child: Container(
+                                    decoration: new BoxDecoration(
+                                        image: new DecorationImage(
+                                            image: NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+adventureModel.adventures!.elementAt(index).location.photo_reference+"&maxwidth=500&key="+googleMapsKey),
+                                            fit: BoxFit.cover,
+                                            colorFilter: ColorFilter.mode(
+                                                Theme.of(context)
+                                                    .backgroundColor
+                                                    .withOpacity(0.25),
+                                                BlendMode.dstATop))
+                                    ),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 4,
+                                          child: ListTile(
+                                            title: Text(
+                                                adventureModel.adventures
+                                                    !.elementAt(index)
+                                                    .name,
+                                                style: TextStyle(
+                                                    fontSize: 30 *
+                                                        MediaQuery.of(context)
+                                                            .textScaleFactor,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color)),
+                                            // subtitle:Text(adventures.elementAt(index).description),
+                                            subtitle: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [Text(
+                                                adventureModel.adventures
+                                                    !.elementAt(index)
+                                                    .description,
+                                                style: TextStyle(
+                                                    fontSize: 15 *
+                                                        MediaQuery.of(context)
+                                                            .textScaleFactor,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color)),
+                                                  SizedBox(height: MediaQuery.of(context).size.height*0.005),
+                                                  RichText(
+                                        text: TextSpan(children: [
+                                          WidgetSpan(
+                                              child: Icon(
+                                                Icons.location_on,
+                                                size:12,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color,
+                                              )),
+                                          TextSpan(
+                                              text: " " +
+                                                  adventureModel.adventures!
+                                                      .elementAt(index)
+                                                      .location.formattedAddress,
+                                              style: TextStyle(
+                                                  fontSize: 12 *
+                                                      MediaQuery.of(
+                                                          context)
+                                                          .textScaleFactor,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color))
+                                        ]),),SizedBox(height: MediaQuery.of(context).size.height*0.005),]),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Text(
+                                              getDate(adventureModel.adventures
+                                                  !.elementAt(index)),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 12 *
+                                                      MediaQuery.of(context)
+                                                          .textScaleFactor,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color)),
+                                        ),
+                                      ],
+                                    ),
+                                  ))),
+                          confirmDismiss: (DismissDirection direction) async {
+                            return await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColorDark,
+                                  title: Text("Confirmation",
                                       style: TextStyle(
-                                          fontSize: 12 *
-                                              MediaQuery.of(context)
-                                                  .textScaleFactor,
                                           color: Theme.of(context)
                                               .textTheme
                                               .bodyText1!
                                               .color)),
-                                ),
-                              ],
-                            ),
-                          ))),
-                  confirmDismiss: (DismissDirection direction) async {
-                    return await showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: Theme.of(context).primaryColorDark,
-                          title: Text("Confirmation",
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color)),
-                          content: Text(
-                              "Are you sure you want to remove this adventure?",
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color)),
-                          actions: <Widget>[
-                            FlatButton(
-                                onPressed: () =>
-                                    Navigator.of(context).pop(true),
-                                child: Text("Remove",
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color))),
-                            FlatButton(
-                              onPressed: () => Navigator.of(context).pop(false),
-                              child: Text("Cancel",
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .color)),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  onDismissed: (direction) {
-                    Provider.of<AdventuresModel>(context, listen: false)
-                        .deleteAdventure(
-                            adventureModel.adventures.elementAt(index));
-                  }))
-        ]));
-      } else {
-        return Center(
-            child: Text("It seems you're not very adventurous...",
-                textAlign: TextAlign.center,style: TextStyle(
-                    fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-                    color: Theme.of(context).textTheme.bodyText1!.color)));
-      }
-    });
+                                  content: Text(
+                                      "Are you sure you want to remove this adventure?",
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color)),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(true),
+                                        child: Text("Remove",
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color))),
+                                    FlatButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(false),
+                                      child: Text("Cancel",
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color)),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          onDismissed: (direction) {
+                            Provider.of<AdventuresModel>(context, listen: false)
+                                .deleteAdventure(
+                                    adventureModel.adventures!.elementAt(index));
+                          }))
+                ]));
+          } else {
+            return Center(
+                child: Text("It seems you're not very adventurous...",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                        color: Theme.of(context).textTheme.bodyText1!.color)));
+          }
+        }));
   }
 }

@@ -1,6 +1,7 @@
 package com.adventureit.budgetservice.Entity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -21,6 +22,15 @@ public class Budget{
 
     public Budget(UUID budgetId,String name, String description, UUID creatorID, UUID adventureID) {
         this.budgetID = budgetId;
+        this.creatorID = creatorID;
+        this.adventureID = adventureID;
+        this.name = name;
+        this.deleted = false;
+        this.description = description;
+    }
+
+    public Budget(String name, String description, UUID creatorID, UUID adventureID) {
+        this.budgetID = UUID.randomUUID();
         this.creatorID = creatorID;
         this.adventureID = adventureID;
         this.name = name;

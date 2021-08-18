@@ -6,25 +6,25 @@ import java.util.UUID;
 
 public class CalculateExpensesPerUserRequest {
     private UUID budgetID;
-    private UUID userID;
+    private String userName;
 
     public CalculateExpensesPerUserRequest(){}
 
-    public CalculateExpensesPerUserRequest(@JsonProperty("budgetID") UUID budgetID, @JsonProperty("userID") UUID userID ){
+    public CalculateExpensesPerUserRequest(@JsonProperty("budgetID") UUID budgetID, @JsonProperty("userName") String userName ){
         this.budgetID = budgetID;
-        this.userID = userID;
+        this.userName = userName;
     }
 
-    public UUID getUserID() {
-        return userID;
+    public String getUserName() {
+        return userName;
     }
 
     public UUID getBudgetID() {
         return budgetID;
     }
 
-    public void setUserID(UUID userID) {
-        this.userID = userID;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public void setBudgetID(UUID budgetID) {

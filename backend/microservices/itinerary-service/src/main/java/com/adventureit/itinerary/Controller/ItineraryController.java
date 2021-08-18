@@ -1,8 +1,13 @@
 package com.adventureit.itinerary.Controller;
 
 import com.adventureit.itinerary.Entity.Itinerary;
+import com.adventureit.itinerary.Entity.ItineraryEntry;
 import com.adventureit.itinerary.Repository.ItineraryRepository;
+import com.adventureit.itinerary.Requests.AddItineraryEntryRequest;
 import com.adventureit.itinerary.Requests.CreateItineraryRequest;
+import com.adventureit.itinerary.Requests.EditItineraryEntryRequest;
+import com.adventureit.itinerary.Requests.RemoveItineraryEntryRequest;
+import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 import com.adventureit.itinerary.Service.ItineraryServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +48,13 @@ public class ItineraryController {
     }
 
     @GetMapping("/viewItinerary/{id}")
-    public ItineraryResponseDTO viewItinerary(@PathVariable UUID id) throws Exception {
+    public List<ItineraryEntryResponseDTO> viewItinerary(@PathVariable UUID id) throws Exception {
         return itineraryServiceImplementation.viewItinerary(id);
     }
 
-    @GetMapping("/softDelete/{id}")
-    public String softDelete(@PathVariable UUID id) throws Exception {
-        return itineraryServiceImplementation.softDelete(id);
+    @GetMapping("/softDelete/{id}/{userID}")
+    public String softDelete(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+        return itineraryServiceImplementation.softDelete(id,userID);
     }
     //
     @GetMapping("/viewTrash/{id}")
@@ -57,19 +62,54 @@ public class ItineraryController {
         return itineraryServiceImplementation.viewTrash(id);
     }
 
-    @GetMapping("/restoreItinerary/{id}")
-    public String restoreItinerary(@PathVariable UUID id) throws Exception {
-        return itineraryServiceImplementation.restoreItinerary(id);
+    @GetMapping("/restoreItinerary/{id}/{userID}")
+    public String restoreItinerary(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+        return itineraryServiceImplementation.restoreItinerary(id,userID);
     }
 
-    @GetMapping("/hardDelete/{id}")
-    public String hardDelete(@PathVariable UUID id) throws Exception {
-        return itineraryServiceImplementation.hardDelete(id);
+    @GetMapping("/hardDelete/{id}/{userID}")
+    public String hardDelete(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+        return itineraryServiceImplementation.hardDelete(id,userID);
     }
 
     @PostMapping("/create")
     public String createItinerary(@RequestBody CreateItineraryRequest req) throws Exception {
-        return itineraryServiceImplementation.createItinerary(req.getTitle(),req.getDescription(),req.getId(),req.getAdvID(),req.getUserID());
+        return itineraryServiceImplementation.createItinerary(req.getTitle(),req.getDescription(),req.getAdvID(),req.getUserID());
+    }
+
+    @PostMapping("/addEntry")
+    public UUID addItineraryEntry(@RequestBody AddItineraryEntryRequest req) throws Exception {
+        return itineraryServiceImplementation.addItineraryEntry(req.getTitle(),req.getDescription(),req.getEntryContainerID(),req.getLocation(),req.getTimestamp());
+    }
+
+    @PostMapping("/editEntry")
+    public String editItineraryEntry(@RequestBody EditItineraryEntryRequest req) throws Exception {
+        return itineraryServiceImplementation.editItineraryEntry(req.getId(),req.getEntryContainerID(),req.getTitle(),req.getDescription(),req.getLocation(),req.getTimestamp());
+    }
+
+    @GetMapping("/removeEntry/{id}")
+    public String removeItineraryEntry(@PathVariable UUID id) throws Exception {
+        return itineraryServiceImplementation.removeItineraryEntry(id);
+    }
+
+    @GetMapping("/markEntry/{id}")
+    public void markItineraryEntry(@PathVariable UUID id) throws Exception {
+        itineraryServiceImplementation.markCompleted(id);
+    }
+
+    @GetMapping("/getNextEntry/{id}")
+    public ItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id) throws Exception {
+        return itineraryServiceImplementation.nextItem(id);
+    }
+
+    @GetMapping("/setLocation/{itineraryId}/{locationID}")
+    public void setLocation(@PathVariable UUID itineraryId,@PathVariable UUID locationID) throws Exception {
+        itineraryServiceImplementation.setItineraryEntryLocation(itineraryId,locationID);
+    }
+
+    @GetMapping("/getItineraryById/{itineraryId}/")
+    public void setLocation(@PathVariable UUID itineraryId) throws Exception {
+        itineraryServiceImplementation.getItineraryById(itineraryId);
     }
 
 }

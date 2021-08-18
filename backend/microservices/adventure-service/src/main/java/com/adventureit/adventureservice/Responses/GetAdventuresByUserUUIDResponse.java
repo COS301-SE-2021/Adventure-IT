@@ -12,21 +12,21 @@ public class GetAdventuresByUserUUIDResponse {
     private UUID adventureId;
     private UUID ownerId;
     private List<UUID> attendees;
-    private List<UUID> containers;
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
+    private UUID location;
 
-    public GetAdventuresByUserUUIDResponse(long id, String name, UUID adventureId, UUID ownerID, List<UUID> attendees, List<UUID> containers, LocalDate startDate, LocalDate endDate, String description){
+    public GetAdventuresByUserUUIDResponse(long id, String name, UUID adventureId, UUID ownerID, List<UUID> attendees, LocalDate startDate, LocalDate endDate, String description, UUID location){
         this.id = id;
         this.name = name;
         this.adventureId = adventureId;
         this.ownerId = ownerID;
         this.attendees = attendees;
-        this.containers = containers;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
+        this.location = location;
     }
 
     public void setId(long id) {
@@ -50,9 +50,6 @@ public class GetAdventuresByUserUUIDResponse {
         this.attendees = attendees;
     }
 
-    public void setContainers(List<UUID> containers) {
-        this.containers = containers;
-    }
 
     public void setOwnerId(UUID ownerId) {
         this.ownerId = ownerId;
@@ -71,9 +68,6 @@ public class GetAdventuresByUserUUIDResponse {
         return attendees;
     }
 
-    public List<UUID> getContainers() {
-        return containers;
-    }
 
     public LocalDate getStartDate() {
         return startDate;
@@ -103,4 +97,11 @@ public class GetAdventuresByUserUUIDResponse {
         return ownerId;
     }
 
+    public UUID getLocation() {
+        return location;
+    }
+
+    public void setLocation(UUID location) {
+        this.location = location;
+    }
 }

@@ -1,14 +1,18 @@
 server:
   port: 9005
+  error:
+    include-message: always
 
 spring:
   application:
-    name: MEDIA-SERVICE
+    name: BUDGET-SERVICE
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5
     username: postgres
-    password: Shivek01
-    name: postgres
+    password: 310PB!Gq%f&J
+    hikari:
+      auto-commit: false
+      maximum-pool-size: 2
   jpa:
     hibernate:
       ddl-auto: update

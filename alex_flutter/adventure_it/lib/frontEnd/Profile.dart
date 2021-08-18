@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 
 import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
+import 'Navbar.dart';
 
 class ProfileCaller extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class Profile extends State<ProfileCaller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
@@ -22,7 +24,7 @@ class Profile extends State<ProfileCaller> {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: Column(children: [
+        body: SingleChildScrollView(child: Column(children: [
           ProfileFutureBuilderCaller(),
           Container(
               padding: const EdgeInsets.only(left: 100.0, top: 0.0),
@@ -42,7 +44,7 @@ class Profile extends State<ProfileCaller> {
                 ))])
                 //_buildList()
               ])),
-        ]));
+        ])));
   }
 
 /*Widget _buildList() => ListView(
@@ -69,12 +71,12 @@ class ProfileFutureBuilderCaller extends StatefulWidget {
 
 class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
   Future<UserProfile>? userFuture;
-  final UserApi api = new UserApi();
+  // final UserApi api = new UserApi();
 
   @override
   void initState() {
     super.initState();
-    userFuture = UserApi.getUserByUUID("3f21ea6b-2288-42f3-9175-39adfafea9ab");
+    // userFuture = UserApi.getUserByUUID("3f21ea6b-2288-42f3-9175-39adfafea9ab");
   }
 
   @override
@@ -169,12 +171,12 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                   ]),
                                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                                   Row(children: [
-                                    Expanded(
-                                        child: Text(user.phoneNumber,
-                                            textAlign: TextAlign.center,
-                                            style: new TextStyle(
-                                                color: Theme.of(context).textTheme.bodyText1!.color,
-                                                fontSize: MediaQuery.of(context).size.height * 0.03))),
+                                    // Expanded(
+                                    //     child: Text(user.phoneNumber,
+                                    //         textAlign: TextAlign.center,
+                                    //         style: new TextStyle(
+                                    //             color: Theme.of(context).textTheme.bodyText1!.color,
+                                    //             fontSize: MediaQuery.of(context).size.height * 0.03))),
                                     Expanded(
                                       child: Container(
                                           margin: EdgeInsets.symmetric(

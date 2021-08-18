@@ -12,5 +12,4 @@ public interface ItineraryEntryRepository extends JpaRepository<ItineraryEntry,L
     ItineraryEntry findItineraryEntryById(UUID id);
     List<ItineraryEntry> findAllByEntryContainerID(UUID itineraryID);
     ItineraryEntry findItineraryEntryByIdAndEntryContainerID(UUID entryId, UUID itineraryID);
-    void removeAllByEntryContainerID(UUID itineraryID);
 }
