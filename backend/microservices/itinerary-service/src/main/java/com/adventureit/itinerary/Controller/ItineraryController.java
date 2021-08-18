@@ -107,9 +107,9 @@ public class ItineraryController {
         itineraryServiceImplementation.setItineraryEntryLocation(itineraryId,locationID);
     }
 
-    @GetMapping("/getItineraryById/{itineraryId}/")
-    public void setLocation(@PathVariable UUID itineraryId) throws Exception {
-        itineraryServiceImplementation.getItineraryById(itineraryId);
+    @GetMapping("/getItineraryById/{itineraryId}")
+    public ItineraryResponseDTO setLocation(@PathVariable UUID itineraryId) throws Exception {
+        return itineraryServiceImplementation.getItineraryById(itineraryId);
     }
 
 }

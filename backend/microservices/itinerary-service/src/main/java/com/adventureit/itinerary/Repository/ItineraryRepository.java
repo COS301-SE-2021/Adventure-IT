@@ -9,9 +9,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface ItineraryRepository extends JpaRepository<Itinerary,Long> {
+public interface ItineraryRepository extends JpaRepository<Itinerary,UUID> {
     Itinerary findItineraryById(UUID id);
     Itinerary findItineraryByIdAndDeleted(UUID id, Boolean deleted);
-    List<Itinerary> findAllByDeletedEquals(Boolean deleted);
     List<Itinerary> findAllByAdventureID(UUID id);
 }
