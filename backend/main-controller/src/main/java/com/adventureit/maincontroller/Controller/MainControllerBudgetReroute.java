@@ -44,15 +44,16 @@ public class MainControllerBudgetReroute {
     public String editBudget(@RequestBody EditBudgetRequest req){
         restTemplate.postForObject("http://"+ IP + ":" + budgetPort + "/budget/editBudget/", req, String.class);
         UUID budgetID = req.getBudgetID();
-        UUID adventureId = restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetId/"+budgetID, BudgetResponseDTO.class).getAdventureID();
+        UUID adventureId = restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetEntryId/"+budgetID, BudgetResponseDTO.class).getAdventureID();
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Budget: "+req.getTitle()+" has been edited" );
         return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 
     @GetMapping("/removeEntry/{id}")
     public String removeEntry(@PathVariable UUID id){
-        restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/removeEntry/"+id, String.class);
-        BudgetResponseDTO response = restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetId/"+id, BudgetResponseDTO.class);
+        BudgetResponseDTO response = restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/getBudgetByBudgetEntryId/"+id, BudgetResponseDTO.class);
+        restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/removeEntry/"+id, String.class);
+
         UUID adventureId =response.getAdventureID();
         String name = response.getName();
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Budget: "+name+" has been deleted" );

@@ -138,6 +138,13 @@ public class BudgetController {
 
 	@GetMapping("/getBudgetByBudgetId/{budgetId}")
 	public BudgetResponseDTO getBudgetByBudgetId(@PathVariable UUID budgetId) {
-		return budgetServiceImplementation.getBudgetByBudgetId(budgetId);
+		return budgetServiceImplementation.getBudgetByBudgetContainerId(budgetId);
 	}
+
+	@GetMapping("/getBudgetByBudgetEntryId/{budgetId}")
+	public BudgetResponseDTO getBudgetByBudgetEntryId(@PathVariable UUID budgetId) {
+		return budgetServiceImplementation.getBudgetByBudgetEntryId(budgetId);
+	}
+
+
 }
