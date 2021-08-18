@@ -24,8 +24,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/chat")
 public class MainControllerChatReroute {
-    @Autowired
-    private EurekaClient eurekaClient;
+//    @Autowired
+//    private EurekaClient eurekaClient;
 
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -89,7 +89,9 @@ public class MainControllerChatReroute {
 
     @PostMapping("/sendGroupMessage")
     public String sendGroupMessage(@RequestBody SendGroupMessageRequestDTO request) throws Exception {
-        return restTemplate.postForObject("http://"+ IP + ":" + chatPort + "/chat/sendGroupMessage", request,String.class);
+        System.out.println(request.getChatID());
+        SendGroupMessageRequestDTO req = new SendGroupMessageRequestDTO(request.getChatID(),request.getSender(),request.getMsg());
+        return restTemplate.postForObject("http://"+ IP + ":" + chatPort + "/chat/sendGroupMessage",req,String.class);
     }
 
     @PostMapping("/sendDirectMessage")

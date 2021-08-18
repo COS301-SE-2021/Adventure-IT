@@ -19,10 +19,13 @@ import java.util.UUID;
 
 @Service
 public class ChatServiceImplementation implements ChatService {
-
+    @Autowired
     GroupChatRepository groupChatRepository;
+    @Autowired
     DirectChatRepository directChatRepository;
+    @Autowired
     MessageRepository messageRepository;
+    @Autowired
     ColorPairRepository colorPairRepository;
 
     @Autowired
@@ -87,7 +90,7 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     public int getUserColor(UUID groupChatID, UUID userID){
-        return groupChatRepository.findByGroupChatId(groupChatID).getColor(userID);
+        return groupChatRepository.findGroupChatByGroupChatId(groupChatID).getColor(userID);
     }
 
     @Override
@@ -106,7 +109,8 @@ public class ChatServiceImplementation implements ChatService {
     @Override
     @Transactional
     public String sendGroupMessage(UUID chatID, UUID sender,String msg) throws Exception {
-        GroupChat chat = groupChatRepository.findByGroupChatId(chatID);
+        GroupChat chat = groupChatRepository.getGroupChatByGroupChatId(chatID);
+
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
@@ -160,7 +164,7 @@ public class ChatServiceImplementation implements ChatService {
 
     @Override
     public GroupChatResponseDTO getGroupChat(UUID id) throws Exception {
-        GroupChat chat = groupChatRepository.findByGroupChatId(id);
+        GroupChat chat = groupChatRepository.findGroupChatByGroupChatId(id);
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
@@ -233,7 +237,7 @@ public class ChatServiceImplementation implements ChatService {
 
     @Override
     public void deleteGroupChat(UUID id) throws Exception {
-        GroupChat chat = groupChatRepository.findByGroupChatId(id);
+        GroupChat chat = groupChatRepository.findGroupChatByGroupChatId(id);
         if(chat == null){
             throw new Exception("Chat does not exist");
         }

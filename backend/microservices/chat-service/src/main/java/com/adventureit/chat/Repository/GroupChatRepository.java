@@ -9,7 +9,9 @@ import java.util.UUID;
 
 @Repository
 public interface GroupChatRepository extends JpaRepository<GroupChat, UUID> {
-    GroupChat findByGroupChatId(UUID groupChatId);
+    GroupChat findGroupChatByGroupChatId(UUID groupChatId);
+    GroupChat getGroupChatByGroupChatId(UUID groupChatId);
+    GroupChat getByGroupChatId(UUID groupChatId);
     List<GroupChat> findAllByParticipantsContaining(UUID id);
     GroupChat findAllByAdventureID(UUID adventureId);
 }
