@@ -17,51 +17,44 @@ class Profile extends State<ProfileCaller> {
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: NavDrawer(),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Theme
+            .of(context)
+            .scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
                 child: Text("Profile",
                     style: new TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color))),
-            backgroundColor: Theme.of(context).primaryColorDark),
-        body: SingleChildScrollView(child: Column(children: [
+                        color: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color))),
+            backgroundColor: Theme
+                .of(context)
+                .primaryColorDark),
+        body: Column(children: [
           ProfileFutureBuilderCaller(),
           Container(
               padding: const EdgeInsets.only(left: 100.0, top: 0.0),
               child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
                       Center(
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.height * 0.2,
-                          child: Text("Friend list",
-                              style: new TextStyle(
-                                  color: Theme.of(context).textTheme.bodyText1!.color,
-                                  fontSize: MediaQuery.of(context).size.height * 0.04)),
-                ))])
+                          child: SizedBox(
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .height * 0.2,
+                          )
+                      )
+                    ])
                 //_buildList()
               ])),
-        ])));
+        ]));
   }
-
-/*Widget _buildList() => ListView(
-    children: [
-      _tile("Friend 1"),
-      _tile("Friend 2"),
-      _tile("Friend 3")
-    ]
-  );
-
-  ListTile _tile(String username) => ListTile(
-    title: Text(username,
-        style: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 20,
-        ))
-  );*/
 }
 
 class ProfileFutureBuilderCaller extends StatefulWidget {
@@ -70,32 +63,25 @@ class ProfileFutureBuilderCaller extends StatefulWidget {
 }
 
 class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
-  Future<UserProfile>? userFuture;
+  UserProfile? user;
   // final UserApi api = new UserApi();
 
   @override
   void initState() {
     super.initState();
-    // userFuture = UserApi.getUserByUUID("3f21ea6b-2288-42f3-9175-39adfafea9ab");
+    user=UserApi.getInstance().getUserProfile();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: userFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (user==null) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
           }
-          print(snapshot.data);
-          print(userFuture);
-          log(snapshot.data.toString());
-          if (snapshot.hasData) {
-            var user = snapshot.data as UserProfile;
-
+          else
+            {
             return Container(
                 margin: EdgeInsets.symmetric(
                     vertical: MediaQuery.of(context).size.height * 0.01),
@@ -131,12 +117,13 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                     children: [
                                   SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                                   //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  Text(user.firstname + " " + user.lastname,
+                                  Text(user!.firstname + " " + user!.lastname,
                                       textAlign: TextAlign.center,
                                       style: new TextStyle(
                                           color: Theme.of(context).textTheme.bodyText1!.color,
                                           fontSize: MediaQuery.of(context).size.height * 0.04)),
-                                  Text(user.username,
+                                      SizedBox(height: MediaQuery.of(context).size.height * 0.005),
+                                  Text(user!.username,
                                       textAlign: TextAlign.center,
                                       style: new TextStyle(
                                           color: Theme.of(context).textTheme.bodyText1!.color,
@@ -144,7 +131,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                   SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                                   Row(children: [
                                     Expanded(
-                                        child: Text(user.email,
+                                        child: Text(user!.email,
                                             textAlign: TextAlign.center,
                                             style: new TextStyle(
                                                 color: Theme.of(context).textTheme.bodyText1!.color,
@@ -204,13 +191,6 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                 ]))
                           ]))
                         ])));
-          } else {
-            return Center(
-                child: Text("Profile has not been created",
-                    style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height * 0.03,
-                        color: Theme.of(context).textTheme.bodyText1!.color)));
           }
-        });
+        }
   }
-}

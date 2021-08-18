@@ -98,15 +98,6 @@ class BudgetModel extends ChangeNotifier {
   }
 
 
-
-  // Future addAdventure(Adventure adventure) async {
-  //   Adventure newAdventure = await AdventureApi.createAdventure(adventure);
-  //   _adventures.add(newAdventure);
-  //
-  //   notifyListeners();
-  // }
-
-
   Future softDeleteBudget(Budget budget) async {
     await BudgetApi.softDeleteBudget(budget.id);
 
