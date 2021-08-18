@@ -115,5 +115,10 @@ public class UserController {
         return service.getFriendRequest(id);
     }
 
+    @GetMapping("deleteUser/{id}")
+    public void deleteUser(@PathVariable UUID id){
+        service.deleteUser(id);
+    }
+
 
 }

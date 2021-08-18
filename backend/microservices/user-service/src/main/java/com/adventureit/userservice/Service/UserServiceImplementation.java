@@ -337,7 +337,10 @@ public class UserServiceImplementation  {
 
         toSave = new Friend (UUID.fromString("3f21ea6b-2288-42f3-9175-39adfafea9ab"),UUID.fromString("86f26dff-8e17-4a82-a671-816ed611d712"));
         friendRepository.save(toSave);
+    }
 
-
+    public void deleteUser(UUID id){
+        Users found = repo.getUserByUserID(id);
+        repo.delete(found);
     }
 }
