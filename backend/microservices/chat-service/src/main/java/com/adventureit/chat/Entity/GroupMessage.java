@@ -25,6 +25,13 @@ public class GroupMessage extends Message{
 
     }
 
+    public GroupMessage(UUID id, UUID sender, UUID chatId, String message) {
+        super(id, sender, chatId, message);
+
+    }
+
+
+
     public GroupMessage(UUID sender, List<UUID> receivers, String message){
         this.id = UUID.randomUUID();
         this.sender = sender;

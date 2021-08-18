@@ -12,6 +12,7 @@ import com.adventureit.chat.Service.ChatServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.UUID;
 
 @RestController
@@ -68,9 +69,14 @@ public class ChatController {
         return (DirectMessage) service.getMessage(id);
     }
 
+
     @PostMapping("/sendGroupMessage")
     public String sendGroupMessage(@RequestBody SendGroupMessageRequestDTO request) throws Exception {
+        System.out.println(request.getChatID());
+        System.out.println(request.getSender());
+        System.out.println(request.getMsg());
         service.sendGroupMessage(request.getChatID(),request.getSender(),request.getMsg());
+
         return "Message sent";
     }
 

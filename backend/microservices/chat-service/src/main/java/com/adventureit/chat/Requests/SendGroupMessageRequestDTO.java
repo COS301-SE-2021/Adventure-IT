@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 
 public class SendGroupMessageRequestDTO {
-    UUID chatID;
-    UUID sender;
-    String msg;
+    private UUID chatID;
+    private UUID sender;
+    private String msg;
 
-    public SendGroupMessageRequestDTO(@JsonProperty("chatId")UUID chatID,@JsonProperty("sender") UUID sender,@JsonProperty("message") String msg){
+    public SendGroupMessageRequestDTO(@JsonProperty("chatID") UUID chatID,@JsonProperty("sender") UUID sender,@JsonProperty("msg") String msg){
         this.chatID = chatID;
         this.sender = sender;
         this.msg = msg;
