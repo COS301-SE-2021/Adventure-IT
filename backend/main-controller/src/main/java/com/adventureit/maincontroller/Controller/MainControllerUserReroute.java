@@ -107,8 +107,8 @@ public class MainControllerUserReroute {
 
     @GetMapping(value="removeFriend/{id}/{friendID}")
     public void deleteRequest(@PathVariable UUID id, @PathVariable UUID friendID){
-        DirectChatResponseDTO chat = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getDirectChat/"+id+"/"+friendID, DirectChatResponseDTO.class);
-        restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/deleteChat/"+ chat.getId(), String.class);
+//        DirectChatResponseDTO chat = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getDirectChat/"+id+"/"+friendID, DirectChatResponseDTO.class);
+//        restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/deleteChat/"+ chat.getId(), String.class);
         restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/removeFriend/"+id+"/"+friendID, String.class);
     }
 
