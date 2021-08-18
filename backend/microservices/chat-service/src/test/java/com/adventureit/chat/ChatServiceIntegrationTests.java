@@ -51,14 +51,4 @@ public class ChatServiceIntegrationTests {
     public void httpTest_returnResponse(){
         Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/chat/test", String.class),"Chat Controller is functioning");
     }
-
-    @Test
-    @Description("Ensure that the view function works")
-    public void getGroupChatByAdventureIdControllerTest(){
-        UUID id = UUID.randomUUID();
-        UUID adventureID = UUID.randomUUID();
-        GroupChat groupChat = new GroupChat(id,adventureID,new ArrayList<>(),new ArrayList<>(),"General");
-        groupChatRepository.saveAndFlush(groupChat);
-        this.restTemplate.getForObject("http://localhost:" + port + "/chat/getGroupChatByAdventureID/"+id, List.class);
-    }
 }
