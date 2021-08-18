@@ -171,12 +171,12 @@ class ItineraryApi {
     }
   }
 
-  static Future<ItineraryEntry> getNextEntry(Adventure a) async {
+  static Future<ItineraryEntry?> getNextEntry(Adventure a) async {
     http.Response response =
     await _getNextEntry(a);
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to load next entry: ${response.body}');
+      return null;
     }
 
 

@@ -160,7 +160,7 @@ class TimelineList extends StatelessWidget {
                               timelineModel
                                   .timeline!
                                   .elementAt(index)
-                                  .descrpition,
+                                  .description,
                               style: TextStyle(
                                 fontSize: 25 *
                                 MediaQuery.of(context)
