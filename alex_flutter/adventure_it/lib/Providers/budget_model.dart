@@ -112,6 +112,7 @@ class BudgetModel extends ChangeNotifier {
 
     var index = _budgets!.indexWhere((element) => element.id == budget.id);
     _budgets!.removeAt(index);
+    _expenses!.removeAt(index);
 
     notifyListeners();
   }
