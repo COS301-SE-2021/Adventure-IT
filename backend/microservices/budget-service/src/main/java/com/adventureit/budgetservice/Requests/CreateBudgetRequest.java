@@ -1,31 +1,26 @@
 package com.adventureit.budgetservice.Requests;
 
 import com.adventureit.budgetservice.Entity.BudgetEntry;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CreateBudgetRequest {
-    private UUID id;
     private String name;
-    ArrayList<BudgetEntry> transactions;
+    private UUID creatorID;
+    private UUID adventureID;
+    private String description;
 
     public CreateBudgetRequest() {
     }
 
-    public CreateBudgetRequest(UUID id, String name, ArrayList<BudgetEntry> transactions) {
-        this.id = id;
+    public CreateBudgetRequest(@JsonProperty("name") String name, @JsonProperty("description") String description, @JsonProperty("creatorID") String creatorID, @JsonProperty("adventureID") String  adventureID) {
         this.name = name;
-        this.transactions = transactions;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
+        this.description=description;
+        this.creatorID = UUID.fromString(creatorID);
+        this.adventureID = UUID.fromString(adventureID);
     }
 
     public String getName() {
@@ -36,11 +31,22 @@ public class CreateBudgetRequest {
         this.name = name;
     }
 
-    public ArrayList<BudgetEntry> getTransactions() {
-        return transactions;
+    public void setAdventureID(UUID adventureID) {
+        this.adventureID = adventureID;
     }
 
-    public void setTransactions(ArrayList<BudgetEntry> transactions) {
-        this.transactions = transactions;
+    public UUID getAdventureID() {
+        return adventureID;
     }
+
+    public String getDescription(){return description;}
+
+    public void setCreatorID(UUID creatorID) {
+        this.creatorID = creatorID;
+    }
+
+    public UUID getCreatorID() {
+        return creatorID;
+    }
+
 }

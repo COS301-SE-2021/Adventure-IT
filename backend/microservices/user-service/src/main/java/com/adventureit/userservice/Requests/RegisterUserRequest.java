@@ -2,28 +2,32 @@ package com.adventureit.userservice.Requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.UUID;
+
 public class RegisterUserRequest {
+    private UUID userID;
     private String fName;
     private String lName;
     private String email;
-    private String password;
-    private String phoneNum;
+    private String username;
 
     /**
      * Constructor for request object which takes in the following parameters:
      * @param fName = user first name
      * @param lName = user last name
      * @param email = user email
-     * @param password = user password
-     * @param phoneNum =use phone number
      */
 
-    public RegisterUserRequest( @JsonProperty("fname") String fName,@JsonProperty("lname") String lName,@JsonProperty("email") String email,@JsonProperty("password") String password,@JsonProperty("phoneN") String phoneNum){
+    public RegisterUserRequest(@JsonProperty("userID") UUID userID, @JsonProperty("firstName") String fName,@JsonProperty("lastName") String lName, @JsonProperty("username") String uName,@JsonProperty("email") String email){
+        this.userID = userID;
         this.fName = fName;
         this.lName = lName;
         this.email = email;
-        this.phoneNum = phoneNum;
-        this.password = password;
+        this.username = uName;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     /**
@@ -43,30 +47,12 @@ public class RegisterUserRequest {
     }
 
     /**
-     * RegisterUserRequest service to retrieve request phone number
-     * @return phoneNum
-     */
-    public String getPhoneNum() {
-        return phoneNum;
-    }
-
-    /**
      * RegisterUserRequest service to retrieve request email
      * @return email
      */
     public String getEmail() {
         return email;
     }
-
-    /**
-     * RegisterUserRequest service to retrieve request password
-     * @return password
-     */
-    public String getPassword() {
-        return password;
-    }
-
-
 
     /**
      * User service to set request first name
@@ -85,14 +71,6 @@ public class RegisterUserRequest {
     }
 
     /**
-     * User service to set request phone number
-     * @param phoneNum phone number of user to set
-     */
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
-    }
-
-    /**
      * User service to set request email
      * @param email email of user to set
      */
@@ -101,14 +79,9 @@ public class RegisterUserRequest {
     }
 
     /**
-     * User service to set request password
-     * @param password password of user to set
+     * User service to get user ID
      */
-    public void setPassword(String password) {
-        this.password = password;
+    public UUID getUserID() {
+        return userID;
     }
-
-
-
-
 }

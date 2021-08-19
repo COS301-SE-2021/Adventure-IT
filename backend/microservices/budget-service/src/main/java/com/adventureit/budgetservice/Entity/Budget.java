@@ -1,48 +1,65 @@
 package com.adventureit.budgetservice.Entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-public class Budget {
+public class Budget{
+
     @Id
-    private UUID id;
-    String name;
-    @ManyToMany (fetch=FetchType.EAGER)
-    List<BudgetEntry> transactions;
-    boolean deleted;
-    UUID adventureID;
+    private UUID budgetID;
+    private UUID creatorID;
+    private UUID adventureID;
+    private String name;
+    private boolean deleted;
+    private String description;
+//    private double budgetLimit;
 
+    public Budget(){
 
-    /**
-     * Default Constructor
-     */
-    public Budget(){}
+    }
 
-    /**
-     * Budget model Constructor which takes in the following parameters:
-     * @param id Budget id
-     * @param name Name of the budget
-     * @param transactions List of all Entries
-     */
-    public Budget(UUID id,String name,ArrayList<BudgetEntry> transactions){
-        this.id = id;
+    public Budget(UUID budgetId,String name, String description, UUID creatorID, UUID adventureID) {
+        this.budgetID = budgetId;
+        this.creatorID = creatorID;
+        this.adventureID = adventureID;
         this.name = name;
-        this.transactions = transactions;
-        deleted = false;
+        this.deleted = false;
+        this.description = description;
     }
 
-    /**
-     * Getters and Setters
-     */
-    public void setId(UUID id) {
-        this.id = id;
+    public Budget(String name, String description, UUID creatorID, UUID adventureID) {
+        this.budgetID = UUID.randomUUID();
+        this.creatorID = creatorID;
+        this.adventureID = adventureID;
+        this.name = name;
+        this.deleted = false;
+        this.description = description;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getBudgetId() {
+        return budgetID;
+    }
+
+    public void setBudgetId(UUID budgetId) {
+        this.budgetID = budgetId;
+    }
+
+    public UUID getCreatorID() {
+        return creatorID;
+    }
+
+    public void setCreatorID(UUID creatorID) {
+        this.creatorID = creatorID;
+    }
+
+    public UUID getAdventureID() {
+        return adventureID;
+    }
+
+    public void setAdventureID(UUID adventureID) {
+        this.adventureID = adventureID;
     }
 
     public String getName() {
@@ -53,66 +70,20 @@ public class Budget {
         this.name = name;
     }
 
-    public void setTransactions(ArrayList<BudgetEntry> transactions) {
-        this.transactions = transactions;
-    }
-
-    public List<BudgetEntry> getTransactions() {
-        return transactions;
+    public boolean isDeleted() {
+        return deleted;
     }
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
 
-    public boolean isDeleted() {
-        return deleted;
+    public String getDescription() {
+        return description;
     }
 
-
-    public UUID getAdventureID() {
-        return adventureID;
-    }
-
-    public void setAdventureID(UUID adventureID) {
-        this.adventureID = adventureID;
-    }
-
-
-    /**
-     * Helper functions
-     */
-    public boolean CheckIfEntryExists(List<BudgetEntry> trans, UUID id) {
-        boolean result = false;
-        for (BudgetEntry b : trans) {
-            if (b.getId().equals(id)) {
-                result = true;
-                break;
-            }
-        }
-        return result;
-    }
-
-    public BudgetEntry getEntry(List<BudgetEntry> trans, UUID id) {
-        BudgetEntry result = null;
-        for (BudgetEntry b : trans) {
-            if (b.getId().equals(id)) {
-                result = b;
-                break;
-            }
-        }
-        return result;
-    }
-
-    public int getIndex(List<BudgetEntry> trans, UUID id) {
-        int result = 0;
-        for (BudgetEntry b : trans) {
-            if (b.getId().equals(id)) {
-                break;
-            }
-            result++;
-        }
-        return result;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }
