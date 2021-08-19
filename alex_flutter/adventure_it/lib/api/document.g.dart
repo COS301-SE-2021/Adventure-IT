@@ -6,8 +6,8 @@ part of 'document.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Document _$DocumentFromJson(Map<String, dynamic> json) {
-  return Document(
+Documents _$DocumentsFromJson(Map<String, dynamic> json) {
+  return Documents(
     id: json['id'] as String,
     type: json['type'] as String,
     name: json['name'] as String,
@@ -15,7 +15,7 @@ Document _$DocumentFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DocumentToJson(Document instance) => <String, dynamic>{
+Map<String, dynamic> _$DocumentsToJson(Documents instance) => <String, dynamic>{
       'id': instance.id,
       'type': instance.type,
       'name': instance.name,

@@ -59,6 +59,16 @@ public class MediaServiceImplementation implements MediaService{
     }
 
     @Override
+    public ResponseEntity<byte[]> testDocumentUploaded(UUID file) {
+        HttpHeaders headers = new HttpHeaders();
+        Document storedFile = documentRepository.findDocumentById(file);
+        headers.setCacheControl(CacheControl.noCache().getHeaderValue()); // disabling caching for client who requests the resource
+        headers.setContentType(MediaType.parseMediaType(storedFile.getType()));
+        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(storedFile.getData(), headers, HttpStatus.OK);
+        return responseEntity;
+    }
+
+    @Override
     public HttpStatus uploadMedia(MultipartFile file, UUID userId, UUID adventureId) {
         try {
             final byte[] content = file.getBytes();
@@ -79,7 +89,7 @@ public class MediaServiceImplementation implements MediaService{
     public HttpStatus uploadFile(MultipartFile file, UUID userId, UUID adventureId) {
         try {
             final byte[] content = file.getBytes();
-            File uploadedFile = new File(UUID.randomUUID(), file.getContentType(), file.getName(), "DESCRIPTION", adventureId , userId);
+            File uploadedFile = new File(UUID.randomUUID(), file.getContentType(), file.getOriginalFilename(), "DESCRIPTION", adventureId , userId);
             FileInfo uploadedFileInfo = new FileInfo(uploadedFile.getId(), uploadedFile.getType(), uploadedFile.getName(), uploadedFile.getDescription(), uploadedFile.getAdventureID(), uploadedFile.getOwner());
             uploadedFile.setData(content);
             fileRepository.save(uploadedFile);
@@ -96,7 +106,7 @@ public class MediaServiceImplementation implements MediaService{
     public HttpStatus uploadDocument(MultipartFile file, UUID userId) {
         try {
             final byte[] content = file.getBytes();
-            Document uploadedDoc = new Document(UUID.randomUUID(), file.getContentType(), file.getName(), "DESCRIPTION", userId);
+            Document uploadedDoc = new Document(UUID.randomUUID(), file.getContentType(), file.getOriginalFilename(), "DESCRIPTION", userId);
             DocumentInfo uploadedDocInfo = new DocumentInfo(uploadedDoc.getId(), uploadedDoc.getType(), uploadedDoc.getName(), uploadedDoc.getDescription(), uploadedDoc.getOwner());
             uploadedDoc.setData(content);
             documentRepository.save(uploadedDoc);

@@ -6,19 +6,19 @@ import 'package:time_machine/time_machine.dart';
 part 'document.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Document {
+class Documents {
   final String id;
   final String type;
   final String name;
   final String owner;
 
-  Document(
+  Documents(
       {required this.id,
       required this.type,
       required this.name,
       required this.owner,});
 
-  factory Document.fromJson(Map<String, dynamic> json) => _$DocumentFromJson(json);
+  factory Documents.fromJson(Map<String, dynamic> json) => _$DocumentsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DocumentToJson(this);
+  Map<String, dynamic> toJson() => _$DocumentsToJson(this);
 }

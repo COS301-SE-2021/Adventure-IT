@@ -127,11 +127,10 @@ public class MainControllerAdventureReroute {
     @GetMapping("/addAttendees/{adventureID}/{userID}")
     public String addAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID) throws Exception {
         restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/addAttendees/"+adventureID+"/"+userID, String.class);
-       // GetUserByUUIDDTO response = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/"+userID, GetUserByUUIDDTO.class);
-       // CreateTimelineRequest req2 = new CreateTimelineRequest(adventureID, TimelineType.ADVENTURE,response.getUsername()+" has been added to this adventure" );
+       GetUserByUUIDDTO response = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/"+userID, GetUserByUUIDDTO.class);
+       CreateTimelineRequest req2 = new CreateTimelineRequest(adventureID, TimelineType.ADVENTURE,response.getUsername()+" has been added to this adventure" );
         restTemplate.getForObject("http://" + IP + ":" + chatPort + "/chat/addParticipant/"+adventureID+"/"+userID, String.class);
-        //return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
-        return "done";
+        return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 
 }

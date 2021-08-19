@@ -50,6 +50,11 @@ public class MediaController {
         return mediaServiceImplementation.testFileUploaded(file);
     }
 
+    @GetMapping(value = "/documentUploaded/{file}")
+    public ResponseEntity<byte[]> testDocumentUploaded(@PathVariable UUID file){
+        return mediaServiceImplementation.testDocumentUploaded(file);
+    }
+
     @GetMapping(value = "/getUserMediaList/{id}")
     public List<MediaInfo> getUserMediaList(@PathVariable UUID id){
         return mediaInfoRepository.findAllByOwner(id);

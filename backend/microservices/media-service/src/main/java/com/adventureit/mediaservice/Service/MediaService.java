@@ -11,6 +11,7 @@ import java.util.UUID;
 public interface MediaService {
     public ResponseEntity<byte[]> testMediaUploaded(UUID file);
     public ResponseEntity<byte[]> testFileUploaded(UUID file);
+    public ResponseEntity<byte[]> testDocumentUploaded(UUID file);
     public HttpStatus uploadMedia(MultipartFile file, UUID userId,UUID adventureId);
     public HttpStatus uploadFile(MultipartFile file,UUID userId, UUID adventureId);
     public HttpStatus uploadDocument(MultipartFile file,UUID userId);

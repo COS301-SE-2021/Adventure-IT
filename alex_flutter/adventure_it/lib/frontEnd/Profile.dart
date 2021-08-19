@@ -4,6 +4,7 @@ import 'package:adventure_it/api/user_api.dart';
 import 'package:flutter/gestures.dart';
 
 import 'package:flutter/material.dart';
+import 'DocumentList.dart';
 import 'HomepageStartup.dart';
 import 'Navbar.dart';
 
@@ -152,7 +153,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            HomepageStartupCaller()),
+                                                            DocumentPage()),
                                                   );
                                                 }))),
                                   ]),
