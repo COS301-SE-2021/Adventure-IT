@@ -9,10 +9,6 @@ import com.adventureit.budgetservice.Repository.BudgetRepository;
 import com.adventureit.budgetservice.Requests.AddUTOExpenseEntryRequest;
 import com.adventureit.budgetservice.Requests.CreateBudgetRequest;
 import com.adventureit.budgetservice.Requests.EditBudgetRequest;
-import com.adventureit.budgetservice.Responses.BudgetResponseDTO;
-import com.adventureit.budgetservice.Responses.CreateBudgetResponse;
-import com.adventureit.budgetservice.Responses.EditBudgetResponse;
-import com.adventureit.budgetservice.Responses.ViewBudgetResponse;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,7 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
