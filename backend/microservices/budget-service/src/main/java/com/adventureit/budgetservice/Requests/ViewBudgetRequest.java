@@ -5,7 +5,6 @@ import java.util.UUID;
 public class ViewBudgetRequest {
     UUID id;
 
-
     public ViewBudgetRequest(){}
 
     public ViewBudgetRequest(UUID id){
