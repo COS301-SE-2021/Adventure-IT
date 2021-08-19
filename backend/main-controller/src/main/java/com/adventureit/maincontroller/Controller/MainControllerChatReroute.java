@@ -63,10 +63,10 @@ public class MainControllerChatReroute {
 
         for (UUID ID:chat.getMessages()) {
             message = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getGroupMessageByID/" + ID, GroupMessage.class);
-            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/" + message.getSender(), GetUserByUUIDDTO.class);
+            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/" + message.getSender(), GetUserByUUIDDTO.class);
 
             for (UUID x:chat.getParticipants()) {
-                users.add(restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/" + x, GetUserByUUIDDTO.class));
+                users.add(restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/" + x, GetUserByUUIDDTO.class));
             }
 
             list.add(new GroupMessageResponseDTO(message.getId(),user,message.getMessage(), message.getTimestamp(),users,message.getRead()));
@@ -95,7 +95,7 @@ public class MainControllerChatReroute {
     }
 
     @PostMapping("/sendDirectMessage")
-    public String sendGroupMessage(@RequestBody SendDirectMessageRequestDTO request) throws Exception {
+    public String sendDirectMessage(@RequestBody SendDirectMessageRequestDTO request) throws Exception {
         return restTemplate.postForObject("http://"+ IP + ":" + chatPort + "/chat/sendDirectMessage", request,String.class);
     }
 
@@ -118,8 +118,8 @@ public class MainControllerChatReroute {
 
         for (UUID ID:chat.getMessages()) {
             message = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getDirectMessageByID/" + ID, DirectMessage.class);
-            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/" + message.getSender(), GetUserByUUIDDTO.class);
-            x = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/" + message.getReceiver(), GetUserByUUIDDTO.class);
+            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/" + message.getSender(), GetUserByUUIDDTO.class);
+            x = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/" + message.getReceiver(), GetUserByUUIDDTO.class);
 
             list.add(new DirectMessageResponseDTO(message.getId(),user,x,message.getTimestamp(),message.getMessage(),message.getRead()));
         }

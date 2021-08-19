@@ -19,6 +19,11 @@ public class AdventureController {
     @Autowired
     AdventureServiceImplementation adventureServiceImplementation;
 
+    @GetMapping("/test")
+    public String test() {
+        return "Adventure Controller is functional";
+    }
+
     @GetMapping("/all")
     public List<GetAllAdventuresResponse> getAllAdventures() {
         return adventureServiceImplementation.getAllAdventures();

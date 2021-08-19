@@ -1,13 +1,7 @@
 package com.adventureit.mediaservice.Service;
 
-import com.adventureit.mediaservice.Entity.File;
-import com.adventureit.mediaservice.Entity.FileInfo;
-import com.adventureit.mediaservice.Entity.Media;
-import com.adventureit.mediaservice.Entity.MediaInfo;
-import com.adventureit.mediaservice.Repository.FileInfoRepository;
-import com.adventureit.mediaservice.Repository.FileRepository;
-import com.adventureit.mediaservice.Repository.MediaInfoRepository;
-import com.adventureit.mediaservice.Repository.MediaRepository;
+import com.adventureit.mediaservice.Entity.*;
+import com.adventureit.mediaservice.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -28,6 +22,12 @@ public class MediaServiceImplementation implements MediaService{
 
     @Autowired
     private FileInfoRepository fileInfoRepository;
+
+    @Autowired
+    private DocumentRepository documentRepository;
+
+    @Autowired
+    private DocumentInfoRepository documentInfoRepository;
 
     @Autowired
     public MediaServiceImplementation(MediaRepository mediaRepository,MediaInfoRepository mediaInfoRepository,FileRepository fileRepository,FileInfoRepository fileInfoRepository){
@@ -59,11 +59,21 @@ public class MediaServiceImplementation implements MediaService{
     }
 
     @Override
+    public ResponseEntity<byte[]> testDocumentUploaded(UUID file) {
+        HttpHeaders headers = new HttpHeaders();
+        Document storedFile = documentRepository.findDocumentById(file);
+        headers.setCacheControl(CacheControl.noCache().getHeaderValue()); // disabling caching for client who requests the resource
+        headers.setContentType(MediaType.parseMediaType(storedFile.getType()));
+        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(storedFile.getData(), headers, HttpStatus.OK);
+        return responseEntity;
+    }
+
+    @Override
     public HttpStatus uploadMedia(MultipartFile file, UUID userId, UUID adventureId) {
         try {
             final byte[] content = file.getBytes();
             Media uploadedMedia = new Media(UUID.randomUUID(), file.getContentType(), file.getOriginalFilename(), "DESCRIPTION", adventureId , userId);
-            MediaInfo uploadedMediaInfo = new MediaInfo(uploadedMedia.getId(), uploadedMedia.getType(), uploadedMedia.getName(), uploadedMedia.getDescription(), uploadedMedia.getAdventureID(), uploadedMedia.getOwner(),uploadedMedia.getPublicAccess());
+            MediaInfo uploadedMediaInfo = new MediaInfo(uploadedMedia.getId(), uploadedMedia.getType(), uploadedMedia.getName(), uploadedMedia.getDescription(), uploadedMedia.getAdventureID(), uploadedMedia.getOwner());
             uploadedMedia.setData(content);
             mediaRepository.save(uploadedMedia);
             mediaInfoRepository.save(uploadedMediaInfo);
@@ -79,8 +89,8 @@ public class MediaServiceImplementation implements MediaService{
     public HttpStatus uploadFile(MultipartFile file, UUID userId, UUID adventureId) {
         try {
             final byte[] content = file.getBytes();
-            File uploadedFile = new File(UUID.randomUUID(), file.getContentType(), file.getName(), "DESCRIPTION", adventureId , userId);
-            FileInfo uploadedFileInfo = new FileInfo(uploadedFile.getId(), uploadedFile.getType(), uploadedFile.getName(), uploadedFile.getDescription(), uploadedFile.getAdventureID(), uploadedFile.getOwner(),uploadedFile.getPublicAccess());
+            File uploadedFile = new File(UUID.randomUUID(), file.getContentType(), file.getOriginalFilename(), "DESCRIPTION", adventureId , userId);
+            FileInfo uploadedFileInfo = new FileInfo(uploadedFile.getId(), uploadedFile.getType(), uploadedFile.getName(), uploadedFile.getDescription(), uploadedFile.getAdventureID(), uploadedFile.getOwner());
             uploadedFile.setData(content);
             fileRepository.save(uploadedFile);
             fileInfoRepository.save(uploadedFileInfo);
@@ -93,23 +103,20 @@ public class MediaServiceImplementation implements MediaService{
     }
 
     @Override
-    public void changeMediaAccess(UUID id) {
-        Media media = mediaRepository.findMediaById(id);
-        MediaInfo mediaInfo = mediaInfoRepository.findMediaById(id);
-        media.setPublicAccess(!media.getPublicAccess());
-        mediaInfo.setPublicAccess(!mediaInfo.getPublicAccess());
-        mediaRepository.save(media);
-        mediaInfoRepository.save(mediaInfo);
-    }
-
-    @Override
-    public void changeFileAccess(UUID id) {
-        File file = fileRepository.findFileById(id);
-        FileInfo fileInfo = fileInfoRepository.findFileInfoById(id);
-        file.setPublicAccess(!file.getPublicAccess());
-        fileInfo.setPublicAccess(!fileInfo.getPublicAccess());
-        fileRepository.save(file);
-        fileInfoRepository.save(fileInfo);
+    public HttpStatus uploadDocument(MultipartFile file, UUID userId) {
+        try {
+            final byte[] content = file.getBytes();
+            Document uploadedDoc = new Document(UUID.randomUUID(), file.getContentType(), file.getOriginalFilename(), "DESCRIPTION", userId);
+            DocumentInfo uploadedDocInfo = new DocumentInfo(uploadedDoc.getId(), uploadedDoc.getType(), uploadedDoc.getName(), uploadedDoc.getDescription(), uploadedDoc.getOwner());
+            uploadedDoc.setData(content);
+            documentRepository.save(uploadedDoc);
+            documentInfoRepository.save(uploadedDocInfo);
+            return HttpStatus.OK;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return HttpStatus.NO_CONTENT;
+        }
     }
 
     @Override
@@ -144,5 +151,22 @@ public class MediaServiceImplementation implements MediaService{
 
         mediaRepository.delete(media);
         mediaInfoRepository.delete(mediaInfo);
+    }
+
+    @Override
+    public void deleteDocument(UUID id, UUID userID) throws Exception {
+        Document document = documentRepository.findDocumentById(id);
+        DocumentInfo documentInfo = documentInfoRepository.findDocumentInfoById(id);
+
+        if(document == null || documentInfo == null){
+            throw new Exception("Doc does not exist");
+        }
+
+        if(!document.getOwner().equals(userID)){
+            throw new Exception("User not Authorised");
+        }
+
+        documentRepository.delete(document);
+        documentInfoRepository.delete(documentInfo);
     }
 }

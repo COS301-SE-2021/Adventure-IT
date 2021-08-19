@@ -42,20 +42,20 @@ class Login extends State<LoginCaller> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: MediaQuery.of(context).size.height * 0.13),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.10),
             Container(
-              width: MediaQuery.of(context).size.width / 2,
-              height: MediaQuery.of(context).size.height / 4,
-              child: CircleAvatar(
-                radius: 90,
-                backgroundImage: ExactAssetImage('assets/adventure.PNG'),
-              ),
+              width: 250,
+              height: MediaQuery.of(context).size.height /3,
               decoration: new BoxDecoration(
                 shape: BoxShape.circle,
-                border: new Border.all(
-                  color: Theme.of(context).accentColor,
-                  width: 3.0,
-                ),
+                image: new DecorationImage(
+                    fit: BoxFit.contain,
+                    image: new AssetImage(
+                        "assets/logo.png")),
+                // border: new Border.all(
+                //   color: Theme.of(context).accentColor,
+                //   width: 3.0,
+                // ),
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),

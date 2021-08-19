@@ -39,7 +39,7 @@ public class ChatServiceImplementation implements ChatService {
     @Override
     public String createDirectChat(UUID user1, UUID user2) {
         UUID id = UUID.randomUUID();
-        DirectChat directChat = new DirectChat(user1,user2);
+        DirectChat directChat = new DirectChat(id,user1,user2);
         directChatRepository.save(directChat);
         return "Chat successfully created";
     }
@@ -84,7 +84,9 @@ public class ChatServiceImplementation implements ChatService {
         while(checked.contains(randval)){
              randval = rand.nextInt(359)+1;
         }
-        colorPairRepository.save(new ColorPair(UUID.randomUUID(),adventureID,participant,randval));
+        ColorPair newcolor =new ColorPair(UUID.randomUUID(),participant,adventureID,randval);
+        groupChat.getColors().add(newcolor);
+        colorPairRepository.save(newcolor);
         groupChatRepository.save(groupChat);
         return participant+" successfully added to chat "+adventureID;
     }
@@ -100,7 +102,7 @@ public class ChatServiceImplementation implements ChatService {
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
-        DirectMessage message = new DirectMessage(sender,receiver,msg);
+        DirectMessage message = new DirectMessage(UUID.randomUUID(),sender,chatID,msg,false,receiver);
         messageRepository.save(message);
         directChatRepository.save(chat);
         return "Message Sent";
@@ -109,24 +111,15 @@ public class ChatServiceImplementation implements ChatService {
     @Override
     @Transactional
     public String sendGroupMessage(UUID chatID, UUID sender,String msg) throws Exception {
-        System.out.println("here1");
         GroupChat chat = groupChatRepository.getGroupChatByGroupChatId(chatID);
-        System.out.println("here2");
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
-        System.out.println("here3");
         List<UUID> rec = new ArrayList<>(chat.getParticipants());
-        System.out.println("here4");
         rec.remove(sender);
-        System.out.println("here5");
-        System.out.println("here6");
         GroupMessage message = new GroupMessage(UUID.randomUUID(),sender,chatID,msg);
-        System.out.println("here7");
         messageRepository.save(message);
-        System.out.println("here8");
         groupChatRepository.save(chat);
-        System.out.println("here9");
         return "Message Sent";
     }
 

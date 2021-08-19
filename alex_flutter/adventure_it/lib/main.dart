@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
         create: (context) => LocationModel(),
         child: MaterialApp(
             theme: ThemeData(
+                iconTheme: IconThemeData(color: Color(0xffA7AAB9)),
                 primaryColorLight: Color(0xff484D64),
                 primaryColorDark: Color(0xff323647),
                 scaffoldBackgroundColor: Color(0xff20222D),

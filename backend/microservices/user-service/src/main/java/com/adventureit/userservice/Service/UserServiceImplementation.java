@@ -317,6 +317,7 @@ public class UserServiceImplementation  {
     }
 
     public FriendDTO getFriendRequest(UUID id) throws Exception {
+        System.out.println(id);
         Friend request = friendRepository.findFriendById(id);
         if(request == null || request.isAccepted()){
             throw new Exception("Friend Request doesn't exist");

@@ -13,7 +13,6 @@ public class Media {
     private String description;
     private UUID adventureID;
     private UUID owner;
-    private boolean publicAccess = true;
     @Lob
     private byte[] data;
 
@@ -91,13 +90,5 @@ public class Media {
 
     public String getType() {
         return type;
-    }
-
-    public void setPublicAccess(boolean publicAccess) {
-        this.publicAccess = publicAccess;
-    }
-
-    public boolean getPublicAccess() {
-        return publicAccess;
     }
 }

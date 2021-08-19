@@ -98,9 +98,9 @@ class Files extends StatelessWidget {
                             {
                               openFileExplorer().then((value) {
                                 if (value != null) {
-                                  Provider.of<MediaModel>(context,
+                                  Provider.of<FileModel>(context,
                                       listen: false)
-                                      .addMedia(value);
+                                      .addFiles(value);
                                 }
                               });
                             }
@@ -187,17 +187,18 @@ class MediaList extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                         ))))),
                         Positioned(
-                          right: -5.0,
-                          top: -5.0,
+                          right: -10.0,
+                          top: -10.0,
                           child: InkResponse(
                             onTap: (){
-                              Provider.of<MediaModel>(context,
+                              Provider.of<FileModel>(context,
                                   listen: false)
-                                  .removeMedia(fileModel.files!.elementAt(index).id);
+                                  .removeFiles(fileModel.files!.elementAt(index).id);
                             },
                             child: CircleAvatar(
                               radius:MediaQuery.of(context).size.width*0.02,
                               child: Icon(Icons.close,
+                                  size: MediaQuery.of(context).size.width*0.02,
                                   color: Theme.of(context).primaryColorDark),
                               backgroundColor: Theme.of(context).accentColor,
                             ),

@@ -18,13 +18,11 @@ import 'HomepageStartup.dart';
 import '../api/budget.dart';
 import '../api/mediaAPI.dart';
 import 'Navbar.dart';
+import 'Profile.dart';
 
-class MediaPage extends StatelessWidget {
-  Adventure? adventure;
+class DocumentPage extends StatelessWidget {
 
-  MediaPage(Adventure? a) {
-    this.adventure = a;
-  }
+  DocumentPage();
 
   Future<List<PlatformFile>?> openFileExplorer() async {
     try {
@@ -32,7 +30,7 @@ class MediaPage extends StatelessWidget {
               allowMultiple: true,
               type: FileType.custom,
               onFileLoading: (FilePickerStatus status) => print(status),
-              allowedExtensions: ['jpg', 'png', 'gif', 'mp4']))
+              allowedExtensions: ['jpg', 'png', 'gif', 'pdf']))
           ?.files;
     } on PlatformException catch (e) {
       print("Unsupported operation" + e.toString());
@@ -46,13 +44,13 @@ class MediaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => MediaModel(adventure!),
+        create: (context) => DocumentModel(),
         builder: (context, widget) => Scaffold(
               drawer: NavDrawer(),
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               appBar: AppBar(
                   title: Center(
-                      child: Text("Media",
+                      child: Text("Your Documents",
                           style: new TextStyle(
                               color: Theme.of(context)
                                   .textTheme
@@ -67,7 +65,7 @@ class MediaPage extends StatelessWidget {
                     Container(
                         height: MediaQuery.of(context).size.height * 0.80,
                         width: MediaQuery.of(context).size.width * 0.95,
-                        child: MediaList(adventure)),
+                        child: DocumentList()),
                     SizedBox(height: MediaQuery.of(context).size.height / 60),
                     Spacer(),
                     Row(children: [
@@ -83,7 +81,7 @@ class MediaPage extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              AdventurePage(adventure)));
+                                             ProfileCaller()));
                                 },
                                 icon: const Icon(
                                     Icons.arrow_back_ios_new_rounded),
@@ -100,9 +98,9 @@ class MediaPage extends StatelessWidget {
                                 {
                                   openFileExplorer().then((value) {
                                     if (value != null) {
-                                      Provider.of<MediaModel>(context,
+                                      Provider.of<DocumentModel>(context,
                                               listen: false)
-                                          .addMedia(value);
+                                          .addDocument(value);
                                     }
                                   });
                                 }
@@ -122,36 +120,33 @@ class MediaPage extends StatelessWidget {
   }
 }
 
-class MediaList extends StatelessWidget {
-  Adventure? adventure;
+class DocumentList extends StatelessWidget {
 
-  MediaList(Adventure? a) {
-    this.adventure = a;
-  }
+  DocumentList();
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MediaModel>(builder: (context, mediaModel, child) {
-      if (mediaModel.media == null) {
+    return Consumer<DocumentModel>(builder: (context, documentModel, child) {
+      if (documentModel.documents == null) {
         return Center(
             child: CircularProgressIndicator(
                 valueColor: new AlwaysStoppedAnimation<Color>(
                     Theme.of(context).accentColor)));
-      } else if (mediaModel.media!.length > 0) {
+      } else if (documentModel.documents!.length > 0) {
         return Container(
             child: StaggeredGridView.countBuilder(
           crossAxisCount: 4,
-          itemCount: mediaModel.media!.length,
+          itemCount: documentModel.documents!.length,
           itemBuilder: (BuildContext context, int index) => new Card(
               color: Theme.of(context).primaryColorDark,
               child: InkWell(
                   onTap: () {
                     if (kIsWeb) {
-                      MediaApi.web_requestMediaDownload(
-                          mediaModel.media!.elementAt(index));
+                      DocumentApi.web_requestDocumentDownload(
+                          documentModel.documents!.elementAt(index));
                     } else {
-                      MediaApi.requestMediaDownload(
-                          context, mediaModel.media!.elementAt(index));
+                      DocumentApi.requestDocumentDownload(
+                          context, documentModel.documents!.elementAt(index));
                     }
                   },
                   child: Stack(overflow: Overflow.visible, children: <Widget>[
@@ -163,22 +158,22 @@ class MediaList extends StatelessWidget {
                             decoration: new BoxDecoration(
                               image: new DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: mediaModel.media!
+                                  image: documentModel.documents!
                                           .elementAt(index)
                                           .type
-                                          .contains("mp4")
+                                          .contains("pdf")
                                       ? Image.asset("assets/logo.png").image
                                       : NetworkImage("http://" +
                                           mediaApi +
-                                          "/media/mediaUploaded/" +
-                                          mediaModel.media!
+                                          "/media/documentUploaded/" +
+                                          documentModel.documents!
                                               .elementAt(index)
                                               .id)),
                             ),
                             child: Padding(
                                 padding: const EdgeInsets.all(4),
                                 child: Text(
-                                    mediaModel.media!.elementAt(index).name,
+                                    documentModel.documents!.elementAt(index).name,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Theme.of(context)
@@ -189,18 +184,17 @@ class MediaList extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                     ))))),
                     Positioned(
-                      right: -10.0,
-                      top: -10.0,
+                      right: -5.0,
+                      top: -5.0,
                       child: InkResponse(
                         onTap: (){
                           Provider.of<MediaModel>(context,
                               listen: false)
-                              .removeMedia(mediaModel.media!.elementAt(index).id);
+                              .removeMedia(documentModel.documents!.elementAt(index).id);
                         },
                         child: CircleAvatar(
                           radius:MediaQuery.of(context).size.width*0.02,
                           child: Icon(Icons.close,
-                              size: MediaQuery.of(context).size.width*0.02,
                               color: Theme.of(context).primaryColorDark),
                           backgroundColor: Theme.of(context).accentColor,
                         ),

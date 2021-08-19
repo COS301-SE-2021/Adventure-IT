@@ -56,7 +56,7 @@ public class GroupChat{
     }
 
     public List<ColorPair> getColors() {
-        return colors;
+        return this.colors;
     }
 
     public void setColors(List<ColorPair> colors) {

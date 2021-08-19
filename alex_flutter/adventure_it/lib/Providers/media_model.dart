@@ -1,8 +1,10 @@
+import 'dart:html';
 import 'dart:io';
 
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/media.dart';
+import 'package:adventure_it/api/document.dart';
 import 'package:adventure_it/api/mediaAPI.dart';
 import 'package:adventure_it/api/user_api.dart';
 import 'package:file_picker/file_picker.dart';
@@ -78,6 +80,42 @@ class FileModel extends ChangeNotifier {
 
     var index = _files!.indexWhere((element) => element.id == id);
     _files!.removeAt(index);
+
+    notifyListeners();
+  }
+
+
+}
+
+
+class DocumentModel extends ChangeNotifier {
+  List<Documents>? _documents = null;
+
+  DocumentModel() {
+    fetchAllDocuments().then((documents) => documents != null? _documents = documents:List.empty());
+  }
+
+  List<Documents>? get documents => _documents?.toList();
+
+  Future fetchAllDocuments() async {
+    _documents = await DocumentApi.getAllDocuments();
+
+    notifyListeners();
+  }
+
+  Future addDocument(List<PlatformFile> files) async {
+    await DocumentApi.addDocument(files);
+
+    fetchAllDocuments();
+
+    notifyListeners();
+  }
+
+  Future removeDocument(String id) async {
+    await DocumentApi.removeDocument(id);
+
+    var index = _documents!.indexWhere((element) => element.id == id);
+    _documents!.removeAt(index);
 
     notifyListeners();
   }

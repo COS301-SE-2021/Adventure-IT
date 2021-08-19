@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
+import 'dart:html';
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
@@ -22,6 +23,7 @@ import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'loginUser.dart';
 import 'media.dart';
 import 'userProfile.dart';
+import 'document.dart';
 
 class MediaApi {
   static Future<List<Media>> getAllMedia(Adventure a) async {
@@ -196,6 +198,97 @@ class FileApi {
   static void web_requestFileDownload(Media currentMedia) {
     html.window.open(
         'http://' + mediaApi + "/media/fileUploaded/" + currentMedia.id,
+        currentMedia.name);
+  }
+
+  static void downloadCallback(
+      String id, DownloadTaskStatus status, int progress) {
+    final SendPort? send =
+    IsolateNameServer.lookupPortByName('downloader_send_port');
+    send!.send([id, status, progress]);
+  }
+}
+
+class DocumentApi {
+  static Future<List<Documents>> getAllDocuments() async {
+    http.Response response = await _getAllDocuments(UserApi.getInstance().getUserProfile()!.userID);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load documents: ${response.body}');
+    }
+
+    List<Documents> files = (jsonDecode(response.body) as List)
+        .map((x) => Documents.fromJson(x))
+        .toList();
+
+    return files;
+  }
+
+  static Future<http.Response> _getAllDocuments(String userID) async {
+    return http
+        .get(Uri.http(mediaApi, "/media/getUserDocumentList/" + userID));
+  }
+
+  static Future removeDocument(String id) async {
+    http.Response response = await _removeDocument(id);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to remove document: ${response.body}');
+    }
+
+  }
+
+  static Future<http.Response> _removeDocument(String id) async {
+    return http
+        .get(Uri.http(mediaApi, "/media/deleteDocument/"+id+"/"+UserApi.getInstance().getUserProfile()!.userID));
+  }
+
+  static Future addDocument(List<PlatformFile> documents) async {
+    for (int i = 0; i < documents.length; i++) {
+      http.Response response = await _addDocument(documents.elementAt(i),UserApi.getInstance().getUserProfile()!.userID);
+
+      if (response.statusCode != 200) {
+        throw Exception('Failed to upload document: ${response.body}');
+      }
+    }
+  }
+
+  static Future<http.Response> _addDocument(PlatformFile file, String userID) async {
+    final mimeType = lookupMimeType(file.name); // 'image/jpeg'
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('http://' + mediaApi + '/media/uploadDocument'));
+    request.fields['userid'] = userID;
+    request.files.add(http.MultipartFile.fromBytes(
+        'file', file.bytes!.cast<int>(),
+        filename: file.name, contentType: new MediaType.parse(mimeType!)));
+
+    var x = await request.send();
+    return await http.Response.fromStream(x);
+  }
+
+  static Future<void> requestDocumentDownload(context, Documents currentMedia) async {
+    Directory? rootDirectory = await DownloadsPathProvider.downloadsDirectory;
+    String? filepath = await FilesystemPicker.open(
+        title: 'Save to Downloads folder',
+        context: context,
+        rootDirectory: rootDirectory!,
+        fsType: FilesystemType.folder,
+        pickText: 'Save file to this folder');
+    if (filepath != null) {
+      String? _taskid = await FlutterDownloader.enqueue(
+        url: 'http://' + mediaApi + "/media/documentUploaded/" + currentMedia.id,
+        fileName: currentMedia.name,
+        savedDir: filepath,
+        showNotification: true,
+        openFileFromNotification: true,
+      );
+      print(_taskid);
+    }
+  }
+
+  static void web_requestDocumentDownload(Documents currentMedia) {
+    html.window.open(
+        'http://' + mediaApi + "/media/documentUploaded/" + currentMedia.id,
         currentMedia.name);
   }
 
