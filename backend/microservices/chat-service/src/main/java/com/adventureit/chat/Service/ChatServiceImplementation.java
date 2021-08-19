@@ -84,7 +84,9 @@ public class ChatServiceImplementation implements ChatService {
         while(checked.contains(randval)){
              randval = rand.nextInt(359)+1;
         }
-        colorPairRepository.save(new ColorPair(UUID.randomUUID(),adventureID,participant,randval));
+        ColorPair newcolor =new ColorPair(UUID.randomUUID(),participant,adventureID,randval);
+        groupChat.getColors().add(newcolor);
+        colorPairRepository.save(newcolor);
         groupChatRepository.save(groupChat);
         return participant+" successfully added to chat "+adventureID;
     }
