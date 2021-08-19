@@ -42,7 +42,7 @@ public class GetAdventuresByUserUUIDResponse {
     public void setAdventureId(UUID adventureId) {
         this.adventureId = adventureId;
     }
-    
+
     public void setAttendees(List<UUID> attendees) {
         this.attendees = attendees;
     }
