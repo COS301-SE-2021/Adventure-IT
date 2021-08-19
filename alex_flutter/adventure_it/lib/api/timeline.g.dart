@@ -8,8 +8,8 @@ part of 'timeline.dart';
 
 Timeline _$TimelineFromJson(Map<String, dynamic> json) {
   return Timeline(
-    timelineID: json['timelineId'] as String,
-    adventureID: json['adventureId'] as String,
+    timelineID: json['timelineID'] as String,
+    adventureID: json['adventureID'] as String,
     userID: json['userID'] as String,
     description: json['description'] as String,
     timestamp: json['timestamp'] as String,
