@@ -95,7 +95,7 @@ public class MainControllerChatReroute {
     }
 
     @PostMapping("/sendDirectMessage")
-    public String sendGroupMessage(@RequestBody SendDirectMessageRequestDTO request) throws Exception {
+    public String sendDirectMessage(@RequestBody SendDirectMessageRequestDTO request) throws Exception {
         return restTemplate.postForObject("http://"+ IP + ":" + chatPort + "/chat/sendDirectMessage", request,String.class);
     }
 

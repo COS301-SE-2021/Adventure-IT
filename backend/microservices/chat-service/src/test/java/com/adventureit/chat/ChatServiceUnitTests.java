@@ -200,7 +200,7 @@ public class ChatServiceUnitTests{
         String message = "Test message";
         UUID mockUserId =UUID.randomUUID();
         GroupChat mockGroupChat = new GroupChat(mockGroupChatID,mockAdventureId,participants,colors,name);
-        Mockito.when(groupChatRepository.findGroupChatByGroupChatId(mockGroupChatID)).thenReturn(mockGroupChat);
+        Mockito.when(groupChatRepository.getGroupChatByGroupChatId(mockGroupChatID)).thenReturn(mockGroupChat);
 
         //When
         String response = service.sendGroupMessage(mockGroupChatID,mockUserId,message);
@@ -308,8 +308,4 @@ public class ChatServiceUnitTests{
         Assertions.assertThrows(Exception.class, ()->
                 service.getGroupChatByAdventureID(incorrectGroupChatID));
     }
-
-
-
-
 }

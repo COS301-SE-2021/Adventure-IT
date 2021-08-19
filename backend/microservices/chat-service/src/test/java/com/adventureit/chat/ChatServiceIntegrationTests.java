@@ -2,7 +2,9 @@ package com.adventureit.chat;
 
 
 import com.adventureit.chat.Controller.ChatController;
+import com.adventureit.chat.Entity.ColorPair;
 import com.adventureit.chat.Entity.GroupChat;
+import com.adventureit.chat.Entity.GroupMessage;
 import com.adventureit.chat.Repository.ColorPairRepository;
 import com.adventureit.chat.Repository.DirectChatRepository;
 import com.adventureit.chat.Repository.GroupChatRepository;
@@ -50,5 +52,52 @@ public class ChatServiceIntegrationTests {
     @Description("Ensure that the controller is accepting traffic and responding")
     public void httpTest_returnResponse(){
         Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/chat/test", String.class),"Chat Controller is functioning");
+    }
+
+    @Test
+    @Description("Ensure that the get group chat by adventure id is working")
+    public void httpGetGroupChatByAdventureID_returnResponse(){
+        UUID id = UUID.randomUUID();
+        UUID adventureID = UUID.randomUUID();
+        GroupChat chat = new GroupChat(id, adventureID, new ArrayList<>(), new ArrayList<>(), "Mock");
+        groupChatRepository.saveAndFlush(chat);
+        GroupChatResponseDTO responseDTO = this.restTemplate.getForObject("http://localhost:" + port + "/chat/getGroupChatByAdventureID/" + adventureID, GroupChatResponseDTO.class);
+        Assertions.assertTrue(responseDTO != null);
+    }
+
+    @Test
+    @Description("Ensure that the get group chat by id is working")
+    public void httpGetGroupChatByID_returnResponse(){
+        UUID id = UUID.randomUUID();
+        UUID adventureID = UUID.randomUUID();
+        GroupChat chat = new GroupChat(id, adventureID, new ArrayList<>(), new ArrayList<>(), "Mock");
+        groupChatRepository.saveAndFlush(chat);
+        GroupChatResponseDTO responseDTO = this.restTemplate.getForObject("http://localhost:" + port + "/chat/getGroupChat/" + id, GroupChatResponseDTO.class);
+        Assertions.assertTrue(responseDTO != null);
+    }
+
+    @Test
+    @Description("Ensure that the add participant to group chat function is working")
+    public void httpAddParticipant_returnResponse(){
+        UUID id = UUID.randomUUID();
+        UUID chatID = UUID.randomUUID();
+        UUID adventureID = UUID.randomUUID();
+        UUID userID1 = UUID.randomUUID();
+        UUID userID2 = UUID.randomUUID();
+        GroupChat chat = new GroupChat(chatID, adventureID, List.of(userID2), new ArrayList<>(), "Mock");
+        groupChatRepository.saveAndFlush(chat);
+        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/chat/addParticipant/" + adventureID + "/" + userID1, String.class),userID1 +" successfully added to chat "+adventureID);
+    }
+
+    @Test
+    @Description("Ensure that the get group message by id is working")
+    public void httpGetGroupMessageByID_returnResponse(){
+        UUID id = UUID.randomUUID();
+        UUID userID = UUID.randomUUID();
+        UUID chatID = UUID.randomUUID();
+        GroupMessage groupMessage = new GroupMessage(id,userID,chatID,"Mock");
+        messageRepository.saveAndFlush(groupMessage);
+        GroupMessage responseDTO = this.restTemplate.getForObject("http://localhost:" + port + "/chat/getGroupMessageByID/" + id, GroupMessage.class);
+        Assertions.assertTrue(responseDTO != null);
     }
 }
