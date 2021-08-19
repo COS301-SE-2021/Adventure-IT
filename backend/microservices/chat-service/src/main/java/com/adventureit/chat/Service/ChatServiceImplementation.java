@@ -19,10 +19,13 @@ import java.util.UUID;
 
 @Service
 public class ChatServiceImplementation implements ChatService {
-
+    @Autowired
     GroupChatRepository groupChatRepository;
+    @Autowired
     DirectChatRepository directChatRepository;
+    @Autowired
     MessageRepository messageRepository;
+    @Autowired
     ColorPairRepository colorPairRepository;
 
     @Autowired
@@ -87,7 +90,7 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     public int getUserColor(UUID groupChatID, UUID userID){
-        return groupChatRepository.findByGroupChatId(groupChatID).getColor(userID);
+        return groupChatRepository.findGroupChatByGroupChatId(groupChatID).getColor(userID);
     }
 
     @Override
@@ -106,18 +109,24 @@ public class ChatServiceImplementation implements ChatService {
     @Override
     @Transactional
     public String sendGroupMessage(UUID chatID, UUID sender,String msg) throws Exception {
-        GroupChat chat = groupChatRepository.findByGroupChatId(chatID);
+        System.out.println("here1");
+        GroupChat chat = groupChatRepository.getGroupChatByGroupChatId(chatID);
+        System.out.println("here2");
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
-
+        System.out.println("here3");
         List<UUID> rec = new ArrayList<>(chat.getParticipants());
+        System.out.println("here4");
         rec.remove(sender);
-
-        GroupMessage message = new GroupMessage(sender,rec,msg);
+        System.out.println("here5");
+        System.out.println("here6");
+        GroupMessage message = new GroupMessage(UUID.randomUUID(),sender,chatID,msg);
+        System.out.println("here7");
         messageRepository.save(message);
+        System.out.println("here8");
         groupChatRepository.save(chat);
-
+        System.out.println("here9");
         return "Message Sent";
     }
 
@@ -160,7 +169,7 @@ public class ChatServiceImplementation implements ChatService {
 
     @Override
     public GroupChatResponseDTO getGroupChat(UUID id) throws Exception {
-        GroupChat chat = groupChatRepository.findByGroupChatId(id);
+        GroupChat chat = groupChatRepository.findGroupChatByGroupChatId(id);
         if(chat == null){
             throw new Exception("Chat does not exist");
         }
@@ -233,7 +242,7 @@ public class ChatServiceImplementation implements ChatService {
 
     @Override
     public void deleteGroupChat(UUID id) throws Exception {
-        GroupChat chat = groupChatRepository.findByGroupChatId(id);
+        GroupChat chat = groupChatRepository.findGroupChatByGroupChatId(id);
         if(chat == null){
             throw new Exception("Chat does not exist");
         }

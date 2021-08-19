@@ -90,7 +90,7 @@ public class MainControllerUserReroute {
 
     @GetMapping(value="GetFriendRequests/{id}")
     public List<GetFriendRequestsResponse> getFriendRequests(@PathVariable UUID id){
-        return restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetFriendRequests/"+id, List.class);
+        return restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/getFriendRequests/"+id, List.class);
 
     }
 
@@ -107,8 +107,8 @@ public class MainControllerUserReroute {
 
     @GetMapping(value="removeFriend/{id}/{friendID}")
     public void deleteRequest(@PathVariable UUID id, @PathVariable UUID friendID){
-        DirectChatResponseDTO chat = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getDirectChat/"+id+"/"+friendID, DirectChatResponseDTO.class);
-        restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/deleteChat/"+ chat.getId(), String.class);
+//        DirectChatResponseDTO chat = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getDirectChat/"+id+"/"+friendID, DirectChatResponseDTO.class);
+//        restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/deleteChat/"+ chat.getId(), String.class);
         restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/removeFriend/"+id+"/"+friendID, String.class);
     }
 
@@ -126,7 +126,7 @@ public class MainControllerUserReroute {
 
     @GetMapping("getFriendRequest/{id}")
     public FriendDTO getFriendRequest(@PathVariable UUID id) throws Exception {
-        return restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/createFriendRequest/"+ id, FriendDTO.class);
+        return restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/getFriendRequest/"+ id, FriendDTO.class);
     }
 }
 

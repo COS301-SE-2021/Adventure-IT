@@ -29,6 +29,14 @@ public class MediaServiceImplementation implements MediaService{
     @Autowired
     private FileInfoRepository fileInfoRepository;
 
+    @Autowired
+    public MediaServiceImplementation(MediaRepository mediaRepository,MediaInfoRepository mediaInfoRepository,FileRepository fileRepository,FileInfoRepository fileInfoRepository){
+        this.mediaRepository = mediaRepository;
+        this.mediaInfoRepository = mediaInfoRepository;
+        this.fileRepository = fileRepository;
+        this.fileInfoRepository = fileInfoRepository;
+    }
+
 
     @Override
     public ResponseEntity<byte[]> testMediaUploaded(UUID file) {

@@ -23,12 +23,10 @@ public class BudgetServiceUnitTests {
         final UUID validBudgetID1 = UUID.randomUUID();
         final UUID validBudgetID2 = UUID.randomUUID();
         final UUID validEntryID1 = UUID.randomUUID();
-        final UUID validEntryID2 = UUID.randomUUID();
         final UUID validAdventureID1 = UUID.randomUUID();
         final UUID validUserID1 = UUID.randomUUID();
 
         BudgetEntry mockEntry1 = new UTOExpense(validEntryID1,validBudgetID1,200.0,"Mock Entry 1","Mock UTO Entry", Category.Accommodation,"User1","Shop1");
-        BudgetEntry mockEntry2 = new UTUExpense(validEntryID2,validBudgetID2,1000.0,"Mock Entry 2","Mock UTU Entry",Category.Other,"User1","User2");
         Budget mockBudget1 = new Budget(validBudgetID1,"Mock Budget 1", "Mock budget 1 description",validUserID1,validAdventureID1);
         Budget mockBudget2 = new Budget(validBudgetID2,"Mock Budget 2", "Mock budget 2 description",validUserID1,validAdventureID1);
 
