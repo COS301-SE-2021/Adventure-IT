@@ -14,7 +14,7 @@ public class CreateAdventureRequest{
     private String startDate;
     private String endDate;
     private String location;
-    
+
     /**
      * This service will be used to generate a CreateAdventure request
      * @param name name of the Adventure

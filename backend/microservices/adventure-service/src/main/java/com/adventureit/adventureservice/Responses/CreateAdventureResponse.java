@@ -1,6 +1,5 @@
 package com.adventureit.adventureservice.Responses;
 import com.adventureit.adventureservice.Entity.Adventure;
-import java.util.UUID;
 
 public class CreateAdventureResponse {
 
@@ -16,7 +15,6 @@ public class CreateAdventureResponse {
      *
      * @param success success attribute to indicate whether the service was successful
      */
-
 
     public CreateAdventureResponse(boolean success){
         this.success = success;
