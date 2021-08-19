@@ -7,36 +7,32 @@ import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
-@Table(name="file",schema = "public")
-public class File {
+@Table(name="documentinfo",schema = "public")
+public class DocumentInfo {
     @Id
     private UUID id;
     private String type;
     private String name;
     private String description;
-    private UUID adventureID;
     private UUID owner;
-    @Lob
-    private byte[] data;
 
-    public File(){}
-
-    public File(UUID id, String type, String name, String description, UUID adventureID, UUID owner) {
+    public DocumentInfo(UUID id, String type, String name, String description, UUID owner) {
         this.id = id;
         this.type = type;
         this.name = name;
         this.description = description;
-        this.adventureID = adventureID;
         this.owner = owner;
     }
 
-    public File(String type, String name, String description, UUID adventureID, UUID owner) {
-        this.id = UUID.randomUUID();
+    public DocumentInfo(String type, String name, String description, UUID owner) {
         this.type = type;
         this.name = name;
         this.description = description;
-        this.adventureID = adventureID;
         this.owner = owner;
+    }
+
+    public DocumentInfo() {
+
     }
 
     public UUID getId() {
@@ -71,27 +67,11 @@ public class File {
         this.description = description;
     }
 
-    public UUID getAdventureID() {
-        return adventureID;
-    }
-
-    public void setAdventureID(UUID adventureID) {
-        this.adventureID = adventureID;
-    }
-
     public UUID getOwner() {
         return owner;
     }
 
     public void setOwner(UUID owner) {
         this.owner = owner;
-    }
-
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
     }
 }

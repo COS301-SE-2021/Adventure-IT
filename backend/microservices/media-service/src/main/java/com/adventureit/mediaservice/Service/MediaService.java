@@ -13,8 +13,8 @@ public interface MediaService {
     public ResponseEntity<byte[]> testFileUploaded(UUID file);
     public HttpStatus uploadMedia(MultipartFile file, UUID userId,UUID adventureId);
     public HttpStatus uploadFile(MultipartFile file,UUID userId, UUID adventureId);
-    public void changeMediaAccess(UUID id);
-    public void changeFileAccess(UUID id);
+    public HttpStatus uploadDocument(MultipartFile file,UUID userId);
     public void deleteMedia(UUID id,UUID userID) throws Exception;
     public void deleteFile(UUID id,UUID userID) throws Exception;
+    public void deleteDocument(UUID id,UUID userID) throws Exception;
 }

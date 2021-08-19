@@ -63,7 +63,7 @@ public class MediaServiceIntegrationTests {
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
         Media media = new Media(id, "image/jpeg", "Mock", "Mock", adventureID, ownerID);
-        MediaInfo mediaInfo = new MediaInfo(id, "image/jpeg", "Mock", "Mock", adventureID, ownerID,media.getPublicAccess());
+        MediaInfo mediaInfo = new MediaInfo(id, "image/jpeg", "Mock", "Mock", adventureID, ownerID);
         mediaRepository.saveAndFlush(media);
         mediaInfoRepository.saveAndFlush(mediaInfo);
         this.restTemplate.getForObject("http://localhost:" + port + "/media/deleteMedia/{id}/{userID}", String.class, id,ownerID);
@@ -76,36 +76,10 @@ public class MediaServiceIntegrationTests {
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
         File file = new File(id, "application/pdf", "Mock", "Mock", adventureID, ownerID);
-        FileInfo fileInfo = new FileInfo(id, "image/jpeg", "Mock", "Mock", adventureID, ownerID,file.getPublicAccess());
+        FileInfo fileInfo = new FileInfo(id, "image/jpeg", "Mock", "Mock", adventureID, ownerID);
         fileRepository.saveAndFlush(file);
         fileInfoRepository.saveAndFlush(fileInfo);
         this.restTemplate.getForObject("http://localhost:" + port + "/media/deleteFile/{id}/{userID}", String.class, id,ownerID);
-    }
-
-    @Test
-    @Description("Ensure that the change media access function works")
-    public void httpChangeMediaAccess_returnResponse(){
-        UUID id = UUID.randomUUID();
-        UUID adventureID = UUID.randomUUID();
-        UUID ownerID = UUID.randomUUID();
-        Media media = new Media(id, "image/jpeg", "Mock", "Mock", adventureID, ownerID);
-        MediaInfo mediaInfo = new MediaInfo(id, "image/jpeg", "Mock", "Mock", adventureID, ownerID,media.getPublicAccess());
-        mediaRepository.saveAndFlush(media);
-        mediaInfoRepository.saveAndFlush(mediaInfo);
-        this.restTemplate.getForObject("http://localhost:" + port + "/media/changeMediaAccess/{id}", String.class, id);
-    }
-
-    @Test
-    @Description("Ensure that the change file access function works")
-    public void httpChangeFileAccess_returnResponse(){
-        UUID id = UUID.randomUUID();
-        UUID adventureID = UUID.randomUUID();
-        UUID ownerID = UUID.randomUUID();
-        File file = new File(id, "application/pdf", "Mock", "Mock", adventureID, ownerID);
-        FileInfo fileInfo = new FileInfo(id, "image/jpeg", "Mock", "Mock", adventureID, ownerID,file.getPublicAccess());
-        fileRepository.saveAndFlush(file);
-        fileInfoRepository.saveAndFlush(fileInfo);
-        this.restTemplate.getForObject("http://localhost:" + port + "/media/changeFileAccess/{id}", String.class, id);
     }
 
     @Test
@@ -115,7 +89,7 @@ public class MediaServiceIntegrationTests {
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
         Media media = new Media(id, "image/jpeg", "Mock", "Mock", adventureID, ownerID);
-        MediaInfo mediaInfo = new MediaInfo(id, "image/jpeg", "Mock", "Mock", adventureID, ownerID,media.getPublicAccess());
+        MediaInfo mediaInfo = new MediaInfo(id, "image/jpeg", "Mock", "Mock", adventureID, ownerID);
         mediaRepository.saveAndFlush(media);
         mediaInfoRepository.saveAndFlush(mediaInfo);
         List<FileInfo> list = this.restTemplate.getForObject("http://localhost:" + port + "/media/getAdventureMediaList/{id}", List.class, adventureID);
@@ -129,7 +103,7 @@ public class MediaServiceIntegrationTests {
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
         File file = new File(id, "application/pdf", "Mock", "Mock", adventureID, ownerID);
-        FileInfo fileInfo = new FileInfo(id, "image/jpeg", "Mock", "Mock", adventureID, ownerID,file.getPublicAccess());
+        FileInfo fileInfo = new FileInfo(id, "image/jpeg", "Mock", "Mock", adventureID, ownerID);
         fileRepository.saveAndFlush(file);
         fileInfoRepository.saveAndFlush(fileInfo);
         List<FileInfo> list = this.restTemplate.getForObject("http://localhost:" + port + "/media/getAdventureFileList/{id}", List.class, adventureID);
@@ -143,11 +117,10 @@ public class MediaServiceIntegrationTests {
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
         File file = new File(id, "application/pdf", "Mock", "Mock", adventureID, ownerID);
-        file.setPublicAccess(false);
-        FileInfo fileInfo = new FileInfo(id, "image/jpeg", "Mock", "Mock", adventureID, ownerID,file.getPublicAccess());
+        FileInfo fileInfo = new FileInfo(id, "image/jpeg", "Mock", "Mock", adventureID, ownerID);
         fileRepository.saveAndFlush(file);
         fileInfoRepository.saveAndFlush(fileInfo);
-        List<FileInfo> list = this.restTemplate.getForObject("http://localhost:" + port + "/media/getUserPrivateFileList/{id}", List.class, ownerID);
+        List<FileInfo> list = this.restTemplate.getForObject("http://localhost:" + port + "/media/getUserFileList/{id}", List.class, ownerID);
         Assertions.assertTrue(!list.isEmpty());
     }
 }
