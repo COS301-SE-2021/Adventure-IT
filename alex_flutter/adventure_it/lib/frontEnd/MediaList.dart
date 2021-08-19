@@ -189,8 +189,8 @@ class MediaList extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                     ))))),
                     Positioned(
-                      right: -5.0,
-                      top: -5.0,
+                      right: -7.0,
+                      top: -7.0,
                       child: InkResponse(
                         onTap: (){
                           Provider.of<MediaModel>(context,
@@ -200,6 +200,7 @@ class MediaList extends StatelessWidget {
                         child: CircleAvatar(
                           radius:MediaQuery.of(context).size.width*0.02,
                           child: Icon(Icons.close,
+                              size: MediaQuery.of(context).size.width*0.02,
                               color: Theme.of(context).primaryColorDark),
                           backgroundColor: Theme.of(context).accentColor,
                         ),
