@@ -17,6 +17,7 @@ import 'Navbar.dart';
 
 class GroupChat extends StatelessWidget {
   Adventure? adventure;
+  final messageController = TextEditingController();
 
   GroupChat(Adventure? a) {
     this.adventure = a;
@@ -70,6 +71,7 @@ class GroupChat extends StatelessWidget {
                     Expanded(
                       flex: 12,
                       child: TextField(
+                          controller: messageController,
                           style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText1!.color),
@@ -97,7 +99,9 @@ class GroupChat extends StatelessWidget {
                                 color: Theme.of(context).accentColor,
                                 shape: BoxShape.circle),
                             child: IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Provider.of<GroupChatModel>(context, listen: false).sendMessage(messageController.text);
+                                },
                                 icon: const Icon(Icons.send_rounded),
                                 color: Theme.of(context)
                                     .primaryColorDark))),
@@ -171,7 +175,8 @@ class _MessageList extends State<MessageList> {
             _scrollController.position.maxScrollExtent,
             duration: Duration(seconds: 3),
             curve: Curves.fastOutSlowIn);});
-        return Expanded(
+        return Container(
+            height: double.infinity,
             child: GroupedListView<dynamic, String>(
                 controller: _scrollController,
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -194,6 +199,7 @@ class _MessageList extends State<MessageList> {
                           color: Theme.of(context).textTheme.bodyText1!.color),
                     )),
                 indexedItemBuilder: (context, element, index) {
+                  print("here"+index.toString());
                     return Card(
                         color: Theme.of(context).primaryColorDark,
                         child: ListTile(
