@@ -15,11 +15,6 @@ itinerary planning, check lists, expense tracking, media sharing and more.
 
 ---
 
-##Branching Strategy
-master(build)<br>
------development(build)<br>
-----------feature-module_name(build)
-
 ## Team Members
 
 |                                                                 **TeamMember**                                                                  |                                                                    **Profiles**                                                                     |              **Skills/Interest**               |
@@ -36,8 +31,3 @@ master(build)<br>
 
 - open_book: [GitHub](https://github.com/COS301-SE-2021/Adventure-IT)
 - [SRS document](https://drive.google.com/drive/folders/1sQUlE15YyczM-9B1tND1MvfDTMd3MoID)
-
-## Badges
-
-[![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2021/Adventure-IT)](https://github.com/COS301-SE-2021/Adventure-IT/issues)
-[![GitHub stars](https://img.shields.io/github/stars/COS301-SE-2021/Adventure-IT)](https://github.com/COS301-SE-2021/Adventure-IT/stargazers)
