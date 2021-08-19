@@ -5,6 +5,7 @@ import 'package:adventure_it/api/directChat.dart';
 import 'package:adventure_it/api/directChatMessage.dart';
 import 'package:adventure_it/api/groupChat.dart';
 import 'package:adventure_it/api/groupChatMessage.dart';
+import 'package:adventure_it/api/user_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:time_machine/time_machine.dart';
@@ -27,18 +28,35 @@ class GroupChatModel extends ChangeNotifier {
   Future fetchAllMessages() async {
     _chat = await ChatApi.getGroupChat(currentAdventure);
     if (_chat == null || _chat!.messages.isEmpty) {
+      print(_chat!.messages.length);
       _messages = List.empty();
-    } else
+    } else {
+      print(_chat!.messages.length);
       _messages = await ChatApi.getGroupChatMessage(_chat!.id);
-    notifyListeners();
+    }
+        notifyListeners();
+
+  }
+
+  Future sendMessage(String message) async
+  {
+      await ChatApi.sendGroupMessage(_chat!.id, UserApi.getInstance().getUserProfile()!.userID, message);
+
+      fetchAllMessages();
+
+      notifyListeners();
   }
 }
 
 class DirectChatModel extends ChangeNotifier {
   List<DirectChatMessage>? _messages = null;
   DirectChat? _chat = null;
+  String? user1ID;
+  String? user2ID;
 
   DirectChatModel(String user1, String user2) {
+    user1ID=user1;
+    user2ID=user2;
     fetchAllMessages(user1, user2).then(
         (messages) => messages != null ? _messages = messages : List.empty());
   }
@@ -53,6 +71,15 @@ class DirectChatModel extends ChangeNotifier {
       _messages = List.empty();
     } else
       _messages = await ChatApi.getDirectChatMessage(_chat!.id);
+    notifyListeners();
+  }
+
+  Future sendMessage(String message) async
+  {
+    await ChatApi.sendDirectMessage(_chat!.id, user1ID!,user2ID!,message);
+
+    fetchAllMessages(user1ID!,user2ID!);
+
     notifyListeners();
   }
 }

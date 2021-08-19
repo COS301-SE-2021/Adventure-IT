@@ -75,8 +75,9 @@ public class MainControllerUserReroute {
 
     @GetMapping(value = "acceptFriendRequest/{id}")
     public String acceptFriend(@PathVariable UUID id){
+        FriendDTO friend = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/getFriendRequest/"+id, FriendDTO.class);
         restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/acceptFriendRequest/"+id, String.class);
-        Friend friend = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/getFriendRequest/"+id, Friend.class);
+
         CreateDirectChatRequest request = new CreateDirectChatRequest(friend.getFirstUser(),friend.getSecondUser());
         restTemplate.postForObject("http://"+ IP + ":" + chatPort + "/chat/createDirectChat", request,String.class);
         return "Done";

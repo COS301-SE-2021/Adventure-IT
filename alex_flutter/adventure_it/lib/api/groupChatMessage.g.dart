@@ -12,8 +12,6 @@ GroupChatMessage _$GroupChatMessageFromJson(Map<String, dynamic> json) {
     sender: UserProfile.fromJson(json['sender'] as Map<String, dynamic>),
     message: json['message'] as String,
     timestamp: json['timestamp'] as String,
-
-    read: Map<String, bool>.from(json['read'] as Map),
   );
 }
 
@@ -23,5 +21,4 @@ Map<String, dynamic> _$GroupChatMessageToJson(GroupChatMessage instance) =>
       'sender': instance.sender.toJson(),
       'message': instance.message,
       'timestamp': instance.timestamp,
-      'read': instance.read,
     };
