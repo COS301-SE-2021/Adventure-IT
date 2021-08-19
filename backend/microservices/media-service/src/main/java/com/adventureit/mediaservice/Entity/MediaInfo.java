@@ -16,18 +16,16 @@ public class MediaInfo {
     private String description;
     private UUID adventureID;
     private UUID owner;
-    private boolean publicAccess;
 
     public MediaInfo(){}
 
-    public MediaInfo(UUID id, String type, String name, String description, UUID adventureID, UUID owner,boolean publicAccess){
+    public MediaInfo(UUID id, String type, String name, String description, UUID adventureID, UUID owner){
         this.id = id;
         this.name = name;
         this.description = description;
         this.adventureID = adventureID;
         this.owner = owner;
         this.type = type;
-        this.publicAccess = publicAccess;
     }
 
     public void setId(UUID id) {
@@ -76,13 +74,5 @@ public class MediaInfo {
 
     public String getType() {
         return type;
-    }
-
-    public void setPublicAccess(boolean publicAccess) {
-        this.publicAccess = publicAccess;
-    }
-
-    public boolean getPublicAccess() {
-        return publicAccess;
     }
 }

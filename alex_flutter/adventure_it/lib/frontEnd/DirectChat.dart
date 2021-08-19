@@ -18,6 +18,7 @@ import '../api/budget.dart';
 import 'Navbar.dart';
 class DirectChat extends StatelessWidget {
   UserProfile? user2;
+  final messageController = TextEditingController();
 
  DirectChat(UserProfile user2) {
     this.user2=user2;
@@ -71,6 +72,7 @@ class DirectChat extends StatelessWidget {
                         Expanded(
                           flex: 12,
                           child: TextField(
+                              controller: messageController,
                               style: TextStyle(
                                   color:
                                   Theme.of(context).textTheme.bodyText1!.color),
@@ -98,7 +100,9 @@ class DirectChat extends StatelessWidget {
                                     color: Theme.of(context).accentColor,
                                     shape: BoxShape.circle),
                                 child: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Provider.of<DirectChatModel>(context, listen: false).sendMessage(messageController.text);
+                                    },
                                     icon: const Icon(Icons.send_rounded),
                                     color: Theme.of(context)
                                         .primaryColorDark))),

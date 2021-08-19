@@ -33,9 +33,9 @@ public class MediaServiceUnitTests {
     final UUID validUserID1 = UUID.randomUUID();
 
     Media mockMedia = new Media(validMediaID1, "image/jpeg", "Mock Media", "Mock", validAdventureID1, validUserID1);
-    MediaInfo mockMediaInfo = new MediaInfo(validMediaID1, "image/jpeg", "Mock Media", "Mock", validAdventureID1, validUserID1,mockMedia.getPublicAccess());
+    MediaInfo mockMediaInfo = new MediaInfo(validMediaID1, "image/jpeg", "Mock Media", "Mock", validAdventureID1, validUserID1);
     File mockFile = new File(validFileID1, "application/pdf", "Mock File", "Mock", validAdventureID1, validUserID1);
-    FileInfo mockFileInfo = new FileInfo(validFileID1, "application/pdf", "Mock File", "Mock", validAdventureID1, validUserID1,mockFile.getPublicAccess());
+    FileInfo mockFileInfo = new FileInfo(validFileID1, "application/pdf", "Mock File", "Mock", validAdventureID1, validUserID1);
 
     @Test
     @Description("Ensure a user can upload media")
@@ -99,13 +99,5 @@ public class MediaServiceUnitTests {
         Assertions.assertThrows(Exception.class, ()->{
             sut.deleteFile(validFileID1,UUID.randomUUID());
         });
-    }
-
-    @Test
-    @Description("Ensure a user can change file access")
-    public void changeMediaInvalid_ThrowsException() throws Exception {
-        Mockito.when(mockFileRepository.findFileById(validFileID1)).thenReturn(mockFile);
-        Mockito.when(mockFileInfoRepository.findFileInfoById(validFileID1)).thenReturn(mockFileInfo);
-        sut.changeFileAccess(validFileID1);
     }
 }
