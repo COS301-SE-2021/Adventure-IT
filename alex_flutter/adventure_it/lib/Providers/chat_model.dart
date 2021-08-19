@@ -76,7 +76,7 @@ class DirectChatModel extends ChangeNotifier {
 
   Future sendMessage(String message) async
   {
-    await ChatApi.sendGroupMessage(_chat!.id, UserApi.getInstance().getUserProfile()!.username, message);
+    await ChatApi.sendDirectMessage(_chat!.id, user1ID!,user2ID!,message);
 
     fetchAllMessages(user1ID!,user2ID!);
 
