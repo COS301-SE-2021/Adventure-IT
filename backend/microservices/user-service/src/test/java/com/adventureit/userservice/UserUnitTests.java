@@ -224,15 +224,6 @@ public class UserUnitTests {
     }
 
     @Test
-    @Description("This test tests whether the correct exception is thrown if an invalid email is used")
-    void TestRegisterUserRequestInvalidEmail() throws InvalidUserPhoneNumberException, InvalidUserPasswordException {
-        RegisterUserRequest req = new RegisterUserRequest(uuid1, userName1,userlName1,username1,invalidEmail);
-        assertNotNull(req);
-        Throwable thrown = assertThrows(InvalidUserEmailException.class , ()-> user.RegisterUser(req));
-        assertEquals("User email is incorrect - Unable to process registration", thrown.getMessage());
-    }
-
-    @Test
     @Description("This test tests whether the request object is null and throws correct exception")
      void TestInvalidRequest() throws InvalidUserEmailException {
         RegisterUserRequest req = null;
