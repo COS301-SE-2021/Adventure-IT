@@ -13,7 +13,6 @@ class GroupChatMessage {
   final UserProfile sender;
   final String message;
   final String timestamp;
-  final Map<String, bool> read;
 
 
   GroupChatMessage(
@@ -21,7 +20,6 @@ class GroupChatMessage {
       required this.sender,
       required this.message,
         required this.timestamp,
-        required this.read,
       });
 
   factory GroupChatMessage.fromJson(Map<String, dynamic> json) =>
