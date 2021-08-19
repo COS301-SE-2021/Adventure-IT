@@ -154,7 +154,7 @@ class AdventureList extends StatelessWidget {
                                   child: Container(
                                     decoration: new BoxDecoration(
                                         image: new DecorationImage(
-                                            image: NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+adventureModel.adventures!.elementAt(index).location.photo_reference+"&maxwidth=500&key="+googleMapsKey),
+                                            image: NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+adventureModel.adventures!.elementAt(index).location.photo_reference+"&maxwidth=700&key="+googleMapsKey),
                                             fit: BoxFit.cover,
                                             colorFilter: ColorFilter.mode(
                                                 Theme.of(context)

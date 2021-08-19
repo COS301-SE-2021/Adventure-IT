@@ -99,16 +99,11 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                             Container(
                               width: MediaQuery.of(context).size.width * 0.2,
                               height: MediaQuery.of(context).size.height * 0.2,
-                              child: CircleAvatar(
-                                radius: MediaQuery.of(context).size.height * 0.5,
-                                backgroundImage:
-                                    ExactAssetImage('assets/adventure.PNG'),
-                              ),
                               decoration: new BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: new Border.all(
-                                  color: Theme.of(context).accentColor,
-                                  width: MediaQuery.of(context).size.height * 0.005,
+                                image: DecorationImage(
+                                  image: ExactAssetImage('assets/logo.png'),
+                                  fit: BoxFit.contain
                                 ),
                               ),
                             ),

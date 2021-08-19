@@ -722,7 +722,7 @@ class _ListItineraryItems extends StatefulWidget
                                 child: Container(
                                   decoration: new BoxDecoration(
                                       image: new DecorationImage(
-                                          image: entryModel.entries!.elementAt(index).location.photo_reference==null?NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+currentAdventure!.location.photo_reference+"&maxwidth=500&key="+googleMapsKey):NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+entryModel.entries!.elementAt(index).location.photo_reference+"&maxwidth=500&key="+googleMapsKey),
+                                          image: entryModel.entries!.elementAt(index).location.photo_reference==null?NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+currentAdventure!.location.photo_reference+"&maxwidth=700&key="+googleMapsKey):NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+entryModel.entries!.elementAt(index).location.photo_reference+"&maxwidth=500&key="+googleMapsKey),
                                           fit: BoxFit.cover,
                                           colorFilter: ColorFilter.mode(
                                               Theme.of(context)

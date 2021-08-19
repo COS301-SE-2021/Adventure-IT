@@ -186,7 +186,7 @@ class AdventurePage extends StatelessWidget {
                 height: MediaQuery.of(context).size.height,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+currentAdventure!.location.photo_reference+"&maxwidth=500&key="+googleMapsKey),
+                        image: NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+currentAdventure!.location.photo_reference+"&maxwidth=700&key="+googleMapsKey),
                         fit: BoxFit.cover,
                         colorFilter: ColorFilter.mode(
                             Theme.of(context).backgroundColor.withOpacity(0.25),

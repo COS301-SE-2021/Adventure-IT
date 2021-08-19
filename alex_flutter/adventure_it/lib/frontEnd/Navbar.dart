@@ -17,11 +17,12 @@ class NavDrawer extends StatelessWidget {
       Container(
         height: MediaQuery.of(context).size.height * 0.3,
         child: DrawerHeader(
+          padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
       child: SizedBox(),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColorDark,
+          color: Theme.of(context).scaffoldBackgroundColor,
           image: DecorationImage(
-              fit: BoxFit.fill,
+              fit: BoxFit.contain,
               image: ExactAssetImage('assets/logo.png'))),
       )),
           ListTile(
