@@ -2,7 +2,6 @@ package com.adventureit.budgetservice.Responses;
 
 import com.adventureit.budgetservice.Entity.Category;
 
-import java.util.List;
 import java.util.UUID;
 
 public class ViewBudgetResponse {
