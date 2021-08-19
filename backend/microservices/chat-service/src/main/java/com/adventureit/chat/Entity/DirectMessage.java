@@ -11,15 +11,22 @@ public class DirectMessage extends Message{
 
     public DirectMessage(){}
 
-    public DirectMessage(UUID id, UUID sender, UUID receiver, String message){
+    public DirectMessage(UUID id, UUID sender, UUID receiver, String message, LocalDateTime timestamp){
         this.id = id;
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = timestamp;
     }
 
-    public DirectMessage( UUID sender, UUID receiver, String message){
+    public DirectMessage(UUID id, UUID sender, UUID chatId, String message, Boolean read, UUID receiver) {
+        super(id, sender, chatId, message);
+        this.read = read;
+        this.receiver = receiver;
+    }
+
+
+    public DirectMessage(UUID sender, UUID receiver, String message){
         this.id = UUID.randomUUID();
         this.sender = sender;
         this.receiver = receiver;

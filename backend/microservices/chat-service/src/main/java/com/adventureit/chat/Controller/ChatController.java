@@ -82,7 +82,7 @@ public class ChatController {
 
     @PostMapping("/sendDirectMessage")
     public String sendGroupMessage(@RequestBody SendDirectMessageRequestDTO request) throws Exception {
-        service.sendGroupMessage(request.getChatID(),request.getSender(),request.getMsg());
+        service.sendDirectMessage(request.getChatID(),request.getSender(),request.getReceiver(),request.getMsg());
         return "Message sent";
     }
 

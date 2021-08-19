@@ -15,6 +15,8 @@ public class DirectChatResponseDTO {
         this.messages = messages;
     }
 
+    public DirectChatResponseDTO(){}
+
     public UUID getId() {
         return id;
     }

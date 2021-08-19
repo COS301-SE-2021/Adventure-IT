@@ -118,8 +118,8 @@ public class MainControllerChatReroute {
 
         for (UUID ID:chat.getMessages()) {
             message = restTemplate.getForObject("http://"+ IP + ":" + chatPort + "/chat/getDirectMessageByID/" + ID, DirectMessage.class);
-            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/" + message.getSender(), GetUserByUUIDDTO.class);
-            x = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/api/GetUser/" + message.getReceiver(), GetUserByUUIDDTO.class);
+            user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/" + message.getSender(), GetUserByUUIDDTO.class);
+            x = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/" + message.getReceiver(), GetUserByUUIDDTO.class);
 
             list.add(new DirectMessageResponseDTO(message.getId(),user,x,message.getTimestamp(),message.getMessage(),message.getRead()));
         }
