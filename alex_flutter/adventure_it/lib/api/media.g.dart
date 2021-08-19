@@ -13,7 +13,6 @@ Media _$MediaFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     adventureID: json['adventureID'] as String,
     owner: json['owner'] as String,
-    publicAccess: json['publicAccess'] as bool,
   );
 }
 
@@ -23,5 +22,4 @@ Map<String, dynamic> _$MediaToJson(Media instance) => <String, dynamic>{
       'name': instance.name,
       'adventureID': instance.adventureID,
       'owner': instance.owner,
-      'publicAccess': instance.publicAccess,
     };

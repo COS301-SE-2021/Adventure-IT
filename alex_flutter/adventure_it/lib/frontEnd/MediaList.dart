@@ -189,8 +189,8 @@ class MediaList extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                     ))))),
                     Positioned(
-                      right: -7.0,
-                      top: -7.0,
+                      right: -10.0,
+                      top: -10.0,
                       child: InkResponse(
                         onTap: (){
                           Provider.of<MediaModel>(context,
