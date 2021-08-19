@@ -10,8 +10,8 @@ itinerary planning, check lists, expense tracking, media sharing and more.
 ## Badges
 
 [![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2021/Adventure-IT?style=for-the-badge)](https://github.com/COS301-SE-2021/Adventure-IT/issues)
-[![GitHub Commits](https://img.shields.io/github/commit-activity/m/COS301-SE-2021/Adventure-IT?style=for-the-badge)](https://github.com/COS301-SE-2021/Adventure-IT/issues)
-[![GitHub Tests](https://img.shields.io/github/workflow/status/COS301-SE-2021/Adventure-IT/Backend%20-%20Java%20CI%20with%20Maven/master?label=tests%20on%20master&style=for-the-badge)](https://github.com/COS301-SE-2021/Adventure-IT/issues)
+![GitHub Commits](https://img.shields.io/github/commit-activity/m/COS301-SE-2021/Adventure-IT?style=for-the-badge)
+![GitHub Tests](https://img.shields.io/github/workflow/status/COS301-SE-2021/Adventure-IT/Backend%20-%20Java%20CI%20with%20Maven/master?label=tests%20on%20master&style=for-the-badge)
 
 ---
 
