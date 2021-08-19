@@ -30,6 +30,8 @@ public class ChatController {
 
     @PostMapping("/createDirectChat")
     public String createDirectChat(@RequestBody CreateDirectChatRequest req){
+        System.out.println(req.getUser1Id());
+        System.out.println(req.getUser2Id());
         service.createDirectChat(req.getUser1Id(),req.getUser2Id());
         return "Chat created";
     }

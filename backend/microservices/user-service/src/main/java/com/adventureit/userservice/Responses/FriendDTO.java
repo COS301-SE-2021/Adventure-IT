@@ -10,6 +10,8 @@ public class FriendDTO {
     private Date createdDate;
     boolean accepted;
 
+
+    public FriendDTO(){}
     public FriendDTO(UUID id, UUID firstUser, UUID secondUser, Date createdDate, boolean accepted){
         this.id = id;
         this.firstUser = firstUser;
