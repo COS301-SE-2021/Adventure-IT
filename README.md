@@ -74,7 +74,8 @@ Here you can see all the information regarding our github insights.<br>
 [Architectural Document v1](https://drive.google.com/file/d/1XTNPcqGUv0VXY10nnx7jFg6lFLlGLfVY/view?usp=sharing)<br>
 [Architectural Document v2](https://drive.google.com/file/d/1XTNPcqGUv0VXY10nnx7jFg6lFLlGLfVY/view?usp=sharing)<br>
 [Architectural Document v3](https://drive.google.com/file/d/1XTNPcqGUv0VXY10nnx7jFg6lFLlGLfVY/view?usp=sharing)<br>
-[Installation Guide]()<br>
+[Installation Guide (backend)](https://github.com/COS301-SE-2021/Adventure-IT/tree/master/backend)<br>
+[Installation Guide (frontend)](https://github.com/COS301-SE-2021/Adventure-IT/tree/master/frontend)<br>
 [User Manual](https://drive.google.com/file/d/1Emq7qZ7IsgRWLM5CVBmfHSHNnznoFgae/view?usp=sharing)<br>
 [Coding Standards](https://drive.google.com/file/d/1ClujSTTNhTaBaEZyX3D06QsrvCr_glH_/view?usp=sharing)
 [Demo Video v1](https://drive.google.com/file/d/1xA5vm6o-PZxjv8IV9Esl6hzKomYmctHx/view?usp=sharing)
