@@ -109,3 +109,15 @@ In terms of work on the project my primary focus is on backend development. This
 -Developing backend services (Budget, Checklist, Itinerary, Location).<br>
 -Creating unit as well as Integration tests for a portion of the micro-services.<br>
 -Debugging possible errors which have occured throughout development.<br>
+
+## Ashton Flowerday
+
+As a front-end developer, I mostly implemented the pages that the user will interact with: <br>
+- The Adventure list <br>
+- The adventure dashboard <br>
+- The itinerary, checklist and budget <br>
+- The itinerary, checklist and budget trash <br>
+- The itinerary, checklist and budget items page <br>
+- Group chat and direct chat <br>
+- Media/files/documents system <br>
+
