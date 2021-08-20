@@ -118,6 +118,7 @@ As a front-end developer, I mostly implemented the pages that the user will inte
 - The itinerary, checklist and budget <br>
 - The itinerary, checklist and budget trash <br>
 - The itinerary, checklist and budget items page <br>
+- The forms for the creation of itinerary, checklist and budget <br>
 - Group chat and direct chat <br>
-- Media/files/documents system <br>
+- Media/files/documents <br>
 
