@@ -98,17 +98,17 @@ Here you can see all the information regarding our github insights.<br>
 ## Hai-muo Cui
 
 I was nominated as team lead for TheSmartPointers and thus my main priority was ensuring that the team worked in harmony and mainaining a bridge of communication between the team and our lecturer mentor as well as our industy mentor. This includes scheduling weekly meetings with our industy mentor as well as chairing daily meeting with the team. In terms of work on the project my primary focus is on backend development. This includes developing and working the following:<br><br>
--Developing backend services (Chat, Timeline, Notification, Main controller).<br>
--Integrating micro-services together in the main controller.<br>
--Creating unit as well as Integration tests for a portion of the micro-services.<br>
--Debugging possible errors which have occured throughout development.<br>
+- Developing backend services (Chat, Timeline, Notification, Main controller).<br>
+- Integrating micro-services together in the main controller.<br>
+- Creating unit as well as Integration tests for a portion of the micro-services.<br>
+- Debugging possible errors which have occured throughout development.<br>
 
 ## Shivek Goodoon
 
 In terms of work on the project my primary focus is on backend development. This includes developing and working the following:<br><br>
--Developing backend services (Budget, Checklist, Itinerary, Location).<br>
--Creating unit as well as Integration tests for a portion of the micro-services.<br>
--Debugging possible errors which have occured throughout development.<br>
+- Developing backend services (Budget, Checklist, Itinerary, Location).<br>
+- Creating unit as well as Integration tests for a portion of the micro-services.<br>
+- Debugging possible errors which have occured throughout development.<br>
 
 ## Ashton Flowerday
 
