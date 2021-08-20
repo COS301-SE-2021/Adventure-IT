@@ -1,17 +1,18 @@
 package com.adventureit.maincontroller.Controller;
 
 
-import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
-import com.adventureit.budgetservice.Entity.Budget;
-import com.adventureit.budgetservice.Entity.BudgetEntry;
-import com.adventureit.budgetservice.Requests.*;
-import com.adventureit.budgetservice.Responses.*;
+import com.adventureit.budgetservice.Requests.AddUTOExpenseEntryRequest;
+import com.adventureit.budgetservice.Requests.AddUTUExpenseEntryRequest;
+import com.adventureit.budgetservice.Requests.CreateBudgetRequest;
+import com.adventureit.budgetservice.Requests.EditBudgetRequest;
+import com.adventureit.budgetservice.Responses.BudgetResponseDTO;
+import com.adventureit.budgetservice.Responses.ReportResponseDTO;
+import com.adventureit.budgetservice.Responses.ViewBudgetResponse;
 import com.adventureit.timelineservice.Entity.TimelineType;
 import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -127,7 +128,7 @@ public class MainControllerBudgetReroute {
     }
 
     @GetMapping("/generateIndividualReport/{id}/{userName}")
-    public List<ReportResponseDTO> generateIndividualReport(@PathVariable UUID id,@PathVariable String userName) throws Exception {
+    public List<ReportResponseDTO> generateIndividualReport(@PathVariable UUID id, @PathVariable String userName) throws Exception {
         return restTemplate.getForObject("http://"+ IP + ":" + budgetPort + "/budget/generateIndividualReport/"+id+"/"+userName, List.class);
     }
 

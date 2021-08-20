@@ -8,6 +8,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath> <!-- lookup parent locally -->
 	</parent>
+
 	<artifactId>budget-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>budget-service</name>

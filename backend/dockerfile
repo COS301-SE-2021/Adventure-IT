@@ -1,6 +1,6 @@
 FROM openjdk:11
 
-# ADD ../main-controller/target/main-controller-0.0.1-SNAPSHOT.jar
+# COPY ../main-controller/target/main-controller-0.0.1-SNAPSHOT.jar
 COPY ./microservices/adventure-service/target/adventure-service-0.0.1-SNAPSHOT.jar .
 COPY ./microservices/budget-service/target/budget-service-0.0.1-SNAPSHOT.jar .
 COPY ./microservices/chat-service/target/chat-service-0.0.1-SNAPSHOT.jar .
