@@ -1,0 +1,18 @@
+FROM openjdk:11
+
+# ADD ../main-controller/target/main-controller-0.0.1-SNAPSHOT.jar
+COPY ./microservices/adventure-service/target/adventure-service-0.0.1-SNAPSHOT.jar .
+COPY ./microservices/budget-service/target/budget-service-0.0.1-SNAPSHOT.jar .
+COPY ./microservices/chat-service/target/chat-service-0.0.1-SNAPSHOT.jar .
+COPY ./microservices/checklist-service/target/checklist-service-0.0.1-SNAPSHOT.jar .
+COPY ./microservices/itinerary-service/target/itinerary-service-0.0.1-SNAPSHOT.jar .
+COPY ./microservices/location-service/target/location-service-0.0.1-SNAPSHOT.jar .
+COPY ./microservices/media-service/target/media-service-0.0.1-SNAPSHOT.jar .
+COPY ./microservices/notification-service/target/notification-service-0.0.1-SNAPSHOT.jar .
+COPY ./microservices/sharing-service/target/sharing-service-0.0.1-SNAPSHOT.jar .
+COPY ./microservices/timeline-service/target/timeline-service-0.0.1-SNAPSHOT.jar .
+COPY ./microservices/user-service/target/user-service-0.0.1-SNAPSHOT.jar .
+COPY ./service-registry/target/service-registry-0.0.1-SNAPSHOT.jar .
+COPY ./run_backend.sh .
+
+CMD ["bash", "./run_backend.sh"]
