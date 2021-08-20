@@ -11,27 +11,27 @@ itinerary planning, check lists, expense tracking, media sharing and more.
 [![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2021/Adventure-IT)](https://github.com/COS301-SE-2021/Adventure-IT/issues)
 [![GitHub stars](https://img.shields.io/github/stars/COS301-SE-2021/Adventure-IT)](https://github.com/COS301-SE-2021/Adventure-IT/stargazers)
 ---
-##Branching Strategy
+## Branching Strategy
 master(build)<br>
 -----development(build)<br>
 ----------feature-module_name(build)
 
 ## Technologies
-###Frontend:
+### Frontend:
 Flutter
 
-###Backend:
+### Backend:
 Java<br>
 Keycloak<br>
 Google<br>
 Postgresql<br>
 
-##Project Management:
+## Project Management:
 
-##Github
+## Github
 [Github Link](https://github.com/COS301-SE-2021/Adventure-IT)
 
-###Project Boards:
+### Project Boards:
 Here you can access all the sprints which we have created through out the development of Adventure it.<br>
 
 - [Sprint #7](https://github.com/COS301-SE-2021/Adventure-IT/projects/9)
@@ -42,15 +42,15 @@ Here you can access all the sprints which we have created through out the develo
 - [Sprint #2](https://github.com/COS301-SE-2021/Adventure-IT/projects/2)
 - [Sprint #1](https://github.com/COS301-SE-2021/Adventure-IT/projects/1)
 
-###Github Actions:
+### Github Actions:
 Here you can see all the information regarding our github actions.<br>
 [Github Actions](https://github.com/COS301-SE-2021/Adventure-IT/actions)
 
-###Github Insights:
+### Github Insights:
 Here you can see all the information regarding our github insights.<br>
 [Github Insights](https://github.com/COS301-SE-2021/Adventure-IT/pulse)
 
-##Documentation
+## Documentation
 
 [SRS Document v1](https://drive.google.com/file/d/1DJac4OXOmo8ij1sMzBcdFF_d9OdwDBye/view?usp=sharing)<br>
 [SRS Document v2](https://drive.google.com/file/d/1LPZtS6qBy6Foezpoy15aoF5_OKYFg4UK/view?usp=sharing)<br>
@@ -76,9 +76,9 @@ Here you can see all the information regarding our github insights.<br>
 |![Firstname Lastname](https://i.ibb.co/L5DYmGf/alex.jpg "Profile Picture") <br/> Wilhelm Alexander Human <br/> u19069716 <br/> (Back-end)   |      [GitHub](https://github.com/u19069716) <br/> [Profile Page]() <br/> [LinkedIn](https://www.linkedin.com/in/alex-human-33a2a6192/) <br/>|Distributed Systems <br> Web Technologies <br> |
 ---
 
-#Team contributions:
+# Team contributions:
 
-##Hai-muo Cui
+## Hai-muo Cui
 I was nominated as team lead for TheSmartPointers and thus my main priority was ensuring that the team worked in harmony and mainaining a bridge of communication between the team and our lecturer mentor as well as our industy mentor. This includes scheduling weekly meetings with our industy mentor as well as chairing daily meeting with the team. In terms of work on the project my primary focus is on backend development. This includes developing and working the following:<br><br>
 -Developing backend services (Chat, Timeline, Notification, Main controller).<br>
 -Integrating micro-services together in the main controller.<br>
