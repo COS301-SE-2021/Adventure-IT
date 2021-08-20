@@ -113,7 +113,7 @@ In terms of work on the project my primary focus is on backend development. This
 
 ## Ashton Flowerday (20%)
 
-As a front-end developer, I mostly implemented the pages that the user will interact with: <br>
+As a front-end developer, I mostly implemented the pages that the user will interact with. This work included making API calls and ordering the data recieved from the database into a format that was easy to understand and pleasing to the eye, ordering the layout to work for both web and mobile, implementing the navigation of the app and its overall aesthetic and general bug fixes. The pages I was in charge of were: 
 - The Adventure list <br>
 - The adventure dashboard <br>
 - The itinerary, checklist and budget <br>
@@ -122,7 +122,7 @@ As a front-end developer, I mostly implemented the pages that the user will inte
 - The forms for the creation of itinerary, checklist and budget <br>
 - Group chat and direct chat <br>
 - Media/files/documents <br>
-This work included making API calls and ordering the data recieved from the database into a format that was easy to understand and pleasing to the eye, ordering the layout to work for both web and mobile, implementing the navigation of the app and its overall aesthetic.
+
 
 ## Simran Rathilal (20%)
 
