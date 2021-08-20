@@ -122,3 +122,11 @@ As a front-end developer, I mostly implemented the pages that the user will inte
 - Group chat and direct chat <br>
 - Media/files/documents <br>
 
+## Simran Rathilal
+
+I took more of an admin role in the group. I made sure everyone knew when group meetings were happening and took meeting minutes in each of the meetings. I also posted announcements which included some tutorials on how certain stuff work. In terms of coding, my primary focus was the middle layer and front-end development, this included the following:<br><br>
+- I made API classes for each microservice.<br>
+- I created the get and post requests which connects front-end to back-end functionality.<br>
+- Created dart files in the API for each function required on the front-end.<br>
+- I worked on the navigation bar.<br>
+- I worked on certain front-end pages including Login, Register, Timeline and Profile.<br>
