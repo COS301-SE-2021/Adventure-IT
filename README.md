@@ -96,7 +96,7 @@ Here you can see all the information regarding our github insights.<br>
 
 # Team contributions:
 
-## Hai-muo Cui
+## Hai-muo Cui (20%)
 
 I was nominated as team lead for TheSmartPointers and thus my main priority was ensuring that the team worked in harmony and mainaining a bridge of communication between the team and our lecturer mentor as well as our industy mentor. This includes scheduling weekly meetings with our industy mentor as well as chairing daily meeting with the team. In terms of work on the project my primary focus is on backend development. This includes developing and working the following:<br><br>
 - Developing backend services (Chat, Timeline, Notification, Main controller).<br>
@@ -104,14 +104,14 @@ I was nominated as team lead for TheSmartPointers and thus my main priority was 
 - Creating unit as well as Integration tests for a portion of the micro-services.<br>
 - Debugging possible errors which have occured throughout development.<br>
 
-## Shivek Goodoon
+## Shivek Goodoon (20%)
 
 In terms of work on the project my primary focus is on backend development. This includes developing and working the following:<br><br>
 - Developing backend services (Budget, Checklist, Itinerary, Location).<br>
 - Creating unit as well as Integration tests for a portion of the micro-services.<br>
 - Debugging possible errors which have occured throughout development.<br>
 
-## Ashton Flowerday
+## Ashton Flowerday (20%)
 
 As a front-end developer, I mostly implemented the pages that the user will interact with: <br>
 - The Adventure list <br>
@@ -122,8 +122,9 @@ As a front-end developer, I mostly implemented the pages that the user will inte
 - The forms for the creation of itinerary, checklist and budget <br>
 - Group chat and direct chat <br>
 - Media/files/documents <br>
+This work included making API calls and ordering the data recieved from the database into a format that was easy to understand and pleasing to the eye, ordering the layout to work for both web and mobile, implementing the navigation of the app and its overall aesthetic.
 
-## Simran Rathilal
+## Simran Rathilal (20%)
 
 I took more of an admin role in the group. I made sure everyone knew when group meetings were happening and took meeting minutes in each of the meetings. I also posted announcements which included some tutorials on how certain stuff work. In terms of coding, my primary focus was the middle layer and front-end development, this included the following:<br><br>
 - I made API classes for each microservice.<br>
@@ -132,7 +133,7 @@ I took more of an admin role in the group. I made sure everyone knew when group 
 - I worked on the navigation bar.<br>
 - I worked on certain front-end pages including Login, Register, Timeline and Profile.<br>
 
-## Alex Human
+## Alex Human (20%)
 I was involved in the overall architectural design & implementation of the Adventure-It system, fulfilling a full-stack development role.
 Namely, I was involved in the following:
 - The organization & architecture of the microservices and the main-controller.
