@@ -70,9 +70,10 @@ Here you can see all the information regarding our github insights.<br>
 
 [SRS Document v1](https://drive.google.com/file/d/1DJac4OXOmo8ij1sMzBcdFF_d9OdwDBye/view?usp=sharing)<br>
 [SRS Document v2](https://drive.google.com/file/d/1LPZtS6qBy6Foezpoy15aoF5_OKYFg4UK/view?usp=sharing)<br>
-[SRS Document v3](https://drive.google.com/file/d/1XTNPcqGUv0VXY10nnx7jFg6lFLlGLfVY/view?usp=sharing)<br>
+[SRS Document v3]()<br>
 [Architectural Document v1](https://drive.google.com/file/d/1XTNPcqGUv0VXY10nnx7jFg6lFLlGLfVY/view?usp=sharing)<br>
 [Architectural Document v2]()<br>
+[Architectural Document v3](https://drive.google.com/file/d/1XTNPcqGUv0VXY10nnx7jFg6lFLlGLfVY/view?usp=sharing)<br>
 [Installation Guide]()<br>
 [User Manual](https://drive.google.com/file/d/1Emq7qZ7IsgRWLM5CVBmfHSHNnznoFgae/view?usp=sharing)<br>
 [Coding Standards](https://drive.google.com/file/d/1ClujSTTNhTaBaEZyX3D06QsrvCr_glH_/view?usp=sharing)
@@ -99,12 +100,5 @@ Here you can see all the information regarding our github insights.<br>
 I was nominated as team lead for TheSmartPointers and thus my main priority was ensuring that the team worked in harmony and mainaining a bridge of communication between the team and our lecturer mentor as well as our industy mentor. This includes scheduling weekly meetings with our industy mentor as well as chairing daily meeting with the team. In terms of work on the project my primary focus is on backend development. This includes developing and working the following:<br><br>
 -Developing backend services (Chat, Timeline, Notification, Main controller).<br>
 -Integrating micro-services together in the main controller.<br>
--Creating unit as well as Integration tests for a portion of the micro-services.<br>
--Debugging possible errors which have occured throughout development.<br>
-
-## Shivek Goodoon
-
-In terms of work on the project my primary focus is on backend development. This includes developing and working the following:<br><br>
--Developing backend services (Budget, Checklist, Itinerary, Location).<br>
 -Creating unit as well as Integration tests for a portion of the micro-services.<br>
 -Debugging possible errors which have occured throughout development.<br>
