@@ -12,7 +12,6 @@ public class GetAdventureByUUIDRequest{
      * @param id id of the adventure that needs to be retrieved
      */
 
-
     public GetAdventureByUUIDRequest(UUID id){
         this.id = id;
     }

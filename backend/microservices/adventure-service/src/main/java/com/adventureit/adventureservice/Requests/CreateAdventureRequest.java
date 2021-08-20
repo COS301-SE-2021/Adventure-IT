@@ -1,12 +1,8 @@
 package com.adventureit.adventureservice.Requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.UUID;
 
 public class CreateAdventureRequest{
@@ -18,7 +14,6 @@ public class CreateAdventureRequest{
     private String startDate;
     private String endDate;
     private String location;
-
 
     /**
      * This service will be used to generate a CreateAdventure request

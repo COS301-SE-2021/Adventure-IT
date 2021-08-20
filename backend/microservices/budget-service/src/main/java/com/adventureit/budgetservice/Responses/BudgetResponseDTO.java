@@ -1,6 +1,5 @@
 package com.adventureit.budgetservice.Responses;
 
-import java.util.List;
 import java.util.UUID;
 
 public class BudgetResponseDTO {

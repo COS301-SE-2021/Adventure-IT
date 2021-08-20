@@ -3,7 +3,6 @@ package com.adventureit.budgetservice.Requests;
 import com.adventureit.budgetservice.Entity.Category;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
 import java.util.UUID;
 
 public class AddUTUExpenseEntryRequest {
@@ -14,7 +13,6 @@ public class AddUTUExpenseEntryRequest {
     String description;
     Category category;
     String payee;
-
 
     public AddUTUExpenseEntryRequest(){}
 
@@ -43,7 +41,6 @@ public class AddUTUExpenseEntryRequest {
     public void setCategory(Category category) {
         this.category = category;
     }
-
 
     public void setEntryContainerID(UUID entryContainerID) {
         this.entryContainerID = entryContainerID;

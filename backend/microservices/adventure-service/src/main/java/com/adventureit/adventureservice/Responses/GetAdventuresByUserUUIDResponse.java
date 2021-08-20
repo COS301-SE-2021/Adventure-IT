@@ -1,7 +1,5 @@
 package com.adventureit.adventureservice.Responses;
 
-import com.adventureit.adventureservice.Entity.Adventure;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -45,11 +43,9 @@ public class GetAdventuresByUserUUIDResponse {
         this.adventureId = adventureId;
     }
 
-
     public void setAttendees(List<UUID> attendees) {
         this.attendees = attendees;
     }
-
 
     public void setOwnerId(UUID ownerId) {
         this.ownerId = ownerId;
@@ -63,11 +59,9 @@ public class GetAdventuresByUserUUIDResponse {
         return description;
     }
 
-
     public List<UUID> getAttendees() {
         return attendees;
     }
-
 
     public LocalDate getStartDate() {
         return startDate;

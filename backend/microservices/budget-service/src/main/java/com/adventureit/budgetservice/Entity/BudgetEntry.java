@@ -3,11 +3,9 @@ package com.adventureit.budgetservice.Entity;
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
-
 public class BudgetEntry{
     @Id
     private UUID budgetEntryID;

@@ -1,12 +1,10 @@
 package com.adventureit.budgetservice.Controllers;
 
 import com.adventureit.budgetservice.Entity.Budget;
-import com.adventureit.budgetservice.Entity.BudgetEntry;
 import com.adventureit.budgetservice.Repository.BudgetRepository;
 import com.adventureit.budgetservice.Requests.*;
 import com.adventureit.budgetservice.Responses.*;
 import com.adventureit.budgetservice.Service.BudgetServiceImplementation;
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -145,6 +143,5 @@ public class BudgetController {
 	public BudgetResponseDTO getBudgetByBudgetEntryId(@PathVariable UUID budgetId) {
 		return budgetServiceImplementation.getBudgetByBudgetEntryId(budgetId);
 	}
-
 
 }

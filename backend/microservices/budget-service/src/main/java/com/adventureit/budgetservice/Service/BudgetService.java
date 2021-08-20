@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface BudgetService {
+
     BudgetResponseDTO getBudgetByBudgetContainerId(UUID budgetId);
     CreateBudgetResponse createBudget(String name, String description,UUID creatorID, UUID adventureID) throws Exception;
     List<ViewBudgetResponse> viewBudget(UUID id) throws Exception;
@@ -28,5 +29,4 @@ public interface BudgetService {
     double calculateExpensesPerUser(UUID budgetID, String userName ) throws Exception;
     List<Integer> getEntriesPerCategory(UUID adventureID) throws Exception;
     public BudgetResponseDTO getBudgetByBudgetEntryId(UUID budgetId);
-
 }

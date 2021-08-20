@@ -28,6 +28,7 @@ public class AdventureServiceImplementation implements AdventureService {
     public AdventureServiceImplementation(AdventureRepository adventureRepository){
         this.adventureRepository = adventureRepository;
     }
+
     /**
      *
      * @param req
@@ -49,6 +50,7 @@ public class AdventureServiceImplementation implements AdventureService {
      * @return CreateAdventureResponse Object which will indicate whether
      * registration was successful or if an error occurred
      */
+
     @Override
     public CreateAdventureResponse createAdventure(CreateAdventureRequest req) {
         if(req.getOwnerId() == null ){
@@ -258,7 +260,5 @@ public class AdventureServiceImplementation implements AdventureService {
         adventure.getAttendees().add(userID);
         adventureRepository.save(adventure);
     }
-
-
 
 }

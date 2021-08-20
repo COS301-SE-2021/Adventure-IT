@@ -1,10 +1,7 @@
 package com.adventureit.budgetservice.Requests;
 
-import com.adventureit.budgetservice.Entity.BudgetEntry;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class CreateBudgetRequest {

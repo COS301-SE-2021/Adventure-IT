@@ -127,10 +127,10 @@ public class ItineraryServiceUnitTests {
         Assertions.assertEquals(sut.restoreItinerary(validItineraryID1,validUserID),"Itinerary was restored");
     }
 
-//    @Test
-//    @Description("Ensuring a user can get a Itinerary by ID")
-//    public void getItineraryByIDValid_ReturnsString() throws Exception {
-//        Mockito.when(mockItineraryRepository.findItineraryById(validItineraryID1)).thenReturn(mockItinerary1);
-//        Assertions.assertTrue(sut.getItineraryById(validItineraryID1) != null);
-//    }
+    @Test
+    @Description("Ensuring a user can get a Itinerary by ID")
+    public void getItineraryByIDValid_ReturnsString() throws Exception {
+        Mockito.when(mockItineraryRepository.getItineraryById(validItineraryID1)).thenReturn(mockItinerary1);
+        Assertions.assertNotNull(sut.getItineraryById(validItineraryID1));
+    }
 }
