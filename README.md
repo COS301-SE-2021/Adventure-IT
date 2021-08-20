@@ -130,3 +130,12 @@ I took more of an admin role in the group. I made sure everyone knew when group 
 - Created dart files in the API for each function required on the front-end.<br>
 - I worked on the navigation bar.<br>
 - I worked on certain front-end pages including Login, Register, Timeline and Profile.<br>
+
+## Alex Human
+I was involved in the overall architectural design & implementation of the Adventure-It system, fulfilling a full-stack development role.
+Namely, I was involved in the following:
+- The organization & architecture of the microservices and the main-controller.
+- Implemetation of numerous microservices.
+- Front-end implementation of functionality.
+- Front-end integration of back-end functionality.
+- Integration of Keycloak for user verification.
