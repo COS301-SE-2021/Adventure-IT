@@ -100,3 +100,10 @@ I was nominated as team lead for TheSmartPointers and thus my main priority was 
 -Integrating micro-services together in the main controller.<br>
 -Creating unit as well as Integration tests for a portion of the micro-services.<br>
 -Debugging possible errors which have occured throughout development.<br>
+
+## Shivek Goodoon
+
+In terms of work on the project my primary focus is on backend development. This includes developing and working the following:<br><br>
+-Developing backend services (Budget, Checklist, Itinerary, Location).<br>
+-Creating unit as well as Integration tests for a portion of the micro-services.<br>
+-Debugging possible errors which have occured throughout development.<br>
