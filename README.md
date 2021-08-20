@@ -34,8 +34,9 @@ Postgresql<br>
 ## Branching Strategy
 
 master(build)<br>
------development(build)<br>
-----------feature-module_name(build)
+----- development(build)<br>
+---------- sprint_sprintNumber<br>
+--------------- sprint_sprintNumber-functionality<br>
 
 ## Project Management:
 
