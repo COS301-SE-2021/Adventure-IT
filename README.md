@@ -74,14 +74,12 @@ Here you can see all the information regarding our github insights.<br>
 [Architectural Document v1](https://drive.google.com/file/d/1XTNPcqGUv0VXY10nnx7jFg6lFLlGLfVY/view?usp=sharing)<br>
 [Architectural Document v2](https://drive.google.com/file/d/1XTNPcqGUv0VXY10nnx7jFg6lFLlGLfVY/view?usp=sharing)<br>
 [Architectural Document v3](https://drive.google.com/file/d/1XTNPcqGUv0VXY10nnx7jFg6lFLlGLfVY/view?usp=sharing)<br>
-[Installation Guide (backend)](https://github.com/COS301-SE-2021/Adventure-IT/tree/master/backend)<br>
-[Installation Guide (frontend)](https://github.com/COS301-SE-2021/Adventure-IT/tree/master/frontend)<br>
+[Installation Manual](https://docs.google.com/document/d/1r6nb-dCZeQTjO89G5isKkToT11sa6DD6xrFuNmGJkmc/edit?usp=sharing)<br>
 [User Manual](https://drive.google.com/file/d/1Emq7qZ7IsgRWLM5CVBmfHSHNnznoFgae/view?usp=sharing)<br>
 [Coding Standards](https://drive.google.com/file/d/1ClujSTTNhTaBaEZyX3D06QsrvCr_glH_/view?usp=sharing)
 [Demo Video v1](https://drive.google.com/file/d/1xA5vm6o-PZxjv8IV9Esl6hzKomYmctHx/view?usp=sharing)
 [Demo Video v2](https://drive.google.com/file/d/10PP2_JCQ90dlmak3jAMOfE-B60tDR8E-/view?usp=sharing)
 [Demo Video v3](https://drive.google.com/file/d/12lckbmYwm47iZtwvPRzNUy0j83XWS4Yc/view?usp=sharing)
-[Installation Manual](https://docs.google.com/document/d/1r6nb-dCZeQTjO89G5isKkToT11sa6DD6xrFuNmGJkmc/edit?usp=sharing)
 
 ## Team Members
 
