@@ -81,6 +81,7 @@ Here you can see all the information regarding our github insights.<br>
 [Demo Video v1](https://drive.google.com/file/d/1xA5vm6o-PZxjv8IV9Esl6hzKomYmctHx/view?usp=sharing)
 [Demo Video v2](https://drive.google.com/file/d/10PP2_JCQ90dlmak3jAMOfE-B60tDR8E-/view?usp=sharing)
 [Demo Video v3](https://drive.google.com/file/d/12lckbmYwm47iZtwvPRzNUy0j83XWS4Yc/view?usp=sharing)
+[Installation Manual](https://docs.google.com/document/d/1r6nb-dCZeQTjO89G5isKkToT11sa6DD6xrFuNmGJkmc/edit?usp=sharing)
 
 ## Team Members
 
