@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.UUID;
 
-
 @Repository
 public interface BudgetRepository extends JpaRepository<Budget,UUID> {
         Budget findBudgetByBudgetID(UUID id);
@@ -15,6 +14,5 @@ public interface BudgetRepository extends JpaRepository<Budget,UUID> {
         ArrayList<Budget> findAllByDeletedEquals(boolean deleted);
         ArrayList<Budget> findAllByAdventureID(UUID id);
         ArrayList<Budget> findAllByAdventureIDAndDeletedEquals(UUID id,boolean deleted);
-
 }
 

@@ -1,8 +1,5 @@
 package com.adventureit.adventureservice.Entity;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -48,7 +45,6 @@ public class Adventure{
         this.location = location;
     }
 
-
     /**
      * Adventure service to retrieve adventure's name
      * @return name
@@ -93,7 +89,6 @@ public class Adventure{
      * Adventure service to retrieve adventure's Containers
      * @return Containers
      */
-
 
     public void addAttendee(UUID attendeeID){
         this.attendees.add(attendeeID);
@@ -144,6 +139,5 @@ public class Adventure{
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
-
 
 }

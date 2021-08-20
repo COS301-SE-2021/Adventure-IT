@@ -6,14 +6,12 @@ import com.adventureit.budgetservice.Repository.BudgetEntryRepository;
 import com.adventureit.budgetservice.Repository.BudgetRepository;
 import com.adventureit.budgetservice.Requests.*;
 import com.adventureit.budgetservice.Responses.*;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-
 
 @Service("BudgetServiceImplementation")
 public class BudgetServiceImplementation implements BudgetService {
@@ -510,6 +508,5 @@ public class BudgetServiceImplementation implements BudgetService {
         //Budget budget = new Budget(mockBudgetID,name, "hello hello hello",UUID.randomUUID(),UUID.fromString("ad8e9b74-b4be-464e-a538-0cb78e9c2f8b"),6000);
         //budgetRepository.save(budget);
     }
-
 
 }

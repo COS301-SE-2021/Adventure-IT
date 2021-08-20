@@ -130,7 +130,7 @@ public class ItineraryServiceUnitTests {
     @Test
     @Description("Ensuring a user can get a Itinerary by ID")
     public void getItineraryByIDValid_ReturnsString() throws Exception {
-        Mockito.when(mockItineraryRepository.findItineraryById(validItineraryID1)).thenReturn(mockItinerary1);
-        Assertions.assertTrue(sut.getItineraryById(validItineraryID1) != null);
+        Mockito.when(mockItineraryRepository.getItineraryById(validItineraryID1)).thenReturn(mockItinerary1);
+        Assertions.assertNotNull(sut.getItineraryById(validItineraryID1));
     }
 }

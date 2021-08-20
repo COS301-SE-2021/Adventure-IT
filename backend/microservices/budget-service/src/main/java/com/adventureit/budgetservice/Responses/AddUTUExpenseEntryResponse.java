@@ -1,6 +1,5 @@
 package com.adventureit.budgetservice.Responses;
 
-import java.util.UUID;
 
 public class AddUTUExpenseEntryResponse {
     boolean success;
