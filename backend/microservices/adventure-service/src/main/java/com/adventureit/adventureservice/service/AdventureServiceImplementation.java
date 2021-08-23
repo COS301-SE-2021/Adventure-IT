@@ -17,10 +17,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-@Service()
+@Service
 public class AdventureServiceImplementation implements AdventureService {
 
-    private AdventureRepository adventureRepository;
+    private final AdventureRepository adventureRepository;
 
     private RestTemplate restTemplate;
 
