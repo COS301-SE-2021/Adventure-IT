@@ -10,7 +10,6 @@ import com.adventureit.adventureservice.responses.*;
 import com.adventureit.adventureservice.exceptions.NullFieldException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -21,8 +20,6 @@ import java.util.*;
 public class AdventureServiceImplementation implements AdventureService {
 
     private final AdventureRepository adventureRepository;
-
-    private RestTemplate restTemplate;
 
     public AdventureServiceImplementation(AdventureRepository adventureRepository){
         this.adventureRepository = adventureRepository;
