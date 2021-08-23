@@ -11,9 +11,8 @@ public class ChecklistDTO {
     private String description;
     private boolean deleted;
 
-    ChecklistDTO(){
+    ChecklistDTO(){}
 
-    }
     public ChecklistDTO(UUID id, UUID creatorID, UUID adventureID, String title, String description, boolean deleted) {
         this.id = id;
         this.creatorID = creatorID;
