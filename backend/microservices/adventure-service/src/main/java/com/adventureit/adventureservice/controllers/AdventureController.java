@@ -6,7 +6,6 @@ import com.adventureit.adventureservice.Responses.GetAdventuresByUserUUIDRespons
 import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
 import com.adventureit.adventureservice.Responses.RemoveAdventureResponse;
 import com.adventureit.adventureservice.Service.AdventureServiceImplementation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +15,11 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/adventure")
 public class AdventureController {
-    @Autowired
     AdventureServiceImplementation adventureServiceImplementation;
+
+    public AdventureController(AdventureServiceImplementation adventureServiceImplementation){
+        this.adventureServiceImplementation = adventureServiceImplementation;
+    }
 
     @GetMapping("/test")
     public String test() {
