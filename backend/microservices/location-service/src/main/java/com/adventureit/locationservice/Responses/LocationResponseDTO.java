@@ -4,47 +4,45 @@ import java.util.UUID;
 
 public class LocationResponseDTO {
     private UUID id;
-    String photo_reference;
+    String photoReference;
     String formattedAddress;
-    String place_id;
+    String placeId;
 
-    public LocationResponseDTO(UUID id, String photo_reference, String formattedAddress, String place_id){
+    public LocationResponseDTO(UUID id, String photoReference, String formattedAddress, String placeId){
         this.id =id;
-        this.photo_reference = photo_reference;
+        this.photoReference = photoReference;
         this.formattedAddress = formattedAddress;
-        this.place_id = place_id;
+        this.placeId = placeId;
     }
 
-    public LocationResponseDTO(){
+    public LocationResponseDTO(){}
 
-    }
-
-    public String getPhoto_reference() {
-        return photo_reference;
+    public String getPhotoReference() {
+        return photoReference;
     }
 
     public UUID getId() {
         return id;
     }
 
-    public String getPlace_id() {
-        return place_id;
+    public String getPlaceId() {
+        return placeId;
     }
 
     public String getFormattedAddress() {
         return formattedAddress;
     }
 
-    public void setPhoto_reference(String photo_reference) {
-        this.photo_reference = photo_reference;
+    public void setPhotoReference(String photoReference) {
+        this.photoReference = photoReference;
     }
 
     public void setId(UUID id) {
         this.id = id;
     }
 
-    public void setPlace_id(String place_id) {
-        this.place_id = place_id;
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
     }
 
     public void setFormattedAddress(String formattedAddress) {

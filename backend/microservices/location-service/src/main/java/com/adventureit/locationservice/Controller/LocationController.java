@@ -13,7 +13,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/location")
 public class LocationController {
-
     @Autowired
     LocationServiceImplementation locationServiceImplementation;
 
@@ -31,5 +30,4 @@ public class LocationController {
     public LocationResponseDTO getLocation(@PathVariable UUID id) throws Exception {
         return locationServiceImplementation.getLocation(id);
     }
-
 }
