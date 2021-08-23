@@ -9,9 +9,9 @@ public class CreateAdventureRequest{
 
     private String name;
     private String description;
-    private UUID ownerId;
-    private String startDate;
-    private String endDate;
+    private final UUID ownerId;
+    private final String startDate;
+    private final String endDate;
     private String location;
 
     /**
