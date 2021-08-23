@@ -126,8 +126,7 @@ public class AdventureServiceImplementation implements AdventureService {
     public List<GetAdventuresByUserUUIDResponse> getAdventureByAttendeeUUID(UUID attendeeID) {
         List<Adventure> userAdventures = adventureRepository.findByAttendees(attendeeID);
         if (userAdventures.size() == 0) {
-            AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
-            throw notFound;
+            throw new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
         }
 
         userAdventures.sort(new Comparator<Adventure>() {
