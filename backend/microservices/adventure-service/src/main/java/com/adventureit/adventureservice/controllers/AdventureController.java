@@ -31,6 +31,7 @@ public class AdventureController {
         return adventureServiceImplementation.getAllAdventures();
     }
 
+    // TODO: setLocationAdventures response object
     @GetMapping("/setLocation/{adventureId}/{locationId}")
     public String setLocationAdventures(@PathVariable UUID adventureId,@PathVariable UUID locationId) {
         adventureServiceImplementation.setAdventureLocation(adventureId,locationId);
@@ -61,7 +62,8 @@ public class AdventureController {
     public RemoveAdventureResponse removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
         return adventureServiceImplementation.removeAdventure(id, userID);
     }
-    
+
+    // TODO: getAttendees response object
     @GetMapping("/getAttendees/{id}")
     public List<UUID> getAttendees(@PathVariable UUID id) throws Exception {
         return adventureServiceImplementation.getAttendees(id);
