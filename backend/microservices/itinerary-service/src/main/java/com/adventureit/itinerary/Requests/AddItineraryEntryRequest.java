@@ -1,10 +1,7 @@
 package com.adventureit.itinerary.Requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
 public class AddItineraryEntryRequest {
