@@ -12,6 +12,7 @@ import java.util.UUID;
 
 public interface AdventureService{
 
+    // TODO: Define specific exceptions here, against convention to throw a generic exception
     public CreateAdventureResponse createAdventure(CreateAdventureRequest req) throws Exception;
     public GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req) throws Exception;
     public List<GetAllAdventuresResponse> getAllAdventures();
