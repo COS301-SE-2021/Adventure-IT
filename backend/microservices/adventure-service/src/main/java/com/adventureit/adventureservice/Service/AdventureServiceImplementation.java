@@ -2,12 +2,12 @@ package com.adventureit.adventureservice.Service;
 
 
 import com.adventureit.adventureservice.entity.Adventure;
-import com.adventureit.adventureservice.Exceptions.AdventureNotFoundException;
+import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
 import com.adventureit.adventureservice.Repository.AdventureRepository;
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
 import com.adventureit.adventureservice.Responses.*;
-import com.adventureit.adventureservice.Exceptions.NullFieldException;
+import com.adventureit.adventureservice.exceptions.NullFieldException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

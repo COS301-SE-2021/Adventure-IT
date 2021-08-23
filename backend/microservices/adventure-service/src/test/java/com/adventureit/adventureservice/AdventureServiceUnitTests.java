@@ -6,7 +6,7 @@ import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
 import com.adventureit.adventureservice.Responses.*;
 import com.adventureit.adventureservice.Service.AdventureServiceImplementation;
-import com.adventureit.adventureservice.Exceptions.AdventureNotFoundException;
+import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

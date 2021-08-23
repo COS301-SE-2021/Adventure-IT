@@ -1,4 +1,4 @@
-package com.adventureit.adventureservice.Exceptions;
+package com.adventureit.adventureservice.exceptions;
 
 public class NullFieldException extends RuntimeException {
 
