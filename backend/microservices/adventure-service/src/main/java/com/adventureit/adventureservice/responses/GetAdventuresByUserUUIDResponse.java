@@ -9,7 +9,7 @@ public class GetAdventuresByUserUUIDResponse {
     private String name;
     private UUID adventureId;
     private UUID ownerId;
-    private List<UUID> attendees;
+    private final List<UUID> attendees;
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
