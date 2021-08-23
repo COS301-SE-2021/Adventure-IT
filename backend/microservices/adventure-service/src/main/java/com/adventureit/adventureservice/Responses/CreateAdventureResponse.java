@@ -1,5 +1,5 @@
 package com.adventureit.adventureservice.Responses;
-import com.adventureit.adventureservice.Entity.Adventure;
+import com.adventureit.adventureservice.entity.Adventure;
 
 public class CreateAdventureResponse {
 

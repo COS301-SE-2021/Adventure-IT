@@ -1,7 +1,7 @@
 package com.adventureit.adventureservice.Service;
 
 
-import com.adventureit.adventureservice.Entity.Adventure;
+import com.adventureit.adventureservice.entity.Adventure;
 import com.adventureit.adventureservice.Exceptions.AdventureNotFoundException;
 import com.adventureit.adventureservice.Repository.AdventureRepository;
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;

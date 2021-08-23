@@ -1,24 +1,18 @@
 package com.adventureit.maincontroller.Controller;
 
-import com.adventureit.adventureservice.Entity.Adventure;
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.Responses.GetAdventuresByUserUUIDResponse;
 import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
 import com.adventureit.adventureservice.Responses.RemoveAdventureResponse;
 import com.adventureit.chat.Requests.CreateGroupChatRequest;
-import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
-import com.adventureit.locationservice.Entity.Location;
 import com.adventureit.locationservice.Responses.LocationResponseDTO;
 
 import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
 
 import com.adventureit.timelineservice.Entity.TimelineType;
 import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
-import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
-import com.adventureit.maincontroller.Responses.MainItineraryEntryResponseDTO;
 //import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
-import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
 import com.adventureit.userservice.Entities.Users;
 import com.adventureit.userservice.Responses.GetUserByUUIDDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;

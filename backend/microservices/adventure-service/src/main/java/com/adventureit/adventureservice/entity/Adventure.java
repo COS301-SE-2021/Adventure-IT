@@ -1,4 +1,4 @@
-package com.adventureit.adventureservice.Entity;
+package com.adventureit.adventureservice.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
