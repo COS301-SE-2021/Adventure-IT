@@ -74,5 +74,4 @@ public class FileInfo {
     public void setOwner(UUID owner) {
         this.owner = owner;
     }
-
 }

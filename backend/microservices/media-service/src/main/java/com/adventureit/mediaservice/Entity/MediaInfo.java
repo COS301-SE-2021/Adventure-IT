@@ -1,8 +1,5 @@
 package com.adventureit.mediaservice.Entity;
 
-import org.hibernate.validator.constraints.Length;
-import org.springframework.http.MediaType;
-
 import javax.persistence.*;
 import java.util.UUID;
 

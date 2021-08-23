@@ -19,19 +19,14 @@ import java.util.UUID;
 public class MediaController {
     @Autowired
     private MediaServiceImplementation mediaServiceImplementation;
-
     @Autowired
     MediaInfoRepository mediaInfoRepository;
-
     @Autowired
     MediaRepository mediaRepository;
-
     @Autowired
     FileRepository fileRepository;
-
     @Autowired
     FileInfoRepository fileInfoRepository;
-
     @Autowired
     DocumentInfoRepository documentInfoRepository;
 

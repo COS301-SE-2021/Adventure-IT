@@ -1,6 +1,5 @@
 package com.adventureit.mediaservice.Repository;
 
-import com.adventureit.mediaservice.Entity.Media;
 import com.adventureit.mediaservice.Entity.MediaInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

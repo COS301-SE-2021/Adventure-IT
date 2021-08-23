@@ -19,8 +19,7 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import java.util.UUID;
 
-public class MediaServiceUnitTests {
-
+class MediaServiceUnitTests {
     private final MediaRepository mockMediaRepository = Mockito.mock(MediaRepository.class);
     private final MediaInfoRepository mockMediaInfoRepository = Mockito.mock(MediaInfoRepository.class);
     private final FileRepository mockFileRepository = Mockito.mock(FileRepository.class);
@@ -39,35 +38,35 @@ public class MediaServiceUnitTests {
 
     @Test
     @Description("Ensure a user can upload media")
-    public void uploadMedia_ReturnHttpStatus(){
-        Assertions.assertEquals(sut.uploadMedia(new MockMultipartFile("Mock",new byte[1]) ,UUID.randomUUID(),UUID.randomUUID()), HttpStatus.OK);
+    void uploadMedia_ReturnHttpStatus(){
+        Assertions.assertEquals(HttpStatus.OK, sut.uploadMedia(new MockMultipartFile("Mock",new byte[1]) ,UUID.randomUUID(),UUID.randomUUID()));
     }
 
     @Test
     @Description("Ensure a user can upload a file")
-    public void uploadFile_ReturnHttpStatus(){
-        Assertions.assertEquals(sut.uploadFile(new MockMultipartFile("Mock",new byte[1]) ,UUID.randomUUID(),UUID.randomUUID()), HttpStatus.OK);
+    void uploadFile_ReturnHttpStatus(){
+        Assertions.assertEquals(HttpStatus.OK, sut.uploadFile(new MockMultipartFile("Mock",new byte[1]) ,UUID.randomUUID(),UUID.randomUUID()));
     }
 
     @Test
     @Description("Ensure media is uploaded")
-    public void testMediaUploaded_ReturnResponseEntity(){
+    void testMediaUploaded_ReturnResponseEntity(){
         Mockito.when(mockMediaRepository.findMediaById(validMediaID1)).thenReturn(mockMedia);
         ResponseEntity<byte[]> responseEntity = sut.testMediaUploaded(validMediaID1);
-        Assertions.assertEquals(responseEntity.getStatusCodeValue(),200);
+        Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
     }
 
     @Test
     @Description("Ensure file is uploaded")
-    public void testFileUploaded_ReturnResponseEntity(){
+    void testFileUploaded_ReturnResponseEntity(){
         Mockito.when(mockFileRepository.findFileById(validFileID1)).thenReturn(mockFile);
         ResponseEntity<byte[]> responseEntity = sut.testFileUploaded(validFileID1);
-        Assertions.assertEquals(responseEntity.getStatusCodeValue(),200);
+        Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
     }
 
     @Test
     @Description("Ensure user can delete media")
-    public void deleteMediaValid() throws Exception {
+    void deleteMediaValid() throws Exception {
         Mockito.when(mockMediaRepository.findMediaById(validMediaID1)).thenReturn(mockMedia);
         Mockito.when(mockMediaInfoRepository.findMediaById(validMediaID1)).thenReturn(mockMediaInfo);
         sut.deleteMedia(validMediaID1,validUserID1);
@@ -75,7 +74,7 @@ public class MediaServiceUnitTests {
 
     @Test
     @Description("Ensure only owner can delete media")
-    public void deleteMediaInvalid_ThrowsException() throws Exception {
+    void deleteMediaInvalid_ThrowsException() throws Exception {
         Mockito.when(mockMediaRepository.findMediaById(validMediaID1)).thenReturn(mockMedia);
         Mockito.when(mockMediaInfoRepository.findMediaById(validMediaID1)).thenReturn(mockMediaInfo);
         Assertions.assertThrows(Exception.class, ()->{
@@ -85,7 +84,7 @@ public class MediaServiceUnitTests {
 
     @Test
     @Description("Ensure user can delete a file")
-    public void deleteFileValid() throws Exception {
+    void deleteFileValid() throws Exception {
         Mockito.when(mockFileRepository.findFileById(validFileID1)).thenReturn(mockFile);
         Mockito.when(mockFileInfoRepository.findFileInfoById(validFileID1)).thenReturn(mockFileInfo);
         sut.deleteFile(validFileID1,validUserID1);
@@ -93,7 +92,7 @@ public class MediaServiceUnitTests {
 
     @Test
     @Description("Ensure only owner can delete a file")
-    public void deleteFileInvalid_ThrowsException() throws Exception {
+    void deleteFileInvalid_ThrowsException() throws Exception {
         Mockito.when(mockFileRepository.findFileById(validFileID1)).thenReturn(mockFile);
         Mockito.when(mockFileInfoRepository.findFileInfoById(validFileID1)).thenReturn(mockFileInfo);
         Assertions.assertThrows(Exception.class, ()->{
