@@ -108,49 +108,22 @@ public class AdventureServiceImplementation implements AdventureService {
     @Override
     public List<GetAdventuresByUserUUIDResponse> getAdventureByOwnerUUID(UUID ownerID){
         List<Adventure> userAdventures = adventureRepository.findByOwnerId(ownerID);
-        if(userAdventures.size() == 0){
-            throw new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
-        }
-
-        userAdventures.sort(Comparator.comparing(Adventure::getStartDate));
-
-        List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
-        for (Adventure a:userAdventures) {
-            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
-        }
-
-        return list;
+        return sortAdventures(userAdventures);
     }
+
+
 
     @Override
     public List<GetAdventuresByUserUUIDResponse> getAdventureByAttendeeUUID(UUID attendeeID) {
         List<Adventure> userAdventures = adventureRepository.findByAttendees(attendeeID);
-        if (userAdventures.size() == 0) {
-            throw new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
-        }
-
-        userAdventures.sort(Comparator.comparing(Adventure::getStartDate));
-
-        List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
-        for (Adventure a:userAdventures) {
-            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
-        }
-
-        return list;
+        return sortAdventures(userAdventures);
     }
 
     @Override
     public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUUID(UUID id) {
         List<Adventure> userAdventures = adventureRepository.findAllByOwnerIdOrAttendeesContains(id,id);
 
-        userAdventures.sort(Comparator.comparing(Adventure::getStartDate));
-
-        List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
-        for (Adventure a:userAdventures) {
-            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
-        }
-
-        return list;
+        return sortAdventures(userAdventures);
     }
 
     @Transactional
@@ -201,6 +174,22 @@ public class AdventureServiceImplementation implements AdventureService {
 
         adventure.getAttendees().add(userID);
         adventureRepository.save(adventure);
+    }
+
+    // Helper function for sorting adventures, throws an exception if there are no adventures
+    private List<GetAdventuresByUserUUIDResponse> sortAdventures(List<Adventure> userAdventures) {
+        if(userAdventures.size() == 0){
+            throw new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
+        }
+
+        userAdventures.sort(Comparator.comparing(Adventure::getStartDate));
+
+        List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
+        for (Adventure a:userAdventures) {
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
+        }
+
+        return list;
     }
 
 }
