@@ -10,8 +10,8 @@ public class GetAdventuresByUserUUIDResponse {
     private UUID adventureId;
     private UUID ownerId;
     private final List<UUID> attendees;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
     private String description;
     private UUID location;
 
