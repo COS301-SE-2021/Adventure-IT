@@ -4,7 +4,7 @@ import com.adventureit.adventureservice.entity.Adventure;
 import com.adventureit.adventureservice.repository.AdventureRepository;
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.requests.GetAdventureByUUIDRequest;
-import com.adventureit.adventureservice.Responses.*;
+import com.adventureit.adventureservice.responses.*;
 import com.adventureit.adventureservice.Service.AdventureServiceImplementation;
 import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
 import jdk.jfr.Description;

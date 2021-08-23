@@ -1,4 +1,4 @@
-package com.adventureit.adventureservice.Responses;
+package com.adventureit.adventureservice.responses;
 
 public class RemoveAdventureResponse {
     private boolean success;

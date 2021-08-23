@@ -6,7 +6,7 @@ import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
 import com.adventureit.adventureservice.repository.AdventureRepository;
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.requests.GetAdventureByUUIDRequest;
-import com.adventureit.adventureservice.Responses.*;
+import com.adventureit.adventureservice.responses.*;
 import com.adventureit.adventureservice.exceptions.NullFieldException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

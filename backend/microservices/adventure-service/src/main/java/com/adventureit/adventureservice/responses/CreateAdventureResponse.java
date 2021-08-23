@@ -1,4 +1,4 @@
-package com.adventureit.adventureservice.Responses;
+package com.adventureit.adventureservice.responses;
 import com.adventureit.adventureservice.entity.Adventure;
 
 public class CreateAdventureResponse {

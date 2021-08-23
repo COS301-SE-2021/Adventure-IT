@@ -1,10 +1,10 @@
 package com.adventureit.maincontroller.Controller;
 
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
-import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
-import com.adventureit.adventureservice.Responses.GetAdventuresByUserUUIDResponse;
-import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
-import com.adventureit.adventureservice.Responses.RemoveAdventureResponse;
+import com.adventureit.adventureservice.responses.CreateAdventureResponse;
+import com.adventureit.adventureservice.responses.GetAdventuresByUserUUIDResponse;
+import com.adventureit.adventureservice.responses.GetAllAdventuresResponse;
+import com.adventureit.adventureservice.responses.RemoveAdventureResponse;
 import com.adventureit.chat.Requests.CreateGroupChatRequest;
 import com.adventureit.locationservice.Responses.LocationResponseDTO;
 

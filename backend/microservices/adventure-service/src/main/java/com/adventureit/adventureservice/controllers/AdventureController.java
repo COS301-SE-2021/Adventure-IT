@@ -1,10 +1,10 @@
 package com.adventureit.adventureservice.controllers;
 
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
-import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
-import com.adventureit.adventureservice.Responses.GetAdventuresByUserUUIDResponse;
-import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
-import com.adventureit.adventureservice.Responses.RemoveAdventureResponse;
+import com.adventureit.adventureservice.responses.CreateAdventureResponse;
+import com.adventureit.adventureservice.responses.GetAdventuresByUserUUIDResponse;
+import com.adventureit.adventureservice.responses.GetAllAdventuresResponse;
+import com.adventureit.adventureservice.responses.RemoveAdventureResponse;
 import com.adventureit.adventureservice.Service.AdventureServiceImplementation;
 import org.springframework.web.bind.annotation.*;
 

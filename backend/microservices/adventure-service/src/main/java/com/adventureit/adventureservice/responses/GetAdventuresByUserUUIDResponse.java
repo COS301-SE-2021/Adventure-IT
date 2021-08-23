@@ -1,10 +1,10 @@
-package com.adventureit.adventureservice.Responses;
+package com.adventureit.adventureservice.responses;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-public class GetAllAdventuresResponse {
+public class GetAdventuresByUserUUIDResponse {
     private long id;
     private String name;
     private UUID adventureId;
@@ -15,7 +15,7 @@ public class GetAllAdventuresResponse {
     private String description;
     private UUID location;
 
-    public GetAllAdventuresResponse(long id, String name, UUID adventureId, UUID ownerID, List<UUID> attendees, LocalDate startDate,LocalDate endDate, String description, UUID location){
+    public GetAdventuresByUserUUIDResponse(long id, String name, UUID adventureId, UUID ownerID, List<UUID> attendees, LocalDate startDate, LocalDate endDate, String description, UUID location){
         this.id = id;
         this.name = name;
         this.adventureId = adventureId;
@@ -43,28 +43,20 @@ public class GetAllAdventuresResponse {
         this.adventureId = adventureId;
     }
 
+    public void setAttendees(List<UUID> attendees) {
+        this.attendees = attendees;
+    }
+
+    public void setOwnerId(UUID ownerId) {
+        this.ownerId = ownerId;
+    }
+
     public String getName() {
         return name;
     }
 
     public String getDescription() {
         return description;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public UUID getAdventureId() {
-        return adventureId;
-    }
-
-    public UUID getLocation() {
-        return location;
-    }
-
-    public UUID getOwnerId() {
-        return ownerId;
     }
 
     public List<UUID> getAttendees() {
@@ -75,13 +67,35 @@ public class GetAllAdventuresResponse {
         return startDate;
     }
 
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public UUID getAdventureId() {
+        return adventureId;
+    }
+
+    public UUID getOwnerId() {
+        return ownerId;
+    }
+
+    public UUID getLocation() {
+        return location;
     }
 
     public void setLocation(UUID location) {
         this.location = location;
     }
 }
-
-

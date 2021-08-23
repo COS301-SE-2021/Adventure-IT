@@ -2,10 +2,10 @@ package com.adventureit.adventureservice.Service;
 
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.requests.GetAdventureByUUIDRequest;
-import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
-import com.adventureit.adventureservice.Responses.GetAdventureByUUIDResponse;
-import com.adventureit.adventureservice.Responses.GetAdventuresByUserUUIDResponse;
-import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
+import com.adventureit.adventureservice.responses.CreateAdventureResponse;
+import com.adventureit.adventureservice.responses.GetAdventureByUUIDResponse;
+import com.adventureit.adventureservice.responses.GetAdventuresByUserUUIDResponse;
+import com.adventureit.adventureservice.responses.GetAllAdventuresResponse;
 
 import java.util.List;
 import java.util.UUID;
