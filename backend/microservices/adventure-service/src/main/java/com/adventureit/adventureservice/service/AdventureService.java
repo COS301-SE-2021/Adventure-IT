@@ -16,7 +16,7 @@ public interface AdventureService{
     public CreateAdventureResponse createAdventure(CreateAdventureRequest req) throws Exception;
     public GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req) throws Exception;
     public List<GetAllAdventuresResponse> getAllAdventures();
-    public List<GetAdventuresByUserUUIDResponse> getallAdventuresByUUID(UUID id);
+    public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUUID(UUID id);
     public List<GetAdventuresByUserUUIDResponse> getAdventureByOwnerUUID(UUID ownerID);
     public List<GetAdventuresByUserUUIDResponse> getAdventureByAttendeeUUID(UUID attendeeID);
     public List<UUID> getAttendees(UUID id) throws Exception;

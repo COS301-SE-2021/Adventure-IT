@@ -40,7 +40,7 @@ public class AdventureController {
 
     @GetMapping("/all/{id}")
     public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUserUUID(@PathVariable UUID id){
-        return adventureServiceImplementation.getallAdventuresByUUID(id);
+        return adventureServiceImplementation.getAllAdventuresByUUID(id);
     }
 
     @GetMapping("/owner/{id}")
