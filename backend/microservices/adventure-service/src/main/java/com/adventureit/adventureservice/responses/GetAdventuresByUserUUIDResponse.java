@@ -15,6 +15,7 @@ public class GetAdventuresByUserUUIDResponse {
     private String description;
     private UUID location;
 
+    // TODO: Consider rethinking this class, apparently >7 arguments to a constructor is against JAVA convention & could indicate a problem with our architecture
     public GetAdventuresByUserUUIDResponse(long id, String name, UUID adventureId, UUID ownerID, List<UUID> attendees, LocalDate startDate, LocalDate endDate, String description, UUID location){
         this.id = id;
         this.name = name;
