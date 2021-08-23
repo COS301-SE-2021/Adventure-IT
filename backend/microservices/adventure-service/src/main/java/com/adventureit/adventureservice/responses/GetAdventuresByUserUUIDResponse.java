@@ -44,10 +44,6 @@ public class GetAdventuresByUserUUIDResponse {
         this.adventureId = adventureId;
     }
 
-    public void setAttendees(List<UUID> attendees) {
-        this.attendees = attendees;
-    }
-
     public void setOwnerId(UUID ownerId) {
         this.ownerId = ownerId;
     }
