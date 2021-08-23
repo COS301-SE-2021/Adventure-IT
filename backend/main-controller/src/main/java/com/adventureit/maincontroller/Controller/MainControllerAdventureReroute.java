@@ -1,4 +1,4 @@
-package com.adventureit.maincontroller.Controller;
+package com.adventureit.maincontroller.controller;
 
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.responses.CreateAdventureResponse;
@@ -116,14 +116,14 @@ public class MainControllerAdventureReroute {
 
     @GetMapping("/remove/{id}/{userID}")
     public void removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
-         restTemplate.delete("http://"+ IP + ":" + adventurePort + "/adventure/remove/"+id+"/"+userID, RemoveAdventureResponse.class);
+        restTemplate.delete("http://"+ IP + ":" + adventurePort + "/adventure/remove/"+id+"/"+userID, RemoveAdventureResponse.class);
     }
 
     @GetMapping("/addAttendees/{adventureID}/{userID}")
     public String addAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID) throws Exception {
         restTemplate.getForObject("http://"+ IP + ":" + adventurePort + "/adventure/addAttendees/"+adventureID+"/"+userID, String.class);
-       GetUserByUUIDDTO response = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/"+userID, GetUserByUUIDDTO.class);
-       CreateTimelineRequest req2 = new CreateTimelineRequest(adventureID, TimelineType.ADVENTURE,response.getUsername()+" has been added to this adventure" );
+        GetUserByUUIDDTO response = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/"+userID, GetUserByUUIDDTO.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureID, TimelineType.ADVENTURE,response.getUsername()+" has been added to this adventure" );
         restTemplate.getForObject("http://" + IP + ":" + chatPort + "/chat/addParticipant/"+adventureID+"/"+userID, String.class);
         return restTemplate.postForObject("http://"+ IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }

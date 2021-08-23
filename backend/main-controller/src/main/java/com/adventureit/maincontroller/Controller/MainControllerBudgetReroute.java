@@ -1,4 +1,4 @@
-package com.adventureit.maincontroller.Controller;
+package com.adventureit.maincontroller.controller;
 
 
 import com.adventureit.budgetservice.Requests.AddUTOExpenseEntryRequest;
