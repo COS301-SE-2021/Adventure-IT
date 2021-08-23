@@ -1,7 +1,5 @@
 package com.adventureit.itinerary.Service;
 
-
-import com.adventureit.itinerary.Entity.Itinerary;
 import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 
@@ -25,4 +23,5 @@ public interface ItineraryService {
     public ItineraryEntryResponseDTO nextItem(UUID id) throws Exception;
     public void setItineraryEntryLocation(UUID itineraryID, UUID locationID);
     public ItineraryResponseDTO getItineraryById(UUID itineraryID);
+    public List<ItineraryResponseDTO> viewItinerariesByAdventure(UUID id);
 }

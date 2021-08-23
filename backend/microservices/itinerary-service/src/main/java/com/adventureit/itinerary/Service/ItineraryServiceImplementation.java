@@ -292,9 +292,20 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
     @Override
     public ItineraryResponseDTO getItineraryById(UUID itineraryContainerID) {
-        //ItineraryEntry entry1 = itineraryEntryRepository.findItineraryEntryById(itineraryID);
         Itinerary entry = itineraryRepository.getItineraryById(itineraryContainerID);
         return new ItineraryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getCreatorID(),entry.getAdventureID(),entry.getDeleted());
+    }
+
+    @Override
+    public List<ItineraryResponseDTO> viewItinerariesByAdventure(UUID id) {
+        List<Itinerary> itineraries = itineraryRepository.findAllByAdventureID(id);
+        List<ItineraryResponseDTO> list = new ArrayList<>();
+        for (Itinerary c:itineraries) {
+            if(!c.getDeleted()){
+                list.add(new ItineraryResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.getDeleted()));
+            }
+        }
+        return list;
     }
 
     @Override

@@ -72,7 +72,6 @@ public class ChecklistServiceImplementation implements ChecklistService {
             throw new Exception("No ID provided");
         }
 
-
         ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
         if(entry == null){
             throw new Exception("Checklist Entry does not exist");
@@ -101,7 +100,6 @@ public class ChecklistServiceImplementation implements ChecklistService {
         if(entry == null){
             throw new Exception("Entry does not exist.");
         }
-
 
         if(!title.equals("")){
             entry.setTitle(title);
@@ -227,6 +225,18 @@ public class ChecklistServiceImplementation implements ChecklistService {
     public ChecklistDTO getChecklistByChecklistId(UUID checklistId){
         Checklist check = checklistRepository.findChecklistById(checklistId);
         return new ChecklistDTO(check.getId(),check.getCreatorID(),check.getAdventureID(),check.getTitle(),check.getDescription(),check.isDeleted());
+    }
+
+    @Override
+    public List<ChecklistResponseDTO> viewChecklistsByAdventure(UUID id) {
+        List<Checklist> checklists = checklistRepository.findAllByAdventureID(id);
+        List<ChecklistResponseDTO> list = new ArrayList<>();
+        for (Checklist c:checklists) {
+            if(!c.isDeleted()){
+                list.add(new ChecklistResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.isDeleted()));
+            }
+        }
+        return list;
     }
 
     @Override

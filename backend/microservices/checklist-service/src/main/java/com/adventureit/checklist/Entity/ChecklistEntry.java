@@ -19,14 +19,6 @@ public class ChecklistEntry {
      */
     public ChecklistEntry(){}
 
-    /**
-     * Create a checklist entry with only a title, defaulting its completion status to false
-     *
-     * @param title
-     * The title of the checklist entry
-     * @param entryContainerID
-     * The ID of the checklist to which this entry belongs
-     */
     public ChecklistEntry(String title, UUID id, UUID entryContainerID){
         this.title = title;
         this.completed = false;
@@ -35,6 +27,14 @@ public class ChecklistEntry {
         timestamp = LocalDateTime.now();
     }
 
+    /**
+     * Create a checklist entry with only a title, defaulting its completion status to false
+     *
+     * @param title
+     * The title of the checklist entry
+     * @param entryContainerID
+     * The ID of the checklist to which this entry belongs
+     */
     public ChecklistEntry(String title, UUID entryContainerID){
         this.title = title;
         this.completed = false;

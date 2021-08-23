@@ -1,8 +1,6 @@
 package com.adventureit.checklist.Entity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -14,7 +12,6 @@ public class Checklist{
     private String title;
     private String description;
     boolean deleted;
-
 
     /**
      * Default constructor
@@ -50,44 +47,6 @@ public class Checklist{
         this.id = UUID.randomUUID();
         deleted = false;
     }
-
-    /**
-     * Parameterised constructor
-     *
-     * @param title
-     * The title of the checklist
-     * @param description
-     * The description of the checklist
-     * @param entries
-     * A prepopulated list of checklist entries to be added to this list
-     * @param creatorID
-     * The UUID of the user who is creating the checklist
-     * @param adventureID
-     * The UUID of the adventure to which the checklist belongs
-     */
-
-
-    /**
-     * Get a checklist entry at a provided index
-     *
-     * @param index
-     * The index of the checklist entry to be retrieved
-     * @return
-     * The checklist entry corresponding to the provided index
-     */
-//    public ChecklistEntry getEntry(int index) {
-//        return (ChecklistEntry)this.entries.get(index);
-//    }
-
-    /**
-     * Add a single checklist entry to the checklist
-     *
-     * @param entry
-     * The single entry to be added to the checklist
-     */
-//    public void addEntry(ChecklistEntry entry) {
-//        this.entries.add(entry);
-//    }
 
     /**
      * Getters and setters
