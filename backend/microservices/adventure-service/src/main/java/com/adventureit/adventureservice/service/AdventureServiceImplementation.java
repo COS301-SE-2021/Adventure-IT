@@ -20,7 +20,6 @@ import java.util.*;
 @Service()
 public class AdventureServiceImplementation implements AdventureService {
 
-    @Autowired
     private AdventureRepository adventureRepository;
 
     private RestTemplate restTemplate;
