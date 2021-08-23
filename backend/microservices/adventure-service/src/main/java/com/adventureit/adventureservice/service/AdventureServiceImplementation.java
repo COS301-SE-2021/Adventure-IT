@@ -92,8 +92,7 @@ public class AdventureServiceImplementation implements AdventureService {
     public List<GetAllAdventuresResponse> getAllAdventures(){
         List<Adventure> allAdventures = adventureRepository.findAll();
         if(allAdventures.size() == 0){
-            AdventureNotFoundException notFound = new AdventureNotFoundException("Get All Adventure: No adventures found");
-            throw notFound;
+            throw new AdventureNotFoundException("Get All Adventure: No adventures found");
         }
 
         Collections.sort(allAdventures, new Comparator<Adventure>() {
