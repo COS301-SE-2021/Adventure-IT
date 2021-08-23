@@ -3,7 +3,7 @@ import com.adventureit.adventureservice.entity.Adventure;
 
 public class CreateAdventureResponse {
 
-    private boolean success;
+    private final boolean success;
     private String message;
     private Adventure adventure;
 
