@@ -1,21 +1,22 @@
-package com.adventureit.adventureservice.Responses;
+package com.adventureit.adventureservice.responses;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-public class GetAllAdventuresResponse {
+public class GetAdventuresByUserUUIDResponse {
     private long id;
     private String name;
     private UUID adventureId;
     private UUID ownerId;
-    private List<UUID> attendees;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private final List<UUID> attendees;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
     private String description;
     private UUID location;
 
-    public GetAllAdventuresResponse(long id, String name, UUID adventureId, UUID ownerID, List<UUID> attendees, LocalDate startDate,LocalDate endDate, String description, UUID location){
+    // TODO: Consider rethinking this class, apparently >7 arguments to a constructor is against JAVA convention & could indicate a problem with our architecture
+    public GetAdventuresByUserUUIDResponse(long id, String name, UUID adventureId, UUID ownerID, List<UUID> attendees, LocalDate startDate, LocalDate endDate, String description, UUID location){
         this.id = id;
         this.name = name;
         this.adventureId = adventureId;
@@ -43,28 +44,16 @@ public class GetAllAdventuresResponse {
         this.adventureId = adventureId;
     }
 
+    public void setOwnerId(UUID ownerId) {
+        this.ownerId = ownerId;
+    }
+
     public String getName() {
         return name;
     }
 
     public String getDescription() {
         return description;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public UUID getAdventureId() {
-        return adventureId;
-    }
-
-    public UUID getLocation() {
-        return location;
-    }
-
-    public UUID getOwnerId() {
-        return ownerId;
     }
 
     public List<UUID> getAttendees() {
@@ -79,9 +68,23 @@ public class GetAllAdventuresResponse {
         return endDate;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public UUID getAdventureId() {
+        return adventureId;
+    }
+
+    public UUID getOwnerId() {
+        return ownerId;
+    }
+
+    public UUID getLocation() {
+        return location;
+    }
+
     public void setLocation(UUID location) {
         this.location = location;
     }
 }
-
-

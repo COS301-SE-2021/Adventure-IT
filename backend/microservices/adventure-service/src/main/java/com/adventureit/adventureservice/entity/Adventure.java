@@ -1,4 +1,4 @@
-package com.adventureit.adventureservice.Entity;
+package com.adventureit.adventureservice.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -30,16 +30,16 @@ public class Adventure{
 
     /**
      * Adventure model Constructor which takes in the following parameters:
-     * @param name
-     * @param adventureId
-     * @param ownerId
+     * @param name - The name of the adventure
+     * @param adventureId - The UUID of the adventure
+     * @param ownerId - The UUID of the creator of the adventure
      */
     public Adventure(String name, String description, UUID adventureId, UUID ownerId, LocalDate sd, LocalDate ed, UUID location){
         this.name=name;
         this.description = description;
         this.adventureId=adventureId;
         this.ownerId = ownerId;
-        this.attendees = new ArrayList<UUID>(List.of(ownerId));
+        this.attendees = new ArrayList<>(List.of(ownerId));
         this.startDate=sd;
         this.endDate=ed;
         this.location = location;
@@ -55,7 +55,7 @@ public class Adventure{
 
     /**
      * Adventure service to set adventure's name
-     * @param  name
+     * @param  name - The name of the adventure to be set
      */
     public void setName(String name){
         this.name = name;
@@ -79,17 +79,13 @@ public class Adventure{
 
     /**
      * Adventure service to set adventure's owner
-     * @param  ownerId
+     * @param  ownerId - The UUID of the user to be set as the owner of the adventure
      */
     public void setOwnerId(UUID ownerId){
         this.ownerId = ownerId;
     }
 
-    /**
-     * Adventure service to retrieve adventure's Containers
-     * @return Containers
-     */
-
+    // TODO: Never called - do we need this?
     public void addAttendee(UUID attendeeID){
         this.attendees.add(attendeeID);
     }
@@ -120,6 +116,7 @@ public class Adventure{
         this.location = location;
     }
 
+    // TODO: Never called - do we need this?
     public void setAttendees(List<UUID> attendees) {
         this.attendees = attendees;
     }
@@ -132,10 +129,12 @@ public class Adventure{
         return location;
     }
 
+    // TODO: Never called - do we need this?
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
+    // TODO: Never called - do we need this?
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }

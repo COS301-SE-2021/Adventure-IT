@@ -1,9 +1,9 @@
-package com.adventureit.adventureservice.Responses;
+package com.adventureit.adventureservice.responses;
 
-import com.adventureit.adventureservice.Entity.Adventure;
+import com.adventureit.adventureservice.entity.Adventure;
 
 public class GetAdventureByUUIDResponse {
-    private boolean success;
+    private final boolean success;
     private Adventure adventure;
 
     /**
@@ -27,9 +27,6 @@ public class GetAdventureByUUIDResponse {
         return success;
     }
 
-    public void setSuccess(boolean success){
-        this.success = success;
-    }
 
     public void setAdventure(Adventure adventure){
         this.adventure = adventure;

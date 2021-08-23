@@ -1,8 +1,8 @@
-package com.adventureit.adventureservice.Responses;
+package com.adventureit.adventureservice.responses;
 
 public class RemoveAdventureResponse {
-    private boolean success;
-    private String message;
+    private final boolean success;
+    private final String message;
 
     public RemoveAdventureResponse(boolean success, String message){
         this.success = success;

@@ -1,29 +1,24 @@
-package com.adventureit.adventureservice.Service;
+package com.adventureit.adventureservice.service;
 
 
-import com.adventureit.adventureservice.Entity.Adventure;
-import com.adventureit.adventureservice.Exceptions.AdventureNotFoundException;
-import com.adventureit.adventureservice.Repository.AdventureRepository;
-import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
-import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
-import com.adventureit.adventureservice.Responses.*;
-import com.adventureit.adventureservice.Exceptions.NullFieldException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.adventureit.adventureservice.entity.Adventure;
+import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
+import com.adventureit.adventureservice.repository.AdventureRepository;
+import com.adventureit.adventureservice.requests.CreateAdventureRequest;
+import com.adventureit.adventureservice.requests.GetAdventureByUUIDRequest;
+import com.adventureit.adventureservice.responses.*;
+import com.adventureit.adventureservice.exceptions.NullFieldException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-@Service()
+@Service
 public class AdventureServiceImplementation implements AdventureService {
 
-    @Autowired
-    private AdventureRepository adventureRepository;
-
-    private RestTemplate restTemplate;
+    private final AdventureRepository adventureRepository;
 
     public AdventureServiceImplementation(AdventureRepository adventureRepository){
         this.adventureRepository = adventureRepository;
@@ -93,49 +88,14 @@ public class AdventureServiceImplementation implements AdventureService {
         return new GetAdventureByUUIDResponse(true, retrievedAdventure);
     }
 
-//    /**
-//     * @param req
-//     * Attributes used from the req attribute:
-//     * Adventure ID (advID)
-//     * User ID (userID)
-//     *
-//     * Using the request object from the AddUserToAdventure service will:
-//     * 1. Add user to array list in adventure
-//     *
-//     * @return AddUserToAdventureResponse object will indicate whether the user
-//     * has been successfully added to the adventure or whether an error occured
-//     */
-//    @Override
-//    public AddUserToAdventureResponse AddUserToAdventure(AddUserToAdventureRequest req)
-//    {
-//        Adventure adventure = new Adventure();
-//        UUID advID = req.getAdventureID();
-//        GetAdventureByUUIDRequest request0 = new GetAdventureByUUIDRequest(advID);
-//        //GetAdventureByUUIDResponse res0 = adventure.getAdventureByUUID(request0);
-//        UUID userID = req.getUserid();
-//        GetUserByUUIDRequest request = new GetUserByUUIDRequest(userID);
-//        GetUserByUUIDResponse res = user.GetUserByUUID(request);
-//        User userToBeAdded = null;
-//        if(res.isSuccess())
-//        {   userToBeAdded = res.getUser();  }
-//        return new AddUserToAdventureResponse(true, userToBeAdded.getFirstname()+" "+userToBeAdded.getLastname()+" has been added to adventure: Adventure1");
-//
-//    }
-
     @Override
     public List<GetAllAdventuresResponse> getAllAdventures(){
         List<Adventure> allAdventures = adventureRepository.findAll();
         if(allAdventures.size() == 0){
-            AdventureNotFoundException notFound = new AdventureNotFoundException("Get All Adventure: No adventures found");
-            throw notFound;
+            throw new AdventureNotFoundException("Get All Adventure: No adventures found");
         }
 
-        Collections.sort(allAdventures, new Comparator<Adventure>() {
-            @Override
-            public int compare(Adventure o1, Adventure o2) {
-                return o1.getStartDate().compareTo(o2.getStartDate());
-            }
-        });
+        allAdventures.sort(Comparator.comparing(Adventure::getStartDate));
 
         List<GetAllAdventuresResponse> list = new ArrayList<>();
         for (Adventure a:allAdventures) {
@@ -143,75 +103,27 @@ public class AdventureServiceImplementation implements AdventureService {
         }
 
         return list;
-    };
+    }
 
     @Override
     public List<GetAdventuresByUserUUIDResponse> getAdventureByOwnerUUID(UUID ownerID){
         List<Adventure> userAdventures = adventureRepository.findByOwnerId(ownerID);
-        if(userAdventures.size() == 0){
-            AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
-            throw notFound;
-        }
-
-        userAdventures.sort(new Comparator<Adventure>() {
-            @Override
-            public int compare(Adventure o1, Adventure o2) {
-                return o1.getStartDate().compareTo(o2.getStartDate());
-            }
-        });
-
-        List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
-        for (Adventure a:userAdventures) {
-            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
-        }
-
-        return list;
+        return sortAdventures(userAdventures);
     }
+
+
 
     @Override
     public List<GetAdventuresByUserUUIDResponse> getAdventureByAttendeeUUID(UUID attendeeID) {
         List<Adventure> userAdventures = adventureRepository.findByAttendees(attendeeID);
-        if (userAdventures.size() == 0) {
-            AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
-            throw notFound;
-        }
-
-        userAdventures.sort(new Comparator<Adventure>() {
-            @Override
-            public int compare(Adventure o1, Adventure o2) {
-                return o1.getStartDate().compareTo(o2.getStartDate());
-            }
-        });
-
-        List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
-        for (Adventure a:userAdventures) {
-            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
-        }
-
-        return list;
+        return sortAdventures(userAdventures);
     }
 
     @Override
-    public List<GetAdventuresByUserUUIDResponse> getallAdventuresByUUID(UUID id) {
+    public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUUID(UUID id) {
         List<Adventure> userAdventures = adventureRepository.findAllByOwnerIdOrAttendeesContains(id,id);
-//        if (userAdventures.size() == 0) {
-//            AdventureNotFoundException notFound = new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
-//            throw notFound;
-//        }
 
-        userAdventures.sort(new Comparator<Adventure>() {
-            @Override
-            public int compare(Adventure o1, Adventure o2) {
-                return o1.getStartDate().compareTo(o2.getStartDate());
-            }
-        });
-
-        List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
-        for (Adventure a:userAdventures) {
-            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
-        }
-
-        return list;
+        return sortAdventures(userAdventures);
     }
 
     @Transactional
@@ -221,6 +133,7 @@ public class AdventureServiceImplementation implements AdventureService {
             throw new AdventureNotFoundException("Remove Adventure: Adventure not found");
         }
         if(!retrievedAdventure.getAttendees().contains(userID)){
+            // TODO: Define dedicated exception
             throw new Exception("User does not belong to Adventure");
         }
 
@@ -237,6 +150,7 @@ public class AdventureServiceImplementation implements AdventureService {
     public List<UUID> getAttendees(UUID id) throws Exception {
         Adventure adventure  = adventureRepository.findAdventureByAdventureId(id);
         if(adventure == null){
+            // TODO: Define dedicated exception
             throw new Exception("Adventure does not exist");
         }
 
@@ -254,11 +168,28 @@ public class AdventureServiceImplementation implements AdventureService {
     public void addAttendees(UUID adventureID, UUID userID) throws Exception {
         Adventure adventure = adventureRepository.findAdventureByAdventureId(adventureID);
         if(adventure == null){
+            // TODO: Define dedicated exception
             throw new Exception("Adventure does not exist");
         }
 
         adventure.getAttendees().add(userID);
         adventureRepository.save(adventure);
+    }
+
+    // Helper function for sorting adventures, throws an exception if there are no adventures
+    private List<GetAdventuresByUserUUIDResponse> sortAdventures(List<Adventure> userAdventures) {
+        if(userAdventures.size() == 0){
+            throw new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
+        }
+
+        userAdventures.sort(Comparator.comparing(Adventure::getStartDate));
+
+        List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
+        for (Adventure a:userAdventures) {
+            list.add(new GetAdventuresByUserUUIDResponse(a.getId(),a.getName(),a.getAdventureId(),a.getOwnerId(),a.getAttendees(),a.getStartDate(),a.getEndDate(),a.getDescription(),a.getLocation()));
+        }
+
+        return list;
     }
 
 }

@@ -1,25 +1,16 @@
-package com.adventureit.adventureservice.Responses;
-import com.adventureit.adventureservice.Entity.Adventure;
+package com.adventureit.adventureservice.responses;
+import com.adventureit.adventureservice.entity.Adventure;
 
 public class CreateAdventureResponse {
 
-    private boolean success;
+    private final boolean success;
     private String message;
     private Adventure adventure;
-
-    public CreateAdventureResponse(){}
 
     /**
      * This object will store the response attributes from the GetAdventureByUUID service, currently a mock
      * adventure will be sent back for testing purposes but for future implementation an adventure will be found from the database
-     *
-     * @param success success attribute to indicate whether the service was successful
      */
-
-    public CreateAdventureResponse(boolean success){
-        this.success = success;
-        this.message = "Adventure was successfully created";
-    }
 
     public CreateAdventureResponse(boolean success, String message, Adventure adventure) {
         this.success = success;
@@ -47,10 +38,6 @@ public class CreateAdventureResponse {
 
     public void setAdventure(Adventure adventure){
         this.adventure = adventure;
-    }
-
-    public void setSuccess(boolean success){
-        this.success = success;
     }
 
     public boolean isSuccess(){
