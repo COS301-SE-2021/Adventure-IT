@@ -88,35 +88,6 @@ public class AdventureServiceImplementation implements AdventureService {
         return new GetAdventureByUUIDResponse(true, retrievedAdventure);
     }
 
-//    /**
-//     * @param req
-//     * Attributes used from the req attribute:
-//     * Adventure ID (advID)
-//     * User ID (userID)
-//     *
-//     * Using the request object from the AddUserToAdventure service will:
-//     * 1. Add user to array list in adventure
-//     *
-//     * @return AddUserToAdventureResponse object will indicate whether the user
-//     * has been successfully added to the adventure or whether an error occured
-//     */
-//    @Override
-//    public AddUserToAdventureResponse AddUserToAdventure(AddUserToAdventureRequest req)
-//    {
-//        Adventure adventure = new Adventure();
-//        UUID advID = req.getAdventureID();
-//        GetAdventureByUUIDRequest request0 = new GetAdventureByUUIDRequest(advID);
-//        //GetAdventureByUUIDResponse res0 = adventure.getAdventureByUUID(request0);
-//        UUID userID = req.getUserid();
-//        GetUserByUUIDRequest request = new GetUserByUUIDRequest(userID);
-//        GetUserByUUIDResponse res = user.GetUserByUUID(request);
-//        User userToBeAdded = null;
-//        if(res.isSuccess())
-//        {   userToBeAdded = res.getUser();  }
-//        return new AddUserToAdventureResponse(true, userToBeAdded.getFirstname()+" "+userToBeAdded.getLastname()+" has been added to adventure: Adventure1");
-//
-//    }
-
     @Override
     public List<GetAllAdventuresResponse> getAllAdventures(){
         List<Adventure> allAdventures = adventureRepository.findAll();
