@@ -27,9 +27,6 @@ public class GetAdventureByUUIDResponse {
         return success;
     }
 
-    public void setSuccess(boolean success){
-        this.success = success;
-    }
 
     public void setAdventure(Adventure adventure){
         this.adventure = adventure;
