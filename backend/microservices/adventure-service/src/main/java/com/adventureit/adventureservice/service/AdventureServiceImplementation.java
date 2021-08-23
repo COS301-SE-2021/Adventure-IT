@@ -160,6 +160,7 @@ public class AdventureServiceImplementation implements AdventureService {
             throw new AdventureNotFoundException("Remove Adventure: Adventure not found");
         }
         if(!retrievedAdventure.getAttendees().contains(userID)){
+            // TODO: Define dedicated exception
             throw new Exception("User does not belong to Adventure");
         }
 
@@ -176,6 +177,7 @@ public class AdventureServiceImplementation implements AdventureService {
     public List<UUID> getAttendees(UUID id) throws Exception {
         Adventure adventure  = adventureRepository.findAdventureByAdventureId(id);
         if(adventure == null){
+            // TODO: Define dedicated exception
             throw new Exception("Adventure does not exist");
         }
 
@@ -193,6 +195,7 @@ public class AdventureServiceImplementation implements AdventureService {
     public void addAttendees(UUID adventureID, UUID userID) throws Exception {
         Adventure adventure = adventureRepository.findAdventureByAdventureId(adventureID);
         if(adventure == null){
+            // TODO: Define dedicated exception
             throw new Exception("Adventure does not exist");
         }
 
