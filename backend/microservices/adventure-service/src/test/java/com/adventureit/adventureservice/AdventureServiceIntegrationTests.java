@@ -2,7 +2,7 @@ package com.adventureit.adventureservice;
 
 import com.adventureit.adventureservice.controllers.AdventureController;
 import com.adventureit.adventureservice.entity.Adventure;
-import com.adventureit.adventureservice.Repository.AdventureRepository;
+import com.adventureit.adventureservice.repository.AdventureRepository;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

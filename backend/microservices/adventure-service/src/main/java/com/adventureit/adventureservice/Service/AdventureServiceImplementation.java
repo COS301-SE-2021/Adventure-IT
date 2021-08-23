@@ -3,7 +3,7 @@ package com.adventureit.adventureservice.Service;
 
 import com.adventureit.adventureservice.entity.Adventure;
 import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
-import com.adventureit.adventureservice.Repository.AdventureRepository;
+import com.adventureit.adventureservice.repository.AdventureRepository;
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
 import com.adventureit.adventureservice.Responses.*;
