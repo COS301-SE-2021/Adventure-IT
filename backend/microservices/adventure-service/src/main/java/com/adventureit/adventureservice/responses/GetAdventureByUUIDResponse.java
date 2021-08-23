@@ -3,7 +3,7 @@ package com.adventureit.adventureservice.responses;
 import com.adventureit.adventureservice.entity.Adventure;
 
 public class GetAdventureByUUIDResponse {
-    private boolean success;
+    private final boolean success;
     private Adventure adventure;
 
     /**
