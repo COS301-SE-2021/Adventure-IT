@@ -103,7 +103,7 @@ public class AdventureServiceImplementation implements AdventureService {
         }
 
         return list;
-    };
+    }
 
     @Override
     public List<GetAdventuresByUserUUIDResponse> getAdventureByOwnerUUID(UUID ownerID){
