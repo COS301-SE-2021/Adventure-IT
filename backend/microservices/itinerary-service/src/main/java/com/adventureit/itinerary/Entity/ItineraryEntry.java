@@ -3,6 +3,7 @@ package com.adventureit.itinerary.Entity;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
+
 /**
  *
  * ItineraryEntry is a subclass of the Entry entity!
@@ -25,10 +26,14 @@ public class ItineraryEntry{
     private UUID location;
     LocalDateTime timestamp;
 
-    // Default constructor
+    /**
+     * Default constructor
+     */
     public ItineraryEntry(){}
 
-    // Parameterized constructor: with only title, description and entryContainerID
+    /**
+     * Parameterized constructor: with only title, description and entryContainerID
+     */
     public ItineraryEntry(String title, String description, UUID id,  UUID entryContainerID, boolean completed, UUID location, LocalDateTime timestamp){
         this.title = title;
         this.description=description;
@@ -59,9 +64,7 @@ public class ItineraryEntry{
         this.timestamp = timestamp;
     }
 
-
     // Getters and setters
-
 
     public UUID getId() {
         return id;

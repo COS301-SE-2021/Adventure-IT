@@ -11,7 +11,6 @@ public class ChecklistDTO {
     private String description;
     private boolean deleted;
 
-
     ChecklistDTO(){
 
     }

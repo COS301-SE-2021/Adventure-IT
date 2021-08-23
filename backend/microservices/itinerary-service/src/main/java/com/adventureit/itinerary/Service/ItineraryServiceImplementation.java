@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -112,7 +111,6 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new Exception("Description Field is null.");
         }
 
-        Itinerary itinerary = itineraryRepository.findItineraryById(entryContainerID);
         ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryByIdAndEntryContainerID(id, entryContainerID);
 
         if (entry == null) {
@@ -130,7 +128,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
         if(!location.equals("")){
             newEntry.setLocation(location);
         }
-        if(!(timestamp == null)){
+        if(timestamp != null){
             newEntry.setTimestamp(timestamp);
         }
 
@@ -186,15 +184,15 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
     @Override
     public List<ItineraryResponseDTO> viewTrash(UUID id) throws Exception {
-
         List<Itinerary> itinerary = itineraryRepository.findAllByAdventureID(id);
         List<ItineraryResponseDTO> list = new ArrayList<>();
+
         for (Itinerary b:itinerary) {
             if(b.getDeleted()){
                 list.add(new ItineraryResponseDTO(b.getTitle(),b.getDescription(),b.getId(),b.getCreatorID(),b.getAdventureID(),b.getDeleted()));
-
             }
         }
+
         return list;
     }
 
@@ -226,12 +224,12 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
         for (ItineraryEntry entry:entries) {
             list.add(new ItineraryEntryResponseDTO(entry.getId(),entry.getEntryContainerID(),entry.getTitle(),entry.getDescription(),entry.isCompleted(),entry.getLocation(),entry.getTimestamp()));
+
             list.sort(new Comparator<ItineraryEntryResponseDTO>(){ @Override
             public int compare(ItineraryEntryResponseDTO o1, ItineraryEntryResponseDTO o2) {
                 return o1.getTimestamp().compareTo(o2.getTimestamp());
             }});
-
-            }
+        }
 
         return list;
     }
@@ -292,9 +290,22 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
     @Override
     public ItineraryResponseDTO getItineraryById(UUID itineraryContainerID) {
-        //ItineraryEntry entry1 = itineraryEntryRepository.findItineraryEntryById(itineraryID);
         Itinerary entry = itineraryRepository.getItineraryById(itineraryContainerID);
         return new ItineraryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getCreatorID(),entry.getAdventureID(),entry.getDeleted());
+    }
+
+    @Override
+    public List<ItineraryResponseDTO> viewItinerariesByAdventure(UUID id) {
+        List<Itinerary> itineraries = itineraryRepository.findAllByAdventureID(id);
+        List<ItineraryResponseDTO> list = new ArrayList<>();
+
+        for (Itinerary c:itineraries) {
+            if(!c.getDeleted()){
+                list.add(new ItineraryResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.getDeleted()));
+            }
+        }
+
+        return list;
     }
 
     @Override
@@ -334,5 +345,4 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
         return "Mock Itineraries populated.";
     }
-
 }

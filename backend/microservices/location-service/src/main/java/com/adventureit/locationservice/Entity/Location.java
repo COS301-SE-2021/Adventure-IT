@@ -1,7 +1,5 @@
 package com.adventureit.locationservice.Entity;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -9,25 +7,25 @@ import java.util.UUID;
 public class Location {
     @Id
     private UUID id;
-    String photo_reference;
+    String photoReference;
     String formattedAddress;
-    String place_id;
+    String placeID;
 
 
     public Location(){}
 
-    public Location(UUID id, String photo_reference, String formattedAddress, String place_id){
+    public Location(UUID id, String photoReference, String formattedAddress, String placeID){
         this.id = id;
-        this.photo_reference = photo_reference;
+        this.photoReference = photoReference;
         this.formattedAddress = formattedAddress;
-        this.place_id = place_id;
+        this.placeID = placeID;
     }
 
-    public Location(String photo_reference, String formattedAddress, String place_id){
+    public Location(String photoReference, String formattedAddress, String placeID){
         this.id = UUID.randomUUID();
-        this.photo_reference = photo_reference;
+        this.photoReference = photoReference;
         this.formattedAddress = formattedAddress;
-        this.place_id = place_id;
+        this.placeID = placeID;
     }
 
     public UUID getId() {
@@ -38,12 +36,12 @@ public class Location {
         this.id = id;
     }
 
-    public String getPhoto_reference() {
-        return photo_reference;
+    public String getPhotoReference() {
+        return photoReference;
     }
 
-    public void setPhoto_reference(String photo_reference) {
-        this.photo_reference = photo_reference;
+    public void setPhotoReference(String photoReference) {
+        this.photoReference = photoReference;
     }
 
     public String getFormattedAddress() {
@@ -54,11 +52,11 @@ public class Location {
         this.formattedAddress = formattedAddress;
     }
 
-    public String getPlace_id() {
-        return place_id;
+    public String getPlaceID() {
+        return placeID;
     }
 
-    public void setPlace_id(String place_id) {
-        this.place_id = place_id;
+    public void setPlaceID(String placeID) {
+        this.placeID = placeID;
     }
 }

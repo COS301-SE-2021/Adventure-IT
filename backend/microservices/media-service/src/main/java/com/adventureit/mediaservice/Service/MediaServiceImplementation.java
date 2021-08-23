@@ -13,19 +13,14 @@ import java.util.UUID;
 public class MediaServiceImplementation implements MediaService{
     @Autowired
     private MediaRepository mediaRepository;
-
     @Autowired
     private MediaInfoRepository mediaInfoRepository;
-
     @Autowired
     private FileRepository fileRepository;
-
     @Autowired
     private FileInfoRepository fileInfoRepository;
-
     @Autowired
     private DocumentRepository documentRepository;
-
     @Autowired
     private DocumentInfoRepository documentInfoRepository;
 
@@ -44,8 +39,7 @@ public class MediaServiceImplementation implements MediaService{
         Media storedMedia = mediaRepository.findMediaById(file);
         headers.setCacheControl(CacheControl.noCache().getHeaderValue()); // disabling caching for client who requests the resource
         headers.setContentType(MediaType.parseMediaType(storedMedia.getType()));
-        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(storedMedia.getData(), headers, HttpStatus.OK);
-        return responseEntity;
+        return new ResponseEntity<>(storedMedia.getData(), headers, HttpStatus.OK);
     }
 
     @Override
@@ -54,8 +48,7 @@ public class MediaServiceImplementation implements MediaService{
         File storedFile = fileRepository.findFileById(file);
         headers.setCacheControl(CacheControl.noCache().getHeaderValue()); // disabling caching for client who requests the resource
         headers.setContentType(MediaType.parseMediaType(storedFile.getType()));
-        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(storedFile.getData(), headers, HttpStatus.OK);
-        return responseEntity;
+        return new ResponseEntity<>(storedFile.getData(), headers, HttpStatus.OK);
     }
 
     @Override
@@ -64,8 +57,7 @@ public class MediaServiceImplementation implements MediaService{
         Document storedFile = documentRepository.findDocumentById(file);
         headers.setCacheControl(CacheControl.noCache().getHeaderValue()); // disabling caching for client who requests the resource
         headers.setContentType(MediaType.parseMediaType(storedFile.getType()));
-        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(storedFile.getData(), headers, HttpStatus.OK);
-        return responseEntity;
+        return new ResponseEntity<>(storedFile.getData(), headers, HttpStatus.OK);
     }
 
     @Override

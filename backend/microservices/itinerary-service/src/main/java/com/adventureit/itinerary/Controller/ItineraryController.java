@@ -1,19 +1,14 @@
 package com.adventureit.itinerary.Controller;
 
-import com.adventureit.itinerary.Entity.Itinerary;
-import com.adventureit.itinerary.Entity.ItineraryEntry;
-import com.adventureit.itinerary.Repository.ItineraryRepository;
 import com.adventureit.itinerary.Requests.AddItineraryEntryRequest;
 import com.adventureit.itinerary.Requests.CreateItineraryRequest;
 import com.adventureit.itinerary.Requests.EditItineraryEntryRequest;
-import com.adventureit.itinerary.Requests.RemoveItineraryEntryRequest;
 import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
 import com.adventureit.itinerary.Service.ItineraryServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,11 +17,9 @@ import java.util.UUID;
 public class ItineraryController {
     @Autowired
     ItineraryServiceImplementation itineraryServiceImplementation;
-    @Autowired
-    ItineraryRepository itineraryRepository;
 
     @GetMapping("/test")
-    String test(){
+    public String test(){
         return "Itinerary Controller is functional";
     }
 
@@ -36,15 +29,8 @@ public class ItineraryController {
     }
 
     @GetMapping("/viewItinerariesByAdventure/{id}")
-    public List<ItineraryResponseDTO> viewItinerariesByAdventure(@PathVariable UUID id) throws Exception {
-        List<Itinerary> itineraries = itineraryRepository.findAllByAdventureID(id);
-        List<ItineraryResponseDTO> list = new ArrayList<>();
-        for (Itinerary c:itineraries) {
-            if(!c.getDeleted()){
-                list.add(new ItineraryResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.getDeleted()));
-            }
-        }
-        return list;
+    public List<ItineraryResponseDTO> viewItinerariesByAdventure(@PathVariable UUID id) {
+        return itineraryServiceImplementation.viewItinerariesByAdventure(id);
     }
 
     @GetMapping("/viewItinerary/{id}")
@@ -56,7 +42,7 @@ public class ItineraryController {
     public String softDelete(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
         return itineraryServiceImplementation.softDelete(id,userID);
     }
-    //
+
     @GetMapping("/viewTrash/{id}")
     public List<ItineraryResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
         return itineraryServiceImplementation.viewTrash(id);
@@ -111,5 +97,4 @@ public class ItineraryController {
     public ItineraryResponseDTO getItineraryById(@PathVariable UUID itineraryId){
         return itineraryServiceImplementation.getItineraryById(itineraryId);
     }
-
 }

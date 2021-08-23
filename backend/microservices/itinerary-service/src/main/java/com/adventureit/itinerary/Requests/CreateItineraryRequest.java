@@ -48,5 +48,4 @@ public class CreateItineraryRequest {
     public void setUserID(UUID userID) {
         this.userID = userID;
     }
-
 }

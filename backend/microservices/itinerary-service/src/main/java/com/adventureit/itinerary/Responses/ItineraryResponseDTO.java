@@ -1,6 +1,5 @@
 package com.adventureit.itinerary.Responses;
 
-import java.util.List;
 import java.util.UUID;
 
 public class ItineraryResponseDTO {

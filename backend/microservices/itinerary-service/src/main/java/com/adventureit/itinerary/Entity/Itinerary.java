@@ -1,8 +1,6 @@
 package com.adventureit.itinerary.Entity;
 
-
 import javax.persistence.*;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,10 +14,14 @@ public class Itinerary {
     private String description;
     private Boolean deleted;
 
-    // Default constructor
+    /**
+     * Default constructor
+     */
     public Itinerary(){}
 
-    // Parameterized constructor: without prepopulated itinerary entry list
+    /**
+     * Parameterized constructor: without prepopulated itinerary entry list
+     */
     public Itinerary(String title, String description, UUID id, UUID advID, UUID userID) {
         this.title = title;
         this.description = description;
@@ -38,17 +40,9 @@ public class Itinerary {
         deleted = false;
     }
 
-    // Parameterized constructor: with prepopulated itinerary entry list
-    public Itinerary(String title, String description, UUID id, UUID advID, UUID userID, List<UUID> items) {
-        this.title = title;
-        this.description = description;
-        this.id = id;
-        this.creatorID = userID;
-        this.adventureID = advID;
-        deleted = false;
-    }
-
-    // Getters and setters
+    /**
+     * Getters and Setters
+     */
 
     public String getTitle() {
         return this.title;

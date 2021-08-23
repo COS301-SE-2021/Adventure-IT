@@ -1,7 +1,7 @@
 package com.adventureit.locationservice.Service;
 
 import com.adventureit.locationservice.Entity.Location;
-import com.adventureit.locationservice.Repos.LocationRepository;
+import com.adventureit.locationservice.Repository.LocationRepository;
 import com.adventureit.locationservice.Responses.LocationResponseDTO;
 import com.adventureit.locationservice.Responses.ShortestPathResponseDTO;
 import org.json.JSONArray;
@@ -49,21 +49,15 @@ public class LocationServiceImplementation implements LocationService {
     @Override
     @Transactional
     public ShortestPathResponseDTO shortestPath(UUID id, List<UUID> locations) throws IOException, JSONException {
-        String string1 = "https://maps.googleapis.com/maps/api/directions/json?units=metric&origin=place_id:"  + locationRepository.findLocationById(id).getPlace_id() + "&destination=place_id:" + locationRepository.findLocationById(id).getPlace_id() + "&waypoints=optimize:true|place_id:";
+        String string1 = "https://maps.googleapis.com/maps/api/directions/json?units=metric&origin=place_id:"  + locationRepository.findLocationById(id).getPlaceID() + "&destination=place_id:" + locationRepository.findLocationById(id).getPlaceID() + "&waypoints=optimize:true|place_id:";
 
         for (int i = 0; i < (locations.size() -1) ; i++){
-            string1 = string1 + locationRepository.findLocationById(locations.get(i)).getPlace_id() + "|place_id:";
+            string1 = string1 + locationRepository.findLocationById(locations.get(i)).getPlaceID() + "|place_id:";
         }
 
-        string1 = string1 + locationRepository.findLocationById(locations.get(locations.size()-1)).getPlace_id() + "&key=" + APIKey;
+        string1 = string1 + locationRepository.findLocationById(locations.get(locations.size()-1)).getPlaceID() + "&key=" + APIKey;
 
         JSONObject json = new JSONObject(makeConnection(string1));
-
-        for (String i:getOrder(id,locations,json)) {
-            System.out.println(i);
-        }
-        System.out.println(getTotalDistance(json));
-        System.out.println(getTotalDuration(json));
 
         return new ShortestPathResponseDTO(getOrder(id,locations,json),getTotalDistance(json),getTotalDuration(json));
     }
@@ -154,6 +148,6 @@ public class LocationServiceImplementation implements LocationService {
             throw new Exception("Location does not exist");
         }
 
-        return new LocationResponseDTO(location.getId(),location.getPhoto_reference(),location.getFormattedAddress(),location.getPlace_id());
+        return new LocationResponseDTO(location.getId(),location.getPhotoReference(),location.getFormattedAddress(),location.getPlaceID());
     }
 }

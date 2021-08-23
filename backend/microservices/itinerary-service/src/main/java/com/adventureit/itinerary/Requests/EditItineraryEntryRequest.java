@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
 public class EditItineraryEntryRequest {
@@ -22,7 +21,7 @@ public class EditItineraryEntryRequest {
         this.entryContainerID = entryContainerID;
         this.title = title;
         this.description = description;
-        this.location = location; //= UUID.fromString(Objects.requireNonNull(restTemplate.getForObject("http://" + "localhost" + ":" + "9999" + "/location/create/" + location, String.class)));
+        this.location = location;
         this.timestamp = timestamp;
     }
 

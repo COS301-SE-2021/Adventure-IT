@@ -12,12 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class ItineraryServiceUnitTests {
+class ItineraryServiceUnitTests {
     private final ItineraryRepository mockItineraryRepository = Mockito.mock(ItineraryRepository.class);
     private final ItineraryEntryRepository mockItineraryEntryRepository = Mockito.mock(ItineraryEntryRepository.class);
     private final ItineraryServiceImplementation sut = new ItineraryServiceImplementation(mockItineraryRepository,mockItineraryEntryRepository);
@@ -34,13 +32,13 @@ public class ItineraryServiceUnitTests {
 
     @Test
     @Description("Ensure a user can create an itinerary")
-    public void createItineraryValid_ReturnString() throws Exception {
-        Assertions.assertEquals(sut.createItinerary("Mock","Mock",validAdventureID,validUserID),"Itinerary successfully created");
+    void createItineraryValid_ReturnString() throws Exception {
+        Assertions.assertEquals("Itinerary successfully created", sut.createItinerary("Mock","Mock",validAdventureID,validUserID));
     }
 
     @Test
     @Description("Ensure a user can create an itinerary")
-    public void createItineraryNullField_ThrowException() throws Exception {
+    void createItineraryNullField_ThrowException() throws Exception {
         Assertions.assertThrows(Exception.class, ()->{
             sut.createItinerary(null,"Mock",validAdventureID,validUserID);
         });
@@ -48,7 +46,7 @@ public class ItineraryServiceUnitTests {
 
     @Test
     @Description("addItineraryEntry will throw an exception if a field is null")
-    public void addEntryNullField_ThrowException() throws Exception {
+    void addEntryNullField_ThrowException() throws Exception {
         Assertions.assertThrows(Exception.class, ()->{
             sut.addItineraryEntry("Mock", "Mock",null, null, null);
         });
@@ -56,15 +54,15 @@ public class ItineraryServiceUnitTests {
 
     @Test
     @Description("Ensuring a user can remove an entry")
-    public void removeEntryValid_ReturnString() throws Exception {
+    void removeEntryValid_ReturnString() throws Exception {
         Mockito.when(mockItineraryRepository.findItineraryById(validItineraryID1)).thenReturn(mockItinerary1);
         Mockito.when(mockItineraryEntryRepository.findItineraryEntryById(validEntryID1)).thenReturn(mockEntry1);
-        Assertions.assertEquals(sut.removeItineraryEntry(validEntryID1),"Itinerary Entry successfully removed");
+        Assertions.assertEquals("Itinerary Entry successfully removed", sut.removeItineraryEntry(validEntryID1));
     }
 
     @Test
     @Description("removeItineraryEntry will throw an exception if a Itinerary entry does not exist")
-    public void removeEntryInvalidID_ThrowException() throws Exception {
+    void removeEntryInvalidID_ThrowException() throws Exception {
         Mockito.when(mockItineraryRepository.findItineraryById(validItineraryID1)).thenReturn(mockItinerary1);
         Assertions.assertThrows(Exception.class, ()->{
             sut.removeItineraryEntry(UUID.randomUUID());
@@ -73,7 +71,7 @@ public class ItineraryServiceUnitTests {
 
     @Test
     @Description("removeItineraryEntry will throw an exception if a field is null")
-    public void removeEntryNullField_ThrowException() throws Exception {
+    void removeEntryNullField_ThrowException() throws Exception {
         Assertions.assertThrows(Exception.class, ()->{
             sut.removeItineraryEntry(null);
         });
@@ -81,14 +79,14 @@ public class ItineraryServiceUnitTests {
 
     @Test
     @Description("Ensuring a user can softDelete an itinerary")
-    public void softDeleteItineraryValid() throws Exception {
+    void softDeleteItineraryValid() throws Exception {
         Mockito.when(mockItineraryRepository.findItineraryByIdAndDeleted(validItineraryID1,false)).thenReturn(mockItinerary1);
-        Assertions.assertEquals(sut.softDelete(validItineraryID1,validUserID),"Itinerary moved to bin");
+        Assertions.assertEquals("Itinerary moved to bin", sut.softDelete(validItineraryID1,validUserID));
     }
 
     @Test
     @Description("Ensuring a only an owner can softDelete an itinerary")
-    public void softDeleteItineraryInvalid() throws Exception {
+    void softDeleteItineraryInvalid() throws Exception {
         Mockito.when(mockItineraryRepository.findItineraryByIdAndDeleted(validItineraryID1,false)).thenReturn(mockItinerary1);
         Assertions.assertThrows(Exception.class, ()->{
             sut.softDelete(validItineraryID1,UUID.randomUUID());
@@ -97,14 +95,14 @@ public class ItineraryServiceUnitTests {
 
     @Test
     @Description("Ensuring a user can hardDelete a Itinerary")
-    public void hardDeleteItineraryValid() throws Exception {
+    void hardDeleteItineraryValid() throws Exception {
         Mockito.when(mockItineraryRepository.findItineraryByIdAndDeleted(validItineraryID1,true)).thenReturn(mockItinerary1);
-        Assertions.assertEquals(sut.hardDelete(validItineraryID1,validUserID),"Itinerary deleted");
+        Assertions.assertEquals("Itinerary deleted", sut.hardDelete(validItineraryID1,validUserID));
     }
 
     @Test
     @Description("Ensuring a only an owner can hardDelete a Itinerary")
-    public void hardDeleteItineraryInvalid() throws Exception {
+    void hardDeleteItineraryInvalid() throws Exception {
         Mockito.when(mockItineraryRepository.findItineraryByIdAndDeleted(validItineraryID1,true)).thenReturn(mockItinerary1);
         Assertions.assertThrows(Exception.class, ()->{
             sut.hardDelete(validItineraryID1,UUID.randomUUID());
@@ -113,7 +111,7 @@ public class ItineraryServiceUnitTests {
 
     @Test
     @Description("Ensuring a user can view the trash")
-    public void viewTrashValid_ReturnsList() throws Exception {
+    void viewTrashValid_ReturnsList() throws Exception {
         mockItinerary1.setDeleted(true);
         Mockito.when(mockItineraryRepository.findAllByAdventureID(validAdventureID)).thenReturn(List.of(mockItinerary1));
         List<ItineraryResponseDTO> list = sut.viewTrash(validAdventureID);
@@ -122,14 +120,14 @@ public class ItineraryServiceUnitTests {
 
     @Test
     @Description("Ensuring a user can restore a Itinerary")
-    public void restoreItineraryValid_ReturnsString() throws Exception {
+    void restoreItineraryValid_ReturnsString() throws Exception {
         Mockito.when(mockItineraryRepository.findItineraryById(validItineraryID1)).thenReturn(mockItinerary1);
-        Assertions.assertEquals(sut.restoreItinerary(validItineraryID1,validUserID),"Itinerary was restored");
+        Assertions.assertEquals("Itinerary was restored", sut.restoreItinerary(validItineraryID1,validUserID));
     }
 
     @Test
     @Description("Ensuring a user can get a Itinerary by ID")
-    public void getItineraryByIDValid_ReturnsString() throws Exception {
+    void getItineraryByIDValid_ReturnsString() throws Exception {
         Mockito.when(mockItineraryRepository.getItineraryById(validItineraryID1)).thenReturn(mockItinerary1);
         Assertions.assertNotNull(sut.getItineraryById(validItineraryID1));
     }

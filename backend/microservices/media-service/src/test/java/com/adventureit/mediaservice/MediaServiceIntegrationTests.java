@@ -21,20 +21,16 @@ import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class MediaServiceIntegrationTests {
+class MediaServiceIntegrationTests {
 
     @Autowired
     private MediaController mediaController;
-
     @Autowired
     private MediaRepository mediaRepository;
-
     @Autowired
     private MediaInfoRepository mediaInfoRepository;
-
     @Autowired
     private FileRepository fileRepository;
-
     @Autowired
     private FileInfoRepository fileInfoRepository;
 
@@ -46,19 +42,19 @@ public class MediaServiceIntegrationTests {
 
     @Test
     @Description("Ensure that the Media Controller loads")
-    public void mediaControllerLoads() throws Exception {
+    void mediaControllerLoads() throws Exception {
         Assertions.assertNotNull(mediaController);
     }
 
     @Test
     @Description("Ensure that the controller is accepting traffic and responding")
-    public void httpTest_returnResponse(){
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/media/test", String.class),"Media Controller is functional");
+    void httpTest_returnResponse(){
+        Assertions.assertEquals("Media Controller is functional", this.restTemplate.getForObject("http://localhost:" + port + "/media/test", String.class));
     }
 
     @Test
     @Description("Ensure that the delete media function works")
-    public void httpDeleteMedia_returnResponse(){
+    void httpDeleteMedia_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
@@ -71,7 +67,7 @@ public class MediaServiceIntegrationTests {
 
     @Test
     @Description("Ensure that the delete file function works")
-    public void httpDeleteFile_returnResponse(){
+    void httpDeleteFile_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
@@ -84,7 +80,7 @@ public class MediaServiceIntegrationTests {
 
     @Test
     @Description("Ensure that the get media by adventure function works")
-    public void httpGetAdventureMediaList_returnResponse(){
+    void httpGetAdventureMediaList_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
@@ -93,12 +89,12 @@ public class MediaServiceIntegrationTests {
         mediaRepository.saveAndFlush(media);
         mediaInfoRepository.saveAndFlush(mediaInfo);
         List<FileInfo> list = this.restTemplate.getForObject("http://localhost:" + port + "/media/getAdventureMediaList/{id}", List.class, adventureID);
-        Assertions.assertTrue(!list.isEmpty());
+        Assertions.assertFalse(list.isEmpty());
     }
 
     @Test
     @Description("Ensure that the get files by adventure function works")
-    public void httpGetAdventureFileList_returnResponse(){
+    void httpGetAdventureFileList_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
@@ -107,12 +103,12 @@ public class MediaServiceIntegrationTests {
         fileRepository.saveAndFlush(file);
         fileInfoRepository.saveAndFlush(fileInfo);
         List<FileInfo> list = this.restTemplate.getForObject("http://localhost:" + port + "/media/getAdventureFileList/{id}", List.class, adventureID);
-        Assertions.assertTrue(!list.isEmpty());
+        Assertions.assertFalse(list.isEmpty());
     }
 
     @Test
     @Description("Ensure that the get private files by User function works")
-    public void httpGetUserFileList_returnResponse(){
+    void httpGetUserFileList_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
@@ -121,6 +117,6 @@ public class MediaServiceIntegrationTests {
         fileRepository.saveAndFlush(file);
         fileInfoRepository.saveAndFlush(fileInfo);
         List<FileInfo> list = this.restTemplate.getForObject("http://localhost:" + port + "/media/getUserFileList/{id}", List.class, ownerID);
-        Assertions.assertTrue(!list.isEmpty());
+        Assertions.assertFalse(list.isEmpty());
     }
 }

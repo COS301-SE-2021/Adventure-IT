@@ -1,6 +1,5 @@
 package com.adventureit.checklist.Controllers;
 
-import com.adventureit.checklist.Entity.Checklist;
 import com.adventureit.checklist.Repository.ChecklistRepository;
 import com.adventureit.checklist.Requests.*;
 import com.adventureit.checklist.Responses.ChecklistEntryResponseDTO;
@@ -9,8 +8,6 @@ import com.adventureit.checklist.Service.ChecklistServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.CacheRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +20,7 @@ public class ChecklistController {
     ChecklistRepository checklistRepository;
 
     @GetMapping("/test")
-    String test(){
+    public String test(){
         return "Checklist Controller is functional";
     }
 
@@ -33,15 +30,8 @@ public class ChecklistController {
     }
 
     @GetMapping("/viewChecklistsByAdventure/{id}")
-    public List<ChecklistResponseDTO> viewChecklistsByAdventure(@PathVariable UUID id) throws Exception {
-        List<Checklist> checklists = checklistRepository.findAllByAdventureID(id);
-        List<ChecklistResponseDTO> list = new ArrayList<>();
-        for (Checklist c:checklists) {
-            if(!c.isDeleted()){
-                list.add(new ChecklistResponseDTO(c.getTitle(),c.getDescription(),c.getId(),c.getCreatorID(),c.getAdventureID(),c.isDeleted()));
-            }
-        }
-        return list;
+    public List<ChecklistResponseDTO> viewChecklistsByAdventure(@PathVariable UUID id) {
+        return checklistServiceImplementation.viewChecklistsByAdventure(id);
     }
 
     @GetMapping("/viewChecklist/{id}")
@@ -53,7 +43,7 @@ public class ChecklistController {
     public String softDelete(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
         return checklistServiceImplementation.softDelete(id,userID);
     }
-    //
+
     @GetMapping("/viewTrash/{id}")
     public List<ChecklistResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
         return checklistServiceImplementation.viewTrash(id);
@@ -89,11 +79,9 @@ public class ChecklistController {
         return checklistServiceImplementation.editChecklistEntry(req.getId(),req.getEntryContainerID(),req.getTitle());
     }
 
-
     @GetMapping("/markEntry/{id}")
     public void markEntry(@PathVariable UUID id) throws Exception {
         checklistServiceImplementation.markChecklistEntry(id);
-
     }
 
     @GetMapping("/getChecklist/{id}")

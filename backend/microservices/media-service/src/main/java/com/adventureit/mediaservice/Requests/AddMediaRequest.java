@@ -71,6 +71,4 @@ public class AddMediaRequest {
     public UUID getId() {
         return id;
     }
-
-
 }
