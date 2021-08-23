@@ -49,10 +49,6 @@ public class CreateAdventureResponse {
         this.adventure = adventure;
     }
 
-    public void setSuccess(boolean success){
-        this.success = success;
-    }
-
     public boolean isSuccess(){
         return this.success;
     }
