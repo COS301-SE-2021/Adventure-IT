@@ -10,7 +10,6 @@ public class CreateAdventureRequest{
     private String name;
     private String description;
     private UUID ownerId;
-    private ArrayList<String> group;
     private String startDate;
     private String endDate;
     private String location;
