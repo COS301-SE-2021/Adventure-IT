@@ -1,6 +1,6 @@
 package com.adventureit.adventureservice.controllers;
 
-import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
+import com.adventureit.adventureservice.requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.Responses.GetAdventuresByUserUUIDResponse;
 import com.adventureit.adventureservice.Responses.GetAllAdventuresResponse;
