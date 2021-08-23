@@ -85,6 +85,7 @@ public class Adventure{
         this.ownerId = ownerId;
     }
 
+    // TODO: Never called - do we need this?
     public void addAttendee(UUID attendeeID){
         this.attendees.add(attendeeID);
     }
@@ -115,6 +116,7 @@ public class Adventure{
         this.location = location;
     }
 
+    // TODO: Never called - do we need this?
     public void setAttendees(List<UUID> attendees) {
         this.attendees = attendees;
     }
@@ -127,10 +129,12 @@ public class Adventure{
         return location;
     }
 
+    // TODO: Never called - do we need this?
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
+    // TODO: Never called - do we need this?
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
