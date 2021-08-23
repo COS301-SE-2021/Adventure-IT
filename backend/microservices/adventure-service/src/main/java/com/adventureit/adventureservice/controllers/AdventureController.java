@@ -5,7 +5,7 @@ import com.adventureit.adventureservice.responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.responses.GetAdventuresByUserUUIDResponse;
 import com.adventureit.adventureservice.responses.GetAllAdventuresResponse;
 import com.adventureit.adventureservice.responses.RemoveAdventureResponse;
-import com.adventureit.adventureservice.Service.AdventureServiceImplementation;
+import com.adventureit.adventureservice.service.AdventureServiceImplementation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

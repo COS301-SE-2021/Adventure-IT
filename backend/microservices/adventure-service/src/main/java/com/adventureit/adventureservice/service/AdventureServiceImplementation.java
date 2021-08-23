@@ -1,4 +1,4 @@
-package com.adventureit.adventureservice.Service;
+package com.adventureit.adventureservice.service;
 
 
 import com.adventureit.adventureservice.entity.Adventure;
