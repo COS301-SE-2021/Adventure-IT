@@ -687,7 +687,7 @@ class AlertBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
         backgroundColor: Theme.of(context).primaryColorDark,
-        title: Stack(overflow: Overflow.visible, children: <Widget>[
+        title: Stack(clipBehavior: Clip.none, children: <Widget>[
           Positioned(
             right: -40.0,
             top: -40.0,
