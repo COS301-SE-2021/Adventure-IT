@@ -129,12 +129,7 @@ public class AdventureServiceImplementation implements AdventureService {
             throw new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
         }
 
-        userAdventures.sort(new Comparator<Adventure>() {
-            @Override
-            public int compare(Adventure o1, Adventure o2) {
-                return o1.getStartDate().compareTo(o2.getStartDate());
-            }
-        });
+        userAdventures.sort(Comparator.comparing(Adventure::getStartDate));
 
         List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
         for (Adventure a:userAdventures) {
