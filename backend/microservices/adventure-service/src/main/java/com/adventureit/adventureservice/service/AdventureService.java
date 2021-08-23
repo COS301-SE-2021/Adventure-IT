@@ -13,13 +13,13 @@ import java.util.UUID;
 public interface AdventureService{
 
     // TODO: Define specific exceptions here, against convention to throw a generic exception
-    public CreateAdventureResponse createAdventure(CreateAdventureRequest req) throws Exception;
-    public GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req) throws Exception;
-    public List<GetAllAdventuresResponse> getAllAdventures();
-    public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUUID(UUID id);
-    public List<GetAdventuresByUserUUIDResponse> getAdventureByOwnerUUID(UUID ownerID);
-    public List<GetAdventuresByUserUUIDResponse> getAdventureByAttendeeUUID(UUID attendeeID);
-    public List<UUID> getAttendees(UUID id) throws Exception;
-    public void setAdventureLocation(UUID adventureID, UUID locationID);
-    public void addAttendees(UUID adventureID, UUID userID) throws Exception;
+    CreateAdventureResponse createAdventure(CreateAdventureRequest req) throws Exception;
+    GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req) throws Exception;
+    List<GetAllAdventuresResponse> getAllAdventures();
+    List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUUID(UUID id);
+    List<GetAdventuresByUserUUIDResponse> getAdventureByOwnerUUID(UUID ownerID);
+    List<GetAdventuresByUserUUIDResponse> getAdventureByAttendeeUUID(UUID attendeeID);
+    List<UUID> getAttendees(UUID id) throws Exception;
+    void setAdventureLocation(UUID adventureID, UUID locationID);
+    void addAttendees(UUID adventureID, UUID userID) throws Exception;
 }
