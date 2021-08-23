@@ -143,12 +143,7 @@ public class AdventureServiceImplementation implements AdventureService {
     public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUUID(UUID id) {
         List<Adventure> userAdventures = adventureRepository.findAllByOwnerIdOrAttendeesContains(id,id);
 
-        userAdventures.sort(new Comparator<Adventure>() {
-            @Override
-            public int compare(Adventure o1, Adventure o2) {
-                return o1.getStartDate().compareTo(o2.getStartDate());
-            }
-        });
+        userAdventures.sort(Comparator.comparing(Adventure::getStartDate));
 
         List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
         for (Adventure a:userAdventures) {
