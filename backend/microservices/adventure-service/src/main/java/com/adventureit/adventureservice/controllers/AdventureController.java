@@ -1,4 +1,4 @@
-package com.adventureit.adventureservice.Controllers;
+package com.adventureit.adventureservice.controllers;
 
 import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.Responses.CreateAdventureResponse;

@@ -12,6 +12,7 @@ import com.adventureit.locationservice.Entity.Location;
 import com.adventureit.locationservice.Responses.LocationResponseDTO;
 
 import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
+
 import com.adventureit.timelineservice.Entity.TimelineType;
 import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
 import com.adventureit.maincontroller.Responses.AdventureResponseDTO;

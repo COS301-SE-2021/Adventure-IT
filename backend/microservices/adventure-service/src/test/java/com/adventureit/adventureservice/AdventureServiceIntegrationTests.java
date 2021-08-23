@@ -1,6 +1,6 @@
 package com.adventureit.adventureservice;
 
-import com.adventureit.adventureservice.Controllers.AdventureController;
+import com.adventureit.adventureservice.controllers.AdventureController;
 import com.adventureit.adventureservice.Entity.Adventure;
 import com.adventureit.adventureservice.Repository.AdventureRepository;
 import jdk.jfr.Description;
