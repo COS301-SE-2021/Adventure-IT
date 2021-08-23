@@ -30,9 +30,9 @@ public class Adventure{
 
     /**
      * Adventure model Constructor which takes in the following parameters:
-     * @param name
-     * @param adventureId
-     * @param ownerId
+     * @param name - The name of the adventure
+     * @param adventureId - The UUID of the adventure
+     * @param ownerId - The UUID of the creator of the adventure
      */
     public Adventure(String name, String description, UUID adventureId, UUID ownerId, LocalDate sd, LocalDate ed, UUID location){
         this.name=name;
@@ -55,7 +55,7 @@ public class Adventure{
 
     /**
      * Adventure service to set adventure's name
-     * @param  name
+     * @param  name - The name of the adventure to be set
      */
     public void setName(String name){
         this.name = name;
@@ -79,16 +79,11 @@ public class Adventure{
 
     /**
      * Adventure service to set adventure's owner
-     * @param  ownerId
+     * @param  ownerId - The UUID of the user to be set as the owner of the adventure
      */
     public void setOwnerId(UUID ownerId){
         this.ownerId = ownerId;
     }
-
-    /**
-     * Adventure service to retrieve adventure's Containers
-     * @return Containers
-     */
 
     public void addAttendee(UUID attendeeID){
         this.attendees.add(attendeeID);
