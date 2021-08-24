@@ -299,12 +299,10 @@ class AlertBox extends State<_AlertBox> {
       "Other"
     ];
     final BudgetApi api = new BudgetApi();
-    Future<CreateUTOBudgetEntry>? _futureUTOBudget;
-    Future<CreateUTUBudgetEntry>? _futureUTUBudget;
+    final otherController=TextEditingController();
     final amountController = TextEditingController();
     final titleController = TextEditingController();
     final descriptionController = TextEditingController();
-    final String payerController;
 
     if (userNames == null || userNames!.length == 0 ||
         userNamesAndOther == null || userNamesAndOther!.length == 0) {
@@ -585,6 +583,7 @@ class AlertBox extends State<_AlertBox> {
                                 .size
                                 .width * 0.02),
                         child: TextField(
+                            controller: otherController,
                             enabled:
                             payee != null && payee!.compareTo("Other") == 0,
                             style: TextStyle(
@@ -738,7 +737,7 @@ class AlertBox extends State<_AlertBox> {
                                       .bodyText1!
                                       .color)),
                           onPressed: () async {
-                            if (selectedCategory == 5) {
+                            if (payee!="Other") {
                               await widget.budgetEntryModel.addUTUBudgetEntry(
                                   b!,
                                   b!.id,
@@ -760,7 +759,7 @@ class AlertBox extends State<_AlertBox> {
                                   titleController.text,
                                   descriptionController.text,
                                   categoryNames[selectedCategory! - 1],
-                                  payee!);
+                                  otherController.text);
                               Navigator.pop(context);
                             }
                           },
