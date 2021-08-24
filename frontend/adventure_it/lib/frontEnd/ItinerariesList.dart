@@ -15,7 +15,7 @@ import 'ItineraryTrash.dart';
 import 'Navbar.dart';
 
 class Itineraries extends StatelessWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
 
   Itineraries(Adventure? a) {
     this.adventure = a;
@@ -110,7 +110,7 @@ class Itineraries extends StatelessWidget {
 }
 
 class ItinerariesList extends StatefulWidget {
-  Adventure? currentAdventure;
+  late final Adventure? currentAdventure;
 
   ItinerariesList(Adventure a) {
     currentAdventure = a;
@@ -369,7 +369,7 @@ class _ItinerariesList extends State<ItinerariesList> {
 }
 
 class AlertBox extends StatefulWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
   final ItineraryModel itineraryModel;
 
   AlertBox(this.adventure, this.itineraryModel);
