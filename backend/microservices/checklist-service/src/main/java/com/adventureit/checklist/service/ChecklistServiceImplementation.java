@@ -1,12 +1,15 @@
-package com.adventureit.checklist.Service;
+package com.adventureit.checklist.service;
 
-import com.adventureit.checklist.Entity.Checklist;
-import com.adventureit.checklist.Entity.ChecklistEntry;
-import com.adventureit.checklist.Repository.ChecklistEntryRepository;
-import com.adventureit.checklist.Repository.ChecklistRepository;
-import com.adventureit.checklist.Requests.ChecklistDTO;
-import com.adventureit.checklist.Responses.ChecklistEntryResponseDTO;
-import com.adventureit.checklist.Responses.ChecklistResponseDTO;
+import com.adventureit.checklist.entity.Checklist;
+import com.adventureit.checklist.entity.ChecklistEntry;
+import com.adventureit.checklist.exceptions.NotFoundException;
+import com.adventureit.checklist.exceptions.NullFieldException;
+import com.adventureit.checklist.exceptions.UnauthorisedException;
+import com.adventureit.checklist.repository.ChecklistEntryRepository;
+import com.adventureit.checklist.repository.ChecklistRepository;
+import com.adventureit.checklist.requests.ChecklistDTO;
+import com.adventureit.checklist.responses.ChecklistEntryResponseDTO;
+import com.adventureit.checklist.responses.ChecklistResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +21,9 @@ import java.util.UUID;
 @Service
 public class ChecklistServiceImplementation implements ChecklistService {
     @Autowired
-    private ChecklistRepository checklistRepository;
-    private ChecklistEntryRepository checklistEntryRepository;
+    private final ChecklistRepository checklistRepository;
+    @Autowired
+    private final ChecklistEntryRepository checklistEntryRepository;
 
     @Autowired
     public ChecklistServiceImplementation(ChecklistRepository checklistRepository, ChecklistEntryRepository checklistEntryRepository){
@@ -28,18 +32,18 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public String createChecklist(String title, String description, UUID creatorID, UUID adventureID) throws Exception {
+    public String createChecklist(String title, String description, UUID creatorID, UUID adventureID){
         if(title == null){
-            throw new Exception("No title provided");
+            throw new NullFieldException("Create Checklist: No title provided");
         }
         if(description == null){
-            throw new Exception("No description provided");
+            throw new NullFieldException("Create Checklist: No description provided");
         }
         if(creatorID == null){
-            throw new Exception("No Creator ID provided");
+            throw new NullFieldException("Create Checklist: No Creator ID provided");
         }
         if(adventureID == null){
-            throw new Exception("No Adventure ID provided");
+            throw new NullFieldException("Create Checklist: No Adventure ID provided");
         }
 
         Checklist checklist = new Checklist(title,description,creatorID,adventureID);
@@ -48,17 +52,17 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public String addChecklistEntry(String title, UUID entryContainerID) throws Exception {
+    public String addChecklistEntry(String title, UUID entryContainerID){
         if(title == null){
-            throw new Exception("No title provided");
+            throw new NullFieldException("Add Checklist Entry: No title provided");
         }
         if(entryContainerID == null){
-            throw new Exception("No Checklist ID provided");
+            throw new NullFieldException("Add Checklist Entry: No Checklist ID provided");
         }
 
         Checklist checklist = checklistRepository.findChecklistById(entryContainerID);
         if(checklist == null){
-            throw new Exception("Checklist does not exist");
+            throw new NotFoundException("Add Checklist Entry: Checklist does not exist");
         }
 
         ChecklistEntry newEntry = new ChecklistEntry(title,entryContainerID);
@@ -67,14 +71,14 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public String removeChecklistEntry(UUID id) throws Exception {
+    public String removeChecklistEntry(UUID id){
         if(id == null){
-            throw new Exception("No ID provided");
+            throw new NullFieldException("Remove Checklist Entry: No ID provided");
         }
 
         ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
         if(entry == null){
-            throw new Exception("Checklist Entry does not exist");
+            throw new NotFoundException("Remove Checklist Entry: Checklist Entry does not exist");
         }
 
         checklistEntryRepository.delete(checklistEntryRepository.findChecklistEntryById(id));
@@ -82,23 +86,23 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public String editChecklistEntry(UUID id, UUID entryContainerID, String title) throws Exception {
+    public String editChecklistEntry(UUID id, UUID entryContainerID, String title){
         if(checklistRepository.findChecklistById(entryContainerID) == null){
-            throw new Exception("Checklist does not exist.");
+            throw new NotFoundException("Edit Checklist Entry: Checklist does not exist.");
         }
         if(id == null){
-            throw new Exception("Entry ID not provided.");
+            throw new NullFieldException("Edit Checklist Entry: Entry ID not provided.");
         }
         if(entryContainerID == null){
-            throw new Exception("Itinerary ID not provided");
+            throw new NullFieldException("Edit Checklist Entry: Itinerary ID not provided");
         }
         if(title == null){
-            throw new Exception("Description Field is null.");
+            throw new NullFieldException("Edit Checklist Entry: Description Field is null.");
         }
 
         ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
         if(entry == null){
-            throw new Exception("Entry does not exist.");
+            throw new NotFoundException("Edit Checklist Entry: Entry does not exist.");
         }
 
         if(!title.equals("")){
@@ -110,13 +114,13 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public void markChecklistEntry(UUID id) throws Exception {
+    public void markChecklistEntry(UUID id){
         if(id == null){
-            throw new Exception("Entry ID not provided.");
+            throw new NullFieldException("Mark Checklist Entry: Entry ID not provided.");
         }
         ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(id);
         if(entry == null){
-            throw new Exception("Entry does not exist.");
+            throw new NotFoundException("Mark Checklist Entry: Entry does not exist.");
         }
 
         entry.setCompleted(!entry.getCompleted());
@@ -124,18 +128,18 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public String softDelete(UUID id,UUID userID) throws Exception {
+    public String softDelete(UUID id,UUID userID){
         if(id == null){
-            throw new Exception("Checklist ID not provided.");
+            throw new NullFieldException("Soft Delete Checklist: Checklist ID not provided.");
         }
 
         Checklist checklist = checklistRepository.findChecklistByIdAndDeleted(id,false);
 
         if(checklist == null){
-            throw new Exception("Checklist does not exist.");
+            throw new NullFieldException("Soft Delete Checklist: Checklist does not exist.");
         }
         if(!userID.equals(checklist.getCreatorID())){
-            throw new Exception("User not Authorised");
+            throw new UnauthorisedException("Soft Delete Checklist: User not Authorised");
         }
 
         checklist.setDeleted(true);
@@ -144,18 +148,18 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public String hardDelete(UUID id,UUID userID) throws Exception {
+    public String hardDelete(UUID id,UUID userID){
         if(id == null){
-            throw new Exception("Checklist ID not provided.");
+            throw new NullFieldException("Hard Delete Checklist: Checklist ID not provided.");
         }
 
         Checklist checklist = checklistRepository.findChecklistByIdAndDeleted(id,true);
 
         if(checklist == null){
-            throw new Exception("Checklist is not in trash.");
+            throw new NotFoundException("Hard Delete Checklist: Checklist is not in trash.");
         }
         if(!userID.equals(checklist.getCreatorID())){
-            throw new Exception("User not Authorised");
+            throw new UnauthorisedException("Hard Delete Checklist: User not Authorised");
         }
 
         List<ChecklistEntry> checklists = checklistEntryRepository.findAllByEntryContainerID(id);
@@ -170,7 +174,7 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public List<ChecklistResponseDTO> viewTrash(UUID id) throws Exception {
+    public List<ChecklistResponseDTO> viewTrash(UUID id){
         List<Checklist> checklists = checklistRepository.findAllByAdventureID(id);
         List<ChecklistResponseDTO> list = new ArrayList<>();
         for (Checklist b:checklists) {
@@ -182,14 +186,14 @@ public class ChecklistServiceImplementation implements ChecklistService {
         return list;
     }
 
-    public String restoreChecklist(UUID id,UUID userID) throws Exception {
+    public String restoreChecklist(UUID id,UUID userID){
         if(checklistRepository.findChecklistById(id) == null){
-            throw new Exception("Checklist does not exist.");
+            throw new NotFoundException("Restore Checklist: Checklist does not exist.");
         }
 
         Checklist checklist = checklistRepository.findChecklistById(id);
         if(!userID.equals(checklist.getCreatorID())){
-            throw new Exception("User not Authorised");
+            throw new UnauthorisedException("Restore Checklist: User not Authorised");
         }
 
         checklist.setDeleted(false);
@@ -198,21 +202,16 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
-    public List<ChecklistEntryResponseDTO> viewChecklist(UUID id) throws Exception {
+    public List<ChecklistEntryResponseDTO> viewChecklist(UUID id){
         Checklist checklist = checklistRepository.findChecklistByIdAndDeleted(id, false);
         if(checklist == null){
-            throw new Exception("Checklist does not exist");
+            throw new NotFoundException("View Checklist: Checklist does not exist");
         }
 
         List<ChecklistEntry> entries = checklistEntryRepository.findAllByEntryContainerID(id);
         List<ChecklistEntryResponseDTO> list = new ArrayList<>();
 
-        entries.sort(new Comparator<ChecklistEntry>() {
-            @Override
-            public int compare(ChecklistEntry o1, ChecklistEntry o2) {
-                return o1.getTimestamp().compareTo(o2.getTimestamp());
-            }
-        });
+        entries.sort(Comparator.comparing(ChecklistEntry::getTimestamp));
 
         for (ChecklistEntry entry:entries) {
             list.add(new ChecklistEntryResponseDTO(entry.getId(),entry.getEntryContainerID(),entry.getTitle(),entry.getCompleted()));

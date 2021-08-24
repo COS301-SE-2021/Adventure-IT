@@ -1,14 +1,14 @@
-package com.adventureit.checklist.Requests;
+package com.adventureit.checklist.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
-public class RemoveChecklistEntryRequest {
+public class MarkChecklistEntryRequest {
     UUID id;
     UUID entryContainerID;
 
-    public RemoveChecklistEntryRequest(@JsonProperty("id") UUID id, @JsonProperty("entryContainerID") UUID entryContainerID){
+    public MarkChecklistEntryRequest(@JsonProperty("id")UUID id, @JsonProperty("entryContainerID") UUID entryContainerID){
         this.id = id;
         this.entryContainerID = entryContainerID;
     }

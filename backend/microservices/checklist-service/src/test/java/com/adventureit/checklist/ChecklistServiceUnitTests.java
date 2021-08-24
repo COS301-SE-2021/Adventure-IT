@@ -1,11 +1,11 @@
 package com.adventureit.checklist;
 
-import com.adventureit.checklist.Entity.Checklist;
-import com.adventureit.checklist.Entity.ChecklistEntry;
-import com.adventureit.checklist.Repository.ChecklistEntryRepository;
-import com.adventureit.checklist.Repository.ChecklistRepository;
-import com.adventureit.checklist.Responses.ChecklistResponseDTO;
-import com.adventureit.checklist.Service.ChecklistServiceImplementation;
+import com.adventureit.checklist.entity.Checklist;
+import com.adventureit.checklist.entity.ChecklistEntry;
+import com.adventureit.checklist.repository.ChecklistEntryRepository;
+import com.adventureit.checklist.repository.ChecklistRepository;
+import com.adventureit.checklist.responses.ChecklistResponseDTO;
+import com.adventureit.checklist.service.ChecklistServiceImplementation;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

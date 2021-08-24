@@ -1,6 +1,6 @@
-package com.adventureit.checklist.Repository;
+package com.adventureit.checklist.repository;
 
-import com.adventureit.checklist.Entity.ChecklistEntry;
+import com.adventureit.checklist.entity.ChecklistEntry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

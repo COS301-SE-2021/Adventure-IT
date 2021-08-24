@@ -1,4 +1,4 @@
-package com.adventureit.checklist.Entity;
+package com.adventureit.checklist.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

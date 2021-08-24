@@ -1,4 +1,4 @@
-package com.adventureit.checklist.Requests;
+package com.adventureit.checklist.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

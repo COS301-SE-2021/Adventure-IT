@@ -1,4 +1,4 @@
-package com.adventureit.checklist.Responses;
+package com.adventureit.checklist.responses;
 
 import java.util.UUID;
 
