@@ -978,11 +978,14 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                           Expanded(
                                             flex: 4,
                                             child: ListTile(
-                                                title: Row(children: [
-                                                  Text(
+                                                title: Column(
+                                                    children: [
+                                                  Row( children:[Text(
                                                       budgetEntryModel.entries!
                                                           .elementAt(index)
                                                           .title,
+                                                      textAlign: TextAlign
+                                                          .left,
                                                       style: TextStyle(
                                                           fontSize: 25 *
                                                               MediaQuery
@@ -995,14 +998,13 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                               .of(context)
                                                               .textTheme
                                                               .bodyText1!
-                                                              .color)),
-                                                  Spacer(),
-                                                  Text(
+                                                              .color)),]),
+                                                  Row(children:[Text(
                                                       budgetEntryModel.entries!
                                                           .elementAt(index)
                                                           .description,
                                                       textAlign: TextAlign
-                                                          .right,
+                                                          .left,
                                                       style: TextStyle(
                                                           fontSize: 15 *
                                                               MediaQuery
@@ -1013,10 +1015,12 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                               .of(context)
                                                               .textTheme
                                                               .bodyText1!
-                                                              .color)),
+                                                              .color))]),
                                                 ]),
                                                 subtitle: Row(children: [
-                                                  Text(
+                                                Container(
+                                                width:MediaQuery.of(context).size.width/3.5,
+                                                child:Text(
                                                       budgetEntryModel.entries!
                                                           .elementAt(index)
                                                           .payer,
@@ -1032,9 +1036,11 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                               .of(context)
                                                               .textTheme
                                                               .bodyText1!
-                                                              .color)),
-                                                  Spacer(),
-                                                  Text(
+                                                              .color)),),
+                                          Spacer(),
+                                          Container(
+                                              width:MediaQuery.of(context).size.width/3.5,
+                                              child:Text(
                                                       budgetEntryModel.entries!
                                                           .elementAt(index)
                                                           .amount
@@ -1053,9 +1059,11 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                               .of(context)
                                                               .textTheme
                                                               .bodyText1!
-                                                              .color)),
-                                                  Spacer(),
-                                                  Text(
+                                                              .color)),),
+                                          Spacer(),
+                                          Container(
+                                              width:MediaQuery.of(context).size.width/3.5,
+                                              child:Text(
                                                       budgetEntryModel.entries!
                                                           .elementAt(index)
                                                           .payee,
@@ -1071,7 +1079,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                               .of(context)
                                                               .textTheme
                                                               .bodyText1!
-                                                              .color))
+                                                              .color)))
                                                 ])),
                                           ),
                                         ],
@@ -1750,7 +1758,9 @@ class getReport extends StatelessWidget {
                                         flex: 4,
                                         child: ListTile(
                                           title: Row(children: [
-                                            Text(
+                                            Container(
+                                              width:MediaQuery.of(context).size.width/5.25,
+                                              child: Text(
                                                 budgetReportModel.reports!
                                                     .elementAt(index).amount > 0
                                                     ? "You"
@@ -1768,8 +1778,11 @@ class getReport extends StatelessWidget {
                                                         .of(context)
                                                         .textTheme
                                                         .bodyText1!
-                                                        .color)),
-                                            Spacer(),
+                                                        .color)),),
+                                    Spacer(),
+                                    Container(
+                                        width:MediaQuery.of(context).size.width/5.25,
+                                        child:
                                             Text(
                                                 budgetReportModel.reports!
                                                     .elementAt(index).amount > 0
@@ -1786,8 +1799,11 @@ class getReport extends StatelessWidget {
                                                         .of(context)
                                                         .textTheme
                                                         .bodyText1!
-                                                        .color)),
-                                            Spacer(),
+                                                        .color)), ),
+                                    Spacer(),
+                                    Container(
+                                        width:MediaQuery.of(context).size.width/5.25,
+                                        child:
                                             Text(
                                                 budgetReportModel.reports!
                                                     .elementAt(index).amount > 0
@@ -1809,9 +1825,11 @@ class getReport extends StatelessWidget {
                                                         .of(context)
                                                         .textTheme
                                                         .bodyText1!
-                                                        .color)),
-                                            Spacer(),
-                                            Text(
+                                                        .color)), ),
+                                    Spacer(),
+                                    Container(
+                                        width:MediaQuery.of(context).size.width/5.25,
+                                        child:Text(
                                                 " To ",
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
@@ -1824,9 +1842,11 @@ class getReport extends StatelessWidget {
                                                         .of(context)
                                                         .textTheme
                                                         .bodyText1!
-                                                        .color)),
-                                            Spacer(),
-                                            Text(
+                                                        .color)),),
+                                    Spacer(),
+                                    Container(
+                                        width:MediaQuery.of(context).size.width/5.25,
+                                        child:Text(
                                                 budgetReportModel.reports!
                                                     .elementAt(index).amount > 0
                                                     ? budgetReportModel.reports!
@@ -1843,7 +1863,7 @@ class getReport extends StatelessWidget {
                                                         .of(context)
                                                         .textTheme
                                                         .bodyText1!
-                                                        .color)),
+                                                        .color)),)
 
                                           ]),
                                         ),
