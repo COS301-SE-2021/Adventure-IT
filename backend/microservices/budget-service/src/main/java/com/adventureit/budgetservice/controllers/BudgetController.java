@@ -15,11 +15,14 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/budget")
 public class BudgetController {
-	@Autowired
 	BudgetServiceImplementation budgetServiceImplementation;
 	
-	@Autowired
 	BudgetRepository budgetRepository;
+
+	public BudgetController(BudgetServiceImplementation budgetServiceImplementation, BudgetRepository budgetRepository){
+		this.budgetServiceImplementation = budgetServiceImplementation;
+		this.budgetRepository = budgetRepository;
+	}
 
 	@GetMapping("/test")
 	String test(){
