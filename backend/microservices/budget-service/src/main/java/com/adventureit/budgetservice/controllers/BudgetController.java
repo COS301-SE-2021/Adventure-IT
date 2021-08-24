@@ -6,7 +6,6 @@ import com.adventureit.budgetservice.requests.*;
 import com.adventureit.budgetservice.responses.*;
 import com.adventureit.budgetservice.service.BudgetServiceImplementation;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
