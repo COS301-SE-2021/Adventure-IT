@@ -8,7 +8,7 @@ import 'ItinerariesList.dart';
 import 'Navbar.dart';
 
 class ItineraryTrash extends StatelessWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
 
   ItineraryTrash(Adventure? a) {
     this.adventure = a;
@@ -67,8 +67,8 @@ class ItineraryTrash extends StatelessWidget {
 }
 
 class DeletedItineraryList extends StatelessWidget {
-  Adventure? a;
-  BuildContext? c;
+  late final Adventure? a;
+  late final BuildContext? c;
 
   DeletedItineraryList(Adventure? adventure) {
     this.a = adventure;
