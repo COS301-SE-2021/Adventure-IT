@@ -20,12 +20,11 @@ import 'MediaList.dart';
 import 'Navbar.dart';
 import 'TimelinePage.dart';
 
-//TODO: immutable warning at adventureTimer, adventurePage and alertBox
 //TODO: import countdown in non-null-safe file
 
 //Shows adventure countdown/ completion
 class AdventureTimer extends StatefulWidget {
-  Adventure? a;
+  late final Adventure? a;
 
   AdventureTimer(Adventure? a) {
     this.a = a;
@@ -154,7 +153,7 @@ class _AdventureTimer extends State<AdventureTimer> {
 
 //Shows adventure page and allows user to see different items within an adventure
 class AdventurePage extends StatelessWidget {
-  Adventure? currentAdventure;
+  late final Adventure? currentAdventure;
 
   AdventurePage(Adventure? a) {
     this.currentAdventure = a;
@@ -665,7 +664,7 @@ class AdventurePage extends StatelessWidget {
 
 //Sharing button: adds friend to adventure
 class AlertBox extends StatelessWidget {
-  Adventure? currentAdventure;
+  late final Adventure? currentAdventure;
 
   AlertBox(Adventure a) {
     currentAdventure = a;
@@ -681,7 +680,7 @@ class AlertBox extends StatelessWidget {
   }
 
   //controllers for the form fields
-  String userID = UserApi.getInstance().getUserProfile()!.userID;
+  late final String userID = UserApi.getInstance().getUserProfile()!.userID;
 
   @override
   Widget build(BuildContext context) {
