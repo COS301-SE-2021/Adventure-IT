@@ -136,6 +136,7 @@ class BudgetEntryModel extends ChangeNotifier {
   }
 
   List<BudgetEntry>? get entries => _entries?.toList();
+  List<Report>? get reports => _reports?.toList();
 
   Future fetchAllEntries(Budget b) async {
     _entries = await BudgetApi.getEntries(b);
