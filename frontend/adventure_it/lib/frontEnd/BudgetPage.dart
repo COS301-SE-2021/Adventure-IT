@@ -1727,6 +1727,7 @@ class getReport extends StatelessWidget {
                             .accentColor)));
           }
           if (budgetReportModel.reports!.length > 0) {
+            print("length: "+budgetReportModel.reports!.length.toString());
             return Expanded(
                 flex: 2,
                 child: ListView(children: [
@@ -1854,6 +1855,7 @@ class getReport extends StatelessWidget {
                   )
                 ]));
           } else {
+            print("length: "+budgetReportModel.reports!.length.toString());
             return Center(
                 child: Text("Well done! You owe no one money!",
                     textAlign: TextAlign.center,
