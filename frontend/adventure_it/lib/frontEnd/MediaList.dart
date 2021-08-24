@@ -1,22 +1,17 @@
-import 'package:adventure_it/Providers/media_model.dart';
-import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
-import 'package:adventure_it/api/user_api.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
+import 'package:adventure_it/constants.dart';
+
+import 'package:adventure_it/Providers/media_model.dart';
+import 'package:adventure_it/api/adventure.dart';
+import 'package:adventure_it/api/mediaAPI.dart';
+
 import 'AdventurePage.dart';
-
-import 'package:flutter/material.dart';
-import 'HomepageStartup.dart';
-
-import '../api/budget.dart';
-import '../api/mediaAPI.dart';
 import 'Navbar.dart';
 
 class MediaPage extends StatelessWidget {
@@ -154,8 +149,7 @@ class MediaList extends StatelessWidget {
                           context, mediaModel.media!.elementAt(index));
                     }
                   },
-                  child: Stack(overflow: Overflow.visible, children: <Widget>[
-
+                  child: Stack(clipBehavior: Clip.none, children: <Widget>[
                     Center(
                         child: Container(
                             height: double.infinity,
@@ -192,15 +186,15 @@ class MediaList extends StatelessWidget {
                       right: -10.0,
                       top: -10.0,
                       child: InkResponse(
-                        onTap: (){
-                          Provider.of<MediaModel>(context,
-                              listen: false)
-                              .removeMedia(mediaModel.media!.elementAt(index).id);
+                        onTap: () {
+                          Provider.of<MediaModel>(context, listen: false)
+                              .removeMedia(
+                                  mediaModel.media!.elementAt(index).id);
                         },
                         child: CircleAvatar(
-                          radius:MediaQuery.of(context).size.width*0.02,
+                          radius: MediaQuery.of(context).size.width * 0.02,
                           child: Icon(Icons.close,
-                              size: MediaQuery.of(context).size.width*0.02,
+                              size: MediaQuery.of(context).size.width * 0.02,
                               color: Theme.of(context).primaryColorDark),
                           backgroundColor: Theme.of(context).accentColor,
                         ),
