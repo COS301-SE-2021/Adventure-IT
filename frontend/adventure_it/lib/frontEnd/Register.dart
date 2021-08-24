@@ -43,7 +43,7 @@ class Register extends State<RegisterCaller> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-              SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.15),
               SizedBox(
                 width: 350,
                 child: TextField(
@@ -106,22 +106,6 @@ class Register extends State<RegisterCaller> {
                         fillColor: Theme.of(context).primaryColorLight,
                         border: OutlineInputBorder(),
                         hintText: 'Email')),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-              SizedBox(
-                width: 350,
-                child: TextField(
-                    style: TextStyle(color: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyText1!
-                        .color),
-                    controller: phoneNumberController,
-                    decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Theme.of(context).primaryColorLight,
-                        border: OutlineInputBorder(),
-                        hintText: 'Phone number')),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               SizedBox(
