@@ -13,8 +13,8 @@ import 'ItinerariesList.dart';
 import 'Navbar.dart';
 
 class ItineraryPage extends StatelessWidget {
-  Itinerary? currentItinerary;
-  Adventure? currentAdventure;
+  late final Itinerary? currentItinerary;
+  late final Adventure? currentAdventure;
 
   ItineraryPage(Itinerary? i, Adventure? a) {
     this.currentItinerary = i;
@@ -124,7 +124,7 @@ class ItineraryPage extends StatelessWidget {
 }
 
 class AlertBox extends StatefulWidget {
-  Itinerary? currentItinerary;
+  late final Itinerary? currentItinerary;
   final ItineraryEntryModel itineraryEntryModel;
 
   AlertBox(this.currentItinerary, this.itineraryEntryModel);
@@ -728,8 +728,8 @@ class _AlertBox extends State<AlertBox> {
 }
 
 class _ListItineraryItems extends StatefulWidget {
-  Adventure? currentAdventure;
-  Itinerary? currentItinerary;
+  late final Adventure? currentAdventure;
+  late final Itinerary? currentItinerary;
 
   _ListItineraryItems(Adventure a, Itinerary i) {
     this.currentAdventure = a;
