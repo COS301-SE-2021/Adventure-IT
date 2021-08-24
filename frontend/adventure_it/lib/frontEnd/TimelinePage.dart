@@ -9,7 +9,7 @@ import 'AdventurePage.dart';
 import 'Navbar.dart';
 
 class TimePage extends StatelessWidget {
-  Adventure? currentAdventure;
+  late final Adventure? currentAdventure;
 
   TimePage(Adventure? a) {
     this.currentAdventure = a;
@@ -28,7 +28,7 @@ class TimePage extends StatelessWidget {
 }
 
 class TimeLine extends StatelessWidget {
-  Adventure? a;
+  late final Adventure? a;
 
   TimeLine(Adventure? a) {
     this.a = a;
@@ -83,13 +83,13 @@ class TimeLine extends StatelessWidget {
 }
 
 class TimelineList extends StatelessWidget {
-  Adventure? a;
+  late final Adventure? a;
 
   TimelineList(Adventure? adv) {
     this.a = adv;
   }
 
-  List<String> months = [
+  final List<String> months = [
     "January",
     "February",
     "March",
