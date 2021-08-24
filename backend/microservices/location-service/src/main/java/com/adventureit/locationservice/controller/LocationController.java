@@ -1,7 +1,7 @@
 package com.adventureit.locationservice.controller;
 
-import com.adventureit.locationservice.Responses.LocationResponseDTO;
-import com.adventureit.locationservice.Service.LocationServiceImplementation;
+import com.adventureit.locationservice.responses.LocationResponseDTO;
+import com.adventureit.locationservice.service.LocationServiceImplementation;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +27,7 @@ public class LocationController {
     }
 
     @GetMapping(value = "/getLocation/{id}")
-    public LocationResponseDTO getLocation(@PathVariable UUID id) throws Exception {
+    public LocationResponseDTO getLocation(@PathVariable UUID id){
         return locationServiceImplementation.getLocation(id);
     }
 }

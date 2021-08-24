@@ -1,7 +1,6 @@
 package com.adventureit.maincontroller.Responses;
 
-import com.adventureit.locationservice.Entity.Location;
-import com.adventureit.locationservice.Responses.LocationResponseDTO;
+import com.adventureit.locationservice.responses.LocationResponseDTO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

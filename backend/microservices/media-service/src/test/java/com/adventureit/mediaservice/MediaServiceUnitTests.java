@@ -1,14 +1,14 @@
 package com.adventureit.mediaservice;
 
-import com.adventureit.mediaservice.Entity.File;
-import com.adventureit.mediaservice.Entity.FileInfo;
-import com.adventureit.mediaservice.Entity.Media;
-import com.adventureit.mediaservice.Entity.MediaInfo;
-import com.adventureit.mediaservice.Repository.FileInfoRepository;
-import com.adventureit.mediaservice.Repository.FileRepository;
-import com.adventureit.mediaservice.Repository.MediaInfoRepository;
-import com.adventureit.mediaservice.Repository.MediaRepository;
-import com.adventureit.mediaservice.Service.MediaServiceImplementation;
+import com.adventureit.mediaservice.entity.File;
+import com.adventureit.mediaservice.entity.FileInfo;
+import com.adventureit.mediaservice.entity.Media;
+import com.adventureit.mediaservice.entity.MediaInfo;
+import com.adventureit.mediaservice.repository.FileInfoRepository;
+import com.adventureit.mediaservice.repository.FileRepository;
+import com.adventureit.mediaservice.repository.MediaInfoRepository;
+import com.adventureit.mediaservice.repository.MediaRepository;
+import com.adventureit.mediaservice.service.MediaServiceImplementation;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -66,7 +66,7 @@ class MediaServiceUnitTests {
 
     @Test
     @Description("Ensure user can delete media")
-    void deleteMediaValid() throws Exception {
+    void deleteMediaValid(){
         Mockito.when(mockMediaRepository.findMediaById(validMediaID1)).thenReturn(mockMedia);
         Mockito.when(mockMediaInfoRepository.findMediaById(validMediaID1)).thenReturn(mockMediaInfo);
         sut.deleteMedia(validMediaID1,validUserID1);
@@ -74,7 +74,7 @@ class MediaServiceUnitTests {
 
     @Test
     @Description("Ensure only owner can delete media")
-    void deleteMediaInvalid_ThrowsException() throws Exception {
+    void deleteMediaInvalid_ThrowsException(){
         Mockito.when(mockMediaRepository.findMediaById(validMediaID1)).thenReturn(mockMedia);
         Mockito.when(mockMediaInfoRepository.findMediaById(validMediaID1)).thenReturn(mockMediaInfo);
         Assertions.assertThrows(Exception.class, ()->{
@@ -84,7 +84,7 @@ class MediaServiceUnitTests {
 
     @Test
     @Description("Ensure user can delete a file")
-    void deleteFileValid() throws Exception {
+    void deleteFileValid(){
         Mockito.when(mockFileRepository.findFileById(validFileID1)).thenReturn(mockFile);
         Mockito.when(mockFileInfoRepository.findFileInfoById(validFileID1)).thenReturn(mockFileInfo);
         sut.deleteFile(validFileID1,validUserID1);
@@ -92,7 +92,7 @@ class MediaServiceUnitTests {
 
     @Test
     @Description("Ensure only owner can delete a file")
-    void deleteFileInvalid_ThrowsException() throws Exception {
+    void deleteFileInvalid_ThrowsException(){
         Mockito.when(mockFileRepository.findFileById(validFileID1)).thenReturn(mockFile);
         Mockito.when(mockFileInfoRepository.findFileInfoById(validFileID1)).thenReturn(mockFileInfo);
         Assertions.assertThrows(Exception.class, ()->{

@@ -6,7 +6,7 @@ import com.adventureit.itinerary.requests.CreateItineraryRequest;
 import com.adventureit.itinerary.requests.EditItineraryEntryRequest;
 import com.adventureit.itinerary.responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.responses.ItineraryResponseDTO;
-import com.adventureit.locationservice.Responses.LocationResponseDTO;
+import com.adventureit.locationservice.responses.LocationResponseDTO;
 import com.adventureit.maincontroller.Responses.MainItineraryEntryResponseDTO;
 import com.adventureit.timelineservice.Entity.TimelineType;
 import com.adventureit.timelineservice.Requests.CreateTimelineRequest;

@@ -1,14 +1,14 @@
 package com.adventureit.mediaservice;
 
-import com.adventureit.mediaservice.Controller.MediaController;
-import com.adventureit.mediaservice.Entity.File;
-import com.adventureit.mediaservice.Entity.FileInfo;
-import com.adventureit.mediaservice.Entity.Media;
-import com.adventureit.mediaservice.Entity.MediaInfo;
-import com.adventureit.mediaservice.Repository.FileInfoRepository;
-import com.adventureit.mediaservice.Repository.FileRepository;
-import com.adventureit.mediaservice.Repository.MediaInfoRepository;
-import com.adventureit.mediaservice.Repository.MediaRepository;
+import com.adventureit.mediaservice.controller.MediaController;
+import com.adventureit.mediaservice.entity.File;
+import com.adventureit.mediaservice.entity.FileInfo;
+import com.adventureit.mediaservice.entity.Media;
+import com.adventureit.mediaservice.entity.MediaInfo;
+import com.adventureit.mediaservice.repository.FileInfoRepository;
+import com.adventureit.mediaservice.repository.FileRepository;
+import com.adventureit.mediaservice.repository.MediaInfoRepository;
+import com.adventureit.mediaservice.repository.MediaRepository;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
