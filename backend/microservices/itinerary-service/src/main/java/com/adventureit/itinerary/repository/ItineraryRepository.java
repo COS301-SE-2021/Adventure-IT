@@ -1,6 +1,6 @@
-package com.adventureit.itinerary.Repository;
+package com.adventureit.itinerary.repository;
 
-import com.adventureit.itinerary.Entity.Itinerary;
+import com.adventureit.itinerary.entity.Itinerary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

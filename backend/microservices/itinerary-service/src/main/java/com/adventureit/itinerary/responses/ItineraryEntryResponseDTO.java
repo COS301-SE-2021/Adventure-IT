@@ -1,4 +1,4 @@
-package com.adventureit.itinerary.Responses;
+package com.adventureit.itinerary.responses;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

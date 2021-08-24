@@ -1,10 +1,10 @@
 package com.adventureit.itinerary;
 
-import com.adventureit.itinerary.Controller.ItineraryController;
-import com.adventureit.itinerary.Entity.Itinerary;
-import com.adventureit.itinerary.Entity.ItineraryEntry;
-import com.adventureit.itinerary.Repository.ItineraryEntryRepository;
-import com.adventureit.itinerary.Repository.ItineraryRepository;
+import com.adventureit.itinerary.controller.ItineraryController;
+import com.adventureit.itinerary.entity.Itinerary;
+import com.adventureit.itinerary.entity.ItineraryEntry;
+import com.adventureit.itinerary.repository.ItineraryEntryRepository;
+import com.adventureit.itinerary.repository.ItineraryRepository;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

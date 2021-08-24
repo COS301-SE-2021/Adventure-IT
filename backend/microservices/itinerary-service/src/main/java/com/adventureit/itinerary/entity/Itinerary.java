@@ -1,4 +1,4 @@
-package com.adventureit.itinerary.Entity;
+package com.adventureit.itinerary.entity;
 
 import javax.persistence.*;
 import java.util.UUID;

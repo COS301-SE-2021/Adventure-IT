@@ -1,14 +1,16 @@
-package com.adventureit.itinerary.Service;
+package com.adventureit.itinerary.service;
 
-import com.adventureit.itinerary.Entity.Itinerary;
-import com.adventureit.itinerary.Entity.ItineraryEntry;
-import com.adventureit.itinerary.Repository.ItineraryEntryRepository;
-import com.adventureit.itinerary.Repository.ItineraryRepository;
-import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
-import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
+import com.adventureit.itinerary.entity.Itinerary;
+import com.adventureit.itinerary.entity.ItineraryEntry;
+import com.adventureit.itinerary.exceptions.NotFoundException;
+import com.adventureit.itinerary.exceptions.NullFieldException;
+import com.adventureit.itinerary.exceptions.UnauthorisedException;
+import com.adventureit.itinerary.repository.ItineraryEntryRepository;
+import com.adventureit.itinerary.repository.ItineraryRepository;
+import com.adventureit.itinerary.responses.ItineraryEntryResponseDTO;
+import com.adventureit.itinerary.responses.ItineraryResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -17,11 +19,9 @@ import java.util.*;
 public class ItineraryServiceImplementation implements ItineraryService {
 
     @Autowired
-    private ItineraryRepository itineraryRepository;
+    private final ItineraryRepository itineraryRepository;
     @Autowired
-    private ItineraryEntryRepository itineraryEntryRepository;
-
-    private RestTemplate restTemplate;
+    private final ItineraryEntryRepository itineraryEntryRepository;
 
     @Autowired
     public ItineraryServiceImplementation(ItineraryRepository itineraryRepository, ItineraryEntryRepository itineraryEntryRepository) {
@@ -30,18 +30,18 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public String createItinerary(String title, String description, UUID advID, UUID userID) throws Exception {
+    public String createItinerary(String title, String description, UUID advID, UUID userID){
         if (title == null) {
-            throw new Exception("No title provided");
+            throw new NullFieldException("No title provided");
         }
         if (description == null) {
-            throw new Exception("No description provided");
+            throw new NullFieldException("No description provided");
         }
         if (userID == null) {
-            throw new Exception("No Creator ID provided");
+            throw new NullFieldException("No Creator ID provided");
         }
         if (advID == null) {
-            throw new Exception("No Adventure ID provided");
+            throw new NullFieldException("No Adventure ID provided");
         }
 
         Itinerary itinerary = new Itinerary(title, description, advID, userID);
@@ -50,21 +50,20 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public UUID addItineraryEntry(String title, String description, UUID entryContainerID, String location, String timestamp) throws Exception {
+    public UUID addItineraryEntry(String title, String description, UUID entryContainerID, String location, String timestamp){
         if(title == null){
-
-            throw new Exception("No title provided");
+            throw new NullFieldException("No title provided");
         }
         if (description == null) {
-            throw new Exception("No description provided");
+            throw new NullFieldException("No description provided");
         }
         if (entryContainerID == null) {
-            throw new Exception("No Itinerary ID provided");
+            throw new NullFieldException("No Itinerary ID provided");
         }
 
         Itinerary itinerary = itineraryRepository.findItineraryById(entryContainerID);
         if (itinerary == null) {
-            throw new Exception("Itinerary does not exist");
+            throw new NotFoundException("Itinerary does not exist");
         }
 
         LocalDateTime newTimestamp = LocalDateTime.parse(timestamp);
@@ -76,15 +75,15 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public String removeItineraryEntry(UUID id) throws Exception {
+    public String removeItineraryEntry(UUID id){
         if (id == null) {
-            throw new Exception("No ID provided");
+            throw new NullFieldException("No ID provided");
         }
 
         ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryById(id);
 
         if (entry == null) {
-            throw new Exception("Itinerary Entry does not exist");
+            throw new NotFoundException("Itinerary Entry does not exist");
         }
 
         itineraryEntryRepository.delete(entry);
@@ -94,27 +93,27 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
     @Override
 
-    public String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description, UUID location, LocalDateTime timestamp ) throws Exception {
+    public String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description, UUID location, LocalDateTime timestamp){
         if(itineraryRepository.findItineraryById(entryContainerID) == null){
-            throw new Exception("Itinerary does not exist.");
+            throw new NullFieldException("Itinerary does not exist.");
         }
         if (id == null) {
-            throw new Exception("Entry ID not provided.");
+            throw new NullFieldException("Entry ID not provided.");
         }
         if (entryContainerID == null) {
-            throw new Exception("Itinerary ID not provided");
+            throw new NullFieldException("Itinerary ID not provided");
         }
         if (title == null) {
-            throw new Exception("Title Field is null.");
+            throw new NullFieldException("Title Field is null.");
         }
         if (description == null) {
-            throw new Exception("Description Field is null.");
+            throw new NullFieldException("Description Field is null.");
         }
 
         ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryByIdAndEntryContainerID(id, entryContainerID);
 
         if (entry == null) {
-            throw new Exception("Entry does not exist.");
+            throw new NotFoundException("Entry does not exist.");
         }
 
         ItineraryEntry newEntry = itineraryEntryRepository.findItineraryEntryById(id);
@@ -125,7 +124,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
         if (!title.equals("")) {
             newEntry.setTitle(title);
         }
-        if(!location.equals("")){
+        if(location != null){
             newEntry.setLocation(location);
         }
         if(timestamp != null){
@@ -137,18 +136,18 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public String softDelete(UUID id,UUID userID) throws Exception {
+    public String softDelete(UUID id,UUID userID){
         if (id == null) {
-            throw new Exception("Itinerary ID not provided.");
+            throw new NullFieldException("Itinerary ID not provided.");
         }
 
         Itinerary itinerary = itineraryRepository.findItineraryByIdAndDeleted(id, false);
 
         if (itinerary == null) {
-            throw new Exception("Itinerary does not exist.");
+            throw new NotFoundException("Itinerary does not exist.");
         }
         if(!userID.equals(itinerary.getCreatorID())){
-            throw new Exception("User not Authorised");
+            throw new UnauthorisedException("User not Authorised");
         }
 
         itinerary.setDeleted(true);
@@ -157,18 +156,18 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public String hardDelete(UUID id,UUID userID) throws Exception {
+    public String hardDelete(UUID id,UUID userID){
         if (id == null) {
-            throw new Exception("Itinerary ID not provided.");
+            throw new NullFieldException("Itinerary ID not provided.");
         }
 
         Itinerary itinerary = itineraryRepository.findItineraryByIdAndDeleted(id, true);
 
         if (itinerary == null) {
-            throw new Exception("Itinerary is not in trash.");
+            throw new NotFoundException("Itinerary is not in trash.");
         }
         if(!userID.equals(itinerary.getCreatorID())){
-            throw new Exception("User not Authorised");
+            throw new NotFoundException("User not Authorised");
         }
 
         List<ItineraryEntry> entries = itineraryEntryRepository.findAllByEntryContainerID(id);
@@ -183,7 +182,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public List<ItineraryResponseDTO> viewTrash(UUID id) throws Exception {
+    public List<ItineraryResponseDTO> viewTrash(UUID id){
         List<Itinerary> itinerary = itineraryRepository.findAllByAdventureID(id);
         List<ItineraryResponseDTO> list = new ArrayList<>();
 
@@ -196,15 +195,15 @@ public class ItineraryServiceImplementation implements ItineraryService {
         return list;
     }
 
-    public String restoreItinerary(UUID id,UUID userID) throws Exception {
+    public String restoreItinerary(UUID id,UUID userID){
         if (itineraryRepository.findItineraryById(id) == null) {
-            throw new Exception("Itinerary does not exist.");
+            throw new NotFoundException("Itinerary does not exist.");
         }
 
         Itinerary itinerary = itineraryRepository.findItineraryById(id);
 
         if(!userID.equals(itinerary.getCreatorID())){
-            throw new Exception("User not Authorised");
+            throw new UnauthorisedException("User not Authorised");
         }
 
         itinerary.setDeleted(false);
@@ -213,10 +212,10 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public List<ItineraryEntryResponseDTO> viewItinerary(UUID id) throws Exception {
+    public List<ItineraryEntryResponseDTO> viewItinerary(UUID id){
         Itinerary itinerary = itineraryRepository.findItineraryByIdAndDeleted(id, false);
         if (itinerary == null) {
-            throw new Exception("Itinerary does not exist");
+            throw new NotFoundException("Itinerary does not exist");
         }
 
         List<ItineraryEntry> entries = itineraryEntryRepository.findAllByEntryContainerID(id);
@@ -225,19 +224,16 @@ public class ItineraryServiceImplementation implements ItineraryService {
         for (ItineraryEntry entry:entries) {
             list.add(new ItineraryEntryResponseDTO(entry.getId(),entry.getEntryContainerID(),entry.getTitle(),entry.getDescription(),entry.isCompleted(),entry.getLocation(),entry.getTimestamp()));
 
-            list.sort(new Comparator<ItineraryEntryResponseDTO>(){ @Override
-            public int compare(ItineraryEntryResponseDTO o1, ItineraryEntryResponseDTO o2) {
-                return o1.getTimestamp().compareTo(o2.getTimestamp());
-            }});
+            list.sort(Comparator.comparing(ItineraryEntryResponseDTO::getTimestamp));
         }
 
         return list;
     }
 
     @Override
-    public void markCompleted(UUID id) throws Exception {
+    public void markCompleted(UUID id){
         if(itineraryEntryRepository.findItineraryEntryById(id) == null){
-            throw new Exception("Entry does not exist");
+            throw new NotFoundException("Entry does not exist");
         }
 
         ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryById(id);
@@ -246,7 +242,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public ItineraryEntryResponseDTO nextItem(UUID id) throws Exception {
+    public ItineraryEntryResponseDTO nextItem(UUID id){
         ItineraryEntry next = null;
         List<ItineraryEntry> entries = new ArrayList<>();
         List<ItineraryEntry> temp;
@@ -260,12 +256,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
             }
         }
 
-        entries.sort(new Comparator<ItineraryEntry>() {
-            @Override
-            public int compare(ItineraryEntry o1, ItineraryEntry o2) {
-                return o1.getTimestamp().compareTo(o2.getTimestamp());
-            }
-        });
+        entries.sort(Comparator.comparing(ItineraryEntry::getTimestamp));
 
         for (ItineraryEntry entry:entries) {
             if(entry.getTimestamp().compareTo(LocalDateTime.now()) > 0){
@@ -275,7 +266,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
         }
 
         if(next == null){
-            throw new Exception("No items available");
+            throw new NotFoundException("No items available");
         }
 
         return new ItineraryEntryResponseDTO(next.getId(),next.getEntryContainerID(),next.getTitle(),next.getDescription(),next.isCompleted(),next.getLocation(),next.getTimestamp());

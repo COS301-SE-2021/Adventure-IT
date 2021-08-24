@@ -1,4 +1,4 @@
-package com.adventureit.itinerary.Requests;
+package com.adventureit.itinerary.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.web.client.RestTemplate;

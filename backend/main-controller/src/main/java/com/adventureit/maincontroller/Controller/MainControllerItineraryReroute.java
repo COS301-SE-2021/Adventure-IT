@@ -1,20 +1,18 @@
 package com.adventureit.maincontroller.Controller;
 
 
-import com.adventureit.itinerary.Requests.AddItineraryEntryRequest;
-import com.adventureit.itinerary.Requests.CreateItineraryRequest;
-import com.adventureit.itinerary.Requests.EditItineraryEntryRequest;
-import com.adventureit.itinerary.Responses.ItineraryEntryResponseDTO;
-import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
+import com.adventureit.itinerary.requests.AddItineraryEntryRequest;
+import com.adventureit.itinerary.requests.CreateItineraryRequest;
+import com.adventureit.itinerary.requests.EditItineraryEntryRequest;
+import com.adventureit.itinerary.responses.ItineraryEntryResponseDTO;
+import com.adventureit.itinerary.responses.ItineraryResponseDTO;
 import com.adventureit.locationservice.Responses.LocationResponseDTO;
-import com.adventureit.maincontroller.Responses.AdventureResponseDTO;
 import com.adventureit.maincontroller.Responses.MainItineraryEntryResponseDTO;
 import com.adventureit.timelineservice.Entity.TimelineType;
 import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

@@ -31,20 +31,20 @@ class ChecklistServiceUnitTests {
 
     @Test
     @Description("Ensuring a user can add a checklist")
-    void addChecklistValid_ReturnString() throws Exception {
+    void addChecklistValid_ReturnString(){
         Assertions.assertEquals("Checklist successfully created", sut.createChecklist("Mock","Mock",UUID.randomUUID(),UUID.randomUUID()));
     }
 
     @Test
     @Description("Ensuring a user can add an entry")
-    void addEntryValid_ReturnString() throws Exception {
+    void addEntryValid_ReturnString(){
         Mockito.when(mockChecklistRepository.findChecklistById(validChecklistID1)).thenReturn(mockChecklist1);
         Assertions.assertEquals("Checklist Entry successfully added", sut.addChecklistEntry("Mock", validChecklistID1));
     }
 
     @Test
     @Description("addChecklistEntry will throw an exception if a field is null")
-    void addEntryNullField_ThrowException() throws Exception {
+    void addEntryNullField_ThrowException(){
         Assertions.assertThrows(Exception.class, ()->{
             sut.addChecklistEntry("Mock",null);
         });
@@ -52,7 +52,7 @@ class ChecklistServiceUnitTests {
 
     @Test
     @Description("Ensuring a user can remove an entry")
-    void removeEntryValid_ReturnString() throws Exception {
+    void removeEntryValid_ReturnString(){
         Mockito.when(mockChecklistRepository.findChecklistById(validChecklistID1)).thenReturn(mockChecklist1);
         Mockito.when(mockChecklistEntryRepository.findChecklistEntryById(validEntryID1)).thenReturn(mockEntry1);
         Assertions.assertEquals("Checklist Entry successfully removed", sut.removeChecklistEntry(validEntryID1));
@@ -60,7 +60,7 @@ class ChecklistServiceUnitTests {
 
     @Test
     @Description("removeChecklistEntry will throw an exception if a checklist entry does not exist")
-    void removeEntryInvalidID_ThrowException() throws Exception {
+    void removeEntryInvalidID_ThrowException(){
         Assertions.assertThrows(Exception.class, ()->{
             sut.removeChecklistEntry(UUID.randomUUID());
         });
@@ -68,7 +68,7 @@ class ChecklistServiceUnitTests {
 
     @Test
     @Description("removeChecklistEntry will throw an exception if a field is null")
-    void removeEntryNullField_ThrowException() throws Exception {
+    void removeEntryNullField_ThrowException(){
         Assertions.assertThrows(Exception.class, ()->{
             sut.removeChecklistEntry(null);
         });
@@ -76,21 +76,21 @@ class ChecklistServiceUnitTests {
 
     @Test
     @Description("Ensuring a user can mark a checklist entry")
-    void markChecklistEntryValid() throws Exception {
+    void markChecklistEntryValid(){
         Mockito.when(mockChecklistEntryRepository.findChecklistEntryById(validEntryID1)).thenReturn(mockEntry1);
         sut.markChecklistEntry(validEntryID1);
     }
 
     @Test
     @Description("Ensuring a user can softDelete a checklist")
-    void softDeleteChecklistValid() throws Exception {
+    void softDeleteChecklistValid(){
         Mockito.when(mockChecklistRepository.findChecklistByIdAndDeleted(validChecklistID1,false)).thenReturn(mockChecklist1);
         Assertions.assertEquals("Checklist moved to bin", sut.softDelete(validChecklistID1,validUserID));
     }
 
     @Test
     @Description("Ensuring a only an owner can softDelete a checklist")
-    void softDeleteChecklistInvalid() throws Exception {
+    void softDeleteChecklistInvalid(){
         Mockito.when(mockChecklistRepository.findChecklistByIdAndDeleted(validChecklistID1,false)).thenReturn(mockChecklist1);
         Assertions.assertThrows(Exception.class, ()->{
             sut.softDelete(validChecklistID1,UUID.randomUUID());
@@ -99,14 +99,14 @@ class ChecklistServiceUnitTests {
 
     @Test
     @Description("Ensuring a user can hardDelete a checklist")
-    void hardDeleteChecklistValid() throws Exception {
+    void hardDeleteChecklistValid(){
         Mockito.when(mockChecklistRepository.findChecklistByIdAndDeleted(validChecklistID1,true)).thenReturn(mockChecklist1);
         Assertions.assertEquals("Checklist deleted", sut.hardDelete(validChecklistID1,validUserID));
     }
 
     @Test
     @Description("Ensuring a only an owner can hardDelete a checklist")
-    void hardDeleteChecklistInvalid() throws Exception {
+    void hardDeleteChecklistInvalid(){
         Mockito.when(mockChecklistRepository.findChecklistByIdAndDeleted(validChecklistID1,true)).thenReturn(mockChecklist1);
         Assertions.assertThrows(Exception.class, ()->{
             sut.hardDelete(validChecklistID1,UUID.randomUUID());
@@ -115,7 +115,7 @@ class ChecklistServiceUnitTests {
 
     @Test
     @Description("Ensuring a user can view the trash")
-    void viewTrashValid_ReturnsList() throws Exception {
+    void viewTrashValid_ReturnsList(){
         mockChecklist1.setDeleted(true);
         Mockito.when(mockChecklistRepository.findAllByAdventureID(validAdventureID)).thenReturn(List.of(mockChecklist1));
         List<ChecklistResponseDTO> list = sut.viewTrash(validAdventureID);
@@ -124,14 +124,14 @@ class ChecklistServiceUnitTests {
 
     @Test
     @Description("Ensuring a user can restore a checklist")
-    void restoreChecklistValid_ReturnsString() throws Exception {
+    void restoreChecklistValid_ReturnsString(){
         Mockito.when(mockChecklistRepository.findChecklistById(validChecklistID1)).thenReturn(mockChecklist1);
         Assertions.assertEquals("Checklist was restored", sut.restoreChecklist(validChecklistID1,validUserID));
     }
 
     @Test
     @Description("Ensuring a user can get a checklist by ID")
-    void getChecklistByIDValid_ReturnsString() throws Exception {
+    void getChecklistByIDValid_ReturnsString(){
         Mockito.when(mockChecklistRepository.findChecklistById(validChecklistID1)).thenReturn(mockChecklist1);
         Assertions.assertNotNull(sut.getChecklistByChecklistId(validChecklistID1));
     }

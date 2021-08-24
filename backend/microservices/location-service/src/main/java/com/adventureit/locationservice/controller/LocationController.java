@@ -1,4 +1,4 @@
-package com.adventureit.locationservice.Controller;
+package com.adventureit.locationservice.controller;
 
 import com.adventureit.locationservice.Responses.LocationResponseDTO;
 import com.adventureit.locationservice.Service.LocationServiceImplementation;
