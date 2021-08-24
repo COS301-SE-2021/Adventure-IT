@@ -9,7 +9,7 @@ import 'Navbar.dart';
 
 //Page to restore/ hard delete
 class BudgetTrash extends StatelessWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
 
   BudgetTrash(Adventure? a) {
     this.adventure = a;
@@ -67,8 +67,8 @@ class BudgetTrash extends StatelessWidget {
 }
 
 class DeletedBudgetList extends StatelessWidget {
-  Adventure? a;
-  BuildContext? c;
+  late final Adventure? a;
+  late final BuildContext? c;
 
   DeletedBudgetList(Adventure? adventure) {
     this.a = adventure;
