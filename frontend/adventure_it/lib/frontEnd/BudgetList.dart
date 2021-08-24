@@ -1,21 +1,16 @@
-import 'package:adventure_it/Providers/budget_model.dart';
-import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
-import 'package:adventure_it/api/createBudget.dart';
-import 'package:adventure_it/api/user_api.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
-import 'package:fl_chart/fl_chart.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:fl_chart/fl_chart.dart';
+
+import 'package:adventure_it/Providers/budget_model.dart';
+import 'package:adventure_it/api/adventure.dart';
+import 'package:adventure_it/api/user_api.dart';
+import 'package:adventure_it/api/budget.dart';
+
 import 'AdventurePage.dart';
 import 'BudgetPage.dart';
 import 'BudgetTrash.dart';
-import 'HomepageStartup.dart';
-
-import '../api/budget.dart';
 import 'Navbar.dart';
 
 class Budgets extends StatelessWidget {
@@ -28,85 +23,90 @@ class Budgets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => BudgetModel(adventure!, UserApi.getInstance().getUserProfile()!.username),
+        create: (context) => BudgetModel(
+            adventure!, UserApi.getInstance().getUserProfile()!.username),
         builder: (context, widget) => Scaffold(
-        drawer: NavDrawer(),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBar: AppBar(
-            title: Center(
-                child: Text("Budgets",
-                    style: new TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color))),
-            backgroundColor: Theme.of(context).primaryColorDark),
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Spacer(),
-              Container(
-                  height: MediaQuery.of(context).size.height * 0.80,
-                  width: MediaQuery.of(context).size.width,
-                  child: BudgetList(adventure)),
-              SizedBox(height: MediaQuery.of(context).size.height / 60),
-              Row(children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).accentColor,
-                          shape: BoxShape.circle),
-                      child: IconButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        AdventurePage(adventure)));
-                          },
-                          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                          color: Theme.of(context).primaryColorDark)),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).accentColor,
-                          shape: BoxShape.circle),
-                      child: IconButton(
-                          onPressed: () {
-                            {
-                              var provider = Provider.of<BudgetModel>(context, listen: false);
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertBox(adventure!, provider);
-                                  });
-                            }
-                          },
-                          icon: const Icon(Icons.add),
-                          color: Theme.of(context).primaryColorDark)),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).accentColor,
-                          shape: BoxShape.circle),
-                      child: IconButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        BudgetTrash(adventure)));
-                          },
-                          icon: const Icon(Icons.delete_outline_rounded),
-                          color: Theme.of(context)
-                              .primaryColorDark)), //Your widget here,
-                ),
-              ]),
-              SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ])));
+            drawer: NavDrawer(),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            appBar: AppBar(
+                title: Center(
+                    child: Text("Budgets",
+                        style: new TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyText1!.color))),
+                backgroundColor: Theme.of(context).primaryColorDark),
+            body: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Spacer(),
+                  Container(
+                      height: MediaQuery.of(context).size.height * 0.80,
+                      width: MediaQuery.of(context).size.width,
+                      child: BudgetList(adventure)),
+                  SizedBox(height: MediaQuery.of(context).size.height / 60),
+                  Row(children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).accentColor,
+                              shape: BoxShape.circle),
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AdventurePage(adventure)));
+                              },
+                              icon:
+                                  const Icon(Icons.arrow_back_ios_new_rounded),
+                              color: Theme.of(context).primaryColorDark)),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).accentColor,
+                              shape: BoxShape.circle),
+                          child: IconButton(
+                              onPressed: () {
+                                {
+                                  var provider = Provider.of<BudgetModel>(
+                                      context,
+                                      listen: false);
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertBox(adventure!, provider);
+                                      });
+                                }
+                              },
+                              icon: const Icon(Icons.add),
+                              color: Theme.of(context).primaryColorDark)),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).accentColor,
+                              shape: BoxShape.circle),
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            BudgetTrash(adventure)));
+                              },
+                              icon: const Icon(Icons.delete_outline_rounded),
+                              color: Theme.of(context)
+                                  .primaryColorDark)), //Your widget here,
+                    ),
+                  ]),
+                  SizedBox(height: MediaQuery.of(context).size.height / 60),
+                ])));
   }
 }
 
@@ -118,7 +118,7 @@ class PieChartCaller extends StatefulWidget {
   PieChartCaller(List<Budget>? b, List<int>? c, int total) {
     this.budgets = b;
     this.categories = c;
-    this.total=total;
+    this.total = total;
   }
 
   @override
@@ -148,20 +148,23 @@ class _PieChart extends State<PieChartCaller> {
   _PieChart(List<Budget>? b, List<int> categories, int total) {
     this.budgets = b;
     this.categories = categories;
-    this.total=total;
-
+    this.total = total;
   }
 
+  //TODO: overrides but doesn't invoke method
   @override
   initState() {
-
-
     data = [
-      Data('Accommodation', ((categories!.elementAt(0)/total!)*100).toInt(), const Color(0xff3063b4)),
-      Data('Activities', ((categories!.elementAt(1)/total!)*100).toInt(), const Color(0xffb59194)),
-      Data('Food', ((categories!.elementAt(2)/total!)*100).toInt(), const Color(0xff931621)),
-      Data('Transport', ((categories!.elementAt(4)/total!)*100).toInt(), const Color(0xff419D78)),
-      Data('Other', ((categories!.elementAt(3)/total!)*100).toInt(), const Color(0xffC44536)),
+      Data('Accommodation', ((categories!.elementAt(0) / total!) * 100).toInt(),
+          const Color(0xff3063b4)),
+      Data('Activities', ((categories!.elementAt(1) / total!) * 100).toInt(),
+          const Color(0xffb59194)),
+      Data('Food', ((categories!.elementAt(2) / total!) * 100).toInt(),
+          const Color(0xff931621)),
+      Data('Transport', ((categories!.elementAt(4) / total!) * 100).toInt(),
+          const Color(0xff419D78)),
+      Data('Other', ((categories!.elementAt(3) / total!) * 100).toInt(),
+          const Color(0xffC44536)),
     ];
   }
 
@@ -169,7 +172,6 @@ class _PieChart extends State<PieChartCaller> {
       .asMap()
       .map<int, PieChartSectionData>((index, data) {
         print(data.percent);
-
 
         final value = PieChartSectionData(
           color: data.color,
@@ -206,118 +208,14 @@ class _PieChart extends State<PieChartCaller> {
               )),
           Spacer(),
           Expanded(
-            flex:3,
-              child: Column(
-                  children: [
-            Row(children: [
-              Expanded(
-                  child: Center(
-                      child: RichText(
-                text: TextSpan(
-                  style: Theme.of(context).textTheme.body1,
-                  children: [
-                    WidgetSpan(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                        child: Icon(
-                          Icons.circle_rounded,
-                          color: data.elementAt(0).color,
-                        ),
-                      ),
-                    ),
-                    TextSpan(
-                        text: " " + data.elementAt(0).name!,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color:
-                                Theme.of(context).textTheme.bodyText1!.color)),
-                  ],
-                ),
-              ))),
-              Expanded(
-                  child: Center(
-                      child: RichText(
-                text: TextSpan(
-                  style: Theme.of(context).textTheme.body1,
-                  children: [
-                    WidgetSpan(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                        child: Icon(
-                          Icons.circle_rounded,
-                          color: data.elementAt(1).color,
-                        ),
-                      ),
-                    ),
-                    TextSpan(
-                        text: " " + data.elementAt(1).name!,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color:
-                                Theme.of(context).textTheme.bodyText1!.color)),
-                  ],
-                ),
-              ))),
-
-            ]), SizedBox(height: MediaQuery.of(context).size.height / 60),
-            Row(
-              children: [
-                Expanded(
-                    child: Center(
-                        child: RichText(
-                          text: TextSpan(
-                            style: Theme.of(context).textTheme.body1,
-                            children: [
-                              WidgetSpan(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                                  child: Icon(
-                                    Icons.circle_rounded,
-                                    color: data.elementAt(2).color,
-                                  ),
-                                ),
-                              ),
-                              TextSpan(
-                                  text: " " + data.elementAt(2).name!,
-                                  style: TextStyle(
-
-                                      fontWeight: FontWeight.bold,
-                                      color:
-                                      Theme.of(context).textTheme.bodyText1!.color)),
-                            ],
-                          ),
-                        ))),
-                Expanded(
-                    child: Center(
-                        child: RichText(
-                  text: TextSpan(
-                    style: Theme.of(context).textTheme.body1,
-                    children: [
-                      WidgetSpan(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                          child: Icon(
-                            Icons.circle_rounded,
-                            color: data.elementAt(3).color,
-                          ),
-                        ),
-                      ),
-                      TextSpan(
-                          text: " " + data.elementAt(3).name!,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .color)),
-                    ],
-                  ),
-                ))),
-                Expanded(
-                  child: Center(
-                      child: RichText(
+              flex: 3,
+              child: Column(children: [
+                Row(children: [
+                  Expanded(
+                      child: Center(
+                          child: RichText(
                     text: TextSpan(
-                      style: Theme.of(context).textTheme.body1,
+                      style: Theme.of(context).textTheme.bodyText1,
                       children: [
                         WidgetSpan(
                           child: Padding(
@@ -325,12 +223,12 @@ class _PieChart extends State<PieChartCaller> {
                                 const EdgeInsets.symmetric(horizontal: 2.0),
                             child: Icon(
                               Icons.circle_rounded,
-                              color: data.elementAt(4).color,
+                              color: data.elementAt(0).color,
                             ),
                           ),
                         ),
                         TextSpan(
-                            text: " " + data.elementAt(4).name!,
+                            text: " " + data.elementAt(0).name!,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context)
@@ -339,11 +237,123 @@ class _PieChart extends State<PieChartCaller> {
                                     .color)),
                       ],
                     ),
-                  )),
+                  ))),
+                  Expanded(
+                      child: Center(
+                          child: RichText(
+                    text: TextSpan(
+                      style: Theme.of(context).textTheme.bodyText1,
+                      children: [
+                        WidgetSpan(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 2.0),
+                            child: Icon(
+                              Icons.circle_rounded,
+                              color: data.elementAt(1).color,
+                            ),
+                          ),
+                        ),
+                        TextSpan(
+                            text: " " + data.elementAt(1).name!,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color)),
+                      ],
+                    ),
+                  ))),
+                ]),
+                SizedBox(height: MediaQuery.of(context).size.height / 60),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Center(
+                            child: RichText(
+                      text: TextSpan(
+                        style: Theme.of(context).textTheme.bodyText1,
+                        children: [
+                          WidgetSpan(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 2.0),
+                              child: Icon(
+                                Icons.circle_rounded,
+                                color: data.elementAt(2).color,
+                              ),
+                            ),
+                          ),
+                          TextSpan(
+                              text: " " + data.elementAt(2).name!,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color)),
+                        ],
+                      ),
+                    ))),
+                    Expanded(
+                        child: Center(
+                            child: RichText(
+                      text: TextSpan(
+                        style: Theme.of(context).textTheme.bodyText1,
+                        children: [
+                          WidgetSpan(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 2.0),
+                              child: Icon(
+                                Icons.circle_rounded,
+                                color: data.elementAt(3).color,
+                              ),
+                            ),
+                          ),
+                          TextSpan(
+                              text: " " + data.elementAt(3).name!,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color)),
+                        ],
+                      ),
+                    ))),
+                    Expanded(
+                      child: Center(
+                          child: RichText(
+                        text: TextSpan(
+                          style: Theme.of(context).textTheme.bodyText1,
+                          children: [
+                            WidgetSpan(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 2.0),
+                                child: Icon(
+                                  Icons.circle_rounded,
+                                  color: data.elementAt(4).color,
+                                ),
+                              ),
+                            ),
+                            TextSpan(
+                                text: " " + data.elementAt(4).name!,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .color)),
+                          ],
+                        ),
+                      )),
+                    )
+                  ],
                 )
-              ],
-            )
-          ]))
+              ]))
         ]));
   }
 }
@@ -356,13 +366,12 @@ class BudgetList extends StatelessWidget {
   }
 
   Widget buildChild(budgetModel, context) {
-    int total=0;
-    for(int i=0;i<5;i++)
-    {
-      total=(total+budgetModel.categories!.elementAt(i)).toInt();
+    int total = 0;
+    for (int i = 0; i < 5; i++) {
+      total = (total + budgetModel.categories!.elementAt(i)).toInt();
     }
-    if (total>0) {
-      return PieChartCaller(budgetModel.budgets, budgetModel.categories,total);
+    if (total > 0) {
+      return PieChartCaller(budgetModel.budgets, budgetModel.categories, total);
     } else
       return Center(
           child: Text(
@@ -376,123 +385,121 @@ class BudgetList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<BudgetModel>(builder: (context, budgetModel, child) {
-          if (budgetModel.budgets == null ||
-              budgetModel.expenses == null ||
-              budgetModel.categories == null) {
-            return Center(
-                child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).accentColor)));
-          } else if (budgetModel.budgets!.length > 0) {
-            return Column(
-                children: [
-            Expanded(flex: 8, child: buildChild(budgetModel, context)),
-              SizedBox(height: MediaQuery.of(context).size.height / 60),
-                   Expanded(flex: 6, child: ListView.builder(
-                        itemCount: budgetModel.budgets!.length,
-                        itemBuilder: (context, index) => Dismissible(
-                            background: Container(
-                              // color: Theme.of(context).primaryColor,
-                              //   margin: const EdgeInsets.all(5),
-                              padding: EdgeInsets.all(
-                                  MediaQuery.of(context).size.height / 60),
-                              child: Row(
-                                children: [
-                                  new Spacer(),
-                                  Icon(Icons.delete,
-                                      color: Theme.of(context).accentColor,
-                                      size: 35 *
-                                          MediaQuery.of(context)
-                                              .textScaleFactor),
-                                ],
-                              ),
-                            ),
-                            direction: DismissDirection.endToStart,
-                            key: Key(budgetModel.budgets!.elementAt(index).id),
-                            child: Card(
-                                color: Theme.of(context).primaryColorDark,
-                                child: InkWell(
-                                    hoverColor:
-                                        Theme.of(context).primaryColorLight,
-                                    onTap: () {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => BudgetPage(
-                                                  budgetModel.budgets!
-                                                      .elementAt(index),
-                                                  a)));
-                                    },
-                                    child: Container(
-                                      child: Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                            flex: 4,
-                                            child: ListTile(
-                                              title: Text(
-                                                  //
-                                                  budgetModel.budgets!
-                                                      .elementAt(index)
-                                                      .name,
-                                                  style: TextStyle(
-                                                      fontSize: 25 *
-                                                          MediaQuery.of(context)
-                                                              .textScaleFactor,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .color)),
-                                              // subtitle:Text(adventures.elementAt(index).description),
-                                              subtitle: Text(
-                                                  budgetModel.budgets!
-                                                      .elementAt(index)
-                                                      .description,
-                                                  style: TextStyle(
-                                                      fontSize: 15 *
-                                                          MediaQuery.of(context)
-                                                              .textScaleFactor,
-                                                      color: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .color)),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: Text(
-                                                "Total: " +
-                                                    budgetModel.expenses!
-                                                        .elementAt(index),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 12 *
-                                                        MediaQuery.of(context)
-                                                            .textScaleFactor,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color)),
-                                          ),
-                                        ],
+      if (budgetModel.budgets == null ||
+          budgetModel.expenses == null ||
+          budgetModel.categories == null) {
+        return Center(
+            child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                    Theme.of(context).accentColor)));
+      } else if (budgetModel.budgets!.length > 0) {
+        return Column(children: [
+          Expanded(flex: 8, child: buildChild(budgetModel, context)),
+          SizedBox(height: MediaQuery.of(context).size.height / 60),
+          Expanded(
+              flex: 6,
+              child: ListView.builder(
+                  itemCount: budgetModel.budgets!.length,
+                  itemBuilder: (context, index) => Dismissible(
+                      background: Container(
+                        // color: Theme.of(context).primaryColor,
+                        //   margin: const EdgeInsets.all(5),
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.height / 60),
+                        child: Row(
+                          children: [
+                            new Spacer(),
+                            Icon(Icons.delete,
+                                color: Theme.of(context).accentColor,
+                                size: 35 *
+                                    MediaQuery.of(context).textScaleFactor),
+                          ],
+                        ),
+                      ),
+                      direction: DismissDirection.endToStart,
+                      key: Key(budgetModel.budgets!.elementAt(index).id),
+                      child: Card(
+                          color: Theme.of(context).primaryColorDark,
+                          child: InkWell(
+                              hoverColor: Theme.of(context).primaryColorLight,
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BudgetPage(
+                                            budgetModel.budgets!
+                                                .elementAt(index),
+                                            a)));
+                              },
+                              child: Container(
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 4,
+                                      child: ListTile(
+                                        title: Text(
+                                            //
+                                            budgetModel.budgets!
+                                                .elementAt(index)
+                                                .name,
+                                            style: TextStyle(
+                                                fontSize: 25 *
+                                                    MediaQuery.of(context)
+                                                        .textScaleFactor,
+                                                fontWeight: FontWeight.bold,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color)),
+                                        // subtitle:Text(adventures.elementAt(index).description),
+                                        subtitle: Text(
+                                            budgetModel.budgets!
+                                                .elementAt(index)
+                                                .description,
+                                            style: TextStyle(
+                                                fontSize: 15 *
+                                                    MediaQuery.of(context)
+                                                        .textScaleFactor,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color)),
                                       ),
-                                    ))),
-                            onDismissed: (direction) {
-                              Provider.of<BudgetModel>(context, listen: false)
-                                  .softDeleteBudget(
-                                      budgetModel.budgets!.elementAt(index));
-                            }))
-                   )]);
-          } else {
-            return Center(
-                child: Text("Start planning how to spend your money!",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-                        color: Theme.of(context).textTheme.bodyText1!.color)));
-          }
-        });
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                          "Total: " +
+                                              budgetModel.expenses!
+                                                  .elementAt(index),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 12 *
+                                                  MediaQuery.of(context)
+                                                      .textScaleFactor,
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color)),
+                                    ),
+                                  ],
+                                ),
+                              ))),
+                      onDismissed: (direction) {
+                        Provider.of<BudgetModel>(context, listen: false)
+                            .softDeleteBudget(
+                                budgetModel.budgets!.elementAt(index));
+                      })))
+        ]);
+      } else {
+        return Center(
+            child: Text("Start planning how to spend your money!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                    color: Theme.of(context).textTheme.bodyText1!.color)));
+      }
+    });
   }
 }
 
@@ -523,8 +530,6 @@ class _AlertBox extends State<AlertBox> {
 
   //controllers for the form fields
   String userID = UserApi.getInstance().getUserProfile()!.userID;
-
-  Future<CreateBudget>? _futureBudget;
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
 
@@ -535,8 +540,7 @@ class _AlertBox extends State<AlertBox> {
         content: Container(
           height: getSize(context),
           child: Stack(
-            overflow: Overflow.visible,
-            children: <Widget>[
+            clipBehavior: Clip.none, children: <Widget>[
               Positioned(
                 right: -40.0,
                 top: -40.0,
@@ -595,7 +599,7 @@ class _AlertBox extends State<AlertBox> {
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
                           maxLength: 255,
-                          maxLengthEnforced: true,
+                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
                           maxLines: 3,
                           style: TextStyle(
                               color:
@@ -621,8 +625,9 @@ class _AlertBox extends State<AlertBox> {
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
-                      child: RaisedButton(
-                        color: Theme.of(context).accentColor,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).accentColor),
                         child: Text("Create",
                             style: TextStyle(
                                 color: Theme.of(context)
@@ -630,7 +635,13 @@ class _AlertBox extends State<AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () async {
-                          await widget.budgetModel.addBudget(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId, UserApi.getInstance().getUserProfile()!.username);
+                          await widget.budgetModel.addBudget(
+                              adventure!,
+                              nameController.text,
+                              descriptionController.text,
+                              userID,
+                              adventure!.adventureId,
+                              UserApi.getInstance().getUserProfile()!.username);
                           Navigator.pop(context);
                         },
                       ),
