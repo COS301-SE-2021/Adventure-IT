@@ -11,8 +11,8 @@ import 'Navbar.dart';
 
 //A single checklist with entries
 class ChecklistPage extends StatelessWidget {
-  Checklist? currentChecklist;
-  Adventure? currentAdventure;
+  late final Checklist? currentChecklist;
+  late final Adventure? currentAdventure;
 
   ChecklistPage(Checklist? c, Adventure? a) {
     this.currentChecklist = c;
@@ -95,7 +95,7 @@ class ChecklistPage extends StatelessWidget {
 }
 
 class AlertBox extends StatefulWidget {
-  Checklist? currentChecklist;
+  late final Checklist? currentChecklist;
   final ChecklistEntryModel checklistEntryModel;
 
   AlertBox(this.currentChecklist, this.checklistEntryModel);
@@ -212,7 +212,7 @@ class _AlertBox extends State<AlertBox> {
 }
 
 class GetChecklistEntries extends StatelessWidget {
-  Checklist? checklist;
+  late final Checklist? checklist;
   final editController = TextEditingController();
 
   GetChecklistEntries(Checklist c) {
