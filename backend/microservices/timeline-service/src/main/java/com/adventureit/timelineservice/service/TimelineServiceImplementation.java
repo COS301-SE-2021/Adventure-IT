@@ -1,10 +1,10 @@
-package com.adventureit.timelineservice.Service;
+package com.adventureit.timelineservice.service;
 
-import com.adventureit.timelineservice.Entity.Timeline;
-import com.adventureit.timelineservice.Entity.TimelineType;
-import com.adventureit.timelineservice.Exceptions.TimelineDoesNotExistException;
-import com.adventureit.timelineservice.Repository.TimelineRepository;
-import com.adventureit.timelineservice.Responses.TimelineDTO;
+import com.adventureit.timelineservice.entity.Timeline;
+import com.adventureit.timelineservice.entity.TimelineType;
+import com.adventureit.timelineservice.exceptions.TimelineDoesNotExistException;
+import com.adventureit.timelineservice.repository.TimelineRepository;
+import com.adventureit.timelineservice.responses.TimelineDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +17,7 @@ import java.util.UUID;
 @Service("TimelineServiceImplementation")
 public class TimelineServiceImplementation {
 
-    @Autowired
-    private TimelineRepository repo;
+    private final TimelineRepository repo;
 
     @Autowired
     public TimelineServiceImplementation(TimelineRepository repo) {
@@ -33,7 +32,7 @@ public class TimelineServiceImplementation {
     }
 
 
-    public List<TimelineDTO> GetTimelineByAdventureID(UUID adventureID){
+    public List<TimelineDTO> getTimelineByAdventureID(UUID adventureID){
         List<Timeline> list = repo.findAllByAdventureId(adventureID);
 
         if(list == null){
@@ -56,6 +55,4 @@ public class TimelineServiceImplementation {
         repo.removeAllByAdventureId(adventureID);
         return "Timeline for adventure: "+adventureID+" has been deleted";
     }
-
-
 }

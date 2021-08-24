@@ -1,4 +1,4 @@
-package com.adventureit.timelineservice.Entity;
+package com.adventureit.timelineservice.entity;
 
 public enum TimelineType {
     CHECKLIST,

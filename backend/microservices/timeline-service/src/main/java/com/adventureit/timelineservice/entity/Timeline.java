@@ -1,4 +1,4 @@
-package com.adventureit.timelineservice.Entity;
+package com.adventureit.timelineservice.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -34,10 +34,6 @@ public class Timeline {
         return timelineId;
     }
 
-    public void setTimelineId(UUID timelineID) {
-        this.timelineId = timelineID;
-    }
-
     public UUID getAdventureId() {
         return adventureId;
     }
@@ -50,16 +46,12 @@ public class Timeline {
         return description;
     }
 
-    public void setDescription(String descrpition) {
-        this.description = descrpition;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDateTime getTimestamp() {
         return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
     }
 
     public TimelineType getType() {

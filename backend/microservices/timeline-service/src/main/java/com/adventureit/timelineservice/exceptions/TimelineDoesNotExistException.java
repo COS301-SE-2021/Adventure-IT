@@ -1,4 +1,4 @@
-package com.adventureit.timelineservice.Exceptions;
+package com.adventureit.timelineservice.exceptions;
 
 public class TimelineDoesNotExistException extends RuntimeException{
     public TimelineDoesNotExistException(String message) {

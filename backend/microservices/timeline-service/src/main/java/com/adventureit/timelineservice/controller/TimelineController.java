@@ -1,13 +1,12 @@
-package com.adventureit.timelineservice.Controller;
+package com.adventureit.timelineservice.controller;
 
 
-import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
-import com.adventureit.timelineservice.Responses.TimelineDTO;
-import com.adventureit.timelineservice.Service.TimelineServiceImplementation;
+import com.adventureit.timelineservice.requests.CreateTimelineRequest;
+import com.adventureit.timelineservice.responses.TimelineDTO;
+import com.adventureit.timelineservice.service.TimelineServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,13 +14,12 @@ import java.util.UUID;
 @RequestMapping("/timeline")
 public class TimelineController {
 
-    @Autowired
+
     TimelineServiceImplementation service;
 
-
     @GetMapping("/getTimelineByAdventure/{id}")
-    public List<TimelineDTO> getTimelineByAdventureID(@PathVariable UUID id) throws Exception {
-        return service.GetTimelineByAdventureID(id);
+    public List<TimelineDTO> getTimelineByAdventureID(@PathVariable UUID id){
+        return service.getTimelineByAdventureID(id);
     }
 
     @GetMapping("/deleteTimelineByAdventureID/{id}")

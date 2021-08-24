@@ -1,16 +1,16 @@
-package com.adventureit.timelineservice.Responses;
+package com.adventureit.timelineservice.responses;
 
-import com.adventureit.timelineservice.Entity.TimelineType;
+import com.adventureit.timelineservice.entity.TimelineType;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class TimelineDTO {
-    final private UUID timelineId;
-    final private UUID adventureId;
-    final private String description;
-    final private LocalDateTime timestamp;
-    final private TimelineType type;
+    private final UUID timelineId;
+    private final UUID adventureId;
+    private final String description;
+    private final LocalDateTime timestamp;
+    private final TimelineType type;
 
     public TimelineDTO(UUID timelineId, UUID adventureID, String description, LocalDateTime timestamp, TimelineType type) {
         this.timelineId = timelineId;
