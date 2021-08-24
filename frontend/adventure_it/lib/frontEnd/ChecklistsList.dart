@@ -13,7 +13,7 @@ import 'Navbar.dart';
 
 //Multiple checklist entities
 class Checklists extends StatelessWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
 
   Checklists(Adventure? a) {
     this.adventure = a;
@@ -108,7 +108,7 @@ class Checklists extends StatelessWidget {
 }
 
 class ChecklistList extends StatelessWidget {
-  Adventure? a;
+  late final Adventure? a;
 
   ChecklistList(Adventure? adventure) {
     this.a = adventure;
@@ -214,7 +214,7 @@ class ChecklistList extends StatelessWidget {
 }
 
 class AlertBox extends StatefulWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
   final ChecklistModel checklistModel;
 
   AlertBox(this.adventure, this.checklistModel);
