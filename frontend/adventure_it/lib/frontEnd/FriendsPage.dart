@@ -155,7 +155,7 @@ class FriendsPage extends State<Friends> {
 }
 
 class GetFriends extends StatelessWidget {
-  BuildContext? c;
+  late final BuildContext? c;
 
   GetFriends();
 
@@ -308,7 +308,7 @@ class GetFriends extends StatelessWidget {
 }
 
 class GetFriendRequests extends StatelessWidget {
-  BuildContext? c;
+  late final BuildContext? c;
 
   GetFriendRequests();
 
