@@ -1,12 +1,12 @@
 package com.adventureit.budgetservice;
 
-import com.adventureit.budgetservice.Entity.*;
-import com.adventureit.budgetservice.Repository.BudgetEntryRepository;
-import com.adventureit.budgetservice.Repository.BudgetRepository;
-import com.adventureit.budgetservice.Requests.EditBudgetRequest;
-import com.adventureit.budgetservice.Requests.SoftDeleteRequest;
-import com.adventureit.budgetservice.Responses.*;
-import com.adventureit.budgetservice.Service.BudgetServiceImplementation;
+import com.adventureit.budgetservice.entity.*;
+import com.adventureit.budgetservice.repository.BudgetEntryRepository;
+import com.adventureit.budgetservice.repository.BudgetRepository;
+import com.adventureit.budgetservice.requests.EditBudgetRequest;
+import com.adventureit.budgetservice.requests.SoftDeleteRequest;
+import com.adventureit.budgetservice.responses.*;
+import com.adventureit.budgetservice.service.BudgetServiceImplementation;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
