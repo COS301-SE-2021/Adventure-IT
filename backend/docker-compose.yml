@@ -1,20 +1,20 @@
 version: "3.3"
 
 services:
-  adventure-it:
-    image: adventure-it-backend:latest
-    ports:
-      - 9001:9001
-      - 9002:9002
-      - 9003:9003
-      - 9004:9004
-      - 9005:9005
-      - 9006:9006
-      - 9007:9007
-      - 9009:9009
-      - 9010:9010
-      - 9012:9012
-      - 8761:8761
+#  adventure-it:
+#    image: adventure-it-backend:latest
+#    ports:
+#      - 9001:9001
+#      - 9002:9002
+#      - 9003:9003
+#      - 9004:9004
+#      - 9005:9005
+#      - 9006:9006
+#      - 9007:9007
+#      - 9009:9009
+#      - 9010:9010
+#      - 9012:9012
+#      - 8761:8761
   keycloak:
     image: jboss/keycloak
     environment:
@@ -28,5 +28,5 @@ services:
       KEYCLOAK_PASSWORD: Pa55w0rd
     ports:
       - 8080:8080
-    depends_on:
-      - adventure-it
+#    depends_on:
+#      - adventure-it
