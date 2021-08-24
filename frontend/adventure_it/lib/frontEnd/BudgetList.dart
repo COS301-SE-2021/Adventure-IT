@@ -14,7 +14,7 @@ import 'BudgetTrash.dart';
 import 'Navbar.dart';
 
 class Budgets extends StatelessWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
 
   Budgets(Adventure? a) {
     this.adventure = a;
@@ -111,9 +111,9 @@ class Budgets extends StatelessWidget {
 }
 
 class PieChartCaller extends StatefulWidget {
-  List<Budget>? budgets;
-  List<int>? categories;
-  int? total;
+  late final List<Budget>? budgets;
+  late final List<int>? categories;
+  late final int? total;
 
   PieChartCaller(List<Budget>? b, List<int>? c, int total) {
     this.budgets = b;
@@ -141,8 +141,8 @@ class Data {
 
 class _PieChart extends State<PieChartCaller> {
   List<Data> data = List.empty();
-  List<int>? categories;
-  List<Budget>? budgets;
+  late final List<int>? categories;
+  late final List<Budget>? budgets;
   int? total;
 
   _PieChart(List<Budget>? b, List<int> categories, int total) {
@@ -359,7 +359,7 @@ class _PieChart extends State<PieChartCaller> {
 }
 
 class BudgetList extends StatelessWidget {
-  Adventure? a;
+  late final Adventure? a;
 
   BudgetList(Adventure? adventure) {
     this.a = adventure;
@@ -504,7 +504,7 @@ class BudgetList extends StatelessWidget {
 }
 
 class AlertBox extends StatefulWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
   final BudgetModel budgetModel;
 
   AlertBox(this.adventure, this.budgetModel);
