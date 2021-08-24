@@ -47,8 +47,10 @@ class BudgetModel extends ChangeNotifier {
   List<Budget>? _budgets = null;
   List<int>? _categories = null;
   List<String>? _expenses = null;
+  Adventure? adventure=null;
 
   BudgetModel(Adventure a, String userName) {
+    this.adventure=a;
     fetchAllBudgets(a, userName).then((budgets) {
       budgets != null ? _budgets = budgets : List.empty();
     });
@@ -100,6 +102,11 @@ class BudgetModel extends ChangeNotifier {
     var index = _budgets!.indexWhere((element) => element.id == budget.id);
     _budgets!.removeAt(index);
     _expenses!.removeAt(index);
+    calculateCategories(this.adventure!).then((categories) {
+      if(categories!=null) {
+        _categories = categories;
+      }
+    });
 
     notifyListeners();
   }
