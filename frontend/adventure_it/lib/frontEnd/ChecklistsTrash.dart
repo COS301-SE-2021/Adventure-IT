@@ -10,7 +10,7 @@ import 'Navbar.dart';
 
 //Page for restore/ hard delete
 class ChecklistsTrash extends StatelessWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
 
   ChecklistsTrash(Adventure? a) {
     this.adventure = a;
@@ -69,8 +69,8 @@ class ChecklistsTrash extends StatelessWidget {
 }
 
 class DeletedChecklistList extends StatelessWidget {
-  Adventure? a;
-  BuildContext? c;
+  late final Adventure? a;
+  late final BuildContext? c;
 
   DeletedChecklistList(Adventure? adventure) {
     this.a = adventure;
