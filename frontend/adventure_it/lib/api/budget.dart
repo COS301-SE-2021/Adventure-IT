@@ -1,6 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import '/api/adventure.dart';
-import '/api/report.dart';
 
 part 'budget.g.dart';
 
@@ -19,7 +17,7 @@ class Budget {
     required this.name,
     required this.description,
     required this.creatorID,
-    required this.adventureID
+    required this.adventureID,
   });
 
   factory Budget.fromJson(Map<String, dynamic> json) => _$BudgetFromJson(json);

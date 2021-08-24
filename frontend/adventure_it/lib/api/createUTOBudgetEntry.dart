@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import '/api/adventure.dart';
 
 part 'createUTOBudgetEntry.g.dart';
 
@@ -20,10 +19,11 @@ class CreateUTOBudgetEntry {
     required this.title,
     required this.description,
     required this.category,
-    required this.payee
+    required this.payee,
   });
 
-  factory CreateUTOBudgetEntry.fromJson(Map<String, dynamic> json) => _$CreateUTOBudgetEntryFromJson(json);
+  factory CreateUTOBudgetEntry.fromJson(Map<String, dynamic> json) =>
+      _$CreateUTOBudgetEntryFromJson(json);
 
   Map<String, dynamic> toJson() => _$CreateUTOBudgetEntryToJson(this);
 }

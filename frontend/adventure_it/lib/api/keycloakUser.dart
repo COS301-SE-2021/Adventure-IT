@@ -13,8 +13,7 @@ class KeycloakUser {
   final String email;
 
   KeycloakUser(
-      {
-      required this.id,
+      {required this.id,
       required this.username,
       required this.enabled,
       required this.emailVerified,

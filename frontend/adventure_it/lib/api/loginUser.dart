@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 part 'loginUser.g.dart';
+
 @JsonSerializable(explicitToJson: true)
 class LoginUser {
   final String username;
@@ -8,7 +9,7 @@ class LoginUser {
 
   LoginUser({
     required this.username,
-    required this.password
+    required this.password,
   });
 
   factory LoginUser.fromJson(Map<String, dynamic> json) =>

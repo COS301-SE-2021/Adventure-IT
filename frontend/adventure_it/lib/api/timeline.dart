@@ -3,7 +3,6 @@ import 'dart:core';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:time_machine/time_machine.dart';
 
-
 part 'timeline.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -15,13 +14,14 @@ class Timeline {
   final String timestamp;
   final String type;
 
-  Timeline(
-      {  required this.timelineID,
-      required this.adventureID,
-      required this.userID,
-      required this.description,
-      required this.timestamp,
-      required this.type});
+  Timeline({
+    required this.timelineID,
+    required this.adventureID,
+    required this.userID,
+    required this.description,
+    required this.timestamp,
+    required this.type,
+  });
 
   factory Timeline.fromJson(Map<String, dynamic> json) =>
       _$TimelineFromJson(json);

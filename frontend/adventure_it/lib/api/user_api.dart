@@ -9,7 +9,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 class UserApi {
   bool hasToken = false;
@@ -35,6 +34,7 @@ class UserApi {
   static UserApi getInstance() {
     return _instance;
   }
+
   // End: Singleton Design Pattern
 
   // Publically Exposed Login Method

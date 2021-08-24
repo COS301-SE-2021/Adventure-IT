@@ -1,7 +1,5 @@
 import 'dart:core';
-
 import 'package:json_annotation/json_annotation.dart';
-
 
 part 'colorPair.g.dart';
 
@@ -12,13 +10,12 @@ class ColorPair {
   final int color;
   final String colorPairId;
 
-
-  ColorPair(
-      {required this.userID,
-      required this.adventureId,
-      required this.color,
-        required this.colorPairId
-      });
+  ColorPair({
+    required this.userID,
+    required this.adventureId,
+    required this.color,
+    required this.colorPairId,
+  });
 
   factory ColorPair.fromJson(Map<String, dynamic> json) =>
       _$ColorPairFromJson(json);

@@ -18,7 +18,7 @@ class CreateAdventure {
     required this.startDate,
     required this.endDate,
     required this.description,
-    required this.location
+    required this.location,
   });
 
   factory CreateAdventure.fromJson(Map<String, dynamic> json) =>

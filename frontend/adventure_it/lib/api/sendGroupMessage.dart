@@ -1,7 +1,5 @@
 import 'dart:core';
-
 import 'package:json_annotation/json_annotation.dart';
-import 'package:time_machine/time_machine.dart';
 
 part 'sendGroupMessage.g.dart';
 
@@ -11,8 +9,7 @@ class SendGroupMessage {
   final String sender;
   final String msg;
 
-
-  SendGroupMessage( {
+  SendGroupMessage({
     required this.chatID,
     required this.sender,
     required this.msg,
