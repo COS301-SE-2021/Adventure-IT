@@ -15,8 +15,8 @@ import 'Navbar.dart';
 
 //A single budget with entries
 class BudgetPage extends StatelessWidget {
-  Budget? currentBudget;
-  Adventure? currentAdventure;
+  late final Budget? currentBudget;
+  late final Adventure? currentAdventure;
 
   BudgetPage(Budget? b, Adventure? a) {
     this.currentBudget = b;
@@ -76,7 +76,7 @@ class BudgetPage extends StatelessWidget {
                                     .of(context)
                                     .size
                                     .height * 0.2,
-                                child: getReport(currentBudget!),
+                                child: GetReport(currentBudget!),
                               ),
                               Spacer(),
                               Container(
@@ -173,8 +173,8 @@ class BudgetPage extends StatelessWidget {
 }
 
 class _AlertBox extends StatefulWidget {
-  Budget? b;
-  Adventure? a;
+  late final Budget? b;
+  late final Adventure? a;
   final BudgetEntryModel budgetEntryModel;
 
   _AlertBox(this.b, this.a, this.budgetEntryModel);
@@ -780,8 +780,8 @@ class AlertBox extends State<_AlertBox> {
 }
 
 class _GetBudgetEntries extends StatefulWidget {
-  Budget? currentBudget;
-  Adventure? currentAdventure;
+  late final Budget? currentBudget;
+  late final Adventure? currentAdventure;
 
   _GetBudgetEntries(Budget b, Adventure a) {
     this.currentBudget = b;
@@ -1712,10 +1712,10 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
   }
 }
 
-class getReport extends StatelessWidget {
-  Budget? currentBudget;
+class GetReport extends StatelessWidget {
+  late final Budget? currentBudget;
 
-  getReport(Budget b) {
+  GetReport(Budget b) {
     this.currentBudget = b;
   }
 
