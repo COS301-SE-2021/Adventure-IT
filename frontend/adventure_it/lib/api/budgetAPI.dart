@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:adventure_it/api/createUTOBudgetEntry.dart';
 import 'package:adventure_it/api/report.dart';
-import 'package:adventure_it/api/user_api.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import '/constants.dart';
 import '/api/budget.dart';
 import '/api/adventure.dart';

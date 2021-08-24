@@ -1,7 +1,6 @@
 import 'package:adventure_it/Providers/budget_model.dart';
 import 'package:adventure_it/Providers/checklist_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 
@@ -12,7 +11,6 @@ import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 

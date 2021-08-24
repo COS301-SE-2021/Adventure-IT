@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:adventure_it/api/adventure.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
-import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:time_machine/time_machine.dart';

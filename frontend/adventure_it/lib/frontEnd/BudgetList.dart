@@ -1,8 +1,7 @@
 import 'package:adventure_it/Providers/budget_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/createBudget.dart';
-import 'package:adventure_it/api/user_api.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:fl_chart/fl_chart.dart';

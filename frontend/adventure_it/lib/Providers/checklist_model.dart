@@ -3,13 +3,15 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
 import 'package:adventure_it/api/checklistEntry.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-class DeletedChecklistModel extends ChangeNotifier{
-  List<Checklist>? _deletedChecklists=null;
+class DeletedChecklistModel extends ChangeNotifier {
+  List<Checklist>? _deletedChecklists = null;
+
   DeletedChecklistModel(Adventure a) {
-
-    fetchAllDeletedChecklists(a).then((deletedChecklists) => deletedChecklists != null? _deletedChecklists = deletedChecklists:List.empty());
+    fetchAllDeletedChecklists(a).then((deletedChecklists) =>
+        deletedChecklists != null
+            ? _deletedChecklists = deletedChecklists
+            : List.empty());
   }
 
   List<Checklist>? get deletedChecklists => _deletedChecklists?.toList();
@@ -32,25 +34,23 @@ class DeletedChecklistModel extends ChangeNotifier{
   Future restoreChecklist(Checklist check) async {
     await ChecklistApi.restoreChecklist(check.id);
 
-    var index = _deletedChecklists!.indexWhere((element) => element.id == check.id);
+    var index =
+        _deletedChecklists!.indexWhere((element) => element.id == check.id);
     _deletedChecklists!.removeAt(index);
 
     notifyListeners();
   }
-
 }
 
 class ChecklistModel extends ChangeNotifier {
   List<Checklist>? _checklists = null;
 
-
   ChecklistModel(Adventure a) {
     fetchAllChecklists(a).then((checklists) =>
-    checklists != null ? _checklists = checklists : List.empty());
+        checklists != null ? _checklists = checklists : List.empty());
   }
 
   List<Checklist>? get checklists => _checklists?.toList();
-
 
   Future fetchAllChecklists(Adventure a) async {
     _checklists = await ChecklistApi.getChecklists(a);
@@ -58,7 +58,8 @@ class ChecklistModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future addChecklist(Adventure adv, String a, String b, String c, String d) async {
+  Future addChecklist(
+      Adventure adv, String a, String b, String c, String d) async {
     await ChecklistApi.createChecklist(a, b, c, d);
 
     await fetchAllChecklists(adv);
@@ -74,26 +75,17 @@ class ChecklistModel extends ChangeNotifier {
   }
 }
 
-
-
-
-
 class ChecklistEntryModel extends ChangeNotifier {
   List<ChecklistEntry>? _entries = null;
   Checklist? c;
 
-
   ChecklistEntryModel(Checklist c) {
-    this.c=c;
-    fetchAllEntries(c).then((entries) =>
-    entries != null
-        ? _entries = entries
-        : List.empty());
+    this.c = c;
+    fetchAllEntries(c)
+        .then((entries) => entries != null ? _entries = entries : List.empty());
   }
 
-
   List<ChecklistEntry>? get entries => _entries?.toList();
-
 
   Future fetchAllEntries(Checklist c) async {
     _entries = await ChecklistApi.getChecklistEntries(c);
@@ -105,7 +97,7 @@ class ChecklistEntryModel extends ChangeNotifier {
     await ChecklistApi.createChecklistEntry(a, b);
 
     await fetchAllEntries(c);
-}
+  }
 
   Future editChecklistEntry(ChecklistEntry e, Checklist c, String s) async {
     await ChecklistApi.checklistEdit(e, s);
@@ -132,7 +124,6 @@ class ChecklistEntryModel extends ChangeNotifier {
     var index = _entries!.indexWhere((element) => element.id == c.id);
 
     fetchAllEntries(this.c!);
-
 
     notifyListeners();
   }

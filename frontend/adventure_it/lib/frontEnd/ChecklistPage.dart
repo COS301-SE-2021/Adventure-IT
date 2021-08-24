@@ -1,7 +1,6 @@
 
 import 'package:adventure_it/Providers/checklist_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/checklist.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
 import 'package:adventure_it/api/checklistAPI.dart';

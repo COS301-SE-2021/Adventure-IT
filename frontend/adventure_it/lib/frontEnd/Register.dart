@@ -1,5 +1,5 @@
 import 'package:adventure_it/api/registerUser.dart';
-import 'package:adventure_it/api/user_api.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/gestures.dart';

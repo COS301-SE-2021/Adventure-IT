@@ -1,7 +1,5 @@
 import 'package:adventure_it/Providers/media_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
-import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:file_picker/file_picker.dart';

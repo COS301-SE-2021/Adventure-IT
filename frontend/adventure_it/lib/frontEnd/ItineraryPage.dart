@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:adventure_it/Providers/itinerary_model.dart';
 import 'package:adventure_it/Providers/location_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/createItinerary.dart';
 import 'package:adventure_it/api/createItineraryEntry.dart';
 import 'package:adventure_it/api/itinerary.dart';

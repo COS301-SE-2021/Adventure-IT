@@ -1,13 +1,12 @@
 import 'package:adventure_it/Providers/checklist_model.dart';
 import 'package:adventure_it/Providers/friends_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/checklist.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
 import 'package:adventure_it/api/createChecklist.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
-import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/frontEnd/ChecklistsList.dart';

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:adventure_it/api/createChecklistEntry.dart';
-import 'package:adventure_it/api/user_api.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import '/constants.dart';
 import '/api/checklist.dart';
 import '/api/adventure.dart';
