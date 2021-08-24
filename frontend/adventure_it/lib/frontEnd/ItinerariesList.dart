@@ -167,7 +167,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                       decoration: new BoxDecoration(
                           image: new DecorationImage(
                               image: next!=null?
-                                  NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+next!.location.photo_reference+"&maxwidth=500&key="+googleMapsKey):NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+a!.location.photo_reference+"&maxwidth=500&key="+googleMapsKey) ,
+                                  next!.location.photo_reference!=""?NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+next!.location.photo_reference+"&maxwidth=500&key="+googleMapsKey):NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+a!.location.photo_reference+"&maxwidth=500&key="+googleMapsKey):NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+a!.location.photo_reference+"&maxwidth=500&key="+googleMapsKey) ,
                               fit: BoxFit.cover,
                               colorFilter: ColorFilter.mode(
                                   Theme.of(context)
