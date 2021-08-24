@@ -10,6 +10,7 @@ import 'AdventurePage.dart';
 import 'CreateAdventure.dart';
 
 //Shows list of adventures
+//TODO: upper camel case error
 class HomePage_Pages extends StatelessWidget {
   HomePage_Pages();
 
@@ -27,7 +28,6 @@ class HomePage_Pages extends StatelessWidget {
   }
 }
 
-//TODO: class names uppercase or not
 class HomePage_Pages_Adventures extends StatelessWidget {
   HomePage_Pages_Adventures();
 
