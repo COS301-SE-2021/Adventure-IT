@@ -7,6 +7,7 @@ import 'package:adventure_it/api/adventure.dart';
 import 'BudgetList.dart';
 import 'Navbar.dart';
 
+//Page to restore/ hard delete
 class BudgetTrash extends StatelessWidget {
   Adventure? adventure;
 
