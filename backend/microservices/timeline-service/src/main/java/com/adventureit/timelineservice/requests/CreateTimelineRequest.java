@@ -1,15 +1,15 @@
-package com.adventureit.timelineservice.Requests;
+package com.adventureit.timelineservice.requests;
 
-import com.adventureit.timelineservice.Entity.TimelineType;
+import com.adventureit.timelineservice.entity.TimelineType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
 public class CreateTimelineRequest {
 
-    final private UUID adventureId;
-    final private TimelineType type;
-    final private String description;
+    private final UUID adventureId;
+    private final TimelineType type;
+    private final String description;
 
     public CreateTimelineRequest(@JsonProperty("adventureID") UUID adventureID,@JsonProperty("type") TimelineType type,@JsonProperty("description") String description) {
         this.adventureId = adventureID;

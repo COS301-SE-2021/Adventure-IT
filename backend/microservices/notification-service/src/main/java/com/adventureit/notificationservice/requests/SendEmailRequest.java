@@ -1,4 +1,4 @@
-package com.adventureit.notificationservice.Requests;
+package com.adventureit.notificationservice.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

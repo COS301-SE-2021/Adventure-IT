@@ -1,6 +1,4 @@
-package com.adventureit.notificationservice.Entity;
-
-import org.aspectj.lang.annotation.RequiredTypes;
+package com.adventureit.notificationservice.entity;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -52,8 +50,6 @@ public class Notification{
         return this.notificationID;
     }
 
-
-
     public String getPayload(){
         return this.payload;
     }
@@ -65,6 +61,7 @@ public class Notification{
     public Date getReadDateTime(){
         return this.readDateTime;
     }
+
     public void setReadDateTime(Date readDateTime){
         this.readDateTime = readDateTime;
     }

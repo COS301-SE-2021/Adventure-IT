@@ -1,14 +1,13 @@
-package com.adventureit.notificationservice.Service;
+package com.adventureit.notificationservice.service;
 
 
-import com.adventureit.notificationservice.Entity.Notification;
-import com.adventureit.notificationservice.Repos.NotificationRepository;
-import com.adventureit.notificationservice.Requests.CreateNotificationRequest;
-import com.adventureit.notificationservice.Requests.RetrieveNotificationRequest;
-import com.adventureit.notificationservice.Requests.SendEmailNotificationRequest;
-import com.adventureit.notificationservice.Responses.CreateNotificationResponse;
-import com.adventureit.notificationservice.Responses.SendEmailNotificationResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.adventureit.notificationservice.entity.Notification;
+import com.adventureit.notificationservice.repos.NotificationRepository;
+import com.adventureit.notificationservice.requests.CreateNotificationRequest;
+import com.adventureit.notificationservice.requests.RetrieveNotificationRequest;
+import com.adventureit.notificationservice.requests.SendEmailNotificationRequest;
+import com.adventureit.notificationservice.responses.CreateNotificationResponse;
+import com.adventureit.notificationservice.responses.SendEmailNotificationResponse;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -61,10 +60,9 @@ public class NotificationService {
 
     public List<Notification> retrieveNotifications(RetrieveNotificationRequest req){
         Date currentDate = new Date();
-        boolean unread_only = req.isUnreadOnly();
-        UUID userID =req.getUserId_U();
-        //UUID userID = UUID.fromString("9d2a50a0-3648-41f2-b344-08a4459a7f27");
-        if(unread_only){
+        boolean unreadOnly = req.isUnreadOnly();
+        UUID userID =req.getUserIdU();
+        if(unreadOnly){
             List<Notification> list = repo.getNotificationByUserIDAndReadDateTime(userID,null);
             for (Notification notification : list) {
                 notification.setReadDateTime(currentDate);

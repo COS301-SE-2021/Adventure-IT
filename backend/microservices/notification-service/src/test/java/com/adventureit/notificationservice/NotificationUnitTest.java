@@ -1,36 +1,35 @@
 package com.adventureit.notificationservice;
 
-import com.adventureit.notificationservice.Entity.Notification;
-import com.adventureit.notificationservice.Repos.NotificationRepository;
-import com.adventureit.notificationservice.Requests.CreateNotificationRequest;
-import com.adventureit.notificationservice.Requests.RetrieveNotificationRequest;
-import com.adventureit.notificationservice.Requests.SendEmailNotificationRequest;
-import com.adventureit.notificationservice.Requests.SendEmailRequest;
-import com.adventureit.notificationservice.Responses.CreateNotificationResponse;
-import com.adventureit.notificationservice.Responses.SendEmailNotificationResponse;
-import com.adventureit.notificationservice.Service.NotificationService;
+import com.adventureit.notificationservice.entity.Notification;
+import com.adventureit.notificationservice.repos.NotificationRepository;
+import com.adventureit.notificationservice.requests.CreateNotificationRequest;
+import com.adventureit.notificationservice.requests.RetrieveNotificationRequest;
+import com.adventureit.notificationservice.requests.SendEmailNotificationRequest;
+import com.adventureit.notificationservice.requests.SendEmailRequest;
+import com.adventureit.notificationservice.responses.CreateNotificationResponse;
+import com.adventureit.notificationservice.responses.SendEmailNotificationResponse;
+import com.adventureit.notificationservice.service.NotificationService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
 @SpringBootTest
-public class NotificationUnitTest {
+ class NotificationUnitTest {
 
 
-    private NotificationRepository mockNotificationRepository = Mockito.mock(NotificationRepository.class);
+    private final NotificationRepository mockNotificationRepository = Mockito.mock(NotificationRepository.class);
 
-    private JavaMailSender mail = Mockito.mock(JavaMailSender.class);
+    private final JavaMailSender mail = Mockito.mock(JavaMailSender.class);
 
-    private NotificationService notificationSUT = new NotificationService(mail, mockNotificationRepository);
+    private final NotificationService notificationSUT = new NotificationService(mail, mockNotificationRepository);
 
     Date date1 = new Date();
 
@@ -51,43 +50,43 @@ public class NotificationUnitTest {
 
 
     @Test
-    public void testRetrieveNotificationRequestObjectS(){
+     void testRetrieveNotificationRequestObjectS(){
         RetrieveNotificationRequest testRequest = new RetrieveNotificationRequest(userId1S, true);
         assertNotNull(testRequest);
-        assertEquals(userId1S,testRequest.getUserId_S());
-        assertEquals(userId1U,testRequest.getUserId_U());
-        assertEquals(true,testRequest.isUnreadOnly());
+        assertEquals(userId1S,testRequest.getUserIdS());
+        assertEquals(userId1U,testRequest.getUserIdU());
+        assertTrue(testRequest.isUnreadOnly());
     }
 
     @Test
-    public void testRetrieveNotificationRequestObjectU(){
+     void testRetrieveNotificationRequestObjectU(){
         RetrieveNotificationRequest testRequest = new RetrieveNotificationRequest(userId1U, true);
         assertNotNull(testRequest);
-        assertEquals(userId1S,testRequest.getUserId_S());
-        assertEquals(userId1U,testRequest.getUserId_U());
-        assertEquals(true,testRequest.isUnreadOnly());
+        assertEquals(userId1S,testRequest.getUserIdS());
+        assertEquals(userId1U,testRequest.getUserIdU());
+        assertTrue(testRequest.isUnreadOnly());
     }
 
     @Test
-    public void testCreateNotificationResponseObject(){
+     void testCreateNotificationResponseObject(){
         CreateNotificationResponse testResponse = new CreateNotificationResponse(mockMessage3,true);
         assertNotNull(testResponse);
         assertEquals(mockMessage3,testResponse.getResponseMessage());
-        assertEquals(true,testResponse.isSuccess());
+        assertTrue(testResponse.isSuccess());
     }
 
     @Test
-    public void testSendEmailNotificationResponseObject(){
+     void testSendEmailNotificationResponseObject(){
         SendEmailNotificationResponse testResponse = new SendEmailNotificationResponse(true,mockMessage3);
         assertNotNull(testResponse);
-        assertEquals(mockMessage3,testResponse.getReturnmessage());
-        assertEquals(true,testResponse.isSuccess());
+        assertEquals(mockMessage3,testResponse.getReturnMessage());
+        assertTrue(testResponse.isSuccess());
     }
 
 
 
     @Test
-    public void testCreateNotificationRequestObject(){
+     void testCreateNotificationRequestObject(){
        CreateNotificationRequest testRequest = new CreateNotificationRequest(userId1U,mockMessage1);
         assertNotNull(testRequest);
         assertEquals(userId1U,testRequest.getUserId());
@@ -95,7 +94,7 @@ public class NotificationUnitTest {
     }
 
     @Test
-    public void testSendEmailNotificationRequestObject(){
+     void testSendEmailNotificationRequestObject(){
         SendEmailNotificationRequest testRequest = new SendEmailNotificationRequest(userId1U,mockSubject1,mockMessage1);
         assertNotNull(testRequest);
         assertEquals(userId1U,testRequest.getUserId());
@@ -104,7 +103,7 @@ public class NotificationUnitTest {
     }
 
     @Test
-    public void testSendEmailRequestObject(){
+     void testSendEmailRequestObject(){
         SendEmailRequest testRequest = new SendEmailRequest(mockEmail,mockSubject1,mockMessage1);
         assertNotNull(testRequest);
         assertEquals(mockEmail,testRequest.getEmail());
@@ -113,18 +112,18 @@ public class NotificationUnitTest {
     }
 
     @Test
-    public void testNotificationEntity(){
+     void testNotificationEntity(){
         Notification mockNote = new Notification(notificationId1U,userId1U,mockMessage1,date1,null);
         assertEquals(notificationId1U,mockNote.getNotificationID());
         assertEquals(userId1U,mockNote.getUserID());
         assertEquals(mockMessage1,mockNote.getPayload());
         assertEquals(date1,mockNote.getCreatedDateTime());
-        assertEquals(null,mockNote.getReadDateTime());
+        assertNull(mockNote.getReadDateTime());
     }
 
 
     @Test
-    public void testRetrieveNotificationServiceGetAllNotifications(){
+     void testRetrieveNotificationServiceGetAllNotifications(){
         Mockito.when(mockNotificationRepository.getNotificationByUserID(userId1U)).thenReturn(List.of(note1, note4));
         RetrieveNotificationRequest testRequest = new RetrieveNotificationRequest(userId1U, false);
         List<Notification> list = notificationSUT.retrieveNotifications(testRequest);
@@ -133,7 +132,7 @@ public class NotificationUnitTest {
 
 
     @Test
-    public void testRetrieveNotificationServiceGetUnreadNotifications(){
+     void testRetrieveNotificationServiceGetUnreadNotifications(){
         Mockito.when(mockNotificationRepository.getNotificationByUserIDAndReadDateTime(userId1U,null)).thenReturn(List.of(note1));
         RetrieveNotificationRequest testRequest = new RetrieveNotificationRequest(userId1U, true);
         List<Notification> list = notificationSUT.retrieveNotifications(testRequest);
@@ -143,21 +142,21 @@ public class NotificationUnitTest {
     }
 
     @Test
-    public void testCreateNotificationService(){
+     void testCreateNotificationService(){
         CreateNotificationRequest testRequest = new CreateNotificationRequest(userId1U,mockMessage1);
         CreateNotificationResponse testResponse = notificationSUT.createNotification(testRequest);
         assertNotNull(testResponse);
         assertEquals("Notification saved for user no. "+userId1U,testResponse.getResponseMessage());
-        assertEquals(true,testResponse.isSuccess());
+        assertTrue(testResponse.isSuccess());
     }
 
     @Test
-    public void testSendEmailNotificationService(){
+     void testSendEmailNotificationService(){
         SendEmailNotificationRequest testRequest = new SendEmailNotificationRequest(userId1U,mockSubject1,mockMessage1);
         SendEmailNotificationResponse testResponse = notificationSUT.sendEmailNotification(testRequest);
         assertNotNull(testResponse);
-        assertEquals("Email sent to user no. "+userId1U,testResponse.getReturnmessage());
-        assertEquals(true,testResponse.isSuccess());
+        assertEquals("Email sent to user no. "+userId1U,testResponse.getReturnMessage());
+        assertTrue(testResponse.isSuccess());
     }
 
 

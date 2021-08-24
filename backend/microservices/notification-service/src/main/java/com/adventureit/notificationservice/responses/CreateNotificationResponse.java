@@ -1,4 +1,4 @@
-package com.adventureit.notificationservice.Responses;
+package com.adventureit.notificationservice.responses;
 
 public class CreateNotificationResponse {
     private final String responseMessage;

@@ -1,6 +1,6 @@
-package com.adventureit.notificationservice.Repos;
+package com.adventureit.notificationservice.repos;
 
-import com.adventureit.notificationservice.Entity.Notification;
+import com.adventureit.notificationservice.entity.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
