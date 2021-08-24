@@ -1,19 +1,15 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:adventure_it/constants.dart';
+
 import 'package:adventure_it/Providers/itinerary_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
-import 'package:adventure_it/api/createItinerary.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
 import 'package:adventure_it/api/user_api.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
 
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'HomepageStartup.dart';
 import 'AdventurePage.dart';
-
-import '../api/budget.dart';
 import 'ItineraryPage.dart';
 import 'ItineraryTrash.dart';
 import 'Navbar.dart';
@@ -30,82 +26,86 @@ class Itineraries extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (context) => ItineraryModel(adventure!),
         builder: (context, widget) => Scaffold(
-        drawer: NavDrawer(),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBar: AppBar(
-            title: Center(
-                child: Text("Itineraries",
-                    style: new TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color))),
-            backgroundColor: Theme.of(context).primaryColorDark),
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: MediaQuery.of(context).size.height / 60),
-              Container(
-                  height: MediaQuery.of(context).size.height * 0.80,
-                  child: ItinerariesList(adventure!)),
-              Spacer(),
-              Row(children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).accentColor,
-                          shape: BoxShape.circle),
-                      child: IconButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        AdventurePage(adventure)));
-                          },
-                          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                          color: Theme.of(context).primaryColorDark)),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).accentColor,
-                          shape: BoxShape.circle),
-                      child: IconButton(
-                          onPressed: () {
-                            {
-                              var provider = Provider.of<ItineraryModel>(context, listen: false);
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertBox(adventure!, provider);
-                                  });
-                            }
-                          },
-                          icon: const Icon(Icons.add),
-                          color: Theme.of(context).primaryColorDark)),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).accentColor,
-                          shape: BoxShape.circle),
-                      child: IconButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ItineraryTrash(adventure)));
-                          },
-                          icon: const Icon(Icons.delete_outline_rounded),
-                          color: Theme.of(context)
-                              .primaryColorDark)), //Your widget here,
-                ),
-              ]),
-              SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ])));
+            drawer: NavDrawer(),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            appBar: AppBar(
+                title: Center(
+                    child: Text("Itineraries",
+                        style: new TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyText1!.color))),
+                backgroundColor: Theme.of(context).primaryColorDark),
+            body: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: MediaQuery.of(context).size.height / 60),
+                  Container(
+                      height: MediaQuery.of(context).size.height * 0.80,
+                      child: ItinerariesList(adventure!)),
+                  Spacer(),
+                  Row(children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).accentColor,
+                              shape: BoxShape.circle),
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AdventurePage(adventure)));
+                              },
+                              icon:
+                                  const Icon(Icons.arrow_back_ios_new_rounded),
+                              color: Theme.of(context).primaryColorDark)),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).accentColor,
+                              shape: BoxShape.circle),
+                          child: IconButton(
+                              onPressed: () {
+                                {
+                                  var provider = Provider.of<ItineraryModel>(
+                                      context,
+                                      listen: false);
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertBox(adventure!, provider);
+                                      });
+                                }
+                              },
+                              icon: const Icon(Icons.add),
+                              color: Theme.of(context).primaryColorDark)),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).accentColor,
+                              shape: BoxShape.circle),
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ItineraryTrash(adventure)));
+                              },
+                              icon: const Icon(Icons.delete_outline_rounded),
+                              color: Theme.of(context)
+                                  .primaryColorDark)), //Your widget here,
+                    ),
+                  ]),
+                  SizedBox(height: MediaQuery.of(context).size.height / 60),
+                ])));
   }
 }
 
@@ -123,7 +123,7 @@ class ItinerariesList extends StatefulWidget {
 class _ItinerariesList extends State<ItinerariesList> {
   Adventure? a;
   ItineraryEntry? next;
-  bool check=false;
+  bool check = false;
 
   List<String> months = [
     "January",
@@ -144,7 +144,7 @@ class _ItinerariesList extends State<ItinerariesList> {
     this.a = adventure;
     ItineraryApi.getNextEntry(a!).then((value) {
       setState(() {
-        check=true;
+        check = true;
 
         next = value;
       });
@@ -153,200 +153,218 @@ class _ItinerariesList extends State<ItinerariesList> {
 
   @override
   Widget build(BuildContext context) {
-    return
-      Consumer<ItineraryModel>(builder: (context, itineraryModel, child) {
-          if (itineraryModel.itineraries == null||check==false) {
-            return Center(
-                child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).accentColor)));
-          } else if (itineraryModel.itineraries!.length > 0) {
-            return Column(children: [
-              Expanded(
-                  flex: 3,
-                  child: Container(
-                      decoration: new BoxDecoration(
-                          image: new DecorationImage(
-                              image: next!=null?
-                                  NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+next!.location.photo_reference+"&maxwidth=500&key="+googleMapsKey):NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+a!.location.photo_reference+"&maxwidth=500&key="+googleMapsKey) ,
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                  Theme.of(context)
-                                      .backgroundColor
-                                      .withOpacity(0.25),
-                                  BlendMode.dstATop))
-                      ),
-                      child: next!=null? Column(children: [
-                        Spacer(),
-                    Text("Next Stop!",
-                        style: TextStyle(
-                            fontSize:
-                                30 * MediaQuery.of(context).textScaleFactor,
-                            fontWeight: FontWeight.bold,
-                            color:
-                                Theme.of(context).textTheme.bodyText1!.color)),
-                    Text(next!.title,
-                        style: TextStyle(
-                            fontSize:
-                                40 * MediaQuery.of(context).textScaleFactor,
-                            fontWeight: FontWeight.bold,
-                            color:
-                                Theme.of(context).textTheme.bodyText1!.color)),
-                    Row(children: [
-                      Expanded(
-                          child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(children: [
-                          WidgetSpan(
-                              child: Icon(
-                            Icons.location_on,
-                            size: 15,
-                            color: Theme.of(context).textTheme.bodyText1!.color,
-                          )),
-                          TextSpan(
-                              text: " " + next!.location.formattedAddress,
+    return Consumer<ItineraryModel>(builder: (context, itineraryModel, child) {
+      if (itineraryModel.itineraries == null || check == false) {
+        return Center(
+            child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                    Theme.of(context).accentColor)));
+      } else if (itineraryModel.itineraries!.length > 0) {
+        return Column(children: [
+          Expanded(
+              flex: 3,
+              child: Container(
+                  decoration: new BoxDecoration(
+                      image: new DecorationImage(
+                          image: next != null
+                              ? NetworkImage(
+                                  "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                      next!.location.photo_reference +
+                                      "&maxwidth=500&key=" +
+                                      googleMapsKey)
+                              : NetworkImage(
+                                  "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                      a!.location.photo_reference +
+                                      "&maxwidth=500&key=" +
+                                      googleMapsKey),
+                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(
+                              Theme.of(context)
+                                  .backgroundColor
+                                  .withOpacity(0.25),
+                              BlendMode.dstATop))),
+                  child: next != null
+                      ? Column(children: [
+                          Spacer(),
+                          Text("Next Stop!",
                               style: TextStyle(
-                                  fontSize: 15 *
+                                  fontSize: 30 *
                                       MediaQuery.of(context).textScaleFactor,
+                                  fontWeight: FontWeight.bold,
                                   color: Theme.of(context)
                                       .textTheme
                                       .bodyText1!
-                                      .color))
-                        ]),
-                      )),
-                      Spacer(),
-                      Expanded(
-                        child: Text(
-                            DateTime.parse(next!.timestamp).day.toString() +
-                                " " +
-                                months[
-                                    DateTime.parse(next!.timestamp).month - 1] +
-                                " " +
-                                DateTime.parse(next!.timestamp)
-                                    .year
-                                    .toString() +
-                                " " +
-                                DateTime.parse(next!.timestamp)
-                                    .hour
-                                    .toString() +
-                                ":" +
-                                DateTime.parse(next!.timestamp)
-                                    .minute
-                                    .toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize:
-                                    15 * MediaQuery.of(context).textScaleFactor,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .color)),
-                      ),
-                    ]),Spacer(),
-                  ]): Center(
+                                      .color)),
+                          Text(next!.title,
+                              style: TextStyle(
+                                  fontSize: 40 *
+                                      MediaQuery.of(context).textScaleFactor,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color)),
+                          Row(children: [
+                            Expanded(
+                                child: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(children: [
+                                WidgetSpan(
+                                    child: Icon(
+                                  Icons.location_on,
+                                  size: 15,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color,
+                                )),
+                                TextSpan(
+                                    text: " " + next!.location.formattedAddress,
+                                    style: TextStyle(
+                                        fontSize: 15 *
+                                            MediaQuery.of(context)
+                                                .textScaleFactor,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .color))
+                              ]),
+                            )),
+                            Spacer(),
+                            Expanded(
+                              child: Text(
+                                  DateTime.parse(next!.timestamp)
+                                          .day
+                                          .toString() +
+                                      " " +
+                                      months[DateTime.parse(next!.timestamp)
+                                              .month -
+                                          1] +
+                                      " " +
+                                      DateTime.parse(next!.timestamp)
+                                          .year
+                                          .toString() +
+                                      " " +
+                                      DateTime.parse(next!.timestamp)
+                                          .hour
+                                          .toString() +
+                                      ":" +
+                                      DateTime.parse(next!.timestamp)
+                                          .minute
+                                          .toString(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 15 *
+                                          MediaQuery.of(context)
+                                              .textScaleFactor,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color)),
+                            ),
+                          ]),
+                          Spacer(),
+                        ])
+                      : Center(
                           child: Text(
                               "There's nothing coming up next. Is this the end?",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-                                  color: Theme.of(context).textTheme.bodyText1!.color))))),
-              SizedBox(height: MediaQuery.of(context).size.height / 60),
-              Expanded(
-                flex: 8,
+                                  fontSize: 30 *
+                                      MediaQuery.of(context).textScaleFactor,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color))))),
+          SizedBox(height: MediaQuery.of(context).size.height / 60),
+          Expanded(
+              flex: 8,
               child: ListView.builder(
-                      itemCount: itineraryModel.itineraries!.length,
-                      itemBuilder: (context, index) => Dismissible(
-                          background: Container(
-                            // color: Theme.of(context).primaryColor,
-                            //   margin: const EdgeInsets.all(5),
-                            padding: EdgeInsets.all(
-                                MediaQuery.of(context).size.height / 60),
-                            child: Row(
-                              children: [
-                                new Spacer(),
-                                Icon(Icons.delete,
-                                    color: Theme.of(context).accentColor,
-                                    size: 35 *
-                                        MediaQuery.of(context).textScaleFactor),
-                                ],
-                            )),
-                            direction: DismissDirection.endToStart,
-                            key: Key(itineraryModel.itineraries!
-                                .elementAt(index)
-                                .id),
-                            child: Card(
-                                color: Theme.of(context).primaryColorDark,
-                                child: InkWell(
-                                    hoverColor:
-                                        Theme.of(context).primaryColorLight,
-                                    onTap: () {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ItineraryPage(
-                                                      itineraryModel
-                                                          .itineraries!
-                                                          .elementAt(index),
-                                                      a)));
-                                    },
-                                    child: Container(
-                                      child: Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                            flex: 4,
-                                            child: ListTile(
-                                              title: Text(
-                                                  itineraryModel.itineraries!
-                                                      .elementAt(index)
-                                                      .title,
-                                                  style: TextStyle(
-                                                      fontSize: 25 *
-                                                          MediaQuery.of(context)
-                                                              .textScaleFactor,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .color)),
-                                              // subtitle:Text(adventures.elementAt(index).description),
-                                              subtitle: Text(
-                                                  itineraryModel.itineraries!
-                                                      .elementAt(index)
-                                                      .description,
-                                                  style: TextStyle(
-                                                      fontSize: 15 *
-                                                          MediaQuery.of(context)
-                                                              .textScaleFactor,
-                                                      color: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .color)),
-                                            ),
-                                          ),
-                                        ],
+                  itemCount: itineraryModel.itineraries!.length,
+                  itemBuilder: (context, index) => Dismissible(
+                      background: Container(
+                          // color: Theme.of(context).primaryColor,
+                          //   margin: const EdgeInsets.all(5),
+                          padding: EdgeInsets.all(
+                              MediaQuery.of(context).size.height / 60),
+                          child: Row(
+                            children: [
+                              new Spacer(),
+                              Icon(Icons.delete,
+                                  color: Theme.of(context).accentColor,
+                                  size: 35 *
+                                      MediaQuery.of(context).textScaleFactor),
+                            ],
+                          )),
+                      direction: DismissDirection.endToStart,
+                      key: Key(itineraryModel.itineraries!.elementAt(index).id),
+                      child: Card(
+                          color: Theme.of(context).primaryColorDark,
+                          child: InkWell(
+                              hoverColor: Theme.of(context).primaryColorLight,
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ItineraryPage(
+                                            itineraryModel.itineraries!
+                                                .elementAt(index),
+                                            a)));
+                              },
+                              child: Container(
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 4,
+                                      child: ListTile(
+                                        title: Text(
+                                            itineraryModel.itineraries!
+                                                .elementAt(index)
+                                                .title,
+                                            style: TextStyle(
+                                                fontSize: 25 *
+                                                    MediaQuery.of(context)
+                                                        .textScaleFactor,
+                                                fontWeight: FontWeight.bold,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color)),
+                                        // subtitle:Text(adventures.elementAt(index).description),
+                                        subtitle: Text(
+                                            itineraryModel.itineraries!
+                                                .elementAt(index)
+                                                .description,
+                                            style: TextStyle(
+                                                fontSize: 15 *
+                                                    MediaQuery.of(context)
+                                                        .textScaleFactor,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color)),
                                       ),
-                                    ))),
-                            onDismissed: (direction) {
-                              Provider.of<ItineraryModel>(context,
-                                      listen: false)
-                                  .softDeleteItinerary(itineraryModel
-                                      .itineraries!
-                                      .elementAt(index));
-                            }))
-              )]);
-          } else {
-            return Center(
-                child: Text(
-                    "Some like to be spontaneous while others prefer to plan!",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-                        color: Theme.of(context).textTheme.bodyText1!.color)));
-          }
-        });
+                                    ),
+                                  ],
+                                ),
+                              ))),
+                      onDismissed: (direction) {
+                        Provider.of<ItineraryModel>(context, listen: false)
+                            .softDeleteItinerary(
+                                itineraryModel.itineraries!.elementAt(index));
+                      })))
+        ]);
+      } else {
+        return Center(
+            child: Text(
+                "Some like to be spontaneous while others prefer to plan!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                    color: Theme.of(context).textTheme.bodyText1!.color)));
+      }
+    });
   }
 }
 
@@ -377,7 +395,6 @@ class _AlertBox extends State<AlertBox> {
   //controllers for the form fields
   String userID = UserApi.getInstance().getUserProfile()!.userID;
 
-  Future<CreateItinerary>? _futureItinerary;
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
 
@@ -388,8 +405,7 @@ class _AlertBox extends State<AlertBox> {
         content: Container(
           height: getSize(context),
           child: Stack(
-            overflow: Overflow.visible,
-            children: <Widget>[
+            clipBehavior: Clip.none, children: <Widget>[
               Positioned(
                 right: -40.0,
                 top: -40.0,
@@ -448,7 +464,7 @@ class _AlertBox extends State<AlertBox> {
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
                           maxLength: 255,
-                          maxLengthEnforced: true,
+                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
                           maxLines: 4,
                           style: TextStyle(
                               color:
@@ -474,8 +490,9 @@ class _AlertBox extends State<AlertBox> {
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
-                      child: RaisedButton(
-                        color: Theme.of(context).accentColor,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context).accentColor),
                         child: Text("Create",
                             style: TextStyle(
                                 color: Theme.of(context)
@@ -483,8 +500,13 @@ class _AlertBox extends State<AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () async {
-                            await widget.itineraryModel.addItinerary(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
-                            Navigator.pop(context);
+                          await widget.itineraryModel.addItinerary(
+                              adventure!,
+                              nameController.text,
+                              descriptionController.text,
+                              userID,
+                              adventure!.adventureId);
+                          Navigator.pop(context);
                         },
                       ),
                     )
