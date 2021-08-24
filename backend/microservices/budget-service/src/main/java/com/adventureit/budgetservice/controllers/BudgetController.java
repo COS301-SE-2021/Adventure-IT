@@ -25,7 +25,7 @@ public class BudgetController {
 	}
 
 	@GetMapping("/test")
-	String test(){
+	public String test(){
 		return "Budget Controller is functioning";
 	}
 
