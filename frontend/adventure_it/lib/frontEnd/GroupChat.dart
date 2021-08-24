@@ -9,7 +9,7 @@ import 'AdventurePage.dart';
 import 'Navbar.dart';
 
 class GroupChat extends StatelessWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
   final messageController = TextEditingController();
 
   GroupChat(Adventure? a) {
@@ -104,7 +104,7 @@ class GroupChat extends StatelessWidget {
 }
 
 class MessageList extends StatefulWidget {
-  Adventure? currentAdventure;
+  late final Adventure? currentAdventure;
 
   MessageList(Adventure a) {
     currentAdventure = a;
