@@ -47,6 +47,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                  style: TextStyle(color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color),
                     controller: firstNameController,
                     decoration: InputDecoration(
                         filled: true,
@@ -58,6 +63,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: lastNameController,
                     decoration: InputDecoration(
                         filled: true,
@@ -69,6 +79,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: usernameController,
                     decoration: InputDecoration(
                         filled: true,
@@ -80,6 +95,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: emailController,
                     decoration: InputDecoration(
                         filled: true,
@@ -91,6 +111,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: phoneNumberController,
                     decoration: InputDecoration(
                         filled: true,
@@ -102,6 +127,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
@@ -117,6 +147,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: passwordCheckController,
                     obscureText: true,
                     decoration: InputDecoration(
