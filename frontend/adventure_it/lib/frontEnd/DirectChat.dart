@@ -11,7 +11,7 @@ import 'Navbar.dart';
 
 //When you click on a friend in friend list - it opens the direct chat
 class DirectChat extends StatelessWidget {
-  UserProfile? user2;
+  late final UserProfile? user2;
   final messageController = TextEditingController();
 
   DirectChat(UserProfile user2) {
