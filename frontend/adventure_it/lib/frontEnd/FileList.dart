@@ -14,7 +14,7 @@ import 'AdventurePage.dart';
 import 'Navbar.dart';
 
 class Files extends StatelessWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
 
   Files(Adventure? a) {
     this.adventure = a;
@@ -117,7 +117,7 @@ class Files extends StatelessWidget {
 }
 
 class MediaList extends StatelessWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
 
   MediaList(Adventure? a) {
     this.adventure = a;
