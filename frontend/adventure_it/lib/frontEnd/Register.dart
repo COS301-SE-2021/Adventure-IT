@@ -1,13 +1,8 @@
-import 'package:adventure_it/api/registerUser.dart';
-import 'package:adventure_it/api/user_api.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 
-import 'package:flutter/material.dart';
-import 'HomepageStartup.dart';
+import 'package:adventure_it/api/user_api.dart';
 
-import '../api/budget.dart';
 import 'Login.dart';
 
 class RegisterCaller extends StatefulWidget {
@@ -16,7 +11,6 @@ class RegisterCaller extends StatefulWidget {
 }
 
 class Register extends State<RegisterCaller> {
-  Future<RegisterUser>? _futureUser;
   final UserApi api = UserApi.getInstance();
 
   final firstNameController = TextEditingController();
