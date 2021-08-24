@@ -8,6 +8,7 @@ import 'package:adventure_it/api/adventure.dart';
 import 'ChecklistsList.dart';
 import 'Navbar.dart';
 
+//Page for restore/ hard delete
 class ChecklistsTrash extends StatelessWidget {
   Adventure? adventure;
 

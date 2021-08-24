@@ -11,6 +11,7 @@ import 'ChecklistPage.dart';
 import 'AdventurePage.dart';
 import 'Navbar.dart';
 
+//Multiple checklist entities
 class Checklists extends StatelessWidget {
   Adventure? adventure;
 
