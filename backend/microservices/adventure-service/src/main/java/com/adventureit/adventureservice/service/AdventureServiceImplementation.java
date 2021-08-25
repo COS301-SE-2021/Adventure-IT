@@ -3,6 +3,7 @@ package com.adventureit.adventureservice.service;
 
 import com.adventureit.adventureservice.entity.Adventure;
 import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
+import com.adventureit.adventureservice.exceptions.UserNotInAdventureException;
 import com.adventureit.adventureservice.repository.AdventureRepository;
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.requests.GetAdventureByUUIDRequest;
@@ -127,14 +128,13 @@ public class AdventureServiceImplementation implements AdventureService {
     }
 
     @Transactional
-    public RemoveAdventureResponse removeAdventure(UUID id, UUID userID) throws Exception {
+    public RemoveAdventureResponse removeAdventure(UUID id, UUID userID) {
         Adventure retrievedAdventure = adventureRepository.findAdventureByAdventureId(id);
         if(retrievedAdventure == null){
             throw new AdventureNotFoundException("Remove Adventure: Adventure not found");
         }
         if(!retrievedAdventure.getAttendees().contains(userID)){
-            // TODO: Define dedicated exception
-            throw new Exception("User does not belong to Adventure");
+            throw new UserNotInAdventureException("User does not belong to Adventure");
         }
 
         retrievedAdventure.getAttendees().remove(userID);
@@ -147,11 +147,10 @@ public class AdventureServiceImplementation implements AdventureService {
     }
 
     @Override
-    public List<UUID> getAttendees(UUID id) throws Exception {
+    public List<UUID> getAttendees(UUID id) {
         Adventure adventure  = adventureRepository.findAdventureByAdventureId(id);
         if(adventure == null){
-            // TODO: Define dedicated exception
-            throw new Exception("Adventure does not exist");
+            throw new AdventureNotFoundException("Adventure does not exist");
         }
 
         return adventure.getAttendees();
@@ -165,11 +164,10 @@ public class AdventureServiceImplementation implements AdventureService {
     }
 
     @Override
-    public void addAttendees(UUID adventureID, UUID userID) throws Exception {
+    public void addAttendees(UUID adventureID, UUID userID) {
         Adventure adventure = adventureRepository.findAdventureByAdventureId(adventureID);
         if(adventure == null){
-            // TODO: Define dedicated exception
-            throw new Exception("Adventure does not exist");
+            throw new AdventureNotFoundException("Adventure does not exist");
         }
 
         adventure.getAttendees().add(userID);

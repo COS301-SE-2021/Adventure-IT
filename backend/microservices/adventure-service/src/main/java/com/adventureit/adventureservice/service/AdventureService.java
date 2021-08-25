@@ -12,14 +12,13 @@ import java.util.UUID;
 
 public interface AdventureService{
 
-    // TODO: Define specific exceptions here, against convention to throw a generic exception
-    CreateAdventureResponse createAdventure(CreateAdventureRequest req) throws Exception;
-    GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req) throws Exception;
+    CreateAdventureResponse createAdventure(CreateAdventureRequest req);
+    GetAdventureByUUIDResponse getAdventureByUUID (GetAdventureByUUIDRequest req);
     List<GetAllAdventuresResponse> getAllAdventures();
     List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUUID(UUID id);
     List<GetAdventuresByUserUUIDResponse> getAdventureByOwnerUUID(UUID ownerID);
     List<GetAdventuresByUserUUIDResponse> getAdventureByAttendeeUUID(UUID attendeeID);
-    List<UUID> getAttendees(UUID id) throws Exception;
+    List<UUID> getAttendees(UUID id);
     void setAdventureLocation(UUID adventureID, UUID locationID);
-    void addAttendees(UUID adventureID, UUID userID) throws Exception;
+    void addAttendees(UUID adventureID, UUID userID);
 }
