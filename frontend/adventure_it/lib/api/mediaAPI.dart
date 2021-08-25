@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
+import 'mockHTML.dart' if(dart.library.html) 'dart:html'as html;
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
@@ -8,7 +9,6 @@ import 'package:adventure_it/api/userAPI.dart';
 import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:mime/mime.dart';
-import 'dart:html' as html;
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:file_picker/file_picker.dart';
@@ -80,11 +80,11 @@ class MediaApi {
   }
 
   static Future<void> requestMediaDownload(context, Media currentMedia) async {
-    Directory? rootDirectory = await DownloadsPathProvider.downloadsDirectory;
+    Directory rootDirectory = await DownloadsPathProvider.downloadsDirectory;
     String? filepath = await FilesystemPicker.open(
         title: 'Save to Downloads folder',
         context: context,
-        rootDirectory: rootDirectory!,
+        rootDirectory: rootDirectory,
         fsType: FilesystemType.folder,
         pickText: 'Save file to this folder');
     if (filepath != null) {
@@ -175,11 +175,11 @@ class FileApi {
   }
 
   static Future<void> requestFileDownload(context, Media currentMedia) async {
-    Directory? rootDirectory = await DownloadsPathProvider.downloadsDirectory;
+    Directory rootDirectory = await DownloadsPathProvider.downloadsDirectory;
     String? filepath = await FilesystemPicker.open(
         title: 'Save to Downloads folder',
         context: context,
-        rootDirectory: rootDirectory!,
+        rootDirectory: rootDirectory,
         fsType: FilesystemType.folder,
         pickText: 'Save file to this folder');
     if (filepath != null) {
@@ -272,11 +272,11 @@ class DocumentApi {
 
   static Future<void> requestDocumentDownload(
       context, Documents currentMedia) async {
-    Directory? rootDirectory = await DownloadsPathProvider.downloadsDirectory;
+    Directory rootDirectory = await DownloadsPathProvider.downloadsDirectory;
     String? filepath = await FilesystemPicker.open(
         title: 'Save to Downloads folder',
         context: context,
-        rootDirectory: rootDirectory!,
+        rootDirectory: rootDirectory,
         fsType: FilesystemType.folder,
         pickText: 'Save file to this folder');
     if (filepath != null) {
