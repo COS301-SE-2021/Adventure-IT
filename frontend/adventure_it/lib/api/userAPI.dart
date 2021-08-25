@@ -233,7 +233,6 @@ class UserApi {
   }
 
   Future deleteFriendRequest(String requestID) async {
-    print("success");
     http.Response response = await _deleteFriendRequest(requestID);
     if (response.statusCode != 200) {
       throw Exception('Failed to delete friendRequest: ${response.body}');
@@ -263,8 +262,6 @@ class UserApi {
       throw Exception('Failed to find user with username: ${response.body}');
     }
 
-    print(response.body.toString());
-
     String userID = (jsonDecode(response.body.toString()));
 
     return userID;
@@ -284,6 +281,24 @@ class UserApi {
   Future<http.Response> _createFriendRequest(String from, String to) async {
     return http.get(
         Uri.parse(userApi + '/user/createFriendRequest/' + from + "/" + to));
+  }
+
+  Future <UserProfile> findUser(String userID) async {
+    http.Response response = await _findUser(userID);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to find user: ${response.body}');
+    }
+
+    UserProfile user = (jsonDecode(response.body) as List)
+        .map((x) => UserProfile.fromJson(x)) as UserProfile;
+
+    return user;
+
+  }
+
+  Future<http.Response> _findUser(String userID) async {
+    return http.get(
+        Uri.parse(userApi + "/user/GetUser/"+userID));
   }
 
   Future<String?> _retrieve(key) async {

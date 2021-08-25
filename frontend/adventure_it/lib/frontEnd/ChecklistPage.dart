@@ -3,27 +3,23 @@ import 'package:adventure_it/Providers/checklist_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/checklist.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
-import 'package:adventure_it/api/checklistAPI.dart';
-import 'package:adventure_it/api/createChecklist.dart';
 import 'package:adventure_it/api/createChecklistEntry.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:adventure_it/api/userAPI.dart';
+import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/frontEnd/ChecklistsList.dart';
-import 'AdventurePage.dart';
 import 'package:provider/provider.dart';
-
 import 'package:flutter/material.dart';
-import 'HomepageStartup.dart';
 
-import '../api/budget.dart';
 import 'Navbar.dart';
 class ChecklistPage extends StatelessWidget {
   Checklist? currentChecklist;
   Adventure? currentAdventure;
+  UserProfile? creator;
 
   ChecklistPage(Checklist? c,Adventure? a) {
     this.currentChecklist = c;
     this.currentAdventure=a;
+    UserApi.getInstance().findUser(c!.creatorID).then((value) => creator=value);
   }
 
   @override
@@ -34,6 +30,14 @@ class ChecklistPage extends StatelessWidget {
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
+            actions: [
+              Text("Created by: "+this.creator!.username, style: new TextStyle(
+                  color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color, fontSize: 0.1*MediaQuery.of(context).size.width))
+            ],
             title: Center(
                 child: Text(currentChecklist!.title,
                     style: new TextStyle(

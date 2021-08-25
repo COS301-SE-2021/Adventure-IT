@@ -5,15 +5,11 @@ import 'package:adventure_it/api/createUTOBudgetEntry.dart';
 import 'package:adventure_it/api/createUTUBudgetEntry.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
-import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'AdventurePage.dart';
-
 import 'package:flutter/material.dart';
 import 'BudgetList.dart';
-import 'HomepageStartup.dart';
 
 import '../api/budget.dart';
 import 'Navbar.dart';
@@ -21,10 +17,12 @@ import 'Navbar.dart';
 class BudgetPage extends StatelessWidget {
   Budget? currentBudget;
   Adventure? currentAdventure;
+  UserProfile? creator;
 
   BudgetPage(Budget? b, Adventure? a) {
     this.currentBudget = b;
     this.currentAdventure = a;
+    UserApi.getInstance().findUser(b!.creatorID).then((value) => creator=value);
   }
 
   @override
@@ -38,6 +36,14 @@ class BudgetPage extends StatelessWidget {
                     .of(context)
                     .scaffoldBackgroundColor,
                 appBar: AppBar(
+                  actions: [
+                    Text("Created by: "+this.creator!.username, style: new TextStyle(
+                        color: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color, fontSize: 0.1*MediaQuery.of(context).size.width))
+                  ],
                     title: Center(
                         child: Text(currentBudget!.name,
                             style: new TextStyle(
@@ -1735,7 +1741,6 @@ class getReport extends StatelessWidget {
                             .accentColor)));
           }
           if (budgetReportModel.reports!.length > 0) {
-            print("length: "+budgetReportModel.reports!.length.toString());
             return Expanded(
                 flex: 2,
                 child: ListView(children: [

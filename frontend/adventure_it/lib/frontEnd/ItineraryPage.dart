@@ -3,32 +3,27 @@ import 'dart:async';
 import 'package:adventure_it/Providers/itinerary_model.dart';
 import 'package:adventure_it/Providers/location_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/createItinerary.dart';
 import 'package:adventure_it/api/createItineraryEntry.dart';
 import 'package:adventure_it/api/itinerary.dart';
-import 'package:adventure_it/api/itineraryAPI.dart';
-import 'package:adventure_it/api/itineraryEntry.dart';
+import 'package:adventure_it/api/userAPI.dart';
+import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
-import 'package:time_machine/time_machine.dart';
-import 'AdventurePage.dart';
-
 import 'package:flutter/material.dart';
-import 'HomepageStartup.dart';
 
-import '../api/budget.dart';
 import 'ItinerariesList.dart';
 import 'Navbar.dart';
 
 class ItineraryPage extends StatelessWidget {
   Itinerary? currentItinerary;
   Adventure? currentAdventure;
+  UserProfile? creator;
 
   ItineraryPage(Itinerary? i, Adventure? a) {
     this.currentItinerary = i;
     this.currentAdventure = a;
+    UserApi.getInstance().findUser(i!.creatorID).then((value) => creator=value);
   }
 
   @override
@@ -39,6 +34,14 @@ class ItineraryPage extends StatelessWidget {
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
+            actions: [
+              Text("Created by: "+this.creator!.username, style: new TextStyle(
+                  color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color, fontSize: 0.1*MediaQuery.of(context).size.width))
+            ],
             title: Center(
                 child: Text(currentItinerary!.title,
                     style: new TextStyle(
