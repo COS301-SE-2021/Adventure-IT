@@ -19,7 +19,7 @@ public class GroupMessage extends Message{
     public GroupMessage(UUID id, UUID sender, String message){
         this.id = id;
         this.sender = sender;
-        this.message = message;
+        this.payload = message;
         this.timestamp = LocalDateTime.now();
 
 
@@ -35,7 +35,7 @@ public class GroupMessage extends Message{
     public GroupMessage(UUID sender, List<UUID> receivers, String message){
         this.id = UUID.randomUUID();
         this.sender = sender;
-        this.message = message;
+        this.payload = message;
         this.timestamp = LocalDateTime.now();
 
         for (UUID ID: receivers) {

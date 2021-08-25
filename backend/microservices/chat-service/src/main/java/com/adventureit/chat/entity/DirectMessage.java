@@ -15,7 +15,7 @@ public class DirectMessage extends Message{
         this.id = id;
         this.sender = sender;
         this.receiver = receiver;
-        this.message = message;
+        this.payload = message;
         this.timestamp = timestamp;
     }
 
@@ -30,7 +30,7 @@ public class DirectMessage extends Message{
         this.id = UUID.randomUUID();
         this.sender = sender;
         this.receiver = receiver;
-        this.message = message;
+        this.payload = message;
         this.timestamp = LocalDateTime.now();
     }
 

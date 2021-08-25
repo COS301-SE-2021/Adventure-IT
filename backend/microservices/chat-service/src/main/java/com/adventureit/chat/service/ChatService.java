@@ -8,18 +8,18 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ChatService {
-    public String addParticipant( UUID adventureID, UUID participant);
-    public String createDirectChat(UUID user1, UUID user2);
-    public String createGroupChat( UUID adventureID, List<UUID> participants, String name);
-    public String sendDirectMessage(UUID chatID,UUID sender, UUID receiver,String message) throws Exception;
-    public String sendGroupMessage(UUID chatID,UUID sender,String message) throws Exception;
-    public void markDirectMessageRead(UUID id) throws Exception;
-    public void markGroupMessageRead(UUID id, UUID userID) throws Exception;
-    public GroupChatResponseDTO getGroupChat(UUID id) throws Exception;
-    public GroupChatResponseDTO getGroupChatByAdventureID(UUID id) throws Exception;
-    public Message getMessage(UUID id);
-    public DirectChatResponseDTO getDirectChat(UUID ID1, UUID ID2) throws Exception;
-    public DirectChatResponseDTO getDirectChatByID(UUID id) throws Exception;
-    public void deleteDirectChat(UUID id) throws Exception;
-    public void deleteGroupChat(UUID id) throws Exception;
+     String addParticipant( UUID adventureID, UUID participant);
+     String createDirectChat(UUID user1, UUID user2);
+     String createGroupChat( UUID adventureID, List<UUID> participants, String name);
+     String sendDirectMessage(UUID chatID,UUID sender, UUID receiver,String message);
+     String sendGroupMessage(UUID chatID,UUID sender,String message);
+     void markDirectMessageRead(UUID id);
+     void markGroupMessageRead(UUID id, UUID userID);
+     GroupChatResponseDTO getGroupChat(UUID id);
+     GroupChatResponseDTO getGroupChatByAdventureID(UUID id);
+     Message getMessage(UUID id);
+     DirectChatResponseDTO getDirectChat(UUID id1, UUID id2);
+     DirectChatResponseDTO getDirectChatByID(UUID id);
+     void deleteDirectChat(UUID id);
+     void deleteGroupChat(UUID id);
 }

@@ -14,14 +14,14 @@ public class Message {
     //@NotNull
     UUID chatId;
     //@NotNull
-    String message;
+    String payload;
     //@NotNull
     LocalDateTime timestamp;
 
     public Message(UUID id, UUID sender,UUID chatId, String message){
         this.id = id;
         this.sender = sender;
-        this.message = message;
+        this.payload = message;
         this.chatId= chatId;
         this.timestamp = LocalDateTime.now();
     }
@@ -37,12 +37,12 @@ public class Message {
         this.id = id;
     }
 
-    public String getMessage() {
-        return message;
+    public String getPayload() {
+        return payload;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setPayload(String payload) {
+        this.payload = payload;
     }
 
     public LocalDateTime getTimestamp() {

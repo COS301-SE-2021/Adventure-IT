@@ -67,7 +67,7 @@ public class MainControllerChatReroute {
                 users.add(restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/" + x, GetUserByUUIDDTO.class));
             }
 
-            list.add(new GroupMessageResponseDTO(message.getId(),user,message.getMessage(), message.getTimestamp(),users,message.getRead()));
+            list.add(new GroupMessageResponseDTO(message.getId(),user,message.getPayload(), message.getTimestamp(),users,message.getRead()));
         }
 
         list.sort(new Comparator<GroupMessageResponseDTO>() {
@@ -119,7 +119,7 @@ public class MainControllerChatReroute {
             user = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/" + message.getSender(), GetUserByUUIDDTO.class);
             x = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/GetUser/" + message.getReceiver(), GetUserByUUIDDTO.class);
 
-            list.add(new DirectMessageResponseDTO(message.getId(),user,x,message.getTimestamp(),message.getMessage(),message.getRead()));
+            list.add(new DirectMessageResponseDTO(message.getId(),user,x,message.getTimestamp(),message.getPayload(),message.getRead()));
         }
 
         list.sort(new Comparator<DirectMessageResponseDTO>() {

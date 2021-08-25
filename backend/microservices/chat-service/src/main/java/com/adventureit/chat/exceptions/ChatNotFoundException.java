@@ -18,8 +18,8 @@ public class ChatNotFoundException extends RuntimeException {
 
     @Override
     public String getMessage(){
-        if(this.hasID){
-            return "Chat with id "+this.chatID.toString()+" not found";
+        if(this.hasID && this.chatID != null){
+            return "Chat with id "+this.chatID+" not found";
         }
         return "Chat not found";
     }

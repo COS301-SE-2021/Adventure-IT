@@ -23,15 +23,15 @@ public class DirectChat{
     public DirectChat(){}
 
     public DirectChat(UUID directChatId, UUID user1, UUID user2){
-        List<UUID> participants = new ArrayList<>(List.of(user1,user2));
+        List<UUID> x = new ArrayList<>(List.of(user1,user2));
         this.directChatId = directChatId;
-        this.participants = participants;
+        this.participants = x;
     }
 
     public DirectChat( UUID user1, UUID user2){
-        List<UUID> participants = new ArrayList<>(List.of(user1,user2));
+        List<UUID> x = new ArrayList<>(List.of(user1,user2));
         this.directChatId = UUID.randomUUID();
-        this.participants = participants;
+        this.participants = x;
     }
 
     public UUID getDirectChatId() {
