@@ -1,14 +1,26 @@
 package com.adventureit.chat.exceptions;
 
-public class ChatNotFoundException extends RuntimeException {
-    private final String message;
+import java.util.UUID;
 
-    public ChatNotFoundException(String message) {
-        this.message = message;
+public class ChatNotFoundException extends RuntimeException {
+    private final UUID chatID;
+    private final boolean hasID;
+
+    public ChatNotFoundException(UUID chatID) {
+        this.chatID = chatID;
+        this.hasID = true;
+    }
+
+    public ChatNotFoundException() {
+        this.chatID = null;
+        this.hasID = false;
     }
 
     @Override
     public String getMessage(){
-        return this.message;
+        if(this.hasID){
+            return "Chat with id "+this.chatID.toString()+" not found";
+        }
+        return "Chat not found";
     }
 }
