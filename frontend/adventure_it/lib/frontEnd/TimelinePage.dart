@@ -78,6 +78,14 @@ class TimeLine extends StatelessWidget {
                               icon: const Icon(Icons.arrow_back_ios_new_rounded),
                               color: Theme.of(context).primaryColorDark)),
                     ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(),
+                    ),
                   ]),
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
                 ]
@@ -92,6 +100,48 @@ class TimelineList extends StatelessWidget {
 
   TimelineList(Adventure? adv) {
     this.a = adv;
+  }
+
+  Widget getIcon(String type, BuildContext context)
+  {
+    if(type=="ADVENTURE")
+      {
+          return Icon(
+            Icons.person,
+            size: 30,
+            color: Theme.of(context)
+                .accentColor,
+          );
+      }
+    else if(type=="BUDGET")
+      {
+        return Icon(
+          Icons.attach_money,
+          size: 30,
+          color: Theme.of(context)
+              .accentColor,
+        );
+      }
+    else if(type=="CHECKLIST")
+      {
+        return Icon(
+          Icons.checklist,
+          size: 30,
+          color: Theme.of(context)
+              .accentColor,
+        );
+      }
+    else if(type=="ITINERARY")
+      {
+        return Icon(
+          Icons.list_alt,
+          size: 30,
+          color: Theme.of(context)
+              .accentColor,
+        );
+      }
+    else
+      return Container();
   }
 
   List<String> months = [
@@ -155,6 +205,13 @@ class TimelineList extends StatelessWidget {
                         Expanded(
                           flex: 4,
                           child: ListTile(
+                            leading: Container(
+                                width: 50,
+                                height: 50,
+                                child:getIcon(timelineModel
+                                .timeline!
+                                .elementAt(index)
+                                .type, context)),
                             title: Text(
                               timelineModel
                                   .timeline!

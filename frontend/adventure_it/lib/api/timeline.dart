@@ -1,7 +1,6 @@
 import 'dart:core';
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:time_machine/time_machine.dart';
 
 part 'timeline.g.dart';
 
