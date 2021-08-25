@@ -96,7 +96,6 @@ class BudgetModel extends ChangeNotifier {
       _categories = value;
     });
 
-    notifyListeners();
   }
 
   Future softDeleteBudget(Budget budget) async {
