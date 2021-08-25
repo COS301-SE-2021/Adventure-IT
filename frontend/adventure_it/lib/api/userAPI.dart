@@ -289,8 +289,9 @@ class UserApi {
       throw Exception('Failed to find user: ${response.body}');
     }
 
-    UserProfile user = (jsonDecode(response.body) as List)
-        .map((x) => UserProfile.fromJson(x)) as UserProfile;
+   Map <String, dynamic> parsed = json.decode(response.body);
+    UserProfile user = UserProfile.fromJson(parsed);
+
 
     return user;
 
