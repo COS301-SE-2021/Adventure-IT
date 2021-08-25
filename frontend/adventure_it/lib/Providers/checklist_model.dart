@@ -2,10 +2,13 @@ import 'package:adventure_it/api/checklist.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
 import 'package:adventure_it/api/checklistEntry.dart';
+import 'package:adventure_it/api/userAPI.dart';
+import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/cupertino.dart';
 
 class DeletedChecklistModel extends ChangeNotifier {
   List<Checklist>? _deletedChecklists = null;
+  List<UserProfile?>? _creators = null;
 
   DeletedChecklistModel(Adventure a) {
     fetchAllDeletedChecklists(a).then((deletedChecklists) =>
@@ -15,9 +18,20 @@ class DeletedChecklistModel extends ChangeNotifier {
   }
 
   List<Checklist>? get deletedChecklists => _deletedChecklists?.toList();
+  List<UserProfile?>? get creators => _creators?.toList();
 
   Future fetchAllDeletedChecklists(Adventure a) async {
     _deletedChecklists = await ChecklistApi.getDeletedChecklist(a.adventureId);
+
+    var total = List<UserProfile?>.filled(deletedChecklists!.length, null, growable: true);
+    total.removeRange(0, deletedChecklists!.length);
+    for (var b in deletedChecklists!) {
+      await UserApi.getInstance().findUser(b.creatorID).then((value) {
+        total.add(value);
+      });
+    }
+
+    this._creators = total;
 
     notifyListeners();
   }
@@ -27,6 +41,7 @@ class DeletedChecklistModel extends ChangeNotifier {
 
     var index = _deletedChecklists!.indexWhere((element) => element.id == c.id);
     _deletedChecklists!.removeAt(index);
+    _creators!.removeAt(index);
 
     notifyListeners();
   }
@@ -37,6 +52,7 @@ class DeletedChecklistModel extends ChangeNotifier {
     var index =
         _deletedChecklists!.indexWhere((element) => element.id == check.id);
     _deletedChecklists!.removeAt(index);
+    _creators!.removeAt(index);
 
     notifyListeners();
   }

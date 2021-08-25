@@ -4,10 +4,12 @@ import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/api/budgetEntry.dart';
 import 'package:adventure_it/api/report.dart';
 import 'package:adventure_it/api/userAPI.dart';
+import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/cupertino.dart';
 
 class DeletedBudgetModel extends ChangeNotifier {
   List<Budget>? _deletedBudgets = null;
+  List<UserProfile?>? _creators = null;
 
   DeletedBudgetModel(Adventure a) {
     fetchAllDeletedBudgets(a).then((deletedBudgets) =>
@@ -17,9 +19,19 @@ class DeletedBudgetModel extends ChangeNotifier {
   }
 
   List<Budget>? get deletedBudgets => _deletedBudgets?.toList();
+  List<UserProfile?>? get creators => _creators?.toList();
 
   Future fetchAllDeletedBudgets(Adventure a) async {
     _deletedBudgets = await BudgetApi.getDeletedBudgets(a.adventureId);
+    var total = List<UserProfile?>.filled(deletedBudgets!.length, null, growable: true);
+    total.removeRange(0, deletedBudgets!.length);
+    for (var b in deletedBudgets!) {
+      await UserApi.getInstance().findUser(b.creatorID).then((value) {
+        total.add(value);
+      });
+    }
+
+    this._creators = total;
 
     notifyListeners();
   }
@@ -30,6 +42,7 @@ class DeletedBudgetModel extends ChangeNotifier {
     var index =
     _deletedBudgets!.indexWhere((element) => element.id == budget.id);
     _deletedBudgets!.removeAt(index);
+    _creators!.removeAt(index);
 
     notifyListeners();
   }
@@ -40,6 +53,7 @@ class DeletedBudgetModel extends ChangeNotifier {
     var index =
     _deletedBudgets!.indexWhere((element) => element.id == budget.id);
     _deletedBudgets!.removeAt(index);
+    _creators!.removeAt(index);
 
     notifyListeners();
   }

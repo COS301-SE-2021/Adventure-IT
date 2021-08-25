@@ -95,7 +95,7 @@ class DeletedBudgetList extends StatelessWidget {
         child: Consumer<DeletedBudgetModel>(
             builder: (context, deletedBudgetModel, child) {
               this.c=context;
-          if (deletedBudgetModel.deletedBudgets == null) {
+          if (deletedBudgetModel.deletedBudgets == null||deletedBudgetModel.deletedBudgets!.length!=deletedBudgetModel.creators!.length) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
@@ -197,6 +197,15 @@ class DeletedBudgetList extends StatelessWidget {
                                         Expanded(
                                           flex: 4,
                                           child: ListTile(
+                                            trailing: Text("Created by: "+deletedBudgetModel
+                                                  .creators!
+                                                  .elementAt(index)!
+                                                  .username, style: TextStyle(
+                                                 fontSize: 10,
+                                                 color: Theme.of(context)
+                                                     .textTheme
+                                                     .bodyText1!
+                                                     .color)),
                                             title: Text(
                                                 deletedBudgetModel
                                                     .deletedBudgets!

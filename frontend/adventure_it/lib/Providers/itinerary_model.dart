@@ -2,10 +2,13 @@ import 'package:adventure_it/api/itinerary.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
+import 'package:adventure_it/api/userAPI.dart';
+import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/cupertino.dart';
 
 class DeletedItineraryModel extends ChangeNotifier {
   List<Itinerary>? _deletedItineraries = null;
+  List<UserProfile?>? _creators = null;
 
   DeletedItineraryModel(Adventure a) {
     fetchAllDeletedItineraries(a).then((deletedItineraries) =>
@@ -15,6 +18,7 @@ class DeletedItineraryModel extends ChangeNotifier {
   }
 
   List<Itinerary>? get deletedItineraries => _deletedItineraries?.toList();
+  List<UserProfile?>? get creators => _creators?.toList();
 
   Future restoreItinerary(Itinerary it) async {
     await ItineraryApi.restoreItinerry(it.id);
@@ -22,12 +26,23 @@ class DeletedItineraryModel extends ChangeNotifier {
     var index =
         _deletedItineraries!.indexWhere((element) => element.id == it.id);
     _deletedItineraries!.removeAt(index);
+    _creators!.removeAt(index);
 
     notifyListeners();
   }
 
   Future fetchAllDeletedItineraries(Adventure a) async {
     _deletedItineraries = await ItineraryApi.getDeletedItinerary(a.adventureId);
+
+    var total = List<UserProfile?>.filled(deletedItineraries!.length, null, growable: true);
+    total.removeRange(0, deletedItineraries!.length);
+    for (var b in deletedItineraries!) {
+      await UserApi.getInstance().findUser(b.creatorID).then((value) {
+        total.add(value);
+      });
+    }
+
+    this._creators = total;
 
     notifyListeners();
   }
@@ -38,6 +53,7 @@ class DeletedItineraryModel extends ChangeNotifier {
     var index =
         _deletedItineraries!.indexWhere((element) => element.id == c.id);
     _deletedItineraries!.removeAt(index);
+    _creators!.removeAt(index);
 
     notifyListeners();
   }

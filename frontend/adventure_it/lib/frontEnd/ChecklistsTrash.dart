@@ -82,7 +82,7 @@ class DeletedChecklistList extends StatelessWidget {
         child:
             Consumer<DeletedChecklistModel>(builder: (context, deletedChecklistModel, child) {
               this.c=context;
-          if(deletedChecklistModel.deletedChecklists==null) {
+          if(deletedChecklistModel.deletedChecklists==null||deletedChecklistModel.deletedChecklists!.length!=deletedChecklistModel.creators!.length) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
@@ -178,6 +178,16 @@ class DeletedChecklistList extends StatelessWidget {
                                         Expanded(
                                           flex: 4,
                                           child: ListTile(
+                                            trailing:
+                                                Text("Created by: "+deletedChecklistModel
+                                                    .creators!
+                                                    .elementAt(index)!
+                                                    .username, style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color)),
                                             title: Text(
                                                 deletedChecklistModel.deletedChecklists
                                                     !.elementAt(index)

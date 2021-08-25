@@ -89,7 +89,7 @@ class DeletedItineraryList extends StatelessWidget {
         child:
         Consumer<DeletedItineraryModel>(builder: (context, deletedItineraryModel, child) {
           this.c=context;
-          if(deletedItineraryModel.deletedItineraries==null) {
+          if(deletedItineraryModel.deletedItineraries==null||deletedItineraryModel.deletedItineraries!.length!=deletedItineraryModel.creators!.length) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
@@ -187,6 +187,15 @@ class DeletedItineraryList extends StatelessWidget {
                                         Expanded(
                                           flex: 4,
                                           child: ListTile(
+                                            trailing: Text("Created by: "+deletedItineraryModel
+                                                    .creators!
+                                                    .elementAt(index)!
+                                                    .username, style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color)),
                                             title: Text(
                                                 deletedItineraryModel.deletedItineraries
                                                     !.elementAt(index)
