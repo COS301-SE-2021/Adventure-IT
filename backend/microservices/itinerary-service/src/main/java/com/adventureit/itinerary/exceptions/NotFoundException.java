@@ -1,0 +1,7 @@
+package com.adventureit.itinerary.exceptions;
+
+public class NotFoundException extends RuntimeException{
+    public NotFoundException(String message){
+        super(message);
+    }
+}

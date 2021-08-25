@@ -1,11 +1,11 @@
 package com.adventureit.itinerary;
 
-import com.adventureit.itinerary.Entity.Itinerary;
-import com.adventureit.itinerary.Entity.ItineraryEntry;
-import com.adventureit.itinerary.Repository.ItineraryEntryRepository;
-import com.adventureit.itinerary.Repository.ItineraryRepository;
-import com.adventureit.itinerary.Responses.ItineraryResponseDTO;
-import com.adventureit.itinerary.Service.ItineraryServiceImplementation;
+import com.adventureit.itinerary.entity.Itinerary;
+import com.adventureit.itinerary.entity.ItineraryEntry;
+import com.adventureit.itinerary.repository.ItineraryEntryRepository;
+import com.adventureit.itinerary.repository.ItineraryRepository;
+import com.adventureit.itinerary.responses.ItineraryResponseDTO;
+import com.adventureit.itinerary.service.ItineraryServiceImplementation;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,10 +24,8 @@ class ItineraryServiceUnitTests {
     final UUID validAdventureID = UUID.randomUUID();
     final UUID validUserID = UUID.randomUUID();
     final UUID validEntryID1 = UUID.randomUUID();
-    final UUID validEntryID2 = UUID.randomUUID();
 
     ItineraryEntry mockEntry1 = new ItineraryEntry("Mock Entry 1","Mock Itinerary Entry",validEntryID1,validItineraryID1,UUID.randomUUID(), LocalDateTime.now());
-    ItineraryEntry mockEntry2 = new ItineraryEntry("Mock Entry 2","Mock Itinerary Entry",validEntryID2,validItineraryID1,UUID.randomUUID(),LocalDateTime.now());
     Itinerary mockItinerary1 = new Itinerary("Mock Itinerary 1","Mock Itinerary",validItineraryID1,validAdventureID,validUserID);
 
     @Test
@@ -115,7 +113,7 @@ class ItineraryServiceUnitTests {
         mockItinerary1.setDeleted(true);
         Mockito.when(mockItineraryRepository.findAllByAdventureID(validAdventureID)).thenReturn(List.of(mockItinerary1));
         List<ItineraryResponseDTO> list = sut.viewTrash(validAdventureID);
-        Assertions.assertTrue(!list.isEmpty());
+        Assertions.assertFalse(list.isEmpty());
     }
 
     @Test

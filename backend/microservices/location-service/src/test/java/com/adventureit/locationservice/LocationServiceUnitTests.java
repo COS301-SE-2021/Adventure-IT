@@ -1,7 +1,7 @@
 package com.adventureit.locationservice;
 
-import com.adventureit.locationservice.Repository.LocationRepository;
-import com.adventureit.locationservice.Service.LocationServiceImplementation;
+import com.adventureit.locationservice.repository.LocationRepository;
+import com.adventureit.locationservice.service.LocationServiceImplementation;
 import org.mockito.Mockito;
 
 public class LocationServiceUnitTests {
