@@ -16,10 +16,10 @@ class ChecklistPage extends StatelessWidget {
   Adventure? currentAdventure;
   UserProfile? creator;
 
-  ChecklistPage(Checklist? c,Adventure? a) {
+  ChecklistPage(Checklist? c,Adventure? a, UserProfile create) {
     this.currentChecklist = c;
     this.currentAdventure=a;
-    UserApi.getInstance().findUser(c!.creatorID).then((value) => creator=value);
+    this.creator=create;
   }
 
   @override
@@ -31,13 +31,18 @@ class ChecklistPage extends StatelessWidget {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
             actions: [
-              Text("Created by: "+this.creator!.username, style: new TextStyle(
+             Center( child: creator!=null?Text("Created by: "+this.creator!.username, style: new TextStyle(
                   color: Theme
                       .of(context)
                       .textTheme
                       .bodyText1!
-                      .color, fontSize: 0.1*MediaQuery.of(context).size.width))
-            ],
+                      .color, fontSize: 10)):Text("Created by: unknown", style: new TextStyle(
+                  color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color, fontSize: 10))
+             ), SizedBox(width: MediaQuery.of(context).size.width*0.02)],
             title: Center(
                 child: Text(currentChecklist!.title,
                     style: new TextStyle(

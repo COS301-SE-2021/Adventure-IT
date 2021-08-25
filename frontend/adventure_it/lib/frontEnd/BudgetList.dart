@@ -2,6 +2,7 @@ import 'package:adventure_it/Providers/budget_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/createBudget.dart';
 import 'package:adventure_it/api/userAPI.dart';
+import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -377,7 +378,7 @@ class BudgetList extends StatelessWidget {
     return Consumer<BudgetModel>(builder: (context, budgetModel, child) {
           if (budgetModel.budgets == null ||
               budgetModel.expenses == null ||
-              budgetModel.categories == null) {
+              budgetModel.categories == null||budgetModel.budgets!.length!=budgetModel.expenses!.length) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
@@ -414,14 +415,15 @@ class BudgetList extends StatelessWidget {
                                     hoverColor:
                                         Theme.of(context).primaryColorLight,
                                     onTap: () {
+                                      UserApi.getInstance().findUser(budgetModel.budgets!.elementAt(index).creatorID).then((c){
                                       Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => BudgetPage(
                                                   budgetModel.budgets!
                                                       .elementAt(index),
-                                                  a)));
-                                    },
+                                                  a,c)));
+                                    });},
                                     child: Container(
                                       child: Row(
                                         children: <Widget>[

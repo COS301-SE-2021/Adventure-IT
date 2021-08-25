@@ -4,6 +4,7 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
 import 'package:adventure_it/api/createChecklist.dart';
 import 'package:adventure_it/api/userAPI.dart';
+import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/frontEnd/ChecklistsTrash.dart';
@@ -165,13 +166,14 @@ class ChecklistList extends StatelessWidget {
                                   hoverColor:
                                       Theme.of(context).primaryColorLight,
                                   onTap: () {
+                                    UserApi.getInstance().findUser(checklistModel.checklists!.elementAt(index).creatorID).then((c){
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => ChecklistPage(
                                                 checklistModel.checklists!
-                                                    .elementAt(index),a)));
-                                  },
+                                                    .elementAt(index),a,c)));
+                                  });},
                                   child: Container(
                                     child: Row(
                                       children: <Widget>[

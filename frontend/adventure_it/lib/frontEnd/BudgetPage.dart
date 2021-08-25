@@ -19,10 +19,10 @@ class BudgetPage extends StatelessWidget {
   Adventure? currentAdventure;
   UserProfile? creator;
 
-  BudgetPage(Budget? b, Adventure? a) {
+  BudgetPage(Budget? b, Adventure? a, UserProfile c) {
     this.currentBudget = b;
     this.currentAdventure = a;
-    UserApi.getInstance().findUser(b!.creatorID).then((value) => creator=value);
+    this.creator=c;
   }
 
   @override
@@ -37,13 +37,19 @@ class BudgetPage extends StatelessWidget {
                     .scaffoldBackgroundColor,
                 appBar: AppBar(
                   actions: [
-                    Text("Created by: "+this.creator!.username, style: new TextStyle(
+                Center(
+                    child:  creator!=null?Text("Created by: "+this.creator!.username, style: new TextStyle(
                         color: Theme
                             .of(context)
                             .textTheme
                             .bodyText1!
-                            .color, fontSize: 0.1*MediaQuery.of(context).size.width))
-                  ],
+                            .color, fontSize: 10)):Text("Created by: unknown", style: new TextStyle(
+                        color: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color, fontSize: 10))
+                ),SizedBox(width: MediaQuery.of(context).size.width*0.02)],
                     title: Center(
                         child: Text(currentBudget!.name,
                             style: new TextStyle(
