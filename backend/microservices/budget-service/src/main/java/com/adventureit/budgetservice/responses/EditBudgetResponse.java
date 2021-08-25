@@ -9,14 +9,8 @@ public class EditBudgetResponse {
         this.success = success;
     }
 
-    public EditBudgetResponse(){}
-
     public String getMessage() {
         return message;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
     }
 
     public void setMessage(String message) {

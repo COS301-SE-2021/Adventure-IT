@@ -14,8 +14,6 @@ public class ViewBudgetResponse {
     Category category;
     String payee;
 
-    public ViewBudgetResponse(){}
-
     public ViewBudgetResponse(UUID id, UUID entryContainerID, String payer, double amount, String title, String description, Category category, String payee) {
         this.budgetEntryID = id;
         this.entryContainerID = entryContainerID;
@@ -25,10 +23,6 @@ public class ViewBudgetResponse {
         this.description = description;
         this.category = category;
         this.payee = payee;
-    }
-
-    public UUID getEntryContainerID() {
-        return entryContainerID;
     }
 
     public String getPayer() {

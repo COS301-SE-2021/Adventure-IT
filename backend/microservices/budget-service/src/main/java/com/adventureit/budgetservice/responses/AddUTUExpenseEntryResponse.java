@@ -10,14 +10,8 @@ public class AddUTUExpenseEntryResponse {
         this.success = success;
     }
 
-    public AddUTUExpenseEntryResponse(){}
-
     public String getMessage() {
         return message;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
     }
 
     public void setMessage(String message) {

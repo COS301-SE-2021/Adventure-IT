@@ -3,17 +3,16 @@ package com.adventureit.budgetservice.responses;
 import com.adventureit.budgetservice.entity.Budget;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ViewTrashResponse {
     boolean success;
-    ArrayList<Budget> budgets;
+    List<Budget> budgets;
 
     public ViewTrashResponse(boolean success, ArrayList<Budget> budgets){
         this.budgets = budgets;
         this.success = success;
     }
-
-    public ViewTrashResponse(){}
 
     public void setSuccess(boolean success) {
         this.success = success;
@@ -27,7 +26,7 @@ public class ViewTrashResponse {
         this.budgets = budgets;
     }
 
-    public ArrayList<Budget> getBudgets() {
+    public List<Budget> getBudgets() {
         return budgets;
     }
 }

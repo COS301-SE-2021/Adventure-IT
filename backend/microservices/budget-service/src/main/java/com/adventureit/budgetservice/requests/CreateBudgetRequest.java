@@ -6,12 +6,9 @@ import java.util.UUID;
 
 public class CreateBudgetRequest {
     private String name;
-    private UUID creatorID;
-    private UUID adventureID;
-    private String description;
-
-    public CreateBudgetRequest() {
-    }
+    private final UUID creatorID;
+    private final UUID adventureID;
+    private final String description;
 
     public CreateBudgetRequest(@JsonProperty("name") String name, @JsonProperty("description") String description, @JsonProperty("creatorID") String creatorID, @JsonProperty("adventureID") String  adventureID) {
         this.name = name;
@@ -28,19 +25,11 @@ public class CreateBudgetRequest {
         this.name = name;
     }
 
-    public void setAdventureID(UUID adventureID) {
-        this.adventureID = adventureID;
-    }
-
     public UUID getAdventureID() {
         return adventureID;
     }
 
     public String getDescription(){return description;}
-
-    public void setCreatorID(UUID creatorID) {
-        this.creatorID = creatorID;
-    }
 
     public UUID getCreatorID() {
         return creatorID;

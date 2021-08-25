@@ -13,7 +13,6 @@ public class Budget{
     private String name;
     private boolean deleted;
     private String description;
-//    private double budgetLimit;
 
     public Budget(){
 
@@ -41,24 +40,12 @@ public class Budget{
         return budgetID;
     }
 
-    public void setBudgetId(UUID budgetId) {
-        this.budgetID = budgetId;
-    }
-
     public UUID getCreatorID() {
         return creatorID;
     }
 
-    public void setCreatorID(UUID creatorID) {
-        this.creatorID = creatorID;
-    }
-
     public UUID getAdventureID() {
         return adventureID;
-    }
-
-    public void setAdventureID(UUID adventureID) {
-        this.adventureID = adventureID;
     }
 
     public String getName() {

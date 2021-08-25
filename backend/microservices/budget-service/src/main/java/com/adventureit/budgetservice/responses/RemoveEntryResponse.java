@@ -4,8 +4,6 @@ public class RemoveEntryResponse {
     private boolean success;
     private String message;
 
-    public RemoveEntryResponse(){}
-
     public RemoveEntryResponse(boolean success){
         this.success = success;
         this.message = "Entry successfully removed.";
@@ -23,7 +21,4 @@ public class RemoveEntryResponse {
         return success;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
 }

@@ -11,8 +11,6 @@ import java.util.UUID;
 public interface BudgetRepository extends JpaRepository<Budget,UUID> {
         Budget findBudgetByBudgetID(UUID id);
         Budget findBudgetByBudgetIDAndDeletedEquals(UUID id,boolean deleted);
-        ArrayList<Budget> findAllByDeletedEquals(boolean deleted);
         ArrayList<Budget> findAllByAdventureID(UUID id);
-        ArrayList<Budget> findAllByAdventureIDAndDeletedEquals(UUID id,boolean deleted);
 }
 

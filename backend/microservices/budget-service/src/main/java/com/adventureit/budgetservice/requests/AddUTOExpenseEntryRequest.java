@@ -6,15 +6,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 
 public class AddUTOExpenseEntryRequest {
-    private UUID entryContainerID;
-    private String payer;
+    private final UUID entryContainerID;
+    private final String payer;
     double amount;
     String title;
     String description;
     Category category;
     String payee;
-
-    public AddUTOExpenseEntryRequest(){}
 
     public AddUTOExpenseEntryRequest(@JsonProperty("entryContainerID") UUID entryContainerID, @JsonProperty("payer") String payer, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("category") String category, @JsonProperty("payee") String payee) {
         this.entryContainerID = entryContainerID;
@@ -34,9 +32,6 @@ public class AddUTOExpenseEntryRequest {
         return payer;
     }
 
-    public void setPayer(String payer) {
-        this.payer = payer;
-    }
 
     public Category getCategory() {
         return category;
@@ -46,16 +41,9 @@ public class AddUTOExpenseEntryRequest {
         return payee;
     }
 
-    public void setEntryContainerID(UUID entryContainerID) {
-        this.entryContainerID = entryContainerID;
-    }
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public void setPayee(String payee) {
-        this.payee = payee;
     }
 
     public String getTitle() {
@@ -76,9 +64,5 @@ public class AddUTOExpenseEntryRequest {
 
     public double getAmount() {
         return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
     }
 }

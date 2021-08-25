@@ -4,9 +4,7 @@ import java.util.UUID;
 
 public class SoftDeleteRequest {
     private UUID id;
-    private UUID userID;
-
-    public SoftDeleteRequest(){}
+    private final UUID userID;
 
     public SoftDeleteRequest(UUID id, UUID userID){
         this.id = id;
@@ -23,9 +21,5 @@ public class SoftDeleteRequest {
 
     public UUID getUserID() {
         return userID;
-    }
-
-    public void setUserID(UUID userID) {
-        this.userID = userID;
     }
 }

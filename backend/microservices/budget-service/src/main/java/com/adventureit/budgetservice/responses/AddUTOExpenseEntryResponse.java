@@ -9,14 +9,8 @@ public class AddUTOExpenseEntryResponse {
         this.success = success;
     }
 
-    public AddUTOExpenseEntryResponse(){}
-
     public String getMessage() {
         return message;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
     }
 
     public void setMessage(String message) {

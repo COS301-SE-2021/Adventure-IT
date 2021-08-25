@@ -1,10 +1,8 @@
 package com.adventureit.budgetservice.responses;
 
 public class CreateBudgetResponse {
-    private boolean success;
+    private final boolean success;
     private String message;
-
-    public CreateBudgetResponse(){}
 
     public CreateBudgetResponse(boolean success){
         this.success = true;
@@ -17,10 +15,6 @@ public class CreateBudgetResponse {
 
     public void setMessage(String message){
         this.message = message;
-    }
-
-    public void setSuccess(boolean success){
-        this.success = success;
     }
 
     public boolean isSuccess(){

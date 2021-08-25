@@ -55,10 +55,6 @@ public class BudgetEntry{
         return entryContainerID;
     }
 
-    public void setEntryContainerID(UUID entryContainerID) {
-        this.entryContainerID = entryContainerID;
-    }
-
     public double getAmount() {
         return amount;
     }
@@ -95,23 +91,11 @@ public class BudgetEntry{
         return category;
     }
 
-    public void setBudgetEntryID(UUID budgetEntryID) {
-        this.budgetEntryID = budgetEntryID;
-    }
-
-    public UUID getBudgetEntryID() {
-        return budgetEntryID;
-    }
-
     public void setCategory(Category category) {
         this.category = category;
     }
 
     public LocalDateTime getTimestamp() {
         return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
     }
 }

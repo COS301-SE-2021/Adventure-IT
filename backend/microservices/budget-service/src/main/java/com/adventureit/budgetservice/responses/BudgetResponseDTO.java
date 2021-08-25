@@ -5,16 +5,14 @@ import java.util.UUID;
 public class BudgetResponseDTO {
     private UUID id;
     private String name;
-    private UUID creatorID;
-    private UUID adventureID;
-    private boolean deleted;
+    private final UUID creatorID;
+    private final UUID adventureID;
+    private final boolean deleted;
     private String description;
-
-    public BudgetResponseDTO(){}
 
     public BudgetResponseDTO(UUID id, String name, UUID creatorID, UUID adventureID,boolean deleted, String description){
         this.id = id;
-        this.name = name;;
+        this.name = name;
         this.creatorID = creatorID;
         this.adventureID = adventureID;
         this.deleted = deleted;
@@ -37,31 +35,19 @@ public class BudgetResponseDTO {
         this.id = id;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public void setAdventureID(UUID adventureID) {
-        this.adventureID = adventureID;
-    }
-
     public UUID getAdventureID() {
         return adventureID;
-    }
-
-    public void setCreatorID(UUID creatorID) {
-        this.creatorID = creatorID;
-    }
-
-    public UUID getCreatorID() {
-        return creatorID;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
     }
 
     public String getDescription(){return description;}
 
     public void setDescription(String d){this.description=d;}
+
+    public boolean isDeleted(){
+        return this.deleted;
+    }
+
+    public UUID getCreatorID(){
+        return this.creatorID;
+    }
 }

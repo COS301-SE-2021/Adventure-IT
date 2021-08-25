@@ -26,7 +26,7 @@ class BudgetServiceUnitTests {
         final UUID validAdventureID1 = UUID.randomUUID();
         final UUID validUserID1 = UUID.randomUUID();
 
-        BudgetEntry mockEntry1 = new UTOExpense(validEntryID1,validBudgetID1,200.0,"Mock Entry 1","Mock UTO Entry", Category.Accommodation,"User1","Shop1");
+        BudgetEntry mockEntry1 = new UTOExpense(validEntryID1,validBudgetID1,200.0,"Mock Entry 1","Mock UTO Entry", Category.ACCOMMODATION,"User1","Shop1");
         Budget mockBudget1 = new Budget(validBudgetID1,"Mock Budget 1", "Mock budget 1 description",validUserID1,validAdventureID1);
         Budget mockBudget2 = new Budget(validBudgetID2,"Mock Budget 2", "Mock budget 2 description",validUserID1,validAdventureID1);
 
@@ -50,7 +50,7 @@ class BudgetServiceUnitTests {
         /* Users should be able to add an Income Entry into an Existing Budget */
         void addUTOEntryValid_ReturnTrue() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetByBudgetID(validBudgetID1)).thenReturn(mockBudget1);
-                AddUTOExpenseEntryResponse response = sut.addUTOExpenseEntry(validBudgetID1,200.00,"Mock Income Entry","Mock Description",Category.Accommodation,"User1","Shop1");
+                AddUTOExpenseEntryResponse response = sut.addUTOExpenseEntry(validBudgetID1,200.00,"Mock Income Entry","Mock Description",Category.ACCOMMODATION,"User1","Shop1");
                 Assertions.assertTrue(response.isSuccess());
         }
 
@@ -58,7 +58,7 @@ class BudgetServiceUnitTests {
         /* Add Income entry method will throw an exception if the budget does not exist */
         void addUTOEntryInvalidBudget_ThrowsException() throws Exception {
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.addUTOExpenseEntry(UUID.randomUUID(),200.00,"Mock Income Entry","Mock Description",Category.Accommodation,"User1","Shop1");
+                        sut.addUTOExpenseEntry(UUID.randomUUID(),200.00,"Mock Income Entry","Mock Description",Category.ACCOMMODATION,"User1","Shop1");
                 });
         }
 
@@ -66,7 +66,7 @@ class BudgetServiceUnitTests {
         /* Add Income entry method will throw an exception if any of the fields in the request object is null */
         void addUTOEntryNullFields_ThrowsException() throws Exception {
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.addUTOExpenseEntry(null,200.00,"Mock Income Entry","Mock Description",Category.Accommodation,"User1","Shop1");
+                        sut.addUTOExpenseEntry(null,200.00,"Mock Income Entry","Mock Description",Category.ACCOMMODATION,"User1","Shop1");
                 });
         }
 
@@ -74,7 +74,7 @@ class BudgetServiceUnitTests {
         /* Users should be able to add an Expense Entry into an Existing Budget */
         void addUTUEntryValid_ReturnTrue() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetByBudgetID(validBudgetID1)).thenReturn(mockBudget1);
-                AddUTUExpenseEntryResponse response = sut.addUTUExpenseEntry(validBudgetID1,200.00,"Mock Expense Entry","Mock Description",Category.Other,"User1","User2");
+                AddUTUExpenseEntryResponse response = sut.addUTUExpenseEntry(validBudgetID1,200.00,"Mock Expense Entry","Mock Description",Category.OTHER,"User1","User2");
                 Assertions.assertTrue(response.isSuccess());
         }
 
@@ -82,7 +82,7 @@ class BudgetServiceUnitTests {
         /* Add Expense entry method will throw an exception if the budget does not exist */
         void addUTUEntryInvalidBudget_ThrowsException() throws Exception {
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.addUTUExpenseEntry(UUID.randomUUID(),200.00,"Mock Expense Entry","Mock Description",Category.Other,"User1","User2");
+                        sut.addUTUExpenseEntry(UUID.randomUUID(),200.00,"Mock Expense Entry","Mock Description",Category.OTHER,"User1","User2");
                 });
         }
 
@@ -90,7 +90,7 @@ class BudgetServiceUnitTests {
         /* Add Expense entry method will throw an exception if any of the fields in the request object is null */
         void addUTUEntryNullFields_ThrowsException() throws Exception {
                 Assertions.assertThrows(Exception.class, ()->{
-                        sut.addUTUExpenseEntry(null,200.00,"Mock Expense Entry","Mock Description",Category.Other,"User1","User2");
+                        sut.addUTUExpenseEntry(null,200.00,"Mock Expense Entry","Mock Description",Category.OTHER,"User1","User2");
                 });
         }
 

@@ -104,7 +104,7 @@ class BudgetServiceIntegrationTests {
         UUID entryID = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         Budget budget1 = new Budget(budgetID,"Test Budget 1","Mock",UUID.randomUUID(),adventureID);
-        UTUExpense expense = new UTUExpense(entryID,budgetID,100,"Mock","Mock",Category.Other,"User1","User2");
+        UTUExpense expense = new UTUExpense(entryID,budgetID,100,"Mock","Mock",Category.OTHER,"User1","User2");
         budgetRepository.saveAndFlush(budget1);
         budgetEntryRepository.saveAndFlush(expense);
 
@@ -175,7 +175,7 @@ class BudgetServiceIntegrationTests {
     void httpRemoveEntry_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID budgetID = UUID.randomUUID();
-        UTOExpense entry1 = new UTOExpense(id,budgetID,50,"Mock Entry","Mock", Category.Activities,"User1","Shop");
+        UTOExpense entry1 = new UTOExpense(id,budgetID,50,"Mock Entry","Mock", Category.ACTIVITIES,"User1","Shop");
         budgetEntryRepository.saveAndFlush(entry1);
         Assertions.assertEquals("Entry successfully removed.", this.restTemplate.getForObject("http://localhost:" + port + "/budget/removeEntry/{id}", String.class, id));
     }
