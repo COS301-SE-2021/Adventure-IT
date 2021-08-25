@@ -2,14 +2,14 @@ package com.adventureit.maincontroller.controller;
 
 
 import com.adventureit.chat.Requests.CreateDirectChatRequest;
-import com.adventureit.userservice.Exceptions.InvalidRequestException;
-import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
-import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
-import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
-import com.adventureit.userservice.Requests.LoginUserRequest;
-import com.adventureit.userservice.Requests.RegisterUserRequest;
-import com.adventureit.userservice.Requests.UpdatePictureRequest;
-import com.adventureit.userservice.Responses.*;
+import com.adventureit.userservice.exceptions.InvalidRequestException;
+import com.adventureit.userservice.exceptions.InvalidUserEmailException;
+import com.adventureit.userservice.exceptions.InvalidUserPasswordException;
+import com.adventureit.userservice.exceptions.InvalidUserPhoneNumberException;
+import com.adventureit.userservice.requests.LoginUserRequest;
+import com.adventureit.userservice.requests.RegisterUserRequest;
+import com.adventureit.userservice.requests.UpdatePictureRequest;
+import com.adventureit.userservice.responses.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -62,6 +62,7 @@ public class MainControllerUserReroute {
     public String acceptFriend(@PathVariable UUID id){
         FriendDTO friend = restTemplate.getForObject("http://"+ IP + ":" + userPort + "/user/getFriendRequest/"+id, FriendDTO.class);
         restTemplate.getForObject(IP + ":" + userPort + "/user/acceptFriendRequest/"+id, String.class);
+        assert friend != null;
         CreateDirectChatRequest request = new CreateDirectChatRequest(friend.getFirstUser(),friend.getSecondUser());
         String chatPort = "9010";
         restTemplate.postForObject(IP + ":" + chatPort + "/chat/createDirectChat", request,String.class);

@@ -1,4 +1,4 @@
-package com.adventureit.maincontroller.Responses;
+package com.adventureit.maincontroller.responses;
 
 import com.adventureit.locationservice.responses.LocationResponseDTO;
 
@@ -23,7 +23,7 @@ public class AdventureResponseDTO {
         this.description = description;
         this.adventureId = adventureId;
         this.ownerId = ownerId;
-        this.attendees = new ArrayList<UUID>(List.of(ownerId));
+        this.attendees = new ArrayList<>(List.of(ownerId));
         this.startDate = sd;
         this.endDate = ed;
     }

@@ -1,4 +1,4 @@
-package com.adventureit.maincontroller.Responses;
+package com.adventureit.maincontroller.responses;
 
 import com.adventureit.locationservice.responses.LocationResponseDTO;
 
@@ -30,42 +30,6 @@ public class MainItineraryEntryResponseDTO {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public UUID getEntryContainerID() {
-        return entryContainerID;
-    }
-
-    public void setEntryContainerID(UUID entryContainerID) {
-        this.entryContainerID = entryContainerID;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
-    public LocationResponseDTO getLocation() {
-        return location;
     }
 
     public void setLocation(LocationResponseDTO location) {
