@@ -1,4 +1,4 @@
-package com.adventureit.chat.ChatDTO;
+package com.adventureit.chat.chatdto;
 
 public class ChatColorDTO {
     final int color;

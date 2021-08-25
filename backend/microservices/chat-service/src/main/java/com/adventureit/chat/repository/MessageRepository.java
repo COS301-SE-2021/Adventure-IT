@@ -1,6 +1,6 @@
-package com.adventureit.chat.Repository;
+package com.adventureit.chat.repository;
 
-import com.adventureit.chat.Entity.Message;
+import com.adventureit.chat.entity.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

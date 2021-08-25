@@ -1,6 +1,6 @@
-package com.adventureit.chat.Responses;
+package com.adventureit.chat.responses;
 
-import com.adventureit.chat.Entity.ColorPair;
+import com.adventureit.chat.entity.ColorPair;
 
 import java.util.*;
 

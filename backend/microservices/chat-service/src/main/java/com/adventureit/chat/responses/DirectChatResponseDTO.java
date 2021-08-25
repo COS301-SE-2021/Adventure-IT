@@ -1,4 +1,4 @@
-package com.adventureit.chat.Responses;
+package com.adventureit.chat.responses;
 
 import java.util.ArrayList;
 import java.util.List;

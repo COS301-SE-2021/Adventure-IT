@@ -1,8 +1,7 @@
-package com.adventureit.chat.Entity;
+package com.adventureit.chat.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

@@ -5,7 +5,7 @@ import com.adventureit.adventureservice.responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.responses.GetAdventuresByUserUUIDResponse;
 import com.adventureit.adventureservice.responses.GetAllAdventuresResponse;
 import com.adventureit.adventureservice.responses.RemoveAdventureResponse;
-import com.adventureit.chat.Requests.CreateGroupChatRequest;
+import com.adventureit.chat.requests.CreateGroupChatRequest;
 import com.adventureit.locationservice.Responses.LocationResponseDTO;
 
 import com.adventureit.maincontroller.Responses.AdventureResponseDTO;

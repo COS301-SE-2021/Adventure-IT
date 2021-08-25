@@ -1,13 +1,13 @@
-package com.adventureit.chat.Service;
+package com.adventureit.chat.service;
 
-import com.adventureit.chat.Entity.*;
-import com.adventureit.chat.Exceptions.GroupChatFullException;
-import com.adventureit.chat.Repository.ColorPairRepository;
-import com.adventureit.chat.Repository.DirectChatRepository;
-import com.adventureit.chat.Repository.GroupChatRepository;
-import com.adventureit.chat.Repository.MessageRepository;
-import com.adventureit.chat.Responses.DirectChatResponseDTO;
-import com.adventureit.chat.Responses.GroupChatResponseDTO;
+import com.adventureit.chat.entity.*;
+import com.adventureit.chat.exceptions.GroupChatFullException;
+import com.adventureit.chat.repository.ColorPairRepository;
+import com.adventureit.chat.repository.DirectChatRepository;
+import com.adventureit.chat.repository.GroupChatRepository;
+import com.adventureit.chat.repository.MessageRepository;
+import com.adventureit.chat.responses.DirectChatResponseDTO;
+import com.adventureit.chat.responses.GroupChatResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

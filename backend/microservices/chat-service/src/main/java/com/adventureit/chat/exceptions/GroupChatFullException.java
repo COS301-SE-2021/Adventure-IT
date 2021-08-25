@@ -1,4 +1,4 @@
-package com.adventureit.chat.Exceptions;
+package com.adventureit.chat.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

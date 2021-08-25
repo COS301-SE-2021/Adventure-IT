@@ -1,4 +1,4 @@
-package com.adventureit.chat.Entity;
+package com.adventureit.chat.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

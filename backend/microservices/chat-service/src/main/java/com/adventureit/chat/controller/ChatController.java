@@ -1,19 +1,17 @@
-package com.adventureit.chat.Controller;
+package com.adventureit.chat.controller;
 
-import com.adventureit.chat.Entity.DirectMessage;
-import com.adventureit.chat.Entity.GroupMessage;
-import com.adventureit.chat.Requests.CreateDirectChatRequest;
-import com.adventureit.chat.Requests.CreateGroupChatRequest;
-import com.adventureit.chat.Requests.SendDirectMessageRequestDTO;
-import com.adventureit.chat.Requests.SendGroupMessageRequestDTO;
-import com.adventureit.chat.Responses.DirectChatResponseDTO;
-import com.adventureit.chat.Responses.GroupChatResponseDTO;
-import com.adventureit.chat.Service.ChatServiceImplementation;
+import com.adventureit.chat.entity.DirectMessage;
+import com.adventureit.chat.entity.GroupMessage;
+import com.adventureit.chat.requests.CreateDirectChatRequest;
+import com.adventureit.chat.requests.CreateGroupChatRequest;
+import com.adventureit.chat.requests.SendDirectMessageRequestDTO;
+import com.adventureit.chat.requests.SendGroupMessageRequestDTO;
+import com.adventureit.chat.responses.DirectChatResponseDTO;
+import com.adventureit.chat.responses.GroupChatResponseDTO;
+import com.adventureit.chat.service.ChatServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
-import javax.ws.rs.PathParam;
 import java.util.UUID;
 
 @RestController

@@ -1,6 +1,6 @@
-package com.adventureit.chat.Repository;
+package com.adventureit.chat.repository;
 
-import com.adventureit.chat.Entity.ColorPair;
+import com.adventureit.chat.entity.ColorPair;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
