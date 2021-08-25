@@ -1,4 +1,4 @@
-package com.adventureit.maincontroller.Controller;
+package com.adventureit.maincontroller.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

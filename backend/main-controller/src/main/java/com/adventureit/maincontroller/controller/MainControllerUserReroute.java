@@ -1,7 +1,7 @@
 package com.adventureit.maincontroller.controller;
 
 
-import com.adventureit.chat.Requests.CreateDirectChatRequest;
+import com.adventureit.chat.requests.CreateDirectChatRequest;
 import com.adventureit.userservice.exceptions.InvalidRequestException;
 import com.adventureit.userservice.exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.exceptions.InvalidUserPasswordException;

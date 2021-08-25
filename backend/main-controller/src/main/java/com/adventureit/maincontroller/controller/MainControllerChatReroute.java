@@ -1,13 +1,13 @@
 package com.adventureit.maincontroller.controller;
 
-import com.adventureit.chat.Entity.DirectMessage;
-import com.adventureit.chat.Entity.GroupMessage;
-import com.adventureit.chat.Requests.CreateDirectChatRequest;
-import com.adventureit.chat.Requests.CreateGroupChatRequest;
-import com.adventureit.chat.Requests.SendDirectMessageRequestDTO;
-import com.adventureit.chat.Requests.SendGroupMessageRequestDTO;
-import com.adventureit.chat.Responses.DirectChatResponseDTO;
-import com.adventureit.chat.Responses.GroupChatResponseDTO;
+import com.adventureit.chat.entity.DirectMessage;
+import com.adventureit.chat.entity.GroupMessage;
+import com.adventureit.chat.requests.CreateDirectChatRequest;
+import com.adventureit.chat.requests.CreateGroupChatRequest;
+import com.adventureit.chat.requests.SendDirectMessageRequestDTO;
+import com.adventureit.chat.requests.SendGroupMessageRequestDTO;
+import com.adventureit.chat.responses.DirectChatResponseDTO;
+import com.adventureit.chat.responses.GroupChatResponseDTO;
 
 
 import com.adventureit.maincontroller.responses.DirectMessageResponseDTO;
@@ -68,7 +68,7 @@ public class MainControllerChatReroute {
                 users.add(restTemplate.getForObject(IP + ":" + userPort + "/user/GetUser/" + x, GetUserByUUIDDTO.class));
             }
 
-            list.add(new GroupMessageResponseDTO(message.getId(),user,message.getMessage(), message.getTimestamp(),users,message.getRead()));
+            list.add(new GroupMessageResponseDTO(message.getId(),user,message.getPayload(), message.getTimestamp(),users,message.getRead()));
         }
 
         list.sort(new Comparator<>() {
@@ -121,7 +121,7 @@ public class MainControllerChatReroute {
             user = restTemplate.getForObject(IP + ":" + userPort + "/user/GetUser/" + message.getSender(), GetUserByUUIDDTO.class);
             x = restTemplate.getForObject(IP + ":" + userPort + "/user/GetUser/" + message.getReceiver(), GetUserByUUIDDTO.class);
 
-            list.add(new DirectMessageResponseDTO(message.getId(),user,x,message.getTimestamp(),message.getMessage(),message.getRead()));
+            list.add(new DirectMessageResponseDTO(message.getId(),user,x,message.getTimestamp(),message.getPayload(),message.getRead()));
         }
 
         list.sort(new Comparator<DirectMessageResponseDTO>() {
