@@ -1,7 +1,4 @@
 server:
-  port: 8761
+  port: ${service-registry-server.port}
 
-eureka:
-  client:
-    register-with-eureka: false
-    fetch-registry: false
+eureka: ${service-registry-server.eureka}
