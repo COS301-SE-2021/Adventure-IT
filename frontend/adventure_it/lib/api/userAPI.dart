@@ -284,23 +284,20 @@ class UserApi {
         Uri.parse(userApi + '/user/createFriendRequest/' + from + "/" + to));
   }
 
-  Future <UserProfile> findUser(String userID) async {
+  Future<UserProfile> findUser(String userID) async {
     http.Response response = await _findUser(userID);
     if (response.statusCode != 200) {
       throw Exception('Failed to find user: ${response.body}');
     }
 
-   Map <String, dynamic> parsed = json.decode(response.body);
+    Map<String, dynamic> parsed = json.decode(response.body);
     UserProfile user = UserProfile.fromJson(parsed);
 
-
     return user;
-
   }
 
   Future<http.Response> _findUser(String userID) async {
-    return http.get(
-        Uri.parse(userApi + "/user/GetUser/"+userID));
+    return http.get(Uri.parse(userApi + "/user/GetUser/" + userID));
   }
 
   Future<String?> _retrieve(key) async {
@@ -316,14 +313,17 @@ class UserApi {
   // Register a user in Keycloak
   Future<bool> registerKeycloakUser(
       firstname, lastname, username, email, password, passwordCheck) async {
-    if(password==passwordCheck) {
+    if (password == passwordCheck) {
       RegExp passwordReg = RegExp(
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$',
         caseSensitive: false,
-        multiLine: false,);
+        multiLine: false,
+      );
       RegExp usernameReg = RegExp(
-        r'^(?=.*?[a-z])(?=.*?[0-9]).{5,}$', caseSensitive: false,
-        multiLine: false,);
+        r'^(?=.*?[a-z])(?=.*?[0-9]).{5,}$',
+        caseSensitive: false,
+        multiLine: false,
+      );
       if (usernameReg.hasMatch(username)) {
         if (passwordReg.hasMatch(password)) {
           final adminJWT = await this._adminLogIn();
@@ -359,17 +359,15 @@ class UserApi {
           }
         }
         this.message =
-        "Password must contain one uppercase letter, one lowercase letter, one special character, one digit and be at least 8 characters long";
+            "Password must contain one uppercase letter, one lowercase letter, one special character, one digit and be at least 8 characters long";
         return false;
       }
       this.message =
-      "Username may only be comprised of lowercase letters and digits and must be at least 5 characters long";
+          "Username may only be comprised of lowercase letters and digits and must be at least 5 characters long";
       return false;
     }
-    this.message =
-    "Passwords do not match";
+    this.message = "Passwords do not match";
     return false;
-
   }
 
   Future<void> displayDialog(
