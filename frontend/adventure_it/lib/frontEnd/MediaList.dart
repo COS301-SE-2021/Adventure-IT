@@ -133,78 +133,90 @@ class MediaList extends StatelessWidget {
                     Theme.of(context).accentColor)));
       } else if (mediaModel.media!.length > 0) {
         return Container(
-            child: StaggeredGridView.countBuilder(
-          crossAxisCount: 4,
-          itemCount: mediaModel.media!.length,
-          itemBuilder: (BuildContext context, int index) => new Card(
-              color: Theme.of(context).primaryColorDark,
-              child: InkWell(
-                  onTap: () {
-                    if (kIsWeb) {
-                      MediaApi.web_requestMediaDownload(
-                          mediaModel.media!.elementAt(index));
-                    } else {
-                      MediaApi.requestMediaDownload(
-                          context, mediaModel.media!.elementAt(index));
-                    }
-                  },
-                  child: Stack(clipBehavior: Clip.none, children: <Widget>[
-                    Center(
-                        child: Container(
-                            height: double.infinity,
-                            width: double.infinity,
-                            decoration: new BoxDecoration(
-                              image: new DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: mediaModel.media!
-                                          .elementAt(index)
-                                          .type
-                                          .contains("mp4")
-                                      ? Image.asset("assets/logo.png").image
-                                      : NetworkImage("http://" +
-                                          mediaApi +
-                                          "/media/mediaUploaded/" +
-                                          mediaModel.media!
-                                              .elementAt(index)
-                                              .id)),
-                            ),
-                            child: Padding(
-                                padding: const EdgeInsets.all(4),
-                                child: Text(
-                                    mediaModel.media!.elementAt(index).name,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      fontSize: 12 *
-                                          MediaQuery.of(context)
-                                              .textScaleFactor,
-                                      fontWeight: FontWeight.bold,
-                                    ))))),
-                    Positioned(
-                      right: -10.0,
-                      top: -10.0,
-                      child: InkResponse(
-                        onTap: () {
-                          Provider.of<MediaModel>(context, listen: false)
-                              .removeMedia(
-                                  mediaModel.media!.elementAt(index).id);
-                        },
-                        child: CircleAvatar(
-                          radius: MediaQuery.of(context).size.width * 0.02,
-                          child: Icon(Icons.close,
-                              size: MediaQuery.of(context).size.width * 0.02,
-                              color: Theme.of(context).primaryColorDark),
-                          backgroundColor: Theme.of(context).accentColor,
-                        ),
-                      ),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.1),
+            child: GridView.builder(
+              itemCount: mediaModel.media!.length,
+              itemBuilder: (BuildContext context, int index) => new Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24)),
+                  clipBehavior: Clip.antiAlias,
+                  color: Theme.of(context).primaryColorDark,
+                  child: Column(children: [
+                    Expanded(
+                     flex: 8,
+                      child: Ink.image(
+                          image: mediaModel.media!
+                                  .elementAt(index)
+                                  .type
+                                  .contains("mp4")
+                              ? Image.asset("assets/logo.png").image
+                              : NetworkImage("http://" +
+                                  mediaApi +
+                                  "/media/mediaUploaded/" +
+                                  mediaModel.media!.elementAt(index).id),
+                          fit: BoxFit.cover),
                     ),
-                  ]))),
-          staggeredTileBuilder: (int index) =>
-              new StaggeredTile.count(2, index.isEven ? 2 : 1),
-          mainAxisSpacing: 4.0,
-          crossAxisSpacing: 4.0,
-        ));
+                    Expanded(
+                      flex: 3,
+                        child: Padding(
+                            padding: EdgeInsets.all(2),
+                            child: Column(children: [
+                              Text(mediaModel.media!.elementAt(index).name,
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color)),
+                              ButtonBar(
+                                  alignment: MainAxisAlignment.start,
+                                  children: [
+                                    Expanded(child:TextButton(
+                                        child: Text("Download",
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Theme.of(context)
+                                                    .accentColor)),
+                                        onPressed: () {
+                                          if (kIsWeb) {
+                                            MediaApi.web_requestMediaDownload(
+                                                mediaModel.media!
+                                                    .elementAt(index));
+                                          } else {
+                                            MediaApi.requestMediaDownload(
+                                                context,
+                                                mediaModel.media!
+                                                    .elementAt(index));
+                                          }
+                                        })),
+                                    Expanded(child: TextButton(
+                                      child: Text("Remove",
+
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Theme.of(context)
+                                                  .accentColor)),
+                                      onPressed: () {
+                                        Provider.of<MediaModel>(context,
+                                                listen: false)
+                                            .removeMedia(mediaModel.media!
+                                                .elementAt(index)
+                                                .id);
+                                      },
+                                    ))
+                                  ])
+                            ])))
+                  ])),
+             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+               crossAxisCount: MediaQuery.of(context).size.height>MediaQuery.of(context).size.width?1:2,
+               crossAxisSpacing: 4.0,
+               mainAxisSpacing: 4.0,
+             ),
+            ));
       } else {
         return Center(
             child: Text("A picture's worth a thousand words!",
