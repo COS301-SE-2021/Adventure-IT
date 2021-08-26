@@ -315,6 +315,11 @@ class UserApi {
   // Register a user in Keycloak
   Future<bool> registerKeycloakUser(
       firstname, lastname, username, email, password, passwordCheck) async {
+    if(firstname==""||lastname==""||username==""||email==""||password==""||passwordCheck=="")
+      {
+        this.message="Please fill in necessary fields";
+        return false;
+      }
     if (password == passwordCheck) {
       RegExp passwordReg = RegExp(
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$',
