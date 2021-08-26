@@ -1,10 +1,9 @@
 package com.adventureit.timelineservice;
 
-import com.adventureit.timelineservice.Controller.TimelineController;
-import com.adventureit.timelineservice.Entity.Timeline;
-import com.adventureit.timelineservice.Entity.TimelineType;
-import com.adventureit.timelineservice.Repository.TimelineRepository;
-import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
+import com.adventureit.timelineservice.entity.Timeline;
+import com.adventureit.timelineservice.entity.TimelineType;
+import com.adventureit.timelineservice.repository.TimelineRepository;
+import com.adventureit.timelineservice.requests.CreateTimelineRequest;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,7 +18,7 @@ import java.util.UUID;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TimelineServiceIntegrationTests {
+class TimelineServiceIntegrationTests {
 
     @Autowired
     private TimelineRepository timelineRepository;
@@ -35,7 +32,7 @@ public class TimelineServiceIntegrationTests {
 
     @Test
     @Description("Ensure that the view function works")
-    public void getTimelineByAdventureIDTest(){
+    void getTimelineByAdventureIDTest(){
         UUID timelineId = UUID.randomUUID();
         UUID adventureId = UUID.randomUUID();
         String description = "Test description";
@@ -44,12 +41,12 @@ public class TimelineServiceIntegrationTests {
         Timeline timeline = new Timeline(timelineId,adventureId,description,date,type);
         timelineRepository.saveAndFlush(timeline);
         List response = this.restTemplate.getForObject("http://localhost:" + port + "/timeline/getTimelineByAdventure/"+adventureId, List.class);
-        Assertions.assertEquals(response.size(),1);
+        Assertions.assertEquals(1,response.size());
     }
 
     @Test
     @Description("Ensure that the view function works")
-    public void deleteTimelineByAdventureIDTest(){
+    void deleteTimelineByAdventureIDTest(){
         UUID timelineId = UUID.randomUUID();
         UUID adventureId = UUID.randomUUID();
         String description = "Test description";
@@ -63,7 +60,7 @@ public class TimelineServiceIntegrationTests {
 
     @Test
     @Description("Ensure that the view function works")
-    public void createTimelineTest(){
+    void createTimelineTest(){
         UUID adventureId = UUID.randomUUID();
         String description = "Test description";
         TimelineType type = TimelineType.BUDGET;

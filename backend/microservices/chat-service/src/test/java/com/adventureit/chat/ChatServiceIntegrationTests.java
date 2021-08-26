@@ -1,15 +1,14 @@
 package com.adventureit.chat;
 
 
-import com.adventureit.chat.Controller.ChatController;
-import com.adventureit.chat.Entity.ColorPair;
-import com.adventureit.chat.Entity.GroupChat;
-import com.adventureit.chat.Entity.GroupMessage;
-import com.adventureit.chat.Repository.ColorPairRepository;
-import com.adventureit.chat.Repository.DirectChatRepository;
-import com.adventureit.chat.Repository.GroupChatRepository;
-import com.adventureit.chat.Repository.MessageRepository;
-import com.adventureit.chat.Responses.GroupChatResponseDTO;
+import com.adventureit.chat.controller.ChatController;
+import com.adventureit.chat.entity.GroupChat;
+import com.adventureit.chat.entity.GroupMessage;
+import com.adventureit.chat.repository.ColorPairRepository;
+import com.adventureit.chat.repository.DirectChatRepository;
+import com.adventureit.chat.repository.GroupChatRepository;
+import com.adventureit.chat.repository.MessageRepository;
+import com.adventureit.chat.responses.GroupChatResponseDTO;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

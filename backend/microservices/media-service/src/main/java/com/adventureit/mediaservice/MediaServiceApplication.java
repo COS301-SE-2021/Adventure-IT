@@ -1,6 +1,5 @@
 package com.adventureit.mediaservice;
 
-import com.adventureit.mediaservice.Service.MediaServiceImplementation;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -24,5 +23,4 @@ public class MediaServiceApplication {
 			}
 		};
 	}
-
 }
