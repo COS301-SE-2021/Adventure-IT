@@ -44,7 +44,7 @@ public class MainControllerAdventureReroute {
         Users user;
         assert users != null;
         for (UUID uuid : users) {
-            user = restTemplate.getForObject(IP + ":" + userPort + "/user/GetUser/" + uuid, Users.class);
+            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + uuid, Users.class);
             assert user != null;
             list.add(new GetUserByUUIDDTO(user.getUserID(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail()));
         }
@@ -114,7 +114,7 @@ public class MainControllerAdventureReroute {
     @GetMapping("/addAttendees/{adventureID}/{userID}")
     public String addAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID){
         restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/addAttendees/"+adventureID+"/"+userID, String.class);
-        GetUserByUUIDDTO response = restTemplate.getForObject(IP + ":" + userPort + "/user/GetUser/"+userID, GetUserByUUIDDTO.class);
+        GetUserByUUIDDTO response = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
         assert response != null;
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureID, TimelineType.ADVENTURE,response.getUsername()+" has been added to this adventure" );
         restTemplate.getForObject(IP + ":" + chatPort + "/chat/addParticipant/"+adventureID+"/"+userID, String.class);
