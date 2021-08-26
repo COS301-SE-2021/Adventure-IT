@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:adventure_it/Providers/itinerary_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-
+import 'package:provider/provider.dart';
 import 'ItinerariesList.dart';
 import 'Navbar.dart';
 
@@ -78,10 +76,10 @@ class DeletedItineraryList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => DeletedItineraryModel(a!),
-        child: Consumer<DeletedItineraryModel>(
-            builder: (context, deletedItineraryModel, child) {
-          this.c = context;
-          if (deletedItineraryModel.deletedItineraries == null) {
+        child:
+        Consumer<DeletedItineraryModel>(builder: (context, deletedItineraryModel, child) {
+          this.c=context;
+          if(deletedItineraryModel.deletedItineraries==null||deletedItineraryModel.deletedItineraries!.length!=deletedItineraryModel.creators!.length) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
@@ -182,6 +180,15 @@ class DeletedItineraryList extends StatelessWidget {
                                         Expanded(
                                           flex: 4,
                                           child: ListTile(
+                                            trailing: Text("Created by: "+deletedItineraryModel
+                                                    .creators!
+                                                    .elementAt(index)!
+                                                    .username, style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color)),
                                             title: Text(
                                                 deletedItineraryModel
                                                     .deletedItineraries!

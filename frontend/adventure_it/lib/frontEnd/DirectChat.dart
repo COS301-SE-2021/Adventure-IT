@@ -3,8 +3,9 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
 
 import 'package:adventure_it/Providers/chat_model.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
-import 'package:adventure_it/api/user_api.dart';
+import 'package:adventure_it/frontEnd/FriendsPage.dart';
 
 import 'FriendsPage.dart';
 import 'Navbar.dart';

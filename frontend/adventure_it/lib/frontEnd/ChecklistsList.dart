@@ -4,9 +4,8 @@ import 'package:provider/provider.dart';
 
 import 'package:adventure_it/Providers/checklist_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/user_api.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/frontEnd/ChecklistsTrash.dart';
-
 import 'ChecklistPage.dart';
 import 'AdventurePage.dart';
 import 'Navbar.dart';
@@ -120,96 +119,99 @@ class ChecklistList extends StatelessWidget {
       if (checklistModel.checklists != null)
         print(checklistModel.checklists!.length);
 
-      if (checklistModel.checklists == null) {
-        return Center(
-            child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(
-                    Theme.of(context).accentColor)));
-      } else if (checklistModel.checklists!.length > 0) {
-        return ListView.builder(
-            itemCount: checklistModel.checklists!.length,
-            itemBuilder: (context, index) => Dismissible(
-                background: Container(
-                  // color: Theme.of(context).primaryColor,
-                  //   margin: const EdgeInsets.all(5),
-                  padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.height / 60),
-                  child: Row(
-                    children: [
-                      new Spacer(),
-                      Icon(Icons.delete,
-                          color: Theme.of(context).accentColor,
-                          size: 35 * MediaQuery.of(context).textScaleFactor),
-                    ],
-                  ),
-                ),
-                direction: DismissDirection.endToStart,
-                key: Key(checklistModel.checklists!.elementAt(index).id),
-                child: Card(
-                    color: Theme.of(context).primaryColorDark,
-                    child: InkWell(
-                        hoverColor: Theme.of(context).primaryColorLight,
-                        onTap: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ChecklistPage(
-                                      checklistModel.checklists!
-                                          .elementAt(index),
-                                      a)));
-                        },
-                        child: Container(
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 4,
-                                child: ListTile(
-                                  title: Text(
-                                      checklistModel.checklists!
-                                          .elementAt(index)
-                                          .title,
-                                      style:
-                                          TextStyle(
-                                              fontSize: 25 *
-                                                  MediaQuery.of(context)
-                                                      .textScaleFactor,
-                                              fontWeight: FontWeight.bold,
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color)),
-                                  // subtitle:Text(adventures.elementAt(index).description),
-                                  subtitle: Text(
-                                      checklistModel.checklists!
-                                          .elementAt(index)
-                                          .description,
-                                      style: TextStyle(
-                                          fontSize: 15 *
-                                              MediaQuery.of(context)
-                                                  .textScaleFactor,
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color)),
-                                ),
-                              ),
-                            ],
+          if (checklistModel.checklists == null) {
+            return Center(
+                child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).accentColor)));
+          } else if (checklistModel.checklists!.length > 0) {
+            return ListView.builder(
+                    itemCount:                      checklistModel.checklists!.length,
+                      itemBuilder: (context, index) => Dismissible(
+                          background: Container(
+                            // color: Theme.of(context).primaryColor,
+                            //   margin: const EdgeInsets.all(5),
+                            padding: EdgeInsets.all(
+                                MediaQuery.of(context).size.height / 60),
+                            child: Row(
+                              children: [
+                                new Spacer(),
+                                Icon(Icons.delete,
+                                    color: Theme.of(context).accentColor,
+                                    size: 35 *
+                                        MediaQuery.of(context).textScaleFactor),
+                              ],
+                            ),
                           ),
-                        ))),
-                onDismissed: (direction) {
-                  Provider.of<ChecklistModel>(context, listen: false)
-                      .softDeleteChecklist(
-                          checklistModel.checklists!.elementAt(index));
-                }));
-      } else {
-        return Center(
-            child: Text("Let's get you organised!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-                    color: Theme.of(context).textTheme.bodyText1!.color)));
-      }
-    });
+                          direction: DismissDirection.endToStart,
+                          key: Key(
+                              checklistModel.checklists!.elementAt(index).id),
+                          child: Card(
+                              color: Theme.of(context).primaryColorDark,
+                              child: InkWell(
+                                  hoverColor:
+                                      Theme.of(context).primaryColorLight,
+                                  onTap: () {
+                                    UserApi.getInstance().findUser(checklistModel.checklists!.elementAt(index).creatorID).then((c){
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ChecklistPage(
+                                                checklistModel.checklists!
+                                                    .elementAt(index),a,c)));
+                                  });},
+                                  child: Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 4,
+                                          child: ListTile(
+                                            title: Text(
+                                                checklistModel
+                                                    .checklists!
+                                                    .elementAt(index)
+                                                    .title,
+                                                style: TextStyle(
+                                                    fontSize: 25 *
+                                                        MediaQuery.of(context)
+                                                            .textScaleFactor,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color)),
+                                            // subtitle:Text(adventures.elementAt(index).description),
+                                            subtitle: Text(
+                                                checklistModel.checklists!
+                                                    .elementAt(index)
+                                                    .description,
+                                                style: TextStyle(
+                                                    fontSize: 15 *
+                                                        MediaQuery.of(context)
+                                                            .textScaleFactor,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ))),
+                          onDismissed: (direction) {
+                            Provider.of<ChecklistModel>(context, listen: false)
+                                .softDeleteChecklist(checklistModel.checklists!
+                                    .elementAt(index));
+                          }));
+          } else {
+            return Center(
+                child: Text("Let's get you organised!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                        color: Theme.of(context).textTheme.bodyText1!.color)));
+          }
+        });
   }
 }
 

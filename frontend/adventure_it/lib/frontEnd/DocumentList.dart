@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:adventure_it/Providers/media_model.dart';
+import 'package:adventure_it/constants.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
-import 'package:adventure_it/constants.dart';
-
-import 'package:adventure_it/Providers/media_model.dart';
 import 'package:adventure_it/api/mediaAPI.dart';
 
 import 'Navbar.dart';
@@ -201,7 +200,7 @@ class DocumentList extends StatelessWidget {
         ));
       } else {
         return Center(
-            child: Text("A picture's worth a thousand words!",
+            child: Text("Some things should be kept private",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 30 * MediaQuery.of(context).textScaleFactor,

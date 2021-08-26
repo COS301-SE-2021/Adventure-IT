@@ -7,13 +7,12 @@ class Report {
   final String payeeName;
   final double amount;
 
+  Report({
+    required this.amount,
+    required this.payeeName,
+  });
 
-  Report(
-      {required this.amount,
-        required this.payeeName});
-
-  factory Report.fromJson(Map<String, dynamic> json) =>
-      _$ReportFromJson(json);
+  factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);
 
   Map<String, dynamic> toJson() => _$ReportToJson(this);
 }

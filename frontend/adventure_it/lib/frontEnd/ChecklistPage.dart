@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:adventure_it/Providers/checklist_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/checklist.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
-
 import 'ChecklistsList.dart';
+import 'package:adventure_it/api/userProfile.dart';
+import 'package:adventure_it/frontEnd/ChecklistsList.dart';
 import 'Navbar.dart';
 
 //A single checklist with entries
 class ChecklistPage extends StatelessWidget {
   late final Checklist? currentChecklist;
   late final Adventure? currentAdventure;
+  UserProfile? creator;
 
-  ChecklistPage(Checklist? c, Adventure? a) {
+  ChecklistPage(Checklist? c,Adventure? a, UserProfile create) {
     this.currentChecklist = c;
-    this.currentAdventure = a;
+    this.currentAdventure=a;
+    this.creator=create;
   }
 
   @override
@@ -24,73 +26,83 @@ class ChecklistPage extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (context) => ChecklistEntryModel(currentChecklist!),
         builder: (context, widget) => Scaffold(
-            drawer: NavDrawer(),
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            appBar: AppBar(
-                title: Center(
-                    child: Text(currentChecklist!.title,
-                        style: new TextStyle(
-                            color:
-                                Theme.of(context).textTheme.bodyText1!.color))),
-                backgroundColor: Theme.of(context).primaryColorDark),
-            body: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: MediaQuery.of(context).size.height / 60),
-                  Container(
-                      height: MediaQuery.of(context).size.height * 0.75,
-                      child: GetChecklistEntries(currentChecklist!)),
-                  Spacer(),
-                  Row(children: [
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).accentColor,
-                              shape: BoxShape.circle),
-                          child: IconButton(
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            Checklists(currentAdventure)));
-                              },
-                              icon:
-                                  const Icon(Icons.arrow_back_ios_new_rounded),
-                              color: Theme.of(context).primaryColorDark)),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).accentColor,
-                              shape: BoxShape.circle),
-                          child: IconButton(
-                              onPressed: () {
-                                {
-                                  var provider =
-                                      Provider.of<ChecklistEntryModel>(context,
-                                          listen: false);
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertBox(
-                                            currentChecklist!, provider);
-                                      });
-                                }
-                              },
-                              icon: const Icon(Icons.add),
-                              color: Theme.of(context).primaryColorDark)),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(), //Your widget here,
-                    ),
-                  ]),
-                  SizedBox(height: MediaQuery.of(context).size.height / 60),
-                ])));
+        drawer: NavDrawer(),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: AppBar(
+            actions: [
+             Center( child: creator!=null?Text("Created by: "+this.creator!.username, style: new TextStyle(
+                  color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color, fontSize: 10)):Text("Created by: unknown", style: new TextStyle(
+                  color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color, fontSize: 10))
+             ), SizedBox(width: MediaQuery.of(context).size.width*0.02)],
+            title: Center(
+                child: Text(currentChecklist!.title,
+                    style: new TextStyle(
+                        color: Theme.of(context).textTheme.bodyText1!.color))),
+            backgroundColor: Theme.of(context).primaryColorDark),
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.75,
+                child: GetChecklistEntries(currentChecklist!)
+              ),
+              Spacer(),
+              Row(children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).accentColor,
+                          shape: BoxShape.circle),
+                      child: IconButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                      Checklists(currentAdventure)));
+                          },
+                          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                          color: Theme.of(context).primaryColorDark)),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).accentColor,
+                          shape: BoxShape.circle),
+                      child: IconButton(
+                          onPressed: () {
+                            {
+                              var provider = Provider.of<ChecklistEntryModel>(context, listen: false);
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertBox(currentChecklist!, provider);
+                                  });
+                            }
+                          },
+                          icon: const Icon(Icons.add),
+                          color: Theme.of(context).primaryColorDark)),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                  ), //Your widget here,
+                ),
+              ]),
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
+            ])));
   }
 }
 

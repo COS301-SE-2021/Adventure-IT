@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'Adventures.dart';
 import 'Navbar.dart';
 

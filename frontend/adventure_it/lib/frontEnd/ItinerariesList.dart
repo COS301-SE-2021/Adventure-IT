@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:adventure_it/constants.dart';
-
 import 'package:adventure_it/Providers/itinerary_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
-import 'package:adventure_it/api/user_api.dart';
-
+import 'package:adventure_it/api/userAPI.dart';
 import 'AdventurePage.dart';
 import 'ItineraryPage.dart';
 import 'ItineraryTrash.dart';
@@ -167,11 +165,17 @@ class _ItinerariesList extends State<ItinerariesList> {
                   decoration: new BoxDecoration(
                       image: new DecorationImage(
                           image: next != null
-                              ? NetworkImage(
-                                  "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                      next!.location.photo_reference +
-                                      "&maxwidth=500&key=" +
-                                      googleMapsKey)
+                              ? next!.location.photo_reference != ""
+                                  ? NetworkImage(
+                                      "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                          next!.location.photo_reference +
+                                          "&maxwidth=500&key=" +
+                                          googleMapsKey)
+                                  : NetworkImage(
+                                      "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                          a!.location.photo_reference +
+                                          "&maxwidth=500&key=" +
+                                          googleMapsKey)
                               : NetworkImage(
                                   "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
                                       a!.location.photo_reference +
@@ -304,13 +308,20 @@ class _ItinerariesList extends State<ItinerariesList> {
                           child: InkWell(
                               hoverColor: Theme.of(context).primaryColorLight,
                               onTap: () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ItineraryPage(
-                                            itineraryModel.itineraries!
-                                                .elementAt(index),
-                                            a)));
+                                UserApi.getInstance()
+                                    .findUser(itineraryModel.itineraries!
+                                        .elementAt(index)
+                                        .creatorID)
+                                    .then((c) {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ItineraryPage(
+                                              itineraryModel.itineraries!
+                                                  .elementAt(index),
+                                              a,
+                                              c)));
+                                });
                               },
                               child: Container(
                                 child: Row(

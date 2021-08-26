@@ -3,123 +3,107 @@ import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
 import 'package:adventure_it/constants.dart';
-
 import 'package:adventure_it/Providers/itinerary_model.dart';
 import 'package:adventure_it/Providers/location_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/itinerary.dart';
-
+import 'package:adventure_it/api/userProfile.dart';
 import 'ItinerariesList.dart';
 import 'Navbar.dart';
 
 class ItineraryPage extends StatelessWidget {
   late final Itinerary? currentItinerary;
   late final Adventure? currentAdventure;
+  late final UserProfile? creator;
 
-  ItineraryPage(Itinerary? i, Adventure? a) {
+  ItineraryPage(Itinerary? i, Adventure? a, UserProfile c) {
     this.currentItinerary = i;
     this.currentAdventure = a;
+    this.creator=c;
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => ItineraryEntryModel(currentItinerary!),
-        builder: (context, widget) =>
-            Scaffold(
-                drawer: NavDrawer(),
-                backgroundColor: Theme
-                    .of(context)
-                    .scaffoldBackgroundColor,
-                appBar: AppBar(
-                    title: Center(
-                        child: Text(currentItinerary!.title,
-                            style: new TextStyle(
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .color))),
-                    backgroundColor: Theme
-                        .of(context)
-                        .primaryColorDark),
-                body: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(height: MediaQuery
-                          .of(context)
-                          .size
-                          .height / 60),
-                      Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.75,
-                        child: _ListItineraryItems(
-                            currentAdventure!, currentItinerary!),
-                      ),
-                      Spacer(),
-                      Row(children: [
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  color: Theme
-                                      .of(context)
-                                      .accentColor,
-                                  shape: BoxShape.circle),
-                              child: IconButton(
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Itineraries(currentAdventure)));
-                                  },
-                                  icon: const Icon(
-                                      Icons.arrow_back_ios_new_rounded),
-                                  color: Theme
-                                      .of(context)
-                                      .primaryColorDark)),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  color: Theme
-                                      .of(context)
-                                      .accentColor,
-                                  shape: BoxShape.circle),
-                              child: IconButton(
-                                  onPressed: () {
-                                    {
-                                      var provider = Provider.of<
-                                          ItineraryEntryModel>(
-                                          context, listen: false);
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertBox(
-                                                currentItinerary!, provider);
-                                          });
-                                    }
-                                  },
-                                  icon: const Icon(Icons.add),
-                                  color: Theme
-                                      .of(context)
-                                      .primaryColorDark)),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(), //Your widget here,
-                        ),
-                      ]),
-                      SizedBox(height: MediaQuery
-                          .of(context)
-                          .size
-                          .height / 60),
-                    ])));
+        builder: (context, widget) => Scaffold(
+        drawer: NavDrawer(),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: AppBar(
+            actions: [
+        Center(
+              child: creator!=null?Text("Created by: "+this.creator!.username, style: new TextStyle(
+                  color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color, fontSize: 10)):Text("Created by: unknown", style: new TextStyle(
+                  color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color, fontSize: 10))
+        ),SizedBox(width: MediaQuery.of(context).size.width*0.02)],
+            title: Center(
+                child: Text(currentItinerary!.title,
+                    style: new TextStyle(
+                        color: Theme.of(context).textTheme.bodyText1!.color))),
+            backgroundColor: Theme.of(context).primaryColorDark),
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.75,
+                child: _ListItineraryItems(currentAdventure!, currentItinerary!),
+              ),
+              Spacer(),
+              Row(children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).accentColor,
+                          shape: BoxShape.circle),
+                      child: IconButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        Itineraries(currentAdventure)));
+                          },
+                          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                          color: Theme.of(context).primaryColorDark)),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).accentColor,
+                          shape: BoxShape.circle),
+                      child: IconButton(
+                          onPressed: () {
+                            {
+                              var provider = Provider.of<ItineraryEntryModel>(context, listen: false);
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertBox(currentItinerary!, provider);
+                                  });
+                            }
+                          },
+                          icon: const Icon(Icons.add),
+                          color: Theme.of(context).primaryColorDark)),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(), //Your widget here,
+                ),
+              ]),
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
+            ])));
   }
 }
 

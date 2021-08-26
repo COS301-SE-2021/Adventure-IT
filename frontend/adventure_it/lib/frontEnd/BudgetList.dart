@@ -1,13 +1,11 @@
+import 'package:adventure_it/Providers/budget_model.dart';
+import 'package:adventure_it/api/adventure.dart';
+import 'package:adventure_it/api/userAPI.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:fl_chart/fl_chart.dart';
-
-import 'package:adventure_it/Providers/budget_model.dart';
-import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/api/budget.dart';
-
 import 'AdventurePage.dart';
 import 'BudgetPage.dart';
 import 'BudgetTrash.dart';
@@ -385,121 +383,124 @@ class BudgetList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<BudgetModel>(builder: (context, budgetModel, child) {
-      if (budgetModel.budgets == null ||
-          budgetModel.expenses == null ||
-          budgetModel.categories == null) {
-        return Center(
-            child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(
-                    Theme.of(context).accentColor)));
-      } else if (budgetModel.budgets!.length > 0) {
-        return Column(children: [
-          Expanded(flex: 8, child: buildChild(budgetModel, context)),
-          SizedBox(height: MediaQuery.of(context).size.height / 60),
-          Expanded(
-              flex: 6,
-              child: ListView.builder(
-                  itemCount: budgetModel.budgets!.length,
-                  itemBuilder: (context, index) => Dismissible(
-                      background: Container(
-                        // color: Theme.of(context).primaryColor,
-                        //   margin: const EdgeInsets.all(5),
-                        padding: EdgeInsets.all(
-                            MediaQuery.of(context).size.height / 60),
-                        child: Row(
-                          children: [
-                            new Spacer(),
-                            Icon(Icons.delete,
-                                color: Theme.of(context).accentColor,
-                                size: 35 *
-                                    MediaQuery.of(context).textScaleFactor),
-                          ],
-                        ),
-                      ),
-                      direction: DismissDirection.endToStart,
-                      key: Key(budgetModel.budgets!.elementAt(index).id),
-                      child: Card(
-                          color: Theme.of(context).primaryColorDark,
-                          child: InkWell(
-                              hoverColor: Theme.of(context).primaryColorLight,
-                              onTap: () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => BudgetPage(
-                                            budgetModel.budgets!
-                                                .elementAt(index),
-                                            a)));
-                              },
-                              child: Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      flex: 4,
-                                      child: ListTile(
-                                        title: Text(
-                                            //
-                                            budgetModel.budgets!
-                                                .elementAt(index)
-                                                .name,
-                                            style: TextStyle(
-                                                fontSize: 25 *
-                                                    MediaQuery.of(context)
-                                                        .textScaleFactor,
-                                                fontWeight: FontWeight.bold,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color)),
-                                        // subtitle:Text(adventures.elementAt(index).description),
-                                        subtitle: Text(
-                                            budgetModel.budgets!
-                                                .elementAt(index)
-                                                .description,
-                                            style: TextStyle(
-                                                fontSize: 15 *
-                                                    MediaQuery.of(context)
-                                                        .textScaleFactor,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color)),
+          if (budgetModel.budgets == null ||
+              budgetModel.expenses == null ||
+              budgetModel.categories == null||budgetModel.budgets!.length!=budgetModel.expenses!.length) {
+            return Center(
+                child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).accentColor)));
+          } else if (budgetModel.budgets!.length > 0) {
+            return Column(
+                children: [
+            Expanded(flex: 8, child: buildChild(budgetModel, context)),
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
+                   Expanded(flex: 6, child: ListView.builder(
+                        itemCount: budgetModel.budgets!.length,
+                        itemBuilder: (context, index) => Dismissible(
+                            background: Container(
+                              // color: Theme.of(context).primaryColor,
+                              //   margin: const EdgeInsets.all(5),
+                              padding: EdgeInsets.all(
+                                  MediaQuery.of(context).size.height / 60),
+                              child: Row(
+                                children: [
+                                  new Spacer(),
+                                  Icon(Icons.delete,
+                                      color: Theme.of(context).accentColor,
+                                      size: 35 *
+                                          MediaQuery.of(context)
+                                              .textScaleFactor),
+                                ],
+                              ),
+                            ),
+                            direction: DismissDirection.endToStart,
+                            key: Key(budgetModel.budgets!.elementAt(index).id),
+                            child: Card(
+                                color: Theme.of(context).primaryColorDark,
+                                child: InkWell(
+                                    hoverColor:
+                                        Theme.of(context).primaryColorLight,
+                                    onTap: () {
+                                      UserApi.getInstance().findUser(budgetModel.budgets!.elementAt(index).creatorID).then((c){
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => BudgetPage(
+                                                  budgetModel.budgets!
+                                                      .elementAt(index),
+                                                  a,c)));
+                                    });},
+                                    child: Container(
+                                      child: Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 4,
+                                            child: ListTile(
+                                              title: Text(
+                                                  //
+                                                  budgetModel.budgets!
+                                                      .elementAt(index)
+                                                      .name,
+                                                  style: TextStyle(
+                                                      fontSize: 25 *
+                                                          MediaQuery.of(context)
+                                                              .textScaleFactor,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color)),
+                                              // subtitle:Text(adventures.elementAt(index).description),
+                                              subtitle: Text(
+                                                  budgetModel.budgets!
+                                                      .elementAt(index)
+                                                      .description,
+                                                  style: TextStyle(
+                                                      fontSize: 15 *
+                                                          MediaQuery.of(context)
+                                                              .textScaleFactor,
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color)),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Text(
+                                                "Total: " +
+                                                    budgetModel.expenses!
+                                                        .elementAt(index),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 12 *
+                                                        MediaQuery.of(context)
+                                                            .textScaleFactor,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color)),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                          "Total: " +
-                                              budgetModel.expenses!
-                                                  .elementAt(index),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 12 *
-                                                  MediaQuery.of(context)
-                                                      .textScaleFactor,
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color)),
-                                    ),
-                                  ],
-                                ),
-                              ))),
-                      onDismissed: (direction) {
-                        Provider.of<BudgetModel>(context, listen: false)
-                            .softDeleteBudget(
-                                budgetModel.budgets!.elementAt(index));
-                      })))
-        ]);
-      } else {
-        return Center(
-            child: Text("Start planning how to spend your money!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-                    color: Theme.of(context).textTheme.bodyText1!.color)));
-      }
-    });
+                                    ))),
+                            onDismissed: (direction) {
+                              Provider.of<BudgetModel>(context, listen: false)
+                                  .softDeleteBudget(
+                                      budgetModel.budgets!.elementAt(index));
+                            }))
+                   )]);
+          } else {
+            return Center(
+                child: Text("Start planning how to spend your money!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                        color: Theme.of(context).textTheme.bodyText1!.color)));
+          }
+        });
   }
 }
 

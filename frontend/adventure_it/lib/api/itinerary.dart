@@ -1,7 +1,4 @@
-import 'package:adventure_it/api/location.dart';
 import 'package:json_annotation/json_annotation.dart';
-import '/api/adventure.dart';
-import '/api/report.dart';
 
 part 'itinerary.g.dart';
 
@@ -23,7 +20,8 @@ class Itinerary {
     required this.deleted,
   });
 
-  factory Itinerary.fromJson(Map<String, dynamic> json) => _$ItineraryFromJson(json);
+  factory Itinerary.fromJson(Map<String, dynamic> json) =>
+      _$ItineraryFromJson(json);
 
   Map<String, dynamic> toJson() => _$ItineraryToJson(this);
 }

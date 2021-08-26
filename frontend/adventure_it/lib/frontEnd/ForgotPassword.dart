@@ -1,7 +1,5 @@
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:flutter/material.dart';
-
-import 'package:adventure_it/api/user_api.dart';
-
 import 'Login.dart';
 import 'Register.dart';
 
@@ -65,7 +63,7 @@ class ForgotPassword extends State<ForgotPasswordCaller> {
                         lastNameController.text,
                         usernameController.text,
                         emailController.text,
-                        passwordController.text);
+                        passwordController.text,passwordCheckController.text);
                     if (success) {
                       this
                           .api

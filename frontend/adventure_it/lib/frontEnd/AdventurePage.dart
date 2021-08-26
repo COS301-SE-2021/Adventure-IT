@@ -2,14 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:date_count_down/date_count_down.dart';
-
 import 'package:adventure_it/constants.dart';
-
 import 'package:adventure_it/Providers/friends_model.dart';
-import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
-
+import 'package:adventure_it/api/adventureAPI.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import 'ChecklistsList.dart';
 import 'FileList.dart';
 import 'GroupChat.dart';

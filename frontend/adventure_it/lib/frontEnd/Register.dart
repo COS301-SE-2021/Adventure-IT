@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:flutter/gestures.dart';
-
-import 'package:adventure_it/api/user_api.dart';
-
+import 'package:flutter/material.dart';
 import 'Login.dart';
 
 class RegisterCaller extends StatefulWidget {
@@ -37,10 +35,15 @@ class Register extends State<RegisterCaller> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-              SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.15),
               SizedBox(
                 width: 350,
                 child: TextField(
+                  style: TextStyle(color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color),
                     controller: firstNameController,
                     decoration: InputDecoration(
                         filled: true,
@@ -52,6 +55,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: lastNameController,
                     decoration: InputDecoration(
                         filled: true,
@@ -63,6 +71,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: usernameController,
                     decoration: InputDecoration(
                         filled: true,
@@ -74,6 +87,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: emailController,
                     decoration: InputDecoration(
                         filled: true,
@@ -85,17 +103,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
-                    controller: phoneNumberController,
-                    decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Theme.of(context).primaryColorLight,
-                        border: OutlineInputBorder(),
-                        hintText: 'Phone number')),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-              SizedBox(
-                width: 350,
-                child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
@@ -111,6 +123,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: passwordCheckController,
                     obscureText: true,
                     decoration: InputDecoration(
@@ -139,7 +156,7 @@ class Register extends State<RegisterCaller> {
                         lastNameController.text,
                         usernameController.text,
                         emailController.text,
-                        passwordController.text);
+                        passwordController.text, passwordCheckController.text);
                     if (success) {
                       this
                           .api

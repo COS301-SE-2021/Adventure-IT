@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
-
 import 'package:adventure_it/Providers/timeline_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-
 import 'AdventurePage.dart';
 import 'Navbar.dart';
 
@@ -76,6 +74,14 @@ class TimeLine extends StatelessWidget {
                                   const Icon(Icons.arrow_back_ios_new_rounded),
                               color: Theme.of(context).primaryColorDark)),
                     ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(),
+                    ),
                   ]),
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
                 ])));
@@ -87,6 +93,48 @@ class TimelineList extends StatelessWidget {
 
   TimelineList(Adventure? adv) {
     this.a = adv;
+  }
+
+  Widget getIcon(String type, BuildContext context)
+  {
+    if(type=="ADVENTURE")
+      {
+          return Icon(
+            Icons.person,
+            size: 30,
+            color: Theme.of(context)
+                .accentColor,
+          );
+      }
+    else if(type=="BUDGET")
+      {
+        return Icon(
+          Icons.attach_money,
+          size: 30,
+          color: Theme.of(context)
+              .accentColor,
+        );
+      }
+    else if(type=="CHECKLIST")
+      {
+        return Icon(
+          Icons.checklist,
+          size: 30,
+          color: Theme.of(context)
+              .accentColor,
+        );
+      }
+    else if(type=="ITINERARY")
+      {
+        return Icon(
+          Icons.list_alt,
+          size: 30,
+          color: Theme.of(context)
+              .accentColor,
+        );
+      }
+    else
+      return Container();
   }
 
   final List<String> months = [
@@ -142,45 +190,53 @@ class TimelineList extends StatelessWidget {
                       child: Container(
                           child: Row(children: <Widget>[
                         Expanded(
-                            flex: 4,
-                            child: ListTile(
-                              title: Text(
-                                  timelineModel.timeline!
-                                      .elementAt(index)
-                                      .description,
-                                  style: TextStyle(
-                                      fontSize: 25 *
-                                          MediaQuery.of(context)
-                                              .textScaleFactor,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .color)),
-                              trailing: Text(
-                                  DateTime.parse(timelineModel.timeline!
-                                              .elementAt(index)
-                                              .timestamp)
-                                          .hour
-                                          .toString() +
-                                      ":" +
-                                      DateTime.parse(timelineModel.timeline!
-                                              .elementAt(index)
-                                              .timestamp)
-                                          .minute
-                                          .toString(),
-                                  style: TextStyle(
-                                      fontSize: 25 *
-                                          MediaQuery.of(context)
-                                              .textScaleFactor,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .color)),
-                            ))
-                      ]))));
-            });
+                          flex: 4,
+                          child: ListTile(
+                            leading: Container(
+                                width: 50,
+                                height: 50,
+                                child:getIcon(timelineModel
+                                .timeline!
+                                .elementAt(index)
+                                .type, context)),
+                            title: Text(
+                              timelineModel
+                                  .timeline!
+                                  .elementAt(index)
+                                  .description,
+                              style: TextStyle(
+                                fontSize: 25 *
+                                MediaQuery.of(context)
+                                    .textScaleFactor,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color)
+                            ),
+                            trailing: Text(
+                                DateTime.parse(timelineModel.timeline!
+                                    .elementAt(index)
+                                    .timestamp).hour.toString()+":"+DateTime.parse(timelineModel.timeline!
+                                    .elementAt(index)
+                                    .timestamp).minute.toString(),
+                                style: TextStyle(
+                                    fontSize: 25 *
+                                        MediaQuery.of(context)
+                                            .textScaleFactor,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .color)
+                            ),
+                          )
+                        )
+                    ]
+              )
+            )
+          )
+            );});
       } else {
         return Center(
             child: Text("Nothing to see here...yet!",

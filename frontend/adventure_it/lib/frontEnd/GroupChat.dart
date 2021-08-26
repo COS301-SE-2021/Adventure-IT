@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
-
 import 'package:adventure_it/Providers/chat_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-
 import 'AdventurePage.dart';
 import 'Navbar.dart';
 

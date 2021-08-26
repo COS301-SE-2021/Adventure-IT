@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import '/api/adventure.dart';
 
 part 'createChecklistEntry.g.dart';
 
@@ -13,7 +12,8 @@ class CreateChecklistEntry {
     required this.entryContainerID,
   });
 
-  factory CreateChecklistEntry.fromJson(Map<String, dynamic> json) => _$CreateChecklistEntryFromJson(json);
+  factory CreateChecklistEntry.fromJson(Map<String, dynamic> json) =>
+      _$CreateChecklistEntryFromJson(json);
 
   Map<String, dynamic> toJson() => _$CreateChecklistEntryToJson(this);
 }
