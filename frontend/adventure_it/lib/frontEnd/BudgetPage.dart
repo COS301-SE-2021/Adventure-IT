@@ -1,23 +1,34 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+
 import 'package:adventure_it/Providers/budget_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventureAPI.dart';
 import 'package:adventure_it/api/createUTOBudgetEntry.dart';
 import 'package:adventure_it/api/createUTUBudgetEntry.dart';
 import 'package:adventure_it/api/userAPI.dart';
+import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/userProfile.dart';
+import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:adventure_it/api/budget.dart';
+
 import 'BudgetList.dart';
 
 import '../api/budget.dart';
 import 'Navbar.dart';
 
+//A single budget with entries
 class BudgetPage extends StatelessWidget {
   Budget? currentBudget;
   Adventure? currentAdventure;
   UserProfile? creator;
+  late final Budget? currentBudget;
+  late final Adventure? currentAdventure;
 
   BudgetPage(Budget? b, Adventure? a, UserProfile c) {
     this.currentBudget = b;
@@ -182,8 +193,8 @@ class BudgetPage extends StatelessWidget {
 }
 
 class _AlertBox extends StatefulWidget {
-  Budget? b;
-  Adventure? a;
+  late final Budget? b;
+  late final Adventure? a;
   final BudgetEntryModel budgetEntryModel;
 
   _AlertBox(this.b, this.a, this.budgetEntryModel);
@@ -763,15 +774,7 @@ class AlertBox extends State<_AlertBox> {
                             }
 
                             else {
-                              await widget.budgetEntryModel.addUTOBudgetEntry(
-                                  b!,
-                                  b!.id,
-                                  payer!,
-                                  amountController.text,
-                                  titleController.text,
-                                  descriptionController.text,
-                                  categoryNames[selectedCategory! - 1],
-                                  otherController.text);
+                              await widget.budgetEntryModel.addUTOBudgetEntry(b!, b!.id, payer!, amountController.text, titleController.text, descriptionController.text, categoryNames[selectedCategory!-1], payee!);
                               Navigator.pop(context);
                             }
                           },
@@ -789,8 +792,8 @@ class AlertBox extends State<_AlertBox> {
 }
 
 class _GetBudgetEntries extends StatefulWidget {
-  Budget? currentBudget;
-  Adventure? currentAdventure;
+  late final Budget? currentBudget;
+  late final Adventure? currentAdventure;
 
   _GetBudgetEntries(Budget b, Adventure a) {
     this.currentBudget = b;
@@ -873,8 +876,6 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
     "Other"
   ];
   final BudgetApi api = new BudgetApi();
-  Future<CreateUTOBudgetEntry>? _futureUTOBudget;
-  Future<CreateUTUBudgetEntry>? _futureUTUBudget;
   final amountController = TextEditingController();
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -1121,7 +1122,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                               .bodyText1!
                                               .color)),
                                   actions: <Widget>[
-                                    FlatButton(
+                                    TextButton(
                                         onPressed: () =>
                                             Navigator.of(context).pop(true),
                                         child: Text("Remove",
@@ -1131,7 +1132,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                     .textTheme
                                                     .bodyText1!
                                                     .color))),
-                                    FlatButton(
+                                    TextButton(
                                       onPressed: () =>
                                           Navigator.of(context).pop(false),
                                       child: Text("Cancel",
@@ -1673,40 +1674,25 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                 )
                                               ]
                                           )
-                                      )
+                                        )
+                                      );
+                                    }
                                   );
-                                }
-                            );
-                          }
-                        },
-                        onDismissed: (direction) {
-                          if (direction == DismissDirection.endToStart) {
-                            Provider.of<BudgetEntryModel>(context,
-                                listen: false)
-                                .deleteBudgetEntry(
-                                budgetEntryModel.entries!.elementAt(index));
-                            Provider.of<BudgetEntryModel>(context,
-                                listen: false).fetchAllReports(currentBudget!,
-                                UserApi.getInstance().getUserProfile()!
-                                    .username);
-                          }
-                          else if (direction == DismissDirection.startToEnd) {
-                            Provider.of<BudgetEntryModel>(
-                                context, listen: false)
-                                .editBudgetEntry(
-                                currentBudget!,
-                                budgetEntryModel.entries!.elementAt(index),
-                                budgetEntryModel.entries!
-                                    .elementAt(index)
-                                    .budgetEntryID,
-                                currentBudget!.id,
-                                payer!,
-                                amountController.text,
-                                titleController.text,
-                                descriptionController.text,
-                                payee!);
-                          }
-                        }));
+                          }},
+                          onDismissed: (direction) {
+                            if(direction == DismissDirection.endToStart) {
+                              Provider.of<BudgetEntryModel>(context,
+                                  listen: false)
+                                  .deleteBudgetEntry(
+                                  budgetEntryModel.entries!.elementAt(index));
+                              Provider.of<BudgetReportModel>(context,
+                                  listen: false).fetchAllEntries(currentBudget!, UserApi.getInstance().getUserProfile()!.username);
+                            }
+                            else if(direction == DismissDirection.startToEnd) {
+                              Provider.of<BudgetEntryModel>(context, listen: false)
+                                  .editBudgetEntry(currentBudget!, budgetEntryModel.entries!.elementAt(index), budgetEntryModel.entries!.elementAt(index).budgetEntryID, currentBudget!.id, payer!, amountController.text, titleController.text, descriptionController.text, payee!);
+                            }
+                          }));
           } else {
             return Center(
                 child: Text("Well done! You owe no one money!",
@@ -1725,10 +1711,10 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
   }
 }
 
-class getReport extends StatelessWidget {
-  Budget? currentBudget;
+class GetReport extends StatelessWidget {
+  late final Budget? currentBudget;
 
-  getReport(Budget b) {
+  GetReport(Budget b) {
     this.currentBudget = b;
   }
 

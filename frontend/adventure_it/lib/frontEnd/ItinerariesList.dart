@@ -1,3 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:adventure_it/constants.dart';
+
 import 'package:adventure_it/Providers/itinerary_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/createItinerary.dart';
@@ -7,19 +12,15 @@ import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:adventure_it/api/user_api.dart';
 
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'HomepageStartup.dart';
 import 'AdventurePage.dart';
-
-import '../api/budget.dart';
 import 'ItineraryPage.dart';
 import 'ItineraryTrash.dart';
 import 'Navbar.dart';
 
 class Itineraries extends StatelessWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
 
   Itineraries(Adventure? a) {
     this.adventure = a;
@@ -114,7 +115,7 @@ class Itineraries extends StatelessWidget {
 }
 
 class ItinerariesList extends StatefulWidget {
-  Adventure? currentAdventure;
+  late final Adventure? currentAdventure;
 
   ItinerariesList(Adventure a) {
     currentAdventure = a;
@@ -386,7 +387,7 @@ class _ItinerariesList extends State<ItinerariesList> {
 }
 
 class AlertBox extends StatefulWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
   final ItineraryModel itineraryModel;
 
   AlertBox(this.adventure, this.itineraryModel);
@@ -412,7 +413,6 @@ class _AlertBox extends State<AlertBox> {
   //controllers for the form fields
   String userID = UserApi.getInstance().getUserProfile()!.userID;
 
-  Future<CreateItinerary>? _futureItinerary;
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
 
@@ -423,8 +423,7 @@ class _AlertBox extends State<AlertBox> {
         content: Container(
           height: getSize(context),
           child: Stack(
-            overflow: Overflow.visible,
-            children: <Widget>[
+            clipBehavior: Clip.none, children: <Widget>[
               Positioned(
                 right: -40.0,
                 top: -40.0,
@@ -483,7 +482,7 @@ class _AlertBox extends State<AlertBox> {
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
                           maxLength: 255,
-                          maxLengthEnforced: true,
+                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
                           maxLines: 4,
                           style: TextStyle(
                               color:
@@ -509,8 +508,9 @@ class _AlertBox extends State<AlertBox> {
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
-                      child: RaisedButton(
-                        color: Theme.of(context).accentColor,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context).accentColor),
                         child: Text("Create",
                             style: TextStyle(
                                 color: Theme.of(context)

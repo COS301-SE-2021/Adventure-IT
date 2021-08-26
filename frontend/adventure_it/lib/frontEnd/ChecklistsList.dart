@@ -1,6 +1,10 @@
-import 'package:adventure_it/Providers/checklist_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+
 import 'package:adventure_it/Providers/checklist_model.dart';
 import 'package:adventure_it/api/adventure.dart';
+import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
 import 'package:adventure_it/api/createChecklist.dart';
 import 'package:adventure_it/api/userAPI.dart';
@@ -9,8 +13,6 @@ import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/frontEnd/ChecklistsTrash.dart';
 
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'ChecklistPage.dart';
 import 'HomepageStartup.dart';
 
@@ -22,12 +24,11 @@ import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/material.dart';
 import 'HomepageStartup.dart';
 import 'AdventurePage.dart';
-
-import '../api/budget.dart';
 import 'Navbar.dart';
 
+//Multiple checklist entities
 class Checklists extends StatelessWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
 
   Checklists(Adventure? a) {
     this.adventure = a;
@@ -36,8 +37,8 @@ class Checklists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => ChecklistModel(adventure!),
-        builder: (context, widget) => Scaffold(
+      create: (context) => ChecklistModel(adventure!),
+      builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
@@ -46,11 +47,10 @@ class Checklists extends StatelessWidget {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body:
-           Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Container(
                   height: MediaQuery.of(context).size.height * 0.75,
@@ -77,22 +77,23 @@ class Checklists extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).accentColor,
-                          shape: BoxShape.circle),
-                      child: IconButton(
-                          onPressed: () {
-                            {
-                              var provider = Provider.of<ChecklistModel>(context, listen: false);
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertBox(adventure!, provider);
-                                  });
-                            }
-                          },
-                          icon: const Icon(Icons.add),
-                          color: Theme.of(context).primaryColorDark),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).accentColor,
+                        shape: BoxShape.circle),
+                    child: IconButton(
+                        onPressed: () {
+                          {
+                            var provider = Provider.of<ChecklistModel>(context,
+                                listen: false);
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertBox(adventure!, provider);
+                                });
+                          }
+                        },
+                        icon: const Icon(Icons.add),
+                        color: Theme.of(context).primaryColorDark),
                   ),
                 ),
                 Expanded(
@@ -115,12 +116,14 @@ class Checklists extends StatelessWidget {
                 ),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ]),),);
+            ]),
+      ),
+    );
   }
 }
 
 class ChecklistList extends StatelessWidget {
-  Adventure? a;
+  late final Adventure? a;
 
   ChecklistList(Adventure? adventure) {
     this.a = adventure;
@@ -128,10 +131,9 @@ class ChecklistList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-            Consumer<ChecklistModel>(builder: (context, checklistModel, child) {
-              if (checklistModel.checklists != null)
-                print(checklistModel.checklists!.length);
+    return Consumer<ChecklistModel>(builder: (context, checklistModel, child) {
+      if (checklistModel.checklists != null)
+        print(checklistModel.checklists!.length);
 
           if (checklistModel.checklists == null) {
             return Center(
@@ -230,16 +232,16 @@ class ChecklistList extends StatelessWidget {
 }
 
 class AlertBox extends StatefulWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
   final ChecklistModel checklistModel;
 
   AlertBox(this.adventure, this.checklistModel);
 
   @override
   _AlertBox createState() => _AlertBox(adventure!);
-
 }
-class _AlertBox extends State <AlertBox> {
+
+class _AlertBox extends State<AlertBox> {
   Adventure? adventure;
 
   _AlertBox(this.adventure);
@@ -255,8 +257,6 @@ class _AlertBox extends State <AlertBox> {
 
   //controllers for the form fields
   String userID = UserApi.getInstance().getUserProfile()!.userID;
-
-  Future<CreateChecklist>? _futureChecklist;
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
 
@@ -267,8 +267,7 @@ class _AlertBox extends State <AlertBox> {
         content: Container(
           height: getSize(context),
           child: Stack(
-            overflow: Overflow.visible,
-            children: <Widget>[
+            clipBehavior: Clip.none, children: <Widget>[
               Positioned(
                 right: -40.0,
                 top: -40.0,
@@ -327,7 +326,7 @@ class _AlertBox extends State <AlertBox> {
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
                           maxLength: 255,
-                          maxLengthEnforced: true,
+                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
                           maxLines: 4,
                           style: TextStyle(
                               color:
@@ -353,8 +352,9 @@ class _AlertBox extends State <AlertBox> {
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
-                      child: RaisedButton(
-                        color: Theme.of(context).accentColor,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context).accentColor),
                         child: Text("Create",
                             style: TextStyle(
                                 color: Theme.of(context)
@@ -362,7 +362,12 @@ class _AlertBox extends State <AlertBox> {
                                     .bodyText1!
                                     .color)),
                         onPressed: () async {
-                          await widget.checklistModel.addChecklist(adventure!, nameController.text, descriptionController.text, userID, adventure!.adventureId);
+                          await widget.checklistModel.addChecklist(
+                              adventure!,
+                              nameController.text,
+                              descriptionController.text,
+                              userID,
+                              adventure!.adventureId);
                           Navigator.pop(context);
                         },
                       ),

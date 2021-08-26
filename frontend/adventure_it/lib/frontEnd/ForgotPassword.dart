@@ -3,9 +3,9 @@ import 'package:adventure_it/constants.dart';
 import 'package:flutter/gestures.dart';
 
 import 'package:flutter/material.dart';
-import 'HomepageStartup.dart';
 
-import '../api/budget.dart';
+import 'package:adventure_it/api/user_api.dart';
+
 import 'Login.dart';
 import 'Register.dart';
 
