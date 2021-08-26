@@ -81,7 +81,7 @@ class ChecklistApi {
   }
 
   static Future<List<ChecklistEntry>> getChecklistEntries(Checklist i) async {
-    http.Response response = await _getChecklistEntries(i!.id);
+    http.Response response = await _getChecklistEntries(i.id);
 
     if (response.statusCode != 200) {
       throw Exception(

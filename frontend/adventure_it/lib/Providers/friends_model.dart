@@ -4,7 +4,7 @@ import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/cupertino.dart';
 
 class FriendModel extends ChangeNotifier {
-  List<UserProfile>? _friends = null;
+  List<UserProfile>? _friends;
   UserApi _user = UserApi.getInstance();
 
   FriendModel(String userID) {
@@ -32,7 +32,7 @@ class FriendModel extends ChangeNotifier {
 }
 
 class FriendRequestModel extends ChangeNotifier {
-  List<FriendRequest>? _friends = null;
+  List<FriendRequest>? _friends;
   UserApi _user = UserApi.getInstance();
 
   FriendRequestModel(String userID) {

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:time_machine/time_machine.dart';
 
 class AdventuresModel extends ChangeNotifier {
-  List<Adventure>? _adventures = null;
+  List<Adventure>? _adventures;
 
   AdventuresModel() {
     fetchAllAdventures().then((adventures) =>

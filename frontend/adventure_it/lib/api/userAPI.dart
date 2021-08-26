@@ -125,7 +125,7 @@ class UserApi {
   Future<UserProfile?> fetchBackendProfile(String targetUuid) async {
     debugPrint("Getting backend profile for: " + targetUuid);
     final res =
-        await http.get(Uri.parse(userApi + "/user/GetUser/" + targetUuid));
+        await http.get(Uri.parse(userApi + "/user/getUser/" + targetUuid));
     final jsonRes = jsonDecode(res.body);
     print(jsonRes);
     print(res.statusCode);
@@ -146,7 +146,7 @@ class UserApi {
   Future<UserProfile?> registerBackendProfile(KeycloakUser userInfo) async {
     String username = userInfo.username;
     debugPrint("Registering backend profile for $username");
-    final res = await http.post(Uri.parse(userApi + "/user/RegisterUser/"),
+    final res = await http.post(Uri.parse(userApi + "/user/registerUser/"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(<String, String>{
           "userID": userInfo.id,
@@ -183,7 +183,7 @@ class UserApi {
 
   Future<http.Response> _getFriends(String userID) async {
     return http
-        .get(Uri.parse("http://" + mainApi + '/user/GetFriends/' + userID));
+        .get(Uri.parse("http://" + mainApi + '/user/getFriends/' + userID));
   }
 
   Future<List<FriendRequest>> getFriendRequests(String userID) async {
@@ -202,7 +202,7 @@ class UserApi {
 
   Future<http.Response> _getFriendRequests(String userID) async {
     return http.get(
-        Uri.parse("http://" + mainApi + '/user/GetFriendRequests/' + userID));
+        Uri.parse("http://" + mainApi + '/user/getFriendRequests/' + userID));
   }
 
   Future<List<UserProfile>> getFriendProfiles(String userID) async {
@@ -299,7 +299,7 @@ class UserApi {
   }
 
   Future<http.Response> _findUser(String userID) async {
-    return http.get(Uri.parse(userApi + "/user/GetUser/" + userID));
+    return http.get(Uri.parse(userApi + "/user/getUser/" + userID));
   }
 
   Future<String?> _retrieve(key) async {

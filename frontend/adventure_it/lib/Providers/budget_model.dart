@@ -8,8 +8,8 @@ import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/cupertino.dart';
 
 class DeletedBudgetModel extends ChangeNotifier {
-  List<Budget>? _deletedBudgets = null;
-  List<UserProfile?>? _creators = null;
+  List<Budget>? _deletedBudgets;
+  List<UserProfile?>? _creators;
 
   DeletedBudgetModel(Adventure a) {
     fetchAllDeletedBudgets(a).then((deletedBudgets) =>
@@ -60,10 +60,10 @@ class DeletedBudgetModel extends ChangeNotifier {
 }
 
 class BudgetModel extends ChangeNotifier {
-  List<Budget>? _budgets = null;
-  List<int>? _categories = null;
-  List<String>? _expenses = null;
-  Adventure? adventure = null;
+  List<Budget>? _budgets;
+  List<int>? _categories;
+  List<String>? _expenses;
+  Adventure? adventure;
 
   BudgetModel(Adventure a, String userName) {
     this.adventure = a;
@@ -136,9 +136,9 @@ class BudgetModel extends ChangeNotifier {
 }
 
 class BudgetEntryModel extends ChangeNotifier {
-  List<BudgetEntry>? _entries = null;
-  List<Report>? _reports = null;
-  Budget? budget = null;
+  List<BudgetEntry>? _entries;
+  List<Report>? _reports;
+  Budget? budget;
 
   BudgetEntryModel(Budget b) {
     this.budget = b;
