@@ -35,7 +35,8 @@ class BudgetPage extends StatelessWidget {
                     .of(context)
                     .scaffoldBackgroundColor,
                 appBar: AppBar(
-                  actions: [
+                    iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
+                    actions: [
                 Center(
                     child:  creator!=null?Text("Created by: "+this.creator!.username, style: new TextStyle(
                         color: Theme

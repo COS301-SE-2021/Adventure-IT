@@ -30,6 +30,7 @@ class ItineraryPage extends StatelessWidget {
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
+            iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
             actions: [
         Center(
               child: creator!=null?Text("Created by: "+this.creator!.username, style: new TextStyle(

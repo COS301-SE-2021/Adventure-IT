@@ -131,7 +131,9 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                 .textTheme
                 .bodyText1!
                 .color)
-        )), backgroundColor: Theme
+        )),
+            iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
+            backgroundColor: Theme
             .of(context)
             .primaryColorDark),
         body: Center(
