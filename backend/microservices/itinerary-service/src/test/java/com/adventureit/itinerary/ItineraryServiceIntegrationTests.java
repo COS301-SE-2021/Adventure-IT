@@ -1,10 +1,10 @@
 package com.adventureit.itinerary;
 
-import com.adventureit.itinerary.Controller.ItineraryController;
-import com.adventureit.itinerary.Entity.Itinerary;
-import com.adventureit.itinerary.Entity.ItineraryEntry;
-import com.adventureit.itinerary.Repository.ItineraryEntryRepository;
-import com.adventureit.itinerary.Repository.ItineraryRepository;
+import com.adventureit.itinerary.controller.ItineraryController;
+import com.adventureit.itinerary.entity.Itinerary;
+import com.adventureit.itinerary.entity.ItineraryEntry;
+import com.adventureit.itinerary.repository.ItineraryEntryRepository;
+import com.adventureit.itinerary.repository.ItineraryRepository;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ItineraryServiceIntegrationTests {
+class ItineraryServiceIntegrationTests {
     @Autowired
     private ItineraryController itineraryController;
 
@@ -36,19 +36,19 @@ public class ItineraryServiceIntegrationTests {
 
     @Test
     @Description("Ensure that the Itinerary Controller loads")
-    public void itineraryControllerLoads() throws Exception {
+    void itineraryControllerLoads() throws Exception {
         Assertions.assertNotNull(itineraryController);
     }
 
     @Test
     @Description("Ensure that the controller is accepting traffic and responding")
-    public void httpTest_returnResponse(){
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/itinerary/test", String.class),"Itinerary Controller is functional");
+    void httpTest_returnResponse(){
+        Assertions.assertEquals("Itinerary Controller is functional", this.restTemplate.getForObject("http://localhost:" + port + "/itinerary/test", String.class));
     }
 
     @Test
     @Description("Ensure that the view function works")
-    public void httpViewByAdventure_returnResponse(){
+    void httpViewByAdventure_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         Itinerary Itinerary = new Itinerary("Test Itinerary","Mock",id,UUID.randomUUID(),adventureID);
@@ -58,30 +58,30 @@ public class ItineraryServiceIntegrationTests {
 
     @Test
     @Description("Ensure that the softDelete function works")
-    public void httpSoftDelete_returnResponse(){
+    void httpSoftDelete_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
         Itinerary itinerary = new Itinerary("Test Itinerary","Mock",id,adventureID,ownerID);
         itineraryRepository.saveAndFlush(itinerary);
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/itinerary/softDelete/{id}/{userID}", String.class, id,ownerID), "Itinerary moved to bin");
+        Assertions.assertEquals("Itinerary moved to bin", this.restTemplate.getForObject("http://localhost:" + port + "/itinerary/softDelete/{id}/{userID}", String.class, id,ownerID));
     }
 
     @Test
     @Description("Ensure that the hardDelete function works")
-    public void httpHardDelete_returnResponse(){
+    void httpHardDelete_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
         Itinerary itinerary = new Itinerary("Test Itinerary","Mock",id,adventureID,ownerID);
         itinerary.setDeleted(true);
         itineraryRepository.saveAndFlush(itinerary);
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/itinerary/hardDelete/{id}/{userID}", String.class, id,ownerID), "Itinerary deleted");
+        Assertions.assertEquals("Itinerary deleted", this.restTemplate.getForObject("http://localhost:" + port + "/itinerary/hardDelete/{id}/{userID}", String.class, id,ownerID));
     }
 
     @Test
     @Description("Ensure that the viewTrash function works")
-    public void httpViewTrash_returnResponse(){
+    void httpViewTrash_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
@@ -93,29 +93,29 @@ public class ItineraryServiceIntegrationTests {
 
     @Test
     @Description("Ensure that the restoreItinerary function works")
-    public void httpRestoreItinerary_returnResponse(){
+    void httpRestoreItinerary_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
         Itinerary itinerary = new Itinerary("Test Itinerary","Mock",id,adventureID,ownerID);
         itinerary.setDeleted(true);
         itineraryRepository.saveAndFlush(itinerary);
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/itinerary/restoreItinerary/{id}/{userID}", String.class, id,ownerID), "Itinerary was restored");
+        Assertions.assertEquals("Itinerary was restored", this.restTemplate.getForObject("http://localhost:" + port + "/itinerary/restoreItinerary/{id}/{userID}", String.class, id,ownerID));
     }
 
     @Test
     @Description("Ensure that the removeEntry function works")
-    public void httpRemoveEntry_returnResponse(){
+    void httpRemoveEntry_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID itineraryID = UUID.randomUUID();
         ItineraryEntry entry = new ItineraryEntry("Mock", "Mock",id,itineraryID, UUID.randomUUID(), LocalDateTime.now());
         itineraryEntryRepository.saveAndFlush(entry);
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/itinerary/removeEntry/{id}", String.class, id), "Itinerary Entry successfully removed");
+        Assertions.assertEquals("Itinerary Entry successfully removed", this.restTemplate.getForObject("http://localhost:" + port + "/itinerary/removeEntry/{id}", String.class, id));
     }
 
     @Test
     @Description("Ensure that the getItineraryByID function works")
-    public void httpGetItineraryByID_returnResponse(){
+    void httpGetItineraryByID_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
