@@ -1,22 +1,15 @@
-import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:provider/provider.dart';
 
 import 'package:adventure_it/Providers/chat_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
-import 'package:grouped_list/grouped_list.dart';
-import 'package:provider/provider.dart';
+
 import 'AdventurePage.dart';
-
-import 'package:flutter/material.dart';
-import 'HomepageStartup.dart';
-
-import '../api/budget.dart';
 import 'Navbar.dart';
 
 class GroupChat extends StatelessWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
   final messageController = TextEditingController();
 
   GroupChat(Adventure? a) {
@@ -42,12 +35,9 @@ class GroupChat extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
-                  Expanded(
-                      child: MessageList(adventure!)),
-                SizedBox(height: MediaQuery.of(context).size.height / 60),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                      children: [
+                  Expanded(child: MessageList(adventure!)),
+                  SizedBox(height: MediaQuery.of(context).size.height / 60),
+                  Row(mainAxisSize: MainAxisSize.min, children: [
                     Spacer(),
                     Expanded(
                       flex: 2,
@@ -100,12 +90,13 @@ class GroupChat extends StatelessWidget {
                                 shape: BoxShape.circle),
                             child: IconButton(
                                 onPressed: () {
-                                  Provider.of<GroupChatModel>(context, listen: false).sendMessage(messageController.text);
+                                  Provider.of<GroupChatModel>(context,
+                                          listen: false)
+                                      .sendMessage(messageController.text);
                                 },
                                 icon: const Icon(Icons.send_rounded),
-                                color: Theme.of(context)
-                                    .primaryColorDark))),
-                    Spacer(),//Your widget here,
+                                color: Theme.of(context).primaryColorDark))),
+                    Spacer(), //Your widget here,
                   ]),
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
                 ])));
@@ -113,7 +104,7 @@ class GroupChat extends StatelessWidget {
 }
 
 class MessageList extends StatefulWidget {
-  Adventure? currentAdventure;
+  late final Adventure? currentAdventure;
 
   MessageList(Adventure a) {
     currentAdventure = a;
@@ -142,39 +133,36 @@ class _MessageList extends State<MessageList> {
     "December"
   ];
 
-
   _MessageList(Adventure? adventure) {
     this.a = adventure;
   }
 
-  String getTime(DateTime x)
-  {
-    String toReturn=x.hour.toString()+":";
+  String getTime(DateTime x) {
+    String toReturn = x.hour.toString() + ":";
 
-    if(x.minute<10)
-      {
-        toReturn=toReturn+"0"+x.minute.toString();
-      }
-    else
-      {
-        toReturn=toReturn+x.minute.toString();
-      }
+    if (x.minute < 10) {
+      toReturn = toReturn + "0" + x.minute.toString();
+    } else {
+      toReturn = toReturn + x.minute.toString();
+    }
     return toReturn;
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<GroupChatModel>(builder: (context, chatModel, child) {
-      if (chatModel.messages == null&&chatModel.chat==null) {
+      if (chatModel.messages == null && chatModel.chat == null) {
         return Center(
             child: CircularProgressIndicator(
                 valueColor: new AlwaysStoppedAnimation<Color>(
                     Theme.of(context).accentColor)));
       } else if (chatModel.messages!.length > 0) {
-        WidgetsBinding.instance!.addPostFrameCallback((_){_scrollController.animateTo(
-            _scrollController.position.maxScrollExtent,
-            duration: Duration(seconds: 3),
-            curve: Curves.fastOutSlowIn);});
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
+          _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: Duration(seconds: 3),
+              curve: Curves.fastOutSlowIn);
+        });
         return Container(
             height: double.infinity,
             child: GroupedListView<dynamic, String>(
@@ -199,53 +187,66 @@ class _MessageList extends State<MessageList> {
                           color: Theme.of(context).textTheme.bodyText1!.color),
                     )),
                 indexedItemBuilder: (context, element, index) {
-                  print("here"+index.toString());
-                    return Card(
-                        color: Theme.of(context).primaryColorDark,
-                        child: ListTile(
-                          title: Row(children: [
-                            Expanded(child: Text(
-                                chatModel.messages!
-                                    .elementAt(index)
-                                    .sender
-                                    .username,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontSize: 15 *
-                                      MediaQuery.of(context).textScaleFactor,
-                                  fontWeight: FontWeight.bold,
-                                  color: HSLColor.fromAHSL(
-                                              1,
-                                              chatModel.chat!.colors.elementAt(chatModel.chat!.colors.indexWhere((element){return element.userID==chatModel.messages!.elementAt(index).sender.userID;})).color* 1.0,
-                                              1,
-                                              0.7)
-                                          .toColor(),
-                                ))),
-                            Expanded( child:Text(
-                                getTime(DateTime.parse(chatModel.messages!
-                                    .elementAt(index)
-                                    .timestamp)),
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
+                  print("here" + index.toString());
+                  return Card(
+                      color: Theme.of(context).primaryColorDark,
+                      child: ListTile(
+                        title: Row(children: [
+                          Expanded(
+                              child: Text(
+                                  chatModel.messages!
+                                      .elementAt(index)
+                                      .sender
+                                      .username,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
                                     fontSize: 15 *
                                         MediaQuery.of(context).textScaleFactor,
                                     fontWeight: FontWeight.bold,
-                                    color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color))
-                            )]),
-                          subtitle: Text(
-                              chatModel.messages!.elementAt(index).message,
-                              style: TextStyle(
-                                  fontSize: 15 *
-                                      MediaQuery.of(context).textScaleFactor,
-                                  color: Theme.of(context)
+                                    color: HSLColor.fromAHSL(
+                                            1,
+                                            chatModel.chat!.colors
+                                                    .elementAt(chatModel
+                                                        .chat!.colors
+                                                        .indexWhere((element) {
+                                                      return element.userID ==
+                                                          chatModel.messages!
+                                                              .elementAt(index)
+                                                              .sender
+                                                              .userID;
+                                                    }))
+                                                    .color *
+                                                1.0,
+                                            1,
+                                            0.7)
+                                        .toColor(),
+                                  ))),
+                          Expanded(
+                              child: Text(
+                                  getTime(DateTime.parse(chatModel.messages!
+                                      .elementAt(index)
+                                      .timestamp)),
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      fontSize: 15 *
+                                          MediaQuery.of(context)
+                                              .textScaleFactor,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
                                           .textTheme
                                           .bodyText1!
-                                          .color)),
-
-                  ));
+                                          .color)))
+                        ]),
+                        subtitle: Text(
+                            chatModel.messages!.elementAt(index).message,
+                            style: TextStyle(
+                                fontSize:
+                                    15 * MediaQuery.of(context).textScaleFactor,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color)),
+                      ));
                 }));
       } else {
         return Center(

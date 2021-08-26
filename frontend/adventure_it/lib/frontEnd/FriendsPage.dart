@@ -1,26 +1,14 @@
-import 'package:adventure_it/Providers/checklist_model.dart';
-import 'package:adventure_it/Providers/friends_model.dart';
-import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
-import 'package:adventure_it/api/checklist.dart';
-import 'package:adventure_it/api/checklistAPI.dart';
-import 'package:adventure_it/api/checklistAPI.dart';
-import 'package:adventure_it/api/createChecklist.dart';
-import 'package:adventure_it/api/userProfile.dart';
-import 'package:adventure_it/api/user_api.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
-import 'package:adventure_it/frontEnd/ChecklistsList.dart';
-import 'AdventurePage.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:flutter/material.dart';
-import 'DirectChat.dart';
-import 'HomepageStartup.dart';
+import 'package:adventure_it/Providers/friends_model.dart';
+import 'package:adventure_it/api/userProfile.dart';
+import 'package:adventure_it/api/user_api.dart';
 
-import '../api/budget.dart';
+import 'DirectChat.dart';
 import 'Navbar.dart';
 
+//User can see his/ her friends
 class Friends extends StatefulWidget {
   Friends();
 
@@ -31,7 +19,7 @@ class Friends extends StatefulWidget {
 class FriendsPage extends State<Friends> {
   UserProfile? user;
   bool friendList = true;
-  UserApi _userApi=UserApi.getInstance();
+  UserApi _userApi = UserApi.getInstance();
 
   FriendsPage();
 
@@ -86,18 +74,22 @@ class FriendsPage extends State<Friends> {
                             shape: BoxShape.circle),
                         child: IconButton(
                             onPressed: () {
-
-    _userApi.searchUsername(usernameController.text)
-        .then((value) {
-    print(value);
-    if (value.compareTo("") != 0) {
-    _userApi.createFriendRequest(
-        UserApi.getInstance().getUserProfile()!.userID, value);
-
-                            }});},
+                              _userApi
+                                  .searchUsername(usernameController.text)
+                                  .then((value) {
+                                print(value);
+                                if (value.compareTo("") != 0) {
+                                  _userApi.createFriendRequest(
+                                      UserApi.getInstance()
+                                          .getUserProfile()!
+                                          .userID,
+                                      value);
+                                }
+                              });
+                            },
                             icon: const Icon(Icons.send_rounded),
-                            color: Theme.of(context).primaryColorDark))
-                ), //Your widget he
+                            color: Theme.of(context)
+                                .primaryColorDark))), //Your widget he
                 Spacer(flex: 1),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 40),
@@ -136,7 +128,8 @@ class FriendsPage extends State<Friends> {
                                     color: Theme.of(context)
                                         .textTheme
                                         .bodyText1!
-                                        .color), textAlign:TextAlign.center),
+                                        .color),
+                                textAlign: TextAlign.center),
                             style: ElevatedButton.styleFrom(
                               primary: friendList
                                   ? Theme.of(context).primaryColorDark
@@ -155,16 +148,16 @@ class FriendsPage extends State<Friends> {
               SizedBox(height: MediaQuery.of(context).size.height / 50),
               Container(
                   height: MediaQuery.of(context).size.height * 0.65,
-                  child: friendList! ? getFriends() : getFriendRequests()),
+                  child: friendList? GetFriends() : GetFriendRequests()),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
             ]));
   }
 }
 
-class getFriends extends StatelessWidget {
-  BuildContext? c;
+class GetFriends extends StatelessWidget {
+  late final BuildContext? c;
 
-  getFriends();
+  GetFriends();
 
   @override
   Widget build(BuildContext context) {
@@ -205,13 +198,14 @@ class getFriends extends StatelessWidget {
                           child: Card(
                               color: Theme.of(context).primaryColorDark,
                               child: InkWell(
-                                onTap:(){
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              DirectChat(friendModel.friends!.elementAt(index))));
-                                },
+                                  onTap: () {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => DirectChat(
+                                                friendModel.friends!
+                                                    .elementAt(index))));
+                                  },
                                   hoverColor:
                                       Theme.of(context).primaryColorLight,
                                   child: Container(
@@ -266,7 +260,7 @@ class getFriends extends StatelessWidget {
                                             .color),
                                   ),
                                   actions: <Widget>[
-                                    FlatButton(
+                                    TextButton(
                                         onPressed: () =>
                                             Navigator.of(context).pop(true),
                                         child: Text('Remove',
@@ -275,7 +269,7 @@ class getFriends extends StatelessWidget {
                                                     .textTheme
                                                     .bodyText1!
                                                     .color))),
-                                    FlatButton(
+                                    TextButton(
                                       onPressed: () =>
                                           Navigator.of(context).pop(false),
                                       child: Text("Cancel",
@@ -292,7 +286,10 @@ class getFriends extends StatelessWidget {
                           },
                           onDismissed: (direction) {
                             Provider.of<FriendModel>(context, listen: false)
-                                .deleteFriend(UserApi.getInstance().getUserProfile()!.userID,
+                                .deleteFriend(
+                                    UserApi.getInstance()
+                                        .getUserProfile()!
+                                        .userID,
                                     friendModel.friends!
                                         .elementAt(index)
                                         .userID);
@@ -310,16 +307,15 @@ class getFriends extends StatelessWidget {
   }
 }
 
-class getFriendRequests extends StatelessWidget {
-  BuildContext? c;
+class GetFriendRequests extends StatelessWidget {
+  late final BuildContext? c;
 
-  getFriendRequests();
+  GetFriendRequests();
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context)=>
-
+        create: (context) =>
             FriendRequestModel(UserApi.getInstance().getUserProfile()!.userID),
         child: Consumer<FriendRequestModel>(
             builder: (context, friendModel, child) {
@@ -429,7 +425,7 @@ class getFriendRequests extends StatelessWidget {
                                                                         .color),
                                                               ),
                                                               actions: <Widget>[
-                                                                FlatButton(
+                                                                TextButton(
                                                                     onPressed:
                                                                         () {
                                                                       Provider.of<FriendRequestModel>(this.c!, listen: false).deleteFriendRequest(friendModel
@@ -446,7 +442,7 @@ class getFriendRequests extends StatelessWidget {
                                                                         style: TextStyle(
                                                                             color:
                                                                                 Theme.of(context).textTheme.bodyText1!.color))),
-                                                                FlatButton(
+                                                                TextButton(
                                                                   onPressed: () =>
                                                                       Navigator.of(
                                                                               context)

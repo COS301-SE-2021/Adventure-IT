@@ -1,16 +1,11 @@
-import 'package:adventure_it/api/loginUser.dart';
-import 'package:adventure_it/api/user_api.dart';
-import 'package:adventure_it/frontEnd/ForgotPassword.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'dart:developer';
-import 'package:flutter/foundation.dart';
 
-import 'package:flutter/material.dart';
+import 'package:adventure_it/api/user_api.dart';
+
+import 'ForgotPassword.dart';
 import 'HomepageStartup.dart';
-
-import '../api/budget.dart';
-import 'Profile.dart';
 import 'Register.dart';
 
 class LoginCaller extends StatefulWidget {
@@ -19,8 +14,8 @@ class LoginCaller extends StatefulWidget {
 }
 
 class Login extends State<LoginCaller> {
-  Future<LoginUser>? _futureUser;
   final UserApi api = UserApi.getInstance();
+
   // TODO: Check if an auth token is present, if not display login screen, else just go to homepage
   var storage = FlutterSecureStorage();
   final usernameController = TextEditingController();
@@ -45,13 +40,12 @@ class Login extends State<LoginCaller> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.10),
             Container(
               width: 250,
-              height: MediaQuery.of(context).size.height /3,
+              height: MediaQuery.of(context).size.height / 3,
               decoration: new BoxDecoration(
                 shape: BoxShape.circle,
                 image: new DecorationImage(
                     fit: BoxFit.contain,
-                    image: new AssetImage(
-                        "assets/logo.png")),
+                    image: new AssetImage("assets/logo.png")),
                 // border: new Border.all(
                 //   color: Theme.of(context).accentColor,
                 //   width: 3.0,

@@ -1,33 +1,30 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:date_count_down/date_count_down.dart';
+
+import 'package:adventure_it/constants.dart';
+
 import 'package:adventure_it/Providers/friends_model.dart';
 import 'package:adventure_it/api/user_api.dart';
-import 'package:provider/provider.dart';
+import 'package:adventure_it/api/adventure.dart';
+import 'package:adventure_it/api/adventure_api.dart';
 
 import 'ChecklistsList.dart';
 import 'FileList.dart';
 import 'GroupChat.dart';
 import 'ItinerariesList.dart';
-import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
 import 'BudgetList.dart';
-import 'package:adventure_it/frontEnd/HomepageStartup.dart';
-import 'package:date_count_down/date_count_down.dart';
-
-import 'package:flutter/material.dart';
-import 'BudgetList.dart';
-import 'CreateAdventure.dart';
-import 'package:flutter/foundation.dart';
-
-import '../api/budget.dart';
+import 'HomepageStartup.dart';
 import 'MediaList.dart';
 import 'Navbar.dart';
 import 'TimelinePage.dart';
 
-//Shows the page of an adventure and allows the user to look at budgets, itineraries etc
+//TODO: import countdown in non-null-safe file
+
+//Shows adventure countdown/ completion
 class AdventureTimer extends StatefulWidget {
-  Adventure? a;
+  late final Adventure? a;
 
   AdventureTimer(Adventure? a) {
     this.a = a;
@@ -154,8 +151,9 @@ class _AdventureTimer extends State<AdventureTimer> {
   }
 }
 
+//Shows adventure page and allows user to see different items within an adventure
 class AdventurePage extends StatelessWidget {
-  Adventure? currentAdventure;
+  late final Adventure? currentAdventure;
 
   AdventurePage(Adventure? a) {
     this.currentAdventure = a;
@@ -186,7 +184,11 @@ class AdventurePage extends StatelessWidget {
                 height: MediaQuery.of(context).size.height,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+currentAdventure!.location.photo_reference+"&maxwidth=700&key="+googleMapsKey),
+                        image: NetworkImage(
+                            "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                currentAdventure!.location.photo_reference +
+                                "&maxwidth=700&key=" +
+                                googleMapsKey),
                         fit: BoxFit.cover,
                         colorFilter: ColorFilter.mode(
                             Theme.of(context).backgroundColor.withOpacity(0.25),
@@ -660,8 +662,9 @@ class AdventurePage extends StatelessWidget {
   }
 }
 
+//Sharing button: adds friend to adventure
 class AlertBox extends StatelessWidget {
-  Adventure? currentAdventure;
+  late final Adventure? currentAdventure;
 
   AlertBox(Adventure a) {
     currentAdventure = a;
@@ -677,13 +680,13 @@ class AlertBox extends StatelessWidget {
   }
 
   //controllers for the form fields
-  String userID = UserApi.getInstance().getUserProfile()!.userID;
+  late final String userID = UserApi.getInstance().getUserProfile()!.userID;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
         backgroundColor: Theme.of(context).primaryColorDark,
-        title: Stack(overflow: Overflow.visible, children: <Widget>[
+        title: Stack(clipBehavior: Clip.none, children: <Widget>[
           Positioned(
             right: -40.0,
             top: -40.0,
@@ -717,7 +720,8 @@ class AlertBox extends StatelessWidget {
                 width: 300,
                 child: Consumer<FriendModel>(
                     builder: (context, friendModel, child) {
-                  return friendModel.friends!=null&&friendModel.friends!.length > 0
+                  return friendModel.friends != null &&
+                          friendModel.friends!.length > 0
                       ? ListView.builder(
                           shrinkWrap: true,
                           itemCount: friendModel.friends!.length,
@@ -726,7 +730,10 @@ class AlertBox extends StatelessWidget {
                                 hoverColor: Theme.of(context).primaryColorLight,
                                 onTap: () {
                                   AdventureApi.addAttendee(
-                                      currentAdventure!, friendModel.friends!.elementAt(index).userID);
+                                      currentAdventure!,
+                                      friendModel.friends!
+                                          .elementAt(index)
+                                          .userID);
                                   Navigator.of(context).pop();
                                 },
                                 child: Padding(
