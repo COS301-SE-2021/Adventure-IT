@@ -16,15 +16,16 @@
         <outputRelativeToContentRoot value="true" />
         <module name="adventure-service" />
         <module name="location-service" />
-        <module name="media-service" />
-        <module name="itinerary-service" />
-        <module name="chat-service" />
         <module name="main-controller" />
         <module name="checklist-service" />
-        <module name="user-service" />
+        <module name="chat-service" />
         <module name="budget-service" />
+        <module name="user-service" />
         <module name="sharing-service" />
         <module name="notification-service" />
+        <module name="timeline-service" />
+        <module name="media-service" />
+        <module name="itinerary-service" />
         <module name="service-registry" />
       </profile>
     </annotationProcessing>
@@ -41,6 +42,7 @@
       <module name="notification-service" target="11" />
       <module name="service-registry" target="11" />
       <module name="sharing-service" target="11" />
+      <module name="timeline-service" target="11" />
       <module name="user-service" target="11" />
     </bytecodeTargetLevel>
   </component>
@@ -73,6 +75,7 @@
     <file url="file://$PROJECT_DIR$/microservices/notification-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microservices/sharing-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microservices/sharing-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/timeline-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microservices/user-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microservices/user-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-registry/src/main/java" charset="UTF-8" />
@@ -110,6 +113,7 @@
       <module name="notification-service" options="-parameters" />
       <module name="service-registry" options="-parameters" />
       <module name="sharing-service" options="-parameters" />
+      <module name="timeline-service" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>
   </component>
@@ -154,6 +158,7 @@
       <module fileurl="file://$PROJECT_DIR$/microservices/notification-service/notification-service.iml" filepath="$PROJECT_DIR$/microservices/notification-service/notification-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-registry/service-registry.iml" filepath="$PROJECT_DIR$/service-registry/service-registry.iml" />
       <module fileurl="file://$PROJECT_DIR$/microservices/sharing-service/sharing-service.iml" filepath="$PROJECT_DIR$/microservices/sharing-service/sharing-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/timeline-service/timeline-service.iml" filepath="$PROJECT_DIR$/microservices/timeline-service/timeline-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/microservices/user-service/user-service.iml" filepath="$PROJECT_DIR$/microservices/user-service/user-service.iml" />
     </modules>
   </component>
@@ -175,17 +180,10 @@
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
   </component>
-  <component name="RunConfigurationProducerService">
-    <option name="ignoredProducers">
-      <set>
-        <option value="com.android.tools.idea.compose.preview.runconfiguration.ComposePreviewRunConfigurationProducer" />
-      </set>
-    </option>
-  </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
   </component>
-  <component name="dataSourceStorageLocal" created-in="IU-212.4746.92">
+  <component name="dataSourceStorageLocal">
     <data-source name="adventureit@adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com" uuid="637eaf0b-ad11-4f25-bc5b-510b0fe8a690">
       <database-info product="PostgreSQL" version="12.5" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.22" dbms="POSTGRES" exact-version="12.5" exact-driver-version="42.2">
         <identifier-quote-string>&quot;</identifier-quote-string>
@@ -989,6 +987,17 @@
         <root url="jar://$MAVEN_REPOSITORY$/javax/ws/rs/jsr311-api/1.1.1/jsr311-api-1.1.1-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: joda-time:joda-time:2.10.5">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/joda-time/joda-time/2.10.5/joda-time-2.10.5.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/joda-time/joda-time/2.10.5/joda-time-2.10.5-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/joda-time/joda-time/2.10.5/joda-time-2.10.5-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Maven: joda-time:joda-time:2.3">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/joda-time/joda-time/2.3/joda-time-2.3.jar!/" />
@@ -1064,6 +1073,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/antlr/stringtemplate/3.2.1/stringtemplate-3.2.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.apache.commons:commons-lang3:3.12.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.apache.commons:commons-math:2.2">
@@ -1372,61 +1392,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/jboss/jandex/2.2.3.Final/jandex-2.2.3.Final-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.jetbrains.kotlin:kotlin-stdlib-common:1.5.0">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib-common/1.5.0/kotlin-stdlib-common-1.5.0.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib-common/1.5.0/kotlin-stdlib-common-1.5.0-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib-common/1.5.0/kotlin-stdlib-common-1.5.0-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.0">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.5.0/kotlin-stdlib-jdk7-1.5.0.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.5.0/kotlin-stdlib-jdk7-1.5.0-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.5.0/kotlin-stdlib-jdk7-1.5.0-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.0">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.5.0/kotlin-stdlib-jdk8-1.5.0.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.5.0/kotlin-stdlib-jdk8-1.5.0-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.5.0/kotlin-stdlib-jdk8-1.5.0-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.5.0">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.5.0/kotlin-stdlib-1.5.0.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.5.0/kotlin-stdlib-1.5.0-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.5.0/kotlin-stdlib-1.5.0-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.jetbrains:annotations:13.0">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/13.0/annotations-13.0.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/13.0/annotations-13.0-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/13.0/annotations-13.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.junit.jupiter:junit-jupiter-api:5.7.2">
@@ -1759,17 +1724,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-mail/2.5.0/spring-boot-starter-mail-2.5.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.springframework.boot:spring-boot-starter-security:2.5.0">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-security/2.5.0/spring-boot-starter-security-2.5.0.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-security/2.5.0/spring-boot-starter-security-2.5.0-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-security/2.5.0/spring-boot-starter-security-2.5.0-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: org.springframework.boot:spring-boot-starter-test:2.5.0">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-test/2.5.0/spring-boot-starter-test-2.5.0.jar!/" />
@@ -2045,28 +1999,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-jpa/2.5.1/spring-data-jpa-2.5.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.springframework.security:spring-security-config:5.5.0">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-config/5.5.0/spring-security-config-5.5.0.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-config/5.5.0/spring-security-config-5.5.0-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-config/5.5.0/spring-security-config-5.5.0-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.springframework.security:spring-security-core:5.5.0">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/5.5.0/spring-security-core-5.5.0.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/5.5.0/spring-security-core-5.5.0-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/5.5.0/spring-security-core-5.5.0-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: org.springframework.security:spring-security-crypto:5.5.0">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-crypto/5.5.0/spring-security-crypto-5.5.0.jar!/" />
@@ -2087,17 +2019,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-rsa/1.0.10.RELEASE/spring-security-rsa-1.0.10.RELEASE-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.springframework.security:spring-security-web:5.5.0">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-web/5.5.0/spring-security-web-5.5.0.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-web/5.5.0/spring-security-web-5.5.0-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-web/5.5.0/spring-security-web-5.5.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.springframework:spring-aop:5.3.7">
