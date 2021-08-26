@@ -41,13 +41,13 @@ class UserApi {
   // Publically Exposed Login Method
   Future<bool> logIn(String username, String password) async {
     print("Attempting login for $username");
-    this._keycloakUser = await _attemptLogIn(username, password);
+    this._keycloakUser = await attemptLogIn(username, password);
     if (this._keycloakUser != null) {
       final keycloakUser = this._keycloakUser!;
       if(keycloakUser.emailVerified&&keycloakUser.enabled) {
-        this._userProfile = await this._fetchBackendProfile(keycloakUser.id);
+        this._userProfile = await this.fetchBackendProfile(keycloakUser.id);
         if (this._userProfile == null) {
-          this._userProfile = await this._registerBackendProfile(keycloakUser);
+          this._userProfile = await this.registerBackendProfile(keycloakUser);
         }
         return true;
       }
@@ -61,7 +61,7 @@ class UserApi {
   }
 
   // Attempt Login to Keycloak (PRIVATE)
-  Future<KeycloakUser?> _attemptLogIn(String username, String password) async {
+  Future<KeycloakUser?> attemptLogIn(String username, String password) async {
     var res = await http.post(Uri.parse(authApiGetToken), body: {
       "client_id": "adventure-it-maincontroller",
       "grant_type": "password",
@@ -75,7 +75,7 @@ class UserApi {
     if (res.statusCode == 200) {
       this._store("jwt", jsonDecode(res.body)["access_token"]);
       this._store("refresh_token", jsonDecode(res.body)["refresh_token"]);
-      return this._fetchKeyCloakUser(username);
+      return this.fetchKeyCloakUser(username);
     } else {
       String errorMessage = jsonDecode(res.body)['error_description'];
         this.message = errorMessage;
@@ -83,7 +83,7 @@ class UserApi {
   }
 
   // Get Admin Access Token (PRIVATE)
-  Future<String> _adminLogIn() async {
+  Future<String> adminLogIn() async {
     var res = await http.post(Uri.parse(authApiGetToken), body: {
       "client_id": "adventure-it-maincontroller",
       "grant_type": "password",
@@ -100,8 +100,8 @@ class UserApi {
   }
 
   // Get user from Keycloak's Admin API (PRIVATE)
-  Future<KeycloakUser?> _fetchKeyCloakUser(username) async {
-    final adminJWT = await this._adminLogIn();
+  Future<KeycloakUser?> fetchKeyCloakUser(username) async {
+    final adminJWT = await this.adminLogIn();
     late final responseJson;
     final Map<String, dynamic> queryParameters = {
       'username': username!,
@@ -122,7 +122,7 @@ class UserApi {
   }
 
   // Retrieve the backend user profile (PRIVATE)
-  Future<UserProfile?> _fetchBackendProfile(String targetUuid) async {
+  Future<UserProfile?> fetchBackendProfile(String targetUuid) async {
     debugPrint("Getting backend profile for: " + targetUuid);
     final res =
         await http.get(Uri.parse(userApi + "/user/GetUser/" + targetUuid));
@@ -143,7 +143,7 @@ class UserApi {
   }
 
   // Register a user in the backend (PRIVATE)
-  Future<UserProfile?> _registerBackendProfile(KeycloakUser userInfo) async {
+  Future<UserProfile?> registerBackendProfile(KeycloakUser userInfo) async {
     String username = userInfo.username;
     debugPrint("Registering backend profile for $username");
     final res = await http.post(Uri.parse(userApi + "/user/RegisterUser/"),
@@ -328,7 +328,7 @@ class UserApi {
       );
       if (usernameReg.hasMatch(username)) {
         if (passwordReg.hasMatch(password)) {
-          final adminJWT = await this._adminLogIn();
+          final adminJWT = await this.adminLogIn();
           final res = await http.post(Uri.parse(authApiAdmin + 'users/'),
               body: jsonEncode(<String, dynamic>{
                 "firstName": "$firstname",
@@ -345,7 +345,7 @@ class UserApi {
                 'Content-Type': 'application/json; charset=UTF-8'
               });
           if (res.statusCode == 201) {
-            String newUser = (await this._fetchKeyCloakUser(username))!.id;
+            String newUser = (await this.fetchKeyCloakUser(username))!.id;
             final res = await http.put(
                 Uri.parse(authApiAdmin + 'users/$newUser/send-verify-email'),
                 headers: {
