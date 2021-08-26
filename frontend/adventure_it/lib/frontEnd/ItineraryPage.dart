@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:adventure_it/api/itineraryEntry.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
@@ -786,6 +787,52 @@ class ListItineraryItems extends State<_ListItineraryItems> {
     }
   }
 
+  String getTime(ItineraryEntry i)
+  {
+    String dateTime="";
+    dateTime=dateTime+DateTime.parse(i.timestamp)
+        .day
+        .toString() +
+        " " +
+        months[DateTime.parse(i.timestamp)
+            .month -
+            1] +
+        " " +
+        DateTime.parse(i.timestamp)
+            .year
+            .toString() +
+        " ";
+
+    String hour=DateTime.parse(i.timestamp)
+        .hour
+        .toString();
+
+    if(hour.length<2)
+    {
+      dateTime=dateTime+"0"+hour+":";
+    }
+    else
+    {
+      dateTime=dateTime+hour+":";
+    }
+
+    String minute=DateTime.parse(i.timestamp)
+        .minute
+        .toString();
+
+    if(minute.length<2)
+    {
+      dateTime=dateTime+"0"+minute;
+    }
+    else
+    {
+      dateTime=dateTime+minute;
+    }
+
+    return dateTime;
+
+  }
+
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
 
@@ -994,17 +1041,8 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                             ]),
                                           ),
                                           trailing: Text(
-                                              DateTime
-                                                  .parse(entryModel.entries!
-                                                  .elementAt(index)
-                                                  .timestamp)
-                                                  .hour
-                                                  .toString() + ":" + DateTime
-                                                  .parse(entryModel.entries!
-                                                  .elementAt(index)
-                                                  .timestamp)
-                                                  .minute
-                                                  .toString(),
+                                             getTime(entryModel.entries!
+                                                 .elementAt(index)),
                                               style: TextStyle(
                                                   decoration: entryModel
                                                       .entries!

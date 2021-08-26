@@ -1,3 +1,4 @@
+import 'package:adventure_it/api/timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
@@ -93,6 +94,52 @@ class TimelineList extends StatelessWidget {
 
   TimelineList(Adventure? adv) {
     this.a = adv;
+  }
+
+  String getTime(Timeline i)
+  {
+    String dateTime="";
+    dateTime=dateTime+DateTime.parse(i.timestamp)
+        .day
+        .toString() +
+        " " +
+        months[DateTime.parse(i.timestamp)
+            .month -
+            1] +
+        " " +
+        DateTime.parse(i.timestamp)
+            .year
+            .toString() +
+        " ";
+
+    String hour=DateTime.parse(i.timestamp)
+        .hour
+        .toString();
+
+    if(hour.length<2)
+    {
+      dateTime=dateTime+"0"+hour+":";
+    }
+    else
+    {
+      dateTime=dateTime+hour+":";
+    }
+
+    String minute=DateTime.parse(i.timestamp)
+        .minute
+        .toString();
+
+    if(minute.length<2)
+    {
+      dateTime=dateTime+"0"+minute;
+    }
+    else
+    {
+      dateTime=dateTime+minute;
+    }
+
+    return dateTime;
+
   }
 
   Widget getIcon(String type, BuildContext context)
@@ -215,11 +262,8 @@ class TimelineList extends StatelessWidget {
                                     .color)
                             ),
                             trailing: Text(
-                                DateTime.parse(timelineModel.timeline!
-                                    .elementAt(index)
-                                    .timestamp).hour.toString()+":"+DateTime.parse(timelineModel.timeline!
-                                    .elementAt(index)
-                                    .timestamp).minute.toString(),
+                                getTime(timelineModel.timeline!
+                                    .elementAt(index)),
                                 style: TextStyle(
                                     fontSize: 25 *
                                         MediaQuery.of(context)
