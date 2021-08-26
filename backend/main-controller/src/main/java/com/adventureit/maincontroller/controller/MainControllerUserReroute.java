@@ -25,9 +25,9 @@ public class MainControllerUserReroute {
     private final String userPort = "9002";
 
 
-    @PostMapping(value = "RegisterUser", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "registerUser", consumes = "application/json", produces = "application/json")
     public RegisterUserResponse registerUser(@RequestBody RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
-        return restTemplate.postForObject(IP + ":" + userPort + "/user/RegisterUser/",req, RegisterUserResponse.class);
+        return restTemplate.postForObject(IP + ":" + userPort + "/user/registerUser/",req, RegisterUserResponse.class);
     }
 
     @GetMapping(value="test")
@@ -41,20 +41,20 @@ public class MainControllerUserReroute {
     }
 
 
-    @GetMapping(value="/ConfirmToken/{token}")
+    @GetMapping(value="/confirmToken/{token}")
     public String confirmToken(@RequestParam("token") String token){
-        return restTemplate.getForObject(IP + ":" + userPort + "/user/ConfirmToken/"+token, String.class);
+        return restTemplate.getForObject(IP + ":" + userPort + "/user/confirmToken/"+token, String.class);
 
     }
 
-    @PostMapping(value = "LoginUser", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "loginUser", consumes = "application/json", produces = "application/json")
     public LoginUserDTO login(@RequestBody LoginUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
-        return restTemplate.postForObject(IP + ":" + userPort + "/user/LoginUser/",req, LoginUserDTO.class);
+        return restTemplate.postForObject(IP + ":" + userPort + "/user/loginUser/",req, LoginUserDTO.class);
     }
 
-    @GetMapping(value="/GetUser/{id}")
+    @GetMapping(value="/getUser/{id}")
     public GetUserByUUIDDTO getUserByUUID(@PathVariable UUID id){
-        return restTemplate.getForObject(IP + ":" + userPort + "/user/GetUser/"+id, GetUserByUUIDDTO.class);
+        return restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+id, GetUserByUUIDDTO.class);
 
     }
 
@@ -74,7 +74,7 @@ public class MainControllerUserReroute {
         return restTemplate.getForObject(IP + ":" + userPort + "/user/getFriends/"+id, List.class);
     }
 
-    @GetMapping(value="GetFriendRequests/{id}")
+    @GetMapping(value="getFriendRequests/{id}")
     public List<GetFriendRequestsResponse> getFriendRequests(@PathVariable UUID id){
         return restTemplate.getForObject(IP + ":" + userPort + "/user/getFriendRequests/"+id, List.class);
 
