@@ -1768,7 +1768,7 @@ class getReport extends StatelessWidget {
                                         child: ListTile(
                                           title: Row(children: [
                                             Container(
-                                              width:MediaQuery.of(context).size.width/5,
+                                              width:MediaQuery.of(context).size.width/4,
                                               child: Text(
                                                 budgetReportModel.reports!
                                                     .elementAt(index).amount > 0
@@ -1790,7 +1790,7 @@ class getReport extends StatelessWidget {
                                                         .color)),),
                                     Spacer(),
                                     Container(
-                                        width:MediaQuery.of(context).size.width/7,
+                                        width:MediaQuery.of(context).size.width/9,
                                         child:
                                             Text(
                                                 budgetReportModel.reports!
@@ -1837,7 +1837,7 @@ class getReport extends StatelessWidget {
                                                         .color)), ),
                                     Spacer(),
                                     Container(
-                                        width:MediaQuery.of(context).size.width/7,
+                                        width:MediaQuery.of(context).size.width/9,
                                         child:Text(
                                                 " To ",
                                                 textAlign: TextAlign.center,
@@ -1854,7 +1854,7 @@ class getReport extends StatelessWidget {
                                                         .color)),),
                                     Spacer(),
                                     Container(
-                                        width:MediaQuery.of(context).size.width/5,
+                                        width:MediaQuery.of(context).size.width/4,
                                         child:Text(
                                                 budgetReportModel.reports!
                                                     .elementAt(index).amount > 0

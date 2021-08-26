@@ -156,13 +156,13 @@ class BudgetEntryModel extends ChangeNotifier {
     fetchAllReports(b, UserApi.getInstance().getUserProfile()!.username)
         .then((entries) => entries != null ? _reports = entries : List.empty());
 
-    notifyListeners();
   }
 
   Future fetchAllReports(Budget b, String userID) async {
     _reports = await BudgetApi.getReport(b, userID);
 
     notifyListeners();
+
   }
 
   Future deleteBudgetEntry(BudgetEntry c) async {
@@ -172,15 +172,8 @@ class BudgetEntryModel extends ChangeNotifier {
         .indexWhere((element) => element.budgetEntryID == c.budgetEntryID);
     _entries!.removeAt(index);
 
-    await fetchAllReports(
-        this.budget!, UserApi.getInstance().getUserProfile()!.username)
-        .then((entries) {
-      if (entries != null) {
-        _reports = entries;
-      }
-    });
+    await fetchAllReports(budget!,UserApi.getInstance().getUserProfile()!.username);
 
-    notifyListeners();
   }
 
   Future addUTUBudgetEntry(Budget budget, String a, String b, String c,
