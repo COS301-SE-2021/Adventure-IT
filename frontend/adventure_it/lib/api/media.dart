@@ -1,7 +1,4 @@
-import 'package:adventure_it/api/location.dart';
-import 'package:http/http.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:time_machine/time_machine.dart';
 
 part 'media.g.dart';
 
@@ -13,12 +10,13 @@ class Media {
   final String adventureID;
   final String owner;
 
-  Media(
-      {required this.id,
-      required this.type,
-      required this.name,
-      required this.adventureID,
-      required this.owner,});
+  Media({
+    required this.id,
+    required this.type,
+    required this.name,
+    required this.adventureID,
+    required this.owner,
+  });
 
   factory Media.fromJson(Map<String, dynamic> json) => _$MediaFromJson(json);
 

@@ -1,19 +1,13 @@
-import 'package:adventure_it/Providers/timeline_model.dart';
-import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
+import 'package:adventure_it/Providers/timeline_model.dart';
+import 'package:adventure_it/api/adventure.dart';
 import 'AdventurePage.dart';
-
-import 'package:flutter/material.dart';
-import 'HomepageStartup.dart';
-
-import '../api/budget.dart';
 import 'Navbar.dart';
+
 class TimePage extends StatelessWidget {
-  Adventure? currentAdventure;
+  late final Adventure? currentAdventure;
 
   TimePage(Adventure? a) {
     this.currentAdventure = a;
@@ -32,7 +26,7 @@ class TimePage extends StatelessWidget {
 }
 
 class TimeLine extends StatelessWidget {
-  Adventure? a;
+  late final Adventure? a;
 
   TimeLine(Adventure? a) {
     this.a = a;
@@ -49,7 +43,8 @@ class TimeLine extends StatelessWidget {
                 title: Center(
                     child: Text("Timeline",
                         style: new TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1!.color))),
+                            color:
+                                Theme.of(context).textTheme.bodyText1!.color))),
                 backgroundColor: Theme.of(context).primaryColorDark),
             body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -58,8 +53,7 @@ class TimeLine extends StatelessWidget {
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
                   Container(
                       height: MediaQuery.of(context).size.height * 0.75,
-                      child: TimelineList(a!)
-                  ),
+                      child: TimelineList(a!)),
                   Spacer(),
                   Row(children: [
                     Expanded(
@@ -76,26 +70,74 @@ class TimeLine extends StatelessWidget {
                                         builder: (context) =>
                                             AdventurePage(a)));
                               },
-                              icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                              icon:
+                                  const Icon(Icons.arrow_back_ios_new_rounded),
                               color: Theme.of(context).primaryColorDark)),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(),
                     ),
                   ]),
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
-                ]
-                )
-        )
-    );
+                ])));
   }
 }
 
 class TimelineList extends StatelessWidget {
-  Adventure? a;
+  late final Adventure? a;
 
   TimelineList(Adventure? adv) {
     this.a = adv;
   }
 
-  List<String> months = [
+  Widget getIcon(String type, BuildContext context)
+  {
+    if(type=="ADVENTURE")
+      {
+          return Icon(
+            Icons.person,
+            size: 30,
+            color: Theme.of(context)
+                .accentColor,
+          );
+      }
+    else if(type=="BUDGET")
+      {
+        return Icon(
+          Icons.attach_money,
+          size: 30,
+          color: Theme.of(context)
+              .accentColor,
+        );
+      }
+    else if(type=="CHECKLIST")
+      {
+        return Icon(
+          Icons.checklist,
+          size: 30,
+          color: Theme.of(context)
+              .accentColor,
+        );
+      }
+    else if(type=="ITINERARY")
+      {
+        return Icon(
+          Icons.list_alt,
+          size: 30,
+          color: Theme.of(context)
+              .accentColor,
+        );
+      }
+    else
+      return Container();
+  }
+
+  final List<String> months = [
     "January",
     "February",
     "March",
@@ -117,15 +159,13 @@ class TimelineList extends StatelessWidget {
         return Center(
             child: CircularProgressIndicator(
                 valueColor: new AlwaysStoppedAnimation<Color>(
-                    Theme
-                        .of(context)
-                        .accentColor)));
+                    Theme.of(context).accentColor)));
       } else if (timelineModel.timeline!.length > 0) {
         return GroupedListView<dynamic, String>(
             physics: const AlwaysScrollableScrollPhysics(),
             elements: timelineModel.timeline!,
             groupBy: (element) =>
-            DateTime.parse(element.timestamp).day.toString() +
+                DateTime.parse(element.timestamp).day.toString() +
                 " " +
                 months[DateTime.parse(element.timestamp).month - 1] +
                 " " +
@@ -139,23 +179,26 @@ class TimelineList extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color:
-                      Theme.of(context).textTheme.bodyText1!.color),
+                      color: Theme.of(context).textTheme.bodyText1!.color),
                 )),
             indexedItemBuilder: (context, element, index) {
               return Card(
-                color: Theme.of(context).primaryColorDark,
-                child: InkWell(
-                  hoverColor:
-                  Theme.of(context).primaryColorLight,
-                  onTap: () {
-                    },
-                  child: Container(
-                    child: Row(
-                      children: <Widget>[
+                  color: Theme.of(context).primaryColorDark,
+                  child: InkWell(
+                      hoverColor: Theme.of(context).primaryColorLight,
+                      onTap: () {},
+                      child: Container(
+                          child: Row(children: <Widget>[
                         Expanded(
                           flex: 4,
                           child: ListTile(
+                            leading: Container(
+                                width: 50,
+                                height: 50,
+                                child:getIcon(timelineModel
+                                .timeline!
+                                .elementAt(index)
+                                .type, context)),
                             title: Text(
                               timelineModel
                                   .timeline!

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:core';
 
 import 'package:adventure_it/api/keycloakUser.dart';
 import 'package:adventure_it/api/userProfile.dart';
@@ -9,7 +10,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 class UserApi {
   bool hasToken = false;
@@ -35,26 +35,33 @@ class UserApi {
   static UserApi getInstance() {
     return _instance;
   }
+
   // End: Singleton Design Pattern
 
   // Publically Exposed Login Method
   Future<bool> logIn(String username, String password) async {
     print("Attempting login for $username");
-    this._keycloakUser = await _attemptLogIn(username, password);
+    this._keycloakUser = await attemptLogIn(username, password);
     if (this._keycloakUser != null) {
       final keycloakUser = this._keycloakUser!;
-      this._userProfile = await this._fetchBackendProfile(keycloakUser.id);
-      if (this._userProfile == null) {
-        this._userProfile = await this._registerBackendProfile(keycloakUser);
+      if(keycloakUser.emailVerified&&keycloakUser.enabled) {
+        this._userProfile = await this.fetchBackendProfile(keycloakUser.id);
+        if (this._userProfile == null) {
+          this._userProfile = await this.registerBackendProfile(keycloakUser);
+        }
+        return true;
       }
-      return true;
+      else {
+        this.message="Your email has not yet been verified.";
+        return false;
+      }
     } else {
       return false;
     }
   }
 
   // Attempt Login to Keycloak (PRIVATE)
-  Future<KeycloakUser?> _attemptLogIn(String username, String password) async {
+  Future<KeycloakUser?> attemptLogIn(String username, String password) async {
     var res = await http.post(Uri.parse(authApiGetToken), body: {
       "client_id": "adventure-it-maincontroller",
       "grant_type": "password",
@@ -68,19 +75,15 @@ class UserApi {
     if (res.statusCode == 200) {
       this._store("jwt", jsonDecode(res.body)["access_token"]);
       this._store("refresh_token", jsonDecode(res.body)["refresh_token"]);
-      return this._fetchKeyCloakUser(username);
+      return this.fetchKeyCloakUser(username);
     } else {
       String errorMessage = jsonDecode(res.body)['error_description'];
-      if (errorMessage == "Account is not fully set up") {
-        this.message = "Email Unverified";
-      } else {
         this.message = errorMessage;
-      }
     }
   }
 
   // Get Admin Access Token (PRIVATE)
-  Future<String> _adminLogIn() async {
+  Future<String> adminLogIn() async {
     var res = await http.post(Uri.parse(authApiGetToken), body: {
       "client_id": "adventure-it-maincontroller",
       "grant_type": "password",
@@ -97,8 +100,8 @@ class UserApi {
   }
 
   // Get user from Keycloak's Admin API (PRIVATE)
-  Future<KeycloakUser?> _fetchKeyCloakUser(username) async {
-    final adminJWT = await this._adminLogIn();
+  Future<KeycloakUser?> fetchKeyCloakUser(username) async {
+    final adminJWT = await this.adminLogIn();
     late final responseJson;
     final Map<String, dynamic> queryParameters = {
       'username': username!,
@@ -119,7 +122,7 @@ class UserApi {
   }
 
   // Retrieve the backend user profile (PRIVATE)
-  Future<UserProfile?> _fetchBackendProfile(String targetUuid) async {
+  Future<UserProfile?> fetchBackendProfile(String targetUuid) async {
     debugPrint("Getting backend profile for: " + targetUuid);
     final res =
         await http.get(Uri.parse(userApi + "/user/GetUser/" + targetUuid));
@@ -140,7 +143,7 @@ class UserApi {
   }
 
   // Register a user in the backend (PRIVATE)
-  Future<UserProfile?> _registerBackendProfile(KeycloakUser userInfo) async {
+  Future<UserProfile?> registerBackendProfile(KeycloakUser userInfo) async {
     String username = userInfo.username;
     debugPrint("Registering backend profile for $username");
     final res = await http.post(Uri.parse(userApi + "/user/RegisterUser/"),
@@ -233,7 +236,6 @@ class UserApi {
   }
 
   Future deleteFriendRequest(String requestID) async {
-    print("success");
     http.Response response = await _deleteFriendRequest(requestID);
     if (response.statusCode != 200) {
       throw Exception('Failed to delete friendRequest: ${response.body}');
@@ -263,8 +265,6 @@ class UserApi {
       throw Exception('Failed to find user with username: ${response.body}');
     }
 
-    print(response.body.toString());
-
     String userID = (jsonDecode(response.body.toString()));
 
     return userID;
@@ -286,6 +286,22 @@ class UserApi {
         Uri.parse(userApi + '/user/createFriendRequest/' + from + "/" + to));
   }
 
+  Future<UserProfile> findUser(String userID) async {
+    http.Response response = await _findUser(userID);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to find user: ${response.body}');
+    }
+
+    Map<String, dynamic> parsed = json.decode(response.body);
+    UserProfile user = UserProfile.fromJson(parsed);
+
+    return user;
+  }
+
+  Future<http.Response> _findUser(String userID) async {
+    return http.get(Uri.parse(userApi + "/user/GetUser/" + userID));
+  }
+
   Future<String?> _retrieve(key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(key);
@@ -298,38 +314,62 @@ class UserApi {
 
   // Register a user in Keycloak
   Future<bool> registerKeycloakUser(
-      firstname, lastname, username, email, password) async {
-    final adminJWT = await this._adminLogIn();
-    final res = await http.post(Uri.parse(authApiAdmin + 'users/'),
-        body: jsonEncode(<String, dynamic>{
-          "firstName": "$firstname",
-          "lastName": "$lastname",
-          "username": "$username",
-          "email": "$email",
-          "credentials": [
-            {"type": "password", "value": "$password", "temporary": false}
-          ],
-          "enabled": "true"
-        }),
-        headers: {
-          'Authorization': 'Bearer $adminJWT',
-          'Content-Type': 'application/json; charset=UTF-8'
-        });
-    if (res.statusCode == 201) {
-      String newUser = (await this._fetchKeyCloakUser(username))!.id;
-      final res = await http.put(
-          Uri.parse(authApiAdmin + 'users/$newUser/send-verify-email'),
-          headers: {
-            'Authorization': 'Bearer $adminJWT',
-            'Content-Type': 'application/json; charset=UTF-8'
-          });
-      debugPrint(res.body);
-      return true;
-    } else {
-      this.message = res.body;
-      debugPrint(res.body);
+      firstname, lastname, username, email, password, passwordCheck) async {
+    if (password == passwordCheck) {
+      RegExp passwordReg = RegExp(
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$',
+        caseSensitive: false,
+        multiLine: false,
+      );
+      RegExp usernameReg = RegExp(
+        r'^(?=.*?[a-z])(?=.*?[0-9]).{5,}$',
+        caseSensitive: false,
+        multiLine: false,
+      );
+      if (usernameReg.hasMatch(username)) {
+        if (passwordReg.hasMatch(password)) {
+          final adminJWT = await this.adminLogIn();
+          final res = await http.post(Uri.parse(authApiAdmin + 'users/'),
+              body: jsonEncode(<String, dynamic>{
+                "firstName": "$firstname",
+                "lastName": "$lastname",
+                "username": "$username",
+                "email": "$email",
+                "credentials": [
+                  {"type": "password", "value": "$password", "temporary": false}
+                ],
+                "enabled": "true"
+              }),
+              headers: {
+                'Authorization': 'Bearer $adminJWT',
+                'Content-Type': 'application/json; charset=UTF-8'
+              });
+          if (res.statusCode == 201) {
+            String newUser = (await this.fetchKeyCloakUser(username))!.id;
+            final res = await http.put(
+                Uri.parse(authApiAdmin + 'users/$newUser/send-verify-email'),
+                headers: {
+                  'Authorization': 'Bearer $adminJWT',
+                  'Content-Type': 'application/json; charset=UTF-8'
+                });
+            debugPrint(res.body);
+            return true;
+          } else {
+            this.message = res.body;
+            debugPrint(res.body);
+            return false;
+          }
+        }
+        this.message =
+            "Password must contain one uppercase letter, one lowercase letter, one special character, one digit and be at least 8 characters long";
+        return false;
+      }
+      this.message =
+          "Username may only be comprised of lowercase letters and digits and must be at least 5 characters long";
       return false;
     }
+    this.message = "Passwords do not match";
+    return false;
   }
 
   Future<void> displayDialog(

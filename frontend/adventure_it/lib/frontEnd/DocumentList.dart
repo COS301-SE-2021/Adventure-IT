@@ -1,27 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:adventure_it/Providers/media_model.dart';
-import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
-import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
-import 'AdventurePage.dart';
+import 'package:adventure_it/api/mediaAPI.dart';
 
-import 'package:flutter/material.dart';
-import 'HomepageStartup.dart';
-
-import '../api/budget.dart';
-import '../api/mediaAPI.dart';
 import 'Navbar.dart';
 import 'Profile.dart';
 
 class DocumentPage extends StatelessWidget {
-
   DocumentPage();
 
   Future<List<PlatformFile>?> openFileExplorer() async {
@@ -81,7 +72,7 @@ class DocumentPage extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                             ProfileCaller()));
+                                              ProfileCaller()));
                                 },
                                 icon: const Icon(
                                     Icons.arrow_back_ios_new_rounded),
@@ -121,7 +112,6 @@ class DocumentPage extends StatelessWidget {
 }
 
 class DocumentList extends StatelessWidget {
-
   DocumentList();
 
   @override
@@ -149,8 +139,8 @@ class DocumentList extends StatelessWidget {
                           context, documentModel.documents!.elementAt(index));
                     }
                   },
-                  child: Stack(overflow: Overflow.visible, children: <Widget>[
-
+                  child: Stack(clipBehavior: Clip.none, children: <Widget>[
+                    //TODO: https instead of http?
                     Center(
                         child: Container(
                             height: double.infinity,
@@ -173,7 +163,9 @@ class DocumentList extends StatelessWidget {
                             child: Padding(
                                 padding: const EdgeInsets.all(4),
                                 child: Text(
-                                    documentModel.documents!.elementAt(index).name,
+                                    documentModel.documents!
+                                        .elementAt(index)
+                                        .name,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Theme.of(context)
@@ -187,13 +179,13 @@ class DocumentList extends StatelessWidget {
                       right: -5.0,
                       top: -5.0,
                       child: InkResponse(
-                        onTap: (){
-                          Provider.of<MediaModel>(context,
-                              listen: false)
-                              .removeMedia(documentModel.documents!.elementAt(index).id);
+                        onTap: () {
+                          Provider.of<MediaModel>(context, listen: false)
+                              .removeMedia(
+                                  documentModel.documents!.elementAt(index).id);
                         },
                         child: CircleAvatar(
-                          radius:MediaQuery.of(context).size.width*0.02,
+                          radius: MediaQuery.of(context).size.width * 0.02,
                           child: Icon(Icons.close,
                               color: Theme.of(context).primaryColorDark),
                           backgroundColor: Theme.of(context).accentColor,
@@ -208,7 +200,7 @@ class DocumentList extends StatelessWidget {
         ));
       } else {
         return Center(
-            child: Text("A picture's worth a thousand words!",
+            child: Text("Some things should be kept private",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 30 * MediaQuery.of(context).textScaleFactor,

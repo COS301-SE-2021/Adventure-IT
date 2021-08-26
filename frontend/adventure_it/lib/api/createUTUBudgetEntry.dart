@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import '/api/adventure.dart';
 
 part 'createUTUBudgetEntry.g.dart';
 
@@ -20,10 +19,11 @@ class CreateUTUBudgetEntry {
     required this.title,
     required this.description,
     required this.category,
-    required this.payee
+    required this.payee,
   });
 
-  factory CreateUTUBudgetEntry.fromJson(Map<String, dynamic> json) => _$CreateUTUBudgetEntryFromJson(json);
+  factory CreateUTUBudgetEntry.fromJson(Map<String, dynamic> json) =>
+      _$CreateUTUBudgetEntryFromJson(json);
 
   Map<String, dynamic> toJson() => _$CreateUTUBudgetEntryToJson(this);
 }

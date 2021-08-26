@@ -71,7 +71,7 @@ class BudgetServiceIntegrationTests {
         Budget budget1 = new Budget(budgetID,"Test Budget 1","Mock",UUID.randomUUID(),adventureID);
         budgetRepository.saveAndFlush(budget1);
 
-        AddUTOExpenseEntryRequest request = new AddUTOExpenseEntryRequest(budgetID,"User1",100,"Mock","Mock","Activities","Shop1");
+        AddUTOExpenseEntryRequest request = new AddUTOExpenseEntryRequest(budgetID,"User1",100,"Mock","Mock","OTHER","Shop1");
         String response = this.restTemplate.postForObject("http://localhost:" + port + "/budget/addUTOExpense", request,String.class);
         Assertions.assertEquals("Entry added successfully!", response);
     }
@@ -79,7 +79,7 @@ class BudgetServiceIntegrationTests {
     @Test
     @Description("Add entry will not work if the budget does not exist")
     void httpAddEntryBudgetInvalid_returnResponse(){
-        AddUTOExpenseEntryRequest request = new AddUTOExpenseEntryRequest(UUID.randomUUID(),"User1",100,"Mock","Mock","Activities","Shop1");
+        AddUTOExpenseEntryRequest request = new AddUTOExpenseEntryRequest(UUID.randomUUID(),"User1",100,"Mock","Mock","ACTIVITIES","Shop1");
         String response = this.restTemplate.postForObject("http://localhost:" + port + "/budget/addUTOExpense", request,String.class);
         Assertions.assertNotEquals("Entry added successfully!", response);
     }
@@ -92,7 +92,7 @@ class BudgetServiceIntegrationTests {
         Budget budget1 = new Budget(budgetID,"Test Budget 1","Mock",UUID.randomUUID(),adventureID);
         budgetRepository.saveAndFlush(budget1);
 
-        AddUTOExpenseEntryRequest request = new AddUTOExpenseEntryRequest(budgetID,null,100,"Mock","Mock","Activities","Shop1");
+        AddUTOExpenseEntryRequest request = new AddUTOExpenseEntryRequest(budgetID,null,100,"Mock","Mock","ACTIVITIES","Shop1");
         String response = this.restTemplate.postForObject("http://localhost:" + port + "/budget/addUTOExpense", request,String.class);
         Assertions.assertEquals("Entry added successfully!", response);
     }
@@ -120,7 +120,7 @@ class BudgetServiceIntegrationTests {
         UUID adventureID = UUID.randomUUID();
         Budget budget1 = new Budget(id,"Test Budget 1","Mock",UUID.randomUUID(),adventureID);
         budgetRepository.saveAndFlush(budget1);
-        this.restTemplate.getForObject("http://localhost:" + port + "/budget/viewBudgetsByAdventure/{id}", List.class, id);
+        this.restTemplate.getForObject("http://localhost:" + port + "/budget/viewBudgetsByAdventure/"+adventureID, List.class);
     }
 
     @Test

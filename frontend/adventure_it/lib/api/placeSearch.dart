@@ -1,6 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import '/api/adventure.dart';
-import '/api/report.dart';
 
 part 'placeSearch.g.dart';
 
@@ -14,7 +12,8 @@ class PlaceSearch {
     required this.placeId,
   });
 
-  factory PlaceSearch.fromJson(Map<String, dynamic> json) => _$PlaceSearchFromJson(json);
+  factory PlaceSearch.fromJson(Map<String, dynamic> json) =>
+      _$PlaceSearchFromJson(json);
 
   Map<String, dynamic> toJson() => _$PlaceSearchToJson(this);
 }

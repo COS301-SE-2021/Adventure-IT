@@ -1,9 +1,6 @@
 import 'dart:core';
-
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:time_machine/time_machine.dart';
-
 
 part 'directChatMessage.g.dart';
 
@@ -16,15 +13,14 @@ class DirectChatMessage {
   final bool read;
   final String timestamp;
 
-
-  DirectChatMessage(
-      {  required this.id,
-      required this.sender,
-      required this.message,
-        required this.timestamp,
-      required this.receiver,
-      required this.read,
-      });
+  DirectChatMessage({
+    required this.id,
+    required this.sender,
+    required this.message,
+    required this.timestamp,
+    required this.receiver,
+    required this.read,
+  });
 
   factory DirectChatMessage.fromJson(Map<String, dynamic> json) =>
       _$DirectChatMessageFromJson(json);

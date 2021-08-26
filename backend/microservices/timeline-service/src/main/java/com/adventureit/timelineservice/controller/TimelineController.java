@@ -17,6 +17,11 @@ public class TimelineController {
 
     TimelineServiceImplementation service;
 
+    @Autowired
+    TimelineController(TimelineServiceImplementation service){
+        this.service = service;
+    }
+
     @GetMapping("/getTimelineByAdventure/{id}")
     public List<TimelineDTO> getTimelineByAdventureID(@PathVariable UUID id){
         return service.getTimelineByAdventureID(id);

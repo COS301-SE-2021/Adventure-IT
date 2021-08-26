@@ -1,9 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import '/api/adventure.dart';
-import '/api/report.dart';
 
 part 'budgetEntry.g.dart';
-//
+
 @JsonSerializable(explicitToJson: true)
 class BudgetEntry {
   final String budgetEntryID;
@@ -23,10 +21,11 @@ class BudgetEntry {
     required this.title,
     required this.description,
     required this.category,
-    required this.payee
+    required this.payee,
   });
 
-  factory BudgetEntry.fromJson(Map<String, dynamic> json) => _$BudgetEntryFromJson(json);
+  factory BudgetEntry.fromJson(Map<String, dynamic> json) =>
+      _$BudgetEntryFromJson(json);
 
   Map<String, dynamic> toJson() => _$BudgetEntryToJson(this);
 }
