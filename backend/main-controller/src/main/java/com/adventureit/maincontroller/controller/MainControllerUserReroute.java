@@ -6,6 +6,7 @@ import com.adventureit.userservice.exceptions.InvalidRequestException;
 import com.adventureit.userservice.exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.exceptions.InvalidUserPhoneNumberException;
+import com.adventureit.userservice.requests.EditUserProfileRequest;
 import com.adventureit.userservice.requests.LoginUserRequest;
 import com.adventureit.userservice.requests.RegisterUserRequest;
 import com.adventureit.userservice.requests.UpdatePictureRequest;
@@ -112,6 +113,11 @@ public class MainControllerUserReroute {
     @GetMapping("getFriendRequest/{id}")
     public FriendDTO getFriendRequest(@PathVariable UUID id){
         return restTemplate.getForObject(IP + ":" + userPort + "/user/getFriendRequest/"+ id, FriendDTO.class);
+    }
+
+    @PostMapping("editUserProfile")
+    public String editUseProfile(@RequestBody EditUserProfileRequest req){
+        return restTemplate.postForObject(IP + ":" + userPort + "/user/editUserProfile", req,String.class);
     }
 }
 
