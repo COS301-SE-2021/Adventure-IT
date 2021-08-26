@@ -12,6 +12,8 @@ import com.adventureit.chat.responses.GroupChatResponseDTO;
 
 import com.adventureit.maincontroller.responses.DirectMessageResponseDTO;
 import com.adventureit.maincontroller.responses.GroupMessageResponseDTO;
+import com.adventureit.maincontroller.responses.MainDirectChatResponseDTO;
+import com.adventureit.maincontroller.responses.MainGroupChatResponseDTO;
 import com.adventureit.userservice.responses.GetUserByUUIDDTO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -82,8 +84,10 @@ public class MainControllerChatReroute {
     }
 
     @GetMapping("/getGroupChatByAdventureID/{id}")
-    public GroupChatResponseDTO getGroupChat(@PathVariable UUID id){
-        return restTemplate.getForObject(IP + ":" + chatPort + "/chat/getGroupChatByAdventureID/" + id, GroupChatResponseDTO.class);
+    public MainGroupChatResponseDTO getGroupChat(@PathVariable UUID id){
+        GroupChatResponseDTO responseDTO = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getGroupChatByAdventureID/" + id, GroupChatResponseDTO.class);
+        assert responseDTO != null;
+        return new MainGroupChatResponseDTO(responseDTO.getId(),responseDTO.getAdventureID(),responseDTO.getParticipants(),responseDTO.getName(),responseDTO.getColors());
     }
 
     @PostMapping("/sendGroupMessage")
@@ -98,8 +102,10 @@ public class MainControllerChatReroute {
     }
 
     @GetMapping("/getDirectChat/{id1}/{id2}")
-    public DirectChatResponseDTO getDirectChat(@PathVariable UUID id1, @PathVariable UUID id2){
-        return restTemplate.getForObject(IP + ":" + chatPort + "/chat/getDirectChat/" + id1 + "/" + id2, DirectChatResponseDTO.class);
+    public MainDirectChatResponseDTO getDirectChat(@PathVariable UUID id1, @PathVariable UUID id2){
+        DirectChatResponseDTO responseDTO = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getDirectChat/" + id1 + "/" + id2, DirectChatResponseDTO.class);
+        assert responseDTO != null;
+        return new MainDirectChatResponseDTO(responseDTO.getId(),responseDTO.getParticipants());
     }
 
     @GetMapping("/getDirectMessages/{id}")
