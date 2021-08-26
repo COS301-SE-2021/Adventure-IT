@@ -10,18 +10,18 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/location")
 public class MainControllerLocationReroute {
 
-    private RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate = new RestTemplate();
 
-    private final String IP = "localhost";
+    private final String IP = "http://localhost";
     private final String locationPort = "9006";
 
     @GetMapping("/test")
     public String locationTest(){
-        return restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/test", String.class);
+        return restTemplate.getForObject(IP + ":" + locationPort + "/location/test", String.class);
     }
 
     @GetMapping(value="/create/{location}")
     public String createLocation(@PathVariable String location) {
-        return restTemplate.getForObject("http://"+ IP + ":" + locationPort + "/location/create/" + location, String.class);
+        return restTemplate.getForObject(IP + ":" + locationPort + "/location/create/" + location, String.class);
     }
 }

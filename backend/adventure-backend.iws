@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51a90799-d850-4f45-9f71-c80c24076f5d" name="Default Changelist" comment="removed id fields from create- requests">
-      <change beforePath="$PROJECT_DIR$/../alex_flutter/adventure_it/lib/api/itineraryAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../alex_flutter/adventure_it/lib/api/itineraryAPI.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../alex_flutter/adventure_it/lib/api/itinerary_api.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../alex_flutter/adventure_it/lib/frontEnd/ItineraryPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../alex_flutter/adventure_it/lib/frontEnd/ItineraryPage.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/adventure-backend.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/adventure-backend.iws" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerAdventureReroute.java" beforeDir="false" afterPath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerAdventureReroute.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerChatReroute.java" beforeDir="false" afterPath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerChatReroute.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerUserReroute.java" beforeDir="false" afterPath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerUserReroute.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -290,17 +290,6 @@
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <option name="VM_PARAMETERS" />
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
@@ -455,6 +444,7 @@
       <workItem from="1627928409344" duration="1679000" />
       <workItem from="1627934037299" duration="10163000" />
       <workItem from="1627957121689" duration="1489000" />
+      <workItem from="1629987510640" duration="1066000" />
     </task>
     <task id="LOCAL-00001" summary="removed id fields from create- requests">
       <created>1627942105472</created>

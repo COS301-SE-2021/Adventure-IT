@@ -1,9 +1,6 @@
 import 'dart:core';
-
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:time_machine/time_machine.dart';
-
 
 part 'groupChatMessage.g.dart';
 
@@ -14,13 +11,12 @@ class GroupChatMessage {
   final String message;
   final String timestamp;
 
-
-  GroupChatMessage(
-      {  required this.id,
-      required this.sender,
-      required this.message,
-        required this.timestamp,
-      });
+  GroupChatMessage({
+    required this.id,
+    required this.sender,
+    required this.message,
+    required this.timestamp,
+  });
 
   factory GroupChatMessage.fromJson(Map<String, dynamic> json) =>
       _$GroupChatMessageFromJson(json);

@@ -2,24 +2,31 @@ import 'package:adventure_it/api/itinerary.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
+import 'package:adventure_it/api/userAPI.dart';
+import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-class DeletedItineraryModel extends ChangeNotifier{
-  List<Itinerary>? _deletedItineraries=null;
+class DeletedItineraryModel extends ChangeNotifier {
+  List<Itinerary>? _deletedItineraries = null;
+  List<UserProfile?>? _creators = null;
 
   DeletedItineraryModel(Adventure a) {
-    fetchAllDeletedItineraries(a).then((deletedItineraries) => deletedItineraries != null? _deletedItineraries = deletedItineraries:List.empty());
+    fetchAllDeletedItineraries(a).then((deletedItineraries) =>
+        deletedItineraries != null
+            ? _deletedItineraries = deletedItineraries
+            : List.empty());
   }
 
   List<Itinerary>? get deletedItineraries => _deletedItineraries?.toList();
+  List<UserProfile?>? get creators => _creators?.toList();
 
   Future restoreItinerary(Itinerary it) async {
     await ItineraryApi.restoreItinerry(it.id);
 
-
-    var index = _deletedItineraries!.indexWhere((element) => element.id == it.id);
+    var index =
+        _deletedItineraries!.indexWhere((element) => element.id == it.id);
     _deletedItineraries!.removeAt(index);
+    _creators!.removeAt(index);
 
     notifyListeners();
   }
@@ -27,31 +34,40 @@ class DeletedItineraryModel extends ChangeNotifier{
   Future fetchAllDeletedItineraries(Adventure a) async {
     _deletedItineraries = await ItineraryApi.getDeletedItinerary(a.adventureId);
 
+    var total = List<UserProfile?>.filled(deletedItineraries!.length, null, growable: true);
+    total.removeRange(0, deletedItineraries!.length);
+    for (var b in deletedItineraries!) {
+      await UserApi.getInstance().findUser(b.creatorID).then((value) {
+        total.add(value);
+      });
+    }
+
+    this._creators = total;
+
     notifyListeners();
   }
 
   Future hardDeleteItinerary(Itinerary c) async {
     await ItineraryApi.hardDeleteItinerary(c.id);
 
-    var index = _deletedItineraries!.indexWhere((element) => element.id == c.id);
+    var index =
+        _deletedItineraries!.indexWhere((element) => element.id == c.id);
     _deletedItineraries!.removeAt(index);
+    _creators!.removeAt(index);
 
     notifyListeners();
   }
-
 }
+
 class ItineraryModel extends ChangeNotifier {
   List<Itinerary>? _itineraries = null;
 
-
   ItineraryModel(Adventure a) {
-    fetchAllItineraries(a).then((itineraries) => itineraries != null? _itineraries = itineraries:List.empty());
-
+    fetchAllItineraries(a).then((itineraries) =>
+        itineraries != null ? _itineraries = itineraries : List.empty());
   }
 
-
   List<Itinerary>? get itineraries => _itineraries?.toList();
-
 
   Future fetchAllItineraries(Adventure a) async {
     _itineraries = await ItineraryApi.getItineraries(a);
@@ -59,8 +75,6 @@ class ItineraryModel extends ChangeNotifier {
 
     notifyListeners();
   }
-
-
 
   Future softDeleteItinerary(Itinerary c) async {
     await ItineraryApi.softDeleteItinerary(c.id);
@@ -71,26 +85,23 @@ class ItineraryModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future addItinerary(Adventure adv, String a, String b, String c, String d) async {
+  Future addItinerary(
+      Adventure adv, String a, String b, String c, String d) async {
     await ItineraryApi.createItinerary(a, b, c, d);
 
     await fetchAllItineraries(adv);
   }
-
 }
 
 class ItineraryEntryModel extends ChangeNotifier {
   List<ItineraryEntry>? _entries = null;
 
-
   ItineraryEntryModel(Itinerary i) {
-    fetchAllEntries(i).then((entries) => entries != null? _entries = entries:List.empty());
-
+    fetchAllEntries(i)
+        .then((entries) => entries != null ? _entries = entries : List.empty());
   }
 
-
   List<ItineraryEntry>? get entries => _entries?.toList();
-
 
   Future fetchAllEntries(Itinerary i) async {
     _entries = await ItineraryApi.getItineraryEntries(i);
@@ -98,7 +109,8 @@ class ItineraryEntryModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future addItineraryEntry(Itinerary i, String a, String b, String c, String d, String e) async {
+  Future addItineraryEntry(
+      Itinerary i, String a, String b, String c, String d, String e) async {
     await ItineraryApi.createItineraryEntry(a, b, c, d, e);
 
     await fetchAllEntries(i);
@@ -113,16 +125,16 @@ class ItineraryEntryModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future editItineraryEntry(ItineraryEntry entry, Itinerary i, String a, String b, String c, String d, String e, String f) async {
-    print("============================correctly reaching model==================================");
+  Future editItineraryEntry(ItineraryEntry entry, Itinerary i, String a,
+      String b, String c, String d, String e, String f) async {
+    print(
+        "============================correctly reaching model==================================");
     await ItineraryApi.itineraryEdit(a, b, c, d, e, f);
-    print("============================correctly reaching function==================================");
+    print(
+        "============================correctly reaching function==================================");
     var index = _entries!.indexWhere((element) => element.id == entry.id);
     _entries!.removeAt(index);
 
     fetchAllEntries(i);
   }
-
-
-
 }

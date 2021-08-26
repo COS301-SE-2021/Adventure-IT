@@ -1,30 +1,13 @@
 import 'package:adventure_it/Providers/budget_model.dart';
-import 'package:adventure_it/Providers/checklist_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'BudgetList.dart';
-import 'HomepageStartup.dart';
-
-import '../api/budget.dart';
-import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
-
-import 'package:flutter/material.dart';
-import 'HomepageStartup.dart';
-import 'AdventurePage.dart';
-
-import '../api/budget.dart';
 import 'Navbar.dart';
 
+//Page to restore/ hard delete
 class BudgetTrash extends StatelessWidget {
-  Adventure? adventure;
+  late final Adventure? adventure;
 
   BudgetTrash(Adventure? a) {
     this.adventure = a;
@@ -82,13 +65,12 @@ class BudgetTrash extends StatelessWidget {
 }
 
 class DeletedBudgetList extends StatelessWidget {
-  Adventure? a;
-  BuildContext? c;
+  late final Adventure? a;
+  late final BuildContext? c;
 
   DeletedBudgetList(Adventure? adventure) {
     this.a = adventure;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +79,7 @@ class DeletedBudgetList extends StatelessWidget {
         child: Consumer<DeletedBudgetModel>(
             builder: (context, deletedBudgetModel, child) {
               this.c=context;
-          if (deletedBudgetModel.deletedBudgets == null) {
+          if (deletedBudgetModel.deletedBudgets == null||deletedBudgetModel.deletedBudgets!.length!=deletedBudgetModel.creators!.length) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
@@ -148,15 +130,15 @@ class DeletedBudgetList extends StatelessWidget {
                                                         .color),
                                               ),
                                               content: Text(
-                                                    'Are you sure you want to restore this budget to your adventure?',
-                                                    style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyText1!
-                                                            .color),
-                                                  ),
+                                                'Are you sure you want to restore this budget to your adventure?',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color),
+                                              ),
                                               actions: <Widget>[
-                                                FlatButton(
+                                                TextButton(
                                                   child: Text('Restore',
                                                       style: TextStyle(
                                                           color:
@@ -176,7 +158,7 @@ class DeletedBudgetList extends StatelessWidget {
                                                     Navigator.of(context).pop();
                                                   },
                                                 ),
-                                                FlatButton(
+                                                TextButton(
                                                   child: Text('Cancel',
                                                       style: TextStyle(
                                                           color:
@@ -199,6 +181,15 @@ class DeletedBudgetList extends StatelessWidget {
                                         Expanded(
                                           flex: 4,
                                           child: ListTile(
+                                            trailing: Text("Created by: "+deletedBudgetModel
+                                                  .creators!
+                                                  .elementAt(index)!
+                                                  .username, style: TextStyle(
+                                                 fontSize: 10,
+                                                 color: Theme.of(context)
+                                                     .textTheme
+                                                     .bodyText1!
+                                                     .color)),
                                             title: Text(
                                                 deletedBudgetModel
                                                     .deletedBudgets!
@@ -253,7 +244,7 @@ class DeletedBudgetList extends StatelessWidget {
                                               .bodyText1!
                                               .color)),
                                   actions: <Widget>[
-                                    FlatButton(
+                                    TextButton(
                                         onPressed: () =>
                                             Navigator.of(context).pop(true),
                                         child: Text("Remove",
@@ -262,7 +253,7 @@ class DeletedBudgetList extends StatelessWidget {
                                                     .textTheme
                                                     .bodyText1!
                                                     .color))),
-                                    FlatButton(
+                                    TextButton(
                                       onPressed: () =>
                                           Navigator.of(context).pop(false),
                                       child: Text("Cancel",

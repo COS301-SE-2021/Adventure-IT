@@ -9,8 +9,8 @@ class TimelineModel extends ChangeNotifier {
 
   TimelineModel(Adventure a) {
     this.a = a;
-    fetchTimeline(a).then((timeline) =>
-    timeline != null ? _timeline = timeline : List.empty());
+    fetchTimeline(a).then(
+        (timeline) => timeline != null ? _timeline = timeline : List.empty());
   }
 
   List<Timeline>? get timeline => _timeline?.toList();

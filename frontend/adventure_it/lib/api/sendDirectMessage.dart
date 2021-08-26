@@ -1,7 +1,5 @@
 import 'dart:core';
-
 import 'package:json_annotation/json_annotation.dart';
-import 'package:time_machine/time_machine.dart';
 
 part 'sendDirectMessage.g.dart';
 
@@ -12,8 +10,7 @@ class SendDirectMessage {
   final String receiver;
   final String msg;
 
-
-  SendDirectMessage( {
+  SendDirectMessage({
     required this.chatID,
     required this.sender,
     required this.msg,
