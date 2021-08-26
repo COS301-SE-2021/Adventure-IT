@@ -44,11 +44,17 @@ class UserApi {
     this._keycloakUser = await _attemptLogIn(username, password);
     if (this._keycloakUser != null) {
       final keycloakUser = this._keycloakUser!;
-      this._userProfile = await this._fetchBackendProfile(keycloakUser.id);
-      if (this._userProfile == null) {
-        this._userProfile = await this._registerBackendProfile(keycloakUser);
+      if(keycloakUser.emailVerified&&keycloakUser.enabled) {
+        this._userProfile = await this._fetchBackendProfile(keycloakUser.id);
+        if (this._userProfile == null) {
+          this._userProfile = await this._registerBackendProfile(keycloakUser);
+        }
+        return true;
       }
-      return true;
+      else {
+        this.message="Your email has not yet been verified.";
+        return false;
+      }
     } else {
       return false;
     }
@@ -72,11 +78,7 @@ class UserApi {
       return this._fetchKeyCloakUser(username);
     } else {
       String errorMessage = jsonDecode(res.body)['error_description'];
-      if (errorMessage == "Account is not fully set up") {
-        this.message = "Email Unverified";
-      } else {
         this.message = errorMessage;
-      }
     }
   }
 
