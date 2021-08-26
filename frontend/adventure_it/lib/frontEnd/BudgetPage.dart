@@ -507,8 +507,8 @@ class AlertBox extends State<_AlertBox> {
                                   .width * 0.02),
                           child: TextField(
                               inputFormatters: <TextInputFormatter>[
-
-                                WhitelistingTextInputFormatter.digitsOnly
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'[0-9]')),
                               ],
                               keyboardType: TextInputType.number,
                               style: TextStyle(
@@ -735,10 +735,11 @@ class AlertBox extends State<_AlertBox> {
                                 .of(context)
                                 .size
                                 .width * 0.02),
-                        child: RaisedButton(
-                          color: Theme
-                              .of(context)
-                              .accentColor,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: Theme
+                                  .of(context)
+                                  .accentColor),
                           child: Text("Create",
                               style: TextStyle(
                                   color: Theme
@@ -1146,8 +1147,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                       content: Container(
                                           height: getSize(context),
                                           child: Stack(
-                                              overflow: Overflow.visible,
-                                              children: <Widget>[
+                                              clipBehavior: Clip.none, children: <Widget>[
                                                 Positioned(
                                                   right: -40.0,
                                                   top: -40.0,
@@ -1350,10 +1350,9 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                       .width *
                                                                       0.02),
                                                               child: TextField(
-                                                                  inputFormatters: <
-                                                                      TextInputFormatter>[
-                                                                    WhitelistingTextInputFormatter
-                                                                        .digitsOnly
+                                                                  inputFormatters: <TextInputFormatter>[
+                                                                    FilteringTextInputFormatter.allow(
+                                                                        RegExp(r'[0-9]')),
                                                                   ],
                                                                   keyboardType: TextInputType
                                                                       .number,
@@ -1623,11 +1622,11 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                       .size
                                                                       .width *
                                                                       0.02),
-                                                              child: RaisedButton(
-                                                                  color: Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .accentColor,
+                                                              child: ElevatedButton(
+                                                                  style: ElevatedButton.styleFrom(
+                                                                      primary: Theme
+                                                                          .of(context)
+                                                                          .accentColor),
                                                                   child: Text(
                                                                       "Edit",
                                                                       style: TextStyle(
