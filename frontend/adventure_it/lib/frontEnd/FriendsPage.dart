@@ -86,6 +86,7 @@ class FriendsPage extends State<Friends> {
                               });
                             },
                             icon: const Icon(Icons.send_rounded),
+                            iconSize:25,
                             color: Theme.of(context)
                                 .primaryColorDark))), //Your widget he
                 Spacer(flex: 1),
@@ -382,10 +383,7 @@ class GetFriendRequests extends StatelessWidget {
                                                                 .id);
                                                   },
                                                   icon: Icon(Icons.check),
-                                                  iconSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width * 0.05,
+                                                  iconSize:25,
                                                   color: Theme.of(context)
                                                       .primaryColorDark)),
                                           Container(
@@ -467,11 +465,7 @@ class GetFriendRequests extends StatelessWidget {
                                                         });
                                                   },
                                                   icon: Icon(Icons.close),
-                                                  iconSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.05,
+                                                  iconSize:25,
                                                   color: Theme.of(context)
                                                       .primaryColorDark)),
                                         ],
