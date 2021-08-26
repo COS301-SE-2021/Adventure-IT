@@ -1,32 +1,13 @@
 server:
-  port: 9001
+  port: ${adventure-microservice.port}
   error:
     include-message: always
 
 spring:
   application:
-    name: ADVENTURE-SERVICE
-  datasource:
-    url: jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5
-    username: postgres
-    password: 310PB!Gq%f&J
-    hikari:
-      maximum-pool-size: 2
+    name: ${adventure-microservice.application-name}
+  datasource: ${adventure-microservice.datasource}
+  jpa: ${adventure-microservice.jpa}
 
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: false
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-    instance:
-      hostname: localhost
+eureka: ${service-registry-client}
 

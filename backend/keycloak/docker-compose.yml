@@ -1,0 +1,15 @@
+version: "3.3"
+
+services:
+  keycloak:
+    image: jboss/keycloak
+    network_mode: host
+    environment:
+      DB_VENDOR: ${keycloak_DB_VENDOR}
+      DB_ADDR: ${keycloak_DB_ADDR}
+      DB_DATABASE: ${keycloak_DB_DATABASE}
+      DB_USER: ${keycloak_DB_USER}
+      DB_SCHEMA: ${keycloak_DB_SCHEMA}
+      DB_PASSWORD: ${DB_PASSWORD}
+      KEYCLOAK_USER: ${KEYCLOAK_USER}
+      KEYCLOAK_PASSWORD: ${keycloak_KEYCLOAK_PASSWORD}
