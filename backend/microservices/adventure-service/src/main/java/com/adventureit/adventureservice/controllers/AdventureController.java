@@ -71,4 +71,10 @@ public class AdventureController {
     public void addAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID) {
         adventureServiceImplementation.addAttendees(adventureID,userID);
     }
+
+    @GetMapping("/removeAttendees/{adventureID}/{userID}")
+    public void removeAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID) {
+        adventureServiceImplementation.removeAttendees(adventureID,userID);
+    }
+
 }

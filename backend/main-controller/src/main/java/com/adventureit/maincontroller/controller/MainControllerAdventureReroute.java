@@ -31,6 +31,7 @@ public class MainControllerAdventureReroute {
     private final String adventurePort = "9001";
     private final String userPort = "9002";
     private final String chatPort = "9010";
+    private final String timelinePort = "9012";
 
     @GetMapping("/test")
     public String adventureTest(){
@@ -44,7 +45,7 @@ public class MainControllerAdventureReroute {
         Users user;
         assert users != null;
         for (UUID uuid : users) {
-            user = restTemplate.getForObject(IP + ":" + userPort + "/user/GetUser/" + uuid, Users.class);
+            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + uuid, Users.class);
             assert user != null;
             list.add(new GetUserByUUIDDTO(user.getUserID(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail()));
         }
@@ -114,11 +115,19 @@ public class MainControllerAdventureReroute {
     @GetMapping("/addAttendees/{adventureID}/{userID}")
     public String addAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID){
         restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/addAttendees/"+adventureID+"/"+userID, String.class);
-        GetUserByUUIDDTO response = restTemplate.getForObject(IP + ":" + userPort + "/user/GetUser/"+userID, GetUserByUUIDDTO.class);
+        GetUserByUUIDDTO response = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
         assert response != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureID, TimelineType.ADVENTURE,response.getUsername()+" has been added to this adventure" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureID, TimelineType.ADVENTURE,response.getUsername()+" has joined this adventure!" );
         restTemplate.getForObject(IP + ":" + chatPort + "/chat/addParticipant/"+adventureID+"/"+userID, String.class);
-        String timelinePort = "9012";
+        return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+    }
+
+    @GetMapping("/removeAttendees/{adventureID}/{userID}")
+    public String removeAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID){
+        restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/removeAttendees/"+adventureID+"/"+userID, String.class);
+        GetUserByUUIDDTO response = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
+        assert response != null;
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureID, TimelineType.ADVENTURE,response.getUsername()+" left this adventure" );
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 
