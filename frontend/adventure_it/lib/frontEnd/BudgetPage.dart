@@ -309,7 +309,6 @@ class AlertBox extends State<_AlertBox> {
       "Transport",
       "Other"
     ];
-    final BudgetApi api = new BudgetApi();
     final otherController=TextEditingController();
     final amountController = TextEditingController();
     final titleController = TextEditingController();
@@ -337,8 +336,7 @@ class AlertBox extends State<_AlertBox> {
           content: Container(
             height: getSize(context),
             child: Stack(
-              overflow: Overflow.visible,
-              children: <Widget>[
+              clipBehavior: Clip.none, children: <Widget>[
                 Positioned(
                   right: -40.0,
                   top: -40.0,
@@ -509,6 +507,7 @@ class AlertBox extends State<_AlertBox> {
                                   .width * 0.02),
                           child: TextField(
                               inputFormatters: <TextInputFormatter>[
+
                                 WhitelistingTextInputFormatter.digitsOnly
                               ],
                               keyboardType: TextInputType.number,
@@ -1860,7 +1859,6 @@ class GetReport extends StatelessWidget {
                   )
                 ]));
           } else {
-            print("length: "+budgetReportModel.reports!.length.toString());
             return Center(
                 child: Text("Well done! You owe no one money!",
                     textAlign: TextAlign.center,

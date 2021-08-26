@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:adventure_it/Providers/checklist_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/checklist.dart';
 import 'package:adventure_it/api/checklistAPI.dart';
-
 import 'ChecklistsList.dart';
-import 'package:adventure_it/api/createChecklistEntry.dart';
-import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/frontEnd/ChecklistsList.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter/material.dart';
-
 import 'Navbar.dart';
 
 //A single checklist with entries
