@@ -146,16 +146,20 @@ class FriendsPage extends State<Friends> {
               SizedBox(height: MediaQuery.of(context).size.height / 50),
               Container(
                   height: MediaQuery.of(context).size.height * 0.65,
-                  child: friendList? GetFriends() : GetFriendRequests()),
+                  child: friendList
+                      ? GetFriends(context)
+                      : GetFriendRequests(context)),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
             ]));
   }
 }
 
 class GetFriends extends StatelessWidget {
-  late final BuildContext? c;
+ BuildContext? c;
 
-  GetFriends();
+  GetFriends(context) {
+    this.c = context;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -306,9 +310,11 @@ class GetFriends extends StatelessWidget {
 }
 
 class GetFriendRequests extends StatelessWidget {
-  late final BuildContext? c;
+  BuildContext? c;
 
-  GetFriendRequests();
+  GetFriendRequests(context) {
+    this.c = context;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -359,7 +365,7 @@ class GetFriendRequests extends StatelessWidget {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.05,
+                                                  0.1,
                                               decoration: BoxDecoration(
                                                   color: Theme.of(context)
                                                       .accentColor,
@@ -375,14 +381,18 @@ class GetFriendRequests extends StatelessWidget {
                                                                     index)
                                                                 .id);
                                                   },
-                                                  icon: const Icon(Icons.check),
+                                                  icon: Icon(Icons.check),
+                                                  iconSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width * 0.05,
                                                   color: Theme.of(context)
                                                       .primaryColorDark)),
                                           Container(
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.05,
+                                                  0.1,
                                               decoration: BoxDecoration(
                                                   color: Theme.of(context)
                                                       .accentColor,
@@ -456,7 +466,12 @@ class GetFriendRequests extends StatelessWidget {
                                                               ]);
                                                         });
                                                   },
-                                                  icon: const Icon(Icons.close),
+                                                  icon: Icon(Icons.close),
+                                                  iconSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.05,
                                                   color: Theme.of(context)
                                                       .primaryColorDark)),
                                         ],
