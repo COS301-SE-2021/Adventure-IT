@@ -183,7 +183,7 @@ class AdventurePage extends StatelessWidget {
                     image: DecorationImage(
                         image: NetworkImage(
                             "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                currentAdventure!.location.photo_reference +
+                                currentAdventure!.location.photoReference +
                                 "&maxwidth=700&key=" +
                                 googleMapsKey),
                         fit: BoxFit.cover,

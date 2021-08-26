@@ -147,7 +147,7 @@ class AdventureList extends StatelessWidget {
                                                 adventureModel.adventures!
                                                     .elementAt(index)
                                                     .location
-                                                    .photo_reference +
+                                                    .photoReference +
                                                 "&maxwidth=700&key=" +
                                                 googleMapsKey),
                                         fit: BoxFit.cover,

@@ -883,17 +883,17 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                       image: new DecorationImage(
                                         //TODO: operand can't be null (always false)
                                           image: entryModel.entries!.elementAt(
-                                              index).location.photo_reference ==
+                                              index).location.photoReference ==
                                               null ? NetworkImage(
                                               "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
                                                   currentAdventure!.location
-                                                      .photo_reference +
+                                                      .photoReference +
                                                   "&maxwidth=700&key=" +
                                                   googleMapsKey) : NetworkImage(
                                               "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
                                                   entryModel.entries!.elementAt(
                                                       index).location
-                                                      .photo_reference +
+                                                      .photoReference +
                                                   "&maxwidth=500&key=" +
                                                   googleMapsKey),
                                           fit: BoxFit.cover,

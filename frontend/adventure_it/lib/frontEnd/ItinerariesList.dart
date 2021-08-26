@@ -165,20 +165,20 @@ class _ItinerariesList extends State<ItinerariesList> {
                   decoration: new BoxDecoration(
                       image: new DecorationImage(
                           image: next != null
-                              ? next!.location.photo_reference != ""
+                              ? next!.location.photoReference != ""
                                   ? NetworkImage(
                                       "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                          next!.location.photo_reference +
+                                          next!.location.photoReference +
                                           "&maxwidth=500&key=" +
                                           googleMapsKey)
                                   : NetworkImage(
                                       "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                          a!.location.photo_reference +
+                                          a!.location.photoReference +
                                           "&maxwidth=500&key=" +
                                           googleMapsKey)
                               : NetworkImage(
                                   "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                      a!.location.photo_reference +
+                                      a!.location.photoReference +
                                       "&maxwidth=500&key=" +
                                       googleMapsKey),
                           fit: BoxFit.cover,
