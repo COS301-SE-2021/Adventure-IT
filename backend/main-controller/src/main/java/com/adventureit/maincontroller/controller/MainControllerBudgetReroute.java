@@ -29,7 +29,7 @@ public class MainControllerBudgetReroute {
     @PostMapping(value ="/create")
     public String createBudget(@RequestBody CreateBudgetRequest req) {
         restTemplate.postForObject(IP + ":" + budgetPort + "/budget/create/", req, String.class);
-        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(), TimelineType.BUDGET,"Budget ("+req.getName()+") has been created" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(), TimelineType.BUDGET,"Budget("+req.getName()+") has been created" );
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 
@@ -38,7 +38,7 @@ public class MainControllerBudgetReroute {
         BudgetResponseDTO response = restTemplate.getForObject(IP + ":" + budgetPort + createBudget+id, BudgetResponseDTO.class);
         restTemplate.getForObject(IP + ":" + budgetPort + "/budget/hardDelete/"+id+"/"+userID, String.class);
         assert response != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.BUDGET,"Budget ("+response.getName()+"): has been deleted" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.BUDGET,"Budget("+response.getName()+"): has been deleted" );
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
  }
 
@@ -50,7 +50,7 @@ public class MainControllerBudgetReroute {
         BudgetResponseDTO response = restTemplate.getForObject(IP + ":" + budgetPort + createBudget+budgetID, BudgetResponseDTO.class);
         assert response != null;
         UUID adventureId = response.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Budget ("+req.getTitle()+"): has been edited" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Budget("+req.getTitle()+"): has been edited" );
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 
