@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:adventure_it/api/userProfile.dart';
-import 'package:adventure_it/api/user_api.dart';
-
 import 'DocumentList.dart';
 import 'HomepageStartup.dart';
 import 'Navbar.dart';
+import 'package:adventure_it/api/userAPI.dart';
 
 //User's profile page
 class ProfileCaller extends StatefulWidget {

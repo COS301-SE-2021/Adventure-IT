@@ -5,10 +5,8 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/locationAPI.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:provider/provider.dart';
-
 import 'package:adventure_it/Providers/adventure_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-
 import 'AdventurePage.dart';
 import 'CreateAdventure.dart';
 

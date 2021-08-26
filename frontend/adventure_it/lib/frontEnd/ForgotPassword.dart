@@ -1,11 +1,5 @@
 import 'package:adventure_it/api/userAPI.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:flutter/gestures.dart';
-
 import 'package:flutter/material.dart';
-
-import 'package:adventure_it/api/user_api.dart';
-
 import 'Login.dart';
 import 'Register.dart';
 

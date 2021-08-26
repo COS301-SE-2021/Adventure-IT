@@ -3,17 +3,14 @@ import 'package:adventure_it/Providers/checklist_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'BudgetList.dart';
 import 'HomepageStartup.dart';
-
 import 'package:adventure_it/Providers/budget_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
-
 import 'BudgetList.dart';
 import 'Navbar.dart';
 

@@ -7,18 +7,8 @@ import 'package:time_machine/time_machine.dart';
 
 import 'package:adventure_it/Providers/adventure_model.dart';
 import 'package:adventure_it/Providers/location_model.dart';
-import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventureAPI.dart';
-import 'package:adventure_it/api/locationAPI.dart';
 import 'package:adventure_it/api/userAPI.dart';
-import 'package:adventure_it/api/userProfile.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
-import 'package:adventure_it/frontEnd/BudgetList.dart';
-import 'package:flutter/gestures.dart';
-import 'package:adventure_it/api/adventure_api.dart';
-import 'package:adventure_it/api/user_api.dart';
-
 import 'HomepageStartup.dart';
 import 'Navbar.dart';
 

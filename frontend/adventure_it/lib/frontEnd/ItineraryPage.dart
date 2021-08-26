@@ -3,29 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
 import 'package:adventure_it/constants.dart';
-
 import 'package:adventure_it/Providers/itinerary_model.dart';
 import 'package:adventure_it/Providers/location_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/createItineraryEntry.dart';
 import 'package:adventure_it/api/itinerary.dart';
-
-import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:grouped_list/grouped_list.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter/material.dart';
-
 import 'ItinerariesList.dart';
 import 'Navbar.dart';
 
 class ItineraryPage extends StatelessWidget {
   late final Itinerary? currentItinerary;
   late final Adventure? currentAdventure;
-  Itinerary? currentItinerary;
-  Adventure? currentAdventure;
-  UserProfile? creator;
+  late final UserProfile? creator;
 
   ItineraryPage(Itinerary? i, Adventure? a, UserProfile c) {
     this.currentItinerary = i;
@@ -892,7 +881,6 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                 child: Container(
                                   decoration: new BoxDecoration(
                                       image: new DecorationImage(
-                                          image: entryModel.entries!.elementAt(index).location.photo_reference==""?NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+currentAdventure!.location.photo_reference+"&maxwidth=700&key="+googleMapsKey):NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference="+entryModel.entries!.elementAt(index).location.photo_reference+"&maxwidth=500&key="+googleMapsKey),
                                         //TODO: operand can't be null (always false)
                                           image: entryModel.entries!.elementAt(
                                               index).location.photo_reference ==

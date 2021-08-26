@@ -1,32 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
 import 'package:adventure_it/Providers/budget_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventureAPI.dart';
-import 'package:adventure_it/api/createUTOBudgetEntry.dart';
-import 'package:adventure_it/api/createUTUBudgetEntry.dart';
 import 'package:adventure_it/api/userAPI.dart';
-import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/userProfile.dart';
-import 'package:adventure_it/api/user_api.dart';
 import 'package:adventure_it/api/budgetAPI.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter/material.dart';
 import 'package:adventure_it/api/budget.dart';
-
 import 'BudgetList.dart';
-
 import '../api/budget.dart';
 import 'Navbar.dart';
 
 //A single budget with entries
 class BudgetPage extends StatelessWidget {
-  Budget? currentBudget;
-  Adventure? currentAdventure;
-  UserProfile? creator;
+  late final UserProfile? creator;
   late final Budget? currentBudget;
   late final Adventure? currentAdventure;
 
@@ -98,7 +86,7 @@ class BudgetPage extends StatelessWidget {
                             .of(context)
                             .size
                             .height * 0.2,
-                        child: getReport(currentBudget!),
+                        child: GetReport(currentBudget!),
                       ),
                       Spacer(),
                       Container(
@@ -1685,8 +1673,8 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                   listen: false)
                                   .deleteBudgetEntry(
                                   budgetEntryModel.entries!.elementAt(index));
-                              Provider.of<BudgetReportModel>(context,
-                                  listen: false).fetchAllEntries(currentBudget!, UserApi.getInstance().getUserProfile()!.username);
+                              Provider.of<BudgetEntryModel>(context,
+                                  listen: false).fetchAllEntries(currentBudget!);
                             }
                             else if(direction == DismissDirection.startToEnd) {
                               Provider.of<BudgetEntryModel>(context, listen: false)

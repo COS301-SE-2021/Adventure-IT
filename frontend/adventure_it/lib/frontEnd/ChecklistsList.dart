@@ -4,25 +4,9 @@ import 'package:provider/provider.dart';
 
 import 'package:adventure_it/Providers/checklist_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/user_api.dart';
-import 'package:adventure_it/api/checklistAPI.dart';
-import 'package:adventure_it/api/createChecklist.dart';
 import 'package:adventure_it/api/userAPI.dart';
-import 'package:adventure_it/api/userProfile.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:adventure_it/frontEnd/ChecklistsTrash.dart';
-
 import 'ChecklistPage.dart';
-import 'HomepageStartup.dart';
-
-import '../api/budget.dart';
-import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
-
-import 'package:flutter/material.dart';
-import 'HomepageStartup.dart';
 import 'AdventurePage.dart';
 import 'Navbar.dart';
 

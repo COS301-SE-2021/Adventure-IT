@@ -1,12 +1,8 @@
-import 'package:adventure_it/api/loginUser.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/frontEnd/ForgotPassword.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-import 'package:adventure_it/api/user_api.dart';
-
 import 'ForgotPassword.dart';
 import 'HomepageStartup.dart';
 import 'Register.dart';

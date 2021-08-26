@@ -2,18 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:adventure_it/constants.dart';
-
 import 'package:adventure_it/Providers/itinerary_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/createItinerary.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
 import 'package:adventure_it/api/userAPI.dart';
-import 'package:adventure_it/api/userProfile.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
-import 'package:adventure_it/api/user_api.dart';
-
 import 'AdventurePage.dart';
 import 'ItineraryPage.dart';
 import 'ItineraryTrash.dart';
