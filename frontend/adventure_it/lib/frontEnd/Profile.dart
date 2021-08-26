@@ -248,6 +248,11 @@ class _AlertBox extends State<AlertBox> {
     }
   }
 
+  final usernameController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -290,6 +295,7 @@ class _AlertBox extends State<AlertBox> {
                           style: TextStyle(
                               color:
                               Theme.of(context).textTheme.bodyText1!.color),
+                          controller: usernameController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
@@ -315,6 +321,7 @@ class _AlertBox extends State<AlertBox> {
                           style: TextStyle(
                               color:
                               Theme.of(context).textTheme.bodyText1!.color),
+                          controller: firstNameController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
@@ -340,6 +347,7 @@ class _AlertBox extends State<AlertBox> {
                           style: TextStyle(
                               color:
                               Theme.of(context).textTheme.bodyText1!.color),
+                          controller: lastNameController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
@@ -365,6 +373,7 @@ class _AlertBox extends State<AlertBox> {
                           style: TextStyle(
                               color:
                               Theme.of(context).textTheme.bodyText1!.color),
+                          controller: emailController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
