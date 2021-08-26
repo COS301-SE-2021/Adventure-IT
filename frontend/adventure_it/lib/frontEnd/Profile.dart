@@ -281,6 +281,106 @@ class _AlertBox extends State<AlertBox> {
                           fontSize: 25 * MediaQuery.of(context).textScaleFactor,
                           fontWeight: FontWeight.bold,
                         )),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
+                      child: TextField(
+                          style: TextStyle(
+                              color:
+                              Theme.of(context).textTheme.bodyText1!.color),
+                          decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Username')),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
+                      child: TextField(
+                          style: TextStyle(
+                              color:
+                              Theme.of(context).textTheme.bodyText1!.color),
+                          decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'First name')),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
+                      child: TextField(
+                          style: TextStyle(
+                              color:
+                              Theme.of(context).textTheme.bodyText1!.color),
+                          decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Last name')),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
+                      child: TextField(
+                          style: TextStyle(
+                              color:
+                              Theme.of(context).textTheme.bodyText1!.color),
+                          decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Email')),
+                    ),
                     Spacer(),
                     Padding(
                         padding: EdgeInsets.symmetric(
