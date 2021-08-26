@@ -30,6 +30,19 @@ class TimelineServiceIntegrationTests {
     private TestRestTemplate restTemplate;
 
 
+
+    @Test
+    @Description("Ensure that the view function works")
+    void createTimelineTest(){
+        UUID adventureId = UUID.randomUUID();
+        String description = "Test description";
+        TimelineType type = TimelineType.BUDGET;
+        CreateTimelineRequest req = new CreateTimelineRequest(adventureId,type,description);
+        String response = this.restTemplate.postForObject("http://localhost:" + port + "/timeline/createTimeline/",req, String.class);
+        Assertions.assertEquals("New timeline entry created for adventure "+adventureId,response);
+    }
+
+
     @Test
     @Description("Ensure that the view function works")
     void getTimelineByAdventureIDTest(){
@@ -58,14 +71,5 @@ class TimelineServiceIntegrationTests {
         Assertions.assertEquals("Timeline for adventure: "+adventureId+" has been deleted",response);
     }
 
-    @Test
-    @Description("Ensure that the view function works")
-    void createTimelineTest(){
-        UUID adventureId = UUID.randomUUID();
-        String description = "Test description";
-        TimelineType type = TimelineType.BUDGET;
-        CreateTimelineRequest req = new CreateTimelineRequest(adventureId,type,description);
-        String response = this.restTemplate.postForObject("http://localhost:" + port + "/timeline/createTimeline/",req, String.class);
-        Assertions.assertEquals("New timeline entry created for adventure "+adventureId,response);
-    }
+
 }

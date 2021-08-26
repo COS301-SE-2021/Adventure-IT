@@ -54,7 +54,7 @@ class UserServiceIntegrationTests {
     @Description("Ensure that a valid user can be registered")
      void registerValidUser_returnValidResponse(){
         RegisterUserRequest req = new RegisterUserRequest(this.validUserUUID1, this.validUserFirstName1, this.validUserLastName1, this.validUserName1,this.validUserEmail1);
-        RegisterUserResponse res =this.restTemplate.postForObject("http://localhost:" + port + "/user/RegisterUser", req,RegisterUserResponse.class);
+        RegisterUserResponse res =this.restTemplate.postForObject("http://localhost:" + port + "/user/registerUser", req,RegisterUserResponse.class);
         Assertions.assertTrue(res.isSuccess());
     }
 
@@ -71,7 +71,7 @@ class UserServiceIntegrationTests {
     @Order(5)
     @Description("When getting user with valid UUID, return user object")
     void getValidUserUUID_returnUser(){
-        GetUserByUUIDDTO res2 = this.restTemplate.getForObject("http://localhost:" + port + "/user/GetUser/" + this.validUserUUID1, GetUserByUUIDDTO.class);
+        GetUserByUUIDDTO res2 = this.restTemplate.getForObject("http://localhost:" + port + "/user/getUser/" + this.validUserUUID1, GetUserByUUIDDTO.class);
         Assertions.assertEquals(res2.getUserID(), this.validUserUUID1);
         Assertions.assertEquals(res2.getFirstname(), this.validUserFirstName1);
         Assertions.assertEquals(res2.getLastname(), this.validUserLastName1);
@@ -83,6 +83,7 @@ class UserServiceIntegrationTests {
     @Order(6)
     @Description("When getting user with valid Username, return user UUID")
     void getValidUserUsername_returnUserUUID(){
+
         UUID res2 = this.restTemplate.getForObject("http://localhost:" + port + "/user/getByUserName/" + this.validUserName1, UUID.class);
         System.out.println(res2);
         Assertions.assertEquals(res2, this.validUserUUID1);
