@@ -174,30 +174,26 @@ public class UserServiceImplementation  {
         }
 
         List<Friend> requests1 = friendRepository.findByFirstUserEquals(UUID.fromString(userId1));
-        List<Friend> requests2 = friendRepository.findByFirstUserEquals(UUID.fromString(userId2));
+        List<Friend> requests2 = friendRepository.findBySecondUserEquals(UUID.fromString(userId1));
 
-        if(requests1 != null && !requests1.isEmpty()){
-            for (Friend request:requests1) {
-                if(request.getSecondUser().equals(UUID.fromString(userId2))){
-                    if(request.isAccepted()){
-                        throw new InvalidRequestException("Create Friend Request: Cannot sent request, users already friends");
-                    }
-                    else{
-                        throw new InvalidRequestException("Create Friend Request: Cannot sent request, request already exists");
-                    }
+        for (Friend request:requests1) {
+            if(request.getSecondUser().equals(UUID.fromString(userId2))){
+                if(request.isAccepted()){
+                    throw new InvalidRequestException("Create Friend Request: Cannot sent request, users already friends");
+                }
+                else{
+                    throw new InvalidRequestException("Create Friend Request: Cannot sent request, request already exists");
                 }
             }
         }
 
-        if(requests2 != null && !requests2.isEmpty()){
-            for (Friend request:requests2) {
-                if(request.getSecondUser().equals(UUID.fromString(userId1))){
-                    if(request.isAccepted()){
-                        throw new InvalidRequestException("Create Friend Request: Cannot sent request, users already friends");
-                    }
-                    else{
-                        throw new InvalidRequestException("Create Friend Request: Cannot sent request, request already exists");
-                    }
+        for (Friend request:requests2) {
+            if(request.getFirstUser().equals(UUID.fromString(userId2))){
+                if(request.isAccepted()){
+                    throw new InvalidRequestException("Create Friend Request: Cannot sent request, users already friends");
+                }
+                else{
+                    throw new InvalidRequestException("Create Friend Request: Cannot sent request, request already exists");
                 }
             }
         }
