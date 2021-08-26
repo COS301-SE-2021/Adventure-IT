@@ -7,8 +7,8 @@ import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/cupertino.dart';
 
 class DeletedItineraryModel extends ChangeNotifier {
-  List<Itinerary>? _deletedItineraries = null;
-  List<UserProfile?>? _creators = null;
+  List<Itinerary>? _deletedItineraries;
+  List<UserProfile?>? _creators;
 
   DeletedItineraryModel(Adventure a) {
     fetchAllDeletedItineraries(a).then((deletedItineraries) =>
@@ -60,7 +60,7 @@ class DeletedItineraryModel extends ChangeNotifier {
 }
 
 class ItineraryModel extends ChangeNotifier {
-  List<Itinerary>? _itineraries = null;
+  List<Itinerary>? _itineraries;
 
   ItineraryModel(Adventure a) {
     fetchAllItineraries(a).then((itineraries) =>
@@ -94,7 +94,7 @@ class ItineraryModel extends ChangeNotifier {
 }
 
 class ItineraryEntryModel extends ChangeNotifier {
-  List<ItineraryEntry>? _entries = null;
+  List<ItineraryEntry>? _entries;
 
   ItineraryEntryModel(Itinerary i) {
     fetchAllEntries(i)
