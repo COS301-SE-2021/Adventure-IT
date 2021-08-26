@@ -7,12 +7,10 @@ part 'directChat.g.dart';
 class DirectChat {
   final String id;
   final List<String> participants;
-  final List<String> messages;
 
   DirectChat({
     required this.id,
     required this.participants,
-    required this.messages,
   });
 
   factory DirectChat.fromJson(Map<String, dynamic> json) =>
