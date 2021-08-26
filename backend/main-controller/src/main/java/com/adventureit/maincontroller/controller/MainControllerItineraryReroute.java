@@ -1,12 +1,15 @@
 package com.adventureit.maincontroller.controller;
 
 
+import com.adventureit.adventureservice.entity.Adventure;
+import com.adventureit.adventureservice.responses.GetAdventureByUUIDResponse;
 import com.adventureit.itinerary.requests.AddItineraryEntryRequest;
 import com.adventureit.itinerary.requests.CreateItineraryRequest;
 import com.adventureit.itinerary.requests.EditItineraryEntryRequest;
 import com.adventureit.itinerary.responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.responses.ItineraryResponseDTO;
 import com.adventureit.locationservice.responses.LocationResponseDTO;
+import com.adventureit.maincontroller.exceptions.InvalidItineraryEntryException;
 import com.adventureit.maincontroller.responses.MainItineraryEntryResponseDTO;
 import com.adventureit.timelineservice.entity.TimelineType;
 import com.adventureit.timelineservice.requests.CreateTimelineRequest;
@@ -37,13 +40,20 @@ public class MainControllerItineraryReroute {
 
     @PostMapping(value = "/addEntry")
     public UUID addItineraryEntry(@RequestBody AddItineraryEntryRequest req) {
+        ItineraryResponseDTO itinerary = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryById/"+req.getEntryContainerID(), ItineraryResponseDTO.class);
+        assert itinerary != null;
+        UUID adventureId = itinerary.getAdventureID();
+
+        Adventure adventureResponse = restTemplate.getForObject(IP + ":" + locationPort + "/adventure/getAdventureByUUID/"+adventureId ,GetAdventureByUUIDResponse.class).getAdventure();
+        LocalDateTime timestamp = LocalDateTime.parse(req.getTimestamp());
+        if((timestamp.toLocalDate().compareTo(adventureResponse.getEndDate()) > 0) || (timestamp.toLocalDate().compareTo(adventureResponse.getStartDate()) < 0)){
+            throw new InvalidItineraryEntryException("Itinerary Entry does not fit within Adventure");
+        }
+
         UUID locationId = restTemplate.getForObject(IP + ":" + locationPort + "/location/create/"+req.getLocation(),UUID.class);
         UUID itineraryID = restTemplate.postForObject(IP + ":" + itineraryPort + "/itinerary/addEntry",req, UUID.class);
         restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/setLocation/" + itineraryID +"/"+ locationId ,String.class);
 
-        ItineraryResponseDTO itinerary = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryById/"+req.getEntryContainerID(), ItineraryResponseDTO.class);
-        assert itinerary != null;
-        UUID adventureId = itinerary.getAdventureID();
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Itinerary "+req.getTitle()+": has been updated" );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return itineraryID;
