@@ -1,13 +1,13 @@
 package com.adventureit.maincontroller.controller;
 
 
-import com.adventureit.budgetservice.Requests.AddUTOExpenseEntryRequest;
-import com.adventureit.budgetservice.Requests.AddUTUExpenseEntryRequest;
-import com.adventureit.budgetservice.Requests.CreateBudgetRequest;
-import com.adventureit.budgetservice.Requests.EditBudgetRequest;
-import com.adventureit.budgetservice.Responses.BudgetResponseDTO;
-import com.adventureit.budgetservice.Responses.ReportResponseDTO;
-import com.adventureit.budgetservice.Responses.ViewBudgetResponse;
+import com.adventureit.budgetservice.requests.AddUTOExpenseEntryRequest;
+import com.adventureit.budgetservice.requests.AddUTUExpenseEntryRequest;
+import com.adventureit.budgetservice.requests.CreateBudgetRequest;
+import com.adventureit.budgetservice.requests.EditBudgetRequest;
+import com.adventureit.budgetservice.responses.BudgetResponseDTO;
+import com.adventureit.budgetservice.responses.ReportResponseDTO;
+import com.adventureit.budgetservice.responses.ViewBudgetResponse;
 import com.adventureit.timelineservice.entity.TimelineType;
 import com.adventureit.timelineservice.requests.CreateTimelineRequest;
 import org.springframework.web.bind.annotation.*;
