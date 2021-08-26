@@ -164,7 +164,7 @@ class Register extends State<RegisterCaller> {
                         lastNameController.text,
                         usernameController.text,
                         emailController.text,
-                        passwordController.text);
+                        passwordController.text, passwordCheckController.text);
                     if (success) {
                       this
                           .api

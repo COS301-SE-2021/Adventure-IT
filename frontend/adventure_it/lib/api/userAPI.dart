@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:core';
 
 import 'package:adventure_it/api/keycloakUser.dart';
 import 'package:adventure_it/api/userProfile.dart';
@@ -314,38 +315,61 @@ class UserApi {
 
   // Register a user in Keycloak
   Future<bool> registerKeycloakUser(
-      firstname, lastname, username, email, password) async {
-    final adminJWT = await this._adminLogIn();
-    final res = await http.post(Uri.parse(authApiAdmin + 'users/'),
-        body: jsonEncode(<String, dynamic>{
-          "firstName": "$firstname",
-          "lastName": "$lastname",
-          "username": "$username",
-          "email": "$email",
-          "credentials": [
-            {"type": "password", "value": "$password", "temporary": false}
-          ],
-          "enabled": "true"
-        }),
-        headers: {
-          'Authorization': 'Bearer $adminJWT',
-          'Content-Type': 'application/json; charset=UTF-8'
-        });
-    if (res.statusCode == 201) {
-      String newUser = (await this._fetchKeyCloakUser(username))!.id;
-      final res = await http.put(
-          Uri.parse(authApiAdmin + 'users/$newUser/send-verify-email'),
-          headers: {
-            'Authorization': 'Bearer $adminJWT',
-            'Content-Type': 'application/json; charset=UTF-8'
-          });
-      debugPrint(res.body);
-      return true;
-    } else {
-      this.message = res.body;
-      debugPrint(res.body);
+      firstname, lastname, username, email, password, passwordCheck) async {
+    if(password==passwordCheck) {
+      RegExp passwordReg = RegExp(
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$',
+        caseSensitive: false,
+        multiLine: false,);
+      RegExp usernameReg = RegExp(
+        r'^(?=.*?[a-z])(?=.*?[0-9]).{5,}$', caseSensitive: false,
+        multiLine: false,);
+      if (usernameReg.hasMatch(username)) {
+        if (passwordReg.hasMatch(password)) {
+          final adminJWT = await this._adminLogIn();
+          final res = await http.post(Uri.parse(authApiAdmin + 'users/'),
+              body: jsonEncode(<String, dynamic>{
+                "firstName": "$firstname",
+                "lastName": "$lastname",
+                "username": "$username",
+                "email": "$email",
+                "credentials": [
+                  {"type": "password", "value": "$password", "temporary": false}
+                ],
+                "enabled": "true"
+              }),
+              headers: {
+                'Authorization': 'Bearer $adminJWT',
+                'Content-Type': 'application/json; charset=UTF-8'
+              });
+          if (res.statusCode == 201) {
+            String newUser = (await this._fetchKeyCloakUser(username))!.id;
+            final res = await http.put(
+                Uri.parse(authApiAdmin + 'users/$newUser/send-verify-email'),
+                headers: {
+                  'Authorization': 'Bearer $adminJWT',
+                  'Content-Type': 'application/json; charset=UTF-8'
+                });
+            debugPrint(res.body);
+            return true;
+          } else {
+            this.message = res.body;
+            debugPrint(res.body);
+            return false;
+          }
+        }
+        this.message =
+        "Password must contain one uppercase letter, one lowercase letter, one special character, one digit and be at least 8 characters long";
+        return false;
+      }
+      this.message =
+      "Username may only be comprised of lowercase letters and digits and must be at least 5 characters long";
       return false;
     }
+    this.message =
+    "Passwords do not match";
+    return false;
+
   }
 
   Future<void> displayDialog(
