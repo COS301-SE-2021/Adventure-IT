@@ -5,10 +5,14 @@ import java.util.UUID;
 public class BudgetResponseDTO {
     private UUID id;
     private String name;
-    private final UUID creatorID;
-    private final UUID adventureID;
-    private final boolean deleted;
+    private UUID creatorID;
+    private UUID adventureID;
+    private boolean deleted;
     private String description;
+
+    public BudgetResponseDTO(){
+
+    }
 
     public BudgetResponseDTO(UUID id, String name, UUID creatorID, UUID adventureID,boolean deleted, String description){
         this.id = id;
