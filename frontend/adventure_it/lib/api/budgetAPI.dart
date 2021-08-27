@@ -79,6 +79,7 @@ class BudgetApi {
     }
     List<dynamic> categories = (jsonDecode(response.body) as List);
     List<int> intList = categories.map((s) => s as int).toList();
+    print(intList.toString());
     return intList;
   }
 

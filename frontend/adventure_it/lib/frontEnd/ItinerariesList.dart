@@ -151,7 +151,7 @@ class _ItinerariesList extends State<ItinerariesList> {
 
   String getTime(ItineraryEntry next)
   {
-    String dateTime="";
+    String dateTime=DateTime.parse(next.timestamp).day.toString()+" "+months[DateTime.parse(next.timestamp).month-1]+" "+DateTime.parse(next.timestamp).year.toString()+" ";
 
        String hour=DateTime.parse(next.timestamp)
             .hour

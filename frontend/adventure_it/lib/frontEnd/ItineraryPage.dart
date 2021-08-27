@@ -790,18 +790,6 @@ class ListItineraryItems extends State<_ListItineraryItems> {
   String getTime(ItineraryEntry i)
   {
     String dateTime="";
-    dateTime=dateTime+DateTime.parse(i.timestamp)
-        .day
-        .toString() +
-        " " +
-        months[DateTime.parse(i.timestamp)
-            .month -
-            1] +
-        " " +
-        DateTime.parse(i.timestamp)
-            .year
-            .toString() +
-        " ";
 
     String hour=DateTime.parse(i.timestamp)
         .hour
