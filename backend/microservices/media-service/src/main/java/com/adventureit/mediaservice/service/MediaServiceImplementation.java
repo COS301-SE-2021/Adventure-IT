@@ -21,7 +21,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Service
-public class MediaServiceImplementation{
+public class MediaServiceImplementation implements MediaService{
     @Autowired
     private  MediaInfoRepository mediaInfoRepository;
     @Autowired
@@ -40,6 +40,7 @@ public class MediaServiceImplementation{
         this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
     }
 
+    @Override
     public ResponseEntity<byte[]> testMediaUploaded(UUID file) throws IOException {
         MediaInfo info = mediaInfoRepository.findMediaById(file);
         HttpHeaders headers = new HttpHeaders();
@@ -55,6 +56,7 @@ public class MediaServiceImplementation{
         return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
+    @Override
     public ResponseEntity<byte[]> testFileUploaded(UUID file) throws IOException {
         FileInfo info = fileInfoRepository.findFileInfoById(file);
         HttpHeaders headers = new HttpHeaders();
@@ -70,6 +72,7 @@ public class MediaServiceImplementation{
         return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
+    @Override
     public ResponseEntity<byte[]> testDocumentUploaded(UUID file) throws IOException {
         DocumentInfo info = documentInfoRepository.findDocumentInfoById(file);
         HttpHeaders headers = new HttpHeaders();
@@ -85,6 +88,7 @@ public class MediaServiceImplementation{
         return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
+    @Override
     public HttpStatus uploadMedia(MultipartFile file, UUID userId, UUID adventureId) {
         try {
             UUID id = UUID.randomUUID();
@@ -107,6 +111,7 @@ public class MediaServiceImplementation{
         }
     }
 
+    @Override
     public HttpStatus uploadFile(MultipartFile file, UUID userId, UUID adventureId) {
         try {
             UUID id = UUID.randomUUID();
@@ -129,6 +134,7 @@ public class MediaServiceImplementation{
         }
     }
 
+    @Override
     public HttpStatus uploadDocument(MultipartFile file, UUID userId) {
         try {
             UUID id = UUID.randomUUID();
@@ -151,6 +157,7 @@ public class MediaServiceImplementation{
         }
     }
 
+    @Override
     public void deleteMedia(UUID id, UUID userID){
         MediaInfo mediaInfo = mediaInfoRepository.findMediaById(id);
         Storage storage = storageOptions.getService();
@@ -167,6 +174,7 @@ public class MediaServiceImplementation{
         mediaInfoRepository.delete(mediaInfo);
     }
 
+    @Override
     public void deleteFile(UUID id, UUID userID){
         FileInfo fileInfo = fileInfoRepository.findFileInfoById(id);
         Storage storage = storageOptions.getService();
@@ -183,6 +191,7 @@ public class MediaServiceImplementation{
         fileInfoRepository.delete(fileInfo);
     }
 
+    @Override
     public void deleteDocument(UUID id, UUID userID){
         DocumentInfo documentInfo = documentInfoRepository.findDocumentInfoById(id);
         Storage storage = storageOptions.getService();
