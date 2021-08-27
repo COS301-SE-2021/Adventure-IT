@@ -99,18 +99,6 @@ class TimelineList extends StatelessWidget {
   String getTime(Timeline i)
   {
     String dateTime="";
-    dateTime=dateTime+DateTime.parse(i.timestamp)
-        .day
-        .toString() +
-        " " +
-        months[DateTime.parse(i.timestamp)
-            .month -
-            1] +
-        " " +
-        DateTime.parse(i.timestamp)
-            .year
-            .toString() +
-        " ";
 
     String hour=DateTime.parse(i.timestamp)
         .hour
@@ -265,7 +253,7 @@ class TimelineList extends StatelessWidget {
                                 getTime(timelineModel.timeline!
                                     .elementAt(index)),
                                 style: TextStyle(
-                                    fontSize: 25 *
+                                    fontSize: 15 *
                                         MediaQuery.of(context)
                                             .textScaleFactor,
                                     fontWeight: FontWeight.bold,
