@@ -169,7 +169,6 @@ class _PieChart extends State<PieChartCaller> {
   List<PieChartSectionData> getSections() => data
       .asMap()
       .map<int, PieChartSectionData>((index, data) {
-        print(data.percent);
 
         final value = PieChartSectionData(
           color: data.color,

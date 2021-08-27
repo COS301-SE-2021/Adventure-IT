@@ -294,7 +294,6 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                         lastDate: new DateTime(DateTime.now().year + 5)
                         );
                         if (picked!=null) {
-                        print(picked);
                         setState(()=>dates=picked);
 
                         }

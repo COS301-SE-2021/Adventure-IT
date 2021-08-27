@@ -34,8 +34,6 @@ class BudgetApi {
   static Future<List<Budget>> getDeletedBudgets(adventureId) async {
     http.Response response = await _getDeletedBudgetsResponse(adventureId);
 
-    print(response.body);
-
     if (response.statusCode != 200) {
       throw Exception(
           'Failed to load list of deleted budgets: ${response.body}');
@@ -79,7 +77,7 @@ class BudgetApi {
     }
     List<dynamic> categories = (jsonDecode(response.body) as List);
     List<int> intList = categories.map((s) => s as int).toList();
-    print(intList.toString());
+
     return intList;
   }
 
@@ -225,6 +223,7 @@ class BudgetApi {
       String description,
       String category,
       String payee) async {
+
     final response = await http.post(
       Uri.parse('http://localhost:9999/budget/addUTOExpense'), //get uri
       headers: <String, String>{
@@ -271,6 +270,7 @@ class BudgetApi {
       String description,
       String category,
       String payee) async {
+
     final response = await http.post(
       Uri.parse('http://localhost:9999/budget/addUTUExpense'), //get uri
       headers: <String, String>{

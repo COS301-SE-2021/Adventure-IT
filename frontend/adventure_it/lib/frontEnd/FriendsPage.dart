@@ -75,7 +75,6 @@ class FriendsPage extends State<Friends> {
                               _userApi
                                   .searchUsername(usernameController.text)
                                   .then((value) {
-                                print(value);
                                 if (value.compareTo("") != 0) {
                                   _userApi.createFriendRequest(
                                       UserApi.getInstance()
@@ -119,7 +118,6 @@ class FriendsPage extends State<Friends> {
                             onPressed: () {
                               setState(() {
                                 this.friendList = true;
-                                print(friendList);
                               });
                             })),
                     Spacer(flex: 1),
@@ -146,7 +144,6 @@ class FriendsPage extends State<Friends> {
                             onPressed: () {
                               setState(() {
                                 this.friendList = false;
-                                print(friendList);
                               });
                             })),
                     Spacer(flex: 1),

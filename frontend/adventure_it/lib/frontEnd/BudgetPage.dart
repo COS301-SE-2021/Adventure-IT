@@ -235,8 +235,7 @@ class AlertBox extends State<_AlertBox> {
       temp2.add("Other");
 
       setState(() {
-        print(temp1.toString());
-        print(temp2.toString());
+
         userNames = temp1;
         userNamesAndOther = temp2;
       });
@@ -310,10 +309,10 @@ class AlertBox extends State<_AlertBox> {
     ];
 
     final categoryNames = [
-      "TRANSPORT",
-      "FOOD",
       "ACCOMMODATION",
       "ACTIVITIES",
+      "FOOD",
+      "TRANSPORT",
       "OTHER"
     ];
     final otherController = TextEditingController();
@@ -838,8 +837,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
       temp2.add("Other");
 
       setState(() {
-        print(temp1.toString());
-        print(temp2.toString());
+
         userNames = temp1;
         userNamesAndOther = temp2;
       });
@@ -872,10 +870,10 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
   String? payee;
 
   final categoryNames = [
-    "TRANSPORT",
-    "FOOD",
     "ACCOMMODATION",
     "ACTIVITIES",
+    "FOOD",
+    "TRANSPORT",
     "OTHER"
   ];
   final BudgetApi api = new BudgetApi();
