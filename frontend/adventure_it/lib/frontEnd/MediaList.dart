@@ -164,6 +164,7 @@ class MediaList extends StatelessWidget {
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  Spacer(),
                                   Text(mediaModel.media!.elementAt(index).name,
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.ellipsis,
@@ -173,13 +174,17 @@ class MediaList extends StatelessWidget {
                                               .textTheme
                                               .bodyText1!
                                               .color)),
-                                  ButtonBar(
-                                      alignment: MainAxisAlignment.start,
+                                  Spacer(),
+                                 Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
+                                        Spacer(),
                                         Expanded(
+                                            flex: 6,
                                             child: ElevatedButton(
                                                 child: Text("Download",
                                                     style: new TextStyle(
+                                                        fontWeight: FontWeight.bold,
                                                         color: Theme.of(context)
                                                             .textTheme
                                                             .bodyText1!
@@ -215,17 +220,20 @@ class MediaList extends StatelessWidget {
                                                                     index));
                                                   }
                                                 })),
+                                        Spacer(),
                                         Expanded(
+                                          flex: 6,
                                             child: ElevatedButton(
                                           child: Text("Remove",
                                               style: new TextStyle(
+                                                fontWeight: FontWeight.bold,
                                                   color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color)),
+                                                      .accentColor)),
                                           style: ElevatedButton.styleFrom(
+                                            side: BorderSide(width: 1.0, color: Theme.of(context)
+                                                .accentColor),
                                             primary:
-                                                Theme.of(context).accentColor,
+                                                Theme.of(context).primaryColorDark,
                                             padding: EdgeInsets.symmetric(
                                                 horizontal:
                                                     MediaQuery.of(context)
@@ -244,9 +252,11 @@ class MediaList extends StatelessWidget {
                                                     .elementAt(index)
                                                     .id);
                                           },
-                                        ))
-                                      ])
-                                ])))
+                                        )),
+                                        Spacer(),
+
+                                      ]),
+                                ]))),Spacer(),
                   ])),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: MediaQuery.of(context).size.height >

@@ -146,14 +146,14 @@ class MediaList extends StatelessWidget {
                       flex: 9,
                       child: Ink.image(
                           image: fileModel.files!
-                                  .elementAt(index)
-                                  .type
-                                  .contains("pdf")
+                              .elementAt(index)
+                              .type
+                              .contains("pdf")
                               ? Image.asset("assets/logo.png").image
                               : NetworkImage("http://" +
-                                  mediaApi +
-                                  "/file/fileUploaded/" +
-                                  fileModel.files!.elementAt(index).id),
+                              mediaApi +
+                              "/media/mediaUploaded/" +
+                              fileModel.files!.elementAt(index).id),
                           fit: BoxFit.cover),
                     ),
                     Expanded(
@@ -163,6 +163,7 @@ class MediaList extends StatelessWidget {
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  Spacer(),
                                   Text(fileModel.files!.elementAt(index).name,
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.ellipsis,
@@ -172,13 +173,17 @@ class MediaList extends StatelessWidget {
                                               .textTheme
                                               .bodyText1!
                                               .color)),
-                                  ButtonBar(
-                                      alignment: MainAxisAlignment.start,
+                                  Spacer(),
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
+                                        Spacer(),
                                         Expanded(
+                                            flex: 6,
                                             child: ElevatedButton(
                                                 child: Text("Download",
                                                     style: new TextStyle(
+                                                        fontWeight: FontWeight.bold,
                                                         color: Theme.of(context)
                                                             .textTheme
                                                             .bodyText1!
@@ -188,66 +193,72 @@ class MediaList extends StatelessWidget {
                                                       .accentColor,
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.03,
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                          0.03,
                                                       vertical:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.01),
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                          0.01),
                                                 ),
                                                 onPressed: () {
                                                   if (kIsWeb) {
                                                     FileApi
                                                         .web_requestFileDownload(
-                                                            fileModel.files!
-                                                                .elementAt(
-                                                                    index));
+                                                        fileModel.files!
+                                                            .elementAt(
+                                                            index));
                                                   } else {
-                                                    FileApi.requestFileDownload(
+                                                    FileApi
+                                                        .requestFileDownload(
                                                         context,
                                                         fileModel.files!
-                                                            .elementAt(index));
+                                                            .elementAt(
+                                                            index));
                                                   }
                                                 })),
+                                        Spacer(),
                                         Expanded(
+                                            flex: 6,
                                             child: ElevatedButton(
-                                          child: Text("Remove",
-                                              style: new TextStyle(
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color)),
-                                          style: ElevatedButton.styleFrom(
-                                            primary:
-                                                Theme.of(context).accentColor,
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal:
+                                              child: Text("Remove",
+                                                  style: new TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Theme.of(context)
+                                                          .accentColor)),
+                                              style: ElevatedButton.styleFrom(
+                                                side: BorderSide(width: 1.0, color: Theme.of(context)
+                                                    .accentColor),
+                                                primary:
+                                                Theme.of(context).primaryColorDark,
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal:
                                                     MediaQuery.of(context)
-                                                            .size
-                                                            .width *
+                                                        .size
+                                                        .width *
                                                         0.03,
-                                                vertical: MediaQuery.of(context)
+                                                    vertical: MediaQuery.of(context)
                                                         .size
                                                         .height *
-                                                    0.01),
-                                          ),
-                                          onPressed: () {
-                                            Provider.of<FileModel>(context,
+                                                        0.01),
+                                              ),
+                                              onPressed: () {
+                                                Provider.of<FileModel>(context,
                                                     listen: false)
-                                                .removeFiles(fileModel.files!
+                                                    .removeFiles(fileModel.files!
                                                     .elementAt(index)
                                                     .id);
-                                          },
-                                        ))
-                                      ])
-                                ])))
+                                              },
+                                            )),
+                                        Spacer(),
+                                      ]),
+                                ]))),Spacer(),
                   ])),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: MediaQuery.of(context).size.height >
-                        MediaQuery.of(context).size.width
+                    MediaQuery.of(context).size.width
                     ? 1
                     : 2,
                 crossAxisSpacing: 4.0,

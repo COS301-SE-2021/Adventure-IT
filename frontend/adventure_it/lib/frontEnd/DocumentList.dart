@@ -138,14 +138,14 @@ class DocumentList extends StatelessWidget {
                       flex: 9,
                       child: Ink.image(
                           image: documentModel.documents!
-                                  .elementAt(index)
-                                  .type
-                                  .contains("pdf")
+                              .elementAt(index)
+                              .type
+                              .contains("pdf")
                               ? Image.asset("assets/logo.png").image
                               : NetworkImage("http://" +
-                                  mediaApi +
-                                  "/document/documentUploaded/" +
-                                  documentModel.documents!.elementAt(index).id),
+                              mediaApi +
+                              "/media/mediaUploaded/" +
+                              documentModel.documents!.elementAt(index).id),
                           fit: BoxFit.cover),
                     ),
                     Expanded(
@@ -155,10 +155,8 @@ class DocumentList extends StatelessWidget {
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
-                                      documentModel.documents!
-                                          .elementAt(index)
-                                          .name,
+                                  Spacer(),
+                                  Text(documentModel.documents!.elementAt(index).name,
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
@@ -167,13 +165,17 @@ class DocumentList extends StatelessWidget {
                                               .textTheme
                                               .bodyText1!
                                               .color)),
-                                  ButtonBar(
-                                      alignment: MainAxisAlignment.start,
+                                  Spacer(),
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
+                                        Spacer(),
                                         Expanded(
+                                            flex: 6,
                                             child: ElevatedButton(
                                                 child: Text("Download",
                                                     style: new TextStyle(
+                                                        fontWeight: FontWeight.bold,
                                                         color: Theme.of(context)
                                                             .textTheme
                                                             .bodyText1!
@@ -183,71 +185,72 @@ class DocumentList extends StatelessWidget {
                                                       .accentColor,
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.03,
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                          0.03,
                                                       vertical:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.01),
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                          0.01),
                                                 ),
                                                 onPressed: () {
                                                   if (kIsWeb) {
                                                     DocumentApi
                                                         .web_requestDocumentDownload(
-                                                            documentModel
-                                                                .documents!
-                                                                .elementAt(
-                                                                    index));
+                                                        documentModel.documents!
+                                                            .elementAt(
+                                                            index));
                                                   } else {
                                                     DocumentApi
                                                         .requestDocumentDownload(
-                                                            context,
-                                                            documentModel
-                                                                .documents!
-                                                                .elementAt(
-                                                                    index));
+                                                        context,
+                                                        documentModel.documents!
+                                                            .elementAt(
+                                                            index));
                                                   }
                                                 })),
+                                        Spacer(),
                                         Expanded(
+                                            flex: 6,
                                             child: ElevatedButton(
-                                          child: Text("Remove",
-                                              style: new TextStyle(
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color)),
-                                          style: ElevatedButton.styleFrom(
-                                            primary:
-                                                Theme.of(context).accentColor,
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal:
+                                              child: Text("Remove",
+                                                  style: new TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Theme.of(context)
+                                                          .accentColor)),
+                                              style: ElevatedButton.styleFrom(
+                                                side: BorderSide(width: 1.0, color: Theme.of(context)
+                                                    .accentColor),
+                                                primary:
+                                                Theme.of(context).primaryColorDark,
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal:
                                                     MediaQuery.of(context)
-                                                            .size
-                                                            .width *
+                                                        .size
+                                                        .width *
                                                         0.03,
-                                                vertical: MediaQuery.of(context)
+                                                    vertical: MediaQuery.of(context)
                                                         .size
                                                         .height *
-                                                    0.01),
-                                          ),
-                                          onPressed: () {
-                                            Provider.of<DocumentModel>(context,
+                                                        0.01),
+                                              ),
+                                              onPressed: () {
+                                                Provider.of<DocumentModel>(context,
                                                     listen: false)
-                                                .removeDocument(documentModel
-                                                    .documents!
+                                                    .removeDocument(documentModel.documents!
                                                     .elementAt(index)
                                                     .id);
-                                          },
-                                        ))
-                                      ])
-                                ])))
+                                              },
+                                            )),
+                                        Spacer(),
+                                      ]),
+                                ]))),Spacer(),
                   ])),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: MediaQuery.of(context).size.height >
-                        MediaQuery.of(context).size.width
+                    MediaQuery.of(context).size.width
                     ? 1
                     : 2,
                 crossAxisSpacing: 4.0,
