@@ -191,7 +191,7 @@ class MediaList extends StatelessWidget {
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .width *
-                                                              0.05,
+                                                              0.03,
                                                       vertical:
                                                           MediaQuery.of(context)
                                                                   .size
@@ -228,7 +228,7 @@ class MediaList extends StatelessWidget {
                                                     MediaQuery.of(context)
                                                             .size
                                                             .width *
-                                                        0.05,
+                                                        0.03,
                                                 vertical: MediaQuery.of(context)
                                                         .size
                                                         .height *
