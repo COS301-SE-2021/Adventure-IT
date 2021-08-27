@@ -73,11 +73,11 @@ public class MainControllerItineraryReroute {
 
 
         assert entries != null;
-        for (LinkedHashMap<String,String> entry :
+        for (LinkedHashMap entry :
                 entries) {
             try {
                 LocationResponseDTO itineraryLocation = restTemplate.getForObject(IP+":9006/location/getLocation/"+entry.get("location"), LocationResponseDTO.class);
-                MainItineraryEntryResponseDTO responseObject = new MainItineraryEntryResponseDTO(entry.get("title"), entry.get("description"), UUID.fromString(entry.get("id")), UUID.fromString(entry.get("entryContainerID")), Boolean.parseBoolean(entry.get("completed")),itineraryLocation, LocalDateTime.parse(entry.get("timestamp")));
+                MainItineraryEntryResponseDTO responseObject = new MainItineraryEntryResponseDTO((String)entry.get("title"), (String)entry.get("description"), UUID.fromString((String)entry.get("id")), UUID.fromString((String)entry.get("entryContainerID")),(boolean)entry.get("completed"),itineraryLocation, LocalDateTime.parse((String)entry.get("timestamp")));
 
                list.add(responseObject);
             }
