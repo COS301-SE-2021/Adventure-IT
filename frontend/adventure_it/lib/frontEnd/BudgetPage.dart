@@ -857,11 +857,11 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
   String? payee;
 
   final categoryNames = [
-    "Transport",
-    "Food",
-    "Accommodation",
-    "Activities",
-    "Other"
+    "TRANSPORT",
+    "FOOD",
+    "ACCOMMODATION",
+    "ACTIVITIES",
+    "OTHER"
   ];
   final BudgetApi api = new BudgetApi();
   final amountController = TextEditingController();
