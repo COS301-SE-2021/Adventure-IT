@@ -57,7 +57,6 @@ class AdventureApi {
   }
 
   static Future<http.Response> _getAdventuresByUUID(userID) async {
-    print(userID);
     return http.get(Uri.http(mainApi, '/adventure/all/' + userID));
   }
 

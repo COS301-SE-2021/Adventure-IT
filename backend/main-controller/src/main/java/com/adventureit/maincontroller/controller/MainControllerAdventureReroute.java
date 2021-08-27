@@ -71,6 +71,7 @@ public class MainControllerAdventureReroute {
 
     @GetMapping("/setLocation/{adventureId}/{locationId}")
     public String setLocationAdventures(@PathVariable UUID adventureId,@PathVariable UUID locationId) {
+
         return restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/setLocation/"+adventureId+"/"+locationId, String.class);
     }
 
