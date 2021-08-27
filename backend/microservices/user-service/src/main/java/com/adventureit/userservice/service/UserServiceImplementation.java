@@ -330,20 +330,24 @@ public class UserServiceImplementation  {
     public String editUserProfile(EditUserProfileRequest req){
         Users user = repo.getUserByUserID(req.getUserId());
 
-        if(req.getEmail()!= null || req.getEmail()!= ""){
-            user.setEmail(req.getEmail());
-        }
-
-        if(req.getUsername()!= null || !req.getUsername().equals("")){
-            user.setUsername(req.getUsername());
-        }
-
-        if(req.getFirstName()!= null || !req.getFirstName().equals("")){
+        if(req.getFirstName().equals("")){
+        }else{
             user.setFirstname(req.getFirstName());
         }
 
-        if(req.getLastName()!= null || !req.getLastName().equals("")){
+        if(req.getLastName().equals("")){
+        }else{
             user.setLastname(req.getLastName());
+        }
+
+        if(req.getUsername().equals("")){
+        }else{
+            user.setUsername(req.getUsername());
+        }
+
+        if(req.getEmail().equals("")){
+        }else{
+            user.setEmail(req.getEmail());
         }
 
         repo.save(user);
