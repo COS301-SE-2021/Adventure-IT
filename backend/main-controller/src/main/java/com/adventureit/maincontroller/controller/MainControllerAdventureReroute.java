@@ -43,8 +43,8 @@ public class MainControllerAdventureReroute {
         List<GetUserByUUIDDTO> list = new ArrayList<>();
         Users user;
         assert users != null;
-        for (UUID uuid : users) {
-            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + uuid, Users.class);
+        for (int i = 0; i<users.size();i++) {
+            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + users.get(i), Users.class);
             assert user != null;
             list.add(new GetUserByUUIDDTO(user.getUserID(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail()));
         }
