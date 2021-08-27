@@ -4,6 +4,10 @@ server:
     include-message: always
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   application:
     name: BUDGET-SERVICE
   datasource:

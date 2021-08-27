@@ -56,7 +56,7 @@ public class MediaController {
         return fileInfoRepository.findAllByOwner(id);
     }
 
-    @GetMapping(value = "/getUserFileList/{id}")
+    @GetMapping(value = "/getUserDocumentList/{id}")
     public List<DocumentInfo> getUserDocumentList(@PathVariable UUID id){
         return documentInfoRepository.findAllByOwner(id);
     }
