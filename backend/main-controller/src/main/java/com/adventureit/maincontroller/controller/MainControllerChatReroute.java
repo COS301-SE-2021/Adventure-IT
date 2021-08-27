@@ -57,9 +57,6 @@ public class MainControllerChatReroute {
         List <GroupMessageResponseDTO> list = new ArrayList<>();
 
         assert chat != null;
-        if(chat.getMessages().isEmpty()){
-            throw new Exception("No messages available");
-        }
 
         for (UUID ID:chat.getMessages()) {
             message = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getGroupMessageByID/" + ID, GroupMessage.class);
