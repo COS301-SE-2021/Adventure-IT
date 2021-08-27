@@ -180,11 +180,11 @@ public class MediaServiceImplementation implements MediaService{
         Storage storage = storageOptions.getService();
 
         if(fileInfo == null){
-            throw new NotFoundException("Delete Media: Media does not exist");
+            throw new NotFoundException("Delete File: Media does not exist");
         }
 
         if(!fileInfo.getOwner().equals(userID)){
-            throw new UnauthorisedException("Delete Media: User not Authorised");
+            throw new UnauthorisedException("Delete File: User not Authorised");
         }
 
         storage.get(BlobId.of(bucketName, id.toString())).delete();
@@ -197,11 +197,11 @@ public class MediaServiceImplementation implements MediaService{
         Storage storage = storageOptions.getService();
 
         if(documentInfo == null){
-            throw new NotFoundException("Delete Media: Media does not exist");
+            throw new NotFoundException("Delete Document: Media does not exist");
         }
 
         if(!documentInfo.getOwner().equals(userID)){
-            throw new UnauthorisedException("Delete Media: User not Authorised");
+            throw new UnauthorisedException("Delete Document: User not Authorised");
         }
 
         storage.get(BlobId.of(bucketName, id.toString())).delete();
