@@ -11,6 +11,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,14 +22,6 @@ public class MediaController {
     private MediaServiceImplementation mediaServiceImplementation;
     @Autowired
     MediaInfoRepository mediaInfoRepository;
-    @Autowired
-    MediaRepository mediaRepository;
-    @Autowired
-    FileRepository fileRepository;
-    @Autowired
-    FileInfoRepository fileInfoRepository;
-    @Autowired
-    DocumentInfoRepository documentInfoRepository;
 
     @GetMapping("/test")
     public String test(){
@@ -36,18 +29,13 @@ public class MediaController {
     }
 
     @GetMapping(value = "/mediaUploaded/{file}")
-    public ResponseEntity<byte[]> testMediaUploaded(@PathVariable UUID file){
+    public ResponseEntity<byte[]> testMediaUploaded(@PathVariable UUID file) throws IOException {
         return mediaServiceImplementation.testMediaUploaded(file);
     }
 
     @GetMapping(value = "/fileUploaded/{file}")
     public ResponseEntity<byte[]> testFileUploaded(@PathVariable UUID file){
         return mediaServiceImplementation.testFileUploaded(file);
-    }
-
-    @GetMapping(value = "/documentUploaded/{file}")
-    public ResponseEntity<byte[]> testDocumentUploaded(@PathVariable UUID file){
-        return mediaServiceImplementation.testDocumentUploaded(file);
     }
 
     @GetMapping(value = "/getUserMediaList/{id}")
@@ -60,16 +48,6 @@ public class MediaController {
         return mediaInfoRepository.findAllByAdventureID(id);
     }
 
-    @GetMapping(value = "/getUserFileList/{id}")
-    public List<FileInfo> getUserFileList(@PathVariable UUID id){
-        return fileInfoRepository.findAllByOwner(id);
-    }
-
-    @GetMapping(value = "/getAdventureFileList/{id}")
-    public List<FileInfo> getAdventureFileList(@PathVariable UUID id){
-        return fileInfoRepository.findAllByAdventureID(id);
-    }
-
     @PostMapping("/uploadMedia")
     public HttpStatus uploadMedia(@RequestPart MultipartFile file, @RequestParam("userid") UUID userId, @RequestParam("adventureid") UUID adventureId){
         return mediaServiceImplementation.uploadMedia(file,userId,adventureId);
@@ -79,39 +57,15 @@ public class MediaController {
     public void uploadMediaTest(@RequestBody Object req){
         System.out.println(req.toString());
     }
-
-    @PostMapping("/uploadFile")
-    public HttpStatus uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("userid") UUID userId, @RequestParam("adventureid") UUID adventureId){
-        return mediaServiceImplementation.uploadFile(file,userId,adventureId);
-    }
-
-    @PostMapping("/uploadDocument")
-    public HttpStatus uploadDocument(@RequestParam("file") MultipartFile file, @RequestParam("userid") UUID userId){
-        return mediaServiceImplementation.uploadDocument(file,userId);
-    }
     
     @PostMapping("/printJson")
     public String printJson(@RequestBody JSONObject jsonObject){
         return jsonObject.toString();
     }
 
-    @GetMapping("/deleteFile/{id}/{userID}")
-    public void deleteFile(@PathVariable UUID id,@PathVariable UUID userID){
-        mediaServiceImplementation.deleteFile(id,userID);
-    }
 
     @GetMapping("/deleteMedia/{id}/{userID}")
     public void deleteMedia(@PathVariable UUID id,@PathVariable UUID userID){
         mediaServiceImplementation.deleteMedia(id,userID);
-    }
-
-    @GetMapping("/deleteDocument/{id}/{userID}")
-    public void deleteDocument(@PathVariable UUID id,@PathVariable UUID userID){
-        mediaServiceImplementation.deleteDocument(id,userID);
-    }
-
-    @GetMapping(value = "/getUserDocumentList/{id}")
-    public List<DocumentInfo> getUserDocumentList(@PathVariable UUID id){
-        return documentInfoRepository.findAllByOwner(id);
     }
 }
