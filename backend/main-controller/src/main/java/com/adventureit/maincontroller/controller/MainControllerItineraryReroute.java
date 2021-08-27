@@ -32,6 +32,7 @@ public class MainControllerItineraryReroute {
     private final String locationPort = "9006";
     private final String itineraryPort = "9009";
     private final String timelinePort = "9012";
+    private final String adventurePort = "9001";
 
     @GetMapping("/test")
     public String itineraryTest(){
@@ -44,7 +45,7 @@ public class MainControllerItineraryReroute {
         assert itinerary != null;
         UUID adventureId = itinerary.getAdventureID();
 
-        Adventure adventureResponse = restTemplate.getForObject(IP + ":" + locationPort + "/adventure/getAdventureByUUID/"+adventureId ,GetAdventureByUUIDResponse.class).getAdventure();
+        Adventure adventureResponse = restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/getAdventureByUUID/"+adventureId ,GetAdventureByUUIDResponse.class).getAdventure();
         LocalDateTime timestamp = LocalDateTime.parse(req.getTimestamp());
         if((timestamp.toLocalDate().compareTo(adventureResponse.getEndDate()) > 0) || (timestamp.toLocalDate().compareTo(adventureResponse.getStartDate()) < 0)){
             throw new InvalidItineraryEntryException("Itinerary Entry does not fit within Adventure");

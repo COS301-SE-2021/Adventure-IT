@@ -75,7 +75,6 @@ public class MainControllerAdventureReroute {
     }
 
     @GetMapping("/all/{id}")
-
     public List<AdventureResponseDTO> getAllAdventuresByUserUUID(@PathVariable UUID id){
 
         List<LinkedHashMap<String,String>> adventures = restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/all/"+id, List.class);
