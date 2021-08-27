@@ -97,12 +97,10 @@ public class MediaServiceImplementation implements MediaService{
             MediaInfo uploadedMedia = new MediaInfo(id, file.getContentType(), fileName, "DESCRIPTION", adventureId , userId);
             mediaInfoRepository.save(uploadedMedia);
 
-            File newFile = convertMultiPartToFile(file);
-            Path filePath = newFile.toPath();
             Storage storage = storageOptions.getService();
             BlobId blobId = BlobId.of(bucketName, id.toString());
             BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
-            storage.create(blobInfo, Files.readAllBytes(filePath));
+            storage.create(blobInfo, file.getBytes());
 
             return HttpStatus.OK;
         } catch (Exception e) {
@@ -120,12 +118,10 @@ public class MediaServiceImplementation implements MediaService{
             FileInfo uploadedFile = new FileInfo(id, file.getContentType(), fileName, "DESCRIPTION", adventureId , userId);
             fileInfoRepository.save(uploadedFile);
 
-            File newFile = convertMultiPartToFile(file);
-            Path filePath = newFile.toPath();
             Storage storage = storageOptions.getService();
             BlobId blobId = BlobId.of(bucketName, id.toString());
             BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
-            storage.create(blobInfo, Files.readAllBytes(filePath));
+            storage.create(blobInfo, file.getBytes());
 
             return HttpStatus.OK;
         } catch (Exception e) {
@@ -143,12 +139,10 @@ public class MediaServiceImplementation implements MediaService{
             DocumentInfo uploadedDoc = new DocumentInfo(id, file.getContentType(), fileName, "DESCRIPTION" , userId);
             documentInfoRepository.save(uploadedDoc);
 
-            File newFile = convertMultiPartToFile(file);
-            Path filePath = newFile.toPath();
             Storage storage = storageOptions.getService();
             BlobId blobId = BlobId.of(bucketName, id.toString());
             BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
-            storage.create(blobInfo, Files.readAllBytes(filePath));
+            storage.create(blobInfo, file.getBytes());
 
             return HttpStatus.OK;
         } catch (Exception e) {
@@ -206,13 +200,5 @@ public class MediaServiceImplementation implements MediaService{
 
         storage.get(BlobId.of(bucketName, id.toString())).delete();
         documentInfoRepository.delete(documentInfo);
-    }
-
-    private File convertMultiPartToFile(MultipartFile file) throws IOException {
-        File convertedFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
-        FileOutputStream fos = new FileOutputStream(convertedFile);
-        fos.write(file.getBytes());
-        fos.close();
-        return convertedFile;
     }
 }
