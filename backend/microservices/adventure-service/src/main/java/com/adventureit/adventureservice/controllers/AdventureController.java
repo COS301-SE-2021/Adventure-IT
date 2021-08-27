@@ -1,6 +1,7 @@
 package com.adventureit.adventureservice.controllers;
 
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
+import com.adventureit.adventureservice.requests.EditAdventureRequest;
 import com.adventureit.adventureservice.responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.responses.GetAdventuresByUserUUIDResponse;
 import com.adventureit.adventureservice.responses.GetAllAdventuresResponse;
@@ -70,5 +71,10 @@ public class AdventureController {
     @GetMapping("/addAttendees/{adventureID}/{userID}")
     public void addAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID) {
         adventureServiceImplementation.addAttendees(adventureID,userID);
+    }
+
+    @PostMapping("/editAdventure")
+    public String editAdventure(@RequestBody EditAdventureRequest req){
+        return adventureServiceImplementation.editAdventure(req);
     }
 }

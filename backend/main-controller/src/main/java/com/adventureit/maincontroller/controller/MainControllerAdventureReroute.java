@@ -1,6 +1,7 @@
 package com.adventureit.maincontroller.controller;
 
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
+import com.adventureit.adventureservice.requests.EditAdventureRequest;
 import com.adventureit.adventureservice.responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.responses.GetAdventuresByUserUUIDResponse;
 import com.adventureit.adventureservice.responses.GetAllAdventuresResponse;
@@ -120,6 +121,14 @@ public class MainControllerAdventureReroute {
         restTemplate.getForObject(IP + ":" + chatPort + "/chat/addParticipant/"+adventureID+"/"+userID, String.class);
         String timelinePort = "9012";
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+    }
+
+    @PostMapping("/editAdventure")
+    public String editAdventure(@RequestBody EditAdventureRequest req){
+        String timelinePort = "9012";
+        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureId(), TimelineType.ADVENTURE,"This adventure has been edited" );
+        restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        return restTemplate.postForObject(IP + ":" + adventurePort + "/adventure/editAdventure", req, String.class);
     }
 
 }
