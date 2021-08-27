@@ -1,4 +1,3 @@
-
 import 'package:adventure_it/Providers/media_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/mediaAPI.dart';
@@ -133,78 +132,128 @@ class MediaList extends StatelessWidget {
                     Theme.of(context).accentColor)));
       } else if (fileModel.files!.length > 0) {
         return Container(
-            child: StaggeredGridView.countBuilder(
-          crossAxisCount: 4,
-          itemCount: fileModel.files!.length,
-          itemBuilder: (BuildContext context, int index) => new Card(
-              color: Theme.of(context).primaryColorDark,
-              child: InkWell(
-                  onTap: () {
-                    if (kIsWeb) {
-                      FileApi.web_requestFileDownload(
-                          fileModel.files!.elementAt(index));
-                    } else {
-                      FileApi.requestFileDownload(
-                          context, fileModel.files!.elementAt(index));
-                    }
-                  },
-                  child: Stack(clipBehavior: Clip.none, children: <Widget>[
-                    Center(
-                        child: Container(
-                            height: double.infinity,
-                            width: double.infinity,
-                            decoration: new BoxDecoration(
-                              image: new DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: fileModel.files!
-                                          .elementAt(index)
-                                          .type
-                                          .contains("pdf")
-                                      ? Image.asset("assets/logo.png").image
-                                      : NetworkImage("http://" +
-                                          mediaApi +
-                                          "/media/fileUploaded/" +
-                                          fileModel.files!
-                                              .elementAt(index)
-                                              .id)),
-                            ),
-                            child: Padding(
-                                padding: const EdgeInsets.all(4),
-                                child:
-                                    Text(fileModel.files!.elementAt(index).name,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .scaffoldBackgroundColor,
-                                          fontSize: 12 *
-                                              MediaQuery.of(context)
-                                                  .textScaleFactor,
-                                          fontWeight: FontWeight.bold,
-                                        ))))),
-                    Positioned(
-                      right: -10.0,
-                      top: -10.0,
-                      child: InkResponse(
-                        onTap: () {
-                          Provider.of<FileModel>(context, listen: false)
-                              .removeFiles(
-                                  fileModel.files!.elementAt(index).id);
-                        },
-                        child: CircleAvatar(
-                          radius: MediaQuery.of(context).size.width * 0.02,
-                          child: Icon(Icons.close,
-                              size: MediaQuery.of(context).size.width * 0.02,
-                              color: Theme.of(context).primaryColorDark),
-                          backgroundColor: Theme.of(context).accentColor,
-                        ),
-                      ),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.1),
+            child: GridView.builder(
+              itemCount: fileModel.files!.length,
+              itemBuilder: (BuildContext context, int index) => new Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24)),
+                  clipBehavior: Clip.antiAlias,
+                  color: Theme.of(context).primaryColorDark,
+                  child: Column(children: [
+                    Expanded(
+                      flex: 9,
+                      child: Ink.image(
+                          image: fileModel.files!
+                                  .elementAt(index)
+                                  .type
+                                  .contains("pdf")
+                              ? Image.asset("assets/logo.png").image
+                              : NetworkImage("http://" +
+                                  mediaApi +
+                                  "/file/fileUploaded/" +
+                                  fileModel.files!.elementAt(index).id),
+                          fit: BoxFit.cover),
                     ),
-                  ]))),
-          staggeredTileBuilder: (int index) =>
-              new StaggeredTile.count(2, index.isEven ? 2 : 1),
-          mainAxisSpacing: 4.0,
-          crossAxisSpacing: 4.0,
-        ));
+                    Expanded(
+                        flex: 4,
+                        child: Padding(
+                            padding: EdgeInsets.all(2),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(fileModel.files!.elementAt(index).name,
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color)),
+                                  ButtonBar(
+                                      alignment: MainAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                            child: ElevatedButton(
+                                                child: Text("Download",
+                                                    style: new TextStyle(
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color)),
+                                                style: ElevatedButton.styleFrom(
+                                                  primary: Theme.of(context)
+                                                      .accentColor,
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.05,
+                                                      vertical:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.01),
+                                                ),
+                                                onPressed: () {
+                                                  if (kIsWeb) {
+                                                    FileApi
+                                                        .web_requestFileDownload(
+                                                            fileModel.files!
+                                                                .elementAt(
+                                                                    index));
+                                                  } else {
+                                                    FileApi.requestFileDownload(
+                                                        context,
+                                                        fileModel.files!
+                                                            .elementAt(index));
+                                                  }
+                                                })),
+                                        Expanded(
+                                            child: ElevatedButton(
+                                          child: Text("Remove",
+                                              style: new TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color)),
+                                          style: ElevatedButton.styleFrom(
+                                            primary:
+                                                Theme.of(context).accentColor,
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal:
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.05,
+                                                vertical: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.01),
+                                          ),
+                                          onPressed: () {
+                                            Provider.of<FileModel>(context,
+                                                    listen: false)
+                                                .removeFiles(fileModel.files!
+                                                    .elementAt(index)
+                                                    .id);
+                                          },
+                                        ))
+                                      ])
+                                ])))
+                  ])),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: MediaQuery.of(context).size.height >
+                        MediaQuery.of(context).size.width
+                    ? 1
+                    : 2,
+                crossAxisSpacing: 4.0,
+                mainAxisSpacing: 4.0,
+              ),
+            ));
       } else {
         return Center(
             child: Text("File everything under 'F' for Fun!",

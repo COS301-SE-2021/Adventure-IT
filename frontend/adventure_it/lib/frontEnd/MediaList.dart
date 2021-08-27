@@ -144,7 +144,7 @@ class MediaList extends StatelessWidget {
                   color: Theme.of(context).primaryColorDark,
                   child: Column(children: [
                     Expanded(
-                     flex: 8,
+                      flex: 9,
                       child: Ink.image(
                           image: mediaModel.media!
                                   .elementAt(index)
@@ -158,64 +158,104 @@ class MediaList extends StatelessWidget {
                           fit: BoxFit.cover),
                     ),
                     Expanded(
-                      flex: 3,
+                        flex: 4,
                         child: Padding(
                             padding: EdgeInsets.all(2),
-                            child: Column(children: [
-                              Text(mediaModel.media!.elementAt(index).name,
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .color)),
-                              ButtonBar(
-                                  alignment: MainAxisAlignment.start,
-                                  children: [
-                                    Expanded(child:TextButton(
-                                        child: Text("Download",
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Theme.of(context)
-                                                    .accentColor)),
-                                        onPressed: () {
-                                          if (kIsWeb) {
-                                            MediaApi.web_requestMediaDownload(
-                                                mediaModel.media!
-                                                    .elementAt(index));
-                                          } else {
-                                            MediaApi.requestMediaDownload(
-                                                context,
-                                                mediaModel.media!
-                                                    .elementAt(index));
-                                          }
-                                        })),
-                                    Expanded(child: TextButton(
-                                      child: Text("Remove",
-
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: Theme.of(context)
-                                                  .accentColor)),
-                                      onPressed: () {
-                                        Provider.of<MediaModel>(context,
-                                                listen: false)
-                                            .removeMedia(mediaModel.media!
-                                                .elementAt(index)
-                                                .id);
-                                      },
-                                    ))
-                                  ])
-                            ])))
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(mediaModel.media!.elementAt(index).name,
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color)),
+                                  ButtonBar(
+                                      alignment: MainAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                            child: ElevatedButton(
+                                                child: Text("Download",
+                                                    style: new TextStyle(
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color)),
+                                                style: ElevatedButton.styleFrom(
+                                                  primary: Theme.of(context)
+                                                      .accentColor,
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.05,
+                                                      vertical:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.01),
+                                                ),
+                                                onPressed: () {
+                                                  if (kIsWeb) {
+                                                    MediaApi
+                                                        .web_requestMediaDownload(
+                                                            mediaModel.media!
+                                                                .elementAt(
+                                                                    index));
+                                                  } else {
+                                                    MediaApi
+                                                        .requestMediaDownload(
+                                                            context,
+                                                            mediaModel.media!
+                                                                .elementAt(
+                                                                    index));
+                                                  }
+                                                })),
+                                        Expanded(
+                                            child: ElevatedButton(
+                                          child: Text("Remove",
+                                              style: new TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color)),
+                                          style: ElevatedButton.styleFrom(
+                                            primary:
+                                                Theme.of(context).accentColor,
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal:
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.05,
+                                                vertical: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.01),
+                                          ),
+                                          onPressed: () {
+                                            Provider.of<MediaModel>(context,
+                                                    listen: false)
+                                                .removeMedia(mediaModel.media!
+                                                    .elementAt(index)
+                                                    .id);
+                                          },
+                                        ))
+                                      ])
+                                ])))
                   ])),
-             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-               crossAxisCount: MediaQuery.of(context).size.height>MediaQuery.of(context).size.width?1:2,
-               crossAxisSpacing: 4.0,
-               mainAxisSpacing: 4.0,
-             ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: MediaQuery.of(context).size.height >
+                        MediaQuery.of(context).size.width
+                    ? 1
+                    : 2,
+                crossAxisSpacing: 4.0,
+                mainAxisSpacing: 4.0,
+              ),
             ));
       } else {
         return Center(
