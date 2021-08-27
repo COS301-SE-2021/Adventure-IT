@@ -26,23 +26,6 @@ public class BudgetController {
 		this.budgetRepository = budgetRepository;
 	}
 
-	@GetMapping("/test")
-	public String test(){
-		return "Budget Controller is functioning";
-	}
-
-	@GetMapping("/populate")
-	public String populate(){
-		budgetServiceImplementation.mockPopulate();
-		return "Mock budgets populated \n";
-	}
-
-	@GetMapping("/populateTrash")
-	public String populateTrash(){
-		budgetServiceImplementation.mockPopulateTrash();
-		return "Trash populated \n";
-	}
-
 	@GetMapping("/viewBudgetsByAdventure/{id}")
 	public List<BudgetResponseDTO> viewBudgetsByAdventure(@PathVariable UUID id) {
 		List<Budget> budgets = budgetRepository.findAllByAdventureID(id);
