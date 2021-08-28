@@ -246,10 +246,7 @@ class _AlertBox extends State<AlertBox> {
                       )),
                   Spacer(),
                   Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.5,
+                    width: 300,
                     padding: EdgeInsets.symmetric(
                         horizontal: MediaQuery
                             .of(context)
@@ -290,10 +287,7 @@ class _AlertBox extends State<AlertBox> {
                       .size
                       .height * 0.01),
                   Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.5,
+                    width:300,
                     padding: EdgeInsets.symmetric(
                         horizontal: MediaQuery
                             .of(context)
@@ -335,7 +329,16 @@ class _AlertBox extends State<AlertBox> {
                       .of(context)
                       .size
                       .height * 0.02),
-                  TextField(
+              Container(
+                width: 300,
+                padding: EdgeInsets
+                    .symmetric(
+                    horizontal: MediaQuery
+                        .of(context)
+                        .size
+                        .width *
+                        0.02),
+                  child: TextField(
                     maxLines: 1,
                     style: TextStyle(
                         color:
@@ -374,12 +377,21 @@ class _AlertBox extends State<AlertBox> {
                         });
                       }
                     },
-                  ),
+                  )),
                   SizedBox(height: MediaQuery
                       .of(context)
                       .size
                       .height * 0.02),
-                  TextField(
+              Container(
+                width: 300,
+                padding: EdgeInsets
+                    .symmetric(
+                    horizontal: MediaQuery
+                        .of(context)
+                        .size
+                        .width *
+                        0.02),
+                  child: TextField(
                     maxLines: 1,
                     style: TextStyle(
                         color:
@@ -418,12 +430,21 @@ class _AlertBox extends State<AlertBox> {
                         });
                       }
                     },
-                  ),
+                  )),
                   SizedBox(height: MediaQuery
                       .of(context)
                       .size
                       .height * 0.02),
-                  TextField(
+              Container(
+                width: 300,
+                padding: EdgeInsets
+                    .symmetric(
+                    horizontal: MediaQuery
+                        .of(context)
+                        .size
+                        .width *
+                        0.02),
+                child: TextField(
                     maxLines: 1,
                     style: TextStyle(
                         color:
@@ -632,7 +653,7 @@ class _AlertBox extends State<AlertBox> {
                           });
                     },
 
-                  ), Spacer(),
+                  )), Spacer(),
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: MediaQuery
@@ -778,12 +799,12 @@ class _AlertBox extends State<AlertBox> {
       return MediaQuery
           .of(context)
           .size
-          .height * 0.60;
+          .height * 0.65;
     } else {
       return MediaQuery
           .of(context)
           .size
-          .height * 0.65;
+          .height * 0.70;
     }
   }
 
@@ -861,12 +882,12 @@ class ListItineraryItems extends State<_ListItineraryItems> {
       return MediaQuery
           .of(context)
           .size
-          .height * 0.60;
+          .height * 0.65;
     } else {
       return MediaQuery
           .of(context)
           .size
-          .height * 0.65;
+          .height * 0.70;
     }
   }
 
@@ -1241,10 +1262,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                             )),
                                                         Spacer(),
                                                         Container(
-                                                          width: MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width * 0.5,
+                                                          width: 300,
                                                           padding: EdgeInsets
                                                               .symmetric(
                                                               horizontal: MediaQuery
@@ -1295,10 +1313,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                                 .size
                                                                 .height * 0.01),
                                                         Container(
-                                                          width: MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width * 0.5,
+                                                          width: 300,
                                                           padding: EdgeInsets
                                                               .symmetric(
                                                               horizontal: MediaQuery
@@ -1350,7 +1365,16 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                                 .of(context)
                                                                 .size
                                                                 .height * 0.02),
-                                                        TextField(
+                                                        Container(
+                                                            width: 300,
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: MediaQuery
+                                                                    .of(context)
+                                                                    .size
+                                                                    .width *
+                                                                    0.02),
+                                                        child:TextField(
                                                           style: TextStyle(
                                                               color:
                                                               Theme
@@ -1399,13 +1423,22 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                               });
                                                             }
                                                           },
-                                                        ),
+                                                        )),
                                                         SizedBox(
                                                             height: MediaQuery
                                                                 .of(context)
                                                                 .size
                                                                 .height * 0.02),
-                                                        TextField(
+                                                        Container(
+                                                            width: 300,
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: MediaQuery
+                                                                    .of(context)
+                                                                    .size
+                                                                    .width *
+                                                                    0.02),
+                                                        child: TextField(
                                                           maxLines: 1,
                                                           style: TextStyle(
                                                               color:
@@ -1453,13 +1486,22 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                               });
                                                             }
                                                           },
-                                                        ),
+                                                        )),
                                                         SizedBox(
                                                             height: MediaQuery
                                                                 .of(context)
                                                                 .size
                                                                 .height * 0.02),
-                                                        TextField(
+                                                        Container(
+                                                            width: 300,
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: MediaQuery
+                                                                    .of(context)
+                                                                    .size
+                                                                    .width *
+                                                                    0.02),
+                                                            child: TextField(
                                                           maxLines: 1,
                                                           style: TextStyle(
                                                               color:
@@ -1714,7 +1756,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                                 });
                                                           },
 
-                                                        ),
+                                                        )),
                                                         Spacer(),
                                                         Padding(
                                                             padding: EdgeInsets
