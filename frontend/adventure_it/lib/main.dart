@@ -35,6 +35,10 @@ class MyApp extends StatelessWidget {
                 primaryColorDark: Color(0xff323647),
                 scaffoldBackgroundColor: Color(0xff20222D),
                 accentColor: Color(0xff6A7AC7),
+                colorScheme: ThemeData().colorScheme.copyWith(
+                  primary: Color(0xff6A7AC7),
+                  secondary: Color(0xff6A7AC7),
+                ),
                 primaryColor: Color(0xff808080),
                 textSelectionTheme:
                     TextSelectionThemeData(selectionColor: Color(0xffA7AAB9)),

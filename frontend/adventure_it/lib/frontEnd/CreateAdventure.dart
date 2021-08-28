@@ -243,6 +243,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                            .textScaleFactor),
                        controller: dateController,
                        decoration: InputDecoration(
+                           prefixIcon: Icon(Icons.calendar_today_rounded),
                            hintStyle: TextStyle(color: Theme
                                .of(context)
                                .textTheme
@@ -318,9 +319,9 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                         });
 
                         }
-                      }, //
+                      },) //
 
-                  )),
+                  ),
                   SizedBox(height: MediaQuery
                       .of(context)
                       .size
@@ -338,6 +339,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                 .color),
                         controller: locationController,
                         decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.location_on_rounded),
                             hintStyle: TextStyle(
                                 fontSize: 15 * MediaQuery
                                     .of(context)

@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51a90799-d850-4f45-9f71-c80c24076f5d" name="Default Changelist" comment="Null exception fix for when there are no adventures">
+    <list default="true" id="51a90799-d850-4f45-9f71-c80c24076f5d" name="Default Changelist" comment="CreateAdventure now uses fields instead of buttons">
       <change beforePath="$PROJECT_DIR$/adventure-backend.iws" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.iws" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/CreateAdventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/CreateAdventure.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -489,7 +491,7 @@
       <workItem from="1627957121689" duration="1489000" />
       <workItem from="1629987510640" duration="12948000" />
       <workItem from="1630048021066" duration="16849000" />
-      <workItem from="1630158673219" duration="6271000" />
+      <workItem from="1630158673219" duration="8287000" />
     </task>
     <task id="LOCAL-00001" summary="removed id fields from create- requests">
       <created>1627942105472</created>
@@ -512,7 +514,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630075467646</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="CreateAdventure now uses fields instead of buttons">
+      <created>1630181173062</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1630181173062</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -569,7 +578,8 @@
     <MESSAGE value="removed id fields from create- requests" />
     <MESSAGE value="Changed GetUser to getUser for all uses" />
     <MESSAGE value="Null exception fix for when there are no adventures" />
-    <option name="LAST_COMMIT_MESSAGE" value="Null exception fix for when there are no adventures" />
+    <MESSAGE value="CreateAdventure now uses fields instead of buttons" />
+    <option name="LAST_COMMIT_MESSAGE" value="CreateAdventure now uses fields instead of buttons" />
   </component>
   <component name="VssConfiguration">
     <CheckoutOptions>

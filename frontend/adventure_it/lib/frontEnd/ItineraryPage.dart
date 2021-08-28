@@ -349,6 +349,7 @@ class _AlertBox extends State<AlertBox> {
                             .color),
                     controller: dateController,
                     decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.calendar_today_rounded),
                         hintStyle: TextStyle(
                             color: Theme
                                 .of(context)
@@ -402,6 +403,7 @@ class _AlertBox extends State<AlertBox> {
                             .color),
                     controller: timeController,
                     decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.access_time_rounded),
                         hintStyle: TextStyle(
                             color: Theme
                                 .of(context)
@@ -455,6 +457,7 @@ class _AlertBox extends State<AlertBox> {
                             .color),
                     controller: locationController,
                     decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.location_on_rounded),
                         hintStyle: TextStyle(
                             color: Theme
                                 .of(context)
@@ -1375,6 +1378,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                                     .width *
                                                                     0.02),
                                                         child:TextField(
+
                                                           style: TextStyle(
                                                               color:
                                                               Theme
@@ -1383,8 +1387,9 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                                   .textTheme
                                                                   .bodyText1!
                                                                   .color),
-                                                          controller: titleController,
+                                                          controller: dateController,
                                                           decoration: InputDecoration(
+                                                              prefixIcon: Icon(Icons.calendar_today_rounded),
                                                               hintStyle: TextStyle(
                                                                   color: Theme
                                                                       .of(
@@ -1449,6 +1454,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                                   .color),
                                                           controller: timeController,
                                                           decoration: InputDecoration(
+                                                              prefixIcon: Icon(Icons.access_time_rounded),
                                                               hintStyle: TextStyle(
                                                                   color: Theme
                                                                       .of(
@@ -1512,6 +1518,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                                   .color),
                                                           controller: locationController,
                                                           decoration: InputDecoration(
+                                                              prefixIcon: Icon(Icons.location_on_rounded),
                                                               hintStyle: TextStyle(
                                                                   color: Theme
                                                                       .of(
