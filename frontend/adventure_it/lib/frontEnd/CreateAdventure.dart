@@ -525,7 +525,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                       horizontal: 3, vertical: 20),
                                 ),
                                 onPressed: () async {
-                                  adventuresModel.addAdventure(
+                                adventuresModel.addAdventure(
                                       nameController.text, ownerID,
                                       LocalDate.dateTime(dates!.start),
                                       LocalDate.dateTime(dates!.end),
