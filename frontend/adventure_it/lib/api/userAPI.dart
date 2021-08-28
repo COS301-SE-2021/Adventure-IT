@@ -405,6 +405,8 @@ class UserApi {
       // then parse the JSON.
       print('Status code: ${response.statusCode}');
       print('Body: ${response.body}');
+      final keycloakUser = UserApi.getInstance()._keycloakUser;
+      UserApi.getInstance()._userProfile = await UserApi.getInstance().fetchBackendProfile(keycloakUser!.id);
       return response;
     } else {
       // If the server did not return a 201 CREATED response,

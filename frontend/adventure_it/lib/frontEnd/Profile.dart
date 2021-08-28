@@ -1,5 +1,7 @@
+import 'package:adventure_it/Providers/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:adventure_it/api/userProfile.dart';
+import 'package:provider/provider.dart';
 import 'DocumentList.dart';
 import 'Navbar.dart';
 import 'package:adventure_it/api/userAPI.dart';
@@ -69,7 +71,9 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
               valueColor: new AlwaysStoppedAnimation<Color>(
                   Theme.of(context).accentColor)));
     } else {
-      return Container(
+      return ChangeNotifierProvider(
+          create: (context) => UserModel(),
+          builder: (context, widget) => Container(
           margin: EdgeInsets.symmetric(
               vertical: MediaQuery.of(context).size.height * 0.01),
           width: MediaQuery.of(context).size.width * 0.9,
@@ -192,11 +196,12 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                       child: MaterialButton(
                                           onPressed: () {
                                             {
+                                              var provider = Provider.of<UserModel>(context, listen: false);
                                               showDialog(
                                                   context: context,
                                                   builder:
                                                       (BuildContext context) {
-                                                    return AlertBox(user!);
+                                                    return AlertBox(user!, provider);
                                                   });
                                             }
                                           },
@@ -220,15 +225,16 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                             ])
                           ]))
                     ]))
-                  ])));
+                  ]))));
     }
   }
 }
 
 class AlertBox extends StatefulWidget {
   late final UserProfile? user;
+  final UserModel userModel;
 
-  AlertBox(this.user);
+  AlertBox(this.user, this.userModel);
 
   @override
   _AlertBox createState() => _AlertBox(user!);
@@ -398,8 +404,16 @@ class _AlertBox extends State<AlertBox> {
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 primary: Theme.of(context).accentColor),
-                            onPressed: () {
-                              Navigator.of(context).pop(true);
+                            onPressed: () async {
+                              await widget.userModel.editProfile(user!.userID,
+                                  usernameController.text,
+                                  firstNameController.text,
+                                  lastNameController.text,
+                                  emailController.text);
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                  builder: (context) => ProfileCaller()));
                             },
                             child: Text("Edit",
                                 style: TextStyle(
