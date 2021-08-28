@@ -12,6 +12,8 @@ import 'ItineraryPage.dart';
 import 'ItineraryTrash.dart';
 import 'Navbar.dart';
 
+
+
 class Itineraries extends StatelessWidget {
   late final Adventure? adventure;
 
