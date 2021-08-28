@@ -15,14 +15,12 @@ class HomePage_Pages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PageController controller = PageController(initialPage: 0);
-    return ChangeNotifierProvider(
-        create: (context) => AdventuresModel(),
-        child: PageView(
+    return PageView(
             scrollDirection: Axis.horizontal,
             controller: controller,
             children: <Widget>[
               HomePage_Pages_Adventures(),
-            ]));
+            ]);
   }
 }
 
@@ -31,8 +29,10 @@ class HomePage_Pages_Adventures extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      Container(
+    return ChangeNotifierProvider.value(
+        value: AdventuresModel(),
+        builder: (context, widget) => Column(children: <Widget>[
+        Container(
           alignment: Alignment.center,
           height: MediaQuery.of(context).size.height / 6,
           child: Text("Adventures",
@@ -59,10 +59,11 @@ class HomePage_Pages_Adventures extends StatelessWidget {
                 child: IconButton(
                     onPressed: () {
                       {
+                        var provider = Provider.of<AdventuresModel>(context, listen: false);
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CreateAdventureCaller()));
+                                builder: (context) => CreateAdventureCaller(provider)));
                       }
                     },
                     icon: const Icon(Icons.add),
@@ -70,7 +71,7 @@ class HomePage_Pages_Adventures extends StatelessWidget {
           ) //Your widget here,
           ),
       SizedBox(height: MediaQuery.of(context).size.height / 60),
-    ]);
+    ]));
   }
 }
 

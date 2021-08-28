@@ -14,7 +14,9 @@ import 'Navbar.dart';
 
 //Shows page used to create a new adventure
 class CreateAdventureCaller extends StatefulWidget {
+  final AdventuresModel adventuresModel;
 
+  CreateAdventureCaller(this.adventuresModel);
 
   @override
   CreateAdventure createState() => CreateAdventure();
@@ -566,7 +568,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                       horizontal: 3, vertical: 20),
                                 ),
                                 onPressed: () async {
-                                  adventuresModel.addAdventure(
+                                  await widget.adventuresModel.addAdventure(
                                       nameController.text, ownerID,
                                       LocalDate.dateTime(dates!.start),
                                       LocalDate.dateTime(dates!.end),
