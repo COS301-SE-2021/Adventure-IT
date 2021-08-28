@@ -68,34 +68,23 @@ class CreateAdventure extends State<CreateAdventureCaller> {
     "December"
   ];
 
-  String getText() {
-    if (dates == null) {
-      return "Select Dates";
-    }
-    else if (dates!.start == dates!.end) {
-      String x = dates!.start.day.toString() + " " +
-          months.elementAt(dates!.start.month - 1) + " " +
-          dates!.start.year.toString();
+  String getText( DateTimeRange? dateRange) {
+    if(dateRange!.start == dateRange.end) {
+      String x = dateRange.start.day.toString() + " " +
+          months.elementAt(dateRange.start.month - 1) + " " +
+          dateRange.start.year.toString();
       return x;
     }
     else {
-      String x = dates!.start.day.toString() + " " +
-          months.elementAt(dates!.start.month - 1) + " " +
-          dates!.start.year.toString() + " to " + dates!.end.day.toString() +
-          " " + months.elementAt(dates!.end.month - 1) + " " +
-          dates!.end.year.toString();
+      String x = dateRange.start.day.toString() + " " +
+          months.elementAt(dateRange.start.month - 1) + " " +
+          dateRange.start.year.toString() + " to " + dateRange.end.day.toString() +
+          " " + months.elementAt(dateRange.end.month - 1) + " " +
+          dateRange.end.year.toString();
       return x;
     }
   }
 
-  String getTextLocation() {
-    if (location == null) {
-      return "Select Location";
-    }
-    else {
-      return location!;
-    }
-  }
 
   Map<int, Color> color =
   {
@@ -118,6 +107,8 @@ class CreateAdventure extends State<CreateAdventureCaller> {
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
   final locationController = TextEditingController();
+  final dateController = TextEditingController();
+  AdventuresModel adventuresModel = new AdventuresModel();
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +134,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                   SizedBox(height: MediaQuery
                       .of(context)
                       .size
-                      .height * 0.05),
+                      .height * 0.03),
                   Container(
                     width: MediaQuery
                         .of(context)
@@ -164,7 +155,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                   SizedBox(height: MediaQuery
                       .of(context)
                       .size
-                      .height * 0.05),
+                      .height * 0.03),
                   SizedBox(
                     width: 350,
                     child: TextField(
@@ -240,12 +231,38 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                       .of(context)
                       .size
                       .height * 0.02),
-
-                  MaterialButton(
-                      color: Theme
-                          .of(context)
-                          .accentColor,
-                      onPressed: () async {
+                 Container(
+                   width: 350,
+                   child: TextField (
+                       style: TextStyle(color: Theme
+                           .of(context)
+                           .textTheme
+                           .bodyText1!
+                           .color, fontSize: 15 * MediaQuery
+                           .of(context)
+                           .textScaleFactor),
+                       controller: dateController,
+                       decoration: InputDecoration(
+                           hintStyle: TextStyle(color: Theme
+                               .of(context)
+                               .textTheme
+                               .bodyText2!
+                               .color, fontSize: 15 * MediaQuery
+                               .of(context)
+                               .textScaleFactor),
+                           filled: true,
+                           enabledBorder: InputBorder.none,
+                           errorBorder: InputBorder.none,
+                           disabledBorder: InputBorder.none,
+                           fillColor: Theme
+                               .of(context)
+                               .primaryColorLight,
+                           focusedBorder: OutlineInputBorder(
+                               borderSide: new BorderSide(color: Theme
+                                   .of(context)
+                                   .accentColor)),
+                           hintText: 'Select Dates'),
+                      onTap: () async {
                         DateTimeRange? picked = await showDateRangePicker(
                             context: context,
                             builder: (BuildContext context, Widget ?child) {
@@ -295,215 +312,240 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                         lastDate: new DateTime(DateTime.now().year + 5)
                         );
                         if (picked!=null) {
-                        setState(()=>dates=picked);
+                        setState((){dates=picked;
+                          dateController.text=getText(picked);
+
+                        });
 
                         }
                       }, //
-                      child: Text(getText(), style: new TextStyle(color: Theme
-                          .of(context)
-                          .textTheme
-                          .bodyText1!
-                          .color, fontSize: 15 * MediaQuery
-                          .of(context)
-                          .textScaleFactor))
-                  ),
+
+                  )),
                   SizedBox(height: MediaQuery
                       .of(context)
                       .size
                       .height * 0.01),
-                  MaterialButton(
-                      color: Theme
-                          .of(context)
-                          .accentColor,
-                      onPressed: () async {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                  backgroundColor: Theme
-                                      .of(context)
-                                      .primaryColorDark,
-                                  title: Stack(
-                                      clipBehavior: Clip.none, children: <Widget>[
-                                        Positioned(
-                                          right: -40.0,
-                                          top: -40.0,
-                                          child: InkResponse(
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: CircleAvatar(
-                                              child: Icon(Icons.close,
+                  SizedBox(
+                      width: 350,
+                      child: TextField(
+                        maxLines: 1,
+                        style: TextStyle(
+                            color:
+                            Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1!
+                                .color),
+                        controller: locationController,
+                        decoration: InputDecoration(
+                            hintStyle: TextStyle(
+                                fontSize: 15 * MediaQuery
+                                    .of(context)
+                                    .textScaleFactor,
+                                color: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color),
+                            filled: true,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            fillColor: Theme
+                                .of(context)
+                                .primaryColorLight,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: new BorderSide(
+                                    color: Theme
+                                        .of(context)
+                                        .accentColor)),
+                            hintText: 'Find a Location'),
+                        onTap: () async {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                    backgroundColor: Theme
+                                        .of(context)
+                                        .primaryColorDark,
+                                    title: Stack(
+                                        clipBehavior: Clip.none, children: <
+                                        Widget>[
+                                      Positioned(
+                                        right: -40.0,
+                                        top: -40.0,
+                                        child: InkResponse(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: CircleAvatar(
+                                            child: Icon(Icons.close,
+                                                color: Theme
+                                                    .of(context)
+                                                    .primaryColorDark),
+                                            backgroundColor: Theme
+                                                .of(context)
+                                                .accentColor,
+                                          ),
+                                        ),
+                                      ), Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text("Find Location",
+                                                textAlign: TextAlign
+                                                    .center,
+                                                style: TextStyle(
                                                   color: Theme
                                                       .of(context)
-                                                      .primaryColorDark),
-                                              backgroundColor: Theme
-                                                  .of(context)
-                                                  .accentColor,
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color,
+                                                  fontSize: 25 *
+                                                      MediaQuery
+                                                          .of(
+                                                          context)
+                                                          .textScaleFactor,
+                                                  fontWeight: FontWeight
+                                                      .bold,
+                                                )),
+                                            SizedBox(height: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .height * 0.01, width: 300),
+                                            TextField(
+                                              style: TextStyle(
+                                                  color:
+                                                  Theme
+                                                      .of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color),
+                                              decoration: InputDecoration(
+                                                  hintStyle: TextStyle(
+                                                      color: Theme
+                                                          .of(
+                                                          context)
+                                                          .textTheme
+                                                          .bodyText2!
+                                                          .color, fontSize: 15 * MediaQuery
+                                                      .of(context)
+                                                      .textScaleFactor),
+                                                  filled: true,
+                                                  enabledBorder: InputBorder
+                                                      .none,
+                                                  errorBorder: InputBorder
+                                                      .none,
+                                                  disabledBorder: InputBorder
+                                                      .none,
+                                                  fillColor: Theme
+                                                      .of(context)
+                                                      .primaryColorLight,
+                                                  focusedBorder: OutlineInputBorder(
+                                                      borderSide: new BorderSide(
+                                                          color: Theme
+                                                              .of(
+                                                              context)
+                                                              .accentColor)),
+                                                  hintText: 'Search for country or city'),
+                                              onChanged: (value) {
+                                                _debouncer.run(() {
+                                                  Provider.of<
+                                                      LocationModel>(
+                                                      context,
+                                                      listen: false)
+                                                      .fetchAllSuggestions(
+                                                      value);
+                                                });
+                                              },
                                             ),
-                                          ),
-                                        ), Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text("Find Location",
-                                                  textAlign: TextAlign
-                                                      .center,
-                                                  style: TextStyle(
-                                                    color: Theme
-                                                        .of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color,
-                                                    fontSize: 25 *
-                                                        MediaQuery
-                                                            .of(
-                                                            context)
-                                                            .textScaleFactor,
-                                                    fontWeight: FontWeight
-                                                        .bold,
-                                                  )),
-                                              SizedBox(height: MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .height * 0.01, width: 300),
-                                              TextField(
-                                                style: TextStyle(
-                                                    color:
-                                                    Theme
-                                                        .of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color),
-                                                controller: locationController,
-                                                decoration: InputDecoration(
-                                                    hintStyle: TextStyle(
-                                                        color: Theme
-                                                            .of(
-                                                            context)
-                                                            .textTheme
-                                                            .bodyText2!
-                                                            .color),
-                                                    filled: true,
-                                                    enabledBorder: InputBorder
-                                                        .none,
-                                                    errorBorder: InputBorder
-                                                        .none,
-                                                    disabledBorder: InputBorder
-                                                        .none,
-                                                    fillColor: Theme
-                                                        .of(context)
-                                                        .primaryColorLight,
-                                                    focusedBorder: OutlineInputBorder(
-                                                        borderSide: new BorderSide(
-                                                            color: Theme
-                                                                .of(
-                                                                context)
-                                                                .accentColor)),
-                                                    hintText: 'Search by country or city'),
-                                                onChanged: (value) {
-                                                  _debouncer.run(() {
-                                                    Provider.of<
-                                                        LocationModel>(
-                                                        context,
-                                                        listen: false)
-                                                        .fetchAllSuggestions(
-                                                        value);
-                                                  });
-                                                },
-                                              ),
-                                            ])
-                                      ]),
-                                  content:
-                                  Container(
-                                      width: 300,
-                                      child: Consumer<LocationModel>(
-                                          builder: (context, locationModel,
-                                              child) {
-                                            return locationModel.suggestions !=
-                                                null &&
-                                                locationModel.suggestions!
-                                                    .length > 0 ?
-                                            ListView.builder(
-                                                shrinkWrap: true,
-                                                itemCount: locationModel
-                                                    .suggestions!.length,
-                                                itemBuilder: (context,
-                                                    index) {
-                                                  return
-                                                    InkWell(
-                                                        hoverColor:
-                                                        Theme
-                                                            .of(context)
-                                                            .primaryColorLight,
-                                                        onTap: () {
-                                                          setState(() {
-                                                            this.location =
-                                                                locationModel
-                                                                    .suggestions!
-                                                                    .elementAt(
-                                                                    index)
-                                                                    .description;
-                                                          });
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                        child: Padding(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                vertical: MediaQuery
-                                                                    .of(context)
-                                                                    .size
-                                                                    .height *
-                                                                    0.01,
-                                                                horizontal: MediaQuery
-                                                                    .of(context)
-                                                                    .size
-                                                                    .width *
-                                                                    0.01),
-                                                            child: Expanded(
-                                                                child: Text(
+                                          ])
+                                    ]),
+                                    content:
+                                    Container(
+                                        width: 350,
+                                        child: Consumer<LocationModel>(
+                                            builder: (context, locationModel,
+                                                child) {
+                                              return locationModel
+                                                  .suggestions != null &&
+                                                  locationModel.suggestions!
+                                                      .length > 0 ?
+                                              ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount: locationModel
+                                                      .suggestions!.length,
+                                                  itemBuilder: (context,
+                                                      index) {
+                                                    return
+                                                      InkWell(
+                                                          hoverColor:
+                                                          Theme
+                                                              .of(context)
+                                                              .primaryColorLight,
+                                                          onTap: () {
+                                                            setState(() {
+                                                              this.location =
                                                                   locationModel
                                                                       .suggestions!
                                                                       .elementAt(
                                                                       index)
-                                                                      .description,
-                                                                  style: TextStyle(
-                                                                      fontSize: 16 *
-                                                                          MediaQuery
-                                                                              .of(
-                                                                              context)
-                                                                              .textScaleFactor,
-                                                                      fontWeight: FontWeight
-                                                                          .bold,
-                                                                      color: Theme
-                                                                          .of(
-                                                                          context)
-                                                                          .textTheme
-                                                                          .bodyText1!
-                                                                          .color
-                                                                  ),
-                                                                )
-                                                            )));
-                                                })
-                                                : Container(height: 10);
-                                          })));
-                            });
-                      },
-
-                      child: Text(
-                          getTextLocation(), textAlign: TextAlign.center,
-                          style: new TextStyle(color: Theme
-                              .of(context)
-                              .textTheme
-                              .bodyText1!
-                              .color, fontSize: 15 * MediaQuery
-                              .of(context)
-                              .textScaleFactor))
-                  ),
+                                                                      .description;
+                                                              locationController
+                                                                  .text =
+                                                              this.location!;
+                                                            });
+                                                            Navigator.of(
+                                                                context).pop();
+                                                          },
+                                                          child: Padding(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                  vertical: MediaQuery
+                                                                      .of(
+                                                                      context)
+                                                                      .size
+                                                                      .height *
+                                                                      0.01,
+                                                                  horizontal: MediaQuery
+                                                                      .of(
+                                                                      context)
+                                                                      .size
+                                                                      .width *
+                                                                      0.01),
+                                                              child: Expanded(
+                                                                  child: Text(
+                                                                    locationModel
+                                                                        .suggestions!
+                                                                        .elementAt(
+                                                                        index)
+                                                                        .description,
+                                                                    style: TextStyle(
+                                                                        fontSize: 16 *
+                                                                            MediaQuery
+                                                                                .of(
+                                                                                context)
+                                                                                .textScaleFactor,
+                                                                        fontWeight: FontWeight
+                                                                            .bold,
+                                                                        color: Theme
+                                                                            .of(
+                                                                            context)
+                                                                            .textTheme
+                                                                            .bodyText1!
+                                                                            .color
+                                                                    ),
+                                                                  )
+                                                              )));
+                                                  })
+                                                  : Container(height: 10);
+                                            })));
+                              });
+                        },
+                      )),
                   SizedBox(height: MediaQuery
                       .of(context)
                       .size
-                      .height * 0.04),
+                      .height * 0.03),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       mainAxisSize: MainAxisSize.max,
@@ -544,15 +586,18 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                             flex: 3,
                             child: ElevatedButton(
                                 child: Text("Cancel",
-                                    style: new TextStyle(color: Theme
-                                        .of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color)),
+                                    style: new TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme
+                                            .of(context)
+                                            .accentColor)),
                                 style: ElevatedButton.styleFrom(
+                                  side: BorderSide(width: 1.0, color: Theme
+                                      .of(context)
+                                      .accentColor),
                                   primary: Theme
                                       .of(context)
-                                      .accentColor,
+                                      .scaffoldBackgroundColor,
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 3, vertical: 20),
                                 ),
