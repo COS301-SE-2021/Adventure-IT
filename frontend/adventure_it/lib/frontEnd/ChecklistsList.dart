@@ -116,7 +116,6 @@ class ChecklistList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ChecklistModel>(builder: (context, checklistModel, child) {
-      if (checklistModel.checklists != null)
 
           if (checklistModel.checklists == null) {
             return Center(

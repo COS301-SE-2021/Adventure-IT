@@ -317,7 +317,7 @@ class UserApi {
       firstname, lastname, username, email, password, passwordCheck) async {
     if(firstname==""||lastname==""||username==""||email==""||password==""||passwordCheck=="")
       {
-        this.message="Please fill in necessary fields";
+        this.message="Please fill in all necessary fields";
         return false;
       }
     if (password == passwordCheck) {
