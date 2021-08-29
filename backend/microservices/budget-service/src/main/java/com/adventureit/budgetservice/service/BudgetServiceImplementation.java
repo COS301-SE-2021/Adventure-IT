@@ -315,9 +315,11 @@ public class BudgetServiceImplementation implements BudgetService {
         List<Integer> integers = new ArrayList<>(List.of(0,0,0,0,0));
 
         for (Budget budget:budgets) {
-            temp = budgetEntryRepository.findBudgetEntryByEntryContainerID(budget.getBudgetId());
-            if(temp != null){
-                budgetEntries.addAll(temp);
+            if(!budget.isDeleted()){
+                temp = budgetEntryRepository.findBudgetEntryByEntryContainerID(budget.getBudgetId());
+                if(temp != null){
+                    budgetEntries.addAll(temp);
+                }
             }
         }
 

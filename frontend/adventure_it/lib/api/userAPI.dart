@@ -125,7 +125,7 @@ class UserApi {
   Future<UserProfile?> fetchBackendProfile(String targetUuid) async {
     debugPrint("Getting backend profile for: " + targetUuid);
     final res =
-        await http.get(Uri.parse(userApi + "/user/GetUser/" + targetUuid));
+        await http.get(Uri.parse(userApi + "/user/getUser/" + targetUuid));
     final jsonRes = jsonDecode(res.body);
     print(jsonRes);
     print(res.statusCode);
@@ -146,7 +146,7 @@ class UserApi {
   Future<UserProfile?> registerBackendProfile(KeycloakUser userInfo) async {
     String username = userInfo.username;
     debugPrint("Registering backend profile for $username");
-    final res = await http.post(Uri.parse(userApi + "/user/RegisterUser/"),
+    final res = await http.post(Uri.parse(userApi + "/user/registerUser/"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(<String, String>{
           "userID": userInfo.id,
@@ -183,7 +183,7 @@ class UserApi {
 
   Future<http.Response> _getFriends(String userID) async {
     return http
-        .get(Uri.parse("http://" + mainApi + '/user/GetFriends/' + userID));
+        .get(Uri.parse("http://" + mainApi + '/user/getFriends/' + userID));
   }
 
   Future<List<FriendRequest>> getFriendRequests(String userID) async {
@@ -202,7 +202,7 @@ class UserApi {
 
   Future<http.Response> _getFriendRequests(String userID) async {
     return http.get(
-        Uri.parse("http://" + mainApi + '/user/GetFriendRequests/' + userID));
+        Uri.parse("http://" + mainApi + '/user/getFriendRequests/' + userID));
   }
 
   Future<List<UserProfile>> getFriendProfiles(String userID) async {
@@ -299,7 +299,7 @@ class UserApi {
   }
 
   Future<http.Response> _findUser(String userID) async {
-    return http.get(Uri.parse(userApi + "/user/GetUser/" + userID));
+    return http.get(Uri.parse(userApi + "/user/getUser/" + userID));
   }
 
   Future<String?> _retrieve(key) async {
@@ -315,6 +315,11 @@ class UserApi {
   // Register a user in Keycloak
   Future<bool> registerKeycloakUser(
       firstname, lastname, username, email, password, passwordCheck) async {
+    if(firstname==""||lastname==""||username==""||email==""||password==""||passwordCheck=="")
+      {
+        this.message="Please fill in all necessary fields";
+        return false;
+      }
     if (password == passwordCheck) {
       RegExp passwordReg = RegExp(
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$',
@@ -322,7 +327,7 @@ class UserApi {
         multiLine: false,
       );
       RegExp usernameReg = RegExp(
-        r'^(?=.*?[a-z])(?=.*?[0-9]).{5,}$',
+        r'^(?=.*?[a-z]?)(?=.*?[0-9]?).{5,}$',
         caseSensitive: false,
         multiLine: false,
       );
@@ -379,4 +384,41 @@ class UserApi {
         builder: (context) =>
             AlertDialog(title: Text(title), content: Text(text)),
       );
+
+  static Future<http.Response> editProfile(
+      String userId,
+      String username,
+      String firstName,
+      String lastName,
+      String email) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:9999/user/editUserProfile'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'userId': userId,
+        'username': username,
+        'firstName': firstName,
+        'lastName': lastName,
+        'email': email
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      final keycloakUser = UserApi.getInstance()._keycloakUser;
+      UserApi.getInstance()._userProfile = await UserApi.getInstance().fetchBackendProfile(keycloakUser!.id);
+      return response;
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      throw Exception('Failed to edit the user\'s profile.');
+    }
+  }
 }

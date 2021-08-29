@@ -26,6 +26,8 @@ public class Users  {
     private String lastname;
     private String email;
     private Boolean enabled = false;
+    @Lob
+    private byte [] profilePicture;
     private Boolean locked = false;
 
 

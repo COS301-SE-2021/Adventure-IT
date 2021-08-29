@@ -1,3 +1,4 @@
+import 'package:adventure_it/api/timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +46,7 @@ class TimeLine extends StatelessWidget {
                         style: new TextStyle(
                             color:
                                 Theme.of(context).textTheme.bodyText1!.color))),
+                iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
                 backgroundColor: Theme.of(context).primaryColorDark),
             body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -93,6 +95,40 @@ class TimelineList extends StatelessWidget {
 
   TimelineList(Adventure? adv) {
     this.a = adv;
+  }
+
+  String getTime(Timeline i)
+  {
+    String dateTime="";
+
+    String hour=DateTime.parse(i.timestamp)
+        .hour
+        .toString();
+
+    if(hour.length<2)
+    {
+      dateTime=dateTime+"0"+hour+":";
+    }
+    else
+    {
+      dateTime=dateTime+hour+":";
+    }
+
+    String minute=DateTime.parse(i.timestamp)
+        .minute
+        .toString();
+
+    if(minute.length<2)
+    {
+      dateTime=dateTime+"0"+minute;
+    }
+    else
+    {
+      dateTime=dateTime+minute;
+    }
+
+    return dateTime;
+
   }
 
   Widget getIcon(String type, BuildContext context)
@@ -215,13 +251,10 @@ class TimelineList extends StatelessWidget {
                                     .color)
                             ),
                             trailing: Text(
-                                DateTime.parse(timelineModel.timeline!
-                                    .elementAt(index)
-                                    .timestamp).hour.toString()+":"+DateTime.parse(timelineModel.timeline!
-                                    .elementAt(index)
-                                    .timestamp).minute.toString(),
+                                getTime(timelineModel.timeline!
+                                    .elementAt(index)),
                                 style: TextStyle(
-                                    fontSize: 25 *
+                                    fontSize: 15 *
                                         MediaQuery.of(context)
                                             .textScaleFactor,
                                     fontWeight: FontWeight.bold,

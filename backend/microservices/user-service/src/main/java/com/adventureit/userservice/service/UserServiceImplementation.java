@@ -8,6 +8,7 @@ import com.adventureit.userservice.exceptions.*;
 import com.adventureit.userservice.repository.FriendRepository;
 import com.adventureit.userservice.repository.PictureInfoRepository;
 import com.adventureit.userservice.repository.UserRepository;
+import com.adventureit.userservice.requests.EditUserProfileRequest;
 import com.adventureit.userservice.requests.RegisterUserRequest;
 import com.adventureit.userservice.responses.FriendDTO;
 import com.adventureit.userservice.responses.GetFriendRequestsResponse;
@@ -192,6 +193,31 @@ public class UserServiceImplementation  {
             throw new InvalidRequestException("One or both of the users do not exist");
         }
 
+        List<Friend> requests1 = friendRepository.findByFirstUserEquals(UUID.fromString(userId1));
+        List<Friend> requests2 = friendRepository.findBySecondUserEquals(UUID.fromString(userId1));
+
+        for (Friend request:requests1) {
+            if(request.getSecondUser().equals(UUID.fromString(userId2))){
+                if(request.isAccepted()){
+                    throw new InvalidRequestException("Create Friend Request: Cannot sent request, users already friends");
+                }
+                else{
+                    throw new InvalidRequestException("Create Friend Request: Cannot sent request, request already exists");
+                }
+            }
+        }
+
+        for (Friend request:requests2) {
+            if(request.getFirstUser().equals(UUID.fromString(userId2))){
+                if(request.isAccepted()){
+                    throw new InvalidRequestException("Create Friend Request: Cannot sent request, users already friends");
+                }
+                else{
+                    throw new InvalidRequestException("Create Friend Request: Cannot sent request, request already exists");
+                }
+            }
+        }
+
         Friend friend = new Friend(UUID.fromString(userId1), UUID.fromString(userId2));
         friendRepository.save(friend);
 
@@ -343,5 +369,33 @@ public class UserServiceImplementation  {
     public void deleteUser(UUID id){
         Users found = repo.getUserByUserID(id);
         repo.delete(found);
+    }
+
+    public String editUserProfile(EditUserProfileRequest req){
+        Users user = repo.getUserByUserID(req.getUserId());
+
+        if(req.getFirstName().equals("")){
+        }else{
+            user.setFirstname(req.getFirstName());
+        }
+
+        if(req.getLastName().equals("")){
+        }else{
+            user.setLastname(req.getLastName());
+        }
+
+        if(req.getUsername().equals("")){
+        }else{
+            user.setUsername(req.getUsername());
+        }
+
+        if(req.getEmail().equals("")){
+        }else{
+            user.setEmail(req.getEmail());
+        }
+
+        repo.save(user);
+        return "Editing successful";
+
     }
 }

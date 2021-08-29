@@ -6,6 +6,7 @@ import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
 import com.adventureit.adventureservice.exceptions.UserNotInAdventureException;
 import com.adventureit.adventureservice.repository.AdventureRepository;
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
+import com.adventureit.adventureservice.requests.EditAdventureRequest;
 import com.adventureit.adventureservice.requests.GetAdventureByUUIDRequest;
 import com.adventureit.adventureservice.responses.*;
 import com.adventureit.adventureservice.exceptions.NullFieldException;
@@ -93,7 +94,8 @@ public class AdventureServiceImplementation implements AdventureService {
     public List<GetAllAdventuresResponse> getAllAdventures(){
         List<Adventure> allAdventures = adventureRepository.findAll();
         if(allAdventures.size() == 0){
-            throw new AdventureNotFoundException("Get All Adventure: No adventures found");
+            List<GetAllAdventuresResponse> list = new ArrayList<>();
+            return list;
         }
 
         allAdventures.sort(Comparator.comparing(Adventure::getStartDate));
@@ -174,10 +176,23 @@ public class AdventureServiceImplementation implements AdventureService {
         adventureRepository.save(adventure);
     }
 
+    @Override
+    public String removeAttendees(UUID adventureID, UUID userID) {
+        Adventure adventure = adventureRepository.findAdventureByAdventureId(adventureID);
+        if(adventure == null){
+            throw new AdventureNotFoundException("Adventure does not exist");
+        }
+
+        adventure.getAttendees().remove(userID);
+        adventureRepository.save(adventure);
+        return "User has been removed";
+    }
+
     // Helper function for sorting adventures, throws an exception if there are no adventures
     private List<GetAdventuresByUserUUIDResponse> sortAdventures(List<Adventure> userAdventures) {
         if(userAdventures.size() == 0){
-            throw new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
+            List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
+            return list;
         }
 
         userAdventures.sort(Comparator.comparing(Adventure::getStartDate));
@@ -188,6 +203,40 @@ public class AdventureServiceImplementation implements AdventureService {
         }
 
         return list;
+    }
+
+    @Override
+    public String editAdventure(EditAdventureRequest req) {
+        Adventure adventure = adventureRepository.findAdventureByAdventureId(req.getAdventureId());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy");
+        if(req.getDescription().equals("")){
+
+        }else{
+            adventure.setDescription(req.getDescription());
+        }
+
+        if(req.getName().equals("")){
+
+        }else{
+            adventure.setName(req.getName());
+        }
+
+        if(req.getStartDate().equals("")){
+
+        }else{
+            LocalDate sd = LocalDate.parse(req.getStartDate(),formatter);
+            adventure.setStartDate(sd);
+        }
+
+        if(req.getEndDate().equals("")){
+
+        }else{
+            LocalDate ed = LocalDate.parse(req.getEndDate(),formatter);
+            adventure.setEndDate(ed);
+        }
+
+        adventureRepository.save(adventure);
+        return "Adventure successfully edited";
     }
 
 }

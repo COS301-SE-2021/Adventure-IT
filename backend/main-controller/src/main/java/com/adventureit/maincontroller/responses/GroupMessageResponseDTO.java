@@ -36,4 +36,19 @@ public class GroupMessageResponseDTO {
         return timestamp;
     }
 
+    public GetUserByUUIDDTO getSender() {
+        return sender;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public List<GetUserByUUIDDTO> getReceivers() {
+        return receivers;
+    }
+
+    public Map<UUID, Boolean> getRead() {
+        return read;
+    }
 }

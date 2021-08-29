@@ -11,9 +11,6 @@ class LocationModel extends ChangeNotifier {
 
   Future fetchAllSuggestions(String value) async {
     _suggestions = await LocationApi.getSuggestions(value);
-    for (int i = 0; i < _suggestions!.length; i++) {
-      print(_suggestions!.elementAt(i).description);
-    }
     notifyListeners();
   }
 }

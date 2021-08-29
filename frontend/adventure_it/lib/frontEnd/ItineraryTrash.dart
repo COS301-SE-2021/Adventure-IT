@@ -22,6 +22,7 @@ class ItineraryTrash extends StatelessWidget {
                 child: Text("Deleted Itineraries",
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
+            iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
             backgroundColor: Theme.of(context).primaryColorDark),
         body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +67,7 @@ class ItineraryTrash extends StatelessWidget {
 
 class DeletedItineraryList extends StatelessWidget {
   late final Adventure? a;
-  late final BuildContext? c;
+  BuildContext? c;
 
   DeletedItineraryList(Adventure? adventure) {
     this.a = adventure;

@@ -33,6 +33,7 @@ class FriendsPage extends State<Friends> {
                 child: Text("Friends",
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
+            iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
             backgroundColor: Theme.of(context).primaryColorDark),
         body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -65,7 +66,7 @@ class FriendsPage extends State<Friends> {
                             hintText: 'Username'))),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.01),
                 Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: Container(
                         decoration: BoxDecoration(
                             color: Theme.of(context).accentColor,
@@ -75,7 +76,6 @@ class FriendsPage extends State<Friends> {
                               _userApi
                                   .searchUsername(usernameController.text)
                                   .then((value) {
-                                print(value);
                                 if (value.compareTo("") != 0) {
                                   _userApi.createFriendRequest(
                                       UserApi.getInstance()
@@ -86,6 +86,7 @@ class FriendsPage extends State<Friends> {
                               });
                             },
                             icon: const Icon(Icons.send_rounded),
+                            iconSize:30,
                             color: Theme.of(context)
                                 .primaryColorDark))), //Your widget he
                 Spacer(flex: 1),
@@ -100,13 +101,17 @@ class FriendsPage extends State<Friends> {
                         child: ElevatedButton(
                             child: Text("Friend List",
                                 style: new TextStyle(
-                                    color: Theme.of(context)
+                                  fontWeight: FontWeight.bold,
+                                    color: !friendList?Theme.of(context)
+                                        .accentColor:Theme.of(context)
                                         .textTheme
                                         .bodyText1!
                                         .color)),
                             style: ElevatedButton.styleFrom(
+    side: BorderSide(width: 1.0, color: Theme.of(context)
+        .accentColor),
                               primary: !friendList
-                                  ? Theme.of(context).primaryColorDark
+                                  ? Theme.of(context).scaffoldBackgroundColor
                                   : Theme.of(context).accentColor,
                               padding: EdgeInsets.symmetric(
                                   horizontal: 3, vertical: 20),
@@ -114,7 +119,6 @@ class FriendsPage extends State<Friends> {
                             onPressed: () {
                               setState(() {
                                 this.friendList = true;
-                                print(friendList);
                               });
                             })),
                     Spacer(flex: 1),
@@ -123,14 +127,17 @@ class FriendsPage extends State<Friends> {
                         child: ElevatedButton(
                             child: Text("Friend Requests",
                                 style: new TextStyle(
-                                    color: Theme.of(context)
+                                    fontWeight: FontWeight.bold,
+                                    color: friendList?Theme.of(context)
+                                        .accentColor:Theme.of(context)
                                         .textTheme
                                         .bodyText1!
-                                        .color),
-                                textAlign: TextAlign.center),
+                                        .color)),
                             style: ElevatedButton.styleFrom(
+                              side: BorderSide(width: 1.0, color: Theme.of(context)
+                                  .accentColor),
                               primary: friendList
-                                  ? Theme.of(context).primaryColorDark
+                                  ? Theme.of(context).scaffoldBackgroundColor
                                   : Theme.of(context).accentColor,
                               padding: EdgeInsets.symmetric(
                                   horizontal: 3, vertical: 20),
@@ -138,7 +145,6 @@ class FriendsPage extends State<Friends> {
                             onPressed: () {
                               setState(() {
                                 this.friendList = false;
-                                print(friendList);
                               });
                             })),
                     Spacer(flex: 1),
@@ -146,16 +152,20 @@ class FriendsPage extends State<Friends> {
               SizedBox(height: MediaQuery.of(context).size.height / 50),
               Container(
                   height: MediaQuery.of(context).size.height * 0.65,
-                  child: friendList? GetFriends() : GetFriendRequests()),
+                  child: friendList
+                      ? GetFriends(context)
+                      : GetFriendRequests(context)),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
             ]));
   }
 }
 
 class GetFriends extends StatelessWidget {
-  late final BuildContext? c;
+ BuildContext? c;
 
-  GetFriends();
+  GetFriends(context) {
+    this.c = context;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -306,9 +316,11 @@ class GetFriends extends StatelessWidget {
 }
 
 class GetFriendRequests extends StatelessWidget {
-  late final BuildContext? c;
+  BuildContext? c;
 
-  GetFriendRequests();
+  GetFriendRequests(context) {
+    this.c = context;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -352,19 +364,10 @@ class GetFriendRequests extends StatelessWidget {
                                                   .textTheme
                                                   .bodyText1!
                                                   .color)),
-                                      trailing: Row(
+                                      trailing: ButtonBar(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.05,
-                                              decoration: BoxDecoration(
-                                                  color: Theme.of(context)
-                                                      .accentColor,
-                                                  shape: BoxShape.circle),
-                                              child: IconButton(
+                                          IconButton(
                                                   onPressed: () {
                                                     Provider.of<FriendRequestModel>(
                                                             context,
@@ -375,19 +378,12 @@ class GetFriendRequests extends StatelessWidget {
                                                                     index)
                                                                 .id);
                                                   },
-                                                  icon: const Icon(Icons.check),
+                                                  icon: Icon(Icons.check),
+                                                  iconSize:20,
                                                   color: Theme.of(context)
-                                                      .primaryColorDark)),
-                                          Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.05,
-                                              decoration: BoxDecoration(
-                                                  color: Theme.of(context)
-                                                      .accentColor,
-                                                  shape: BoxShape.circle),
-                                              child: IconButton(
+                                                      .accentColor),
+
+                                            IconButton(
                                                   onPressed: () {
                                                     showDialog(
                                                         context: context,
@@ -456,9 +452,10 @@ class GetFriendRequests extends StatelessWidget {
                                                               ]);
                                                         });
                                                   },
-                                                  icon: const Icon(Icons.close),
+                                                  icon: Icon(Icons.close),
+                                                  iconSize:20,
                                                   color: Theme.of(context)
-                                                      .primaryColorDark)),
+                                                      .accentColor),
                                         ],
                                       ),
                                     ),

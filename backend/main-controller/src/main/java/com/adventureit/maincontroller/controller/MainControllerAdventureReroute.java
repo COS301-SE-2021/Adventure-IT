@@ -1,6 +1,7 @@
 package com.adventureit.maincontroller.controller;
 
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
+import com.adventureit.adventureservice.requests.EditAdventureRequest;
 import com.adventureit.adventureservice.responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.responses.GetAdventuresByUserUUIDResponse;
 import com.adventureit.adventureservice.responses.GetAllAdventuresResponse;
@@ -31,6 +32,7 @@ public class MainControllerAdventureReroute {
     private final String adventurePort = "9001";
     private final String userPort = "9002";
     private final String chatPort = "9010";
+    private final String timelinePort = "9012";
 
     @GetMapping("/test")
     public String adventureTest(){
@@ -43,8 +45,8 @@ public class MainControllerAdventureReroute {
         List<GetUserByUUIDDTO> list = new ArrayList<>();
         Users user;
         assert users != null;
-        for (UUID uuid : users) {
-            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + uuid, Users.class);
+        for (int i = 0; i<users.size();i++) {
+            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + users.get(i), Users.class);
             assert user != null;
             list.add(new GetUserByUUIDDTO(user.getUserID(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail()));
         }
@@ -71,11 +73,11 @@ public class MainControllerAdventureReroute {
 
     @GetMapping("/setLocation/{adventureId}/{locationId}")
     public String setLocationAdventures(@PathVariable UUID adventureId,@PathVariable UUID locationId) {
+
         return restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/setLocation/"+adventureId+"/"+locationId, String.class);
     }
 
     @GetMapping("/all/{id}")
-
     public List<AdventureResponseDTO> getAllAdventuresByUserUUID(@PathVariable UUID id){
 
         List<LinkedHashMap<String,String>> adventures = restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/all/"+id, List.class);
@@ -116,10 +118,26 @@ public class MainControllerAdventureReroute {
         restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/addAttendees/"+adventureID+"/"+userID, String.class);
         GetUserByUUIDDTO response = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
         assert response != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureID, TimelineType.ADVENTURE,response.getUsername()+" has been added to this adventure" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureID, TimelineType.ADVENTURE,response.getUsername()+" has joined this adventure!" );
         restTemplate.getForObject(IP + ":" + chatPort + "/chat/addParticipant/"+adventureID+"/"+userID, String.class);
-        String timelinePort = "9012";
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+    }
+
+    @GetMapping("/removeAttendees/{adventureID}/{userID}")
+    public String removeAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID){
+        restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/removeAttendees/"+adventureID+"/"+userID, String.class);
+        GetUserByUUIDDTO response = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
+        assert response != null;
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureID, TimelineType.ADVENTURE,response.getUsername()+" left this adventure" );
+        return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+    }
+
+    @PostMapping("/editAdventure")
+    public String editAdventure(@RequestBody EditAdventureRequest req){
+        String timelinePort = "9012";
+        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureId(), TimelineType.ADVENTURE,"This adventure has been edited" );
+        restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        return restTemplate.postForObject(IP + ":" + adventurePort + "/adventure/editAdventure", req, String.class);
     }
 
 }

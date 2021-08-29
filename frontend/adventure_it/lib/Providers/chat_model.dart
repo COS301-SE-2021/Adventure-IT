@@ -8,8 +8,8 @@ import 'package:adventure_it/api/userAPI.dart';
 import 'package:flutter/cupertino.dart';
 
 class GroupChatModel extends ChangeNotifier {
-  List<GroupChatMessage>? _messages = null;
-  GroupChat? _chat = null;
+  List<GroupChatMessage>? _messages;
+  GroupChat? _chat;
   Adventure? currentAdventure;
 
   GroupChatModel(Adventure a) {
@@ -24,11 +24,9 @@ class GroupChatModel extends ChangeNotifier {
 
   Future fetchAllMessages() async {
     _chat = await ChatApi.getGroupChat(currentAdventure);
-    if (_chat == null || _chat!.messages.isEmpty) {
-      print(_chat!.messages.length);
+    if (_chat == null) {
       _messages = List.empty();
     } else {
-      print(_chat!.messages.length);
       _messages = await ChatApi.getGroupChatMessage(_chat!.id);
     }
     notifyListeners();
@@ -45,8 +43,8 @@ class GroupChatModel extends ChangeNotifier {
 }
 
 class DirectChatModel extends ChangeNotifier {
-  List<DirectChatMessage>? _messages = null;
-  DirectChat? _chat = null;
+  List<DirectChatMessage>? _messages;
+  DirectChat? _chat;
   String? user1ID;
   String? user2ID;
 
@@ -63,7 +61,7 @@ class DirectChatModel extends ChangeNotifier {
 
   Future fetchAllMessages(String user1, String user2) async {
     _chat = await ChatApi.getDirectChat(user1, user2);
-    if (_chat == null || _chat!.messages.isEmpty) {
+    if (_chat == null) {
       _messages = List.empty();
     } else
       _messages = await ChatApi.getDirectChatMessage(_chat!.id);

@@ -4,6 +4,7 @@ import com.adventureit.userservice.exceptions.InvalidRequestException;
 import com.adventureit.userservice.exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.exceptions.InvalidUserPhoneNumberException;
+import com.adventureit.userservice.requests.EditUserProfileRequest;
 import com.adventureit.userservice.requests.RegisterUserRequest;
 import com.adventureit.userservice.requests.UpdatePictureRequest;
 import com.adventureit.userservice.responses.*;
@@ -124,5 +125,9 @@ public class UserController {
         service.deleteUser(id);
     }
 
+    @PostMapping("editUserProfile")
+    public String editUserProfile(@RequestBody EditUserProfileRequest req){
+        return service.editUserProfile(req);
+    }
 
 }

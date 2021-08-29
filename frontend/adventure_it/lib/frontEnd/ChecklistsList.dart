@@ -30,6 +30,7 @@ class Checklists extends StatelessWidget {
                 child: Text("Checklists",
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
+            iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
             backgroundColor: Theme.of(context).primaryColorDark),
         body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -116,8 +117,6 @@ class ChecklistList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ChecklistModel>(builder: (context, checklistModel, child) {
-      if (checklistModel.checklists != null)
-        print(checklistModel.checklists!.length);
 
           if (checklistModel.checklists == null) {
             return Center(

@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51a90799-d850-4f45-9f71-c80c24076f5d" name="Default Changelist" comment="removed id fields from create- requests">
-      <change beforePath="$PROJECT_DIR$/adventure-backend.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.ipr" afterDir="false" />
+    <list default="true" id="51a90799-d850-4f45-9f71-c80c24076f5d" name="Default Changelist" comment="CreateAdventure now uses fields instead of buttons">
       <change beforePath="$PROJECT_DIR$/adventure-backend.iws" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerAdventureReroute.java" beforeDir="false" afterPath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerAdventureReroute.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerChatReroute.java" beforeDir="false" afterPath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerChatReroute.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerUserReroute.java" beforeDir="false" afterPath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerUserReroute.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/CreateAdventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/CreateAdventure.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -279,7 +278,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.UserServiceApplication">
+  <component name="RunManager" selected="Spring Boot.MainControllerApplication">
     <configuration selected="false" default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -292,6 +291,37 @@
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AdventureServiceIntegrationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="adventure-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.adventureservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.adventureit.adventureservice" />
+      <option name="MAIN_CLASS_NAME" value="com.adventureit.adventureservice.AdventureServiceIntegrationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -349,8 +379,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MainControllerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="MainControllerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="main-controller" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.maincontroller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.maincontroller.MainControllerApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -377,9 +413,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SharingServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="sharing-service" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.sharingservice.SharingServiceApplication" />
+    <configuration name="TimelineServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="timeline-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.timelineservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.timelineservice.TimelineServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -393,6 +435,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.MainControllerApplication" />
+        <item itemvalue="JUnit.AdventureServiceIntegrationTests" />
+        <item itemvalue="Spring Boot.TimelineServiceApplication" />
         <item itemvalue="Spring Boot.ServiceRegistryApplication" />
       </list>
     </recent_temporary>
@@ -444,7 +489,9 @@
       <workItem from="1627928409344" duration="1679000" />
       <workItem from="1627934037299" duration="10163000" />
       <workItem from="1627957121689" duration="1489000" />
-      <workItem from="1629987510640" duration="1066000" />
+      <workItem from="1629987510640" duration="12948000" />
+      <workItem from="1630048021066" duration="16849000" />
+      <workItem from="1630158673219" duration="8287000" />
     </task>
     <task id="LOCAL-00001" summary="removed id fields from create- requests">
       <created>1627942105472</created>
@@ -453,7 +500,28 @@
       <option name="project" value="LOCAL" />
       <updated>1627942105472</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Changed GetUser to getUser for all uses">
+      <created>1629988605888</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1629988605888</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Null exception fix for when there are no adventures">
+      <created>1630075467646</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1630075467646</updated>
+    </task>
+    <task id="LOCAL-00004" summary="CreateAdventure now uses fields instead of buttons">
+      <created>1630181173062</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1630181173062</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -508,7 +576,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="removed id fields from create- requests" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed id fields from create- requests" />
+    <MESSAGE value="Changed GetUser to getUser for all uses" />
+    <MESSAGE value="Null exception fix for when there are no adventures" />
+    <MESSAGE value="CreateAdventure now uses fields instead of buttons" />
+    <option name="LAST_COMMIT_MESSAGE" value="CreateAdventure now uses fields instead of buttons" />
   </component>
   <component name="VssConfiguration">
     <CheckoutOptions>

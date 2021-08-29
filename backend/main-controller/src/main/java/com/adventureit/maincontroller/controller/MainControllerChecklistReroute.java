@@ -60,14 +60,14 @@ public class MainControllerChecklistReroute {
     @GetMapping("/hardDelete/{id}/{userID}")
     public String hardDelete(@PathVariable UUID id,@PathVariable UUID userID){
         restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/hardDelete/"+id+"/"+userID, String.class);
-        CreateTimelineRequest req2 = new CreateTimelineRequest(id, TimelineType.BUDGET,"Budget: "+id+" has been deleted" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(id, TimelineType.BUDGET,"Checklist("+id+"): has been deleted" );
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 
     @PostMapping("/create")
     public String createChecklist(@RequestBody CreateChecklistRequest req){
         restTemplate.postForObject(IP + ":" + checklistPort + "/checklist/create/", req, String.class);
-        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(), TimelineType.CHECKLIST,req.getTitle()+" checklist has been created" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(), TimelineType.CHECKLIST,"Checklist("+req.getTitle()+") has been created" );
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 
@@ -78,7 +78,7 @@ public class MainControllerChecklistReroute {
         ChecklistDTO checklist = restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,"Checklist: "+req.getTitle()+" has been edited" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,"An entry has been added to the "+req.getTitle()+" checklist." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
 
@@ -86,6 +86,11 @@ public class MainControllerChecklistReroute {
 
     @GetMapping("/removeEntry/{id}")
     public String removeEntry(@PathVariable UUID id){
+        ChecklistDTO checklist = restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/getChecklistByEntry/"+id, ChecklistDTO.class);
+        assert checklist != null;
+        UUID adventureId = checklist.getAdventureID();
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,"An entry has been removed to the "+checklist.getTitle()+" checklist." );
+        restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/removeEntry/"+id, String.class);
     }
 
@@ -96,7 +101,7 @@ public class MainControllerChecklistReroute {
         ChecklistDTO checklist = restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Checklist: "+req.getTitle()+" has been edited" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Checklist("+req.getTitle()+"): has been edited" );
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 

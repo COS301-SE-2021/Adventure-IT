@@ -227,6 +227,13 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
+    public ChecklistDTO getChecklistByChecklistEntryId(UUID checklistEntryId){
+        ChecklistEntry entry = checklistEntryRepository.findChecklistEntryById(checklistEntryId);
+        Checklist check = checklistRepository.findChecklistById(entry.getEntryContainerID());
+        return new ChecklistDTO(check.getId(),check.getCreatorID(),check.getAdventureID(),check.getTitle(),check.getDescription(),check.isDeleted());
+    }
+
+    @Override
     public List<ChecklistResponseDTO> viewChecklistsByAdventure(UUID id) {
         List<Checklist> checklists = checklistRepository.findAllByAdventureID(id);
         List<ChecklistResponseDTO> list = new ArrayList<>();

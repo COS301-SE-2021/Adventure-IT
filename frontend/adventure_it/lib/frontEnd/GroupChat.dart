@@ -27,6 +27,7 @@ class GroupChat extends StatelessWidget {
                         style: new TextStyle(
                             color:
                                 Theme.of(context).textTheme.bodyText1!.color))),
+                iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
                 backgroundColor: Theme.of(context).primaryColorDark),
             body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -185,7 +186,6 @@ class _MessageList extends State<MessageList> {
                           color: Theme.of(context).textTheme.bodyText1!.color),
                     )),
                 indexedItemBuilder: (context, element, index) {
-                  print("here" + index.toString());
                   return Card(
                       color: Theme.of(context).primaryColorDark,
                       child: ListTile(

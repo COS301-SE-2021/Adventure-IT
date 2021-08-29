@@ -1,6 +1,7 @@
 package com.adventureit.adventureservice.service;
 
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
+import com.adventureit.adventureservice.requests.EditAdventureRequest;
 import com.adventureit.adventureservice.requests.GetAdventureByUUIDRequest;
 import com.adventureit.adventureservice.responses.CreateAdventureResponse;
 import com.adventureit.adventureservice.responses.GetAdventureByUUIDResponse;
@@ -21,4 +22,6 @@ public interface AdventureService{
     List<UUID> getAttendees(UUID id);
     void setAdventureLocation(UUID adventureID, UUID locationID);
     void addAttendees(UUID adventureID, UUID userID);
+    String removeAttendees(UUID adventureID, UUID userID);
+    String editAdventure(EditAdventureRequest req);
 }

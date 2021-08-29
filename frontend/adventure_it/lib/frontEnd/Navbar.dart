@@ -29,7 +29,7 @@ class NavDrawer extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.location_city_outlined,
                     color: Theme.of(context).accentColor),
-                title: Text('Adventure',
+                title: Text('Adventures',
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color)),
                 onTap: () => {

@@ -221,15 +221,15 @@ public class AdventureServiceUnitTests {
     @Test
     @Description("Ensuring that a user who has not created any adventures cannot view any adventures")
     public void creatorNoAdventures_ReturnNoAdventureFound(){
-            Assertions.assertThrows(AdventureNotFoundException.class, ()->{
                 List<GetAdventuresByUserUUIDResponse> res = adventureService.getAdventureByOwnerUUID(validUserID2);
-            });
+                Assertions.assertEquals(0,res.size());
     }
 
     @Test
     @Description("Ensuring that an attendee of multiple adventures can view these adventures")
     public void attendeeExistingAdventures_ReturnNoAdventureFound(){
-        Assertions.assertThrows(AdventureNotFoundException.class, ()-> adventureService.getAdventureByAttendeeUUID(validUserID2));
+       List <GetAdventuresByUserUUIDResponse> list=adventureService.getAdventureByAttendeeUUID(validUserID2);
+       Assertions.assertEquals(0,list.size());
     }
 
 
@@ -237,7 +237,8 @@ public class AdventureServiceUnitTests {
     @Test
     @Description("Ensuring that the appropriate exception is thrown when getAllAdventures is called without any adventures stored")
     public void getAllAdventuresNoAdventures_ThrowNoAdventureFound(){
-        Assertions.assertThrows(AdventureNotFoundException.class, ()-> adventureService.getAllAdventures());
+        List <GetAllAdventuresResponse> list=adventureService.getAllAdventures();
+        Assertions.assertEquals(0,list.size());
     }
 
     @Test

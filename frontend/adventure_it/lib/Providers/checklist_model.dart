@@ -7,8 +7,8 @@ import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/cupertino.dart';
 
 class DeletedChecklistModel extends ChangeNotifier {
-  List<Checklist>? _deletedChecklists = null;
-  List<UserProfile?>? _creators = null;
+  List<Checklist>? _deletedChecklists;
+  List<UserProfile?>? _creators;
 
   DeletedChecklistModel(Adventure a) {
     fetchAllDeletedChecklists(a).then((deletedChecklists) =>
@@ -59,7 +59,7 @@ class DeletedChecklistModel extends ChangeNotifier {
 }
 
 class ChecklistModel extends ChangeNotifier {
-  List<Checklist>? _checklists = null;
+  List<Checklist>? _checklists;
 
   ChecklistModel(Adventure a) {
     fetchAllChecklists(a).then((checklists) =>
@@ -92,7 +92,7 @@ class ChecklistModel extends ChangeNotifier {
 }
 
 class ChecklistEntryModel extends ChangeNotifier {
-  List<ChecklistEntry>? _entries = null;
+  List<ChecklistEntry>? _entries;
   Checklist? c;
 
   ChecklistEntryModel(Checklist c) {
@@ -137,7 +137,6 @@ class ChecklistEntryModel extends ChangeNotifier {
 
   Future markEntry(ChecklistEntry c) async {
     await ChecklistApi.completeEntry(c.id);
-    var index = _entries!.indexWhere((element) => element.id == c.id);
 
     fetchAllEntries(this.c!);
 

@@ -9,17 +9,18 @@ import java.util.UUID;
 
 public interface ChecklistService {
 
-    public String addChecklistEntry(String title, UUID entryContainerID);
-    public String createChecklist(String title, String description, UUID creatorID, UUID adventureID);
-    public String removeChecklistEntry(UUID id);
-    public String editChecklistEntry(UUID id, UUID entryContainerID, String description);
-    public void markChecklistEntry(UUID id);
-    public String softDelete(UUID id,UUID userID);
-    public String hardDelete(UUID id,UUID userID);
-    public List<ChecklistResponseDTO> viewTrash(UUID id);
-    public String restoreChecklist(UUID id,UUID userID);
-    public List<ChecklistEntryResponseDTO> viewChecklist(UUID id);
-    public String mockPopulate();
-    public ChecklistDTO getChecklistByChecklistId(UUID checklistId);
-    public List<ChecklistResponseDTO> viewChecklistsByAdventure(UUID id);
+     String addChecklistEntry(String title, UUID entryContainerID);
+     String createChecklist(String title, String description, UUID creatorID, UUID adventureID);
+     String removeChecklistEntry(UUID id);
+     String editChecklistEntry(UUID id, UUID entryContainerID, String description);
+     void markChecklistEntry(UUID id);
+     String softDelete(UUID id,UUID userID);
+     String hardDelete(UUID id,UUID userID);
+     List<ChecklistResponseDTO> viewTrash(UUID id);
+     String restoreChecklist(UUID id,UUID userID);
+     List<ChecklistEntryResponseDTO> viewChecklist(UUID id);
+     String mockPopulate();
+     ChecklistDTO getChecklistByChecklistId(UUID checklistId);
+     List<ChecklistResponseDTO> viewChecklistsByAdventure(UUID id);
+    ChecklistDTO getChecklistByChecklistEntryId(UUID checklistEntryId);
 }
