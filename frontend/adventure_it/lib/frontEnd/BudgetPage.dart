@@ -204,11 +204,11 @@ class AlertBox extends State<_AlertBox> {
   String? payer;
   String? payee;
   Adventure? currentAdventure;
-  String? title;
-  String? description;
-  String? amount;
-  String? other;
-  String? cents;
+  String title="";
+  String description="";
+  String amount="";
+  String other="";
+  String cents="";
 
   List<UserProfile> users = List.empty();
   List<String>? userNames;
@@ -1042,11 +1042,11 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
   List<String>? userNames;
   List<String>? userNamesAndOther;
 
-  String? amount;
-  String? title;
-  String? description;
-  String? other;
-  String? cents;
+  String title="";
+  String description="";
+  String amount="";
+  String other="";
+  String cents="";
 
   @override
   Widget build(BuildContext context) {
