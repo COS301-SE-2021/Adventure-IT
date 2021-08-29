@@ -204,6 +204,11 @@ class AlertBox extends State<_AlertBox> {
   String? payer;
   String? payee;
   Adventure? currentAdventure;
+  String? title;
+  String? description;
+  String? amount;
+  String? other;
+  String? cents;
 
   List<UserProfile> users = List.empty();
   List<String>? userNames;
@@ -235,7 +240,6 @@ class AlertBox extends State<_AlertBox> {
       temp2.add("Other");
 
       setState(() {
-
         userNames = temp1;
         userNamesAndOther = temp2;
       });
@@ -315,10 +319,12 @@ class AlertBox extends State<_AlertBox> {
       "TRANSPORT",
       "OTHER"
     ];
+
     final otherController = TextEditingController();
     final amountController = TextEditingController();
     final titleController = TextEditingController();
     final descriptionController = TextEditingController();
+    final centsController = TextEditingController();
 
     if (userNames == null || userNames!.length == 0 ||
         userNamesAndOther == null || userNamesAndOther!.length == 0) {
@@ -396,6 +402,12 @@ class AlertBox extends State<_AlertBox> {
                                   .bodyText1!
                                   .color),
                           controller: titleController,
+                          onEditingComplete: () {
+                            setState(() {
+                              title = titleController.text;
+                              titleController.text = title!;
+                            });
+                          },
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme
@@ -440,6 +452,12 @@ class AlertBox extends State<_AlertBox> {
                                   .bodyText1!
                                   .color),
                           controller: descriptionController,
+                          onEditingComplete: () {
+                            setState(() {
+                              description = descriptionController.text;
+                              descriptionController.text = description!;
+                            });
+                          },
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme
@@ -479,6 +497,10 @@ class AlertBox extends State<_AlertBox> {
                           onChanged: (String? newValue) {
                             setState(() {
                               payer = newValue!;
+                              descriptionController.text = description!;
+                              titleController.text = title!;
+                              otherController.text = other!;
+                              amountController.text = amount!;
                             });
                           },
                           items: userNames!.map((String user) {
@@ -501,25 +523,36 @@ class AlertBox extends State<_AlertBox> {
                     Row(children: [
                       Spacer(),
                       Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.2,
-                        padding: EdgeInsets.symmetric(
+                        width: 125,
+                        padding: EdgeInsets
+                            .symmetric(
                             horizontal:
                             MediaQuery
-                                .of(context)
+                                .of(
+                                context)
                                 .size
-                                .width * 0.02),
+                                .width *
+                                0.02),
                         child: TextField(
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'[0-9]')),
+                            inputFormatters: <
+                                TextInputFormatter>[
+                              FilteringTextInputFormatter
+                                  .allow(
+                                  RegExp(
+                                      r'[0-9]')),
                             ],
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType
+                                .number,
+                            onEditingComplete: () {
+                              setState(() {
+                                amount = amountController.text;
+                                amountController.text = amount!;
+                              });
+                            },
                             style: TextStyle(
                                 color: Theme
-                                    .of(context)
+                                    .of(
+                                    context)
                                     .textTheme
                                     .bodyText1!
                                     .color),
@@ -527,23 +560,105 @@ class AlertBox extends State<_AlertBox> {
                             decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Theme
-                                        .of(context)
+                                        .of(
+                                        context)
                                         .textTheme
                                         .bodyText2!
                                         .color),
                                 filled: true,
-                                enabledBorder: InputBorder.none,
-                                errorBorder: InputBorder.none,
-                                disabledBorder: InputBorder.none,
+                                enabledBorder: InputBorder
+                                    .none,
+                                errorBorder: InputBorder
+                                    .none,
+                                disabledBorder: InputBorder
+                                    .none,
                                 fillColor:
                                 Theme
-                                    .of(context)
+                                    .of(
+                                    context)
                                     .primaryColorLight,
                                 focusedBorder: OutlineInputBorder(
                                     borderSide: new BorderSide(
                                         color:
                                         Theme
-                                            .of(context)
+                                            .of(
+                                            context)
+                                            .accentColor)),
+                                hintText: 'Amount')),
+                      ),
+                      Container(
+                          width: 50,
+                          child: Text(".",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Theme
+                                    .of(
+                                    context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color),)
+                      ),
+                      Container(
+                        width: 125,
+                        padding: EdgeInsets
+                            .symmetric(
+                            horizontal:
+                            MediaQuery
+                                .of(
+                                context)
+                                .size
+                                .width *
+                                0.02),
+                        child: TextField(
+                            inputFormatters: <
+                                TextInputFormatter>[
+                              FilteringTextInputFormatter
+                                  .allow(
+                                  RegExp(
+                                      r'[0-9]')),
+                            ],
+                            keyboardType: TextInputType
+                                .number,
+                            onEditingComplete: () {
+                              setState(() {
+                                cents = centsController.text;
+                                centsController.text = cents!;
+                              });
+                            },
+                            style: TextStyle(
+                                color: Theme
+                                    .of(
+                                    context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color),
+                            controller: amountController,
+                            decoration: InputDecoration(
+                                hintStyle: TextStyle(
+                                    color: Theme
+                                        .of(
+                                        context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color),
+                                filled: true,
+                                enabledBorder: InputBorder
+                                    .none,
+                                errorBorder: InputBorder
+                                    .none,
+                                disabledBorder: InputBorder
+                                    .none,
+                                fillColor:
+                                Theme
+                                    .of(
+                                    context)
+                                    .primaryColorLight,
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: new BorderSide(
+                                        color:
+                                        Theme
+                                            .of(
+                                            context)
                                             .accentColor)),
                                 hintText: 'Amount')),
                       ),
@@ -567,6 +682,10 @@ class AlertBox extends State<_AlertBox> {
                           onChanged: (String? newValue) {
                             setState(() {
                               payee = newValue!;
+                              descriptionController.text = description!;
+                              titleController.text = title!;
+                              otherController.text = other!;
+                              amountController.text = amount!;
                             });
                           },
                           items: userNamesAndOther!.map((String user) {
@@ -602,6 +721,12 @@ class AlertBox extends State<_AlertBox> {
                           controller: otherController,
                           enabled:
                           payee != null && payee!.compareTo("Other") == 0,
+                          onEditingComplete: () {
+                            setState(() {
+                              other = otherController.text;
+                              otherController.text = other!;
+                            });
+                          },
                           style: TextStyle(
                               color: Theme
                                   .of(context)
@@ -730,6 +855,10 @@ class AlertBox extends State<_AlertBox> {
                       onChanged: (int? value) {
                         setState(() {
                           selectedCategory = value;
+                          descriptionController.text = description!;
+                          titleController.text = title!;
+                          otherController.text = other!;
+                          amountController.text = amount!;
                         });
                       },
                     ),
@@ -755,28 +884,56 @@ class AlertBox extends State<_AlertBox> {
                                     .color)),
                         onPressed: () async {
                           if (payee != "Other") {
-                            await widget.budgetEntryModel.addUTUBudgetEntry(
-                                b!,
-                                b!.id,
-                                payer!,
-                                amountController.text,
-                                titleController.text,
-                                descriptionController.text,
-                                categoryNames[selectedCategory! - 1],
-                                payee!);
+                            if (centsController.text == "") {
+                              await widget.budgetEntryModel.addUTUBudgetEntry(
+                                  b!,
+                                  b!.id,
+                                  payer!,
+                                  amountController.text + ".00",
+                                  titleController.text,
+                                  descriptionController.text,
+                                  categoryNames[selectedCategory! - 1],
+                                  payee!);
+                            }
+                            else {
+                              await widget.budgetEntryModel.addUTUBudgetEntry(
+                                  b!,
+                                  b!.id,
+                                  payer!,
+                                  amountController.text + "." +
+                                      centsController.text,
+                                  titleController.text,
+                                  descriptionController.text,
+                                  categoryNames[selectedCategory! - 1],
+                                  payee!);
+                            }
                             Navigator.pop(context);
                           }
 
                           else {
-                            await widget.budgetEntryModel.addUTOBudgetEntry(
-                                b!,
-                                b!.id,
-                                payer!,
-                                amountController.text,
-                                titleController.text,
-                                descriptionController.text,
-                                categoryNames[selectedCategory! - 1],
-                                otherController.text);
+                            if (centsController.text == "") {
+                              await widget.budgetEntryModel.addUTOBudgetEntry(
+                                  b!,
+                                  b!.id,
+                                  payer!,
+                                  amountController.text + "." + "00",
+                                  titleController.text,
+                                  descriptionController.text,
+                                  categoryNames[selectedCategory! - 1],
+                                  otherController.text);
+                            }
+                            else {
+                              await widget.budgetEntryModel.addUTOBudgetEntry(
+                                  b!,
+                                  b!.id,
+                                  payer!,
+                                  amountController.text + "." +
+                                      centsController.text,
+                                  titleController.text,
+                                  descriptionController.text,
+                                  categoryNames[selectedCategory! - 1],
+                                  otherController.text);
+                            }
                             Navigator.pop(context);
                           }
                         },
@@ -837,12 +994,12 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
       temp2.add("Other");
 
       setState(() {
-
         userNames = temp1;
         userNamesAndOther = temp2;
       });
     });
   }
+
 
   double getSize(context) {
     if (MediaQuery
@@ -878,10 +1035,18 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
   ];
   final BudgetApi api = new BudgetApi();
   final amountController = TextEditingController();
+  final centsController = TextEditingController();
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
+  final otherController = TextEditingController();
   List<String>? userNames;
   List<String>? userNamesAndOther;
+
+  String? amount;
+  String? title;
+  String? description;
+  String? other;
+  String? cents;
 
   @override
   Widget build(BuildContext context) {
@@ -1236,6 +1401,16 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                         .bodyText1!
                                                                         .color),
                                                                 controller: titleController,
+                                                                onEditingComplete: () {
+                                                                  setState(() {
+                                                                    title =
+                                                                        titleController
+                                                                            .text;
+                                                                    titleController
+                                                                        .text =
+                                                                    title!;
+                                                                  });
+                                                                },
                                                                 decoration: InputDecoration(
                                                                     hintStyle: TextStyle(
                                                                         color: Theme
@@ -1290,6 +1465,16 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                         .bodyText1!
                                                                         .color),
                                                                 controller: descriptionController,
+                                                                onEditingComplete: () {
+                                                                  setState(() {
+                                                                    description =
+                                                                        descriptionController
+                                                                            .text;
+                                                                    descriptionController
+                                                                        .text =
+                                                                    description!;
+                                                                  });
+                                                                },
                                                                 decoration: InputDecoration(
                                                                     hintStyle: TextStyle(
                                                                         color: Theme
@@ -1326,7 +1511,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                     .of(context)
                                                                     .primaryColorDark,
                                                                 hint: new Text(
-                                                                    "Select a sender",
+                                                                    "Select a payer",
                                                                     style: TextStyle(
                                                                         color: Theme
                                                                             .of(
@@ -1340,6 +1525,18 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                   setState(() {
                                                                     payer =
                                                                     newValue!;
+                                                                    descriptionController
+                                                                        .text =
+                                                                    description!;
+                                                                    titleController
+                                                                        .text =
+                                                                    title!;
+                                                                    otherController
+                                                                        .text =
+                                                                    other!;
+                                                                    amountController
+                                                                        .text =
+                                                                    amount!;
                                                                   });
                                                                 },
                                                                 items: userNames!
@@ -1366,10 +1563,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                           Row(children: [
                                                             Spacer(),
                                                             Container(
-                                                              width: MediaQuery
-                                                                  .of(context)
-                                                                  .size
-                                                                  .width * 0.2,
+                                                              width: 125,
                                                               padding: EdgeInsets
                                                                   .symmetric(
                                                                   horizontal:
@@ -1389,6 +1583,97 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                   ],
                                                                   keyboardType: TextInputType
                                                                       .number,
+                                                                  onEditingComplete: () {
+                                                                    setState(() {
+                                                                      amount =
+                                                                          amountController
+                                                                              .text;
+                                                                      amountController
+                                                                          .text =
+                                                                      amount!;
+                                                                    });
+                                                                  },
+                                                                  style: TextStyle(
+                                                                      color: Theme
+                                                                          .of(
+                                                                          context)
+                                                                          .textTheme
+                                                                          .bodyText1!
+                                                                          .color),
+                                                                  controller: amountController,
+                                                                  decoration: InputDecoration(
+                                                                      hintStyle: TextStyle(
+                                                                          color: Theme
+                                                                              .of(
+                                                                              context)
+                                                                              .textTheme
+                                                                              .bodyText2!
+                                                                              .color),
+                                                                      filled: true,
+                                                                      enabledBorder: InputBorder
+                                                                          .none,
+                                                                      errorBorder: InputBorder
+                                                                          .none,
+                                                                      disabledBorder: InputBorder
+                                                                          .none,
+                                                                      fillColor:
+                                                                      Theme
+                                                                          .of(
+                                                                          context)
+                                                                          .primaryColorLight,
+                                                                      focusedBorder: OutlineInputBorder(
+                                                                          borderSide: new BorderSide(
+                                                                              color:
+                                                                              Theme
+                                                                                  .of(
+                                                                                  context)
+                                                                                  .accentColor)),
+                                                                      hintText: 'Amount')),
+                                                            ),
+                                                            Container(
+                                                                width: 50,
+                                                                child: Text(".",
+                                                                  textAlign: TextAlign
+                                                                      .center,
+                                                                  style: TextStyle(
+                                                                      color: Theme
+                                                                          .of(
+                                                                          context)
+                                                                          .textTheme
+                                                                          .bodyText1!
+                                                                          .color),)
+                                                            ),
+                                                            Container(
+                                                              width: 125,
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal:
+                                                                  MediaQuery
+                                                                      .of(
+                                                                      context)
+                                                                      .size
+                                                                      .width *
+                                                                      0.02),
+                                                              child: TextField(
+                                                                  inputFormatters: <
+                                                                      TextInputFormatter>[
+                                                                    FilteringTextInputFormatter
+                                                                        .allow(
+                                                                        RegExp(
+                                                                            r'[0-9]')),
+                                                                  ],
+                                                                  keyboardType: TextInputType
+                                                                      .number,
+                                                                  onEditingComplete: () {
+                                                                    setState(() {
+                                                                      cents =
+                                                                          centsController
+                                                                              .text;
+                                                                      centsController
+                                                                          .text =
+                                                                      cents!;
+                                                                    });
+                                                                  },
                                                                   style: TextStyle(
                                                                       color: Theme
                                                                           .of(
@@ -1437,7 +1722,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                     .of(context)
                                                                     .primaryColorDark,
                                                                 hint: new Text(
-                                                                    "Select a recipient",
+                                                                    "Select a payee",
                                                                     style: TextStyle(
                                                                         color: Theme
                                                                             .of(
@@ -1451,6 +1736,18 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                   setState(() {
                                                                     payee =
                                                                     newValue!;
+                                                                    descriptionController
+                                                                        .text =
+                                                                    description!;
+                                                                    titleController
+                                                                        .text =
+                                                                    title!;
+                                                                    otherController
+                                                                        .text =
+                                                                    other!;
+                                                                    amountController
+                                                                        .text =
+                                                                    amount!;
                                                                   });
                                                                 },
                                                                 items: userNamesAndOther!
@@ -1503,6 +1800,17 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                         .textTheme
                                                                         .bodyText1!
                                                                         .color),
+                                                                controller: otherController,
+                                                                onEditingComplete: () {
+                                                                  setState(() {
+                                                                    other =
+                                                                        otherController
+                                                                            .text;
+                                                                    otherController
+                                                                        .text =
+                                                                    other!;
+                                                                  });
+                                                                },
                                                                 decoration: InputDecoration(
                                                                     hintStyle: TextStyle(
                                                                         color: Theme
@@ -1641,6 +1949,18 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                               setState(() {
                                                                 selectedCategory =
                                                                     value;
+                                                                descriptionController
+                                                                    .text =
+                                                                description!;
+                                                                titleController
+                                                                    .text =
+                                                                title!;
+                                                                otherController
+                                                                    .text =
+                                                                other!;
+                                                                amountController
+                                                                    .text =
+                                                                amount!;
                                                               });
                                                             },
                                                           ),
