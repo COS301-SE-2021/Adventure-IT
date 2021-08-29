@@ -93,7 +93,8 @@ public class AdventureServiceImplementation implements AdventureService {
     public List<GetAllAdventuresResponse> getAllAdventures(){
         List<Adventure> allAdventures = adventureRepository.findAll();
         if(allAdventures.size() == 0){
-            throw new AdventureNotFoundException("Get All Adventure: No adventures found");
+            List<GetAllAdventuresResponse> list = new ArrayList<>();
+            return list;
         }
 
         allAdventures.sort(Comparator.comparing(Adventure::getStartDate));
@@ -189,7 +190,8 @@ public class AdventureServiceImplementation implements AdventureService {
     // Helper function for sorting adventures, throws an exception if there are no adventures
     private List<GetAdventuresByUserUUIDResponse> sortAdventures(List<Adventure> userAdventures) {
         if(userAdventures.size() == 0){
-            throw new AdventureNotFoundException("Get Adventures by User UUID: No adventures found");
+            List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
+            return list;
         }
 
         userAdventures.sort(Comparator.comparing(Adventure::getStartDate));

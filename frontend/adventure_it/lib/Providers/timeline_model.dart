@@ -4,7 +4,7 @@ import 'package:adventure_it/api/timelineAPI.dart';
 import 'package:flutter/cupertino.dart';
 
 class TimelineModel extends ChangeNotifier {
-  List<Timeline>? _timeline = null;
+  List<Timeline>? _timeline;
   Adventure? a;
 
   TimelineModel(Adventure a) {

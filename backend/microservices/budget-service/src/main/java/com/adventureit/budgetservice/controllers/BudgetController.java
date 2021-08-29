@@ -29,9 +29,6 @@ public class BudgetController {
 	@GetMapping("/viewBudgetsByAdventure/{id}")
 	public List<BudgetResponseDTO> viewBudgetsByAdventure(@PathVariable UUID id) {
 		List<Budget> budgets = budgetRepository.findAllByAdventureID(id);
-		if(budgets.size() == 0){
-			throw new BudgetNotFoundException("Budgets not found for Adventure with ID: " + id.toString());
-		}
 
 		List<BudgetResponseDTO> list = new ArrayList<>();
 		for (Budget b:budgets) {

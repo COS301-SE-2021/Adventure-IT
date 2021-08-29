@@ -43,4 +43,24 @@ public class MainItineraryEntryResponseDTO {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
+
+    public UUID getEntryContainerID() {
+        return entryContainerID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public LocationResponseDTO getLocation() {
+        return location;
+    }
 }

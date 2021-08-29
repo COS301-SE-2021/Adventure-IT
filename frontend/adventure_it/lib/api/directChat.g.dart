@@ -12,8 +12,6 @@ DirectChat _$DirectChatFromJson(Map<String, dynamic> json) {
     participants: (json['participants'] as List<dynamic>)
         .map((e) => e as String)
         .toList(),
-    messages:
-        (json['messages'] as List<dynamic>).map((e) => e as String).toList(),
   );
 }
 
@@ -21,5 +19,4 @@ Map<String, dynamic> _$DirectChatToJson(DirectChat instance) =>
     <String, dynamic>{
       'id': instance.id,
       'participants': instance.participants,
-      'messages': instance.messages,
     };

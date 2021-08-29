@@ -173,6 +173,31 @@ public class UserServiceImplementation  {
             throw new InvalidRequestException("One or both of the users do not exist");
         }
 
+        List<Friend> requests1 = friendRepository.findByFirstUserEquals(UUID.fromString(userId1));
+        List<Friend> requests2 = friendRepository.findBySecondUserEquals(UUID.fromString(userId1));
+
+        for (Friend request:requests1) {
+            if(request.getSecondUser().equals(UUID.fromString(userId2))){
+                if(request.isAccepted()){
+                    throw new InvalidRequestException("Create Friend Request: Cannot sent request, users already friends");
+                }
+                else{
+                    throw new InvalidRequestException("Create Friend Request: Cannot sent request, request already exists");
+                }
+            }
+        }
+
+        for (Friend request:requests2) {
+            if(request.getFirstUser().equals(UUID.fromString(userId2))){
+                if(request.isAccepted()){
+                    throw new InvalidRequestException("Create Friend Request: Cannot sent request, users already friends");
+                }
+                else{
+                    throw new InvalidRequestException("Create Friend Request: Cannot sent request, request already exists");
+                }
+            }
+        }
+
         Friend friend = new Friend(UUID.fromString(userId1), UUID.fromString(userId2));
         friendRepository.save(friend);
 

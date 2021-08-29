@@ -1,10 +1,8 @@
 package com.adventureit.adventureservice.controllers;
 
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
-import com.adventureit.adventureservice.responses.CreateAdventureResponse;
-import com.adventureit.adventureservice.responses.GetAdventuresByUserUUIDResponse;
-import com.adventureit.adventureservice.responses.GetAllAdventuresResponse;
-import com.adventureit.adventureservice.responses.RemoveAdventureResponse;
+import com.adventureit.adventureservice.requests.GetAdventureByUUIDRequest;
+import com.adventureit.adventureservice.responses.*;
 import com.adventureit.adventureservice.service.AdventureServiceImplementation;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,4 +75,9 @@ public class AdventureController {
         adventureServiceImplementation.removeAttendees(adventureID,userID);
     }
 
+
+    @GetMapping("/getAdventureByUUID/{id}")
+    public GetAdventureByUUIDResponse getAdventureByUUID(@PathVariable UUID id){
+        return adventureServiceImplementation.getAdventureByUUID(new GetAdventureByUUIDRequest(id));
+    }
 }

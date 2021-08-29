@@ -74,7 +74,7 @@ public class MainControllerUserReroute {
         return restTemplate.getForObject(IP + ":" + userPort + "/user/getFriends/"+id, List.class);
     }
 
-    @GetMapping(value="GetFriendRequests/{id}")
+    @GetMapping(value="getFriendRequests/{id}")
     public List<GetFriendRequestsResponse> getFriendRequests(@PathVariable UUID id){
         return restTemplate.getForObject(IP + ":" + userPort + "/user/getFriendRequests/"+id, List.class);
 

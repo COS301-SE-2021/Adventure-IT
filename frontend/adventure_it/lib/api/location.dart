@@ -5,15 +5,15 @@ part 'location.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Location {
   final String id;
-  final String photo_reference;
+  final String photoReference;
   final String formattedAddress;
-  final String place_id;
+  final String placeId;
 
   Location({
     required this.id,
-    required this.photo_reference,
+    required this.photoReference,
     required this.formattedAddress,
-    required this.place_id,
+    required this.placeId,
   });
 
   factory Location.fromJson(Map<String, dynamic> json) =>

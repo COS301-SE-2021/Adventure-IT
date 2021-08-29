@@ -185,7 +185,6 @@ class _MessageList extends State<MessageList> {
                           color: Theme.of(context).textTheme.bodyText1!.color),
                     )),
                 indexedItemBuilder: (context, element, index) {
-                  print("here" + index.toString());
                   return Card(
                       color: Theme.of(context).primaryColorDark,
                       child: ListTile(

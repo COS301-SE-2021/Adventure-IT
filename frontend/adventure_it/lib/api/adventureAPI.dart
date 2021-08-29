@@ -11,7 +11,6 @@ import 'createAdventure.dart';
 class AdventureApi {
   static Future<List<Adventure>> getAdventuresByUUID(String userId) async {
     http.Response response = await _getAdventuresByUUID(userId);
-
     if (response.statusCode != 200) {
       throw Exception('Failed to load list of adventures: ${response.body}');
     }

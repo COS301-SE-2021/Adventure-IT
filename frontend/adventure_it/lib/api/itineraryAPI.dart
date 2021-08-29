@@ -27,7 +27,7 @@ class ItineraryApi {
   }
 
   static Future<List<ItineraryEntry>> getItineraryEntries(Itinerary i) async {
-    http.Response response = await _getItineraryEntries(i!.id);
+    http.Response response = await _getItineraryEntries(i.id);
 
     if (response.statusCode != 200) {
       throw Exception(
