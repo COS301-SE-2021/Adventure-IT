@@ -82,8 +82,9 @@ public class AdventureController {
 
 
     @GetMapping("/getAdventureByUUID/{id}")
-    public GetAdventureByUUIDResponse getAdventureByUUID(@PathVariable UUID id){
+    public GetAdventureByUUIDResponse getAdventureByUUID(@PathVariable UUID id) {
         return adventureServiceImplementation.getAdventureByUUID(new GetAdventureByUUIDRequest(id));
+    }
 
     @PostMapping("/editAdventure")
     public String editAdventure(@RequestBody EditAdventureRequest req){
