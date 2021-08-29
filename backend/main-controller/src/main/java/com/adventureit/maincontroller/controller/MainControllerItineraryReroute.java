@@ -9,6 +9,7 @@ import com.adventureit.itinerary.requests.EditItineraryEntryRequest;
 import com.adventureit.itinerary.responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.responses.ItineraryResponseDTO;
 import com.adventureit.locationservice.responses.LocationResponseDTO;
+import com.adventureit.maincontroller.exceptions.CurrentLocationException;
 import com.adventureit.maincontroller.exceptions.InvalidItineraryEntryException;
 import com.adventureit.maincontroller.responses.MainItineraryEntryResponseDTO;
 import com.adventureit.timelineservice.entity.TimelineType;
@@ -77,7 +78,7 @@ public class MainControllerItineraryReroute {
                 entries) {
             try {
                 LocationResponseDTO itineraryLocation = restTemplate.getForObject(IP+":9006/location/getLocation/"+entry.get("location"), LocationResponseDTO.class);
-                MainItineraryEntryResponseDTO responseObject = new MainItineraryEntryResponseDTO((String)entry.get("title"), (String)entry.get("description"), UUID.fromString((String)entry.get("id")), UUID.fromString((String)entry.get("entryContainerID")),(boolean)entry.get("completed"),itineraryLocation, LocalDateTime.parse((String)entry.get("timestamp")));
+                MainItineraryEntryResponseDTO responseObject = new MainItineraryEntryResponseDTO((String)entry.get("title"), (String)entry.get("description"), UUID.fromString((String)entry.get("id")), UUID.fromString((String)entry.get("entryContainerID")),(boolean)entry.get("completed"),itineraryLocation, LocalDateTime.parse((String)entry.get("timestamp")),(List<UUID>)entry.get("usersPresent"));
 
                list.add(responseObject);
             }
@@ -94,7 +95,7 @@ public class MainControllerItineraryReroute {
     public String softDelete(@PathVariable UUID id,@PathVariable UUID userID){
         return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/softDelete/"+id+"/"+userID, String.class);
     }
-    //
+
     @GetMapping("/viewTrash/{id}")
     public List<ItineraryResponseDTO> viewTrash(@PathVariable UUID id){
         return restTemplate.getForObject( IP + ":" + itineraryPort + "/itinerary/viewTrash/"+id, List.class);
@@ -158,11 +159,26 @@ public class MainControllerItineraryReroute {
         ItineraryEntryResponseDTO entry = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getNextEntry/"+id, ItineraryEntryResponseDTO.class);
         assert entry != null;
         LocationResponseDTO location = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/" + entry.getLocation(), LocationResponseDTO.class);
-        return new MainItineraryEntryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getEntryContainerID(),entry.isCompleted(),location,entry.getTimestamp());
+        return new MainItineraryEntryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getEntryContainerID(),entry.isCompleted(),location,entry.getTimestamp(),entry.getUsersPresent());
     }
 
     @GetMapping("/setLocation/{itineraryId}/{locationID}")
     public void setLocation(@PathVariable UUID itineraryId,@PathVariable UUID locationID){
         restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/setLocation/"+itineraryId+"/"+locationID, String.class);
+    }
+
+    @GetMapping("/checkUserOff/{userID}/{entryID}")
+    public void checkUserOff(@PathVariable UUID userID,@PathVariable UUID entryID){
+        ItineraryEntryResponseDTO entry = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryEntry/"+ entryID, ItineraryEntryResponseDTO.class);
+        assert entry != null;
+
+        Boolean flag = restTemplate.getForObject(IP + ":" + locationPort + "/location/compareGeography/"+ entry.getLocation() + "/" + userID, boolean.class);
+        assert flag != null;
+        if(flag){
+            restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/checkUserOff/"+ entryID + "/" + userID, String.class);
+        }
+        else{
+            throw new CurrentLocationException("Check User Off: User is in the incorrect location");
+        }
     }
 }

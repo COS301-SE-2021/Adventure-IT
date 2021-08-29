@@ -3,6 +3,7 @@ package com.adventureit.maincontroller.responses;
 import com.adventureit.locationservice.responses.LocationResponseDTO;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class MainItineraryEntryResponseDTO {
@@ -13,8 +14,9 @@ public class MainItineraryEntryResponseDTO {
     private boolean completed;
     private LocationResponseDTO location;
     LocalDateTime timestamp;
+    private List<UUID> usersPresent;
 
-    public MainItineraryEntryResponseDTO(String title, String description, UUID id, UUID entryContainerID, boolean completed, LocationResponseDTO location, LocalDateTime timestamp){
+    public MainItineraryEntryResponseDTO(String title, String description, UUID id, UUID entryContainerID, boolean completed, LocationResponseDTO location, LocalDateTime timestamp, List<UUID> usersPresent){
         this.title = title;
         this.description=description;
         this.entryContainerID =entryContainerID;
@@ -22,6 +24,7 @@ public class MainItineraryEntryResponseDTO {
         this.completed = completed;
         this.location = location;
         this.timestamp = timestamp;
+        this.usersPresent = usersPresent;
     }
 
     public UUID getId() {
@@ -62,5 +65,13 @@ public class MainItineraryEntryResponseDTO {
 
     public LocationResponseDTO getLocation() {
         return location;
+    }
+
+    public List<UUID> getUsersPresent() {
+        return usersPresent;
+    }
+
+    public void setUsersPresent(List<UUID> usersPresent) {
+        this.usersPresent = usersPresent;
     }
 }

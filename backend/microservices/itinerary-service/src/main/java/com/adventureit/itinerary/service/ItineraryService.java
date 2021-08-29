@@ -25,4 +25,6 @@ public interface ItineraryService {
      ItineraryResponseDTO getItineraryById(UUID itineraryID);
      List<ItineraryResponseDTO> viewItinerariesByAdventure(UUID id);
      ItineraryResponseDTO getItineraryByEntryId(UUID itineraryEntryID);
+     ItineraryEntryResponseDTO getItineraryEntry(UUID id);
+     void checkUserOff(UUID entryID, UUID userID);
 }
