@@ -70,6 +70,12 @@ public class AdventureController {
         adventureServiceImplementation.addAttendees(adventureID,userID);
     }
 
+    @GetMapping("/removeAttendees/{adventureID}/{userID}")
+    public void removeAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID) {
+        adventureServiceImplementation.removeAttendees(adventureID,userID);
+    }
+
+
     @GetMapping("/getAdventureByUUID/{id}")
     public GetAdventureByUUIDResponse getAdventureByUUID(@PathVariable UUID id){
         return adventureServiceImplementation.getAdventureByUUID(new GetAdventureByUUIDRequest(id));

@@ -9,19 +9,20 @@ import java.util.UUID;
 
 public interface ItineraryService {
 
-    public UUID addItineraryEntry(String title, String description,  UUID entryContainerID,String location, String timestamp);
-    public String createItinerary(String title, String description, UUID advID, UUID userID);
-    public String removeItineraryEntry(UUID id);
-    public String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description,UUID location, LocalDateTime timestamp);
-    public String softDelete(UUID id,UUID userID);
-    public String hardDelete(UUID id,UUID userID);
-    public List<ItineraryResponseDTO> viewTrash(UUID id);
-    public String restoreItinerary(UUID id,UUID userID);
-    public List<ItineraryEntryResponseDTO> viewItinerary(UUID id);
-    public void markCompleted(UUID id);
-    public String mockPopulate();
-    public ItineraryEntryResponseDTO nextItem(UUID id);
-    public void setItineraryEntryLocation(UUID itineraryID, UUID locationID);
-    public ItineraryResponseDTO getItineraryById(UUID itineraryID);
-    public List<ItineraryResponseDTO> viewItinerariesByAdventure(UUID id);
+     UUID addItineraryEntry(String title, String description,  UUID entryContainerID,String location, String timestamp);
+     String createItinerary(String title, String description, UUID advID, UUID userID);
+     String removeItineraryEntry(UUID id);
+     String editItineraryEntry(UUID id, UUID entryContainerID, String title, String description,UUID location, LocalDateTime timestamp);
+     String softDelete(UUID id,UUID userID);
+     String hardDelete(UUID id,UUID userID);
+     List<ItineraryResponseDTO> viewTrash(UUID id);
+     String restoreItinerary(UUID id,UUID userID);
+     List<ItineraryEntryResponseDTO> viewItinerary(UUID id);
+     void markCompleted(UUID id);
+     String mockPopulate();
+     ItineraryEntryResponseDTO nextItem(UUID id);
+     void setItineraryEntryLocation(UUID itineraryID, UUID locationID);
+     ItineraryResponseDTO getItineraryById(UUID itineraryID);
+     List<ItineraryResponseDTO> viewItinerariesByAdventure(UUID id);
+     ItineraryResponseDTO getItineraryByEntryId(UUID itineraryEntryID);
 }

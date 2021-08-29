@@ -56,6 +56,7 @@ public class MainControllerItineraryReroute {
         restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/setLocation/" + itineraryID +"/"+ locationId ,String.class);
 
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Itinerary "+req.getTitle()+": has been updated" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY,"An entry has been added to the "+req.getTitle()+" itinerary." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return itineraryID;
     }
@@ -110,7 +111,7 @@ public class MainControllerItineraryReroute {
         ItineraryResponseDTO response = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryById/"+id, ItineraryResponseDTO.class);
         String returnString = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/hardDelete/"+id+"/"+userID, String.class);
         assert response != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.ITINERARY,"Itinerary: "+response.getTitle()+" has been deleted" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.ITINERARY,"Itinerary("+response.getTitle()+"): has been deleted." );
         restTemplate.postForObject( IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
     }
@@ -118,7 +119,7 @@ public class MainControllerItineraryReroute {
     @PostMapping("/create")
     public String createItinerary(@RequestBody CreateItineraryRequest req){
         String returnString = restTemplate.postForObject(IP + ":" + itineraryPort + "/itinerary/create/", req, String.class);
-        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdvID(), TimelineType.BUDGET,"Itinerary: "+req.getTitle()+" has been created" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdvID(), TimelineType.ITINERARY,"Itinerary("+req.getTitle()+"): has been created." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
 
@@ -133,13 +134,17 @@ public class MainControllerItineraryReroute {
         ItineraryResponseDTO itinerary = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryById/"+req.getEntryContainerID(), ItineraryResponseDTO.class);
         assert itinerary != null;
         UUID adventureId = itinerary.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY,"Itinerary: "+req.getTitle()+" has been edited" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY,"Itinerary("+req.getTitle()+"): has been edited" );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
     }
 
     @GetMapping("/removeEntry/{id}")
     public String removeItineraryEntry(@PathVariable UUID id){
+        ItineraryResponseDTO response = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryByEntryId/"+id, ItineraryResponseDTO.class);
+        assert response != null;
+        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.ITINERARY,"An entry has been deleted from the "+response.getTitle()+" itinerary." );
+        restTemplate.postForObject( IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/removeEntry/"+id, String.class);
 
     }

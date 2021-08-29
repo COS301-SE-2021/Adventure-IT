@@ -41,11 +41,6 @@ class BudgetServiceIntegrationTests {
         Assertions.assertNotNull(budgetController);
     }
 
-    @Test
-    @Description("Ensure that the controller is accepting traffic and responding")
-    void httpTest_returnResponse(){
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/budget/test", String.class),"Budget Controller is functioning");
-    }
 
     @Test
     @Description("Ensure that the create function works")
@@ -71,7 +66,7 @@ class BudgetServiceIntegrationTests {
         Budget budget1 = new Budget(budgetID,"Test Budget 1","Mock",UUID.randomUUID(),adventureID);
         budgetRepository.saveAndFlush(budget1);
 
-        AddUTOExpenseEntryRequest request = new AddUTOExpenseEntryRequest(budgetID,"User1",100,"Mock","Mock","OTHER","Shop1");
+        AddUTOExpenseEntryRequest request = new AddUTOExpenseEntryRequest(budgetID,"User1",100,"Mock","Mock","ACTIVITIES","Shop1");
         String response = this.restTemplate.postForObject("http://localhost:" + port + "/budget/addUTOExpense", request,String.class);
         Assertions.assertEquals("Entry added successfully!", response);
     }
@@ -120,7 +115,7 @@ class BudgetServiceIntegrationTests {
         UUID adventureID = UUID.randomUUID();
         Budget budget1 = new Budget(id,"Test Budget 1","Mock",UUID.randomUUID(),adventureID);
         budgetRepository.saveAndFlush(budget1);
-        this.restTemplate.getForObject("http://localhost:" + port + "/budget/viewBudgetsByAdventure/"+adventureID, List.class);
+        this.restTemplate.getForObject("http://localhost:" + port + "/budget/viewBudgetsByAdventure/{id}", List.class, adventureID);
     }
 
     @Test
