@@ -97,4 +97,9 @@ public class ItineraryController {
     public ItineraryResponseDTO getItineraryById(@PathVariable UUID itineraryId){
         return itineraryServiceImplementation.getItineraryById(itineraryId);
     }
+
+    @GetMapping("/getItineraryByEntryId/{itineraryEntryId}")
+    public ItineraryResponseDTO getItineraryByEntryId(@PathVariable UUID itineraryEntryId){
+        return itineraryServiceImplementation.getItineraryById(itineraryEntryId);
+    }
 }
