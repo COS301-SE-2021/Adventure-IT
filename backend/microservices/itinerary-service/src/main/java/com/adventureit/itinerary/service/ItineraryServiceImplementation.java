@@ -223,7 +223,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
         List<ItineraryEntryResponseDTO> list = new ArrayList<>();
 
         for (ItineraryEntry entry:entries) {
-            list.add(new ItineraryEntryResponseDTO(entry.getId(),entry.getEntryContainerID(),entry.getTitle(),entry.getDescription(),entry.isCompleted(),entry.getLocation(),entry.getTimestamp()));
+            list.add(new ItineraryEntryResponseDTO(entry.getId(),entry.getEntryContainerID(),entry.getTitle(),entry.getDescription(),entry.isCompleted(),entry.getLocation(),entry.getTimestamp(),entry.getUsersPresent()));
 
             list.sort(Comparator.comparing(ItineraryEntryResponseDTO::getTimestamp));
         }
@@ -270,7 +270,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new NotFoundException("Next Item: No items available");
         }
 
-        return new ItineraryEntryResponseDTO(next.getId(),next.getEntryContainerID(),next.getTitle(),next.getDescription(),next.isCompleted(),next.getLocation(),next.getTimestamp());
+        return new ItineraryEntryResponseDTO(next.getId(),next.getEntryContainerID(),next.getTitle(),next.getDescription(),next.isCompleted(),next.getLocation(),next.getTimestamp(),next.getUsersPresent());
     }
 
     @Override
@@ -305,6 +305,27 @@ public class ItineraryServiceImplementation implements ItineraryService {
         }
 
         return list;
+    }
+
+    @Override
+    public ItineraryEntryResponseDTO getItineraryEntry(UUID id) {
+        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryById(id);
+        if(entry == null){
+            throw new NotFoundException("Get Itinerary Entry: Entry does not exist");
+        }
+
+        return new ItineraryEntryResponseDTO(entry.getId(),entry.getEntryContainerID(),entry.getTitle(),entry.getDescription(),entry.isCompleted(),entry.getLocation(),entry.getTimestamp(),entry.getUsersPresent());
+    }
+
+    @Override
+    public void checkUserOff(UUID entryID, UUID userID) {
+        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryById(entryID);
+        if(entry == null){
+            throw new NotFoundException("Get Itinerary Entry: Entry does not exist");
+        }
+
+        entry.getUsersPresent().add(userID);
+        itineraryEntryRepository.save(entry);
     }
 
     @Override

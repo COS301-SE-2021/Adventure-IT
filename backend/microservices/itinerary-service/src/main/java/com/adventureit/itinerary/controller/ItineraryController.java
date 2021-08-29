@@ -104,6 +104,16 @@ public class ItineraryController {
         return itineraryServiceImplementation.getItineraryById(itineraryEntryId);
     }
 
+    @GetMapping("/getItineraryEntry/{entryId}")
+    public ItineraryEntryResponseDTO getItineraryEntry(@PathVariable UUID entryId){
+        return itineraryServiceImplementation.getItineraryEntry(entryId);
+    }
+
+    @GetMapping("/checkUserOff/{entryId}/{userID}")
+    public void checkUserOff(@PathVariable UUID entryId, @PathVariable UUID userID){
+        itineraryServiceImplementation.checkUserOff(entryId,userID);
+    }
+
     @GetMapping("/getStartDateEndDate/{id}")
     public StartDateEndDateResponseDTO getStartDateEndDate(@PathVariable UUID id){
         return itineraryServiceImplementation.getStartAndEndDate(id);
