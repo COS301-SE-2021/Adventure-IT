@@ -204,11 +204,12 @@ class AlertBox extends State<_AlertBox> {
   String? payer;
   String? payee;
   Adventure? currentAdventure;
-  String title="";
-  String description="";
-  String amount="";
-  String other="";
-  String cents="";
+
+  final otherController = TextEditingController();
+  final amountController = TextEditingController();
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final centsController = TextEditingController();
 
   List<UserProfile> users = List.empty();
   List<String>? userNames;
@@ -320,12 +321,6 @@ class AlertBox extends State<_AlertBox> {
       "OTHER"
     ];
 
-    final otherController = TextEditingController();
-    final amountController = TextEditingController();
-    final titleController = TextEditingController();
-    final descriptionController = TextEditingController();
-    final centsController = TextEditingController();
-
     if (userNames == null || userNames!.length == 0 ||
         userNamesAndOther == null || userNamesAndOther!.length == 0) {
       return AlertDialog(
@@ -402,12 +397,6 @@ class AlertBox extends State<_AlertBox> {
                                   .bodyText1!
                                   .color),
                           controller: titleController,
-                          onEditingComplete: () {
-                            setState(() {
-                              title = titleController.text;
-                              titleController.text = title!;
-                            });
-                          },
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme
@@ -452,12 +441,6 @@ class AlertBox extends State<_AlertBox> {
                                   .bodyText1!
                                   .color),
                           controller: descriptionController,
-                          onEditingComplete: () {
-                            setState(() {
-                              description = descriptionController.text;
-                              descriptionController.text = description!;
-                            });
-                          },
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
                                   color: Theme
@@ -497,10 +480,6 @@ class AlertBox extends State<_AlertBox> {
                           onChanged: (String? newValue) {
                             setState(() {
                               payer = newValue!;
-                              descriptionController.text = description!;
-                              titleController.text = title!;
-                              otherController.text = other!;
-                              amountController.text = amount!;
                             });
                           },
                           items: userNames!.map((String user) {
@@ -543,12 +522,6 @@ class AlertBox extends State<_AlertBox> {
                             ],
                             keyboardType: TextInputType
                                 .number,
-                            onEditingComplete: () {
-                              setState(() {
-                                amount = amountController.text;
-                                amountController.text = amount!;
-                              });
-                            },
                             style: TextStyle(
                                 color: Theme
                                     .of(
@@ -619,12 +592,6 @@ class AlertBox extends State<_AlertBox> {
                             ],
                             keyboardType: TextInputType
                                 .number,
-                            onEditingComplete: () {
-                              setState(() {
-                                cents = centsController.text;
-                                centsController.text = cents!;
-                              });
-                            },
                             style: TextStyle(
                                 color: Theme
                                     .of(
@@ -682,10 +649,6 @@ class AlertBox extends State<_AlertBox> {
                           onChanged: (String? newValue) {
                             setState(() {
                               payee = newValue!;
-                              descriptionController.text = description!;
-                              titleController.text = title!;
-                              otherController.text = other!;
-                              amountController.text = amount!;
                             });
                           },
                           items: userNamesAndOther!.map((String user) {
@@ -721,12 +684,6 @@ class AlertBox extends State<_AlertBox> {
                           controller: otherController,
                           enabled:
                           payee != null && payee!.compareTo("Other") == 0,
-                          onEditingComplete: () {
-                            setState(() {
-                              other = otherController.text;
-                              otherController.text = other!;
-                            });
-                          },
                           style: TextStyle(
                               color: Theme
                                   .of(context)
@@ -855,10 +812,6 @@ class AlertBox extends State<_AlertBox> {
                       onChanged: (int? value) {
                         setState(() {
                           selectedCategory = value;
-                          descriptionController.text = description!;
-                          titleController.text = title!;
-                          otherController.text = other!;
-                          amountController.text = amount!;
                         });
                       },
                     ),
@@ -1041,12 +994,6 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
   final otherController = TextEditingController();
   List<String>? userNames;
   List<String>? userNamesAndOther;
-
-  String title="";
-  String description="";
-  String amount="";
-  String other="";
-  String cents="";
 
   @override
   Widget build(BuildContext context) {
@@ -1401,16 +1348,6 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                         .bodyText1!
                                                                         .color),
                                                                 controller: titleController,
-                                                                onEditingComplete: () {
-                                                                  setState(() {
-                                                                    title =
-                                                                        titleController
-                                                                            .text;
-                                                                    titleController
-                                                                        .text =
-                                                                    title!;
-                                                                  });
-                                                                },
                                                                 decoration: InputDecoration(
                                                                     hintStyle: TextStyle(
                                                                         color: Theme
@@ -1465,16 +1402,6 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                         .bodyText1!
                                                                         .color),
                                                                 controller: descriptionController,
-                                                                onEditingComplete: () {
-                                                                  setState(() {
-                                                                    description =
-                                                                        descriptionController
-                                                                            .text;
-                                                                    descriptionController
-                                                                        .text =
-                                                                    description!;
-                                                                  });
-                                                                },
                                                                 decoration: InputDecoration(
                                                                     hintStyle: TextStyle(
                                                                         color: Theme
@@ -1525,18 +1452,6 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                   setState(() {
                                                                     payer =
                                                                     newValue!;
-                                                                    descriptionController
-                                                                        .text =
-                                                                    description!;
-                                                                    titleController
-                                                                        .text =
-                                                                    title!;
-                                                                    otherController
-                                                                        .text =
-                                                                    other!;
-                                                                    amountController
-                                                                        .text =
-                                                                    amount!;
                                                                   });
                                                                 },
                                                                 items: userNames!
@@ -1583,16 +1498,6 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                   ],
                                                                   keyboardType: TextInputType
                                                                       .number,
-                                                                  onEditingComplete: () {
-                                                                    setState(() {
-                                                                      amount =
-                                                                          amountController
-                                                                              .text;
-                                                                      amountController
-                                                                          .text =
-                                                                      amount!;
-                                                                    });
-                                                                  },
                                                                   style: TextStyle(
                                                                       color: Theme
                                                                           .of(
@@ -1664,16 +1569,6 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                   ],
                                                                   keyboardType: TextInputType
                                                                       .number,
-                                                                  onEditingComplete: () {
-                                                                    setState(() {
-                                                                      cents =
-                                                                          centsController
-                                                                              .text;
-                                                                      centsController
-                                                                          .text =
-                                                                      cents!;
-                                                                    });
-                                                                  },
                                                                   style: TextStyle(
                                                                       color: Theme
                                                                           .of(
@@ -1736,18 +1631,6 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                   setState(() {
                                                                     payee =
                                                                     newValue!;
-                                                                    descriptionController
-                                                                        .text =
-                                                                    description!;
-                                                                    titleController
-                                                                        .text =
-                                                                    title!;
-                                                                    otherController
-                                                                        .text =
-                                                                    other!;
-                                                                    amountController
-                                                                        .text =
-                                                                    amount!;
                                                                   });
                                                                 },
                                                                 items: userNamesAndOther!
@@ -1801,16 +1684,6 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                         .bodyText1!
                                                                         .color),
                                                                 controller: otherController,
-                                                                onEditingComplete: () {
-                                                                  setState(() {
-                                                                    other =
-                                                                        otherController
-                                                                            .text;
-                                                                    otherController
-                                                                        .text =
-                                                                    other!;
-                                                                  });
-                                                                },
                                                                 decoration: InputDecoration(
                                                                     hintStyle: TextStyle(
                                                                         color: Theme
@@ -1949,18 +1822,6 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                               setState(() {
                                                                 selectedCategory =
                                                                     value;
-                                                                descriptionController
-                                                                    .text =
-                                                                description!;
-                                                                titleController
-                                                                    .text =
-                                                                title!;
-                                                                otherController
-                                                                    .text =
-                                                                other!;
-                                                                amountController
-                                                                    .text =
-                                                                amount!;
                                                               });
                                                             },
                                                           ),
