@@ -55,7 +55,6 @@ public class MainControllerItineraryReroute {
         UUID itineraryID = restTemplate.postForObject(IP + ":" + itineraryPort + "/itinerary/addEntry",req, UUID.class);
         restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/setLocation/" + itineraryID +"/"+ locationId ,String.class);
 
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Itinerary "+req.getTitle()+": has been updated" );
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY,"An entry has been added to the "+req.getTitle()+" itinerary." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return itineraryID;
