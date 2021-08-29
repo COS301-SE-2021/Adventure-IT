@@ -6,6 +6,7 @@ import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
 import com.adventureit.adventureservice.exceptions.UserNotInAdventureException;
 import com.adventureit.adventureservice.repository.AdventureRepository;
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
+import com.adventureit.adventureservice.requests.EditAdventureRequest;
 import com.adventureit.adventureservice.requests.GetAdventureByUUIDRequest;
 import com.adventureit.adventureservice.responses.*;
 import com.adventureit.adventureservice.exceptions.NullFieldException;
@@ -202,6 +203,40 @@ public class AdventureServiceImplementation implements AdventureService {
         }
 
         return list;
+    }
+
+    @Override
+    public String editAdventure(EditAdventureRequest req) {
+        Adventure adventure = adventureRepository.findAdventureByAdventureId(req.getAdventureId());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy");
+        if(req.getDescription().equals("")){
+
+        }else{
+            adventure.setDescription(req.getDescription());
+        }
+
+        if(req.getName().equals("")){
+
+        }else{
+            adventure.setName(req.getName());
+        }
+
+        if(req.getStartDate().equals("")){
+
+        }else{
+            LocalDate sd = LocalDate.parse(req.getStartDate(),formatter);
+            adventure.setStartDate(sd);
+        }
+
+        if(req.getEndDate().equals("")){
+
+        }else{
+            LocalDate ed = LocalDate.parse(req.getEndDate(),formatter);
+            adventure.setEndDate(ed);
+        }
+
+        adventureRepository.save(adventure);
+        return "Adventure successfully edited";
     }
 
 }
