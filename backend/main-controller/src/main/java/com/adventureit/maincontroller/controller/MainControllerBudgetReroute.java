@@ -29,7 +29,7 @@ public class MainControllerBudgetReroute {
     @PostMapping(value ="/create")
     public String createBudget(@RequestBody CreateBudgetRequest req) {
         restTemplate.postForObject(IP + ":" + budgetPort + "/budget/create/", req, String.class);
-        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(), TimelineType.BUDGET,req.getName()+" budget has been created" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(), TimelineType.BUDGET,"Budget("+req.getName()+") has been created" );
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 
@@ -38,7 +38,7 @@ public class MainControllerBudgetReroute {
         BudgetResponseDTO response = restTemplate.getForObject(IP + ":" + budgetPort + createBudget+id, BudgetResponseDTO.class);
         restTemplate.getForObject(IP + ":" + budgetPort + "/budget/hardDelete/"+id+"/"+userID, String.class);
         assert response != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.BUDGET,"Budget "+id+": has been deleted" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.BUDGET,"Budget("+response.getName()+"): has been deleted" );
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
  }
 
@@ -50,7 +50,7 @@ public class MainControllerBudgetReroute {
         BudgetResponseDTO response = restTemplate.getForObject(IP + ":" + budgetPort + createBudget+budgetID, BudgetResponseDTO.class);
         assert response != null;
         UUID adventureId = response.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Budget "+req.getTitle()+": has been edited" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Budget("+req.getTitle()+"): has been edited" );
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 
@@ -61,7 +61,7 @@ public class MainControllerBudgetReroute {
         assert response != null;
         UUID adventureId =response.getAdventureID();
         String name = response.getName();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Budget "+name+": has been deleted" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"An entry has been deleted from the "+name+" budget." );
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 
@@ -95,11 +95,11 @@ public class MainControllerBudgetReroute {
     @PostMapping("/addUTOExpense")
     public String addUTOExpense(@RequestBody AddUTOExpenseEntryRequest req){
         String returnString = restTemplate.postForObject(IP + ":" + budgetPort + "/budget/addUTOExpense/", req, String.class);
-        BudgetResponseDTO response = restTemplate.getForObject(IP + ":" + budgetPort + "/budget/getBudgetByBudgetId/"+req.getEntryContainerID(), BudgetResponseDTO.class);
+        BudgetResponseDTO response = restTemplate.getForObject(IP + ":" + budgetPort + createBudget +req.getEntryContainerID(), BudgetResponseDTO.class);
         assert response != null;
         UUID adventureId =response.getAdventureID();
         String name = response.getName();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Budget "+name+": has been updated" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"An entry has been added to the "+name+" budget." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
     }
@@ -111,7 +111,7 @@ public class MainControllerBudgetReroute {
         assert response != null;
         UUID adventureId =response.getAdventureID();
         String name = response.getName();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"Budget "+name+": has been updated" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,"An entry has been added to the "+name+" budget." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
     }
@@ -139,7 +139,7 @@ public class MainControllerBudgetReroute {
 
     @GetMapping("/getBudgetByBudgetId/{id}")
     public BudgetResponseDTO generateIndividualReport(@PathVariable UUID id) {
-        return restTemplate.getForObject(IP + ":" + budgetPort + "/budget/getBudgetByBudgetId/"+id, BudgetResponseDTO.class);
+        return restTemplate.getForObject(IP + ":" + budgetPort + createBudget +id, BudgetResponseDTO.class);
     }
 
 

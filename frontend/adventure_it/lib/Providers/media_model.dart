@@ -6,8 +6,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 
 class MediaModel extends ChangeNotifier {
-  List<Media>? _media = null;
-  Adventure? adventure = null;
+  List<Media>? _media;
+  Adventure? adventure;
 
   MediaModel(Adventure a) {
     this.adventure = a;
@@ -42,8 +42,8 @@ class MediaModel extends ChangeNotifier {
 }
 
 class FileModel extends ChangeNotifier {
-  List<Media>? _files = null;
-  Adventure? adventure = null;
+  List<Media>? _files;
+  Adventure? adventure;
 
   FileModel(Adventure a) {
     this.adventure = a;
@@ -77,7 +77,7 @@ class FileModel extends ChangeNotifier {
 }
 
 class DocumentModel extends ChangeNotifier {
-  List<Documents>? _documents = null;
+  List<Documents>? _documents;
 
   DocumentModel() {
     fetchAllDocuments().then((documents) =>

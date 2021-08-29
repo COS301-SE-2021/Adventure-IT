@@ -22,5 +22,6 @@ public interface AdventureService{
     List<UUID> getAttendees(UUID id);
     void setAdventureLocation(UUID adventureID, UUID locationID);
     void addAttendees(UUID adventureID, UUID userID);
+    String removeAttendees(UUID adventureID, UUID userID);
     String editAdventure(EditAdventureRequest req);
 }

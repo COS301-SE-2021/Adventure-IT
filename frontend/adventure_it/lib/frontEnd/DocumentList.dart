@@ -125,80 +125,139 @@ class DocumentList extends StatelessWidget {
                     Theme.of(context).accentColor)));
       } else if (documentModel.documents!.length > 0) {
         return Container(
-            child: StaggeredGridView.countBuilder(
-          crossAxisCount: 4,
-          itemCount: documentModel.documents!.length,
-          itemBuilder: (BuildContext context, int index) => new Card(
-              color: Theme.of(context).primaryColorDark,
-              child: InkWell(
-                  onTap: () {
-                    if (kIsWeb) {
-                      DocumentApi.web_requestDocumentDownload(
-                          documentModel.documents!.elementAt(index));
-                    } else {
-                      DocumentApi.requestDocumentDownload(
-                          context, documentModel.documents!.elementAt(index));
-                    }
-                  },
-                  child: Stack(clipBehavior: Clip.none, children: <Widget>[
-                    //TODO: https instead of http?
-                    Center(
-                        child: Container(
-                            height: double.infinity,
-                            width: double.infinity,
-                            decoration: new BoxDecoration(
-                              image: new DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: documentModel.documents!
-                                          .elementAt(index)
-                                          .type
-                                          .contains("pdf")
-                                      ? Image.asset("assets/logo.png").image
-                                      : NetworkImage("http://" +
-                                          mediaApi +
-                                          "/media/documentUploaded/" +
-                                          documentModel.documents!
-                                              .elementAt(index)
-                                              .id)),
-                            ),
-                            child: Padding(
-                                padding: const EdgeInsets.all(4),
-                                child: Text(
-                                    documentModel.documents!
-                                        .elementAt(index)
-                                        .name,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      fontSize: 12 *
-                                          MediaQuery.of(context)
-                                              .textScaleFactor,
-                                      fontWeight: FontWeight.bold,
-                                    ))))),
-                    Positioned(
-                      right: -5.0,
-                      top: -5.0,
-                      child: InkResponse(
-                        onTap: () {
-                          Provider.of<MediaModel>(context, listen: false)
-                              .removeMedia(
-                                  documentModel.documents!.elementAt(index).id);
-                        },
-                        child: CircleAvatar(
-                          radius: MediaQuery.of(context).size.width * 0.02,
-                          child: Icon(Icons.close,
-                              color: Theme.of(context).primaryColorDark),
-                          backgroundColor: Theme.of(context).accentColor,
-                        ),
-                      ),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.1),
+            child: GridView.builder(
+              itemCount: documentModel.documents!.length,
+              itemBuilder: (BuildContext context, int index) => new Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24)),
+                  clipBehavior: Clip.antiAlias,
+                  color: Theme.of(context).primaryColorDark,
+                  child: Column(children: [
+                    Expanded(
+                      flex: 9,
+                      child: Ink.image(
+                          image: documentModel.documents!
+                              .elementAt(index)
+                              .type
+                              .contains("pdf")
+                              ? Image.asset("assets/logo.png").image
+                              : NetworkImage("http://" +
+                              mediaApi +
+                              "/media/mediaUploaded/" +
+                              documentModel.documents!.elementAt(index).id),
+                          fit: BoxFit.cover),
                     ),
-                  ]))),
-          staggeredTileBuilder: (int index) =>
-              new StaggeredTile.count(2, index.isEven ? 2 : 1),
-          mainAxisSpacing: 4.0,
-          crossAxisSpacing: 4.0,
-        ));
+                    Expanded(
+                        flex: 4,
+                        child: Padding(
+                            padding: EdgeInsets.all(2),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Spacer(),
+                                  Text(documentModel.documents!.elementAt(index).name,
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color)),
+                                  Spacer(),
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Spacer(),
+                                        Expanded(
+                                            flex: 6,
+                                            child: ElevatedButton(
+                                                child: Text("Download",
+                                                    style: new TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color)),
+                                                style: ElevatedButton.styleFrom(
+                                                  primary: Theme.of(context)
+                                                      .accentColor,
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                          0.03,
+                                                      vertical:
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                          0.01),
+                                                ),
+                                                onPressed: () {
+                                                  if (kIsWeb) {
+                                                    DocumentApi
+                                                        .web_requestDocumentDownload(
+                                                        documentModel.documents!
+                                                            .elementAt(
+                                                            index));
+                                                  } else {
+                                                    DocumentApi
+                                                        .requestDocumentDownload(
+                                                        context,
+                                                        documentModel.documents!
+                                                            .elementAt(
+                                                            index));
+                                                  }
+                                                })),
+                                        Spacer(),
+                                        Expanded(
+                                            flex: 6,
+                                            child: ElevatedButton(
+                                              child: Text("Remove",
+                                                  style: new TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Theme.of(context)
+                                                          .accentColor)),
+                                              style: ElevatedButton.styleFrom(
+                                                side: BorderSide(width: 1.0, color: Theme.of(context)
+                                                    .accentColor),
+                                                primary:
+                                                Theme.of(context).primaryColorDark,
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal:
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                        0.03,
+                                                    vertical: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                        0.01),
+                                              ),
+                                              onPressed: () {
+                                                Provider.of<DocumentModel>(context,
+                                                    listen: false)
+                                                    .removeDocument(documentModel.documents!
+                                                    .elementAt(index)
+                                                    .id);
+                                              },
+                                            )),
+                                        Spacer(),
+                                      ]),
+                                ]))),Spacer(),
+                  ])),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: MediaQuery.of(context).size.height >
+                    MediaQuery.of(context).size.width
+                    ? 1
+                    : 2,
+                crossAxisSpacing: 4.0,
+                mainAxisSpacing: 4.0,
+              ),
+            ));
       } else {
         return Center(
             child: Text("Some things should be kept private",

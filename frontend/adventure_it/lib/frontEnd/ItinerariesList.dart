@@ -12,6 +12,8 @@ import 'ItineraryPage.dart';
 import 'ItineraryTrash.dart';
 import 'Navbar.dart';
 
+
+
 class Itineraries extends StatelessWidget {
   late final Adventure? adventure;
 
@@ -150,6 +152,40 @@ class _ItinerariesList extends State<ItinerariesList> {
     });
   }
 
+  String getTime(ItineraryEntry next)
+  {
+    String dateTime=DateTime.parse(next.timestamp).day.toString()+" "+months[DateTime.parse(next.timestamp).month-1]+" "+DateTime.parse(next.timestamp).year.toString()+" ";
+
+       String hour=DateTime.parse(next.timestamp)
+            .hour
+            .toString();
+
+       if(hour.length<2)
+         {
+           dateTime=dateTime+"0"+hour+":";
+         }
+       else
+         {
+           dateTime=dateTime+hour+":";
+         }
+
+        String minute=DateTime.parse(next.timestamp)
+            .minute
+            .toString();
+
+    if(minute.length<2)
+    {
+      dateTime=dateTime+"0"+minute;
+    }
+    else
+    {
+      dateTime=dateTime+minute;
+    }
+
+    return dateTime;
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ItineraryModel>(builder: (context, itineraryModel, child) {
@@ -238,25 +274,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                             Spacer(),
                             Expanded(
                               child: Text(
-                                  DateTime.parse(next!.timestamp)
-                                          .day
-                                          .toString() +
-                                      " " +
-                                      months[DateTime.parse(next!.timestamp)
-                                              .month -
-                                          1] +
-                                      " " +
-                                      DateTime.parse(next!.timestamp)
-                                          .year
-                                          .toString() +
-                                      " " +
-                                      DateTime.parse(next!.timestamp)
-                                          .hour
-                                          .toString() +
-                                      ":" +
-                                      DateTime.parse(next!.timestamp)
-                                          .minute
-                                          .toString(),
+                                  getTime(next!),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 15 *
