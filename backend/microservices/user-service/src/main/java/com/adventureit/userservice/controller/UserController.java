@@ -9,8 +9,11 @@ import com.adventureit.userservice.requests.UpdatePictureRequest;
 import com.adventureit.userservice.responses.*;
 import com.adventureit.userservice.service.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,14 +52,20 @@ public class UserController {
         return "User controller is working";
     }
 
-    @PostMapping(value = "updatePicture", consumes = "application/json", produces = "application/json")
-    public String updatePicture(@RequestBody UpdatePictureRequest req) throws IOException {
-        File f = new File(req.getPath());
-        byte[] content = Files.readAllBytes(f.toPath());
-        MockMultipartFile file = new MockMultipartFile("Profile Picture", f.getName(), "jpg", content);
-        return service.updateProfilePicture(file, req.getId());
+    @PostMapping(value = "updatePicture")
+    public HttpStatus updatePicture(@RequestPart MultipartFile file, @RequestParam("userid") UUID userId){
+        return service.updateProfilePicture(file, userId);
     }
 
+    @PostMapping(value = "viewPicture/{id}")
+    public ResponseEntity<byte[]> viewPicture(@PathVariable UUID id) throws IOException {
+        return service.viewImage(id);
+    }
+
+    @PostMapping(value = "removePicture/{id}")
+    public void removePicture(@PathVariable UUID id){
+        service.removeImage(id);
+    }
 
     @GetMapping(value = "getUser/{id}")
     public GetUserByUUIDDTO getUserByUUID(@PathVariable UUID id) {

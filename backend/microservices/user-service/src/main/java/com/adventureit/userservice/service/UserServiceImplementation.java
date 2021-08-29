@@ -2,22 +2,32 @@ package com.adventureit.userservice.service;
 
 
 import com.adventureit.userservice.entities.Friend;
+import com.adventureit.userservice.entities.PictureInfo;
 import com.adventureit.userservice.entities.Users;
 import com.adventureit.userservice.exceptions.*;
 import com.adventureit.userservice.repository.FriendRepository;
+import com.adventureit.userservice.repository.PictureInfoRepository;
 import com.adventureit.userservice.repository.UserRepository;
 import com.adventureit.userservice.requests.RegisterUserRequest;
 import com.adventureit.userservice.responses.FriendDTO;
 import com.adventureit.userservice.responses.GetFriendRequestsResponse;
 import com.adventureit.userservice.responses.GetUserByUUIDDTO;
 import com.adventureit.userservice.responses.RegisterUserResponse;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.ReadChannel;
+import com.google.cloud.storage.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import javax.imageio.ImageIO;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
@@ -33,9 +43,23 @@ public class UserServiceImplementation  {
     private final FriendRepository friendRepository;
 
     @Autowired
+    PictureInfoRepository pictureInfoRepository;
+
+    private StorageOptions storageOptions;
+    private String bucketName;
+
+    @Autowired
     public UserServiceImplementation(UserRepository repo, FriendRepository friendRepository) {
         this.repo = repo;
         this.friendRepository = friendRepository;
+    }
+
+    @PostConstruct
+    private void initializeFirebase() throws IOException {
+        bucketName = "adventure-it-bc0b6.appspot.com";
+        String projectId = "Adventure-IT";
+        FileInputStream serviceAccount = new FileInputStream("C:\\Users\\sgood\\Documents\\CS\\SEM 2\\COS301\\adventure-it-bc0b6-firebase-adminsdk-o2fq8-ad3a51fb5e.json");
+        this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
     }
 
     /**
@@ -115,57 +139,52 @@ public class UserServiceImplementation  {
         return new GetUserByUUIDDTO(newUser.getUserID(),newUser.getUsername(),newUser.getFirstname(), newUser.getLastname(), newUser.getEmail());
     }
 
-    public String updateProfilePicture(MultipartFile file, UUID id){
-        if(file ==null){
-            throw new InvalidRequestException("File is null");
-        }
-        if(id ==null){
-            throw new InvalidRequestException("User ID not provided");
-        }
-
-        Users user = repo.getUserByUserID(id);
-        if(user == null){
-            throw new UserDoesNotExistException("User does not exist");
-        }
-
+    public HttpStatus updateProfilePicture(MultipartFile file, UUID userId){
         try {
-            user.setProfilePicture(file.getBytes());
-            repo.save(user);
-        } catch (Exception e) {
-            return "error";
-        }
+            UUID id = UUID.randomUUID();
+            String fileName = file.getOriginalFilename();
 
-        return "Profile Picture successfully updated!";
+            PictureInfo uploadedPicture = new PictureInfo(id, file.getContentType(), fileName, userId);
+            pictureInfoRepository.save(uploadedPicture);
+
+            Storage storage = storageOptions.getService();
+            BlobId blobId = BlobId.of(bucketName, id.toString());
+            BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+            storage.create(blobInfo, file.getBytes());
+
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return HttpStatus.NO_CONTENT;
+        }
     }
 
     @Transactional
-    public Image viewImage(UUID id) throws IOException {
-        if(id ==null){
-            throw new InvalidRequestException("User ID not provided");
-        }
+    public ResponseEntity<byte[]> viewImage(UUID id) throws IOException {
+        PictureInfo info = pictureInfoRepository.findPictureInfoByOwner(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+        headers.setContentType(MediaType.parseMediaType(info.getType()));
 
-        Users user = repo.getUserByUserID(id);
-        if(user == null){
-            throw new UserDoesNotExistException("User does not exist");
-        }
+        Storage storage = storageOptions.getService();
+        Blob blob = storage.get(BlobId.of(bucketName, info.getId().toString()));
+        ReadChannel reader = blob.reader();
+        InputStream inputStream = Channels.newInputStream(reader);
+        byte[] content = inputStream.readAllBytes();
 
-        ByteArrayInputStream bis = new ByteArrayInputStream(user.getProfilePicture());
-        return ImageIO.read(bis);
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
-    public String removeImage(UUID id){
-        if(id ==null){
-            throw new InvalidRequestException("User ID not provided");
+    public void removeImage(UUID id){
+        PictureInfo pictureInfo = pictureInfoRepository.findPictureInfoByOwner(id);
+        Storage storage = storageOptions.getService();
+
+        if(pictureInfo == null){
+            throw new NotFoundException("Remove Image: Image does not exist");
         }
 
-        Users user = repo.getUserByUserID(id);
-        if(user == null){
-            throw new UserDoesNotExistException("User does not exist");
-        }
-
-        user.setProfilePicture(null);
-        repo.save(user);
-        return "Picture successfully removed";
+        storage.get(BlobId.of(bucketName, pictureInfo.getId().toString())).delete();
+        pictureInfoRepository.delete(pictureInfo);
     }
 
     public String createFriendRequest(String userId1, String userId2){

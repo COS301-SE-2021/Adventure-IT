@@ -26,8 +26,6 @@ public class Users  {
     private String lastname;
     private String email;
     private Boolean enabled = false;
-    @Lob
-    private byte [] profilePicture;
     private Boolean locked = false;
 
 
@@ -96,12 +94,4 @@ public class Users  {
         return email;
     }
 
-
-    public byte[] getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(byte[] profilePicture) {
-        this.profilePicture = profilePicture;
-    }
 }
