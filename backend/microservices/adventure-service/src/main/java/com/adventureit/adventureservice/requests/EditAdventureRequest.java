@@ -13,7 +13,7 @@ public class EditAdventureRequest {
 
 
 
-    public EditAdventureRequest(@JsonProperty("adventureId")UUID adventureId,@JsonProperty("name")String name, @JsonProperty("description")String description, @JsonProperty("startDate")String sd, @JsonProperty("endDate") String ed){
+    public EditAdventureRequest(@JsonProperty("adventureId")UUID adventureId,@JsonProperty("name")String name, @JsonProperty("description")String description, @JsonProperty("startDate")String startDate, @JsonProperty("endDate") String endDate){
         this.name = name;
         this.description = description;
         this.startDate = startDate;
