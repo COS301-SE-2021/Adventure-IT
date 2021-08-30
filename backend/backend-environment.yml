@@ -1,0 +1,253 @@
+# This is the development environment for Adventure-It
+# Below is the configuration for each of the components of the system
+
+# Keycloak
+keycloak:
+  oauth2:
+    resourceserver:
+      jwt:
+        issuer-uri: http://localhost:8080/auth/realms/adventure-it
+
+# Service Registry (clients)
+service-registry-client:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+# Service Registry (server)
+service-registry-server:
+  port: 8761
+  application-name: SERVICE-REGISTRY
+  eureka:
+    client:
+      register-with-eureka: false
+      fetch-registry: false
+
+# Main-controller
+main-controller:
+  port: 9999
+  application-name: MAIN-CONTROLLER
+
+# Adventure Microservice
+adventure-microservice:
+  port: 9001
+  application-name: ADVENTURE-MICROSERVICE
+  datasource:
+    url: jdbc:postgresql://localhost/adventureit?socketTimeout=5
+    username: postgres
+    password: 1234
+    hikari:
+      maximum-pool-size: 2
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+# Budget Microservice
+budget-microservice:
+  port: 9007
+  application-name: BUDGET-MICROSERVICE
+  datasource:
+    url: jdbc:postgresql://localhost/adventureit?socketTimeout=5
+    username: postgres
+    password: 1234
+    hikari:
+      maximum-pool-size: 2
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+# Chat Microservice
+chat-microservice:
+  port: 9010
+  application-name: CHAT-MICROSERVICE
+  datasource:
+    url: jdbc:postgresql://localhost/adventureit?socketTimeout=5
+    username: postgres
+    password: 1234
+    hikari:
+      maximum-pool-size: 2
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+# Checklist Microservice
+checklist-microservice:
+  port: 9008
+  application-name: CHECKLIST-MICROSERVICE
+  datasource:
+    url: jdbc:postgresql://localhost/adventureit?socketTimeout=5
+    username: postgres
+    password: 1234
+    hikari:
+      maximum-pool-size: 2
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+# Itinerary Microservice
+itinerary-microservice:
+  port: 9009
+  application-name: ITINERARY-MICROSERVICE
+  datasource:
+    url: jdbc:postgresql://localhost/adventureit?socketTimeout=5
+    username: postgres
+    password: 1234
+    hikari:
+      maximum-pool-size: 2
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+# Location Microservice
+location-microservice:
+  port: 9006
+  application-name: LOCATION-MICROSERVICE
+  datasource:
+    url: jdbc:postgresql://localhost/adventureit?socketTimeout=5
+    username: postgres
+    password: 1234
+    hikari:
+      maximum-pool-size: 2
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+# Media Microservice
+media-microservice:
+  port: 9005
+  application-name: MEDIA-MICROSERVICE
+  datasource:
+    url: jdbc:postgresql://localhost/adventureit?socketTimeout=5
+    username: postgres
+    password: 1234
+    hikari:
+      maximum-pool-size: 2
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+# Notification Microservice
+notification-microservice:
+  port: 9004
+  application-name: NOTIFICATION-MICROSERVICE
+  datasource:
+    url: jdbc:postgresql://localhost/adventureit?socketTimeout=5
+    username: postgres
+    password: 1234
+    hikari:
+      maximum-pool-size: 2
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    user: thesmartpointers@gmail.com
+    password: TSPAAKSS21
+    smtp:
+      auth: true
+      connectionTimeout: 5000
+      timeout: 5000
+      writetimeout: 5000
+      startttls:
+        enable: true
+
+# Sharing Microservice
+sharing-microservice:
+  port: 9003
+  application-name: SHARING-MICROSERVICE
+  datasource:
+    url: jdbc:postgresql://localhost/adventureit?socketTimeout=5
+    username: postgres
+    password: 1234
+    hikari:
+      maximum-pool-size: 2
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+# Timeline Microservice
+timeline-microservice:
+  port: 9012
+  application-name: TIMELINE-MICROSERVICE
+  datasource:
+    url: jdbc:postgresql://localhost/adventureit?socketTimeout=5
+    username: postgres
+    password: 1234
+    hikari:
+      maximum-pool-size: 2
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+# User Microservice
+user-microservice:
+  port: 9002
+  application-name: USER-MICROSERVICE
+  datasource:
+    url: jdbc:postgresql://localhost/adventureit?socketTimeout=5
+    username: postgres
+    password: 1234
+    hikari:
+      maximum-pool-size: 2
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+

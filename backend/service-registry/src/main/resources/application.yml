@@ -1,4 +1,7 @@
 server:
   port: ${service-registry-server.port}
 
+spring:
+  name: ${service-registry-server.application-name}
+
 eureka: ${service-registry-server.eureka}
