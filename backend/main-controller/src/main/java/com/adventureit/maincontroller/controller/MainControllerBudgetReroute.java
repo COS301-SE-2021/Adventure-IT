@@ -32,7 +32,7 @@ public class MainControllerBudgetReroute {
     public String createBudget(@RequestBody CreateBudgetRequest req) {
         restTemplate.postForObject(IP + ":" + budgetPort + "/budget/create/", req, String.class);
         GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+req.getCreatorID(), GetUserByUUIDDTO.class);
-        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(), TimelineType.BUDGET,user.getUsername()+" created a new budget for "+req.getName() );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(), TimelineType.BUDGET,user.getUsername()+" created a new budget for "+req.getName());
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 
@@ -42,7 +42,7 @@ public class MainControllerBudgetReroute {
         restTemplate.getForObject(IP + ":" + budgetPort + "/budget/hardDelete/"+id+"/"+userID, String.class);
         GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
         assert response != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.BUDGET,user.getUsername()+" deleted the"+response.getName()+" budget.");
+        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.BUDGET,user.getUsername()+" deleted the "+response.getName()+" budget.");
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
  }
 

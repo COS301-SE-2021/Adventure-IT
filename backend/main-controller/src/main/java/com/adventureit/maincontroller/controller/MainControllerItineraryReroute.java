@@ -57,7 +57,7 @@ public class MainControllerItineraryReroute {
         UUID itineraryID = restTemplate.postForObject(IP + ":" + itineraryPort + "/itinerary/addEntry",req, UUID.class);
         restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/setLocation/" + itineraryID +"/"+ locationId ,String.class);
 
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY,user.getUsername()+"added an entry to the "+req.getTitle()+" itinerary." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY,user.getUsername()+" added an entry to the "+req.getTitle()+" itinerary." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return itineraryID;
     }
@@ -114,7 +114,7 @@ public class MainControllerItineraryReroute {
         ItineraryResponseDTO response = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryById/"+id, ItineraryResponseDTO.class);
         String returnString = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/hardDelete/"+id+"/"+userID, String.class);
         assert response != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.ITINERARY,user.getUsername()+"deleted the "+response.getTitle()+" itinerary." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.ITINERARY,user.getUsername()+" deleted the "+response.getTitle()+" itinerary." );
         restTemplate.postForObject( IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
     }
@@ -123,7 +123,7 @@ public class MainControllerItineraryReroute {
     public String createItinerary(@RequestBody CreateItineraryRequest req){
         GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+req.getUserID(), GetUserByUUIDDTO.class);
         String returnString = restTemplate.postForObject(IP + ":" + itineraryPort + "/itinerary/create/", req, String.class);
-        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdvID(), TimelineType.ITINERARY,user.getUsername()+" created a new Itinerary for"+req.getTitle()+"." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdvID(), TimelineType.ITINERARY,user.getUsername()+" created a new Itinerary for "+req.getTitle()+"." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
 
