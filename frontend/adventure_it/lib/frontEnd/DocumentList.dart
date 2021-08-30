@@ -141,7 +141,7 @@ class DocumentList extends StatelessWidget {
                               .elementAt(index)
                               .type
                               .contains("pdf")
-                              ? Image.asset("assets/logo.png").image
+                              ? Image.asset("assets/pdf button.png").image
                               : NetworkImage("http://" +
                               mediaApi +
                               "/media/mediaUploaded/" +
