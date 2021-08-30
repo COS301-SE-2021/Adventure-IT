@@ -39,4 +39,12 @@ class AdventuresModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future editAdventure(String a, String b, LocalDate c, LocalDate d, String e) async {
+    await AdventureApi.editAdventure(a, b, c, d, e);
+
+    fetchAllAdventures();
+
+    notifyListeners();
+  }
 }
