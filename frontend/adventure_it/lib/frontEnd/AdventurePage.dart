@@ -799,6 +799,61 @@ class EditAlert extends State<_EditAlert> {
     }
   }
 
+  DateTimeRange? dates;
+  final _debouncer = Debouncer(milliseconds: 500);
+  String? location;
+  final initialDateRange = DateTimeRange(
+    start: DateTime.now(),
+    end: DateTime.now().add(Duration(hours: 24 * 7)),
+  );
+
+  List<String> months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
+  String getText( DateTimeRange? dateRange) {
+    if(dateRange!.start == dateRange.end) {
+      String x = dateRange.start.day.toString() + " " +
+          months.elementAt(dateRange.start.month - 1) + " " +
+          dateRange.start.year.toString();
+      return x;
+    }
+    else {
+      String x = dateRange.start.day.toString() + " " +
+          months.elementAt(dateRange.start.month - 1) + " " +
+          dateRange.start.year.toString() + " to " + dateRange.end.day.toString() +
+          " " + months.elementAt(dateRange.end.month - 1) + " " +
+          dateRange.end.year.toString();
+      return x;
+    }
+  }
+
+
+  Map<int, Color> color =
+  {
+    50: Color.fromRGBO(32, 34, 45, .1),
+    100: Color.fromRGBO(32, 34, 45, .2),
+    200: Color.fromRGBO(32, 34, 45, .3),
+    300: Color.fromRGBO(32, 34, 45, .4),
+    400: Color.fromRGBO(32, 34, 45, .5),
+    500: Color.fromRGBO(32, 34, 45, .6),
+    600: Color.fromRGBO(32, 34, 45, .7),
+    700: Color.fromRGBO(32, 34, 45, .8),
+    800: Color.fromRGBO(32, 34, 45, .9),
+    900: Color.fromRGBO(32, 34, 45, 1),
+  };
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -919,6 +974,98 @@ class EditAlert extends State<_EditAlert> {
                                           .accentColor)),
                                   hintText: 'Adventure Description')),
                         ),
+                        Container(
+                            width: 350,
+                            child: TextField (
+                              style: TextStyle(color: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color, fontSize: 15 * MediaQuery
+                                  .of(context)
+                                  .textScaleFactor),
+                              decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.calendar_today_rounded),
+                                  hintStyle: TextStyle(color: Theme
+                                      .of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color, fontSize: 15 * MediaQuery
+                                      .of(context)
+                                      .textScaleFactor),
+                                  filled: true,
+                                  enabledBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                  fillColor: Theme
+                                      .of(context)
+                                      .primaryColorLight,
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Theme
+                                          .of(context)
+                                          .accentColor)),
+                                  hintText: 'Select Dates'),
+                              onTap: () async {
+                                DateTimeRange? picked = await showDateRangePicker(
+                                    context: context,
+                                    builder: (BuildContext context, Widget ?child) {
+                                      return Theme(
+                                        data: ThemeData(
+                                            primarySwatch: MaterialColor(
+                                                0xFF20222D, color),
+                                            splashColor: Color(0xff20222D),
+                                            scaffoldBackgroundColor: Color(0xff484D64),
+                                            canvasColor: Color(0xff484D64),
+                                            textTheme: TextTheme(
+                                                subtitle1: TextStyle(
+                                                    color: Color(0xffA7AAB9)),
+                                                bodyText2: TextStyle(
+                                                    color: Color(0xffA7AAB9)),
+                                                bodyText1: TextStyle(
+                                                    color: Color(0xffA7AAB9))
+                                                subtitle2: TextStyle(color:Color(
+                                                0xffA7AAB9)),
+                                        button: TextStyle(color: Color(0xffA7AAB9),
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      accentColor: Color(0xff6A7AC7),
+                                      colorScheme: ColorScheme.light(
+                                      primary: Color(0xff20222D),
+                                      primaryVariant: Color(0xff20222D),
+                                      secondaryVariant: Color(0xff20222D),
+                                      onSecondary: Color(0xff20222D),
+                                      onPrimary: Color(0xffA7AAB9),
+                                      surface: Color(0xff20222D)
+                                      onSurface: Color(0xffA7AAB9),
+                                      secondary: Color(0xff6A7AC7)),
+                                      dialogBackgroundColor: Color(0xff484D64),
+                                      backgroundColor:Color(0xff484D64),
+                                      highlightColor: Color(0xff484D64)
+
+
+                                      ) child
+                                      :
+                                      child
+                                      !
+                                      ,
+                                      );
+                                    },
+                                    initialDateRange: dates ?? initialDateRange
+                                    firstDate: new DateTime(DateTime.now().year - 5),
+                                lastDate: new DateTime(DateTime.now().year + 5)
+                                );
+                                if (picked!=null) {
+                                setState((){dates=picked;
+                                //dateController.text=getText(picked);
+                                });
+                                }
+                              },
+                            )
+                        ),
+                        SizedBox(height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.01),
                       ]
                     )
                   )
@@ -926,5 +1073,20 @@ class EditAlert extends State<_EditAlert> {
             )
         )
     );
+  }
+}
+
+class Debouncer {
+  final int milliseconds;
+  VoidCallback? action;
+  Timer? _timer;
+
+  Debouncer({required this.milliseconds});
+
+  run(VoidCallback action) {
+    if (null != _timer) {
+      _timer!.cancel();
+    }
+    _timer = Timer(Duration(milliseconds: milliseconds), action);
   }
 }
