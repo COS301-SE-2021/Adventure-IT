@@ -13,6 +13,7 @@ import com.adventureit.maincontroller.exceptions.InvalidItineraryEntryException;
 import com.adventureit.maincontroller.responses.MainItineraryEntryResponseDTO;
 import com.adventureit.timelineservice.entity.TimelineType;
 import com.adventureit.timelineservice.requests.CreateTimelineRequest;
+import com.adventureit.userservice.responses.GetUserByUUIDDTO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,6 +34,7 @@ public class MainControllerItineraryReroute {
     private final String itineraryPort = "9009";
     private final String timelinePort = "9012";
     private final String adventurePort = "9001";
+    private final String userPort = "9002";
 
     @GetMapping("/test")
     public String itineraryTest(){
@@ -41,10 +43,10 @@ public class MainControllerItineraryReroute {
 
     @PostMapping(value = "/addEntry")
     public UUID addItineraryEntry(@RequestBody AddItineraryEntryRequest req) {
+        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+req.getUserId(), GetUserByUUIDDTO.class);
         ItineraryResponseDTO itinerary = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryById/"+req.getEntryContainerID(), ItineraryResponseDTO.class);
         assert itinerary != null;
         UUID adventureId = itinerary.getAdventureID();
-
         Adventure adventureResponse = restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/getAdventureByUUID/"+adventureId ,GetAdventureByUUIDResponse.class).getAdventure();
         LocalDateTime timestamp = LocalDateTime.parse(req.getTimestamp());
         if((timestamp.toLocalDate().compareTo(adventureResponse.getEndDate()) > 0) || (timestamp.toLocalDate().compareTo(adventureResponse.getStartDate()) < 0)){
@@ -55,7 +57,7 @@ public class MainControllerItineraryReroute {
         UUID itineraryID = restTemplate.postForObject(IP + ":" + itineraryPort + "/itinerary/addEntry",req, UUID.class);
         restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/setLocation/" + itineraryID +"/"+ locationId ,String.class);
 
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY,"An entry has been added to the "+req.getTitle()+" itinerary." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY,user.getUsername()+"added an entry to the "+req.getTitle()+" itinerary." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return itineraryID;
     }
@@ -107,18 +109,21 @@ public class MainControllerItineraryReroute {
 
     @GetMapping("/hardDelete/{id}/{userID}")
     public String hardDelete(@PathVariable UUID id, @PathVariable UUID userID){
+        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
+
         ItineraryResponseDTO response = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryById/"+id, ItineraryResponseDTO.class);
         String returnString = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/hardDelete/"+id+"/"+userID, String.class);
         assert response != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.ITINERARY,"Itinerary("+response.getTitle()+"): has been deleted." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.ITINERARY,user.getUsername()+"deleted the "+response.getTitle()+" itinerary." );
         restTemplate.postForObject( IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
     }
 
     @PostMapping("/create")
     public String createItinerary(@RequestBody CreateItineraryRequest req){
+        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+req.getUserID(), GetUserByUUIDDTO.class);
         String returnString = restTemplate.postForObject(IP + ":" + itineraryPort + "/itinerary/create/", req, String.class);
-        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdvID(), TimelineType.ITINERARY,"Itinerary("+req.getTitle()+"): has been created." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdvID(), TimelineType.ITINERARY,user.getUsername()+" created a new Itinerary for"+req.getTitle()+"." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
 
@@ -128,21 +133,23 @@ public class MainControllerItineraryReroute {
     @PostMapping("/editEntry")
     public String editItineraryEntry(@RequestBody EditItineraryEntryRequest req){
         UUID locationId = restTemplate.getForObject(IP + ":" + locationPort + "/location/create/"+req.getLocation(),UUID.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+req.getUserId(), GetUserByUUIDDTO.class);
         req.setLocationId(locationId);
         String returnString = restTemplate.postForObject(IP + ":" + itineraryPort + "/itinerary/editEntry/", req, String.class);
         ItineraryResponseDTO itinerary = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryById/"+req.getEntryContainerID(), ItineraryResponseDTO.class);
         assert itinerary != null;
         UUID adventureId = itinerary.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY,"Itinerary("+req.getTitle()+"): has been edited" );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY,user.getUsername()+" edited the "+req.getTitle()+" itinerary." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
     }
 
-    @GetMapping("/removeEntry/{id}")
-    public String removeItineraryEntry(@PathVariable UUID id){
+    @GetMapping("/removeEntry/{id}/{userId}")
+    public String removeItineraryEntry(@PathVariable UUID id,@PathVariable UUID userId){
+        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+userId, GetUserByUUIDDTO.class);
         ItineraryResponseDTO response = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryByEntryId/"+id, ItineraryResponseDTO.class);
         assert response != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.ITINERARY,"An entry has been deleted from the "+response.getTitle()+" itinerary." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.ITINERARY,user.getUsername()+" deleted an entry from the "+response.getTitle()+" itinerary." );
         restTemplate.postForObject( IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/removeEntry/"+id, String.class);
 
