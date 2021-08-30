@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:adventure_it/Providers/adventure_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:date_count_down/date_count_down.dart';
@@ -158,7 +159,9 @@ class AdventurePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ChangeNotifierProvider(
+        create: (context) => AdventuresModel(),
+        builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
@@ -170,7 +173,14 @@ class AdventurePage extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () {
-                    {}
+                    {
+                      var provider = Provider.of<AdventuresModel>(context, listen: false);
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return _EditAlert(currentAdventure!, provider);
+                          });
+                    }
                   },
                   icon: const Icon(Icons.edit),
                   color: Theme.of(context).textTheme.bodyText1!.color),
@@ -656,7 +666,7 @@ class AdventurePage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
-                ]))));
+                ])))));
   }
 }
 
@@ -760,5 +770,122 @@ class AlertBox extends StatelessWidget {
                           })
                       : Container(height: 10);
                 }))));
+  }
+}
+
+//edit button
+class _EditAlert extends StatefulWidget {
+  late final Adventure? currentAdventure;
+  final AdventuresModel adventuresModel;
+
+  _EditAlert(this.currentAdventure, this.adventuresModel);
+
+  @override
+  EditAlert createState() => EditAlert(currentAdventure!);
+}
+
+class EditAlert extends State<_EditAlert> {
+  late final Adventure? adventure;
+
+  EditAlert(this.adventure);
+
+  double getSize(context) {
+    if (MediaQuery.of(context).size.height >
+        MediaQuery.of(context).size.width) {
+      return MediaQuery.of(context).size.height * 0.49;
+    } else {
+      return MediaQuery.of(context).size.height * 0.6;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        backgroundColor: Theme
+            .of(context)
+            .primaryColorDark,
+        content: Container(
+            height: getSize(context),
+            child: Stack(
+             clipBehavior: Clip.none, children: <Widget>[
+              Positioned(
+                right: -40.0,
+                top: -40.0,
+                child: InkResponse(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: CircleAvatar(
+                    child: Icon(Icons.close,
+                        color: Theme
+                            .of(context)
+                            .primaryColorDark),
+                    backgroundColor: Theme
+                        .of(context)
+                        .accentColor,
+                  ),
+                ),
+              ),
+              Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                  Text(
+                      "Edit: " +
+                          adventure!.name,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color,
+                        fontSize: 25 *
+                            MediaQuery.of(context)
+                                .textScaleFactor,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  SizedBox(height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.03),
+                  SizedBox(
+                    width: 350,
+                    child: TextField(
+                        style: TextStyle(color: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color, fontSize: 15 * MediaQuery
+                            .of(context)
+                            .textScaleFactor),
+                        decoration: InputDecoration(
+                            hintStyle: TextStyle(color: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText2!
+                                .color, fontSize: 15 * MediaQuery
+                                .of(context)
+                                .textScaleFactor),
+                            filled: true,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            fillColor: Theme
+                                .of(context)
+                                .primaryColorLight,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: new BorderSide(color: Theme
+                                    .of(context)
+                                    .accentColor)),
+                            hintText: 'Adventure Name')),
+                        ),
+                      ]
+                    )
+                  )
+              ]
+            )
+        )
+    );
   }
 }
