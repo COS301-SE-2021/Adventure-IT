@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:adventure_it/Providers/adventure_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:date_count_down/date_count_down.dart';
 import 'package:adventure_it/constants.dart';
@@ -879,6 +880,44 @@ class EditAlert extends State<_EditAlert> {
                                     .of(context)
                                     .accentColor)),
                             hintText: 'Adventure Name')),
+                        ),
+                        SizedBox(height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.01),
+                        SizedBox(
+                          width: 350,
+                          child: TextField(
+                              maxLength: 255,
+                              maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                              maxLines: 4,
+                              style: TextStyle(color: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color, fontSize: 15 * MediaQuery
+                                  .of(context)
+                                  .textScaleFactor),
+                              decoration: InputDecoration(
+                                  hintStyle: TextStyle(color: Theme
+                                      .of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color, fontSize: 15 * MediaQuery
+                                      .of(context)
+                                      .textScaleFactor),
+                                  filled: true,
+                                  enabledBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                  fillColor: Theme
+                                      .of(context)
+                                      .primaryColorLight,
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Theme
+                                          .of(context)
+                                          .accentColor)),
+                                  hintText: 'Adventure Description')),
                         ),
                       ]
                     )
