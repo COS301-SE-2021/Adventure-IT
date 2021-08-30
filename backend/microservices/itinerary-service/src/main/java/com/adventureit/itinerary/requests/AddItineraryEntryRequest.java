@@ -6,21 +6,27 @@ import java.util.UUID;
 
 public class AddItineraryEntryRequest {
     private UUID entryContainerID;
+    private UUID userId;
     private String title;
     private String description;
     private String location;
     String timestamp;
 
-    public AddItineraryEntryRequest(@JsonProperty("title") String title,@JsonProperty("description") String description,@JsonProperty("entryContainerID") UUID entryContainerID,@JsonProperty("location") String location,@JsonProperty("timestamp") String timestamp) {
+    public AddItineraryEntryRequest(@JsonProperty("title") String title,@JsonProperty("description") String description,@JsonProperty("entryContainerID") UUID entryContainerID,@JsonProperty("location") String location,@JsonProperty("timestamp") String timestamp,@JsonProperty("userId") UUID userId) {
         this.title = title;
         this.description = description;
         this.entryContainerID = entryContainerID;
         this.location = location;
         this.timestamp = timestamp;
+        this.userId = userId;
     }
 
     public UUID getEntryContainerID() {
         return entryContainerID;
+    }
+
+    public UUID getUserId() {
+        return userId;
     }
 
     public String getTitle() {
