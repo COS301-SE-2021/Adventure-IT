@@ -104,35 +104,33 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.01),
                             //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            Text(user!.firstname + " " + user!.lastname,
-                                textAlign: TextAlign.center,
-                                style: new TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color,
-                                    fontSize:
+                                Text(user!.username,
+                                    textAlign: TextAlign.center,
+                                    style: new TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .color,
+                                        fontSize:
                                         MediaQuery.of(context).size.height *
-                                            0.04)),
+                                            0.06)),
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.005),
-                            Text(user!.username,
-                                textAlign: TextAlign.center,
-                                style: new TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color,
-                                    fontSize:
+                                Text(user!.firstname + " " + user!.lastname,
+                                    textAlign: TextAlign.center,
+                                    style: new TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .color,
+                                        fontSize:
                                         MediaQuery.of(context).size.height *
-                                            0.04)),
+                                            0.03)),
                             SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.01),
-                            Row(children: [
-                              Expanded(
-                                  child: Text(user!.email,
+                                    MediaQuery.of(context).size.height * 0.03),
+                              Text(user!.email,
                                       textAlign: TextAlign.center,
                                       style: new TextStyle(
                                           color: Theme.of(context)
@@ -142,7 +140,11 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                           fontSize: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.03))),
+                                              0.03)),
+                          SizedBox(
+                              height:
+                              MediaQuery.of(context).size.height * 0.05),
+                          Row(children: [
                               Expanded(
                                   child: Container(
                                       margin: EdgeInsets.symmetric(
@@ -175,18 +177,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                       DocumentPage()),
                                             );
                                           }))),
-                            ]),
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.03),
-                            Row(children: [
-                              // Expanded(
-                              //     child: Text(user.phoneNumber,
-                              //         textAlign: TextAlign.center,
-                              //         style: new TextStyle(
-                              //             color: Theme.of(context).textTheme.bodyText1!.color,
-                              //             fontSize: MediaQuery.of(context).size.height * 0.03))),
-                              Expanded(
+                            Expanded(
                                   child: Container(
                                       margin: EdgeInsets.symmetric(
                                           horizontal: MediaQuery.of(context)
