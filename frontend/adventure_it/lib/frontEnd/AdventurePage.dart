@@ -854,6 +854,14 @@ class EditAlert extends State<_EditAlert> {
     900: Color.fromRGBO(32, 34, 45, 1),
   };
 
+  //controllers for the form fields
+  String ownerID = UserApi.getInstance().getUserProfile()!.userID;
+
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final locationController = TextEditingController();
+  final dateController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -915,6 +923,7 @@ class EditAlert extends State<_EditAlert> {
                             .color, fontSize: 15 * MediaQuery
                             .of(context)
                             .textScaleFactor),
+                        controller: nameController,
                         decoration: InputDecoration(
                             hintStyle: TextStyle(color: Theme
                                 .of(context)
@@ -953,6 +962,7 @@ class EditAlert extends State<_EditAlert> {
                                   .color, fontSize: 15 * MediaQuery
                                   .of(context)
                                   .textScaleFactor),
+                              controller: descriptionController,
                               decoration: InputDecoration(
                                   hintStyle: TextStyle(color: Theme
                                       .of(context)
@@ -984,6 +994,7 @@ class EditAlert extends State<_EditAlert> {
                                   .color, fontSize: 15 * MediaQuery
                                   .of(context)
                                   .textScaleFactor),
+                              controller: dateController,
                               decoration: InputDecoration(
                                   prefixIcon: Icon(Icons.calendar_today_rounded),
                                   hintStyle: TextStyle(color: Theme
@@ -1056,7 +1067,7 @@ class EditAlert extends State<_EditAlert> {
                                 );
                                 if (picked!=null) {
                                 setState((){dates=picked;
-                                //dateController.text=getText(picked);
+                                dateController.text=getText(picked);
                                 });
                                 }
                               },
