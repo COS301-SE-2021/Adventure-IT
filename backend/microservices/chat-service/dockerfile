@@ -1,0 +1,5 @@
+FROM openjdk:11-jre
+VOLUME /build/
+CMD ["java", "-jar", "chat-service-0.0.1-SNAPSHOT.jar"]
+
+

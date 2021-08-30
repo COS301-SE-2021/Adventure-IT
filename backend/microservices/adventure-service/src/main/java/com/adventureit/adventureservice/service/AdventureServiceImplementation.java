@@ -125,7 +125,6 @@ public class AdventureServiceImplementation implements AdventureService {
     @Override
     public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUUID(UUID id) {
         List<Adventure> userAdventures = adventureRepository.findAllByOwnerIdOrAttendeesContains(id,id);
-
         return sortAdventures(userAdventures);
     }
 
