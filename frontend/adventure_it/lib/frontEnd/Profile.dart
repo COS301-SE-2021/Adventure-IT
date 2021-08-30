@@ -147,19 +147,20 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                           Row(children: [
                               Expanded(
                                   child: Container(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.1),
-                                      child: MaterialButton(
-                                          child: Text("My Documents",
-                                              style: new TextStyle(
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color)),
+                                      decoration: BoxDecoration(
                                           color: Theme.of(context).accentColor,
+                                          shape: BoxShape.circle),
+                                      child: IconButton(
+                                          icon: const Icon(
+                                              Icons.attach_file),
+                                          color: Theme.of(context).primaryColorDark,
+                                        onPressed: () {
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                              builder: (context) =>
+                                              DocumentPage()));
+                                        },
                                           padding: EdgeInsets.symmetric(
                                               horizontal: MediaQuery.of(context)
                                                       .size
@@ -169,22 +170,13 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                       .size
                                                       .width *
                                                   0.01),
-                                          onPressed: () {
-                                            Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      DocumentPage()),
-                                            );
-                                          }))),
+                                          ))),
                             Expanded(
                                   child: Container(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.1),
-                                      child: MaterialButton(
+                                      decoration: BoxDecoration(
+                                          color: Theme.of(context).accentColor,
+                                          shape: BoxShape.circle),
+                                      child: IconButton(
                                           onPressed: () {
                                             {
                                               var provider = Provider.of<UserModel>(context, listen: false);
@@ -196,7 +188,6 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                   });
                                             }
                                           },
-                                          color: Theme.of(context).accentColor,
                                           padding: EdgeInsets.symmetric(
                                               horizontal: MediaQuery.of(context)
                                                       .size
@@ -206,13 +197,10 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                       .size
                                                       .width *
                                                   0.01),
-                                          child: Text("Edit Profile",
-                                              textAlign: TextAlign.center,
-                                              style: new TextStyle(
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color))))),
+                                          icon: const Icon(
+                                            Icons.edit),
+                                            color: Theme.of(context).primaryColorDark))
+                                          ),
                             ])
                           ]))
                     ]))
