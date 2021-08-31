@@ -11,6 +11,8 @@ public class Location {
     String formattedAddress;
     String placeID;
     String country;
+    int likes = 0;
+    int visits = 0;
 
 
     public Location(){}
@@ -69,5 +71,21 @@ public class Location {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getVisits() {
+        return visits;
+    }
+
+    public void setVisits(int visits) {
+        this.visits = visits;
     }
 }
