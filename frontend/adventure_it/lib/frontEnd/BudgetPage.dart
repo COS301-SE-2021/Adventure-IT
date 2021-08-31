@@ -13,12 +13,38 @@ import '../api/budget.dart';
 import 'Navbar.dart';
 
 //A single budget with entries
-class BudgetPage extends StatelessWidget {
+
+class BudgetPage extends StatefulWidget {
   late final UserProfile? creator;
   late final Budget? currentBudget;
   late final Adventure? currentAdventure;
 
   BudgetPage(Budget? b, Adventure? a, UserProfile c) {
+    this.currentBudget = b;
+    this.currentAdventure = a;
+    this.creator = c;
+  }
+
+  @override
+  _BudgetPage createState() =>
+      _BudgetPage(this.currentBudget, this.currentAdventure, this.creator!);
+}
+
+class _BudgetPage extends State<BudgetPage>
+    with SingleTickerProviderStateMixin {
+  late final UserProfile? creator;
+  late final Budget? currentBudget;
+  late final Adventure? currentAdventure;
+
+  TabController? tabs;
+
+  @override
+  void initState() {
+    super.initState();
+    tabs = new TabController(vsync: this, length: 2);
+  }
+
+  _BudgetPage(Budget? b, Adventure? a, UserProfile c) {
     this.currentBudget = b;
     this.currentAdventure = a;
     this.creator = c;
@@ -72,55 +98,38 @@ class BudgetPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                          alignment: Alignment.center,
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height / 11,
-                          child: Text("Report",
-                              style: TextStyle(
-                                  fontSize: 35 * MediaQuery
-                                      .of(context)
-                                      .textScaleFactor,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme
-                                      .of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color))),
-                      Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.2,
-                        child: GetReport(currentBudget!),
-                      ),
-                      Spacer(),
-                      Container(
-                          alignment: Alignment.center,
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height / 11,
-                          child: Text("Budget",
-                              style: TextStyle(
-                                  fontSize: 35 * MediaQuery
-                                      .of(context)
-                                      .textScaleFactor,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme
-                                      .of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color))),
-                      Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.4,
-                        child: _GetBudgetEntries(
-                            this.currentBudget!, this.currentAdventure!),
-                      ),
+                          child: TabBar(
+                            controller: tabs,
+                            labelColor: Theme
+                                .of(context)
+                                .accentColor,
+                            unselectedLabelColor:
+                            Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1!
+                                .color,
+                            indicatorSize: TabBarIndicatorSize.tab,
+                            tabs: [
+                              Tab(icon: Icon(Icons.payments), text: "Transactions"),
+                              Tab(icon: Icon(Icons.auto_graph_rounded), text: "Report"),
+                            ],
+                          )),
+                      SizedBox(height: MediaQuery
+                          .of(context)
+                          .size
+                          .height / 40),
+                      Expanded(
+                          child: TabBarView(
+                              controller: tabs, children: <Widget>[
+                            Container(
+                              child: _GetBudgetEntries(
+                                  this.currentBudget!, this.currentAdventure!),
+                            ),
+                            Container(
+                              child: GetReport(this.currentBudget!),
+                            )
+                          ])),
                       SizedBox(height: MediaQuery
                           .of(context)
                           .size
@@ -1105,50 +1114,64 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                             flex: 4,
                                             child: ListTile(
                                                 title: Column(
+                                                    mainAxisAlignment: MainAxisAlignment
+                                                        .center,
                                                     children: [
-                                                      Row(children: [Text(
-                                                          budgetEntryModel
-                                                              .entries!
-                                                              .elementAt(index)
-                                                              .title,
-                                                          textAlign: TextAlign
-                                                              .left,
-                                                          style: TextStyle(
-                                                              fontSize: 25 *
-                                                                  MediaQuery
+                                                      Row(
+                                                          mainAxisAlignment: MainAxisAlignment
+                                                              .center,
+                                                          children: [Text(
+                                                              budgetEntryModel
+                                                                  .entries!
+                                                                  .elementAt(
+                                                                  index)
+                                                                  .title,
+                                                              textAlign: TextAlign
+                                                                  .center,
+                                                              style: TextStyle(
+                                                                  fontSize: 30 *
+                                                                      MediaQuery
+                                                                          .of(
+                                                                          context)
+                                                                          .textScaleFactor,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                                  color: Theme
                                                                       .of(
                                                                       context)
-                                                                      .textScaleFactor,
-                                                              fontWeight:
-                                                              FontWeight.bold,
-                                                              color: Theme
-                                                                  .of(context)
-                                                                  .textTheme
-                                                                  .bodyText1!
-                                                                  .color)),
-                                                      ]),
-                                                      Row(children: [Text(
-                                                          budgetEntryModel
-                                                              .entries!
-                                                              .elementAt(index)
-                                                              .description,
-                                                          textAlign: TextAlign
-                                                              .left,
-                                                          style: TextStyle(
-                                                              fontSize: 15 *
-                                                                  MediaQuery
+                                                                      .textTheme
+                                                                      .bodyText1!
+                                                                      .color)),
+                                                          ]),
+                                                      Row(
+                                                          mainAxisAlignment: MainAxisAlignment
+                                                              .center,
+                                                          children: [Text(
+                                                              budgetEntryModel
+                                                                  .entries!
+                                                                  .elementAt(
+                                                                  index)
+                                                                  .description,
+                                                              textAlign: TextAlign
+                                                                  .center,
+                                                              style: TextStyle(
+                                                                  fontSize: 20 *
+                                                                      MediaQuery
+                                                                          .of(
+                                                                          context)
+                                                                          .textScaleFactor,
+                                                                  color: Theme
                                                                       .of(
                                                                       context)
-                                                                      .textScaleFactor,
-                                                              color: Theme
-                                                                  .of(context)
-                                                                  .textTheme
-                                                                  .bodyText1!
-                                                                  .color))
-                                                      ]),
+                                                                      .textTheme
+                                                                      .bodyText1!
+                                                                      .color))
+                                                          ]),
                                                     ]),
                                                 subtitle: Row(children: [
                                                   Container(
+                                                    padding: EdgeInsets.symmetric(vertical: 5),
                                                     width: MediaQuery
                                                         .of(context)
                                                         .size
