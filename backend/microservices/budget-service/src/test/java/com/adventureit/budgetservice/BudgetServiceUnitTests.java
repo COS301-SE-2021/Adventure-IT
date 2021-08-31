@@ -26,6 +26,7 @@ class BudgetServiceUnitTests {
         final UUID validAdventureID1 = UUID.randomUUID();
         final UUID validUserID1 = UUID.randomUUID();
 
+
         BudgetEntry mockEntry1 = new UTOExpense(validEntryID1,validBudgetID1,200.0,"Mock Entry 1","Mock UTO Entry", Category.ACCOMMODATION,"User1","Shop1");
         Budget mockBudget1 = new Budget(validBudgetID1,"Mock Budget 1", "Mock budget 1 description",validUserID1,validAdventureID1);
         Budget mockBudget2 = new Budget(validBudgetID2,"Mock Budget 2", "Mock budget 2 description",validUserID1,validAdventureID1);
@@ -150,7 +151,7 @@ class BudgetServiceUnitTests {
         void editBudgetValid_ReturnsTrue() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetByBudgetID(validBudgetID1)).thenReturn(mockBudget1);
                 Mockito.when(mockBudgetEntryRepository.findBudgetEntryByBudgetEntryID(validEntryID1)).thenReturn(mockEntry1);
-                EditBudgetRequest request = new EditBudgetRequest(validEntryID1,validBudgetID1,20.0,"Mock Edit1","Mocking editBudget()","User2","Shop3");
+                EditBudgetRequest request = new EditBudgetRequest(validEntryID1,validUserID1,validBudgetID1,20.0,"Mock Edit1","Mocking editBudget()","User2","Shop3");
                 EditBudgetResponse response = sut.editBudget(request);
                 Assertions.assertTrue(response.isSuccess());
         }
@@ -160,7 +161,7 @@ class BudgetServiceUnitTests {
         void editBudgetInvalidEntry_ThrowException() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetByBudgetID(validBudgetID1)).thenReturn(mockBudget1);
                 Mockito.when(mockBudgetEntryRepository.findBudgetEntryByBudgetEntryID(validEntryID1)).thenReturn(mockEntry1);
-                EditBudgetRequest request = new EditBudgetRequest(UUID.randomUUID(),validBudgetID1,20.0,"Mock Edit1","Mocking editBudget()","User2","Shop3");
+                EditBudgetRequest request = new EditBudgetRequest(UUID.randomUUID(),validUserID1,validBudgetID1,20.0,"Mock Edit1","Mocking editBudget()","User2","Shop3");
                 Assertions.assertThrows(Exception.class, ()->{
                         sut.editBudget(request);
                 });
@@ -171,7 +172,7 @@ class BudgetServiceUnitTests {
         void editBudgetInvalidBudget_ThrowException() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetByBudgetID(validBudgetID1)).thenReturn(mockBudget1);
                 Mockito.when(mockBudgetEntryRepository.findBudgetEntryByBudgetEntryID(validEntryID1)).thenReturn(mockEntry1);
-                EditBudgetRequest request = new EditBudgetRequest(validEntryID1,UUID.randomUUID(),20.0,"Mock Edit1","Mocking editBudget()","User2","Shop3");
+                EditBudgetRequest request = new EditBudgetRequest(validEntryID1,validUserID1,UUID.randomUUID(),20.0,"Mock Edit1","Mocking editBudget()","User2","Shop3");
                 Assertions.assertThrows(Exception.class, ()->{
                         sut.editBudget(request);
                 });
@@ -182,7 +183,7 @@ class BudgetServiceUnitTests {
         void editBudgetNullField_ThrowException() throws Exception {
                 Mockito.when(mockBudgetRepository.findBudgetByBudgetID(validBudgetID1)).thenReturn(mockBudget1);
                 Mockito.when(mockBudgetEntryRepository.findBudgetEntryByBudgetEntryID(validEntryID1)).thenReturn(mockEntry1);
-                EditBudgetRequest request = new EditBudgetRequest(null,validBudgetID1,20.0,"Mock Edit1","Mocking editBudget()","User2","Shop3");
+                EditBudgetRequest request = new EditBudgetRequest(null,validUserID1,validBudgetID1,20.0,"Mock Edit1","Mocking editBudget()","User2","Shop3");
                 Assertions.assertThrows(Exception.class, ()->{
                         sut.editBudget(request);
                 });
