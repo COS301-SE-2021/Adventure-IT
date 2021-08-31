@@ -42,11 +42,15 @@ public class LocationServiceImplementation implements LocationService {
         JSONObject json = new JSONObject(makeConnection(string2));
         Location location1 = new Location();
 
+        String address = json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address");
+        String [] array = address.split(",");
+        String country = array[array.length - 1].trim();
+
         if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
-            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
+            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country));
         }
         else {
-            location1 = locationRepository.save(new Location("",json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
+            location1 = locationRepository.save(new Location("",address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country));
         }
 
         return location1.getId();
