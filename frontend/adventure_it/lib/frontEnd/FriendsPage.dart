@@ -85,7 +85,7 @@ class FriendsPage extends State<Friends> {
                                 }
                               });
                             },
-                            icon: const Icon(Icons.send_rounded),
+                            icon: const Icon(Icons.person_search_outlined),
                             iconSize:30,
                             color: Theme.of(context)
                                 .primaryColorDark))), //Your widget he
