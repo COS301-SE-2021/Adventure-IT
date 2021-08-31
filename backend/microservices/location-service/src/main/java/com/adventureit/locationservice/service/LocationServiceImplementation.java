@@ -46,8 +46,6 @@ public class LocationServiceImplementation implements LocationService {
 
         Location location2 = locationRepository.findLocationByPlaceID(placeID);
         if(location2 != null){
-            location2.setVisits(location2.getVisits() + 1);
-            locationRepository.save(location2);
             return location2.getId();
         }
 
@@ -58,12 +56,10 @@ public class LocationServiceImplementation implements LocationService {
 
         if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
             location1 = new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,placeID,country,types);
-            location1.setVisits(location1.getVisits() + 1);
             locationRepository.save(location1);
         }
         else {
             location1 = new Location("",address,placeID,country,types);
-            location1.setVisits(location1.getVisits() + 1);
             locationRepository.save(location1);
         }
 
