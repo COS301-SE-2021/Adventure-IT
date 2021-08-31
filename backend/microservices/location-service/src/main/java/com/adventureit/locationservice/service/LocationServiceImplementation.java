@@ -42,10 +42,7 @@ public class LocationServiceImplementation implements LocationService {
         JSONObject json = new JSONObject(makeConnection(string2));
         Location location1 = new Location();
 
-        String address = json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address");
         String placeID = json.getJSONArray("candidates").getJSONObject(0).getString("place_id");
-        String[] array = address.split(",");
-        String country = array[array.length -1].trim();
 
         Location location2 = locationRepository.findLocationByPlaceID(placeID);
         if(location2 != null){
@@ -54,13 +51,18 @@ public class LocationServiceImplementation implements LocationService {
             return location2.getId();
         }
 
+        String address = json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address");
+        String[] array = address.split(",");
+        String country = array[array.length -1].trim();
+        List<String> types = getTypes(placeID);
+
         if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
-            location1 = new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,placeID,country);
+            location1 = new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,placeID,country,types);
             location1.setVisits(location1.getVisits() + 1);
             locationRepository.save(location1);
         }
         else {
-            location1 = new Location("",address,placeID,country);
+            location1 = new Location("",address,placeID,country,types);
             location1.setVisits(location1.getVisits() + 1);
             locationRepository.save(location1);
         }
@@ -245,5 +247,20 @@ public class LocationServiceImplementation implements LocationService {
        }
 
         return false;
+    }
+
+    @Override
+    public List<String> getTypes(String placeID) throws IOException, JSONException {
+        String string1 = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + placeID + "&fields=type&key=AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
+
+        JSONObject json = new JSONObject(makeConnection(string1));
+        JSONArray array = json.getJSONObject("results").getJSONArray("types");
+
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < array.length(); ++i) {
+            list.add(array.optString(i));
+        }
+
+        return list;
     }
 }
