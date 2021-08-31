@@ -23,4 +23,5 @@ public interface LocationService {
     public void storeCurrentLocation(UUID userID, String latitude, String longitude);
     public CurrentLocationResponseDTO getCurrentLocation(UUID userID);
     public boolean compareGeometry(UUID id, UUID userID) throws IOException, JSONException;
+    public List<String> getTypes(String placeID) throws IOException, JSONException;
 }
