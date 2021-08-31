@@ -4,6 +4,7 @@ import com.adventureit.itinerary.entity.Itinerary;
 import com.adventureit.itinerary.entity.ItineraryEntry;
 import com.adventureit.itinerary.exceptions.NotFoundException;
 import com.adventureit.itinerary.exceptions.NullFieldException;
+import com.adventureit.itinerary.exceptions.RegistrationException;
 import com.adventureit.itinerary.exceptions.UnauthorisedException;
 import com.adventureit.itinerary.repository.ItineraryEntryRepository;
 import com.adventureit.itinerary.repository.ItineraryRepository;
@@ -223,7 +224,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
         List<ItineraryEntryResponseDTO> list = new ArrayList<>();
 
         for (ItineraryEntry entry:entries) {
-            list.add(new ItineraryEntryResponseDTO(entry.getId(),entry.getEntryContainerID(),entry.getTitle(),entry.getDescription(),entry.isCompleted(),entry.getLocation(),entry.getTimestamp(),entry.getUsersPresent()));
+            list.add(new ItineraryEntryResponseDTO(entry.getId(),entry.getEntryContainerID(),entry.getTitle(),entry.getDescription(),entry.isCompleted(),entry.getLocation(),entry.getTimestamp(),entry.getRegisteredUsers()));
 
             list.sort(Comparator.comparing(ItineraryEntryResponseDTO::getTimestamp));
         }
@@ -243,7 +244,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
-    public ItineraryEntryResponseDTO nextItem(UUID id){
+    public ItineraryEntryResponseDTO nextItem(UUID id, UUID userID){
         ItineraryEntry next = null;
         List<ItineraryEntry> entries = new ArrayList<>();
         List<ItineraryEntry> temp;
@@ -260,9 +261,11 @@ public class ItineraryServiceImplementation implements ItineraryService {
         entries.sort(Comparator.comparing(ItineraryEntry::getTimestamp));
 
         for (ItineraryEntry entry:entries) {
-            if(entry.getTimestamp().compareTo(LocalDateTime.now()) > 0){
-                next = entry;
-                break;
+            if(entry.getRegisteredUsers().containsKey(userID)){
+                if(entry.getTimestamp().compareTo(LocalDateTime.now()) > 0){
+                    next = entry;
+                    break;
+                }
             }
         }
 
@@ -270,7 +273,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new NotFoundException("Next Item: No items available");
         }
 
-        return new ItineraryEntryResponseDTO(next.getId(),next.getEntryContainerID(),next.getTitle(),next.getDescription(),next.isCompleted(),next.getLocation(),next.getTimestamp(),next.getUsersPresent());
+        return new ItineraryEntryResponseDTO(next.getId(),next.getEntryContainerID(),next.getTitle(),next.getDescription(),next.isCompleted(),next.getLocation(),next.getTimestamp(),next.getRegisteredUsers());
     }
 
     @Override
@@ -314,7 +317,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new NotFoundException("Get Itinerary Entry: Entry does not exist");
         }
 
-        return new ItineraryEntryResponseDTO(entry.getId(),entry.getEntryContainerID(),entry.getTitle(),entry.getDescription(),entry.isCompleted(),entry.getLocation(),entry.getTimestamp(),entry.getUsersPresent());
+        return new ItineraryEntryResponseDTO(entry.getId(),entry.getEntryContainerID(),entry.getTitle(),entry.getDescription(),entry.isCompleted(),entry.getLocation(),entry.getTimestamp(),entry.getRegisteredUsers());
     }
 
     @Override
@@ -324,8 +327,29 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new NotFoundException("Get Itinerary Entry: Entry does not exist");
         }
 
-        entry.getUsersPresent().add(userID);
+        if(!entry.getRegisteredUsers().containsKey(userID)){
+            throw new RegistrationException("Get Itinerary Entry: User not registered");
+        }
+
+        entry.getRegisteredUsers().replace(userID,true);
         itineraryEntryRepository.save(entry);
+    }
+
+    @Override
+    public String registerUser(UUID entryID, UUID userID) {
+        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryById(entryID);
+        if(entry == null){
+            throw new NotFoundException("Register User: Entry does not exist");
+        }
+
+        if(entry.getRegisteredUsers().containsKey(userID)){
+            throw new RegistrationException("Register User: User already registered");
+        }
+
+        entry.getRegisteredUsers().put(userID,false);
+        itineraryEntryRepository.save(entry);
+
+        return "Successfully Registered";
     }
 
     @Override

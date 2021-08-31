@@ -2,9 +2,7 @@ package com.adventureit.itinerary.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  *
@@ -28,7 +26,7 @@ public class ItineraryEntry{
     private UUID location;
     LocalDateTime timestamp;
     @ElementCollection
-    private List<UUID> usersPresent = new ArrayList();
+    private Map<UUID,Boolean> registeredUsers = new HashMap<>();
 
     /**
      * Default constructor
@@ -127,11 +125,11 @@ public class ItineraryEntry{
         return completed;
     }
 
-    public List<UUID> getUsersPresent() {
-        return usersPresent;
+    public Map<UUID, Boolean> getRegisteredUsers() {
+        return registeredUsers;
     }
 
-    public void setUsersPresent(List<UUID> usersPresent) {
-        this.usersPresent = usersPresent;
+    public void setRegisteredUsers(Map<UUID, Boolean> registeredUsers) {
+        this.registeredUsers = registeredUsers;
     }
 }

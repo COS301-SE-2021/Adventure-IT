@@ -20,10 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/itinerary")
@@ -81,7 +78,7 @@ public class MainControllerItineraryReroute {
                 entries) {
             try {
                 LocationResponseDTO itineraryLocation = restTemplate.getForObject(IP+":9006/location/getLocation/"+entry.get("location"), LocationResponseDTO.class);
-                MainItineraryEntryResponseDTO responseObject = new MainItineraryEntryResponseDTO((String)entry.get("title"), (String)entry.get("description"), UUID.fromString((String)entry.get("id")), UUID.fromString((String)entry.get("entryContainerID")),(boolean)entry.get("completed"),itineraryLocation, LocalDateTime.parse((String)entry.get("timestamp")),(List<UUID>)entry.get("usersPresent"));
+                MainItineraryEntryResponseDTO responseObject = new MainItineraryEntryResponseDTO((String)entry.get("title"), (String)entry.get("description"), UUID.fromString((String)entry.get("id")), UUID.fromString((String)entry.get("entryContainerID")),(boolean)entry.get("completed"),itineraryLocation, LocalDateTime.parse((String)entry.get("timestamp")),(Map<UUID,Boolean>)entry.get("registeredUsers"));
 
                list.add(responseObject);
             }
@@ -167,7 +164,7 @@ public class MainControllerItineraryReroute {
         ItineraryEntryResponseDTO entry = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getNextEntry/"+id, ItineraryEntryResponseDTO.class);
         assert entry != null;
         LocationResponseDTO location = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/" + entry.getLocation(), LocationResponseDTO.class);
-        return new MainItineraryEntryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getEntryContainerID(),entry.isCompleted(),location,entry.getTimestamp(),entry.getUsersPresent());
+        return new MainItineraryEntryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getEntryContainerID(),entry.isCompleted(),location,entry.getTimestamp(), entry.getRegisteredUsers());
     }
 
     @GetMapping("/setLocation/{itineraryId}/{locationID}")

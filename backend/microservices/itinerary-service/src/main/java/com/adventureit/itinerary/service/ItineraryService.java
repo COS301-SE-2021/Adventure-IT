@@ -21,7 +21,7 @@ public interface ItineraryService {
      List<ItineraryEntryResponseDTO> viewItinerary(UUID id);
      void markCompleted(UUID id);
      String mockPopulate();
-     ItineraryEntryResponseDTO nextItem(UUID id);
+     ItineraryEntryResponseDTO nextItem(UUID id,  UUID userID);
      void setItineraryEntryLocation(UUID itineraryID, UUID locationID);
      ItineraryResponseDTO getItineraryById(UUID itineraryID);
      List<ItineraryResponseDTO> viewItinerariesByAdventure(UUID id);
@@ -29,4 +29,5 @@ public interface ItineraryService {
      ItineraryEntryResponseDTO getItineraryEntry(UUID id);
      void checkUserOff(UUID entryID, UUID userID);
      StartDateEndDateResponseDTO getStartAndEndDate(UUID id);
+     String registerUser(UUID entryID, UUID userID);
 }
