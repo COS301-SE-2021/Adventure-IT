@@ -4,10 +4,9 @@ package com.adventureit.userservice.entities;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -29,6 +28,10 @@ public class Users  {
     @Lob
     private byte [] profilePicture;
     private Boolean locked = false;
+    @ElementCollection
+    private List<UUID> likedLocations = new ArrayList<>();
+    @ElementCollection
+    private List<UUID> visitedLocations = new ArrayList<>();
 
 
 
@@ -123,5 +126,29 @@ public class Users  {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public List<UUID> getLikedLocations() {
+        return likedLocations;
+    }
+
+    public void setLikedLocations(List<UUID> likedLocations) {
+        this.likedLocations = likedLocations;
+    }
+
+    public void setVisitedLocations(List<UUID> visitedLocations) {
+        this.visitedLocations = visitedLocations;
+    }
+
+    public List<UUID> getVisitedLocations() {
+        return visitedLocations;
     }
 }

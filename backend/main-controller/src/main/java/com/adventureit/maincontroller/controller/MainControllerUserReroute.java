@@ -24,6 +24,7 @@ public class MainControllerUserReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final String IP = "http://localhost";
     private final String userPort = "9002";
+    private final String locationPort = "9006";
 
 
     @PostMapping(value = "registerUser", consumes = "application/json", produces = "application/json")
@@ -118,6 +119,12 @@ public class MainControllerUserReroute {
     @PostMapping("editUserProfile")
     public String editUseProfile(@RequestBody EditUserProfileRequest req){
         return restTemplate.postForObject(IP + ":" + userPort + "/user/editUserProfile", req,String.class);
+    }
+
+    @GetMapping("likeLocation/{userID}/{locationID}")
+    public void likeLocation(@PathVariable UUID userID, @PathVariable UUID locationID){
+        restTemplate.getForObject(IP + ":" + userPort + "/user/addLikedLocation/"+ userID + "/" + locationID, String.class);
+        restTemplate.getForObject(IP + ":" + locationPort + "/location/addLike/" + locationID, String.class);
     }
 }
 

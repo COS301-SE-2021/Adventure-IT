@@ -12,6 +12,7 @@ import com.adventureit.userservice.responses.FriendDTO;
 import com.adventureit.userservice.responses.GetFriendRequestsResponse;
 import com.adventureit.userservice.responses.GetUserByUUIDDTO;
 import com.adventureit.userservice.responses.RegisterUserResponse;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -378,5 +379,25 @@ public class UserServiceImplementation  {
         repo.save(user);
         return "Editing successful";
 
+    }
+
+    public void addLikedLocation(UUID userID,UUID locationID){
+        Users user = repo.getUserByUserID(userID);
+        if(user == null){
+            throw new UserDoesNotExistException("Add Liked Location: User does not exist");
+        }
+
+        user.getLikedLocations().add(locationID);
+        repo.save(user);
+    }
+
+    public void addVisitedLocation(UUID userID,UUID locationID){
+        Users user = repo.getUserByUserID(userID);
+        if(user == null){
+            throw new UserDoesNotExistException("Add Liked Location: User does not exist");
+        }
+
+        user.getVisitedLocations().add(locationID);
+        repo.save(user);
     }
 }

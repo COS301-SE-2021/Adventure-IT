@@ -116,6 +116,16 @@ public class UserController {
         service.deleteUser(id);
     }
 
+    @GetMapping("addLikedLocation/{userID}/{locationID}")
+    public void addLikedLocation(@PathVariable UUID userID,@PathVariable UUID locationID){
+        service.addLikedLocation(userID,locationID);
+    }
+
+    @GetMapping("addVisitedLocation/{userID}/{locationID}")
+    public void addVisitedLocation(@PathVariable UUID userID,@PathVariable UUID locationID){
+        service.addVisitedLocation(userID,locationID);
+    }
+
     @PostMapping("editUserProfile")
     public String editUserProfile(@RequestBody EditUserProfileRequest req){
         return service.editUserProfile(req);

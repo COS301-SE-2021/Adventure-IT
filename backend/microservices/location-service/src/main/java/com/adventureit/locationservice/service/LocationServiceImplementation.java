@@ -43,14 +43,26 @@ public class LocationServiceImplementation implements LocationService {
         Location location1 = new Location();
 
         String address = json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address");
-        String [] array = address.split(",");
-        String country = array[array.length - 1].trim();
+        String placeID = json.getJSONArray("candidates").getJSONObject(0).getString("place_id");
+        String[] array = address.split(",");
+        String country = array[array.length -1].trim();
+
+        Location location2 = locationRepository.findLocationByPlaceID(placeID);
+        if(location2 != null){
+            location2.setVisits(location2.getVisits() + 1);
+            locationRepository.save(location2);
+            return location2.getId();
+        }
 
         if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
-            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country));
+            location1 = new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,placeID,country);
+            location1.setVisits(location1.getVisits() + 1);
+            locationRepository.save(location1);
         }
         else {
-            location1 = locationRepository.save(new Location("",address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country));
+            location1 = new Location("",address,placeID,country);
+            location1.setVisits(location1.getVisits() + 1);
+            locationRepository.save(location1);
         }
 
         return location1.getId();
@@ -159,6 +171,28 @@ public class LocationServiceImplementation implements LocationService {
         }
 
         return new LocationResponseDTO(location.getId(),location.getPhotoReference(),location.getFormattedAddress(),location.getPlaceID());
+    }
+
+    @Override
+    public void addLike(UUID id) {
+        Location location = locationRepository.findLocationById(id);
+        if(location == null){
+            throw new NotFoundException("Like Location: Location does not exist");
+        }
+
+        location.setLikes(location.getLikes() + 1);
+        locationRepository.save(location);
+    }
+
+    @Override
+    public void addVisit(UUID id) {
+        Location location = locationRepository.findLocationById(id);
+        if(location == null){
+            throw new NotFoundException("Like Location: Location does not exist");
+        }
+
+        location.setVisits(location.getVisits() + 1);
+        locationRepository.save(location);
     }
 
     @Override

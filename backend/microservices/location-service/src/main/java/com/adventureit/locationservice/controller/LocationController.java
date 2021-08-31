@@ -46,4 +46,14 @@ public class LocationController {
     public void compareGeography(@PathVariable UUID id, @PathVariable UUID userID) throws JSONException, IOException {
         locationServiceImplementation.compareGeometry(id,userID);
     }
+
+    @GetMapping(value = "/addLike/{id}")
+    public void addLike(@PathVariable UUID id){
+        locationServiceImplementation.addLike(id);
+    }
+
+    @GetMapping(value = "/addVisit/{id}")
+    public void addVisit(@PathVariable UUID id){
+        locationServiceImplementation.addVisit(id);
+    }
 }
