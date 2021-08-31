@@ -135,7 +135,8 @@ public class MainControllerAdventureReroute {
     @PostMapping("/editAdventure")
     public String editAdventure(@RequestBody EditAdventureRequest req){
         String timelinePort = "9012";
-        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureId(), TimelineType.ADVENTURE,"This adventure has been edited" );
+        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + adventurePort + "/user/getUser"+req.getUserId(), GetUserByUUIDDTO.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureId(), TimelineType.ADVENTURE,user.getUsername()+" edited this adventure." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return restTemplate.postForObject(IP + ":" + adventurePort + "/adventure/editAdventure", req, String.class);
     }
