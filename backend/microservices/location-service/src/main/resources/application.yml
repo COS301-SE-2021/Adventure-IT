@@ -7,9 +7,9 @@ spring:
   application:
     name: LOCATION-SERVICE
   datasource:
-    url: jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: 310PB!Gq%f&J
+    password: Shivek01
     hikari:
       maximum-pool-size: 2
   jpa:
