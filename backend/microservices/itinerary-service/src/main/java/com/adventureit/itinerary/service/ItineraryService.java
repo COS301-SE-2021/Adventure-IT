@@ -20,11 +20,12 @@ public interface ItineraryService {
      List<ItineraryEntryResponseDTO> viewItinerary(UUID id);
      void markCompleted(UUID id);
      String mockPopulate();
-     ItineraryEntryResponseDTO nextItem(UUID id);
+     ItineraryEntryResponseDTO nextItem(UUID id,  UUID userID);
      void setItineraryEntryLocation(UUID itineraryID, UUID locationID);
      ItineraryResponseDTO getItineraryById(UUID itineraryID);
      List<ItineraryResponseDTO> viewItinerariesByAdventure(UUID id);
      ItineraryResponseDTO getItineraryByEntryId(UUID itineraryEntryID);
      ItineraryEntryResponseDTO getItineraryEntry(UUID id);
      void checkUserOff(UUID entryID, UUID userID);
+     String registerUser(UUID entryID, UUID userID);
 }

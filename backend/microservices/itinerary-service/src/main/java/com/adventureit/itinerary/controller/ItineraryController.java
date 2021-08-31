@@ -83,9 +83,9 @@ public class ItineraryController {
         itineraryServiceImplementation.markCompleted(id);
     }
 
-    @GetMapping("/getNextEntry/{id}")
-    public ItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id){
-        return itineraryServiceImplementation.nextItem(id);
+    @GetMapping("/getNextEntry/{id}/{userID}")
+    public ItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id, @PathVariable UUID userID){
+        return itineraryServiceImplementation.nextItem(id, userID);
     }
 
     @GetMapping("/setLocation/{itineraryId}/{locationID}")
