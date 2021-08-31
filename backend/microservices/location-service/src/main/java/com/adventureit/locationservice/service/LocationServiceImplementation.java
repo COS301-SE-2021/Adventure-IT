@@ -254,7 +254,7 @@ public class LocationServiceImplementation implements LocationService {
         String string1 = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + placeID + "&fields=type&key=AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
 
         JSONObject json = new JSONObject(makeConnection(string1));
-        JSONArray array = json.getJSONObject("results").getJSONArray("types");
+        JSONArray array = json.getJSONObject("result").getJSONArray("types");
 
         List<String> list = new ArrayList<>();
         for (int i = 0; i < array.length(); ++i) {
