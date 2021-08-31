@@ -8,6 +8,7 @@ import com.adventureit.itinerary.requests.CreateItineraryRequest;
 import com.adventureit.itinerary.requests.EditItineraryEntryRequest;
 import com.adventureit.itinerary.responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.responses.ItineraryResponseDTO;
+import com.adventureit.itinerary.responses.StartDateEndDateResponseDTO;
 import com.adventureit.locationservice.responses.LocationResponseDTO;
 import com.adventureit.maincontroller.exceptions.InvalidItineraryEntryException;
 import com.adventureit.maincontroller.responses.MainItineraryEntryResponseDTO;
@@ -164,5 +165,10 @@ public class MainControllerItineraryReroute {
     @GetMapping("/setLocation/{itineraryId}/{locationID}")
     public void setLocation(@PathVariable UUID itineraryId,@PathVariable UUID locationID){
         restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/setLocation/"+itineraryId+"/"+locationID, String.class);
+    }
+
+    @GetMapping("/getStartDateEndDate/{id}")
+    public StartDateEndDateResponseDTO getStartDateEndDate(@PathVariable UUID id){
+        return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getStartDateEndDate/"+id, StartDateEndDateResponseDTO.class);
     }
 }
