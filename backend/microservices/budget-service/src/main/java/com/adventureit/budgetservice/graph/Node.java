@@ -9,6 +9,7 @@ public class Node {
     private String name;
     private List<Edge> edges;
     private boolean visited;
+    private Node pred;
 
     public Node(UUID userId, String name) {
         this.userId = userId;
@@ -19,6 +20,14 @@ public class Node {
 
     public void addEdge(Edge e){
         this.edges.add(e);
+    }
+
+    public Node getPred() {
+        return pred;
+    }
+
+    public void setPred(Node pred) {
+        this.pred = pred;
     }
 
     public UUID getUserId() {

@@ -27,6 +27,7 @@ public class BudgetGraph {
     }
 
     public void checkNode(Node node){
+
         if(!node.isVisited()){
             stack.push(node);
             for(int i =0;i< node.getEdges().size();i++){
