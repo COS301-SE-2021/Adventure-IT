@@ -17,12 +17,12 @@ public class BudgetGraph {
         nodes.add(newNode);
     }
 
-    public List<UUID> summarizeGraph(){
-
-
+    public List<Edge> summarizeGraph(){
+        List<Node> cycleNodes = new ArrayList<Node>();
         for (int i = 0; i< nodes.size();i++){
             nodes.get(i).setVisited(false);
         }
+        checkNode(nodes.get(0));
 
     }
 
@@ -33,6 +33,8 @@ public class BudgetGraph {
                 Edge edge = (Edge)node.getEdges().get(i);
                 checkNode(edge.getPayee());
             }
+        }else{
+            return;
         }
     }
 }
