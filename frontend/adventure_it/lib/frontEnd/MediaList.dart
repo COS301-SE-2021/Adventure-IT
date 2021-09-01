@@ -151,7 +151,7 @@ class MediaList extends StatelessWidget {
                                   .elementAt(index)
                                   .type
                                   .contains("mp4")
-                              ? Image.asset("assets/logo.png").image
+                              ? Image.asset("assets/play button.png").image
                               : NetworkImage("http://" +
                                   mediaApi +
                                   "/media/mediaUploaded/" +
