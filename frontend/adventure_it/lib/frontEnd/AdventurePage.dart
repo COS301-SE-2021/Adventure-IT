@@ -526,7 +526,7 @@ class AdventurePage extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                ),
+                                ))),
                                 SizedBox(
                                     height: MediaQuery
                                         .of(context)
@@ -734,7 +734,7 @@ class AdventurePage extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                              ])),
+                                ))])]),
                           Spacer(),
                           Row(
                             children: [
@@ -789,7 +789,7 @@ class AdventurePage extends StatelessWidget {
                               .of(context)
                               .size
                               .height / 60),
-                        ])))));
+                        ]))])))));
   }
 }
 
