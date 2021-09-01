@@ -167,6 +167,11 @@ class AdventurePage extends StatelessWidget {
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
+            iconTheme: IconThemeData(color: Theme
+                .of(context)
+                .textTheme
+                .bodyText1!
+                .color),
             title: Center(
                 child: Text(currentAdventure!.name,
                     style: new TextStyle(
