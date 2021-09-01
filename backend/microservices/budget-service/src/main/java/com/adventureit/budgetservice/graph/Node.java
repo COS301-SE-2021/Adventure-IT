@@ -7,14 +7,14 @@ import java.util.UUID;
 public class Node {
     private UUID userId;
     private String name;
-    private List edges;
+    private List<Edge> edges;
     private boolean visited;
 
     public Node(UUID userId, String name) {
         this.userId = userId;
         this.name = name;
         this.visited = false;
-        this.edges = new ArrayList();
+        this.edges = new ArrayList<Edge>();
     }
 
     public void addEdge(Edge e){
