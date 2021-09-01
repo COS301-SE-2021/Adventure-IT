@@ -1,17 +1,12 @@
 // @dart=2.9
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
-import 'Providers/adventure_model.dart';
 import 'Providers/location_model.dart';
-import 'api/budget.dart';
 import 'api/mediaAPI.dart';
 import 'frontEnd/Login.dart';
-import 'frontEnd/HomepageStartup.dart';
 
 void main() async {
   if (!kIsWeb) {
@@ -24,7 +19,7 @@ void main() async {
 }
 //
 class MyApp extends StatelessWidget {
-  bool theme=false;
+  bool theme=true;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
