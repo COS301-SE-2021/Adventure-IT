@@ -8,6 +8,7 @@ import com.adventureit.itinerary.requests.CreateItineraryRequest;
 import com.adventureit.itinerary.requests.EditItineraryEntryRequest;
 import com.adventureit.itinerary.responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.responses.ItineraryResponseDTO;
+import com.adventureit.itinerary.responses.StartDateEndDateResponseDTO;
 import com.adventureit.locationservice.responses.LocationResponseDTO;
 import com.adventureit.maincontroller.exceptions.CurrentLocationException;
 import com.adventureit.maincontroller.exceptions.InvalidItineraryEntryException;
@@ -184,5 +185,10 @@ public class MainControllerItineraryReroute {
         else{
             throw new CurrentLocationException("Check User Off: User is in the incorrect location");
         }
+    }
+
+    @GetMapping("/getStartDateEndDate/{id}")
+    public StartDateEndDateResponseDTO getStartDateEndDate(@PathVariable UUID id){
+        return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getStartDateEndDate/"+id, StartDateEndDateResponseDTO.class);
     }
 }
