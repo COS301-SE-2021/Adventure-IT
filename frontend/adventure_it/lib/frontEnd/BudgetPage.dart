@@ -608,7 +608,7 @@ class AlertBox extends State<_AlertBox> {
                                     .textTheme
                                     .bodyText1!
                                     .color),
-                            controller: amountController,
+                            controller:centsController,
                             decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     color: Theme
@@ -1199,11 +1199,11 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                         .size
                                                         .width / 3.5,
                                                     child: Text(
-                                                        budgetEntryModel
+                                                        "\$"+budgetEntryModel
                                                             .entries!
                                                             .elementAt(index)
                                                             .amount
-                                                            .toString(),
+                                                            .toStringAsPrecision(2),
                                                         textAlign: TextAlign
                                                             .center,
                                                         style: TextStyle(
@@ -2054,14 +2054,14 @@ class GetReport extends StatelessWidget {
                                                   budgetReportModel.reports!
                                                       .elementAt(index).amount >
                                                       0
-                                                      ? budgetReportModel
+                                                      ? "\$"+budgetReportModel
                                                       .reports!
                                                       .elementAt(index).amount
-                                                      .toString()
-                                                      : (budgetReportModel
+                                                      .toStringAsPrecision(2)
+                                                      : "\$"+(budgetReportModel
                                                       .reports!
                                                       .elementAt(index)
-                                                      .amount * -1).toString(),
+                                                      .amount * -1).toStringAsPrecision(2),
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       fontSize: 20 *

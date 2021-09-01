@@ -55,7 +55,8 @@ class _AdventureTimer extends State<AdventureTimer> {
 
   @override
   Widget build(BuildContext context) {
-    if (DateTime.parse(currentAdventure!.startDate)
+    if (DateTime
+        .parse(currentAdventure!.startDate)
         .difference(DateTime.now())
         .inDays >
         0) {
@@ -64,18 +65,31 @@ class _AdventureTimer extends State<AdventureTimer> {
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
               child: Container(
                   padding:
-                  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                  color: Theme.of(context)
+                  EdgeInsets.all(MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.02),
+                  color: Theme
+                      .of(context)
                       .scaffoldBackgroundColor
                       .withOpacity(0.2),
                   child: Column(children: [
                     Text("Countdown Until Adventure Begins",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1!.color,
+                            color: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1!
+                                .color,
                             fontSize:
-                            25 * MediaQuery.of(context).textScaleFactor)),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                            25 * MediaQuery
+                                .of(context)
+                                .textScaleFactor)),
+                    SizedBox(height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.03),
                     Text(
                         CountDown().timeLeft(
                             DateTime.parse(currentAdventure!.startDate),
@@ -83,16 +97,25 @@ class _AdventureTimer extends State<AdventureTimer> {
                             longDateName: true),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1!.color,
+                            color: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1!
+                                .color,
                             fontWeight: FontWeight.bold,
                             fontSize: (45 / 1125) *
-                                MediaQuery.of(context).size.width)),
+                                MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width)),
                   ]))));
-    } else if (DateTime.parse(currentAdventure!.startDate)
+    } else if (DateTime
+        .parse(currentAdventure!.startDate)
         .difference(DateTime.now())
         .inDays <=
         0 &&
-        DateTime.parse(currentAdventure!.endDate)
+        DateTime
+            .parse(currentAdventure!.endDate)
             .difference(DateTime.now())
             .inDays >
             0) {
@@ -101,17 +124,32 @@ class _AdventureTimer extends State<AdventureTimer> {
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
             child: Container(
                 padding:
-                EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                EdgeInsets.all(MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.02),
                 color:
-                Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
+                Theme
+                    .of(context)
+                    .scaffoldBackgroundColor
+                    .withOpacity(0.2),
                 child: Column(children: [
                   Text("Countdown Until Adventure Ends",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1!.color,
+                          color: Theme
+                              .of(context)
+                              .textTheme
+                              .bodyText1!
+                              .color,
                           fontSize:
-                          25 * MediaQuery.of(context).textScaleFactor)),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                          25 * MediaQuery
+                              .of(context)
+                              .textScaleFactor)),
+                  SizedBox(height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.03),
                   Text(
                     CountDown().timeLeft(
                         DateTime.parse(currentAdventure!.endDate),
@@ -119,10 +157,17 @@ class _AdventureTimer extends State<AdventureTimer> {
                         longDateName: true),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color,
+                        color: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color,
                         fontWeight: FontWeight.bold,
                         fontSize:
-                        (45 / 1125) * MediaQuery.of(context).size.width),
+                        (45 / 1125) * MediaQuery
+                            .of(context)
+                            .size
+                            .width),
                   ),
                 ]))),
       );
@@ -132,17 +177,27 @@ class _AdventureTimer extends State<AdventureTimer> {
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
               child: Container(
                   padding:
-                  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                  color: Theme.of(context)
+                  EdgeInsets.all(MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.02),
+                  color: Theme
+                      .of(context)
                       .scaffoldBackgroundColor
                       .withOpacity(0.2),
                   child: Column(children: [
                     Text("Completed",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1!.color,
+                            color: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1!
+                                .color,
                             fontSize:
-                            25 * MediaQuery.of(context).textScaleFactor)),
+                            25 * MediaQuery
+                                .of(context)
+                                .textScaleFactor)),
                   ]))));
     }
   }
@@ -160,25 +215,43 @@ class AdventurePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: NavDrawer(),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Theme
+            .of(context)
+            .scaffoldBackgroundColor,
         appBar: AppBar(
             title: Center(
                 child: Text(currentAdventure!.name,
                     style: new TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color))),
+                        color: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color))),
             actions: [
               IconButton(
                   onPressed: () {
                     {}
                   },
                   icon: const Icon(Icons.edit),
-                  color: Theme.of(context).textTheme.bodyText1!.color),
+                  color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color),
             ],
-            backgroundColor: Theme.of(context).primaryColorDark),
+            backgroundColor: Theme
+                .of(context)
+                .primaryColorDark),
         body: Center(
             child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: NetworkImage(
@@ -188,7 +261,10 @@ class AdventurePage extends StatelessWidget {
                                 googleMapsKey),
                         fit: BoxFit.cover,
                         colorFilter: ColorFilter.mode(
-                            Theme.of(context).backgroundColor.withOpacity(0.25),
+                            Theme
+                                .of(context)
+                                .backgroundColor
+                                .withOpacity(0.25),
                             BlendMode.dstATop))),
                 child: Column(children: [
                   Spacer(),
@@ -196,45 +272,63 @@ class AdventurePage extends StatelessWidget {
                     // color: Theme.of(context).primaryColorDark,
 
                       padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.05),
+                          horizontal: MediaQuery
+                              .of(context)
+                              .size
+                              .width * 0.05),
                       child: Column(children: [
                         AdventureTimer(currentAdventure),
                         SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.05),
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height * 0.05),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Expanded(
                               flex: 8,
                               child: Container(
-                                  padding:
-                                  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                                  color:
-                                  Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                padding:
+                                EdgeInsets.all(MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width * 0.02),
+                                color:
+                                Theme
+                                    .of(context)
+                                    .scaffoldBackgroundColor
+                                    .withOpacity(0.3),
                                 child: ClipRRect(
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(20.0)),
                                   child: MaterialButton(
-                                    hoverColor: Theme.of(context)
+                                    hoverColor: Theme
+                                        .of(context)
                                         .primaryColorLight
                                         .withOpacity(0),
                                     padding: EdgeInsets.symmetric(
                                         vertical:
-                                        MediaQuery.of(context).size.height *
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .height *
                                             0.01),
                                     onPressed: () {
                                       Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  Itineraries(currentAdventure)));
+                                                  Itineraries(
+                                                      currentAdventure)));
                                     },
                                     child: Column(
                                       children: <Widget>[
                                         Icon(
                                           Icons.list_alt,
                                           size: 50,
-                                          color: Theme.of(context)
+                                          color: Theme
+                                              .of(context)
                                               .textTheme
                                               .bodyText1!
                                               .color,
@@ -243,7 +337,8 @@ class AdventurePage extends StatelessWidget {
                                           'Itineraries',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                            color: Theme.of(context)
+                                            color: Theme
+                                                .of(context)
                                                 .textTheme
                                                 .bodyText1!
                                                 .color,
@@ -259,34 +354,46 @@ class AdventurePage extends StatelessWidget {
                             Expanded(
                                 flex: 8,
                                 child: Container(
-                                    padding:
-                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                                    color:
-                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  padding:
+                                  EdgeInsets.all(MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width * 0.02),
+                                  color:
+                                  Theme
+                                      .of(context)
+                                      .scaffoldBackgroundColor
+                                      .withOpacity(0.3),
                                   child: ClipRRect(
                                     borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
                                     child: MaterialButton(
-                                      hoverColor: Theme.of(context)
+                                      hoverColor: Theme
+                                          .of(context)
                                           .primaryColorLight
                                           .withOpacity(0),
                                       padding: EdgeInsets.symmetric(
                                           vertical:
-                                          MediaQuery.of(context).size.height *
+                                          MediaQuery
+                                              .of(context)
+                                              .size
+                                              .height *
                                               0.01),
                                       onPressed: () {
                                         Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => Checklists(
-                                                    currentAdventure)));
+                                                builder: (context) =>
+                                                    Checklists(
+                                                        currentAdventure)));
                                       },
                                       child: Column(
                                         children: <Widget>[
                                           Icon(
                                             Icons.checklist,
                                             size: 50,
-                                            color: Theme.of(context)
+                                            color: Theme
+                                                .of(context)
                                                 .textTheme
                                                 .bodyText1!
                                                 .color,
@@ -295,7 +402,8 @@ class AdventurePage extends StatelessWidget {
                                             'Checklists',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                color: Theme.of(context)
+                                                color: Theme
+                                                    .of(context)
                                                     .textTheme
                                                     .bodyText1!
                                                     .color),
@@ -309,20 +417,30 @@ class AdventurePage extends StatelessWidget {
                             Expanded(
                               flex: 8,
                               child: Container(
-                                  padding:
-                                  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                                  color:
-                                  Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                padding:
+                                EdgeInsets.all(MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width * 0.02),
+                                color:
+                                Theme
+                                    .of(context)
+                                    .scaffoldBackgroundColor
+                                    .withOpacity(0.3),
                                 child: ClipRRect(
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(20.0)),
                                   child: MaterialButton(
-                                    hoverColor: Theme.of(context)
+                                    hoverColor: Theme
+                                        .of(context)
                                         .primaryColorLight
                                         .withOpacity(0),
                                     padding: EdgeInsets.symmetric(
                                         vertical:
-                                        MediaQuery.of(context).size.height *
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .height *
                                             0.01),
                                     onPressed: () {
                                       Navigator.pushReplacement(
@@ -336,7 +454,8 @@ class AdventurePage extends StatelessWidget {
                                         Icon(
                                           Icons.attach_money,
                                           size: 50,
-                                          color: Theme.of(context)
+                                          color: Theme
+                                              .of(context)
                                               .textTheme
                                               .bodyText1!
                                               .color,
@@ -345,7 +464,8 @@ class AdventurePage extends StatelessWidget {
                                           'Budgets',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .textTheme
                                                   .bodyText1!
                                                   .color),
@@ -359,27 +479,40 @@ class AdventurePage extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                            height: MediaQuery.of(context).size.height / 40),
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height / 40),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Expanded(
                               flex: 8,
                               child: Container(
-                                  padding:
-                                  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                                  color:
-                                  Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                padding:
+                                EdgeInsets.all(MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width * 0.02),
+                                color:
+                                Theme
+                                    .of(context)
+                                    .scaffoldBackgroundColor
+                                    .withOpacity(0.3),
                                 child: ClipRRect(
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(20.0)),
                                   child: MaterialButton(
-                                    hoverColor: Theme.of(context)
+                                    hoverColor: Theme
+                                        .of(context)
                                         .primaryColorLight
                                         .withOpacity(0),
                                     padding: EdgeInsets.symmetric(
                                         vertical:
-                                        MediaQuery.of(context).size.height *
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .height *
                                             0.01),
                                     onPressed: () {
                                       Navigator.pushReplacement(
@@ -393,7 +526,8 @@ class AdventurePage extends StatelessWidget {
                                         Icon(
                                           Icons.chat_bubble,
                                           size: 50,
-                                          color: Theme.of(context)
+                                          color: Theme
+                                              .of(context)
                                               .textTheme
                                               .bodyText1!
                                               .color,
@@ -402,7 +536,8 @@ class AdventurePage extends StatelessWidget {
                                           'Group Chat',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .textTheme
                                                   .bodyText1!
                                                   .color),
@@ -418,19 +553,29 @@ class AdventurePage extends StatelessWidget {
                               flex: 8,
                               child: Container(
                                 padding:
-                                EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                EdgeInsets.all(MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width * 0.02),
                                 color:
-                                Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                Theme
+                                    .of(context)
+                                    .scaffoldBackgroundColor
+                                    .withOpacity(0.3),
                                 child: ClipRRect(
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(20.0)),
                                   child: MaterialButton(
-                                    hoverColor: Theme.of(context)
+                                    hoverColor: Theme
+                                        .of(context)
                                         .primaryColorLight
                                         .withOpacity(0),
                                     padding: EdgeInsets.symmetric(
                                         vertical:
-                                        MediaQuery.of(context).size.height *
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .height *
                                             0.01),
                                     onPressed: () {
                                       Navigator.pushReplacement(
@@ -444,7 +589,8 @@ class AdventurePage extends StatelessWidget {
                                         Icon(
                                           Icons.insert_drive_file,
                                           size: 50,
-                                          color: Theme.of(context)
+                                          color: Theme
+                                              .of(context)
                                               .textTheme
                                               .bodyText1!
                                               .color,
@@ -453,7 +599,8 @@ class AdventurePage extends StatelessWidget {
                                           'Files',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .textTheme
                                                   .bodyText1!
                                                   .color),
@@ -468,19 +615,27 @@ class AdventurePage extends StatelessWidget {
                             Expanded(
                                 flex: 8,
                                 child: Container(
-                                    padding:
-                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                                    color:
-                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  padding:
+                                  EdgeInsets.all(MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width * 0.02),
+                                  color:
+                                  Theme
+                                      .of(context)
+                                      .scaffoldBackgroundColor
+                                      .withOpacity(0.3),
                                   child: ClipRRect(
                                       borderRadius:
                                       BorderRadius.all(Radius.circular(20.0)),
                                       child: MaterialButton(
-                                        hoverColor: Theme.of(context)
+                                        hoverColor: Theme
+                                            .of(context)
                                             .primaryColorLight
                                             .withOpacity(0),
                                         padding: EdgeInsets.symmetric(
-                                            vertical: MediaQuery.of(context)
+                                            vertical: MediaQuery
+                                                .of(context)
                                                 .size
                                                 .height *
                                                 0.01),
@@ -488,15 +643,17 @@ class AdventurePage extends StatelessWidget {
                                           Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) => MediaPage(
-                                                      currentAdventure)));
+                                                  builder: (context) =>
+                                                      MediaPage(
+                                                          currentAdventure)));
                                         },
                                         child: Column(
                                           children: <Widget>[
                                             Icon(
                                               Icons.filter,
                                               size: 50,
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .textTheme
                                                   .bodyText1!
                                                   .color,
@@ -505,7 +662,8 @@ class AdventurePage extends StatelessWidget {
                                               'Media',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                  color: Theme.of(context)
+                                                  color: Theme
+                                                      .of(context)
                                                       .textTheme
                                                       .bodyText1!
                                                       .color),
@@ -517,27 +675,40 @@ class AdventurePage extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                            height: MediaQuery.of(context).size.height / 40),
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height / 40),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Expanded(
                               flex: 8,
                               child: Container(
-                                  padding:
-                                  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                                  color:
-                                  Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                padding:
+                                EdgeInsets.all(MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width * 0.02),
+                                color:
+                                Theme
+                                    .of(context)
+                                    .scaffoldBackgroundColor
+                                    .withOpacity(0.3),
                                 child: ClipRRect(
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(20.0)),
                                   child: MaterialButton(
-                                    hoverColor: Theme.of(context)
+                                    hoverColor: Theme
+                                        .of(context)
                                         .primaryColorLight
                                         .withOpacity(0),
                                     padding: EdgeInsets.symmetric(
                                         vertical:
-                                        MediaQuery.of(context).size.height *
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .height *
                                             0.01),
                                     onPressed: () {
                                       Navigator.pushReplacement(
@@ -551,7 +722,8 @@ class AdventurePage extends StatelessWidget {
                                         Icon(
                                           Icons.access_time_filled,
                                           size: 50,
-                                          color: Theme.of(context)
+                                          color: Theme
+                                              .of(context)
                                               .textTheme
                                               .bodyText1!
                                               .color,
@@ -560,7 +732,8 @@ class AdventurePage extends StatelessWidget {
                                           'Timeline',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .textTheme
                                                   .bodyText1!
                                                   .color),
@@ -575,20 +748,30 @@ class AdventurePage extends StatelessWidget {
                             Expanded(
                               flex: 8,
                               child: Container(
-                                  padding:
-                                  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                                  color:
-                                  Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                padding:
+                                EdgeInsets.all(MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width * 0.02),
+                                color:
+                                Theme
+                                    .of(context)
+                                    .scaffoldBackgroundColor
+                                    .withOpacity(0.3),
                                 child: ClipRRect(
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(20.0)),
                                   child: MaterialButton(
-                                    hoverColor: Theme.of(context)
+                                    hoverColor: Theme
+                                        .of(context)
                                         .primaryColorLight
                                         .withOpacity(0),
                                     padding: EdgeInsets.symmetric(
                                         vertical:
-                                        MediaQuery.of(context).size.height *
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .height *
                                             0.01),
                                     onPressed: () {
                                       {}
@@ -598,7 +781,8 @@ class AdventurePage extends StatelessWidget {
                                         Icon(
                                           Icons.person,
                                           size: 50,
-                                          color: Theme.of(context)
+                                          color: Theme
+                                              .of(context)
                                               .textTheme
                                               .bodyText1!
                                               .color,
@@ -607,7 +791,8 @@ class AdventurePage extends StatelessWidget {
                                           'Adventurers',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .textTheme
                                                   .bodyText1!
                                                   .color),
@@ -622,20 +807,30 @@ class AdventurePage extends StatelessWidget {
                             Expanded(
                               flex: 8,
                               child: Container(
-                                  padding:
-                                  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                                  color:
-                                  Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                padding:
+                                EdgeInsets.all(MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width * 0.02),
+                                color:
+                                Theme
+                                    .of(context)
+                                    .scaffoldBackgroundColor
+                                    .withOpacity(0.3),
                                 child: ClipRRect(
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(20.0)),
                                   child: MaterialButton(
-                                    hoverColor: Theme.of(context)
+                                    hoverColor: Theme
+                                        .of(context)
                                         .primaryColorLight
                                         .withOpacity(0),
                                     padding: EdgeInsets.symmetric(
                                         vertical:
-                                        MediaQuery.of(context).size.height *
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .height *
                                             0.01),
                                     onPressed: () {
                                       {}
@@ -645,7 +840,8 @@ class AdventurePage extends StatelessWidget {
                                         Icon(
                                           Icons.play_arrow,
                                           size: 50,
-                                          color: Theme.of(context)
+                                          color: Theme
+                                              .of(context)
                                               .textTheme
                                               .bodyText1!
                                               .color,
@@ -654,7 +850,8 @@ class AdventurePage extends StatelessWidget {
                                           'Play this song',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .textTheme
                                                   .bodyText1!
                                                   .color),
@@ -675,7 +872,9 @@ class AdventurePage extends StatelessWidget {
                         flex: 1,
                         child: Container(
                             decoration: BoxDecoration(
-                                color: Theme.of(context).accentColor,
+                                color: Theme
+                                    .of(context)
+                                    .accentColor,
                                 shape: BoxShape.circle),
                             child: IconButton(
                                 onPressed: () {
@@ -687,14 +886,18 @@ class AdventurePage extends StatelessWidget {
                                 },
                                 icon: const Icon(
                                     Icons.arrow_back_ios_new_rounded),
-                                color: Theme.of(context).primaryColorDark)),
+                                color: Theme
+                                    .of(context)
+                                    .primaryColorDark)),
                       ),
                       Expanded(flex: 1, child: Container()),
                       Expanded(
                           flex: 1,
                           child: Container(
                               decoration: BoxDecoration(
-                                  color: Theme.of(context).accentColor,
+                                  color: Theme
+                                      .of(context)
+                                      .accentColor,
                                   shape: BoxShape.circle),
                               child: IconButton(
                                   onPressed: () {
@@ -705,10 +908,15 @@ class AdventurePage extends StatelessWidget {
                                         });
                                   },
                                   icon: const Icon(Icons.share),
-                                  color: Theme.of(context).primaryColorDark))),
+                                  color: Theme
+                                      .of(context)
+                                      .primaryColorDark))),
                     ],
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height / 60),
+                  SizedBox(height: MediaQuery
+                      .of(context)
+                      .size
+                      .height / 60),
                 ]))));
   }
 }
@@ -722,11 +930,23 @@ class AlertBox extends StatelessWidget {
   }
 
   double getSize(context) {
-    if (MediaQuery.of(context).size.height >
-        MediaQuery.of(context).size.width) {
-      return MediaQuery.of(context).size.height * 0.49;
+    if (MediaQuery
+        .of(context)
+        .size
+        .height >
+        MediaQuery
+            .of(context)
+            .size
+            .width) {
+      return MediaQuery
+          .of(context)
+          .size
+          .height * 0.49;
     } else {
-      return MediaQuery.of(context).size.height * 0.6;
+      return MediaQuery
+          .of(context)
+          .size
+          .height * 0.6;
     }
   }
 
@@ -736,7 +956,9 @@ class AlertBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        backgroundColor: Theme.of(context).primaryColorDark,
+        backgroundColor: Theme
+            .of(context)
+            .primaryColorDark,
         title: Stack(clipBehavior: Clip.none, children: <Widget>[
           Positioned(
             right: -40.0,
@@ -747,8 +969,12 @@ class AlertBox extends StatelessWidget {
               },
               child: CircleAvatar(
                 child: Icon(Icons.close,
-                    color: Theme.of(context).primaryColorDark),
-                backgroundColor: Theme.of(context).accentColor,
+                    color: Theme
+                        .of(context)
+                        .primaryColorDark),
+                backgroundColor: Theme
+                    .of(context)
+                    .accentColor,
               ),
             ),
           ),
@@ -756,12 +982,21 @@ class AlertBox extends StatelessWidget {
             Text("Add Friend To Adventure",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyText1!.color,
-                  fontSize: 25 * MediaQuery.of(context).textScaleFactor,
+                  color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color,
+                  fontSize: 25 * MediaQuery
+                      .of(context)
+                      .textScaleFactor,
                   fontWeight: FontWeight.bold,
                 )),
             SizedBox(
-                height: MediaQuery.of(context).size.height * 0.01, width: 300)
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.01, width: 300)
           ])
         ]),
         content: ChangeNotifierProvider(
@@ -778,7 +1013,9 @@ class AlertBox extends StatelessWidget {
                           itemCount: friendModel.friends!.length,
                           itemBuilder: (context, index) {
                             return InkWell(
-                                hoverColor: Theme.of(context).primaryColorLight,
+                                hoverColor: Theme
+                                    .of(context)
+                                    .primaryColorLight,
                                 onTap: () {
                                   AdventureApi.addAttendee(
                                       currentAdventure!,
@@ -790,10 +1027,16 @@ class AlertBox extends StatelessWidget {
                                 child: Padding(
                                     padding: EdgeInsets.symmetric(
                                         vertical:
-                                        MediaQuery.of(context).size.height *
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .height *
                                             0.01,
                                         horizontal:
-                                        MediaQuery.of(context).size.width *
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width *
                                             0.01),
                                     child: Expanded(
                                         child: Text(
@@ -802,10 +1045,12 @@ class AlertBox extends StatelessWidget {
                                               .username,
                                           style: TextStyle(
                                               fontSize: 20 *
-                                                  MediaQuery.of(context)
+                                                  MediaQuery
+                                                      .of(context)
                                                       .textScaleFactor,
                                               fontWeight: FontWeight.bold,
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .textTheme
                                                   .bodyText1!
                                                   .color),
@@ -815,3 +1060,45 @@ class AlertBox extends StatelessWidget {
                     }))));
   }
 }
+
+// double getHeight(context) {
+//   if (MediaQuery
+//       .of(context)
+//       .size
+//       .height >
+//       MediaQuery
+//           .of(context)
+//           .size
+//           .width) {
+//     return MediaQuery
+//         .of(context)
+//         .size
+//         .height * 0.75;
+//   } else {
+//     return MediaQuery
+//         .of(context)
+//         .size
+//         .height * 0.90;
+//   }
+// }
+//
+// double getWidth(context) {
+//   if (MediaQuery
+//       .of(context)
+//       .size
+//       .height >
+//       MediaQuery
+//           .of(context)
+//           .size
+//           .width) {
+//     return MediaQuery
+//         .of(context)
+//         .size
+//         .width * 0.90;
+//   } else {
+//     return MediaQuery
+//         .of(context)
+//         .size
+//         .width * 0.65;
+//   }
+// }
