@@ -1,6 +1,7 @@
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventureAPI.dart';
 import 'package:adventure_it/api/userAPI.dart';
+import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:time_machine/time_machine.dart';
 
@@ -40,9 +41,31 @@ class AdventuresModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future editAdventure(String a, String b, LocalDate c, LocalDate d, String e) async {
+  Future editAdventure(
+      String a, String b, LocalDate c, LocalDate d, String e) async {
     await AdventureApi.editAdventure(a, b, c, d, e);
 
     notifyListeners();
   }
+}
+
+class AdventureAttendeesModel extends ChangeNotifier {
+  List<UserProfile>? _attendees;
+  Adventure? currentAdventure;
+
+  AdventureAttendeesModel(Adventure a) {
+    this.currentAdventure = a;
+    fetchAllAttendees().then((attendees) =>
+        attendees != null ? _attendees = attendees : List.empty());
+  }
+
+  List<UserProfile>? get attendees => _attendees?.toList();
+
+  Future fetchAllAttendees() async {
+    _attendees = await AdventureApi.getAttendeesOfAdventure(
+        currentAdventure!.adventureId);
+
+    notifyListeners();
+  }
+
 }
