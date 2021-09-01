@@ -22,6 +22,8 @@ public class BudgetGraph {
         for (int i = 0; i< nodes.size();i++){
             nodes.get(i).setVisited(false);
         }
+
+        //Test
         checkNode(nodes.get(0));
 
     }
