@@ -8,6 +8,7 @@ import java.util.UUID;
 public class EditBudgetRequest {
     UUID id;
     UUID budgetID;
+    UUID userId;
     double amount;
     String title;
     String description;
@@ -15,7 +16,7 @@ public class EditBudgetRequest {
     String payer;
     String payee;
 
-    public EditBudgetRequest(@JsonProperty("id") UUID id, @JsonProperty("budgetID") UUID budgetID, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("payer") String payer, @JsonProperty("payee") String payee){
+    public EditBudgetRequest(@JsonProperty("id") UUID id,@JsonProperty("userId") UUID userId, @JsonProperty("budgetID") UUID budgetID, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("payer") String payer, @JsonProperty("payee") String payee){
         this.id = id;
         this.budgetID = budgetID;
         this.amount = amount;
@@ -23,6 +24,11 @@ public class EditBudgetRequest {
         this.description = description;
         this.payer = payer;
         this.payee = payee;
+        this.userId = userId;
+    }
+
+    public UUID getUserId() {
+        return userId;
     }
 
     public UUID getId() {

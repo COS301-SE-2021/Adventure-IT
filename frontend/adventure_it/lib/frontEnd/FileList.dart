@@ -2,7 +2,6 @@ import 'package:adventure_it/Providers/media_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/mediaAPI.dart';
 import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -51,6 +50,7 @@ class Files extends StatelessWidget {
                                   .textTheme
                                   .bodyText1!
                                   .color))),
+                  iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
                   backgroundColor: Theme.of(context).primaryColorDark),
               body: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

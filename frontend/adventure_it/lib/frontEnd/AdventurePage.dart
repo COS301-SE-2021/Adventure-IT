@@ -171,6 +171,7 @@ class AdventurePage extends StatelessWidget {
                 child: Text(currentAdventure!.name,
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
+            iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
             actions: [
               IconButton(
                   onPressed: () {

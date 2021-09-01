@@ -21,6 +21,7 @@ class HomePage extends State<HomepageStartupCaller> {
               title: Text("Adventure-IT",
                   style: new TextStyle(
                       color: Theme.of(context).textTheme.bodyText1!.color)),
+              iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
             ),
             body: HomePage_Pages()));
   }

@@ -1,4 +1,4 @@
-name: Backend - Java CI with Maven
+name: Chat Microservice - Tests
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
           distribution: "adopt"
       - name: Build with Maven
 
-        working-directory: backend/
+        working-directory: backend/microservices/chat-service
         run: |
           chmod +x ./mvnw
           ./mvnw clean

@@ -6,6 +6,7 @@ import com.adventureit.userservice.entities.Users;
 import com.adventureit.userservice.exceptions.*;
 import com.adventureit.userservice.repository.FriendRepository;
 import com.adventureit.userservice.repository.UserRepository;
+import com.adventureit.userservice.requests.EditUserProfileRequest;
 import com.adventureit.userservice.requests.RegisterUserRequest;
 import com.adventureit.userservice.responses.FriendDTO;
 import com.adventureit.userservice.responses.GetFriendRequestsResponse;
@@ -349,5 +350,33 @@ public class UserServiceImplementation  {
     public void deleteUser(UUID id){
         Users found = repo.getUserByUserID(id);
         repo.delete(found);
+    }
+
+    public String editUserProfile(EditUserProfileRequest req){
+        Users user = repo.getUserByUserID(req.getUserId());
+
+        if(req.getFirstName().equals("")){
+        }else{
+            user.setFirstname(req.getFirstName());
+        }
+
+        if(req.getLastName().equals("")){
+        }else{
+            user.setLastname(req.getLastName());
+        }
+
+        if(req.getUsername().equals("")){
+        }else{
+            user.setUsername(req.getUsername());
+        }
+
+        if(req.getEmail().equals("")){
+        }else{
+            user.setEmail(req.getEmail());
+        }
+
+        repo.save(user);
+        return "Editing successful";
+
     }
 }

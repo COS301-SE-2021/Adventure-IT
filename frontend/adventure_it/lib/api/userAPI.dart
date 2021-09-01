@@ -384,4 +384,41 @@ class UserApi {
         builder: (context) =>
             AlertDialog(title: Text(title), content: Text(text)),
       );
+
+  static Future<http.Response> editProfile(
+      String userId,
+      String username,
+      String firstName,
+      String lastName,
+      String email) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:9999/user/editUserProfile'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'userId': userId,
+        'username': username,
+        'firstName': firstName,
+        'lastName': lastName,
+        'email': email
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      final keycloakUser = UserApi.getInstance()._keycloakUser;
+      UserApi.getInstance()._userProfile = await UserApi.getInstance().fetchBackendProfile(keycloakUser!.id);
+      return response;
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      throw Exception('Failed to edit the user\'s profile.');
+    }
+  }
 }
