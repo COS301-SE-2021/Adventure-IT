@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:adventure_it/Providers/adventure_model.dart';
-import 'package:adventure_it/Providers/location_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +9,7 @@ import 'package:adventure_it/Providers/friends_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventureAPI.dart';
 import 'package:adventure_it/api/userAPI.dart';
+import 'package:time_machine/time_machine.dart';
 import 'ChecklistsList.dart';
 import 'FileList.dart';
 import 'GroupChat.dart';
@@ -132,10 +132,7 @@ class _AdventureTimer extends State<AdventureTimer> {
                     .size
                     .width * 0.02),
                 color:
-                Theme
-                    .of(context)
-                    .scaffoldBackgroundColor
-                    .withOpacity(0.2),
+                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
                 child: Column(children: [
                   Text("Countdown Until Adventure Ends",
                       textAlign: TextAlign.center,
@@ -218,253 +215,317 @@ class AdventurePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => AdventuresModel(),
-        builder: (context, widget) =>
-            Scaffold(
-                drawer: NavDrawer(),
-                backgroundColor: Theme
-                    .of(context)
-                    .scaffoldBackgroundColor,
-                appBar: AppBar(
-                    title: Center(
-                        child: Text(currentAdventure!.name,
-                            style: new TextStyle(
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .color))),
-                    iconTheme: IconThemeData(color: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyText1!
-                        .color),
-                    actions: [
-                      IconButton(
-                          onPressed: () {
-                            {
-                              var provider = Provider.of<AdventuresModel>(
-                                  context, listen: false);
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return _EditAlert(
-                                        currentAdventure!, provider);
-                                  });
-                            }
-                          },
-                          icon: const Icon(Icons.edit),
-                          color: Theme
-                              .of(context)
-                              .textTheme
-                              .bodyText1!
-                              .color),
-                    ],
-                    backgroundColor: Theme
-                        .of(context)
-                        .primaryColorDark),
-                body: Center(
-                    child: Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width,
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                        currentAdventure!.location
-                                            .photoReference +
-                                        "&maxwidth=700&key=" +
-                                        googleMapsKey),
-                                fit: BoxFit.cover,
-                                colorFilter: ColorFilter.mode(
-                                    Theme
-                                        .of(context)
-                                        .backgroundColor
-                                        .withOpacity(0.25),
-                                    BlendMode.dstATop))),
-                        child: Column(children: [
-                          Spacer(),
-                          Container(
-                            // color: Theme.of(context).primaryColorDark,
+        builder: (context, widget) => Scaffold(
+        drawer: NavDrawer(),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: AppBar(
+            title: Center(
+                child: Text(currentAdventure!.name,
+                    style: new TextStyle(
+                        color: Theme.of(context).textTheme.bodyText1!.color))),
+            iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    {
+                      var provider = Provider.of<AdventuresModel>(context, listen: false);
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return _EditAlert(currentAdventure!, provider);
+                          });
+                    }
+                  },
+                  icon: const Icon(Icons.edit),
+                  color: Theme.of(context).textTheme.bodyText1!.color),
+            ],
+            backgroundColor: Theme.of(context).primaryColorDark),
+        body: Center(
+            child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(
+                            "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                currentAdventure!.location.photoReference +
+                                "&maxwidth=700&key=" +
+                                googleMapsKey),
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(
+                            Theme.of(context).backgroundColor.withOpacity(0.35),
+                            BlendMode.dstATop))),
+                child: Column(children: [
+                  Spacer(),
+                  Container(
+                      // color: Theme.of(context).primaryColorDark,
 
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * 0.05),
-                              child: Column(children: [
-                                AdventureTimer(currentAdventure),
-                                SizedBox(
-                                    height: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .height * 0.05),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceEvenly,
-                                  children: [
-                                    Expanded(
-                                      flex: 8,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(20.0)),
-                                        child: MaterialButton(
-                                          hoverColor: Theme
-                                              .of(context)
-                                              .primaryColorLight
-                                              .withOpacity(0),
-                                          padding: EdgeInsets.symmetric(
-                                              vertical:
-                                              MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .height *
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.05),
+                      child: Column(children: [
+                        AdventureTimer(currentAdventure),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.05),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              flex: 8,
+                                child: ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0)),
+                                  child: Container(
+                                      padding:
+                                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                      color:
+                                      Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                    child: MaterialButton(
+                                      hoverColor: Theme.of(context)
+                                          .primaryColorLight
+                                          .withOpacity(0),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical:
+                                              MediaQuery.of(context).size.height *
                                                   0.01),
-                                          onPressed: () {
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Itineraries(
-                                                            currentAdventure)));
-                                          },
-                                          child: Column(
-                                            children: <Widget>[
-                                              Icon(
-                                                Icons.list_alt,
-                                                size: 50,
-                                                color: Theme
-                                                    .of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color,
-                                              ),
-                                              Text(
-                                                'Itineraries',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Theme
-                                                      .of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color,
-                                                ),
-                                              ),
-                                            ],
+                                      onPressed: () {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Itineraries(currentAdventure)));
+                                      },
+                                      child: Column(
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.list_alt,
+                                            size: 50,
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color,
                                           ),
-                                        ),
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Expanded(
-                                        flex: 8,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                          BorderRadius.all(
-                                              Radius.circular(20.0)),
-                                          child: MaterialButton(
-                                            hoverColor: Theme
-                                                .of(context)
-                                                .primaryColorLight
-                                                .withOpacity(0),
-                                            padding: EdgeInsets.symmetric(
-                                                vertical:
-                                                MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .height *
-                                                    0.01),
-                                            onPressed: () {
-                                              Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Checklists(
-                                                              currentAdventure)));
-                                            },
-                                            child: Column(
-                                              children: <Widget>[
-                                                Icon(
-                                                  Icons.checklist,
-                                                  size: 50,
-                                                  color: Theme
-                                                      .of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color,
-                                                ),
-                                                Text(
-                                                  'Checklists',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      color: Theme
-                                                          .of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .color),
-                                                ),
-                                              ],
+                                          Text(
+                                            'Itineraries',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color,
                                             ),
                                           ),
-                                        )),
-                                    Spacer(),
-                                    Expanded(
-                                      flex: 8,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(20.0)),
-                                        child: MaterialButton(
-                                          hoverColor: Theme
-                                              .of(context)
-                                              .primaryColorLight
-                                              .withOpacity(0),
-                                          padding: EdgeInsets.symmetric(
-                                              vertical:
-                                              MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .height *
-                                                  0.01),
-                                          onPressed: () {
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Budgets(
-                                                            currentAdventure)));
-                                          },
-                                          child: Column(
-                                            children: <Widget>[
-                                              Icon(
-                                                Icons.attach_money,
-                                                size: 50,
-                                                color: Theme
-                                                    .of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color,
-                                              ),
-                                              Text(
-                                                'Budgets',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Theme
-                                                        .of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                        ],
                                       ),
                                     ),
-                                  ],
+                                  ),
+                                ),
+                              ),
+                            Spacer(),
+                            Expanded(
+                                flex: 8,
+                                child: ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0)),
+                                  child: Container(
+                                      padding:
+                                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                      color:
+                                      Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                    child: MaterialButton(
+                                      hoverColor: Theme.of(context)
+                                          .primaryColorLight
+                                          .withOpacity(0),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical:
+                                              MediaQuery.of(context).size.height *
+                                                  0.01),
+                                      onPressed: () {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Checklists(
+                                                    currentAdventure)));
+                                      },
+                                      child: Column(
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.checklist,
+                                            size: 50,
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color,
+                                          ),
+                                          Text(
+                                            'Checklists',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )),
+                            Spacer(),
+                            Expanded(
+                              flex: 8,
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Budgets(currentAdventure)));
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.attach_money,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                        Text(
+                                          'Budgets',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height / 40),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              flex: 8,
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  GroupChat(currentAdventure)));
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.chat_bubble,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                        Text(
+                                          'Group Chat',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Spacer(),
+                            Expanded(
+                              flex: 8,
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Files(currentAdventure)));
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.insert_drive_file,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                        Text(
+                                          'Files',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                                 SizedBox(
                                     height: MediaQuery
@@ -480,311 +541,198 @@ class AdventurePage extends StatelessWidget {
                                       child: ClipRRect(
                                         borderRadius:
                                         BorderRadius.all(Radius.circular(20.0)),
-                                        child: MaterialButton(
-                                          hoverColor: Theme
-                                              .of(context)
-                                              .primaryColorLight
-                                              .withOpacity(0),
-                                          padding: EdgeInsets.symmetric(
-                                              vertical:
-                                              MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .height *
-                                                  0.01),
-                                          onPressed: () {
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        GroupChat(
-                                                            currentAdventure)));
-                                          },
-                                          child: Column(
-                                            children: <Widget>[
-                                              Icon(
-                                                Icons.chat_bubble,
-                                                size: 50,
-                                                color: Theme
-                                                    .of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color,
-                                              ),
-                                              Text(
-                                                'Group Chat',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Theme
-                                                        .of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color),
-                                              ),
-                                            ],
-                                          ),
+                                    child: Container(
+                                        padding:
+                                        EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                        color:
+                                        Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                      child: MaterialButton(
+                                        hoverColor: Theme.of(context)
+                                            .primaryColorLight
+                                            .withOpacity(0),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.01),
+                                        onPressed: () {
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => MediaPage(
+                                                      currentAdventure)));
+                                        },
+                                        child: Column(
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.filter,
+                                              size: 50,
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color,
+                                            ),
+                                            Text(
+                                              'Media',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                    Spacer(),
-                                    Expanded(
-                                      flex: 8,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(20.0)),
-                                        child: MaterialButton(
-                                          hoverColor: Theme
-                                              .of(context)
-                                              .primaryColorLight
-                                              .withOpacity(0),
-                                          padding: EdgeInsets.symmetric(
-                                              vertical:
-                                              MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .height *
-                                                  0.01),
-                                          onPressed: () {
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Files(
-                                                            currentAdventure)));
-                                          },
-                                          child: Column(
-                                            children: <Widget>[
-                                              Icon(
-                                                Icons.insert_drive_file,
-                                                size: 50,
-                                                color: Theme
-                                                    .of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color,
-                                              ),
-                                              Text(
-                                                'Files',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Theme
-                                                        .of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color),
-                                              ),
-                                            ],
-                                          ),
+                                    ))),
+                          ],
+                        ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height / 40),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              flex: 8,
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TimePage(currentAdventure)));
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.access_time_filled,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
                                         ),
-                                      ),
+                                        Text(
+                                          'Timeline',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
                                     ),
-                                    Spacer(),
-                                    Expanded(
-                                        flex: 8,
-                                        child: ClipRRect(
-                                            borderRadius:
-                                            BorderRadius.all(
-                                                Radius.circular(20.0)),
-                                            child: MaterialButton(
-                                              hoverColor: Theme
-                                                  .of(context)
-                                                  .primaryColorLight
-                                                  .withOpacity(0),
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: MediaQuery
-                                                      .of(context)
-                                                      .size
-                                                      .height *
-                                                      0.01),
-                                              onPressed: () {
-                                                Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            MediaPage(
-                                                                currentAdventure)));
-                                              },
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Icon(
-                                                    Icons.filter,
-                                                    size: 50,
-                                                    color: Theme
-                                                        .of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color,
-                                                  ),
-                                                  Text(
-                                                    'Media',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        color: Theme
-                                                            .of(context)
-                                                            .textTheme
-                                                            .bodyText1!
-                                                            .color),
-                                                  ),
-                                                ],
-                                              ),
-                                            ))),
-                                  ],
+                                  ),
                                 ),
-                                SizedBox(
-                                    height: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .height / 40),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceEvenly,
-                                  children: [
-                                    Expanded(
-                                      flex: 8,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(20.0)),
-                                        child: MaterialButton(
-                                          hoverColor: Theme
-                                              .of(context)
-                                              .primaryColorLight
-                                              .withOpacity(0),
-                                          padding: EdgeInsets.symmetric(
-                                              vertical:
-                                              MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .height *
-                                                  0.01),
-                                          onPressed: () {
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        TimePage(
-                                                            currentAdventure)));
-                                          },
-                                          child: Column(
-                                            children: <Widget>[
-                                              Icon(
-                                                Icons.access_time_filled,
-                                                size: 50,
-                                                color: Theme
-                                                    .of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color,
-                                              ),
-                                              Text(
-                                                'Timeline',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Theme
-                                                        .of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color),
-                                              ),
-                                            ],
-                                          ),
+                              ),
+                            ),
+                            Spacer(),
+                            Expanded(
+                              flex: 8,
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      {}
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.person,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
                                         ),
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Expanded(
-                                      flex: 8,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(20.0)),
-                                        child: MaterialButton(
-                                          hoverColor: Theme
-                                              .of(context)
-                                              .primaryColorLight
-                                              .withOpacity(0),
-                                          padding: EdgeInsets.symmetric(
-                                              vertical:
-                                              MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .height *
-                                                  0.01),
-                                          onPressed: () {
-                                            {}
-                                          },
-                                          child: Column(
-                                            children: <Widget>[
-                                              Icon(
-                                                Icons.person,
-                                                size: 50,
-                                                color: Theme
-                                                    .of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color,
-                                              ),
-                                              Text(
-                                                'Adventurers',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Theme
-                                                        .of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color),
-                                              ),
-                                            ],
-                                          ),
+                                        Text(
+                                          'Adventurers',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                    Spacer(),
-                                    Expanded(
-                                      flex: 8,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(20.0)),
-                                        child: MaterialButton(
-                                          hoverColor: Theme
-                                              .of(context)
-                                              .primaryColorLight
-                                              .withOpacity(0),
-                                          padding: EdgeInsets.symmetric(
-                                              vertical:
-                                              MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .height *
-                                                  0.01),
-                                          onPressed: () {
-                                            {}
-                                          },
-                                          child: Column(
-                                            children: <Widget>[
-                                              Icon(
-                                                Icons.play_arrow,
-                                                size: 50,
-                                                color: Theme
-                                                    .of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color,
-                                              ),
-                                              Text(
-                                                'Play this song',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Theme
-                                                        .of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color),
-                                              ),
-                                            ],
-                                          ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Spacer(),
+                            Expanded(
+                              flex: 8,
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      {}
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.play_arrow,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
                                         ),
-                                      ),
+                                        Text(
+                                          'Play this song',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ])),
                           Spacer(),
@@ -999,7 +947,11 @@ class _EditAlert extends StatefulWidget {
 class EditAlert extends State<_EditAlert> {
   late final Adventure? adventure;
 
-  EditAlert(this.adventure);
+  EditAlert(this.adventure) {
+    nameController.text = adventure!.name;
+    descriptionController.text = adventure!.description;
+    dateController.text = adventure!.startDate.toString() + " - " + adventure!.endDate.toString();
+  }
 
   double getSize(context) {
     if (MediaQuery
@@ -1065,7 +1017,6 @@ class EditAlert extends State<_EditAlert> {
   }
 
   DateTimeRange? dates;
-  final _debouncer = Debouncer(milliseconds: 500);
   String? location;
   final initialDateRange = DateTimeRange(
     start: DateTime.now(),
@@ -1125,7 +1076,6 @@ class EditAlert extends State<_EditAlert> {
 
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
-  final locationController = TextEditingController();
   final dateController = TextEditingController();
 
   @override
@@ -1347,275 +1297,63 @@ class EditAlert extends State<_EditAlert> {
                                     .year - 5),
                                 lastDate: new DateTime(DateTime.now().year + 5)
                                 );
-                                if (picked!=null) {
                                 setState((){dates=picked;
                                 dateController.text=getText(picked);
                                 });
-                                }
                               },
                             )
                         ),
                         SizedBox(height: MediaQuery
                             .of(context)
                             .size
-                            .height * 0.01),
-                        SizedBox(
-                            width: 350,
-                            child: TextField(
-                                maxLines: 1,
-                                style: TextStyle(
-                                    color:
-                                    Theme
-                                        .of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color),
-                                controller: locationController,
-                                decoration: InputDecoration(
-                                    prefixIcon: Icon(Icons.location_on_rounded),
-                                    hintStyle: TextStyle(
-                                        fontSize: 15 * MediaQuery
-                                            .of(context)
-                                            .textScaleFactor,
-                                        color: Theme
-                                            .of(context)
-                                            .textTheme
-                                            .bodyText2!
-                                            .color),
-                                    filled: true,
-                                    enabledBorder: InputBorder.none,
-                                    errorBorder: InputBorder.none,
-                                    disabledBorder: InputBorder.none,
-                                    fillColor: Theme
-                                        .of(context)
-                                        .primaryColorLight,
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: new BorderSide(
-                                            color: Theme
+                            .height * 0.03),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                Spacer(flex: 2),
+                                Expanded(
+                                    flex: 3,
+                                    child: ElevatedButton(
+                                        child: Text("Edit",
+                                            style: new TextStyle(color: Theme
                                                 .of(context)
-                                                .accentColor)),
-                                    hintText: 'Find a Location'),
-                                onTap: () async {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                            backgroundColor: Theme
-                                                .of(context)
-                                                .primaryColorDark,
-                                            title: Stack(
-                                                clipBehavior: Clip.none,
-                                                children: <
-                                                    Widget>[
-                                                  Positioned(
-                                                    right: -40.0,
-                                                    top: -40.0,
-                                                    child: InkResponse(
-                                                      onTap: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: CircleAvatar(
-                                                        child: Icon(Icons.close,
-                                                            color: Theme
-                                                                .of(context)
-                                                                .primaryColorDark),
-                                                        backgroundColor: Theme
-                                                            .of(context)
-                                                            .accentColor,
-                                                      ),
-                                                    ),
-                                                  ), Column(
-                                                      mainAxisSize: MainAxisSize
-                                                          .min,
-                                                      children: [
-                                                        Text("Find Location",
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                              color: Theme
-                                                                  .of(context)
-                                                                  .textTheme
-                                                                  .bodyText1!
-                                                                  .color,
-                                                              fontSize: 25 *
-                                                                  MediaQuery
-                                                                      .of(
-                                                                      context)
-                                                                      .textScaleFactor,
-                                                              fontWeight: FontWeight
-                                                                  .bold,
-                                                            )),
-                                                        SizedBox(
-                                                            height: MediaQuery
-                                                                .of(context)
-                                                                .size
-                                                                .height * 0.01,
-                                                            width: 300),
-                                                        TextField(
-                                                          style: TextStyle(
-                                                              color:
-                                                              Theme
-                                                                  .of(context)
-                                                                  .textTheme
-                                                                  .bodyText1!
-                                                                  .color),
-                                                          decoration: InputDecoration(
-                                                              hintStyle: TextStyle(
-                                                                  color: Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .textTheme
-                                                                      .bodyText2!
-                                                                      .color,
-                                                                  fontSize: 15 *
-                                                                      MediaQuery
-                                                                          .of(
-                                                                          context)
-                                                                          .textScaleFactor),
-                                                              filled: true,
-                                                              enabledBorder: InputBorder
-                                                                  .none,
-                                                              errorBorder: InputBorder
-                                                                  .none,
-                                                              disabledBorder: InputBorder
-                                                                  .none,
-                                                              fillColor: Theme
-                                                                  .of(context)
-                                                                  .primaryColorLight,
-                                                              focusedBorder: OutlineInputBorder(
-                                                                  borderSide: new BorderSide(
-                                                                      color: Theme
-                                                                          .of(
-                                                                          context)
-                                                                          .accentColor)),
-                                                              hintText: 'Search for country or city'),
-                                                          onChanged: (value) {
-                                                            _debouncer.run(() {
-                                                              Provider.of<
-                                                                  LocationModel>(
-                                                                  context,
-                                                                  listen: false)
-                                                                  .fetchAllSuggestions(
-                                                                  value);
-                                                            });
-                                                          },
-                                                        ),
-                                                      ])
-                                                ]),
-                                            content:
-                                            Container(
-                                                width: 350,
-                                                child: Consumer<LocationModel>(
-                                                    builder: (context,
-                                                        locationModel,
-                                                        child) {
-                                                      return locationModel
-                                                          .suggestions !=
-                                                          null &&
-                                                          locationModel
-                                                              .suggestions!
-                                                              .length > 0 ?
-                                                      ListView.builder(
-                                                          shrinkWrap: true,
-                                                          itemCount: locationModel
-                                                              .suggestions!
-                                                              .length,
-                                                          itemBuilder: (context,
-                                                              index) {
-                                                            return
-                                                              InkWell(
-                                                                  hoverColor:
-                                                                  Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .primaryColorLight,
-                                                                  onTap: () {
-                                                                    setState(() {
-                                                                      this
-                                                                          .location =
-                                                                          locationModel
-                                                                              .suggestions!
-                                                                              .elementAt(
-                                                                              index)
-                                                                              .description;
-                                                                      locationController
-                                                                          .text =
-                                                                      this
-                                                                          .location!;
-                                                                    });
-                                                                    Navigator
-                                                                        .of(
-                                                                        context)
-                                                                        .pop();
-                                                                  },
-                                                                  child: Padding(
-                                                                      padding: EdgeInsets
-                                                                          .symmetric(
-                                                                          vertical: MediaQuery
-                                                                              .of(
-                                                                              context)
-                                                                              .size
-                                                                              .height *
-                                                                              0.01,
-                                                                          horizontal: MediaQuery
-                                                                              .of(
-                                                                              context)
-                                                                              .size
-                                                                              .width *
-                                                                              0.01),
-                                                                      child: Expanded(
-                                                                          child: Text(
-                                                                            locationModel
-                                                                                .suggestions!
-                                                                                .elementAt(
-                                                                                index)
-                                                                                .description,
-                                                                            style: TextStyle(
-                                                                                fontSize: 16 *
-                                                                                    MediaQuery
-                                                                                        .of(
-                                                                                        context)
-                                                                                        .textScaleFactor,
-                                                                                fontWeight: FontWeight
-                                                                                    .bold,
-                                                                                color: Theme
-                                                                                    .of(
-                                                                                    context)
-                                                                                    .textTheme
-                                                                                    .bodyText1!
-                                                                                    .color
-                                                                            ),
-                                                                          )
-                                                                      )));
-                                                          })
-                                                          : Container(
-                                                          height: 10);
-                                                    })));
-                                      }
-                                  );
-                                }))
+                                                .textTheme
+                                                .bodyText1!
+                                                .color)),
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Theme
+                                              .of(context)
+                                              .accentColor,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 3, vertical: 20),
+                                        ),
+                                        onPressed: () async {
+                                          await widget.adventuresModel.editAdventure(
+                                              adventure!.adventureId,
+                                              nameController.text,
+                                              dates == null ?
+                                              LocalDate.dateTime(DateTime.parse(adventure!.startDate))
+                                                  : LocalDate.dateTime(dates!.start),
+                                              dates == null ?
+                                              LocalDate.dateTime(DateTime.parse(adventure!.endDate))
+                                                  : LocalDate.dateTime(dates!.end),
+                                              descriptionController.text);
+                                          Navigator.of(context)
+                                              .pop(true);
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HomepageStartupCaller()));
+                                        })),
+                                Spacer(flex: 2),
                       ]
-                  )
-              )
-            ]
+                    )]
+                  ))
+              ]
             )
         )
     );
-  }
-}
-
-class Debouncer {
-  final int milliseconds;
-  VoidCallback? action;
-  Timer? _timer;
-
-  Debouncer({required this.milliseconds});
-
-  run(VoidCallback action) {
-    if (null != _timer) {
-      _timer!.cancel();
-    }
-    _timer = Timer(Duration(milliseconds: milliseconds), action);
   }
 }
