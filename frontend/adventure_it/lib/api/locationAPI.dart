@@ -5,6 +5,10 @@ import 'package:adventure_it/api/placeSearch.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:location/location.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:intl/intl.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'adventure.dart';
 import 'currentLocation.dart';
@@ -49,11 +53,37 @@ class LocationApi {
   static Future<http.Response> _getAllCurrentLocations(
       String adventureID) async {
     return http.get(
-        Uri.parse(mainApi + "/location/getAllCurrentLocations/" + adventureID));
+        Uri.parse("http://"+mainApi + "/location/getAllCurrentLocations/" + adventureID));
   }
 
-  static Future setCurrentLocation(String latitude, String longitude) async {
-    http.Response response = await _setCurrentLocation(latitude, longitude);
+  static Future<CurrentLocation> getCurrentLocation() async {
+    http.Response response = await _getCurrentLocation();
+
+    if (response.statusCode != 200) {
+      throw Exception(
+          'Failed to load the current location: ${response.body}');
+    }
+
+    CurrentLocation location = (CurrentLocation.fromJson(jsonDecode(response.body)));
+
+    return location;
+  }
+
+  static Future<http.Response> _getCurrentLocation() async {
+    return http.get(
+        Uri.parse("http://"+mainApi + "/location/getCurrentLocation/" + UserApi.getInstance().getUserProfile()!.userID));
+  }
+
+  static Future setCurrentLocation(LocationData location) async {
+    http.Response response = await _setCurrentLocation(location.latitude.toString(), location.longitude.toString());
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to set location for user: ${response.body}');
+    }
+  }
+
+  static Future setCurrentLocationTo0() async {
+    http.Response response = await _setCurrentLocation("0", "0");
 
     if (response.statusCode != 200) {
       throw Exception('Failed to set location for user: ${response.body}');
@@ -62,12 +92,23 @@ class LocationApi {
 
   static Future<http.Response> _setCurrentLocation(
       String latitude, String longitude) async {
-    return http.get(Uri.parse(mainApi +
-        "/storeCurrentLocation/{userID}/{latitude}/{longitude}" +
+    return http.get(Uri.parse("http://"+mainApi +
+        "/location/storeCurrentLocation/" +
         UserApi.getInstance().getUserProfile()!.userID +
         "/" +
         latitude +
         "/" +
         longitude));
   }
+
+  static Future<String> getAddress(String lat, String long) {
+    double latitude=double.parse(lat);
+    double longitude=double.parse(long);
+    final coordinates = new Coordinates(latitude, longitude);
+    Geocoder.local.findAddressesFromCoordinates(coordinates).then((value){
+     return value.elementAt(0).addressLine;
+    });
+    throw(" Error occurred");
+  }
+
 }

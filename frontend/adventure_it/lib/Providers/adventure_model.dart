@@ -1,9 +1,11 @@
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventureAPI.dart';
+import 'package:adventure_it/api/currentLocation.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:time_machine/time_machine.dart';
+import 'package:adventure_it/api/locationAPI.dart';
 
 class AdventuresModel extends ChangeNotifier {
   List<Adventure>? _adventures;
@@ -52,6 +54,7 @@ class AdventuresModel extends ChangeNotifier {
 class AdventureAttendeesModel extends ChangeNotifier {
   List<UserProfile>? _attendees;
   Adventure? currentAdventure;
+  List<CurrentLocation>? _locations;
 
   AdventureAttendeesModel(Adventure a) {
     this.currentAdventure = a;
@@ -60,12 +63,13 @@ class AdventureAttendeesModel extends ChangeNotifier {
   }
 
   List<UserProfile>? get attendees => _attendees?.toList();
+  List<CurrentLocation>? get locations => _locations?.toList();
 
   Future fetchAllAttendees() async {
     _attendees = await AdventureApi.getAttendeesOfAdventure(
         currentAdventure!.adventureId);
 
-    print(attendees.toString());
+    _locations= await LocationApi.getAllCurrentLocations(this.currentAdventure!);
 
     notifyListeners();
   }

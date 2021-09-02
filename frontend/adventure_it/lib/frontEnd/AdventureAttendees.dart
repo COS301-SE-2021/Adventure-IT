@@ -1,65 +1,80 @@
-import 'package:adventure_it/api/adventureAPI.dart';
+import 'package:adventure_it/api/currentLocation.dart';
+import 'package:adventure_it/api/locationAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:adventure_it/Providers/adventure_model.dart';
 import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/constants.dart';
 import 'package:provider/provider.dart';
 import 'AdventurePage.dart';
-import 'CreateAdventure.dart';
 import 'Navbar.dart';
+import 'package:location/location.dart';
 
 //Shows list of adventures
 //TODO: upper camel case error
 class AdventureAttendees extends StatelessWidget {
+  Adventure? currentAdventure;
+  List<UserProfile>? attendees;
+  Location location = Location();
+  LocationData? currentLocation;
+  CurrentLocation? current;
 
-Adventure? currentAdventure;
-List<UserProfile>? attendees;
+  AdventureAttendees(Adventure a) {
+    this.currentAdventure = a;
 
-AdventureAttendees(Adventure a) {
-  this.currentAdventure = a;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+
+    location.serviceEnabled().then((value) {
+      serviceEnabled = value;
+      if (!serviceEnabled) {
+        location.requestService().then((value) => serviceEnabled = value);
+      }
+      location.hasPermission().then((value) {
+        permissionGranted = value;
+        if (permissionGranted == PermissionStatus.denied) {
+          location
+              .requestPermission()
+              .then((value) => permissionGranted = value);
+        }
+        if (permissionGranted == PermissionStatus.granted && serviceEnabled) {
+          location.getLocation().then((value) {
+            currentLocation = value;
+            LocationApi.setCurrentLocation(currentLocation!);
+          });
+        }
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider.value(
+        value: AdventureAttendeesModel(this.currentAdventure!),
+        builder: (context, widget) => Scaffold(
+            drawer: NavDrawer(),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            appBar: AppBar(
+                title: Center(
+                    child: Text("Adventurers",
+                        style: new TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyText1!.color))),
+                backgroundColor: Theme.of(context).primaryColorDark),
+            body: Consumer<AdventureAttendeesModel>(
+                builder: (context, attendeeModel, child) {
+              if (attendeeModel.attendees == null &&
+                  attendeeModel.locations == null) {
+                return Center(
+                    child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            Theme.of(context).accentColor)));
+              } else {
+                return Carousel(this.currentAdventure!, attendeeModel);
+              }
+            })));
+  }
 }
-
-@override
-Widget build(BuildContext context) {
-  return ChangeNotifierProvider.value(
-      value: AdventureAttendeesModel(this.currentAdventure!),
-      builder: (context, widget) =>
-          Scaffold(
-              drawer: NavDrawer(),
-              backgroundColor: Theme
-                  .of(context)
-                  .scaffoldBackgroundColor,
-              appBar: AppBar(
-                  title: Center(
-                      child: Text("Adventurers",
-                          style: new TextStyle(
-                              color:
-                              Theme
-                                  .of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .color))),
-                  backgroundColor: Theme
-                      .of(context)
-                      .primaryColorDark),
-              body: Consumer<AdventureAttendeesModel>(
-                  builder: (context, attendeeModel, child) {
-                    if (attendeeModel.attendees == null) {
-                      return Center(
-                          child: CircularProgressIndicator(
-                              valueColor: new AlwaysStoppedAnimation<Color>(
-                                  Theme
-                                      .of(context)
-                                      .accentColor)));
-                    }
-                    else {
-                      return Carousel(this.currentAdventure!, attendeeModel);
-                    }
-                  })));
-}}
 
 class Carousel extends StatefulWidget {
   Adventure? currentAdventure;
@@ -71,11 +86,10 @@ class Carousel extends StatefulWidget {
   }
 
   @override
-  _Carousel createState() =>
-      _Carousel(this.currentAdventure!, this.model!);
+  _Carousel createState() => _Carousel(this.currentAdventure!, this.model!);
 }
 
-class _Carousel extends State <Carousel> {
+class _Carousel extends State<Carousel> {
   CarouselController carouselController = CarouselController();
   Adventure? currentAdventure;
   AdventureAttendeesModel? attendeeModel;
@@ -84,27 +98,62 @@ class _Carousel extends State <Carousel> {
   _Carousel(Adventure a, AdventureAttendeesModel m) {
     this.currentAdventure = a;
     this.attendeeModel = m;
-    this.i=(attendeeModel!.attendees!.length / 2).toInt();
+    this.i = (attendeeModel!.attendees!.length / 2).toInt();
+  }
+
+  List<String> months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
+  String getTime(String timestamp) {
+    DateTime date = DateTime.parse(timestamp);
+
+    String x = date.hour.toString() + ":";
+
+    if (date.minute < 10) {
+      x = x + "0" + date.minute.toString();
+    } else {
+      x = x + date.minute.toString();
+    }
+
+    x = x +
+        " " +
+        date.day.toString() +
+        " " +
+        months.elementAt(date.month - 1) +
+        " " +
+        date.year.toString();
+    return x;
+  }
+
+  String getAddress(CurrentLocation c)
+  {
+   LocationApi.getAddress(c.latitude,c.longitude).then((value){
+        return value;
+    });
+    return "Cannot be found";
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       SizedBox(
-        height: MediaQuery
-            .of(context)
-            .size
-            .height * 0.01,
+        height: MediaQuery.of(context).size.height * 0.01,
       ),
       Container(
-          height: MediaQuery
-              .of(context)
-              .size
-              .height * 0.25,
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
+          height: MediaQuery.of(context).size.height * 0.25,
+          width: MediaQuery.of(context).size.width,
           child: Expanded(
               flex: 1,
               child: CarouselSlider.builder(
@@ -118,30 +167,20 @@ class _Carousel extends State <Carousel> {
                   enableInfiniteScroll: false,
                 ),
                 itemCount: attendeeModel!.attendees!.length,
-                itemBuilder: (BuildContext context, int index,
-                    int pageViewIndex) =>
-                    Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height *
-                            0.15,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .height *
-                            0.15,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Theme
-                                  .of(context)
-                                  .accentColor,
-                              width: 2,
-                            ),
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: AssetImage("logo.png"),
-                                fit: BoxFit.cover))),
+                itemBuilder:
+                    (BuildContext context, int index, int pageViewIndex) =>
+                        Container(
+                            height: MediaQuery.of(context).size.height * 0.15,
+                            width: MediaQuery.of(context).size.height * 0.15,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Theme.of(context).accentColor,
+                                  width: 2,
+                                ),
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: AssetImage("logo.png"),
+                                    fit: BoxFit.cover))),
               ))),
       Row(children: [
         Expanded(child: Container()),
@@ -153,82 +192,116 @@ class _Carousel extends State <Carousel> {
                       i = attendeeModel!.attendees!.length - 1;
                       carouselController.previousPage();
                     });
-
                   } else {
                     setState(() {
                       i = i - 1;
                       carouselController.previousPage();
                     });
-
                   }
                 },
-                icon:
-                const Icon(Icons.arrow_left_rounded, size: 40),
-                color:
-                Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1!
-                    .color)),
+                icon: const Icon(Icons.arrow_left_rounded, size: 40),
+                color: Theme.of(context).textTheme.bodyText1!.color)),
         Expanded(
           flex: 10,
-          child: Container(
-              color: Theme
-                  .of(context)
-                  .primaryColorDark,
-              child: Text(
-                  attendeeModel!.attendees!.elementAt(i).username,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyText1!
-                        .color,
-                    fontSize: 30,
-                  ))),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            child: Container(
+                padding: EdgeInsets.all(10),
+                color: Theme.of(context).primaryColorDark,
+                child: Column(children: [
+                  Text(attendeeModel!.attendees!.elementAt(i).username,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText1!.color,
+                        fontSize: 30,
+                      )),
+                  Text(
+                      "Last Check In: " +
+                          getTime(attendeeModel!.locations!
+                              .elementAt(attendeeModel!.locations!
+                                  .indexWhere((element) {
+                                return element.userID ==
+                                    attendeeModel!.attendees!
+                                        .elementAt(i)
+                                        .userID;
+                              }))
+                              .timestamp),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText1!.color,
+                        fontSize: 10,
+                      )),
+                  Text("Address: "+getAddress(attendeeModel!.locations!
+        .elementAt(attendeeModel!.locations!
+        .indexWhere((element) {
+    return element.userID ==
+    attendeeModel!.attendees!
+        .elementAt(i)
+        .userID;
+    }))),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText1!.color,
+                        fontSize: 15,
+                      )),
+                  Text(
+                      "Latitude(" +
+                          attendeeModel!.locations!
+                              .elementAt(attendeeModel!.locations!
+                                  .indexWhere((element) {
+                                return element.userID ==
+                                    attendeeModel!.attendees!
+                                        .elementAt(i)
+                                        .userID;
+                              }))
+                              .latitude +
+                          ") , Latitude(" +
+                          attendeeModel!.locations!
+                              .elementAt(attendeeModel!.locations!
+                                  .indexWhere((element) {
+                                return element.userID ==
+                                    attendeeModel!.attendees!
+                                        .elementAt(i)
+                                        .userID;
+                              }))
+                              .longitude +
+                          ")",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText1!.color,
+                        fontSize: 15,
+                      ))
+                ])),
+          ),
         ),
         Expanded(
             child: IconButton(
                 onPressed: () {
-
                   if (i + 1 == attendeeModel!.attendees!.length) {
                     setState(() {
-                      i=0;
+                      i = 0;
                       carouselController.nextPage();
                     });
                   } else {
                     setState(() {
-                      i=i+1;
+                      i = i + 1;
                       carouselController.nextPage();
                     });
                   }
-
                 },
-                icon:
-                const Icon(Icons.arrow_right_rounded, size: 40),
-                color:
-                Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1!
-                    .color)),
+                icon: const Icon(Icons.arrow_right_rounded, size: 40),
+                color: Theme.of(context).textTheme.bodyText1!.color)),
         Expanded(child: Container()),
       ]),
       Expanded(child: Container()),
-      SizedBox(height: MediaQuery
-          .of(context)
-          .size
-          .height / 60),
+      SizedBox(height: MediaQuery.of(context).size.height / 60),
       Row(
         children: [
           Expanded(
             flex: 1,
             child: Container(
                 decoration: BoxDecoration(
-                    color: Theme
-                        .of(context)
-                        .accentColor,
+                    color: Theme.of(context).accentColor,
                     shape: BoxShape.circle),
                 child: IconButton(
                     onPressed: () {
@@ -236,23 +309,19 @@ class _Carousel extends State <Carousel> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  AdventurePage(
-                                      this.currentAdventure)));
+                                  AdventurePage(this.currentAdventure)));
                     },
-                    icon: const Icon(
-                        Icons.arrow_back_ios_new_rounded),
-                    color: Theme
-                        .of(context)
-                        .primaryColorDark)),
+                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                    color: Theme.of(context).primaryColorDark)),
           ),
-          Expanded(flex: 1, child: Container()),
+          Expanded(
+            flex: 1,
+            child: Container(),
+          ),
           Expanded(flex: 1, child: Container()),
         ],
       ),
-      SizedBox(height: MediaQuery
-          .of(context)
-          .size
-          .height / 60),
+      SizedBox(height: MediaQuery.of(context).size.height / 60),
     ]);
   }
 }
