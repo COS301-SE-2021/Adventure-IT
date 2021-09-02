@@ -8,6 +8,7 @@ import java.util.UUID;
 public class BudgetGraph {
     List<Node> nodes;
     Stack<Node> stack = new Stack<Node>();
+    private int i = 0;
 
     public BudgetGraph() {
         this.nodes = new ArrayList<Node>();
@@ -20,24 +21,24 @@ public class BudgetGraph {
     public List<Edge> summarizeGraph(){
         List<Node> cycleNodes = new ArrayList<Node>();
         for (int i = 0; i< nodes.size();i++){
-            nodes.get(i).setVisited(false);
+            nodes.get(i).setNum(0);
         }
-
-        //Test
         checkNode(nodes.get(0));
 
     }
 
-    public void checkNode(Node node){
-
-        if(!node.isVisited()){
-            stack.push(node);
-            for(int i =0;i< node.getEdges().size();i++){
-                Edge edge = (Edge)node.getEdges().get(i);
-                checkNode(edge.getPayee());
+    public Node checkNode(Node node){
+        for (int i = 0 ;i< node.getEdges().size();i++){
+            Edge edge = (Edge)node.getEdges().get(i);
+            if(edge.getPayee().getNum()==0){
+                edge.getPayee().setPred(node);
+                return checkNode(edge.getPayee());
+            }else if(edge.getPayee().getNum()!= Integer.MAX_VALUE){
+                edge.getPayee().setPred(node);
+                return edge.getPayee();
             }
-        }else{
-            return;
+            node.setNum(Integer.MAX_VALUE);
         }
+        return null;
     }
 }

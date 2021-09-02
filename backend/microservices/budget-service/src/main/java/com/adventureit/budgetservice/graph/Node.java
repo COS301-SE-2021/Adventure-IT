@@ -8,13 +8,12 @@ public class Node {
     private UUID userId;
     private String name;
     private List<Edge> edges;
-    private boolean visited;
+    private int num;
     private Node pred;
 
     public Node(UUID userId, String name) {
         this.userId = userId;
         this.name = name;
-        this.visited = false;
         this.edges = new ArrayList<Edge>();
     }
 
@@ -54,11 +53,11 @@ public class Node {
         this.edges = edges;
     }
 
-    public boolean isVisited() {
-        return visited;
+    public int getNum() {
+        return num;
     }
 
-    public void setVisited(boolean visited) {
-        this.visited = visited;
+    public void setNum(int num) {
+        this.num = num;
     }
 }
