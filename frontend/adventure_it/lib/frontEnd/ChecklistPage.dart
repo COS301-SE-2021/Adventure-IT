@@ -1,3 +1,4 @@
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:adventure_it/Providers/checklist_model.dart';
@@ -241,6 +242,8 @@ class GetChecklistEntries extends StatelessWidget {
     }
   }
 
+  String userID = UserApi.getInstance().getUserProfile()!.userID;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ChecklistEntryModel>(
@@ -479,7 +482,8 @@ class GetChecklistEntries extends StatelessWidget {
                         .editChecklistEntry(
                             checklistEntry.entries!.elementAt(index),
                             checklist!,
-                            editController.text);
+                            editController.text,
+                            userID);
                   }
                 }));
       } else {

@@ -210,7 +210,7 @@ class ChecklistApi {
   }
 
   static Future<http.Response> editChecklistEntry(
-      String id, String entryContainerID, String title) async {
+      String id, String entryContainerID, String title, String userId) async {
     final response = await http.post(
       Uri.parse('http://localhost:9999/checklist/editEntry'),
       headers: <String, String>{
@@ -219,7 +219,8 @@ class ChecklistApi {
       body: jsonEncode(<String, String>{
         'id': id,
         'title': title,
-        'entryContainerID': entryContainerID
+        'entryContainerID': entryContainerID,
+        'userId': userId
       }),
     );
 
@@ -238,9 +239,9 @@ class ChecklistApi {
     }
   }
 
-  static Future checklistEdit(ChecklistEntry c, String s) async {
+  static Future checklistEdit(ChecklistEntry c, String s, String userId) async {
     http.Response response =
-        (await editChecklistEntry(c.id, c.entryContainerID, s));
+        (await editChecklistEntry(c.id, c.entryContainerID, s, userId));
 
     if (response.statusCode != 200) {
       throw Exception('Failed to edit checklist entry ${response.body}');
