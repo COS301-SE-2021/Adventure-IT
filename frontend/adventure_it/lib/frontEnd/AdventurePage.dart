@@ -973,7 +973,7 @@ class EditAlert extends State<_EditAlert> {
   };
 
   //controllers for the form fields
-  String ownerID = UserApi.getInstance().getUserProfile()!.userID;
+  String userID = UserApi.getInstance().getUserProfile()!.userID;
 
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -1233,6 +1233,7 @@ class EditAlert extends State<_EditAlert> {
                                         await widget.adventuresModel
                                             .editAdventure(
                                             adventure!.adventureId,
+                                            userID,
                                             nameController.text,
                                             dates == null ?
                                             LocalDate.dateTime(DateTime.parse(

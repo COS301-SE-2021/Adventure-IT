@@ -121,6 +121,7 @@ class AdventureApi {
 
   static Future<http.Response> editAdventure(
       String adventureId,
+      String userId,
       String name,
       LocalDate startDate,
       LocalDate endDate,
@@ -132,6 +133,7 @@ class AdventureApi {
         },
         body: jsonEncode(<String, String>{
           'adventureId': adventureId,
+          'userId': userId,
           'name': name,
           'startDate': startDate.toString(),
           'endDate': endDate.toString(),
