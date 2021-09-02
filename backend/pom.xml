@@ -20,7 +20,6 @@
         <module>microservices/location-service</module>
         <module>microservices/media-service</module>
         <module>microservices/notification-service</module>
-        <module>microservices/sharing-service</module>
         <module>microservices/user-service</module>
         <module>microservices/checklist-service</module>
         <module>microservices/itinerary-service</module>
