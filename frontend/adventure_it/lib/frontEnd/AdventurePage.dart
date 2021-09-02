@@ -1176,28 +1176,28 @@ class EditAlert extends State<_EditAlert> {
                                             horizontal: 3, vertical: 20),
                                       ),
                                       onPressed: () async {
-                                        // await widget.adventuresModel
-                                        //     .editAdventure(
-                                        //     adventure!.adventureId,
-                                        //     nameController.text,
-                                        //     dates == null ?
-                                        //     LocalDate.dateTime(DateTime.parse(
-                                        //         adventure!.startDate))
-                                        //         : LocalDate.dateTime(
-                                        //         dates!.start),
-                                        //     dates == null ?
-                                        //     LocalDate.dateTime(DateTime.parse(
-                                        //         adventure!.endDate))
-                                        //         : LocalDate.dateTime(
-                                        //         dates!.end),
-                                        //     descriptionController.text);
-                                        // Navigator.of(context)
-                                        //     .pop(true);
-                                        // Navigator.pushReplacement(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) =>
-                                        //             HomepageStartupCaller()));
+                                        await widget.adventuresModel
+                                            .editAdventure(
+                                            adventure!.adventureId,
+                                            nameController.text,
+                                            dates == null ?
+                                            LocalDate.dateTime(DateTime.parse(
+                                                adventure!.startDate))
+                                                : LocalDate.dateTime(
+                                                dates!.start),
+                                            dates == null ?
+                                            LocalDate.dateTime(DateTime.parse(
+                                                adventure!.endDate))
+                                                : LocalDate.dateTime(
+                                                dates!.end),
+                                            descriptionController.text);
+                                        Navigator.of(context)
+                                            .pop(true);
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomepageStartupCaller()));
                                       })),
                               Spacer(flex: 2),
                             ]
