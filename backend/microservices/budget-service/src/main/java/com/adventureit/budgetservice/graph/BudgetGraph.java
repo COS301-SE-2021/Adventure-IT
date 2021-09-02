@@ -49,6 +49,7 @@ public class BudgetGraph {
                 }
             }
 
+            return summarizeEdges(cycleEdges);
 
 
         }
@@ -69,7 +70,21 @@ public class BudgetGraph {
         }
         return null;
     }
-    public List<Edge> summarizeEdges(List<Edge> edges){
 
+    public List<Edge> summarizeEdges(List<Edge> edges){
+        double smallest = Double.MAX_VALUE;
+        Edge lowest = null;
+        for (int i =0;i<edges.size();i++){
+            if(edges.get(i).getAmount()<smallest){
+                smallest= edges.get(i).getAmount();
+                lowest = edges.get(i);
+            }
+        }
+        edges.remove(lowest);
+        for (int j = 0 ; j<edges.size();j++){
+            double currentAmount = edges.get(j).getAmount();
+            edges.get(j).setAmount(currentAmount - smallest);
+        }
+        return edges;
     }
 }
