@@ -183,7 +183,7 @@ class ItineraryApi {
 
   static Future<http.Response> _getNextEntry(Adventure a) async {
     return http
-        .get(Uri.http(mainApi, '/itinerary/getNextEntry/' + a.adventureId));
+        .get(Uri.http(mainApi, '/itinerary/getNextEntry/' + a.adventureId+'/'+UserApi.getInstance().getUserProfile()!.userID));
   }
 
   static Future<CreateItineraryEntry> createItineraryEntry(
