@@ -115,7 +115,7 @@ public class MainControllerChatReroute {
 
         assert chat != null;
         if(chat.getMessages().isEmpty()){
-            throw new Exception("No messages available");
+         return list;
         }
 
         for (UUID ID:chat.getMessages()) {

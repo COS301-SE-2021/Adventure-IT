@@ -65,6 +65,8 @@ class AdventureAttendeesModel extends ChangeNotifier {
     _attendees = await AdventureApi.getAttendeesOfAdventure(
         currentAdventure!.adventureId);
 
+    print(attendees.toString());
+
     notifyListeners();
   }
 

@@ -23,7 +23,7 @@ class DirectChat extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => DirectChatModel(
-            user2!.userID, UserApi.getInstance().getUserProfile()!.userID),
+          UserApi.getInstance().getUserProfile()!.userID,user2!.userID),
         builder: (context, widget) => Scaffold(
             drawer: NavDrawer(),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
