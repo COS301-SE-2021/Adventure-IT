@@ -9,6 +9,7 @@ import com.adventureit.itinerary.repository.ItineraryEntryRepository;
 import com.adventureit.itinerary.repository.ItineraryRepository;
 import com.adventureit.itinerary.responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.responses.ItineraryResponseDTO;
+import com.adventureit.itinerary.responses.StartDateEndDateResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -304,6 +305,22 @@ public class ItineraryServiceImplementation implements ItineraryService {
         }
 
         return list;
+    }
+
+    @Override
+    public StartDateEndDateResponseDTO getStartAndEndDate(UUID id) {
+        Itinerary itinerary = itineraryRepository.findItineraryByIdAndDeleted(id, false);
+        if (itinerary == null) {
+            throw new NotFoundException("Get Start And End Date: Itinerary does not exist");
+        }
+
+        List<ItineraryEntry> entries = itineraryEntryRepository.findAllByEntryContainerID(id);
+        entries.sort(Comparator.comparing(ItineraryEntry::getTimestamp));
+
+        LocalDateTime startDate = entries.get(0).getTimestamp();
+        LocalDateTime endDate = entries.get(entries.size()-1).getTimestamp();
+
+        return new StartDateEndDateResponseDTO(startDate,endDate);
     }
 
     @Override

@@ -7,12 +7,18 @@ import java.util.UUID;
 public class EditChecklistEntryRequest {
     UUID id;
     UUID entryContainerID;
+    UUID userId;
     String title;
 
-    public EditChecklistEntryRequest(@JsonProperty("id") UUID id,@JsonProperty("entryContainerID") UUID entryContainerID, @JsonProperty("title") String title){
+    public EditChecklistEntryRequest(@JsonProperty("id") UUID id,@JsonProperty("entryContainerID") UUID entryContainerID,@JsonProperty("userId") UUID userId, @JsonProperty("title") String title){
         this.id = id;
         this.entryContainerID = entryContainerID;
         this.title = title;
+        this.userId = userId;
+    }
+
+    public UUID getUserId() {
+        return userId;
     }
 
     public String getTitle() {
