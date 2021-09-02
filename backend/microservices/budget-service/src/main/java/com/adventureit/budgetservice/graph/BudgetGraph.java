@@ -20,10 +20,38 @@ public class BudgetGraph {
 
     public List<Edge> summarizeGraph(){
         List<Node> cycleNodes = new ArrayList<Node>();
+        List<Edge> cycleEdges = new ArrayList<Edge>();
         for (int i = 0; i< nodes.size();i++){
             nodes.get(i).setNum(0);
         }
-        checkNode(nodes.get(0));
+        Node cycleNode = checkNode(nodes.get(0));
+        if(cycleNode == null){
+            return null;
+        }else{
+            String start = cycleNode.getName();
+            Node ptr = cycleNode.getPred();
+            for (int j = 0;j<ptr.getEdges().size();j++){
+                Edge tempEdge = (Edge)ptr.getEdges().get(j);
+                if(tempEdge.getPayee().getName().equals(cycleNode.getName())){
+                    cycleEdges.add(tempEdge);
+                }
+            }
+            cycleNodes.add(cycleNode);
+            while(ptr.getName()!=start){
+                cycleNodes.add(ptr);
+                String tempName = ptr.getName();
+                ptr = ptr.getPred();
+                for (int k = 0;k<ptr.getEdges().size();k++){
+                    Edge tempEdge = (Edge)ptr.getEdges().get(k);
+                    if(tempEdge.getPayee().getName().equals(tempName)){
+                        cycleEdges.add(tempEdge);
+                    }
+                }
+            }
+
+
+
+        }
 
     }
 
@@ -40,5 +68,8 @@ public class BudgetGraph {
             node.setNum(Integer.MAX_VALUE);
         }
         return null;
+    }
+    public List<Edge> summarizeEdges(List<Edge> edges){
+
     }
 }
