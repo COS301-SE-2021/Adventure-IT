@@ -9,6 +9,7 @@ import java.util.UUID;
 public class EditItineraryEntryRequest {
     RestTemplate restTemplate = new RestTemplate();
     UUID id;
+    UUID userId;
     UUID entryContainerID;
     String title;
     String description;
@@ -16,13 +17,18 @@ public class EditItineraryEntryRequest {
     UUID locationId;
     LocalDateTime timestamp;
 
-    public EditItineraryEntryRequest(@JsonProperty("id") UUID id,@JsonProperty("entryContainerID") UUID entryContainerID,@JsonProperty("title") String title,@JsonProperty("description") String description,@JsonProperty("location") String location,@JsonProperty("timestamp") LocalDateTime timestamp){
+    public EditItineraryEntryRequest(@JsonProperty("id") UUID id,@JsonProperty("entryContainerID") UUID entryContainerID,@JsonProperty("title") String title,@JsonProperty("description") String description,@JsonProperty("location") String location,@JsonProperty("timestamp") LocalDateTime timestamp,@JsonProperty("userId") UUID userId){
         this.id = id;
         this.entryContainerID = entryContainerID;
         this.title = title;
         this.description = description;
         this.location = location;
         this.timestamp = timestamp;
+        this.userId = userId;
+    }
+
+    public UUID getUserId() {
+        return userId;
     }
 
     public String getDescription() {

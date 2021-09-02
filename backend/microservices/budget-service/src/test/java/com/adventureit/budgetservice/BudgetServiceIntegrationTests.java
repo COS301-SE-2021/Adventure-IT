@@ -98,12 +98,13 @@ class BudgetServiceIntegrationTests {
         UUID budgetID = UUID.randomUUID();
         UUID entryID = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
         Budget budget1 = new Budget(budgetID,"Test Budget 1","Mock",UUID.randomUUID(),adventureID);
         UTUExpense expense = new UTUExpense(entryID,budgetID,100,"Mock","Mock",Category.OTHER,"User1","User2");
         budgetRepository.saveAndFlush(budget1);
         budgetEntryRepository.saveAndFlush(expense);
 
-        EditBudgetRequest request = new EditBudgetRequest(entryID,budgetID,100,"Mock","Mock",null,null);
+        EditBudgetRequest request = new EditBudgetRequest(entryID,userId,budgetID,100,"Mock","Mock",null,null);
         String response = this.restTemplate.postForObject("http://localhost:" + port + "/budget/editBudget", request,String.class);
         Assertions.assertEquals("Budget successfully edited!", response);
     }

@@ -2,6 +2,7 @@ package com.adventureit.itinerary.service;
 
 import com.adventureit.itinerary.responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.responses.ItineraryResponseDTO;
+import com.adventureit.itinerary.responses.StartDateEndDateResponseDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,4 +26,5 @@ public interface ItineraryService {
      ItineraryResponseDTO getItineraryById(UUID itineraryID);
      List<ItineraryResponseDTO> viewItinerariesByAdventure(UUID id);
      ItineraryResponseDTO getItineraryByEntryId(UUID itineraryEntryID);
+     StartDateEndDateResponseDTO getStartAndEndDate(UUID id);
 }
