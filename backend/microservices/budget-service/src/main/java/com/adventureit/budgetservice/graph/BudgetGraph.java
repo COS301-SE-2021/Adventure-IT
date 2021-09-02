@@ -16,8 +16,12 @@ public class BudgetGraph{
         this.nodes = new ArrayList<Node>();
     }
 
-    public generateGraph(List<BudgetEntry> budgets){
-
+    public List<Node> generateGraph(List<BudgetEntry> budgets){
+        String[] budgetNames = new String[budgets.size()];
+        BudgetEntry[]
+        for(int i = 0 ; i< budgets.size(); i++){
+            budgetNames[i] = budgets.get(i).getPayer();
+        }
     }
 
     public void addNode(Node newNode){
