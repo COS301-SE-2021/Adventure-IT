@@ -159,9 +159,9 @@ public class MainControllerItineraryReroute {
         restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/markEntry/"+id, String.class);
     }
 
-    @GetMapping("/getNextEntry/{id}")
-    public MainItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id){
-        ItineraryEntryResponseDTO entry = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getNextEntry/"+id, ItineraryEntryResponseDTO.class);
+    @GetMapping("/getNextEntry/{id}//{userID}")
+    public MainItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id,@PathVariable UUID userID){
+        ItineraryEntryResponseDTO entry = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getNextEntry/"+id+"/"+userID, ItineraryEntryResponseDTO.class);
         assert entry != null;
         LocationResponseDTO location = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/" + entry.getLocation(), LocationResponseDTO.class);
         return new MainItineraryEntryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getEntryContainerID(),entry.isCompleted(),location,entry.getTimestamp(), entry.getRegisteredUsers());
