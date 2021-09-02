@@ -1,17 +1,23 @@
 package com.adventureit.budgetservice.graph;
 
+import com.adventureit.budgetservice.entity.BudgetEntry;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import java.util.UUID;
 
-public class BudgetGraph {
+public class BudgetGraph{
     List<Node> nodes;
     Stack<Node> stack = new Stack<Node>();
     private int i = 0;
 
     public BudgetGraph() {
         this.nodes = new ArrayList<Node>();
+    }
+
+    public generateGraph(List<BudgetEntry> budgets){
+
     }
 
     public void addNode(Node newNode){
