@@ -48,6 +48,10 @@ public class CurrentLocationResponseDTO {
         return longitude;
     }
 
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
