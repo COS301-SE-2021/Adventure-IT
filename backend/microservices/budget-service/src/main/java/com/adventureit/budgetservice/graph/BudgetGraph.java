@@ -51,6 +51,9 @@ public class BudgetGraph{
 
 
 
+
+
+
         return budgets;
     }
 
@@ -61,6 +64,15 @@ public class BudgetGraph{
             }
         }
         return false;
+    }
+
+    public Node findNode(List<Node> nodes,String name){
+        for (int i = 0; i <nodes.size();i++){
+            if (nodes.get(i).getName().equals(name)){
+                return nodes.get(i);
+            }
+        }
+        return null;
     }
 
     public void addNode(Node newNode){
