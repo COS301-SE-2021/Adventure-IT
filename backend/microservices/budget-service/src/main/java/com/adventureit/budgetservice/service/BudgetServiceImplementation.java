@@ -135,6 +135,19 @@ public class BudgetServiceImplementation implements BudgetService {
 
         budgetEntryRepository.save(budgetEntry);
         budgetRepository.save(budget);
+        List <BudgetEntry> list = budgetEntryRepository.findBudgetEntryByEntryContainerID(entryContainerID);
+        BudgetGraph graph = new BudgetGraph();
+        graph.generateGraph(list);
+        List<Edge> list2 = graph.summarizeGraph();
+        for (int i =0 ; i<list2.size();i++){
+            if(list2.get(i).getAmount()==0){
+                budgetEntryRepository.removeBudgetEntryByBudgetEntryID(list2.get(i).getEntryId());
+            }else{
+                BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryID(list2.get(i).getEntryId());
+                entry.setAmount(list2.get(i).getAmount());
+                budgetEntryRepository.save(entry);
+            }
+        }
 
         return new AddUTOExpenseEntryResponse(true);
     }
