@@ -3,6 +3,7 @@ package com.adventureit.budgetservice.service;
 
 import com.adventureit.budgetservice.entity.*;
 import com.adventureit.budgetservice.exception.*;
+import com.adventureit.budgetservice.graph.BudgetGraph;
 import com.adventureit.budgetservice.repository.BudgetEntryRepository;
 import com.adventureit.budgetservice.repository.BudgetRepository;
 import com.adventureit.budgetservice.requests.*;
@@ -496,5 +497,13 @@ public class BudgetServiceImplementation implements BudgetService {
         if (description == null || description.equals("")) {
             throw new MalformedBudgetRequestException("Description not provided");
         }
+    }
+
+
+    public List<BudgetEntry> kevTest(){
+        UUID id = UUID.fromString("0dbf979f-245f-4aef-a6a5-93b230cfd236");
+        List <BudgetEntry> list = budgetEntryRepository.findBudgetEntryByEntryContainerID(id);
+        BudgetGraph graph = new BudgetGraph();
+        return graph.generateGraph(list);
     }
 }

@@ -2,10 +2,7 @@ package com.adventureit.budgetservice.graph;
 
 import com.adventureit.budgetservice.entity.BudgetEntry;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
-import java.util.UUID;
+import java.util.*;
 
 public class BudgetGraph{
     List<Node> nodes;
@@ -16,12 +13,35 @@ public class BudgetGraph{
         this.nodes = new ArrayList<Node>();
     }
 
-    public List<Node> generateGraph(List<BudgetEntry> budgets){
-        String[] budgetNames = new String[budgets.size()];
-        BudgetEntry[]
-        for(int i = 0 ; i< budgets.size(); i++){
-            budgetNames[i] = budgets.get(i).getPayer();
+    public List<BudgetEntry> generateGraph(List<BudgetEntry> budgets){
+        List<Node> nodes = new ArrayList<Node>();
+        budgets.sort(new Comparator<BudgetEntry>() {
+            @Override
+            public int compare(BudgetEntry o1, BudgetEntry o2) {
+                return o1.getPayer().compareTo(o2.getPayer());
+            }
+        });
+        String name = budgets.get(0).getPayer();
+        int counter = 0;
+        for(int i = 0; i<budgets.size();i++){
+            if(nodes.isEmpty()){
+                nodes.add(new Node(name));
+            }
+            else{
+                if(nodes.get(counter).getName().equals(budgets.get(i).getPayer())){
+
+                }
+            }
+
         }
+
+
+
+        return budgets;
+    }
+
+    public boolean checkList(String name){
+        for
     }
 
     public void addNode(Node newNode){

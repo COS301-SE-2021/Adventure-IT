@@ -11,8 +11,7 @@ public class Node {
     private int num;
     private Node pred;
 
-    public Node(UUID userId, String name) {
-        this.userId = userId;
+    public Node( String name) {
         this.name = name;
         this.edges = new ArrayList<Edge>();
     }
