@@ -82,14 +82,6 @@ class LocationApi {
     }
   }
 
-  static Future setCurrentLocationTo0() async {
-    http.Response response = await _setCurrentLocation("0", "0");
-
-    if (response.statusCode != 200) {
-      throw Exception('Failed to set location for user: ${response.body}');
-    }
-  }
-
   static Future<http.Response> _setCurrentLocation(
       String latitude, String longitude) async {
     return http.get(Uri.parse("http://"+mainApi +
@@ -99,16 +91,6 @@ class LocationApi {
         latitude +
         "/" +
         longitude));
-  }
-
-  static Future<String> getAddress(String lat, String long) {
-    double latitude=double.parse(lat);
-    double longitude=double.parse(long);
-    final coordinates = new Coordinates(latitude, longitude);
-    Geocoder.local.findAddressesFromCoordinates(coordinates).then((value){
-     return value.elementAt(0).addressLine;
-    });
-    throw(" Error occurred");
   }
 
 }

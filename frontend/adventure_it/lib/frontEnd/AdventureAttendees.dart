@@ -8,6 +8,7 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:provider/provider.dart';
 import 'AdventurePage.dart';
 import 'Navbar.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 //Shows list of adventures
@@ -63,7 +64,7 @@ class AdventureAttendees extends StatelessWidget {
                 backgroundColor: Theme.of(context).primaryColorDark),
             body: Consumer<AdventureAttendeesModel>(
                 builder: (context, attendeeModel, child) {
-              if (attendeeModel.attendees == null &&
+              if (attendeeModel.attendees == null ||
                   attendeeModel.locations == null) {
                 return Center(
                     child: CircularProgressIndicator(
@@ -94,6 +95,7 @@ class _Carousel extends State<Carousel> {
   Adventure? currentAdventure;
   AdventureAttendeesModel? attendeeModel;
   int i = 0;
+  final Set<Marker> _markers = {};
 
   _Carousel(Adventure a, AdventureAttendeesModel m) {
     this.currentAdventure = a;
@@ -116,7 +118,26 @@ class _Carousel extends State<Carousel> {
     "December"
   ];
 
+  LatLng getTarget(AdventureAttendeesModel attendeeModel) {
+    return LatLng(
+        double.parse(attendeeModel.locations!
+            .elementAt(attendeeModel.locations!.indexWhere((element) {
+              return element.userID ==
+                  attendeeModel.attendees!.elementAt(i).userID;
+            }))
+            .latitude),
+        double.parse(attendeeModel.locations!
+            .elementAt(attendeeModel.locations!.indexWhere((element) {
+              return element.userID ==
+                  attendeeModel.attendees!.elementAt(i).userID;
+            }))
+            .longitude));
+  }
+
+  GoogleMapController? controller;
+
   String getTime(String timestamp) {
+    print(timestamp);
     DateTime date = DateTime.parse(timestamp);
 
     String x = date.hour.toString() + ":";
@@ -135,14 +156,6 @@ class _Carousel extends State<Carousel> {
         " " +
         date.year.toString();
     return x;
-  }
-
-  String getAddress(CurrentLocation c)
-  {
-   LocationApi.getAddress(c.latitude,c.longitude).then((value){
-        return value;
-    });
-    return "Cannot be found";
   }
 
   @override
@@ -183,7 +196,7 @@ class _Carousel extends State<Carousel> {
                                     fit: BoxFit.cover))),
               ))),
       Row(children: [
-        Expanded(child: Container()),
+        Spacer(),
         Expanded(
             child: IconButton(
                 onPressed: () {
@@ -201,6 +214,7 @@ class _Carousel extends State<Carousel> {
                 },
                 icon: const Icon(Icons.arrow_left_rounded, size: 40),
                 color: Theme.of(context).textTheme.bodyText1!.color)),
+        Spacer(),
         Expanded(
           flex: 10,
           child: ClipRRect(
@@ -229,20 +243,7 @@ class _Carousel extends State<Carousel> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color,
-                        fontSize: 10,
-                      )),
-                  Text("Address: "+getAddress(attendeeModel!.locations!
-        .elementAt(attendeeModel!.locations!
-        .indexWhere((element) {
-    return element.userID ==
-    attendeeModel!.attendees!
-        .elementAt(i)
-        .userID;
-    }))),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color,
-                        fontSize: 15,
+                        fontSize: 12,
                       )),
                   Text(
                       "Latitude(" +
@@ -255,7 +256,7 @@ class _Carousel extends State<Carousel> {
                                         .userID;
                               }))
                               .latitude +
-                          ") , Latitude(" +
+                          ") , Longitude (" +
                           attendeeModel!.locations!
                               .elementAt(attendeeModel!.locations!
                                   .indexWhere((element) {
@@ -269,11 +270,12 @@ class _Carousel extends State<Carousel> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color,
-                        fontSize: 15,
+                        fontSize: 12,
                       ))
                 ])),
           ),
         ),
+        Spacer(),
         Expanded(
             child: IconButton(
                 onPressed: () {
@@ -291,9 +293,28 @@ class _Carousel extends State<Carousel> {
                 },
                 icon: const Icon(Icons.arrow_right_rounded, size: 40),
                 color: Theme.of(context).textTheme.bodyText1!.color)),
-        Expanded(child: Container()),
+        Spacer(),
       ]),
-      Expanded(child: Container()),
+      Expanded(
+              child: GoogleMap(
+                  mapType: MapType.normal,
+                  zoomGesturesEnabled: true,
+                  markers: _markers,
+                  onMapCreated: (GoogleMapController controller) {
+                    setState(() {
+                      _markers.clear();
+                      _markers.add(Marker(
+                          markerId: MarkerId(attendeeModel!.attendees!.elementAt(i).username),
+                          infoWindow: InfoWindow(
+                              title: attendeeModel!.attendees!.elementAt(i).username
+                          ),
+                          position: getTarget(attendeeModel!)));
+                    });
+                  },
+                  initialCameraPosition: CameraPosition(
+                      zoom: 15, target: getTarget(attendeeModel!)
+
+                  ))),
       SizedBox(height: MediaQuery.of(context).size.height / 60),
       Row(
         children: [

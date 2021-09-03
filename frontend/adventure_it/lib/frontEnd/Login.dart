@@ -124,8 +124,6 @@ class Login extends State<LoginCaller> {
                         currentLocation = value;
                         LocationApi.setCurrentLocation(currentLocation!);
                       });
-                    } else {
-                      LocationApi.setCurrentLocationTo0();
                     }
 
                     Navigator.pushReplacement(
