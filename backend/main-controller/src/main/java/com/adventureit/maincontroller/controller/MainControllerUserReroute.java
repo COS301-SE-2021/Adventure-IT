@@ -24,10 +24,12 @@ public class MainControllerUserReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final String IP = "http://localhost";
     private final String userPort = "9002";
+    private final String locationPort = "9006";
 
 
     @PostMapping(value = "registerUser", consumes = "application/json", produces = "application/json")
     public RegisterUserResponse registerUser(@RequestBody RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
+        restTemplate.getForObject(IP + ":" + locationPort + "/location/storeCurrentLocation/" + req.getUserID() + "/" + 0 + "/" + 0, String.class);
         return restTemplate.postForObject(IP + ":" + userPort + "/user/registerUser/",req, RegisterUserResponse.class);
     }
 
@@ -35,7 +37,6 @@ public class MainControllerUserReroute {
     public String test(){
         return "User controller is working";
     }
-
     @PostMapping(value = "updatePicture", consumes = "application/json", produces = "application/json")
     public String updatePicture(@RequestBody UpdatePictureRequest req){
        return restTemplate.postForObject(IP + ":" + userPort + "/user/updatePicture/",req, String.class);

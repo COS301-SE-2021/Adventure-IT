@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -170,6 +171,7 @@ public class LocationServiceImplementation implements LocationService {
         else {
             currentLocation.setLatitude(latitude);
             currentLocation.setLongitude(longitude);
+            currentLocation.setTimestamp(LocalDateTime.now());
             currentLocationRepository.save(currentLocation);
         }
     }
