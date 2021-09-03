@@ -191,4 +191,14 @@ public class MainControllerItineraryReroute {
     public StartDateEndDateResponseDTO getStartDateEndDate(@PathVariable UUID id){
         return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getStartDateEndDate/"+id, StartDateEndDateResponseDTO.class);
     }
+
+    @GetMapping("/registerUser/{userID}/{entryID}")
+    public String registerUser(@PathVariable UUID userID,@PathVariable UUID entryID){
+       return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/registerUser/"+ entryID + "/" + userID, String.class);
+    }
+
+    @GetMapping("/deregisterUser/{userID}/{entryID}")
+    public String deregisterUser(@PathVariable UUID userID,@PathVariable UUID entryID){
+        return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/deregisterUser/"+ entryID + "/" + userID, String.class);
+    }
 }

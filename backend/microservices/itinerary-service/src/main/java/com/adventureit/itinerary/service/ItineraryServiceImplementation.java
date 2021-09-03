@@ -353,6 +353,23 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
+    public String deregisterUser(UUID entryID, UUID userID) {
+        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryById(entryID);
+        if(entry == null){
+            throw new NotFoundException("Deregister User: Entry does not exist");
+        }
+
+        if(!entry.getRegisteredUsers().containsKey(userID)){
+            throw new RegistrationException("Deregister User: User not registered");
+        }
+
+        entry.getRegisteredUsers().remove(userID);
+        itineraryEntryRepository.save(entry);
+
+        return "Successfully Deregistered";
+    }
+
+    @Override
     public StartDateEndDateResponseDTO getStartAndEndDate(UUID id) {
         Itinerary itinerary = itineraryRepository.findItineraryByIdAndDeleted(id, false);
         if (itinerary == null) {

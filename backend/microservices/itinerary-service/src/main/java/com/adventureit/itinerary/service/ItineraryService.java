@@ -29,5 +29,6 @@ public interface ItineraryService {
      ItineraryEntryResponseDTO getItineraryEntry(UUID id);
      void checkUserOff(UUID entryID, UUID userID);
      String registerUser(UUID entryID, UUID userID);
+     String deregisterUser(UUID entryID, UUID userID);
      StartDateEndDateResponseDTO getStartAndEndDate(UUID id);
 }

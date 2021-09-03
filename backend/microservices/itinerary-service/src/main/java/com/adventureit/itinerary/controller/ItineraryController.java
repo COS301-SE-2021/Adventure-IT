@@ -109,6 +109,16 @@ public class ItineraryController {
         return itineraryServiceImplementation.getItineraryEntry(entryId);
     }
 
+    @GetMapping("/registerUser/{entryId}/{userID}")
+    public String registerUser(@PathVariable UUID entryId, @PathVariable UUID userID){
+        return itineraryServiceImplementation.registerUser(entryId,userID);
+    }
+
+    @GetMapping("/deregisterUser/{entryId}/{userID}")
+    public String deregisterUser(@PathVariable UUID entryId, @PathVariable UUID userID){
+        return itineraryServiceImplementation.deregisterUser(entryId,userID);
+    }
+
     @GetMapping("/checkUserOff/{entryId}/{userID}")
     public void checkUserOff(@PathVariable UUID entryId, @PathVariable UUID userID){
         itineraryServiceImplementation.checkUserOff(entryId,userID);
