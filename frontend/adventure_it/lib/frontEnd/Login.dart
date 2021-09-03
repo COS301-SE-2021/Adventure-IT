@@ -120,6 +120,7 @@ class Login extends State<LoginCaller> {
                     LocationData? currentLocation;
                     if (permissionGranted == PermissionStatus.granted &&
                         serviceEnabled) {
+                      location.changeSettings(accuracy: LocationAccuracy.high);
                       location.getLocation().then((value) {
                         currentLocation = value;
                         LocationApi.setCurrentLocation(currentLocation!);

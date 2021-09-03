@@ -96,6 +96,7 @@ class _Carousel extends State<Carousel> {
   AdventureAttendeesModel? attendeeModel;
   int i = 0;
   final Set<Marker> _markers = {};
+  CameraPosition? _initialPosition;
 
   _Carousel(Adventure a, AdventureAttendeesModel m) {
     this.currentAdventure = a;
@@ -204,11 +205,35 @@ class _Carousel extends State<Carousel> {
                     setState(() {
                       i = attendeeModel!.attendees!.length - 1;
                       carouselController.previousPage();
+                      _markers.clear();
+                      _markers.add(Marker(
+                          markerId: MarkerId(
+                              attendeeModel!.attendees!.elementAt(i).username),
+                          infoWindow: InfoWindow(
+                              title: attendeeModel!.attendees!
+                                  .elementAt(i)
+                                  .username),
+                          position: getTarget(attendeeModel!)));
+                      _initialPosition = CameraPosition(
+                          zoom: 15, target: getTarget(attendeeModel!));
+                      controller!.animateCamera(CameraUpdate.newCameraPosition(_initialPosition!));
                     });
                   } else {
                     setState(() {
                       i = i - 1;
                       carouselController.previousPage();
+                      _markers.clear();
+                      _markers.add(Marker(
+                          markerId: MarkerId(
+                              attendeeModel!.attendees!.elementAt(i).username),
+                          infoWindow: InfoWindow(
+                              title: attendeeModel!.attendees!
+                                  .elementAt(i)
+                                  .username),
+                          position: getTarget(attendeeModel!)));
+                      _initialPosition = CameraPosition(
+                          zoom: 15, target: getTarget(attendeeModel!));
+                      controller!.animateCamera(CameraUpdate.newCameraPosition(_initialPosition!));
                     });
                   }
                 },
@@ -283,11 +308,36 @@ class _Carousel extends State<Carousel> {
                     setState(() {
                       i = 0;
                       carouselController.nextPage();
+                      _markers.clear();
+                      _markers.add(Marker(
+                          markerId: MarkerId(
+                              attendeeModel!.attendees!.elementAt(i).username),
+                          infoWindow: InfoWindow(
+                              title: attendeeModel!.attendees!
+                                  .elementAt(i)
+                                  .username),
+                          position: getTarget(attendeeModel!)));
+                      _initialPosition = CameraPosition(
+                          zoom: 15, target: getTarget(attendeeModel!));
+                      controller!.animateCamera(CameraUpdate.newCameraPosition(_initialPosition!));
                     });
                   } else {
                     setState(() {
                       i = i + 1;
                       carouselController.nextPage();
+                      _markers.clear();
+                      _markers.add(Marker(
+                          markerId: MarkerId(
+                              attendeeModel!.attendees!.elementAt(i).username),
+                          infoWindow: InfoWindow(
+                              title: attendeeModel!.attendees!
+                                  .elementAt(i)
+                                  .username),
+                          position: getTarget(attendeeModel!)));
+                      _initialPosition = CameraPosition(
+                          zoom: 15, target: getTarget(attendeeModel!));
+                      controller!.animateCamera(CameraUpdate.newCameraPosition(_initialPosition!));
+
                     });
                   }
                 },
@@ -296,25 +346,40 @@ class _Carousel extends State<Carousel> {
         Spacer(),
       ]),
       Expanded(
-              child: GoogleMap(
-                  mapType: MapType.normal,
-                  zoomGesturesEnabled: true,
-                  markers: _markers,
-                  onMapCreated: (GoogleMapController controller) {
-                    setState(() {
-                      _markers.clear();
-                      _markers.add(Marker(
-                          markerId: MarkerId(attendeeModel!.attendees!.elementAt(i).username),
-                          infoWindow: InfoWindow(
-                              title: attendeeModel!.attendees!.elementAt(i).username
-                          ),
-                          position: getTarget(attendeeModel!)));
-                    });
-                  },
-                  initialCameraPosition: CameraPosition(
-                      zoom: 15, target: getTarget(attendeeModel!)
-
-                  ))),
+        child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Theme.of(context).accentColor,
+                      width: 2,
+                    )),
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: GoogleMap(
+                    mapType: MapType.normal,
+                    zoomGesturesEnabled: true,
+                    scrollGesturesEnabled: true,
+                    markers: _markers,
+                    onMapCreated: (GoogleMapController controller) {
+                      setState(() {
+                        _markers.clear();
+                        _markers.add(Marker(
+                            markerId: MarkerId(attendeeModel!.attendees!
+                                .elementAt(i)
+                                .username),
+                            infoWindow: InfoWindow(
+                                title: attendeeModel!.attendees!
+                                    .elementAt(i)
+                                    .username),
+                            position: getTarget(attendeeModel!)));
+                        this.controller=controller;
+                      });
+                    },
+                    initialCameraPosition: _initialPosition == null
+                        ? CameraPosition(
+                            zoom: 15, target: getTarget(attendeeModel!))
+                        : _initialPosition!))),
+      ),
       SizedBox(height: MediaQuery.of(context).size.height / 60),
       Row(
         children: [
