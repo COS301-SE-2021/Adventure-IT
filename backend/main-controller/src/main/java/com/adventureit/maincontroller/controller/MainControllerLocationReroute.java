@@ -47,8 +47,8 @@ public class MainControllerLocationReroute {
         assert users != null;
         List<CurrentLocationResponseDTO> list = new ArrayList<>();
 
-        for (UUID u:users) {
-            list.add(restTemplate.getForObject(IP + ":" + locationPort + "/location/getCurrentLocation/" + u, CurrentLocationResponseDTO.class));
+        for (int i = 0; i<users.size();i++) {
+            list.add(restTemplate.getForObject(IP + ":" + locationPort + "/location/getCurrentLocation/" + users.get(i), CurrentLocationResponseDTO.class));
         }
 
         return list;

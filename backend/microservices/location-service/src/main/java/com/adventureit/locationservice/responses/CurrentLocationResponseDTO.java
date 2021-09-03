@@ -10,6 +10,8 @@ public class CurrentLocationResponseDTO {
     String longitude;
     LocalDateTime timestamp;
 
+    public CurrentLocationResponseDTO(){}
+
     public CurrentLocationResponseDTO(UUID id, UUID userID, String latitude, String longitude, LocalDateTime timestamp) {
         this.id = id;
         this.userID = userID;
