@@ -1,6 +1,8 @@
 package com.adventureit.budgetservice.graph;
 
 import com.adventureit.budgetservice.entity.BudgetEntry;
+import com.adventureit.budgetservice.entity.UTOExpense;
+import com.adventureit.budgetservice.entity.UTUExpense;
 
 import java.util.*;
 
@@ -28,8 +30,20 @@ public class BudgetGraph{
                 nodes.add(new Node(name));
             }
             else{
-                if(nodes.get(counter).getName().equals(budgets.get(i).getPayer())){
+                if(budgets.get(i).getClass().equals(UTUExpense.class)){
+                    UTUExpense entry = (UTUExpense)budgets.get(i);
+                    if(!checkList(entry.getPayee(),nodes)){
+                        nodes.add(new Node(entry.getPayee()));
+                    }
+                }else if(budgets.get(i).getClass().equals(UTOExpense.class)){
+                    UTOExpense entry = (UTOExpense)budgets.get(i);
+                    if(!checkList(budgets.get(i).getPayer(),nodes)){
+                        nodes.add(new Node(entry.getPayee()));
+                    }
+                }
 
+                if(!checkList(budgets.get(i).getPayer(),nodes)){
+                    nodes.add(new Node(budgets.get(i).getPayer()));
                 }
             }
 
@@ -40,8 +54,13 @@ public class BudgetGraph{
         return budgets;
     }
 
-    public boolean checkList(String name){
-        for
+    public boolean checkList(String name, List<Node> list){
+        for(int i = 0;i< list.size();i++){
+            if(list.get(i).getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void addNode(Node newNode){
