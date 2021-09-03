@@ -3,6 +3,7 @@ package com.adventureit.budgetservice.controllers;
 import com.adventureit.budgetservice.entity.Budget;
 import com.adventureit.budgetservice.entity.BudgetEntry;
 import com.adventureit.budgetservice.exception.BudgetNotFoundException;
+import com.adventureit.budgetservice.graph.Node;
 import com.adventureit.budgetservice.repository.BudgetRepository;
 import com.adventureit.budgetservice.requests.*;
 import com.adventureit.budgetservice.responses.*;
@@ -133,7 +134,7 @@ public class BudgetController {
 	}
 
 	@GetMapping("/kevinTest")
-	public List<BudgetEntry> test() {
+	public List<Node> test() {
 		return budgetServiceImplementation.kevTest();
 	}
 

@@ -12,10 +12,13 @@ public class BudgetGraph{
     private int i = 0;
 
     public BudgetGraph() {
-        this.nodes = new ArrayList<Node>();
     }
 
-    public List<BudgetEntry> generateGraph(List<BudgetEntry> budgets){
+    public void setGraph(List<Node> nodes){
+        this.nodes = nodes;
+    }
+
+    public List<Node> generateGraph(List<BudgetEntry> budgets){
         List<Node> nodes = new ArrayList<Node>();
         budgets.sort(new Comparator<BudgetEntry>() {
             @Override
@@ -24,12 +27,26 @@ public class BudgetGraph{
             }
         });
         String name = budgets.get(0).getPayer();
-        int counter = 0;
+
+
         for(int i = 0; i<budgets.size();i++){
             if(nodes.isEmpty()){
                 nodes.add(new Node(name));
+
+                if(budgets.get(0).getClass().equals(UTUExpense.class)){
+                    UTUExpense entry = (UTUExpense)budgets.get(0);
+                    if(!checkList(entry.getPayee(),nodes)){
+                        nodes.add(new Node(entry.getPayee()));
+                    }
+                }else if(budgets.get(0).getClass().equals(UTOExpense.class)){
+                    UTOExpense entry = (UTOExpense)budgets.get(0);
+                    if(!checkList(entry.getPayee(),nodes)){
+                        nodes.add(new Node(entry.getPayee()));
+                    }
+                }
             }
             else{
+
                 if(budgets.get(i).getClass().equals(UTUExpense.class)){
                     UTUExpense entry = (UTUExpense)budgets.get(i);
                     if(!checkList(entry.getPayee(),nodes)){
@@ -37,7 +54,7 @@ public class BudgetGraph{
                     }
                 }else if(budgets.get(i).getClass().equals(UTOExpense.class)){
                     UTOExpense entry = (UTOExpense)budgets.get(i);
-                    if(!checkList(budgets.get(i).getPayer(),nodes)){
+                    if(!checkList(entry.getPayee(),nodes)){
                         nodes.add(new Node(entry.getPayee()));
                     }
                 }
@@ -51,10 +68,40 @@ public class BudgetGraph{
 
 
 
+        for( int i = 0 ; i< budgets.size();i++){
+            Node payer = null;
+            Node payee = null;
+            if (budgets.get(i).getClass().equals(UTUExpense.class)){
+                UTUExpense entry = (UTUExpense) budgets.get(i);
+                payee = findNode(nodes, entry.getPayee());
+                payer = findNode(nodes,entry.getPayer());
+                payer.addEdge(new Edge(payer,payee,entry.getAmount(),entry.getId()));
+            }
+            else if (budgets.get(i).getClass().equals(UTOExpense.class)){
+                UTOExpense entry = (UTOExpense) budgets.get(i);
+                payee = findNode(nodes, entry.getPayee());
+                payer = findNode(nodes,entry.getPayer());
+                payer.addEdge(new Edge(payer,payee,entry.getAmount(),entry.getId()));
+            }
+        }
+
+        System.out.println(nodes.size());
+        for (int i = 0; i<nodes.size();i++){
+            System.out.println("______________________________________________________________");
+            System.out.println(nodes.get(i).getName());
+            for (int j = 0 ; j <nodes.get(i).getEdges().size();j++ ){
+                System.out.println();
+                Edge edge = (Edge)nodes.get(i).getEdges().get(j);
+                System.out.println(edge.getPayer().getName()+"pays "+edge.getAmount()+" to "+edge.getPayee().getName());
+            }
+        }
 
 
 
-        return budgets;
+
+
+
+        return nodes;
     }
 
     public boolean checkList(String name, List<Node> list){
@@ -75,9 +122,6 @@ public class BudgetGraph{
         return null;
     }
 
-    public void addNode(Node newNode){
-        nodes.add(newNode);
-    }
 
     public List<Edge> summarizeGraph(){
         List<Node> cycleNodes = new ArrayList<Node>();
