@@ -3,6 +3,7 @@ package com.adventureit.budgetservice.controllers;
 import com.adventureit.budgetservice.entity.Budget;
 import com.adventureit.budgetservice.entity.BudgetEntry;
 import com.adventureit.budgetservice.exception.BudgetNotFoundException;
+import com.adventureit.budgetservice.graph.Edge;
 import com.adventureit.budgetservice.graph.Node;
 import com.adventureit.budgetservice.repository.BudgetRepository;
 import com.adventureit.budgetservice.requests.*;
@@ -134,8 +135,13 @@ public class BudgetController {
 	}
 
 	@GetMapping("/kevinTest")
-	public List<Node> test() {
-		return budgetServiceImplementation.kevTest();
+	public List<Edge> test() {
+		List<Edge> edges = budgetServiceImplementation.kevTest();
+		for (int i = 0;i<edges.size();i++){
+			System.out.println("UUID: "+edges.get(i).getEntryId());
+			System.out.println(edges.get(i).getPayer().getName()+" pays "+edges.get(i).getAmount()+ " to "+edges.get(i).getPayee().getName());
+		}
+		return edges;
 	}
 
 }

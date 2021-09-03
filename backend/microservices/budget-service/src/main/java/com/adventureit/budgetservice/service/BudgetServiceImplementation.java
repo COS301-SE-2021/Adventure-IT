@@ -4,6 +4,7 @@ package com.adventureit.budgetservice.service;
 import com.adventureit.budgetservice.entity.*;
 import com.adventureit.budgetservice.exception.*;
 import com.adventureit.budgetservice.graph.BudgetGraph;
+import com.adventureit.budgetservice.graph.Edge;
 import com.adventureit.budgetservice.graph.Node;
 import com.adventureit.budgetservice.repository.BudgetEntryRepository;
 import com.adventureit.budgetservice.repository.BudgetRepository;
@@ -79,6 +80,19 @@ public class BudgetServiceImplementation implements BudgetService {
 
         budgetEntryRepository.save(budgetEntry);
         budgetRepository.save(budget);
+        List <BudgetEntry> list = budgetEntryRepository.findBudgetEntryByEntryContainerID(entryContainerID);
+        BudgetGraph graph = new BudgetGraph();
+        graph.generateGraph(list);
+        List<Edge> list2 = graph.summarizeGraph();
+        for (int i =0 ; i<list2.size();i++){
+            if(list2.get(i).getAmount()==0){
+                budgetEntryRepository.removeBudgetEntryByBudgetEntryID(list2.get(i).getEntryId());
+            }else{
+                BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryID(list2.get(i).getEntryId());
+                entry.setAmount(list2.get(i).getAmount());
+                budgetEntryRepository.save(entry);
+            }
+        }
         return new AddUTUExpenseEntryResponse(true);
     }
 
@@ -121,6 +135,7 @@ public class BudgetServiceImplementation implements BudgetService {
 
         budgetEntryRepository.save(budgetEntry);
         budgetRepository.save(budget);
+
         return new AddUTOExpenseEntryResponse(true);
     }
 
@@ -501,10 +516,11 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
 
-    public List<Node> kevTest(){
-        UUID id = UUID.fromString("0dbf979f-245f-4aef-a6a5-93b230cfd236");
+    public List<Edge> kevTest(){
+        UUID id = UUID.fromString("cacdc6e0-a8a5-4367-a513-f06d467495e1");
         List <BudgetEntry> list = budgetEntryRepository.findBudgetEntryByEntryContainerID(id);
         BudgetGraph graph = new BudgetGraph();
-        return graph.generateGraph(list);
+        graph.generateGraph(list);
+        return graph.summarizeGraph();
     }
 }

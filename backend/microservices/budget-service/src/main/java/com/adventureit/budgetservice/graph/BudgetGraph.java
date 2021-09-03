@@ -85,22 +85,22 @@ public class BudgetGraph{
             }
         }
 
-        System.out.println(nodes.size());
-        for (int i = 0; i<nodes.size();i++){
-            System.out.println("______________________________________________________________");
-            System.out.println(nodes.get(i).getName());
-            for (int j = 0 ; j <nodes.get(i).getEdges().size();j++ ){
-                System.out.println();
-                Edge edge = (Edge)nodes.get(i).getEdges().get(j);
-                System.out.println(edge.getPayer().getName()+"pays "+edge.getAmount()+" to "+edge.getPayee().getName());
-            }
-        }
+//        System.out.println(nodes.size());
+//        for (int i = 0; i<nodes.size();i++){
+//            System.out.println("______________________________________________________________");
+//            System.out.println(nodes.get(i).getName());
+//            for (int j = 0 ; j <nodes.get(i).getEdges().size();j++ ){
+//                System.out.println();
+//                Edge edge = (Edge)nodes.get(i).getEdges().get(j);
+//                System.out.println(edge.getPayer().getName()+"pays "+edge.getAmount()+" to "+edge.getPayee().getName());
+//            }
+//        }
 
 
 
 
 
-
+        this.nodes = nodes;
         return nodes;
     }
 
@@ -124,12 +124,15 @@ public class BudgetGraph{
 
 
     public List<Edge> summarizeGraph(){
-        List<Node> cycleNodes = new ArrayList<Node>();
-        List<Edge> cycleEdges = new ArrayList<Edge>();
-        for (int i = 0; i< nodes.size();i++){
-            nodes.get(i).setNum(0);
+        List<Node> cycleNodes = new ArrayList<>();
+        List<Edge> cycleEdges = new ArrayList<>();
+
+        for (Node node : this.nodes) {
+            node.setNum(0);
         }
-        Node cycleNode = checkNode(nodes.get(0));
+
+        Node cycleNode = checkNode(this.nodes.get(0));
+        System.out.println(cycleNode.getName());
         if(cycleNode == null){
             return null;
         }else{
@@ -141,8 +144,9 @@ public class BudgetGraph{
                     cycleEdges.add(tempEdge);
                 }
             }
+
             cycleNodes.add(cycleNode);
-            while(ptr.getName()!=start){
+            while(!ptr.getName().equals(start)){
                 cycleNodes.add(ptr);
                 String tempName = ptr.getName();
                 ptr = ptr.getPred();
@@ -153,7 +157,7 @@ public class BudgetGraph{
                     }
                 }
             }
-
+            System.out.println(cycleEdges.size());
             return summarizeEdges(cycleEdges);
 
 
@@ -162,6 +166,7 @@ public class BudgetGraph{
     }
 
     public Node checkNode(Node node){
+        node.setNum(this.i++);
         for (int i = 0 ;i< node.getEdges().size();i++){
             Edge edge = (Edge)node.getEdges().get(i);
             if(edge.getPayee().getNum()==0){
@@ -171,9 +176,10 @@ public class BudgetGraph{
                 edge.getPayee().setPred(node);
                 return edge.getPayee();
             }
-            node.setNum(Integer.MAX_VALUE);
+
         }
-        return null;
+        node.setNum(Integer.MAX_VALUE);
+        return node;
     }
 
     public List<Edge> summarizeEdges(List<Edge> edges){
@@ -185,7 +191,7 @@ public class BudgetGraph{
                 lowest = edges.get(i);
             }
         }
-        edges.remove(lowest);
+
         for (int j = 0 ; j<edges.size();j++){
             double currentAmount = edges.get(j).getAmount();
             edges.get(j).setAmount(currentAmount - smallest);
