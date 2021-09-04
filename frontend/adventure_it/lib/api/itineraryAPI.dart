@@ -262,4 +262,28 @@ class ItineraryApi {
       throw Exception('Failed to edit an itinerary entry.');
     }
   }
+
+  static Future<List<String>?> getStartAndEndDate(Itinerary i) async {
+    http.Response response = await _getStartAndEndDate(i);
+
+    if (response.statusCode != 200) {
+      return null;
+    }
+
+    if(response.body.length==0)
+      {
+        return null;
+      }
+
+    String start=response.body[0].toString();
+    String end=response.body[1].toString();
+    List<String> list=[start,end];
+    return list;
+  }
+
+  static Future<http.Response> _getStartAndEndDate(Itinerary i) async {
+    return http
+        .get(Uri.http(mainApi, '/itinerary/getStartDateEndDate/'+i.id));
+  }
+
 }

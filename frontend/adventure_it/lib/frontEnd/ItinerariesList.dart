@@ -12,8 +12,6 @@ import 'ItineraryPage.dart';
 import 'ItineraryTrash.dart';
 import 'Navbar.dart';
 
-
-
 class Itineraries extends StatelessWidget {
   late final Adventure? adventure;
 
@@ -34,7 +32,8 @@ class Itineraries extends StatelessWidget {
                         style: new TextStyle(
                             color:
                                 Theme.of(context).textTheme.bodyText1!.color))),
-                iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
+                iconTheme: IconThemeData(
+                    color: Theme.of(context).textTheme.bodyText1!.color),
                 backgroundColor: Theme.of(context).primaryColorDark),
             body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -152,38 +151,31 @@ class _ItinerariesList extends State<ItinerariesList> {
     });
   }
 
-  String getTime(ItineraryEntry next)
-  {
-    String dateTime=DateTime.parse(next.timestamp).day.toString()+" "+months[DateTime.parse(next.timestamp).month-1]+" "+DateTime.parse(next.timestamp).year.toString()+" ";
+  String getTime(ItineraryEntry next) {
+    String dateTime = DateTime.parse(next.timestamp).day.toString() +
+        " " +
+        months[DateTime.parse(next.timestamp).month - 1] +
+        " " +
+        DateTime.parse(next.timestamp).year.toString() +
+        " ";
 
-       String hour=DateTime.parse(next.timestamp)
-            .hour
-            .toString();
+    String hour = DateTime.parse(next.timestamp).hour.toString();
 
-       if(hour.length<2)
-         {
-           dateTime=dateTime+"0"+hour+":";
-         }
-       else
-         {
-           dateTime=dateTime+hour+":";
-         }
-
-        String minute=DateTime.parse(next.timestamp)
-            .minute
-            .toString();
-
-    if(minute.length<2)
-    {
-      dateTime=dateTime+"0"+minute;
+    if (hour.length < 2) {
+      dateTime = dateTime + "0" + hour + ":";
+    } else {
+      dateTime = dateTime + hour + ":";
     }
-    else
-    {
-      dateTime=dateTime+minute;
+
+    String minute = DateTime.parse(next.timestamp).minute.toString();
+
+    if (minute.length < 2) {
+      dateTime = dateTime + "0" + minute;
+    } else {
+      dateTime = dateTime + minute;
     }
 
     return dateTime;
-
   }
 
   @override
@@ -273,8 +265,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                             )),
                             Spacer(),
                             Expanded(
-                              child: Text(
-                                  getTime(next!),
+                              child: Text(getTime(next!),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 15 *
@@ -348,33 +339,46 @@ class _ItinerariesList extends State<ItinerariesList> {
                                     Expanded(
                                       flex: 4,
                                       child: ListTile(
-                                        title: Text(
-                                            itineraryModel.itineraries!
-                                                .elementAt(index)
-                                                .title,
-                                            style: TextStyle(
-                                                fontSize: 25 *
-                                                    MediaQuery.of(context)
-                                                        .textScaleFactor,
-                                                fontWeight: FontWeight.bold,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color)),
-                                        // subtitle:Text(adventures.elementAt(index).description),
-                                        subtitle: Text(
-                                            itineraryModel.itineraries!
-                                                .elementAt(index)
-                                                .description,
-                                            style: TextStyle(
-                                                fontSize: 15 *
-                                                    MediaQuery.of(context)
-                                                        .textScaleFactor,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color)),
-                                      ),
+                                          title: Text(
+                                              itineraryModel.itineraries!
+                                                  .elementAt(index)
+                                                  .title,
+                                              style: TextStyle(
+                                                  fontSize: 25 *
+                                                      MediaQuery.of(context)
+                                                          .textScaleFactor,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color)),
+                                          // subtitle:Text(adventures.elementAt(index).description),
+                                          subtitle: Column(children: [
+                                            Text(
+                                                itineraryModel
+                                                    .itineraries!
+                                                    .elementAt(index)
+                                                    .description,
+                                                style: TextStyle(
+                                                    fontSize: 15 *
+                                                        MediaQuery.of(context)
+                                                            .textScaleFactor,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color)),
+                                            Text(
+                                                itineraryModel.dates!
+                                                    .elementAt(index),
+                                                style: TextStyle(
+                                                    fontSize: 11 *
+                                                        MediaQuery.of(context)
+                                                            .textScaleFactor,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color))
+                                          ])),
                                     ),
                                   ],
                                 ),
@@ -435,7 +439,8 @@ class _AlertBox extends State<AlertBox> {
         content: Container(
           height: getSize(context),
           child: Stack(
-            clipBehavior: Clip.none, children: <Widget>[
+            clipBehavior: Clip.none,
+            children: <Widget>[
               Positioned(
                 right: -40.0,
                 top: -40.0,
@@ -522,7 +527,7 @@ class _AlertBox extends State<AlertBox> {
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context).accentColor),
+                            primary: Theme.of(context).accentColor),
                         child: Text("Create",
                             style: TextStyle(
                                 color: Theme.of(context)
