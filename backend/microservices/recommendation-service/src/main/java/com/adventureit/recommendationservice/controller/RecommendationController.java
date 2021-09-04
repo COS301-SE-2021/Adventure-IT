@@ -7,6 +7,7 @@ import com.adventureit.recommendationservice.exception.UserNotFoundException;
 import com.adventureit.recommendationservice.request.CreateLocationRequest;
 import com.adventureit.recommendationservice.request.CreateUserRequest;
 import com.adventureit.recommendationservice.service.RecommendationService;
+import org.ejml.data.DMatrixSparseCSC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -90,10 +91,13 @@ public class RecommendationController {
     // User requests arbitrary number of recommendations
     @GetMapping("get/{userId}/{numRecommendations}")
     public List<UUID> getUserRecommendations(@PathVariable UUID userId, @PathVariable int numRecommendations){
-        // Ensure user exists
-        // Check if user has likes/visits
-        // Run recommendation algorithm
-        // Return results
+        // Get number of locations
+        // Get number of users
+
+        // For each user (row) add an entry with their "rating" of the corresponding location (col)
+
+        DMatrixSparseCSC testMatrix = new DMatrixSparseCSC(5, 10);
+
         return new ArrayList<UUID>(){};
     }
 }
