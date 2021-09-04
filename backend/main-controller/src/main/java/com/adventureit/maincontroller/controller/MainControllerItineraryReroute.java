@@ -15,6 +15,7 @@ import com.adventureit.maincontroller.exceptions.InvalidItineraryEntryException;
 import com.adventureit.maincontroller.responses.MainItineraryEntryResponseDTO;
 import com.adventureit.timelineservice.entity.TimelineType;
 import com.adventureit.timelineservice.requests.CreateTimelineRequest;
+import com.adventureit.userservice.entities.Users;
 import com.adventureit.userservice.responses.GetUserByUUIDDTO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -203,7 +204,22 @@ public class MainControllerItineraryReroute {
     }
 
     @GetMapping("/getRegisteredUsers/{id}")
-    public Map<UUID,Boolean> getRegisteredUsers(@PathVariable UUID id){
-        return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getRegisteredUsers/"+ id, Map.class);
+    public List<GetUserByUUIDDTO> getRegisteredUsers(@PathVariable UUID id) {
+        Map<UUID, Boolean> list = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getRegisteredUsers/" + id, Map.class);
+        assert list != null;
+        List<GetUserByUUIDDTO> users = new ArrayList<>();
+        Users user;
+
+        if (list.size() == 0) {
+            return users;
+        }
+
+        for (Map.Entry<UUID, Boolean> entry : list.entrySet()){
+            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + entry.getKey(), Users.class);
+            assert user != null;
+            users.add(new GetUserByUUIDDTO(user.getUserID(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail()));
+        }
+
+        return users;
     }
 }
