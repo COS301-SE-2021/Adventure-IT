@@ -2080,7 +2080,7 @@ class GetReport extends StatelessWidget {
                                                   .size
                                                   .width / 9,
                                               child: Text(
-                                                  " To ",
+                                                  " to ",
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       fontSize: 10 *
