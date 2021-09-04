@@ -132,9 +132,8 @@ public class BudgetGraph{
         }
 
         Node cycleNode = checkNode(this.nodes.get(0));
-        System.out.println(cycleNode.getName());
         if(cycleNode == null){
-            return null;
+            return cycleEdges;
         }else{
             String start = cycleNode.getName();
             Node ptr = cycleNode.getPred();
@@ -157,7 +156,6 @@ public class BudgetGraph{
                     }
                 }
             }
-            System.out.println(cycleEdges.size());
             return summarizeEdges(cycleEdges);
 
 
@@ -179,7 +177,7 @@ public class BudgetGraph{
 
         }
         node.setNum(Integer.MAX_VALUE);
-        return node;
+        return null;
     }
 
     public List<Edge> summarizeEdges(List<Edge> edges){
