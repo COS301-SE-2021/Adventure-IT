@@ -10,6 +10,7 @@ CreateChecklistEntry _$CreateChecklistEntryFromJson(Map<String, dynamic> json) {
   return CreateChecklistEntry(
     title: json['title'] as String,
     entryContainerID: json['entryContainerID'] as String,
+    userId: json['userId'] as String,
   );
 }
 
@@ -18,4 +19,5 @@ Map<String, dynamic> _$CreateChecklistEntryToJson(
     <String, dynamic>{
       'entryContainerID': instance.entryContainerID,
       'title': instance.title,
+      'userId': instance.userId,
     };

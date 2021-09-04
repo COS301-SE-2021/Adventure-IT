@@ -6,10 +6,12 @@ part 'createChecklistEntry.g.dart';
 class CreateChecklistEntry {
   final String entryContainerID;
   final String title;
+  final String userId;
 
   CreateChecklistEntry({
     required this.title,
     required this.entryContainerID,
+    required this.userId,
   });
 
   factory CreateChecklistEntry.fromJson(Map<String, dynamic> json) =>
