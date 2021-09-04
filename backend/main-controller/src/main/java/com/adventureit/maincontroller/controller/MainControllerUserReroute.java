@@ -120,6 +120,11 @@ public class MainControllerUserReroute {
     public String editUseProfile(@RequestBody EditUserProfileRequest req){
         return restTemplate.postForObject(IP + ":" + userPort + "/user/editUserProfile", req,String.class);
     }
+
+    @GetMapping("setEmergencyContact/{userId}/{email}")
+    public String setEmergencyContact(@PathVariable UUID userId, @PathVariable String email){
+        return restTemplate.getForObject(IP + ":" + userPort + "/user/setEmergencyContact/"+ userId+"/"+email, String.class);
+    }
 }
 
 

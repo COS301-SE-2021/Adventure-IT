@@ -25,6 +25,7 @@ public class Users  {
     private String firstname;
     private String lastname;
     private String email;
+    private String emergencyContact;
     private Boolean enabled = false;
     @Lob
     private byte [] profilePicture;
@@ -119,6 +120,14 @@ public class Users  {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public String getEmergencyContact() {
+        return emergencyContact;
+    }
+
+    public void setEmergencyContact(String emergencyContact) {
+        this.emergencyContact = emergencyContact;
     }
 
     public void setEmail(String email) {
