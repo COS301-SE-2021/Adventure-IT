@@ -181,7 +181,7 @@ class ChecklistApi {
   }
 
   static Future<CreateChecklistEntry> createChecklistEntry(
-      String title, String entryContainerID) async {
+      String title, String entryContainerID, String userId) async {
     final response = await http.post(
       Uri.parse('http://localhost:9999/checklist/addEntry'),
       headers: <String, String>{
@@ -189,7 +189,8 @@ class ChecklistApi {
       },
       body: jsonEncode(<String, String>{
         'title': title,
-        'entryContainerID': entryContainerID
+        'entryContainerID': entryContainerID,
+        'userId': userId
       }),
     );
 
@@ -199,7 +200,7 @@ class ChecklistApi {
       print('Status code: ${response.statusCode}');
       print('Body: ${response.body}');
       return CreateChecklistEntry(
-          title: title, entryContainerID: entryContainerID);
+          title: title, entryContainerID: entryContainerID, userId: userId);
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.

@@ -194,6 +194,8 @@ class _AlertBox extends State<AlertBox> {
 
   _AlertBox(this.currentItinerary);
 
+  String userID = UserApi.getInstance().getUserProfile()!.userID;
+
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final locationController = TextEditingController();
@@ -681,7 +683,8 @@ class _AlertBox extends State<AlertBox> {
                             currentItinerary!, currentItinerary!.id,
                             titleController.text, descriptionController.text,
                             location!, (date!.toString()).substring(0, 10) +
-                            "T" + (time.toString()).substring(10, 15));
+                            "T" + (time.toString()).substring(10, 15),
+                            userID);
                         Navigator.pop(context);
                       },
                     ),

@@ -109,8 +109,8 @@ class ItineraryEntryModel extends ChangeNotifier {
   }
 
   Future addItineraryEntry(
-      Itinerary i, String a, String b, String c, String d, String e) async {
-    await ItineraryApi.createItineraryEntry(a, b, c, d, e);
+      Itinerary i, String a, String b, String c, String d, String e, String f) async {
+    await ItineraryApi.createItineraryEntry(a, b, c, d, e, f);
 
     await fetchAllEntries(i);
   }

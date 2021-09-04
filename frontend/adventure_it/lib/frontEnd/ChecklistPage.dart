@@ -132,6 +132,8 @@ class _AlertBox extends State<AlertBox> {
     }
   }
 
+  String userID = UserApi.getInstance().getUserProfile()!.userID;
+
   final ChecklistApi api = new ChecklistApi();
   final descriptionController = TextEditingController();
 
@@ -211,7 +213,8 @@ class _AlertBox extends State<AlertBox> {
                           await widget.checklistEntryModel.addChecklistEntry(
                               currentChecklist!,
                               descriptionController.text,
-                              currentChecklist!.id);
+                              currentChecklist!.id,
+                              userID);
                           Navigator.pop(context);
                         },
                       ),

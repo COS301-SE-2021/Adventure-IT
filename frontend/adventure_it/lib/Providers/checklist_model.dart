@@ -109,8 +109,8 @@ class ChecklistEntryModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future addChecklistEntry(Checklist c, String a, String b) async {
-    await ChecklistApi.createChecklistEntry(a, b);
+  Future addChecklistEntry(Checklist c, String a, String b, String u) async {
+    await ChecklistApi.createChecklistEntry(a, b, u);
 
     await fetchAllEntries(c);
   }

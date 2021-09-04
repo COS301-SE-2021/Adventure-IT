@@ -191,7 +191,8 @@ class ItineraryApi {
       String title,
       String description,
       String location,
-      String timestamp) async {
+      String timestamp,
+      String userId) async {
     final response = await http.post(
       Uri.parse('http://localhost:9999/itinerary/addEntry'), //get uri
       headers: <String, String>{
@@ -202,7 +203,8 @@ class ItineraryApi {
         'title': title,
         'description': description,
         'location': location,
-        'timestamp': timestamp
+        'timestamp': timestamp,
+        'userId': userId
       }),
     );
 
@@ -216,7 +218,8 @@ class ItineraryApi {
           title: title,
           description: description,
           location: location,
-          timestamp: timestamp);
+          timestamp: timestamp,
+          userId: userId);
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
