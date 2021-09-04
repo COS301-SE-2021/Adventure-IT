@@ -91,88 +91,10 @@ class DeletedItineraryList extends StatelessWidget {
                 child: ListView(children: [
                   ...List.generate(
                       deletedItineraryModel.deletedItineraries!.length,
-                      (index) => Dismissible(
-                          background: Container(
-                            // color: Theme.of(context).primaryColor,
-                            //   margin: const EdgeInsets.all(5),
-                            padding: EdgeInsets.all(
-                                MediaQuery.of(context).size.height / 60),
-                            child: Row(
-                              children: [
-                                new Spacer(),
-                                Icon(Icons.delete,
-                                    color: Theme.of(context).accentColor,
-                                    size: 35 *
-                                        MediaQuery.of(context).textScaleFactor),
-                              ],
-                            ),
-                          ),
-                          direction: DismissDirection.endToStart,
-                          key: Key(deletedItineraryModel.deletedItineraries!
-                              .elementAt(index)
-                              .id),
-                          child: Card(
+                      (index) => Card(
                               color: Theme.of(context).primaryColorDark,
                               child: InkWell(
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                              backgroundColor: Theme.of(context)
-                                                  .primaryColorDark,
-                                              title: Text(
-                                                'Confirm Restoration',
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color),
-                                              ),
-                                              content: Text(
-                                                'Are you sure you want to restore this itinerary to your adventure?',
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color),
-                                              ),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  child: Text('Restore',
-                                                      style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyText1!
-                                                                  .color)),
-                                                  onPressed: () {
-                                                    Provider.of<DeletedItineraryModel>(
-                                                            c!,
-                                                            listen: false)
-                                                        .restoreItinerary(
-                                                            deletedItineraryModel
-                                                                .deletedItineraries!
-                                                                .elementAt(
-                                                                    index));
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                                TextButton(
-                                                  child: Text('Cancel',
-                                                      style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyText1!
-                                                                  .color)),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                              ]);
-                                        });
-                                  },
+
                                   hoverColor:
                                       Theme.of(context).primaryColorLight,
                                   child: Container(
@@ -204,7 +126,6 @@ class DeletedItineraryList extends StatelessWidget {
                                                         .textTheme
                                                         .bodyText1!
                                                         .color)),
-                                            // subtitle:Text(adventures.elementAt(index).description),
                                             subtitle: Text(
                                                 deletedItineraryModel
                                                     .deletedItineraries!
@@ -220,62 +141,180 @@ class DeletedItineraryList extends StatelessWidget {
                                                         .color)),
                                           ),
                                         ),
+                                        PopupMenuButton(
+                                            color: Theme.of(context).textTheme.bodyText1!.color,
+                                            onSelected: (value) {
+                                              if (value == 1) {
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                          backgroundColor:
+                                                          Theme.of(context)
+                                                              .primaryColorDark,
+                                                          title: Text(
+                                                            'Confirm Restoration',
+                                                            style: TextStyle(
+                                                                color: Theme.of(
+                                                                    context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color),
+                                                          ),
+                                                          content: Text(
+                                                            'Are you sure you want to restore this itinerary to your adventure?',
+                                                            style: TextStyle(
+                                                                color: Theme.of(
+                                                                    context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color),
+                                                          ),
+                                                          actions: <Widget>[
+                                                            TextButton(
+                                                              child: Text('Restore',
+                                                                  style: TextStyle(
+                                                                      color: Theme.of(
+                                                                          context)
+                                                                          .textTheme
+                                                                          .bodyText1!
+                                                                          .color)),
+                                                              onPressed: () {
+                                                                Provider.of<DeletedItineraryModel>(
+                                                                    c!,
+                                                                    listen:
+                                                                    false)
+                                                                    .restoreItinerary(
+                                                                    deletedItineraryModel
+                                                                        .deletedItineraries!
+                                                                        .elementAt(
+                                                                        index));
+                                                                Navigator.of(
+                                                                    context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                            TextButton(
+                                                              child: Text('Cancel',
+                                                                  style: TextStyle(
+                                                                      color: Theme.of(
+                                                                          context)
+                                                                          .textTheme
+                                                                          .bodyText1!
+                                                                          .color)),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                    context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                          ]);
+                                                    });
+                                              }
+                                              if (value == 2) {
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                          backgroundColor:
+                                                          Theme.of(context)
+                                                              .primaryColorDark,
+                                                          title: Text(
+                                                            'Confirm Removal',
+                                                            style: TextStyle(
+                                                                color: Theme.of(
+                                                                    context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color),
+                                                          ),
+                                                          content: Text(
+                                                            'Are you sure you want to remove this itinerary forever?',
+                                                            style: TextStyle(
+                                                                color: Theme.of(
+                                                                    context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color),
+                                                          ),
+                                                          actions: <Widget>[
+                                                            TextButton(
+                                                              child: Text('Remove',
+                                                                  style: TextStyle(
+                                                                      color: Theme.of(
+                                                                          context)
+                                                                          .textTheme
+                                                                          .bodyText1!
+                                                                          .color)),
+                                                              onPressed: () {
+                                                                Provider.of<DeletedItineraryModel>(
+                                                                    c!,
+                                                                    listen:
+                                                                    false)
+                                                                    .hardDeleteItinerary(
+                                                                    deletedItineraryModel
+                                                                        .deletedItineraries!
+                                                                        .elementAt(
+                                                                        index));
+                                                                Navigator.of(
+                                                                    context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                            TextButton(
+                                                              child: Text('Cancel',
+                                                                  style: TextStyle(
+                                                                      color: Theme.of(
+                                                                          context)
+                                                                          .textTheme
+                                                                          .bodyText1!
+                                                                          .color)),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                    context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                          ]);
+                                                    });
+                                              }
+                                            },
+                                            itemBuilder: (context) => [
+                                              PopupMenuItem(
+                                                  value: 1,
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .all(5),
+                                                        child: Icon(Icons
+                                                            .restore_from_trash_rounded, color: Theme.of(context).textTheme.bodyText2!.color),
+                                                      ),
+                                                      Text("Restore", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color))
+                                                    ],
+                                                  )),
+                                              PopupMenuItem(
+                                                  value: 2,
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .all(5),
+                                                        child: Icon(Icons
+                                                            .delete_forever_rounded,color: Theme.of(context).textTheme.bodyText2!.color),
+                                                      ),
+                                                      Text("Delete", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color))
+                                                    ],
+                                                  ))
+                                            ]),
                                       ],
                                     ),
                                   ))),
-                          confirmDismiss: (DismissDirection direction) async {
-                            return await showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor:
-                                      Theme.of(context).primaryColorDark,
-                                  title: Text("Confirm Removal",
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color)),
-                                  content: Text(
-                                      "Are you sure you want to remove this itinerary for definite?",
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color)),
-                                  actions: <Widget>[
-                                    TextButton(
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(true),
-                                        child: Text("Remove",
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color))),
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(false),
-                                      child: Text("Cancel",
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color)),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          onDismissed: (direction) {
-                            Provider.of<DeletedItineraryModel>(context,
-                                    listen: false)
-                                .hardDeleteItinerary(deletedItineraryModel
-                                    .deletedItineraries!
-                                    .elementAt(index));
-                          }))
-                ]));
+    )]));
           } else {
             return Center(
                 child: Text("It seems you're not one for recycling...",

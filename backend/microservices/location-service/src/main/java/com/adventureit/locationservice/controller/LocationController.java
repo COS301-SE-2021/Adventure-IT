@@ -1,5 +1,6 @@
 package com.adventureit.locationservice.controller;
 
+import com.adventureit.locationservice.responses.CurrentLocationResponseDTO;
 import com.adventureit.locationservice.responses.LocationResponseDTO;
 import com.adventureit.locationservice.service.LocationServiceImplementation;
 import org.json.JSONException;
@@ -29,5 +30,20 @@ public class LocationController {
     @GetMapping(value = "/getLocation/{id}")
     public LocationResponseDTO getLocation(@PathVariable UUID id){
         return locationServiceImplementation.getLocation(id);
+    }
+
+    @GetMapping(value = "/getCurrentLocation/{userID}")
+    public CurrentLocationResponseDTO getCurrentLocation(@PathVariable UUID userID){
+        return locationServiceImplementation.getCurrentLocation(userID);
+    }
+
+    @GetMapping(value = "/storeCurrentLocation/{userID}/{latitude}/{longitude}")
+    public void storeCurrentLocation(@PathVariable UUID userID, @PathVariable String latitude, @PathVariable String longitude){
+        locationServiceImplementation.storeCurrentLocation(userID,latitude,longitude);
+    }
+
+    @GetMapping(value = "/compareGeography/{id}/{userID}")
+    public void compareGeography(@PathVariable UUID id, @PathVariable UUID userID) throws JSONException, IOException {
+        locationServiceImplementation.compareGeometry(id,userID);
     }
 }

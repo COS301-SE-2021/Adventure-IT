@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:adventure_it/Providers/adventure_model.dart';
+import 'package:adventure_it/frontEnd/AdventureAttendees.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -546,19 +547,30 @@ class AdventurePage extends StatelessWidget {
                             Spacer(),
                             Expanded(
                               flex: 8,
+                              child: Container(),
+                            ),
+                            Spacer(),
+                            Expanded(
+                              flex: 8,
                               child: ClipRRect(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0)),
+                                BorderRadius.all(Radius.circular(20.0)),
                                 child: MaterialButton(
                                   hoverColor: Theme.of(context)
                                       .primaryColorLight
                                       .withOpacity(0),
                                   padding: EdgeInsets.symmetric(
                                       vertical:
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
+                                      MediaQuery.of(context).size.height *
+                                          0.01),
                                   onPressed: () {
-                                    {}
+                                    {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AdventureAttendees(this.currentAdventure!)));
+                                    }
                                   },
                                   child: Column(
                                     children: <Widget>[
@@ -572,47 +584,6 @@ class AdventurePage extends StatelessWidget {
                                       ),
                                       Text(
                                         'Adventurers',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Spacer(),
-                            Expanded(
-                              flex: 8,
-                              child: ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0)),
-                                child: MaterialButton(
-                                  hoverColor: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(0),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
-                                  onPressed: () {
-                                    {}
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.play_arrow,
-                                        size: 50,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                      Text(
-                                        'Play this song',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Theme.of(context)

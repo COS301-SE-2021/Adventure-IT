@@ -1179,8 +1179,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                         budgetEntryModel
                                                             .entries!
                                                             .elementAt(index)
-                                                            .amount
-                                                            .toString(),
+                                                            .amount.toStringAsFixed(2),
                                                         textAlign: TextAlign
                                                             .center,
                                                         style: TextStyle(
@@ -2038,7 +2037,7 @@ class GetReport extends StatelessWidget {
                                                       : (budgetReportModel
                                                       .reports!
                                                       .elementAt(index)
-                                                      .amount * -1).toString(),
+                                                      .amount * -1).toStringAsFixed(2),
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       fontSize: 20 *

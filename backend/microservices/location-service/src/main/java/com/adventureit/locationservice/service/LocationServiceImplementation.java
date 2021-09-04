@@ -1,8 +1,11 @@
 package com.adventureit.locationservice.service;
 
+import com.adventureit.locationservice.entity.CurrentLocation;
 import com.adventureit.locationservice.entity.Location;
 import com.adventureit.locationservice.exceptions.NotFoundException;
+import com.adventureit.locationservice.repository.CurrentLocationRepository;
 import com.adventureit.locationservice.repository.LocationRepository;
+import com.adventureit.locationservice.responses.CurrentLocationResponseDTO;
 import com.adventureit.locationservice.responses.LocationResponseDTO;
 import com.adventureit.locationservice.responses.ShortestPathResponseDTO;
 import org.json.JSONArray;
@@ -17,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,6 +29,8 @@ import java.util.UUID;
 public class LocationServiceImplementation implements LocationService {
     @Autowired
     LocationRepository locationRepository;
+    @Autowired
+    CurrentLocationRepository currentLocationRepository;
     @Autowired
     private static HttpURLConnection connection;
     private final String APIKey = System.getenv("Google Maps API Key");
@@ -37,11 +43,15 @@ public class LocationServiceImplementation implements LocationService {
         JSONObject json = new JSONObject(makeConnection(string2));
         Location location1 = new Location();
 
+        String address = json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address");
+        String [] array = address.split(",");
+        String country = array[array.length - 1].trim();
+
         if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
-            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
+            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country));
         }
         else {
-            location1 = locationRepository.save(new Location("",json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address"),json.getJSONArray("candidates").getJSONObject(0).getString("place_id")));
+            location1 = locationRepository.save(new Location("",address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country));
         }
 
         return location1.getId();
@@ -150,5 +160,58 @@ public class LocationServiceImplementation implements LocationService {
         }
 
         return new LocationResponseDTO(location.getId(),location.getPhotoReference(),location.getFormattedAddress(),location.getPlaceID());
+    }
+
+    @Override
+    public void storeCurrentLocation(UUID userID, String latitude, String longitude) {
+        CurrentLocation currentLocation = currentLocationRepository.findCurrentLocationByUserID(userID);
+        if(currentLocation == null){
+            currentLocationRepository.save(new CurrentLocation(userID,latitude,longitude));
+        }
+        else {
+            currentLocation.setLatitude(latitude);
+            currentLocation.setLongitude(longitude);
+            currentLocation.setTimestamp(LocalDateTime.now());
+            currentLocationRepository.save(currentLocation);
+        }
+    }
+
+    @Override
+    public CurrentLocationResponseDTO getCurrentLocation(UUID userID) {
+        CurrentLocation currentLocation = currentLocationRepository.findCurrentLocationByUserID(userID);
+        if(currentLocation == null){
+            return null;
+        }
+        else{
+            return new CurrentLocationResponseDTO(currentLocation.getId(),currentLocation.getUserID(),currentLocation.getLatitude(),currentLocation.getLongitude(),currentLocation.getTimestamp());
+        }
+    }
+
+    @Override
+    public boolean compareGeometry(UUID id,UUID userID) throws IOException, JSONException {
+        Location location = locationRepository.findLocationById(id);
+        if(location == null){
+            throw new NotFoundException("Compare Geometry: Location does not exist");
+        }
+
+        CurrentLocationResponseDTO currentLocation = getCurrentLocation(userID);
+        if(currentLocation == null){
+            throw new NotFoundException("Compare Geometry: Current Location is not stored");
+        }
+
+        String lat;
+        String lng;
+
+        String string1 = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + location.getPlaceID() + "&fields=geometry&key=AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
+        JSONObject json = new JSONObject(makeConnection(string1));
+
+       lat = json.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getString("lat");
+       lng = json.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getString("lng");
+
+       if(lat.equals(currentLocation.getLatitude()) && lng.equals(currentLocation.getLongitude())){
+           return true;
+       }
+
+        return false;
     }
 }

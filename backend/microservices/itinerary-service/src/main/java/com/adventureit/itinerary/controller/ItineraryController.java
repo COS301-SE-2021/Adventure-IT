@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -84,9 +85,9 @@ public class ItineraryController {
         itineraryServiceImplementation.markCompleted(id);
     }
 
-    @GetMapping("/getNextEntry/{id}")
-    public ItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id){
-        return itineraryServiceImplementation.nextItem(id);
+    @GetMapping("/getNextEntry/{id}/{userID}")
+    public ItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id, @PathVariable UUID userID){
+        return itineraryServiceImplementation.nextItem(id, userID);
     }
 
     @GetMapping("/setLocation/{itineraryId}/{locationID}")
@@ -104,8 +105,33 @@ public class ItineraryController {
         return itineraryServiceImplementation.getItineraryById(itineraryEntryId);
     }
 
+    @GetMapping("/getItineraryEntry/{entryId}")
+    public ItineraryEntryResponseDTO getItineraryEntry(@PathVariable UUID entryId){
+        return itineraryServiceImplementation.getItineraryEntry(entryId);
+    }
+
+    @GetMapping("/registerUser/{entryId}/{userID}")
+    public String registerUser(@PathVariable UUID entryId, @PathVariable UUID userID){
+        return itineraryServiceImplementation.registerUser(entryId,userID);
+    }
+
+    @GetMapping("/deregisterUser/{entryId}/{userID}")
+    public String deregisterUser(@PathVariable UUID entryId, @PathVariable UUID userID){
+        return itineraryServiceImplementation.deregisterUser(entryId,userID);
+    }
+
+    @GetMapping("/checkUserOff/{entryId}/{userID}")
+    public void checkUserOff(@PathVariable UUID entryId, @PathVariable UUID userID){
+        itineraryServiceImplementation.checkUserOff(entryId,userID);
+    }
+
     @GetMapping("/getStartDateEndDate/{id}")
     public StartDateEndDateResponseDTO getStartDateEndDate(@PathVariable UUID id){
         return itineraryServiceImplementation.getStartAndEndDate(id);
+    }
+
+    @GetMapping("/getRegisteredUsers/{id}")
+    public Map<UUID,Boolean> getRegisteredUsers(@PathVariable UUID id){
+        return itineraryServiceImplementation.getRegisteredUsers(id);
     }
 }

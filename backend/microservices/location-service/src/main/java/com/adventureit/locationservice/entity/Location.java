@@ -10,22 +10,25 @@ public class Location {
     String photoReference;
     String formattedAddress;
     String placeID;
+    String country;
 
 
     public Location(){}
 
-    public Location(UUID id, String photoReference, String formattedAddress, String placeID){
+    public Location(UUID id, String photoReference, String formattedAddress, String placeID, String country){
         this.id = id;
         this.photoReference = photoReference;
         this.formattedAddress = formattedAddress;
         this.placeID = placeID;
+        this.country = country;
     }
 
-    public Location(String photoReference, String formattedAddress, String placeID){
+    public Location(String photoReference, String formattedAddress, String placeID, String country){
         this.id = UUID.randomUUID();
         this.photoReference = photoReference;
         this.formattedAddress = formattedAddress;
         this.placeID = placeID;
+        this.country = country;
     }
 
     public UUID getId() {
@@ -58,5 +61,13 @@ public class Location {
 
     public void setPlaceID(String placeID) {
         this.placeID = placeID;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

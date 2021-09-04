@@ -3,6 +3,7 @@ package com.adventureit.adventureservice.service;
 
 import com.adventureit.adventureservice.entity.Adventure;
 import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
+import com.adventureit.adventureservice.exceptions.AttendeeAlreadyExistsException;
 import com.adventureit.adventureservice.exceptions.UserNotInAdventureException;
 import com.adventureit.adventureservice.repository.AdventureRepository;
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
@@ -170,6 +171,10 @@ public class AdventureServiceImplementation implements AdventureService {
         Adventure adventure = adventureRepository.findAdventureByAdventureId(adventureID);
         if(adventure == null){
             throw new AdventureNotFoundException("Adventure does not exist");
+        }
+
+        if(adventure.getAttendees().contains(userID)){
+            throw new AttendeeAlreadyExistsException("Add Attendees: Attendee already added");
         }
 
         adventure.getAttendees().add(userID);

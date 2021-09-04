@@ -1,6 +1,8 @@
 package com.adventureit.itinerary.responses;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class ItineraryEntryResponseDTO {
@@ -11,11 +13,12 @@ public class ItineraryEntryResponseDTO {
     private boolean completed;
     private UUID location;
     LocalDateTime timestamp;
+    private Map<UUID,Boolean> registeredUsers;
 
     public ItineraryEntryResponseDTO() {
     }
 
-    public ItineraryEntryResponseDTO(UUID id, UUID entryContainerID, String title, String description, boolean completed, UUID location, LocalDateTime timestamp){
+    public ItineraryEntryResponseDTO(UUID id, UUID entryContainerID, String title, String description, boolean completed, UUID location, LocalDateTime timestamp, Map<UUID,Boolean> registeredUsers){
         this.title = title;
         this.description=description;
         this.entryContainerID =entryContainerID;
@@ -23,6 +26,7 @@ public class ItineraryEntryResponseDTO {
         this.completed = completed;
         this.location = location;
         this.timestamp = timestamp;
+        this.registeredUsers = registeredUsers;
     }
 
     public UUID getId() {
@@ -79,5 +83,13 @@ public class ItineraryEntryResponseDTO {
 
     public boolean isCompleted() {
         return completed;
+    }
+
+    public Map<UUID, Boolean> getRegisteredUsers() {
+        return registeredUsers;
+    }
+
+    public void setRegisteredUsers(Map<UUID, Boolean> registeredUsers) {
+        this.registeredUsers = registeredUsers;
     }
 }
