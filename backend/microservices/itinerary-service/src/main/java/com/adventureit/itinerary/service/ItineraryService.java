@@ -6,6 +6,7 @@ import com.adventureit.itinerary.responses.StartDateEndDateResponseDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface ItineraryService {
@@ -31,4 +32,5 @@ public interface ItineraryService {
      String registerUser(UUID entryID, UUID userID);
      String deregisterUser(UUID entryID, UUID userID);
      StartDateEndDateResponseDTO getStartAndEndDate(UUID id);
+     Map<UUID,Boolean> getRegisteredUsers(UUID id);
 }

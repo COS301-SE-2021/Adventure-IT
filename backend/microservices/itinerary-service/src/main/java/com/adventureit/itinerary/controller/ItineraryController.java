@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -127,5 +128,10 @@ public class ItineraryController {
     @GetMapping("/getStartDateEndDate/{id}")
     public StartDateEndDateResponseDTO getStartDateEndDate(@PathVariable UUID id){
         return itineraryServiceImplementation.getStartAndEndDate(id);
+    }
+
+    @GetMapping("/getRegisteredUsers/{id}")
+    public Map<UUID,Boolean> getRegisteredUsers(@PathVariable UUID id){
+        return itineraryServiceImplementation.getRegisteredUsers(id);
     }
 }

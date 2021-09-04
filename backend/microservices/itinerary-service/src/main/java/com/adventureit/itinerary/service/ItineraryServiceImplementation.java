@@ -386,6 +386,16 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
+    public Map<UUID,Boolean> getRegisteredUsers(UUID id) {
+        ItineraryEntry entry = itineraryEntryRepository.findItineraryEntryById(id);
+        if(entry == null){
+            throw new NotFoundException("Get Registered Users: Entry does not exist");
+        }
+
+        return entry.getRegisteredUsers();
+    }
+
+    @Override
     public String mockPopulate() {
         final UUID mockItineraryID1 = UUID.fromString("d99dde68-664a-4618-9bb6-4b5dca7d40a8");
         final UUID mockItineraryID2 = UUID.fromString("d99dde68-664a-4618-9bb6-4b4dca7d40a8");

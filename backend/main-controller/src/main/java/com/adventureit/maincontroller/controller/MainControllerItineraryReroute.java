@@ -201,4 +201,9 @@ public class MainControllerItineraryReroute {
     public String deregisterUser(@PathVariable UUID userID,@PathVariable UUID entryID){
         return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/deregisterUser/"+ entryID + "/" + userID, String.class);
     }
+
+    @GetMapping("/getRegisteredUsers/{id}")
+    public Map<UUID,Boolean> getRegisteredUsers(@PathVariable UUID id){
+        return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getRegisteredUsers/"+ id, Map.class);
+    }
 }
