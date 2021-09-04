@@ -379,4 +379,11 @@ public class UserServiceImplementation  {
         return "Editing successful";
 
     }
+
+    public String setEmergencyContact(UUID userId, String email){
+        Users user = repo.getUserByUserID(userId);
+        user.setEmergencyContact(email);
+        repo.save(user);
+        return "User Emergency contact has been set";
+    }
 }
