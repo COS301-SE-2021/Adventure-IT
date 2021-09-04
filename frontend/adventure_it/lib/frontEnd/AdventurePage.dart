@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:adventure_it/Providers/adventure_model.dart';
-import 'package:adventure_it/frontEnd/AdventureAttendees.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -68,7 +67,7 @@ class _AdventureTimer extends State<AdventureTimer> {
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
               child: Container(
                   padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                   color: Theme.of(context)
                       .scaffoldBackgroundColor
                       .withOpacity(0.2),
@@ -105,7 +104,7 @@ class _AdventureTimer extends State<AdventureTimer> {
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
             child: Container(
                 padding:
-                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                 color:
                     Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                 child: Column(children: [
@@ -136,7 +135,7 @@ class _AdventureTimer extends State<AdventureTimer> {
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
               child: Container(
                   padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                   color: Theme.of(context)
                       .scaffoldBackgroundColor
                       .withOpacity(0.2),
@@ -230,7 +229,7 @@ class AdventurePage extends StatelessWidget {
                                     BorderRadius.all(Radius.circular(20.0)),
                                 child: Container(
                                     padding:
-                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                     color:
                                     Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
                                   child: MaterialButton(
@@ -282,7 +281,7 @@ class AdventurePage extends StatelessWidget {
                                       BorderRadius.all(Radius.circular(20.0)),
                                   child: Container(
                                       padding:
-                                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                       color:
                                       Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
                                     child: MaterialButton(
@@ -332,7 +331,7 @@ class AdventurePage extends StatelessWidget {
                                     BorderRadius.all(Radius.circular(20.0)),
                                 child: Container(
                                     padding:
-                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                     color:
                                     Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
                                   child: MaterialButton(
@@ -389,7 +388,7 @@ class AdventurePage extends StatelessWidget {
                                     BorderRadius.all(Radius.circular(20.0)),
                                 child: Container(
                                     padding:
-                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                     color:
                                     Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
                                   child: MaterialButton(
@@ -440,7 +439,7 @@ class AdventurePage extends StatelessWidget {
                                     BorderRadius.all(Radius.circular(20.0)),
                                 child: Container(
                                     padding:
-                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                     color:
                                     Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
                                   child: MaterialButton(
@@ -491,7 +490,7 @@ class AdventurePage extends StatelessWidget {
                                         BorderRadius.all(Radius.circular(20.0)),
                                     child: Container(
                                         padding:
-                                        EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                        EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                         color:
                                         Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
                                       child: MaterialButton(
@@ -547,7 +546,7 @@ class AdventurePage extends StatelessWidget {
                                     BorderRadius.all(Radius.circular(20.0)),
                                 child: Container(
                                     padding:
-                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                     color:
                                     Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
                                   child: MaterialButton(
@@ -600,7 +599,7 @@ class AdventurePage extends StatelessWidget {
                                 BorderRadius.all(Radius.circular(20.0)),
                                 child: Container(
                                   padding:
-                                  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                  EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                   color:
                                   Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
                                   child: MaterialButton(
