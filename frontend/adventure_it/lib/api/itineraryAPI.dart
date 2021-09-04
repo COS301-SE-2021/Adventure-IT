@@ -199,6 +199,7 @@ class ItineraryApi {
       },
       body: jsonEncode(<String, String>{
         'entryContainerID': entryContainerID,
+        'userId':UserApi.getInstance().getUserProfile()!.userID,
         'title': title,
         'description': description,
         'location': location,
@@ -266,12 +267,14 @@ class ItineraryApi {
   static Future<List<String>?> getStartAndEndDate(Itinerary i) async {
     http.Response response = await _getStartAndEndDate(i);
 
+
     if (response.statusCode != 200) {
       return null;
     }
 
     if(response.body.length==0)
       {
+        print("in here in here in here");
         return null;
       }
 
@@ -283,7 +286,7 @@ class ItineraryApi {
 
   static Future<http.Response> _getStartAndEndDate(Itinerary i) async {
     return http
-        .get(Uri.http(mainApi, '/itinerary/getStartDateEndDate/'+i.id));
+        .get(Uri.parse("http://"+mainApi+'/itinerary/getStartDateEndDate/'+i.id));
   }
 
 }

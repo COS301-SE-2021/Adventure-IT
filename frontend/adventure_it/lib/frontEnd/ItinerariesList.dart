@@ -181,12 +181,12 @@ class _ItinerariesList extends State<ItinerariesList> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ItineraryModel>(builder: (context, itineraryModel, child) {
-      if (itineraryModel.itineraries == null || check == false) {
+      if (itineraryModel.itineraries == null || check == false || itineraryModel.dates==null) {
         return Center(
             child: CircularProgressIndicator(
                 valueColor: new AlwaysStoppedAnimation<Color>(
                     Theme.of(context).accentColor)));
-      } else if (itineraryModel.itineraries!.length > 0) {
+      } else if (itineraryModel.itineraries!.length > 0&&itineraryModel.dates!.length > 0&&itineraryModel.itineraries!.length==itineraryModel.dates!.length) {
         return Column(children: [
           Expanded(
               flex: 3,
@@ -353,7 +353,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                                       .bodyText1!
                                                       .color)),
                                           // subtitle:Text(adventures.elementAt(index).description),
-                                          subtitle: Column(children: [
+                                          subtitle:
                                             Text(
                                                 itineraryModel
                                                     .itineraries!
@@ -367,7 +367,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                                         .textTheme
                                                         .bodyText1!
                                                         .color)),
-                                            Text(
+                                            trailing: Text(
                                                 itineraryModel.dates!
                                                     .elementAt(index),
                                                 style: TextStyle(
@@ -378,7 +378,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                                         .textTheme
                                                         .bodyText1!
                                                         .color))
-                                          ])),
+                                          ),
                                     ),
                                   ],
                                 ),

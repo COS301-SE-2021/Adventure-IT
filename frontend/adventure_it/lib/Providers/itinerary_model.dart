@@ -82,8 +82,7 @@ class ItineraryModel extends ChangeNotifier {
   ItineraryModel(Adventure a) {
     fetchAllItineraries(a).then((itineraries) =>
         itineraries != null ? _itineraries = itineraries : List.empty());
-    fetchAllDates().then(
-        (dates) => dates != null ? _startAndEndDates = dates : List.empty());
+
   }
 
   List<Itinerary>? get itineraries => _itineraries?.toList();
@@ -92,6 +91,8 @@ class ItineraryModel extends ChangeNotifier {
 
   Future fetchAllItineraries(Adventure a) async {
     _itineraries = await ItineraryApi.getItineraries(a);
+    fetchAllDates().then(
+            (dates) => dates != null ? _startAndEndDates = dates : List.empty());
 
     notifyListeners();
   }

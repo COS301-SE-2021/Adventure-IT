@@ -379,14 +379,13 @@ public class ItineraryServiceImplementation implements ItineraryService {
         List<ItineraryEntry> entries = itineraryEntryRepository.findAllByEntryContainerID(id);
 
         if (entries != null) {
+            System.out.println("heeeeeeeeeeere"+entries.size());
             entries.sort(Comparator.comparing(ItineraryEntry::getTimestamp));
-
             LocalDateTime startDate = entries.get(0).getTimestamp();
             LocalDateTime endDate = entries.get(entries.size() - 1).getTimestamp();
             return new StartDateEndDateResponseDTO(startDate, endDate);
         } else {
             throw new NotFoundException("Get Start And End Date: Not Itinerary entries");
-
 
         }
 
