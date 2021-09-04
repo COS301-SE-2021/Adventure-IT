@@ -177,7 +177,6 @@ class AdventurePage extends StatelessWidget {
                 child: Text(currentAdventure!.name,
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
-            iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
             actions: [
               IconButton(
                   onPressed: () {
@@ -1235,7 +1234,7 @@ class EditAlert extends State<_EditAlert> {
                                         await widget.adventuresModel
                                             .editAdventure(
                                             adventure!.adventureId,
-                                            userID,
+                                            UserApi.getInstance().getUserProfile()!.userID,
                                             nameController.text,
                                             dates == null ?
                                             LocalDate.dateTime(DateTime.parse(
