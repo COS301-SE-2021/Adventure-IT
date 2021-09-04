@@ -168,11 +168,15 @@ class AdventurePage extends StatelessWidget {
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
+            iconTheme: IconThemeData(color: Theme
+                .of(context)
+                .textTheme
+                .bodyText1!
+                .color),
             title: Center(
                 child: Text(currentAdventure!.name,
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
-            iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
             actions: [
               IconButton(
                   onPressed: () {
@@ -224,52 +228,11 @@ class AdventurePage extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
-                                child: MaterialButton(
-                                  hoverColor: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(0),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Itineraries(currentAdventure)));
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.list_alt,
-                                        size: 50,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                      Text(
-                                        'Itineraries',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Spacer(),
-                            Expanded(
-                                flex: 8,
-                                child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0)),
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
                                   child: MaterialButton(
                                     hoverColor: Theme.of(context)
                                         .primaryColorLight
@@ -282,13 +245,13 @@ class AdventurePage extends StatelessWidget {
                                       Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => Checklists(
-                                                  currentAdventure)));
+                                              builder: (context) =>
+                                                  Itineraries(currentAdventure)));
                                     },
                                     child: Column(
                                       children: <Widget>[
                                         Icon(
-                                          Icons.checklist,
+                                          Icons.list_alt,
                                           size: 50,
                                           color: Theme.of(context)
                                               .textTheme
@@ -296,15 +259,68 @@ class AdventurePage extends StatelessWidget {
                                               .color,
                                         ),
                                         Text(
-                                          'Checklists',
+                                          'Itineraries',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color),
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color,
+                                          ),
                                         ),
                                       ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Spacer(),
+                            Expanded(
+                                flex: 8,
+                                child: ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0)),
+                                  child: Container(
+                                      padding:
+                                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                      color:
+                                      Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                    child: MaterialButton(
+                                      hoverColor: Theme.of(context)
+                                          .primaryColorLight
+                                          .withOpacity(0),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical:
+                                              MediaQuery.of(context).size.height *
+                                                  0.01),
+                                      onPressed: () {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Checklists(
+                                                    currentAdventure)));
+                                      },
+                                      child: Column(
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.checklist,
+                                            size: 50,
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color,
+                                          ),
+                                          Text(
+                                            'Checklists',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 )),
@@ -314,41 +330,47 @@ class AdventurePage extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
-                                child: MaterialButton(
-                                  hoverColor: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(0),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Budgets(currentAdventure)));
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.attach_money,
-                                        size: 50,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                      Text(
-                                        'Budgets',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color),
-                                      ),
-                                    ],
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Budgets(currentAdventure)));
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.attach_money,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                        Text(
+                                          'Budgets',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -365,41 +387,47 @@ class AdventurePage extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
-                                child: MaterialButton(
-                                  hoverColor: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(0),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                GroupChat(currentAdventure)));
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.chat_bubble,
-                                        size: 50,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                      Text(
-                                        'Group Chat',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color),
-                                      ),
-                                    ],
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  GroupChat(currentAdventure)));
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.chat_bubble,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                        Text(
+                                          'Group Chat',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -410,41 +438,47 @@ class AdventurePage extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
-                                child: MaterialButton(
-                                  hoverColor: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(0),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Files(currentAdventure)));
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.insert_drive_file,
-                                        size: 50,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                      Text(
-                                        'Files',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color),
-                                      ),
-                                    ],
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Files(currentAdventure)));
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.insert_drive_file,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                        Text(
+                                          'Files',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -455,42 +489,48 @@ class AdventurePage extends StatelessWidget {
                                 child: ClipRRect(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20.0)),
-                                    child: MaterialButton(
-                                      hoverColor: Theme.of(context)
-                                          .primaryColorLight
-                                          .withOpacity(0),
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.01),
-                                      onPressed: () {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => MediaPage(
-                                                    currentAdventure)));
-                                      },
-                                      child: Column(
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.filter,
-                                            size: 50,
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color,
-                                          ),
-                                          Text(
-                                            'Media',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color),
-                                          ),
-                                        ],
+                                    child: Container(
+                                        padding:
+                                        EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                        color:
+                                        Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                      child: MaterialButton(
+                                        hoverColor: Theme.of(context)
+                                            .primaryColorLight
+                                            .withOpacity(0),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.01),
+                                        onPressed: () {
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => MediaPage(
+                                                      currentAdventure)));
+                                        },
+                                        child: Column(
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.filter,
+                                              size: 50,
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color,
+                                            ),
+                                            Text(
+                                              'Media',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ))),
                           ],
@@ -505,41 +545,47 @@ class AdventurePage extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
-                                child: MaterialButton(
-                                  hoverColor: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(0),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                TimePage(currentAdventure)));
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.access_time_filled,
-                                        size: 50,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                      Text(
-                                        'Timeline',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color),
-                                      ),
-                                    ],
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TimePage(currentAdventure)));
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.access_time_filled,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                        Text(
+                                          'Timeline',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -547,51 +593,93 @@ class AdventurePage extends StatelessWidget {
                             Spacer(),
                             Expanded(
                               flex: 8,
-                              child: Container(),
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      {}
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.person,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                        Text(
+                                          'Adventurers',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                             Spacer(),
                             Expanded(
                               flex: 8,
                               child: ClipRRect(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(20.0)),
-                                child: MaterialButton(
-                                  hoverColor: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(0),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                      MediaQuery.of(context).size.height *
-                                          0.01),
-                                  onPressed: () {
-                                    {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AdventureAttendees(this.currentAdventure!)));
-                                    }
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.person,
-                                        size: 50,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                      Text(
-                                        'Adventurers',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color),
-                                      ),
-                                    ],
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      {}
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.play_arrow,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                        Text(
+                                          'Play this song',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -1143,28 +1231,29 @@ class EditAlert extends State<_EditAlert> {
                                             horizontal: 3, vertical: 20),
                                       ),
                                       onPressed: () async {
-                                        // await widget.adventuresModel
-                                        //     .editAdventure(
-                                        //     adventure!.adventureId,
-                                        //     nameController.text,
-                                        //     dates == null ?
-                                        //     LocalDate.dateTime(DateTime.parse(
-                                        //         adventure!.startDate))
-                                        //         : LocalDate.dateTime(
-                                        //         dates!.start),
-                                        //     dates == null ?
-                                        //     LocalDate.dateTime(DateTime.parse(
-                                        //         adventure!.endDate))
-                                        //         : LocalDate.dateTime(
-                                        //         dates!.end),
-                                        //     descriptionController.text);
-                                        // Navigator.of(context)
-                                        //     .pop(true);
-                                        // Navigator.pushReplacement(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) =>
-                                        //             HomepageStartupCaller()));
+                                        await widget.adventuresModel
+                                            .editAdventure(
+                                            adventure!.adventureId,
+                                            UserApi.getInstance().getUserProfile()!.userID,
+                                            nameController.text,
+                                            dates == null ?
+                                            LocalDate.dateTime(DateTime.parse(
+                                                adventure!.startDate))
+                                                : LocalDate.dateTime(
+                                                dates!.start),
+                                            dates == null ?
+                                            LocalDate.dateTime(DateTime.parse(
+                                                adventure!.endDate))
+                                                : LocalDate.dateTime(
+                                                dates!.end),
+                                            descriptionController.text);
+                                        Navigator.of(context)
+                                            .pop(true);
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomepageStartupCaller()));
                                       })),
                               Spacer(flex: 2),
                             ]

@@ -9,6 +9,7 @@ class CreateItineraryEntry {
   final String description;
   final String location;
   final String timestamp;
+  final String userId;
 
   CreateItineraryEntry({
     required this.entryContainerID,
@@ -16,6 +17,7 @@ class CreateItineraryEntry {
     required this.description,
     required this.location,
     required this.timestamp,
+    required this.userId,
   });
 
   factory CreateItineraryEntry.fromJson(Map<String, dynamic> json) =>

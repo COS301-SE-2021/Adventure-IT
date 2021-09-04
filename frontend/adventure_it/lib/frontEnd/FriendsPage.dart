@@ -14,12 +14,19 @@ class Friends extends StatefulWidget {
   FriendsPage createState() => FriendsPage();
 }
 
-class FriendsPage extends State<Friends> {
+class FriendsPage extends State<Friends> with SingleTickerProviderStateMixin {
   UserProfile? user;
   bool friendList = true;
   UserApi _userApi = UserApi.getInstance();
+  TabController? tabs;
 
   FriendsPage();
+
+  @override
+  void initState() {
+    super.initState();
+    tabs = new TabController(vsync: this, length: 2);
+  }
 
   final usernameController = TextEditingController();
 
@@ -33,12 +40,14 @@ class FriendsPage extends State<Friends> {
                 child: Text("Friends",
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
-            iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
+            iconTheme: IconThemeData(
+                color: Theme.of(context).textTheme.bodyText1!.color),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
+        body: Container(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Row(mainAxisSize: MainAxisSize.max, children: [
                 Spacer(flex: 1),
@@ -85,83 +94,45 @@ class FriendsPage extends State<Friends> {
                                 }
                               });
                             },
-                            icon: const Icon(Icons.send_rounded),
-                            iconSize:30,
+                            icon: const Icon(Icons.person_search),
+                            iconSize: 30,
                             color: Theme.of(context)
                                 .primaryColorDark))), //Your widget he
                 Spacer(flex: 1),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 40),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Spacer(flex: 1),
-                    Expanded(
-                        flex: 3,
-                        child: ElevatedButton(
-                            child: Text("Friend List",
-                                style: new TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                    color: !friendList?Theme.of(context)
-                                        .accentColor:Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color)),
-                            style: ElevatedButton.styleFrom(
-    side: BorderSide(width: 1.0, color: Theme.of(context)
-        .accentColor),
-                              primary: !friendList
-                                  ? Theme.of(context).scaffoldBackgroundColor
-                                  : Theme.of(context).accentColor,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 3, vertical: 20),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                this.friendList = true;
-                              });
-                            })),
-                    Spacer(flex: 1),
-                    Expanded(
-                        flex: 3,
-                        child: ElevatedButton(
-                            child: Text("Friend Requests",
-                                style: new TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: friendList?Theme.of(context)
-                                        .accentColor:Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color)),
-                            style: ElevatedButton.styleFrom(
-                              side: BorderSide(width: 1.0, color: Theme.of(context)
-                                  .accentColor),
-                              primary: friendList
-                                  ? Theme.of(context).scaffoldBackgroundColor
-                                  : Theme.of(context).accentColor,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 3, vertical: 20),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                this.friendList = false;
-                              });
-                            })),
-                    Spacer(flex: 1),
-                  ]),
-              SizedBox(height: MediaQuery.of(context).size.height / 50),
               Container(
-                  height: MediaQuery.of(context).size.height * 0.65,
-                  child: friendList
-                      ? GetFriends(context)
-                      : GetFriendRequests(context)),
-              SizedBox(height: MediaQuery.of(context).size.height / 60),
-            ]));
+                  child: TabBar(
+                controller: tabs,
+                labelColor: Theme.of(context).accentColor,
+                unselectedLabelColor:
+                    Theme.of(context).textTheme.bodyText1!.color,
+                indicatorSize: TabBarIndicatorSize.tab,
+                tabs: [
+                  Tab(
+                      icon: Icon(Icons.people_outline_rounded),
+                      text: "Friends"),
+                  Tab(
+                      icon: Icon(Icons.person_add_alt_1_rounded),
+                      text: "Friend Requests"),
+                ],
+              )),
+              SizedBox(height: MediaQuery.of(context).size.height / 40),
+              Expanded(
+                  child: TabBarView(controller: tabs, children: <Widget>[
+                Container(
+                  child: GetFriends(context),
+                ),
+                Container(
+                  child: GetFriendRequests(context),
+                )
+              ]))
+            ])));
   }
 }
 
 class GetFriends extends StatelessWidget {
- BuildContext? c;
+  BuildContext? c;
 
   GetFriends(context) {
     this.c = context;
@@ -368,94 +339,98 @@ class GetFriendRequests extends StatelessWidget {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           IconButton(
-                                                  onPressed: () {
-                                                    Provider.of<FriendRequestModel>(
-                                                            context,
-                                                            listen: false)
-                                                        .acceptFriendRequest(
-                                                            friendModel.friends!
-                                                                .elementAt(
-                                                                    index)
-                                                                .id);
-                                                  },
-                                                  icon: Icon(Icons.check),
-                                                  iconSize:20,
-                                                  color: Theme.of(context)
-                                                      .accentColor),
-
-                                            IconButton(
-                                                  onPressed: () {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return AlertDialog(
-                                                              backgroundColor:
-                                                                  Theme.of(
-                                                                          context)
-                                                                      .primaryColorDark,
-                                                              title: Text(
-                                                                'Decline',
-                                                                style: TextStyle(
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .textTheme
-                                                                        .bodyText1!
-                                                                        .color),
-                                                              ),
-                                                              content: Text(
-                                                                'Are you sure you want to decline ' +
-                                                                    friendModel
-                                                                        .friends!
-                                                                        .elementAt(
-                                                                            index)
-                                                                        .requester +
-                                                                    '\'s friend request?',
-                                                                style: TextStyle(
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .textTheme
-                                                                        .bodyText1!
-                                                                        .color),
-                                                              ),
-                                                              actions: <Widget>[
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      Provider.of<FriendRequestModel>(this.c!, listen: false).deleteFriendRequest(friendModel
+                                              onPressed: () {
+                                                Provider.of<FriendRequestModel>(
+                                                        context,
+                                                        listen: false)
+                                                    .acceptFriendRequest(
+                                                        friendModel.friends!
+                                                            .elementAt(index)
+                                                            .id);
+                                              },
+                                              icon: Icon(Icons.check),
+                                              iconSize: 20,
+                                              color: Theme.of(context)
+                                                  .accentColor),
+                                          IconButton(
+                                              onPressed: () {
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                          backgroundColor: Theme
+                                                                  .of(context)
+                                                              .primaryColorDark,
+                                                          title: Text(
+                                                            'Decline',
+                                                            style: TextStyle(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color),
+                                                          ),
+                                                          content: Text(
+                                                            'Are you sure you want to decline ' +
+                                                                friendModel
+                                                                    .friends!
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .requester +
+                                                                '\'s friend request?',
+                                                            style: TextStyle(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color),
+                                                          ),
+                                                          actions: <Widget>[
+                                                            TextButton(
+                                                                onPressed: () {
+                                                                  Provider.of<FriendRequestModel>(
+                                                                          this
+                                                                              .c!,
+                                                                          listen:
+                                                                              false)
+                                                                      .deleteFriendRequest(friendModel
                                                                           .friends!
                                                                           .elementAt(
                                                                               index)
                                                                           .id);
-                                                                      Navigator.of(
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                },
+                                                                child: Text(
+                                                                    'Decline',
+                                                                    style: TextStyle(
+                                                                        color: Theme.of(context)
+                                                                            .textTheme
+                                                                            .bodyText1!
+                                                                            .color))),
+                                                            TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop(),
+                                                              child: Text(
+                                                                  "Cancel",
+                                                                  style: TextStyle(
+                                                                      color: Theme.of(
                                                                               context)
-                                                                          .pop();
-                                                                    },
-                                                                    child: Text(
-                                                                        'Decline',
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Theme.of(context).textTheme.bodyText1!.color))),
-                                                                TextButton(
-                                                                  onPressed: () =>
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop(),
-                                                                  child: Text(
-                                                                      "Cancel",
-                                                                      style: TextStyle(
-                                                                          color: Theme.of(context)
-                                                                              .textTheme
-                                                                              .bodyText1!
-                                                                              .color)),
-                                                                )
-                                                              ]);
-                                                        });
-                                                  },
-                                                  icon: Icon(Icons.close),
-                                                  iconSize:20,
-                                                  color: Theme.of(context)
-                                                      .accentColor),
+                                                                          .textTheme
+                                                                          .bodyText1!
+                                                                          .color)),
+                                                            )
+                                                          ]);
+                                                    });
+                                              },
+                                              icon: Icon(Icons.close),
+                                              iconSize: 20,
+                                              color: Theme.of(context)
+                                                  .accentColor),
                                         ],
                                       ),
                                     ),

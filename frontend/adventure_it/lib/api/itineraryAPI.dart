@@ -104,8 +104,9 @@ class ItineraryApi {
 
   static Future<http.Response> _deleteItineraryEntryRequest(
       itineraryEntryID) async {
+    String userID = UserApi.getInstance().getUserProfile()!.userID;
     return http
-        .get(Uri.http(mainApi, '/itinerary/removeEntry/' + itineraryEntryID));
+        .get(Uri.http(mainApi, '/itinerary/removeEntry/' + itineraryEntryID + '/' + userID));
   }
 
   static Future<http.Response> _deleteItineraryRequest(itineraryID) async {
@@ -191,7 +192,8 @@ class ItineraryApi {
       String title,
       String description,
       String location,
-      String timestamp) async {
+      String timestamp,
+      String userId) async {
     final response = await http.post(
       Uri.parse('http://localhost:9999/itinerary/addEntry'), //get uri
       headers: <String, String>{
@@ -203,7 +205,8 @@ class ItineraryApi {
         'title': title,
         'description': description,
         'location': location,
-        'timestamp': timestamp
+        'timestamp': timestamp,
+        'userId': userId
       }),
     );
 
@@ -217,7 +220,8 @@ class ItineraryApi {
           title: title,
           description: description,
           location: location,
-          timestamp: timestamp);
+          timestamp: timestamp,
+          userId: userId);
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
@@ -229,6 +233,7 @@ class ItineraryApi {
 
   static Future<http.Response> itineraryEdit(
       String id,
+      String userId,
       String entryContainerID,
       String title,
       String description,
@@ -241,6 +246,7 @@ class ItineraryApi {
       },
       body: jsonEncode(<String, String>{
         'id': id,
+        'userId': userId,
         'entryContainerID': entryContainerID,
         'title': title,
         'description': description,

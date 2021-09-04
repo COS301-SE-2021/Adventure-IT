@@ -139,7 +139,7 @@ public class MainControllerItineraryReroute {
         ItineraryResponseDTO itinerary = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryById/"+req.getEntryContainerID(), ItineraryResponseDTO.class);
         assert itinerary != null;
         UUID adventureId = itinerary.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY,user.getUsername()+" edited the "+req.getTitle()+" itinerary." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY,user.getUsername()+" edited the "+itinerary.getTitle()+" itinerary." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
     }

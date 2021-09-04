@@ -470,7 +470,7 @@ class BudgetList extends StatelessWidget {
                                           Expanded(
                                             flex: 1,
                                             child: Text(
-                                                "Total: " +
+                                                "Total: \$" +
                                                     budgetModel.expenses!
                                                         .elementAt(index),
                                                 textAlign: TextAlign.center,

@@ -1,3 +1,4 @@
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:adventure_it/Providers/checklist_model.dart';
@@ -131,6 +132,8 @@ class _AlertBox extends State<AlertBox> {
     }
   }
 
+  String userID = UserApi.getInstance().getUserProfile()!.userID;
+
   final ChecklistApi api = new ChecklistApi();
   final descriptionController = TextEditingController();
 
@@ -210,7 +213,8 @@ class _AlertBox extends State<AlertBox> {
                           await widget.checklistEntryModel.addChecklistEntry(
                               currentChecklist!,
                               descriptionController.text,
-                              currentChecklist!.id);
+                              currentChecklist!.id,
+                              userID);
                           Navigator.pop(context);
                         },
                       ),
@@ -240,6 +244,8 @@ class GetChecklistEntries extends StatelessWidget {
       return MediaQuery.of(context).size.height * 0.6;
     }
   }
+
+  String userID = UserApi.getInstance().getUserProfile()!.userID;
 
   @override
   Widget build(BuildContext context) {
@@ -354,6 +360,7 @@ class GetChecklistEntries extends StatelessWidget {
                       },
                     );
                   } else if (direction == DismissDirection.startToEnd) {
+                    editController.text = checklistEntry.entries!.elementAt(index).title;
                     return showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -478,7 +485,8 @@ class GetChecklistEntries extends StatelessWidget {
                         .editChecklistEntry(
                             checklistEntry.entries!.elementAt(index),
                             checklist!,
-                            editController.text);
+                            editController.text,
+                            userID);
                   }
                 }));
       } else {

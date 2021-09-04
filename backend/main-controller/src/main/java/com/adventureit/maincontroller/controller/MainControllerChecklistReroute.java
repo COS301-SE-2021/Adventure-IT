@@ -84,7 +84,7 @@ public class MainControllerChecklistReroute {
         ChecklistDTO checklist = restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,user.getUsername()+" added an entry to the "+req.getTitle()+" checklist." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,user.getUsername()+" added an entry to the "+checklist.getTitle()+" checklist." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
 
@@ -109,7 +109,7 @@ public class MainControllerChecklistReroute {
         ChecklistDTO checklist = restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" edited the "+req.getTitle()+" checklist.");
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" edited the "+checklist.getTitle()+" checklist.");
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 
