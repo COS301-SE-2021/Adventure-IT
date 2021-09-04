@@ -110,8 +110,9 @@ class ChecklistApi {
 
   static Future<http.Response> _deleteChecklistEntryRequest(
       ChecklistEntryID) async {
+    String userID = UserApi.getInstance().getUserProfile()!.userID;
     return http
-        .get(Uri.http(mainApi, '/checklist/removeEntry/' + ChecklistEntryID));
+        .get(Uri.http(mainApi, '/checklist/removeEntry/' + ChecklistEntryID + '/' + userID));
   }
 
   static Future<http.Response> _getDeletedChecklistsResponse(

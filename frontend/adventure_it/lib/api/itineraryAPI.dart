@@ -104,8 +104,9 @@ class ItineraryApi {
 
   static Future<http.Response> _deleteItineraryEntryRequest(
       itineraryEntryID) async {
+    String userID = UserApi.getInstance().getUserProfile()!.userID;
     return http
-        .get(Uri.http(mainApi, '/itinerary/removeEntry/' + itineraryEntryID));
+        .get(Uri.http(mainApi, '/itinerary/removeEntry/' + itineraryEntryID + '/' + userID));
   }
 
   static Future<http.Response> _deleteItineraryRequest(itineraryID) async {
