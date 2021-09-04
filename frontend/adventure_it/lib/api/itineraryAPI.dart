@@ -228,6 +228,7 @@ class ItineraryApi {
 
   static Future<http.Response> itineraryEdit(
       String id,
+      String userId,
       String entryContainerID,
       String title,
       String description,
@@ -240,6 +241,7 @@ class ItineraryApi {
       },
       body: jsonEncode(<String, String>{
         'id': id,
+        'userId': userId,
         'entryContainerID': entryContainerID,
         'title': title,
         'description': description,

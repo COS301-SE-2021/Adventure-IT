@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:adventure_it/api/itineraryEntry.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
@@ -924,6 +925,8 @@ class ListItineraryItems extends State<_ListItineraryItems> {
     return dateTime;
   }
 
+  String userID = UserApi.getInstance().getUserProfile()!.userID;
+
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final locationController = TextEditingController();
@@ -1212,6 +1215,17 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                               );
                             }
                             else if (direction == DismissDirection.startToEnd) {
+                              titleController.text = entryModel.entries!.elementAt(index).title;
+                              descriptionController.text = entryModel.entries!.elementAt(index).description;
+                              locationController.text = entryModel.entries!.elementAt(index).location.formattedAddress;
+                              location = entryModel.entries!.elementAt(index).location.formattedAddress;
+                              dateController.text = entryModel.entries!.elementAt(index).timestamp.substring(0, 10);
+                              date = DateTime(int.parse(entryModel.entries!.elementAt(index).timestamp.substring(0, 4)),
+                                  int.parse(entryModel.entries!.elementAt(index).timestamp.substring(5, 7)),
+                                  int.parse(entryModel.entries!.elementAt(index).timestamp.substring(8, 10)), 0, 0);
+                              timeController.text = entryModel.entries!.elementAt(index).timestamp.substring(11, 16);
+                              time = TimeOfDay(hour: int.parse(entryModel.entries!.elementAt(index).timestamp.substring(11, 13)),
+                                  minute: int.parse(entryModel.entries!.elementAt(index).timestamp.substring(14, 16)));
                               return showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -1417,17 +1431,12 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                               hintText: 'Pick a date'),
                                                           onTap: () async {
                                                             DateTime? picked = await showDate();
-                                                            if (picked !=
-                                                                null) {
-                                                              setState(() {
-                                                                date = picked;
+                                                            date = picked;
                                                                 dateController
                                                                     .text =
                                                                     getTextDate(
-                                                                        picked);
-                                                              });
+                                                                        picked!);
                                                             }
-                                                          },
                                                         )),
                                                         SizedBox(
                                                             height: MediaQuery
@@ -1481,16 +1490,11 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                               hintText: 'Pick a time'),
                                                           onTap: () async {
                                                             TimeOfDay? picked = await showTime();
-                                                            if (picked !=
-                                                                null) {
-                                                              setState(() {
                                                                 time = picked;
                                                                 timeController
                                                                     .text =
                                                                     getTextTime(
-                                                                        picked);
-                                                              });
-                                                            }
+                                                                        picked!);
                                                           },
                                                         )),
                                                         SizedBox(
@@ -1699,7 +1703,6 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                                                                 context)
                                                                                                 .primaryColorLight,
                                                                                             onTap: () {
-                                                                                              setState(() {
                                                                                                 this
                                                                                                     .location =
                                                                                                     locationModel
@@ -1711,7 +1714,6 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                                                                     .text =
                                                                                                 this
                                                                                                     .location!;
-                                                                                              });
                                                                                               Navigator
                                                                                                   .of(
                                                                                                   context)
@@ -1816,6 +1818,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                   entryModel.entries!.elementAt(index),
                                   currentItinerary!,
                                   entryModel.entries!.elementAt(index).id,
+                                  userID,
                                   currentItinerary!.id,
                                   titleController.text,
                                   descriptionController.text,
