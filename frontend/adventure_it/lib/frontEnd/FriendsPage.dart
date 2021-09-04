@@ -155,36 +155,9 @@ class GetFriends extends StatelessWidget {
                 child: ListView(children: [
                   ...List.generate(
                       friendModel.friends!.length,
-                      (index) => Dismissible(
-                          background: Container(
-                            // color: Theme.of(context).primaryColor,
-                            //   margin: const EdgeInsets.all(5),
-                            padding: EdgeInsets.all(
-                                MediaQuery.of(context).size.height / 60),
-                            child: Row(
-                              children: [
-                                new Spacer(),
-                                Icon(Icons.delete,
-                                    color: Theme.of(context).accentColor,
-                                    size: 35 *
-                                        MediaQuery.of(context).textScaleFactor),
-                              ],
-                            ),
-                          ),
-                          direction: DismissDirection.endToStart,
-                          key:
-                              Key(friendModel.friends!.elementAt(index).userID),
-                          child: Card(
+                      (index) => Card(
                               color: Theme.of(context).primaryColorDark,
                               child: InkWell(
-                                  onTap: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => DirectChat(
-                                                friendModel.friends!
-                                                    .elementAt(index))));
-                                  },
                                   hoverColor:
                                       Theme.of(context).primaryColorLight,
                                   child: Container(
@@ -208,72 +181,117 @@ class GetFriends extends StatelessWidget {
                                                         .color)),
                                           ),
                                         ),
-                                      ],
+                                        PopupMenuButton(
+                                            color: Theme.of(context).textTheme.bodyText1!.color,
+                                            onSelected: (value) {
+                                              if (value == 1) {
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    backgroundColor:
+                                                    Theme.of(context).primaryColorDark,
+                                                    title: Text(
+                                                      'Confirm Removal',
+                                                      style: TextStyle(
+                                                          color: Theme.of(context)
+                                                              .textTheme
+                                                              .bodyText1!
+                                                              .color),
+                                                    ),
+                                                    content: Text(
+                                                      'Are you sure you want to remove ' +
+                                                          friendModel.friends!
+                                                              .elementAt(index)
+                                                              .username +
+                                                          ' as your friend?',
+                                                      style: TextStyle(
+                                                          color: Theme.of(context)
+                                                              .textTheme
+                                                              .bodyText1!
+                                                              .color),
+                                                    ),
+                                                    actions: <Widget>[
+                                                      TextButton(
+                                                          onPressed: (){
+                                                            Provider.of<FriendModel>(context, listen: false)
+                                                                .deleteFriend(
+                                                                UserApi.getInstance()
+                                                                    .getUserProfile()!
+                                                                    .userID,
+                                                                friendModel.friends!
+                                                                    .elementAt(index)
+                                                                    .userID);
+                                                              Navigator.of(context).pop();},
+                                                          child: Text('Remove',
+                                                              style: TextStyle(
+                                                                  color: Theme.of(context)
+                                                                      .textTheme
+                                                                      .bodyText1!
+                                                                      .color))),
+                                                      TextButton(
+                                                        onPressed: (){
+                                                            Navigator.of(context).pop();},
+                                                        child: Text("Cancel",
+                                                            style: TextStyle(
+                                                                color: Theme.of(context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color)),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                                );
+                                              }
+
+                                              if(value==2)
+                                                {
+                                                  Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => DirectChat(
+                                                              friendModel.friends!
+                                                                  .elementAt(index))));
+                                                }
+
+                                            },
+                                            itemBuilder: (context) => [
+                                              PopupMenuItem(
+                                                  value: 2,
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .all(5),
+                                                        child: Icon(Icons
+                                                            .chat_rounded,color: Theme.of(context).textTheme.bodyText2!.color),
+                                                      ),
+                                                      Text("Chat", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color))
+                                                    ],
+                                                  )),
+
+                                        PopupMenuItem(
+                                            value: 1,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .all(5),
+                                                  child: Icon(Icons
+                                                      .person_remove_rounded,color: Theme.of(context).textTheme.bodyText2!.color),
+                                                ),
+                                                Text("Unfriend", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color))
+                                              ],
+                                            ))
+                                            ]),
+                                      ]),
                                     ),
                                   ))),
-                          confirmDismiss: (DismissDirection direction) async {
-                            return await showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor:
-                                      Theme.of(context).primaryColorDark,
-                                  title: Text(
-                                    'Confirm Removal',
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color),
-                                  ),
-                                  content: Text(
-                                    'Are you sure you want to remove ' +
-                                        friendModel.friends!
-                                            .elementAt(index)
-                                            .username +
-                                        ' as your friend?',
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color),
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(true),
-                                        child: Text('Remove',
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color))),
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(false),
-                                      child: Text("Cancel",
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color)),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          onDismissed: (direction) {
-                            Provider.of<FriendModel>(context, listen: false)
-                                .deleteFriend(
-                                    UserApi.getInstance()
-                                        .getUserProfile()!
-                                        .userID,
-                                    friendModel.friends!
-                                        .elementAt(index)
-                                        .userID);
-                          }))
-                ]));
+
+                            ]));
           } else {
             return Center(
                 child: Text("You have no friends. That's so sad.",
