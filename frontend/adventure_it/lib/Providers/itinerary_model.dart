@@ -18,6 +18,7 @@ class DeletedItineraryModel extends ChangeNotifier {
   }
 
   List<Itinerary>? get deletedItineraries => _deletedItineraries?.toList();
+
   List<UserProfile?>? get creators => _creators?.toList();
 
   Future restoreItinerary(Itinerary it) async {
@@ -34,7 +35,8 @@ class DeletedItineraryModel extends ChangeNotifier {
   Future fetchAllDeletedItineraries(Adventure a) async {
     _deletedItineraries = await ItineraryApi.getDeletedItinerary(a.adventureId);
 
-    var total = List<UserProfile?>.filled(deletedItineraries!.length, null, growable: true);
+    var total = List<UserProfile?>.filled(deletedItineraries!.length, null,
+        growable: true);
     total.removeRange(0, deletedItineraries!.length);
     for (var b in deletedItineraries!) {
       await UserApi.getInstance().findUser(b.creatorID).then((value) {
@@ -61,16 +63,68 @@ class DeletedItineraryModel extends ChangeNotifier {
 
 class ItineraryModel extends ChangeNotifier {
   List<Itinerary>? _itineraries;
+  List<String>? _startAndEndDates;
+  List<String> months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
 
   ItineraryModel(Adventure a) {
     fetchAllItineraries(a).then((itineraries) =>
         itineraries != null ? _itineraries = itineraries : List.empty());
+
   }
 
   List<Itinerary>? get itineraries => _itineraries?.toList();
 
+  List<String>? get dates => _startAndEndDates?.toList();
+
   Future fetchAllItineraries(Adventure a) async {
     _itineraries = await ItineraryApi.getItineraries(a);
+    fetchAllDates().then(
+            (dates) => dates != null ? _startAndEndDates = dates : List.empty());
+
+    notifyListeners();
+  }
+
+  Future fetchAllDates() async {
+    var dateList =
+        List<String>.filled(itineraries!.length, "0", growable: true);
+    dateList.removeRange(0, itineraries!.length);
+    for (var i in itineraries!) {
+      await ItineraryApi.getStartAndEndDate(i).then((val) {
+        if (val == null) {
+          dateList.add("No dates yet!");
+        } else {
+          DateTime start = DateTime.parse(val[0]);
+          DateTime end = DateTime.parse(val[1]);
+          String x = start.day.toString() +
+              " " +
+              months[start.month - 1] +
+              " " +
+              start.year.toString() +
+              " to " +
+              end.day.toString() +
+              " " +
+              months[end.month - 1] +
+              " " +
+              end.year.toString();
+          dateList.add(x);
+        }
+      });
+    }
+
+    this._startAndEndDates = dateList;
 
     notifyListeners();
   }

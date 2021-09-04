@@ -184,7 +184,7 @@ class ItineraryApi {
 
   static Future<http.Response> _getNextEntry(Adventure a) async {
     return http
-        .get(Uri.http(mainApi, '/itinerary/getNextEntry/' + a.adventureId));
+        .get(Uri.http(mainApi, '/itinerary/getNextEntry/' + a.adventureId+'/'+UserApi.getInstance().getUserProfile()!.userID));
   }
 
   static Future<CreateItineraryEntry> createItineraryEntry(
@@ -201,6 +201,7 @@ class ItineraryApi {
       },
       body: jsonEncode(<String, String>{
         'entryContainerID': entryContainerID,
+        'userId':UserApi.getInstance().getUserProfile()!.userID,
         'title': title,
         'description': description,
         'location': location,
@@ -268,4 +269,30 @@ class ItineraryApi {
       throw Exception('Failed to edit an itinerary entry.');
     }
   }
+
+  static Future<List<String>?> getStartAndEndDate(Itinerary i) async {
+    http.Response response = await _getStartAndEndDate(i);
+
+
+    if (response.statusCode != 200) {
+      return null;
+    }
+
+    if(response.body.length==0)
+      {
+        print("in here in here in here");
+        return null;
+      }
+
+    String start=response.body[0].toString();
+    String end=response.body[1].toString();
+    List<String> list=[start,end];
+    return list;
+  }
+
+  static Future<http.Response> _getStartAndEndDate(Itinerary i) async {
+    return http
+        .get(Uri.parse("http://"+mainApi+'/itinerary/getStartDateEndDate/'+i.id));
+  }
+
 }

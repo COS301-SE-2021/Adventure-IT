@@ -223,49 +223,44 @@ class BudgetApi {
       String description,
       String category,
       String payee) async {
-    RegExp money=RegExp(r'\d+(,\d{1,2})?');
-    if(money.hasMatch(amount)) {
-      final response = await http.post(
-        Uri.parse('http://localhost:9999/budget/addUTOExpense'), //get uri
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{
-          'entryContainerID': entryContainerID,
-          'payer': payer,
-          'amount': amount,
-          'title': title,
-          'description': description,
-          'category': category,
-          'payee': payee
-        }),
-      );
+    double x = double.parse(amount);
+    amount = x.toStringAsFixed(2);
+    final response = await http.post(
+      Uri.parse('http://localhost:9999/budget/addUTOExpense'), //get uri
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'entryContainerID': entryContainerID,
+        'payer': payer,
+        'amount': amount,
+        'title': title,
+        'description': description,
+        'category': category,
+        'payee': payee
+      }),
+    );
 
-      if (response.statusCode == 200) {
-        // If the server did return a 201 CREATED response,
-        // then parse the JSON.
-        print('Status code: ${response.statusCode}');
-        print('Body: ${response.body}');
-        return CreateUTOBudgetEntry(
-            entryContainerID: entryContainerID,
-            payer: payer,
-            amount: amount,
-            title: title,
-            description: description,
-            category: category,
-            payee: payee);
-      } else {
-        // If the server did not return a 201 CREATED response,
-        // then throw an exception.
-        print('Status code: ${response.statusCode}');
-        print('Body: ${response.body}');
-        throw Exception('Failed to create a UTO budget entry.');
-      }
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      return CreateUTOBudgetEntry(
+          entryContainerID: entryContainerID,
+          payer: payer,
+          amount: amount,
+          title: title,
+          description: description,
+          category: category,
+          payee: payee);
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      throw Exception('Failed to create a UTO budget entry.');
     }
-    else
-      {
-        throw Exception("Given amount does not adhere to standards");
-      }
   }
 
   static Future<CreateUTUBudgetEntry> createUTUBudget(
@@ -276,9 +271,8 @@ class BudgetApi {
       String description,
       String category,
       String payee) async {
-
-    RegExp money=RegExp(r'\d+(,\d{1,2})?');
-    if(money.hasMatch(amount)) {
+    double x = double.parse(amount);
+    amount = x.toStringAsFixed(2);
       final response = await http.post(
         Uri.parse('http://localhost:9999/budget/addUTUExpense'), //get uri
         headers: <String, String>{
@@ -315,11 +309,7 @@ class BudgetApi {
         print('Body: ${response.body}');
         throw Exception('Failed to create a UTU budget entry.');
       }
-    }
-    else
-      {
-        throw Exception ('Entered amount does not adhere to standards');
-      }
+
   }
 
   static Future<http.Response> editBudgetEntry(
@@ -330,8 +320,8 @@ class BudgetApi {
       String title,
       String description,
       String payee) async {
-    RegExp money=RegExp(r'\d+(,\d{1,2})?');
-    if(money.hasMatch(amount)) {
+    double x = double.parse(amount);
+    amount = x.toStringAsFixed(2);
       final response = await http.post(
         Uri.parse('http://localhost:9999/budget/editBudget'), //get uri
         headers: <String, String>{
@@ -361,9 +351,5 @@ class BudgetApi {
         print('Body: ${response.body}');
         throw Exception('Failed to edit the budget entry.');
       }
-    }
-    else{
-      throw Exception("Given amount does not adhere to standards");
-    }
   }
 }

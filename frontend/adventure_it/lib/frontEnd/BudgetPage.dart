@@ -1202,8 +1202,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                         "\$"+budgetEntryModel
                                                             .entries!
                                                             .elementAt(index)
-                                                            .amount
-                                                            .toStringAsPrecision(2),
+                                                            .amount.toStringAsFixed(2),
                                                         textAlign: TextAlign
                                                             .center,
                                                         style: TextStyle(
@@ -2057,11 +2056,11 @@ class GetReport extends StatelessWidget {
                                                       ? "\$"+budgetReportModel
                                                       .reports!
                                                       .elementAt(index).amount
-                                                      .toStringAsPrecision(2)
+                                                      .toStringAsFixed(2)
                                                       : "\$"+(budgetReportModel
                                                       .reports!
                                                       .elementAt(index)
-                                                      .amount * -1).toStringAsPrecision(2),
+                                                      .amount * -1).toStringAsFixed(2),
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       fontSize: 20 *

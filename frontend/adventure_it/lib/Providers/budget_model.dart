@@ -98,19 +98,9 @@ class BudgetModel extends ChangeNotifier {
     total.removeRange(0, budgets!.length);
     for (var b in budgets!) {
       await BudgetApi.getTotalOfExpenses(b, userName).then((val) {
-            int index=val.indexOf(".");
-            if(val.length-index==3)
-              {
-                total.add(val+"00");
-              }
-            else if(val.length-index==2)
-              {
-                total.add(val+"0");
-              }
-            else
-              {
-                total.add(val);
-              }
+           double x=double.parse(val);
+           String amount=x.toStringAsFixed(2);
+           total.add(amount);
       });
     }
 

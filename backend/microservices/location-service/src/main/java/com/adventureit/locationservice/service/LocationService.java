@@ -1,5 +1,6 @@
 package com.adventureit.locationservice.service;
 
+import com.adventureit.locationservice.responses.CurrentLocationResponseDTO;
 import com.adventureit.locationservice.responses.LocationResponseDTO;
 import com.adventureit.locationservice.responses.ShortestPathResponseDTO;
 import org.json.JSONException;
@@ -17,4 +18,7 @@ public interface LocationService {
     public String getTotalDistance(JSONObject json) throws JSONException;
     public String getTotalDuration(JSONObject json) throws JSONException;
     public LocationResponseDTO getLocation(UUID id);
+    public void storeCurrentLocation(UUID userID, String latitude, String longitude);
+    public CurrentLocationResponseDTO getCurrentLocation(UUID userID);
+    public boolean compareGeometry(UUID id, UUID userID) throws IOException, JSONException;
 }

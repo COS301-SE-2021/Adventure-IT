@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:adventure_it/Providers/adventure_model.dart';
+import 'package:adventure_it/frontEnd/AdventureAttendees.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -176,6 +177,7 @@ class AdventurePage extends StatelessWidget {
                 child: Text(currentAdventure!.name,
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
+            iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
             actions: [
               IconButton(
                   onPressed: () {
@@ -973,7 +975,7 @@ class EditAlert extends State<_EditAlert> {
   };
 
   //controllers for the form fields
-  String userID = UserApi.getInstance().getUserProfile()!.userID;
+  String ownerID = UserApi.getInstance().getUserProfile()!.userID;
 
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
