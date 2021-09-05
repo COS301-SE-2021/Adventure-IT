@@ -572,7 +572,7 @@ class _AlertBox extends State<AlertBox> {
                         )),
                     Spacer(),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.5,
+                      width: 300,
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
@@ -598,7 +598,7 @@ class _AlertBox extends State<AlertBox> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.5,
+                      width: 300,
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
