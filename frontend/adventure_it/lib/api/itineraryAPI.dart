@@ -282,7 +282,6 @@ class ItineraryApi {
       {
         return null;
       }
-    print("he he he he "+response.body.toString());
 
     final body = json.decode(response.body);
     String start=body['startDate'].toString();
