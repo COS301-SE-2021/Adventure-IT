@@ -280,12 +280,13 @@ class ItineraryApi {
 
     if(response.body.length==0)
       {
-        print("in here in here in here");
         return null;
       }
+    print("he he he he "+response.body.toString());
 
-    String start=response.body[0].toString();
-    String end=response.body[1].toString();
+    final body = json.decode(response.body);
+    String start=body['startDate'].toString();
+    String end=body['endDate'].toString();
     List<String> list=[start,end];
     return list;
   }
