@@ -34,4 +34,12 @@ public class User {
         this.visitedLocations.add(location);
     }
 
+    public boolean hasLiked(Location location){
+        return this.likedLocations.contains(location);
+    }
+
+    public boolean hasVisited(Location location){
+        return this.visitedLocations.contains(location);
+    }
+
 }
