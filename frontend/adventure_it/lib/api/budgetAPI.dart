@@ -150,16 +150,16 @@ class BudgetApi {
     return http.get(Uri.http(mainApi, '/budget/viewBudget/' + budgetID));
   }
 
-  static Future deleteEntry(BudgetEntry i) async {
-    http.Response response = await _deleteBudgetEntryRequest(i.budgetEntryID);
+  static Future deleteEntry(BudgetEntry i, String id) async {
+    http.Response response = await _deleteBudgetEntryRequest(i.budgetEntryID, id);
 
     if (response.statusCode != 200) {
       throw Exception('Failed to delete budget entry ${response.body}');
     }
   }
 
-  static Future<http.Response> _deleteBudgetEntryRequest(BudgetEntryID) async {
-    return http.get(Uri.http(mainApi, '/budget/removeEntry/' + BudgetEntryID));
+  static Future<http.Response> _deleteBudgetEntryRequest(BudgetEntryID, String id) async {
+    return http.get(Uri.http(mainApi, '/budget/removeEntry/' + BudgetEntryID+"/"+id));
   }
 
   static Future<List<Report>?> getReport(Budget b, String userID) async {

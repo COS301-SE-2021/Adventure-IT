@@ -169,7 +169,7 @@ class BudgetEntryModel extends ChangeNotifier {
   }
 
   Future deleteBudgetEntry(BudgetEntry c) async {
-    await BudgetApi.deleteEntry(c);
+    await BudgetApi.deleteEntry(c,UserApi.getInstance().getUserProfile()!.userID);
 
     var index = _entries!
         .indexWhere((element) => element.budgetEntryID == c.budgetEntryID);
