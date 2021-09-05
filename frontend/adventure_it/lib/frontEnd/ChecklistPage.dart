@@ -315,7 +315,7 @@ class GetChecklistEntries extends StatelessWidget {
                                                         top: -40.0,
                                                         child: InkResponse(
                                                           onTap: () {
-                                                            Navigator.of(context).pop(false);
+                                                            Navigator.of(context).pop();
                                                           },
                                                           child: CircleAvatar(
                                                             child: Icon(Icons.close,
@@ -402,6 +402,9 @@ class GetChecklistEntries extends StatelessWidget {
                                                                           checklist!,
                                                                           editController.text,
                                                                           userID);
+                                                                      Navigator.of(
+                                                                          context)
+                                                                          .pop();
                                                                     },
                                                                     child: Text("Edit",
                                                                         style: TextStyle(
