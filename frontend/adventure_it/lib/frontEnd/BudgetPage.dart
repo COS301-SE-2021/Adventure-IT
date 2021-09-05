@@ -995,6 +995,9 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
     "TRANSPORT",
     "OTHER"
   ];
+
+  String userID = UserApi.getInstance().getUserProfile()!.userID;
+
   final BudgetApi api = new BudgetApi();
   final amountController = TextEditingController();
   final centsController = TextEditingController();
@@ -1300,6 +1303,42 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                             );
                           }
                           else if (direction == DismissDirection.startToEnd) {
+                            titleController.text = budgetEntryModel.entries!.elementAt(index).title;
+                            descriptionController.text = budgetEntryModel.entries!.elementAt(index).description;
+                            payer = budgetEntryModel.entries!.elementAt(index).payer;
+
+                            /*for(int i=0; i<categoryNames.length; i++) {
+                              if(categoryNames[i].compareTo(budgetEntryModel.entries!.elementAt(index).category) == 0) {
+                                selectedCategory = i+1;
+                              }
+                            }*/
+
+                            if(budgetEntryModel.entries!.elementAt(index).amount.toString().indexOf(".") != -1) {
+                              amountController.text = budgetEntryModel.entries!.elementAt(index).amount.toString()
+                                  .substring(0,
+                                  budgetEntryModel.entries!.elementAt(index).amount.toString().length-3);
+                              centsController.text = budgetEntryModel.entries!.elementAt(index).amount.toString()
+                                  .substring(budgetEntryModel.entries!.elementAt(index).amount.toString().length-2,
+                                  budgetEntryModel.entries!.elementAt(index).amount.toString().length
+                              );
+                            }
+                            else {
+                              amountController.text = budgetEntryModel.entries!.elementAt(index).amount.toString();
+                              centsController.text = "00";
+                            }
+
+                            for(int i=0; i<userNames!.length; i++) {
+                              if(userNames!.elementAt(i).compareTo(budgetEntryModel.entries!.elementAt(index).payee) == 0) {
+                                otherController.text = budgetEntryModel.entries!.elementAt(index).payee;
+                                payee = otherController.text;
+                              }
+                              else {
+                                otherController.text = budgetEntryModel.entries!.elementAt(index).payee;
+                                payee = "Other";
+                              }
+                            }
+                            //payee = budgetEntryModel.entries!.elementAt(index).payee;
+                            //selectedCategory = budgetEntryModel.entries!.elementAt(index).category;
                             return showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -1598,7 +1637,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                           .textTheme
                                                                           .bodyText1!
                                                                           .color),
-                                                                  controller: amountController,
+                                                                  controller: centsController,
                                                                   decoration: InputDecoration(
                                                                       hintStyle: TextStyle(
                                                                           color: Theme
@@ -1915,19 +1954,20 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                           }
                           else if (direction == DismissDirection.startToEnd) {
                             Provider.of<BudgetEntryModel>(
-                                context, listen: false)
-                                .editBudgetEntry(
+                                context, listen: false).editBudgetEntry(
                                 currentBudget!,
                                 budgetEntryModel.entries!.elementAt(index),
                                 budgetEntryModel.entries!
                                     .elementAt(index)
                                     .budgetEntryID,
                                 currentBudget!.id,
+                                userID,
                                 payer!,
-                                amountController.text,
+                                amountController.text + "." + centsController.text,
                                 titleController.text,
                                 descriptionController.text,
-                                payee!);
+                                otherController.text,
+                                categoryNames[selectedCategory! - 1]);
                           }
                         }));
           } else {

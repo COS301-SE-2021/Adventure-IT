@@ -194,8 +194,8 @@ class BudgetEntryModel extends ChangeNotifier {
   }
 
   Future editBudgetEntry(Budget budget, BudgetEntry be, String a, String b,
-      String c, String d, String e, String f, String g) async {
-    await BudgetApi.editBudgetEntry(a, b, c, d, e, f, g);
+      String c, String d, String e, String f, String g, String h, String i) async {
+    await BudgetApi.editBudgetEntry(a, b, c, d, e, f, g, h, i);
 
     var index = _entries!
         .indexWhere((element) => element.budgetEntryID == be.budgetEntryID);
