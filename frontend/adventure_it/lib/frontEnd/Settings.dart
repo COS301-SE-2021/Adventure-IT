@@ -52,79 +52,149 @@ class SettingsBuilder extends State<_SettingsBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(
-      vertical: MediaQuery.of(context).size.height * 0.01),
-      width: MediaQuery.of(context).size.width * 0.7,
-      height: MediaQuery.of(context).size.width * 0.15,
-      child: Card(
-        color: Theme.of(context).primaryColorDark,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-                child: Text("Themes",
-                    style: new TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color,
-                        fontSize: MediaQuery.of(context).size.height * 0.04))
-            ),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Spacer(),
-                  Expanded(
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.dark_mode_outlined,
-                            size: 40,
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.height * 0.01),
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.height * 0.2,
+          child: Card(
+            color: Theme.of(context).primaryColorDark,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                    child: Text("Themes",
+                        style: new TextStyle(
                             color: Theme.of(context).textTheme.bodyText1!.color,
+                            fontSize: MediaQuery.of(context).size.height * 0.04))
+                ),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Spacer(),
+                      Expanded(
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.dark_mode_outlined,
+                                size: 40,
+                                color: Theme.of(context).textTheme.bodyText1!.color,
+                              ),
+                              Text("Dark Mode",
+                                  style: new TextStyle(
+                                      color: Theme.of(context).textTheme.bodyText1!.color,
+                                      fontSize: MediaQuery.of(context).size.height * 0.02)),
+                            ],
+                          )
+                      ),
+                      Spacer(),
+                      Expanded(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.05,
+                          height: MediaQuery.of(context).size.height * 0.02,
+                          child: Switch(
+                            value: isSwitched,
+                            activeTrackColor: Theme.of(context).scaffoldBackgroundColor,
+                            activeColor: Theme.of(context).accentColor,
+                            onChanged: (value) {
+                              setState(() {
+                                isSwitched = value;
+                                /*Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Themes(isSwitched)));*/
+                              });
+                            },
                           ),
-                          Text("Dark Mode",
-                              style: new TextStyle(
-                                  color: Theme.of(context).textTheme.bodyText1!.color,
-                                  fontSize: MediaQuery.of(context).size.height * 0.02)),
-                        ],
-                      )
-                  ),
-                  Spacer(),
-                  Expanded(
-                    child: SwitchListTile(
-                      value: isSwitched,
-                      activeTrackColor: Theme.of(context).scaffoldBackgroundColor,
-                      activeColor: Theme.of(context).accentColor,
-                      onChanged: (value) {
-                        setState(() {
-                          isSwitched = value;
-                        });
-                      },
-                    ),
-                  ),
-                  Spacer(),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.light_mode_outlined,
-                          size: 40,
-                          color: Theme.of(context).textTheme.bodyText1!.color,
                         ),
-                        Text("Light Mode",
+                      ),
+                      Spacer(),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.light_mode_outlined,
+                              size: 40,
+                              color: Theme.of(context).textTheme.bodyText1!.color,
+                            ),
+                            Text("Light Mode",
+                                style: new TextStyle(
+                                    color: Theme.of(context).textTheme.bodyText1!.color,
+                                    fontSize: MediaQuery.of(context).size.height * 0.02)),
+                          ],
+                        ),
+                      ),
+                      Spacer()
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(
+              vertical: MediaQuery.of(context).size.height * 0.01),
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.height * 0.2,
+          child: Card(
+              color: Theme.of(context).primaryColorDark,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Text("Privacy",
+                          style: new TextStyle(
+                              color: Theme.of(context).textTheme.bodyText1!.color,
+                              fontSize: MediaQuery.of(context).size.height * 0.04))
+                    ),
+                    Center(
+                        child: Text("Emergency contact",
                             style: new TextStyle(
                                 color: Theme.of(context).textTheme.bodyText1!.color,
-                                fontSize: MediaQuery.of(context).size.height * 0.02)),
+                                fontSize: MediaQuery.of(context).size.height * 0.025))
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Center(
+                            child: Text("user.emergencyContact",
+                                style: new TextStyle(
+                                    color: Theme.of(context).textTheme.bodyText1!.color,
+                                    fontSize: MediaQuery.of(context).size.height * 0.02))
+                          )
+                        ),
+                        SizedBox(width: MediaQuery.of(context).size.height * 0.02),
+                        Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).accentColor,
+                                  shape: BoxShape.circle),
+                              child: IconButton(
+                                icon: Icon(Icons.edit),
+                                color: Theme.of(context).primaryColorDark,
+                                onPressed: () {
+                                  //alert dialog for edit
+                                },
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: MediaQuery.of(context).size.width * 0.05,
+                                    vertical: MediaQuery.of(context).size.width * 0.01),
+                              ),
+                            )
+                        )
                       ],
                     ),
-                  ),
-                  Spacer()
-                ],
-              ),
-            )
-          ],
-        ),
-      )
+                  ]
+              )
+          ),
+        )
+      ],
     );
   }
 }
