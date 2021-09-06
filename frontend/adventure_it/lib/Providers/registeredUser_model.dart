@@ -1,11 +1,12 @@
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
+import 'package:adventure_it/api/registeredUser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:adventure_it/api/userProfile.dart';
 
 class RegisteredUserModel extends ChangeNotifier {
-  List<UserProfile>? _users;
+  List<RegisteredUser>? _users;
   ItineraryEntry? entry;
 
   RegisteredUserModel(ItineraryEntry i) {
@@ -14,24 +15,10 @@ class RegisteredUserModel extends ChangeNotifier {
         (users) => users != null ? _users = users : List.empty());
   }
 
-  List<UserProfile>? get users => _users?.toList();
+  List<RegisteredUser>? get users => _users?.toList();
 
   Future fetchUsers(ItineraryEntry i) async {
     _users = await ItineraryApi.getRegisteredUsers(i);
-
-    notifyListeners();
-  }
-
-  Future registeredUser() async {
-    await ItineraryApi.registerForItinerary(this.entry!);
-    fetchUsers(this.entry!);
-
-    notifyListeners();
-  }
-
-  Future deregisterUser() async {
-    await ItineraryApi.deregisterForItinerary(this.entry!);
-    fetchUsers(this.entry!);
 
     notifyListeners();
   }

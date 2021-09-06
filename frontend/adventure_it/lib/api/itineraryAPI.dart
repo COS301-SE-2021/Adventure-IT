@@ -365,7 +365,7 @@ class ItineraryApi {
         .get(Uri.parse("http://"+mainApi+'/itinerary/checkUserOff/' + UserApi.getInstance().getUserProfile()!.userID+"/"+i.id));
   }
 
-  static Future<List<UserProfile>> getRegisteredUsers(ItineraryEntry i) async {
+  static Future<List<RegisteredUser>> getRegisteredUsers(ItineraryEntry i) async {
     http.Response response = await _getRegisteredUsers(i);
 
 
@@ -373,8 +373,8 @@ class ItineraryApi {
       throw Exception('Failed to get the users for the itinerary: ${response.body}');
     }
 
-    List<UserProfile> users = (jsonDecode(response.body) as List)
-        .map((x) => UserProfile.fromJson(x))
+    List<RegisteredUser> users = (jsonDecode(response.body) as List)
+        .map((x) => RegisteredUser.fromJson(x))
         .toList();
 
     return users;
