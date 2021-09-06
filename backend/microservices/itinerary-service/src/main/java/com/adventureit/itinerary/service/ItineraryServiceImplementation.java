@@ -331,6 +331,18 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new RegistrationException("Get Itinerary Entry: User not registered");
         }
 
+        Map<UUID, Boolean> list = entry.getRegisteredUsers();
+
+        if (list.size() != 0) {
+            for (Map.Entry<UUID, Boolean> item : list.entrySet()){
+                if(item.getValue() == false){
+                    entry.setCompleted(false);
+                    break;
+                }
+                entry.setCompleted(true);
+            }
+        }
+
         entry.getRegisteredUsers().replace(userID, true);
         itineraryEntryRepository.save(entry);
     }
