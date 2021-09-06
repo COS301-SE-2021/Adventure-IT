@@ -386,4 +386,23 @@ class ItineraryApi {
         .get(Uri.parse("http://"+mainApi+'/itinerary/getRegisteredUsers/'+i.id));
   }
 
+  static Future<bool> isRegisteredUser(ItineraryEntry i) async {
+    http.Response response = await _isRegisteredUser(i);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to see if user is registered for entry: ${response.body}');
+    }
+
+    bool x =(jsonDecode(response.body) as bool);
+
+    return x;
+
+  }
+
+  static Future<http.Response> _isRegisteredUser(ItineraryEntry i) async {
+    return http
+        .get(Uri.parse("http://"+mainApi+'/itinerary/isRegisteredUser/'+i.id+"/"+UserApi.getInstance().getUserProfile()!.userID));
+  }
+
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:adventure_it/Providers/registeredUser_model.dart';
+import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:flutter/material.dart';
@@ -1906,6 +1907,29 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                             },
                                           );
                                         }
+                                        if (value == 3) {
+                                          ItineraryApi.isRegisteredUser(
+                                              entryModel.entries!.elementAt(
+                                                  index)).then((value) {
+                                                    print("here here here"+value.toString());
+                                            if (value) {
+                                              ItineraryApi
+                                                  .deregisterForItinerary(
+                                                  entryModel.entries!.elementAt(
+                                                      index));
+                                            }
+                                            else {
+                                              ItineraryApi.registerForItinerary(
+                                                  entryModel.entries!.elementAt(
+                                                      index));
+                                            }
+                                          });
+                                        }
+                                        if (value == 4) {
+                                          ItineraryApi.checkUserOff(
+                                              entryModel.entries!.elementAt(
+                                                  index));
+                                        }
                                       },
                                       itemBuilder: (context) =>
                                       [
@@ -1939,7 +1963,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                               ],
                                             )),
                                         PopupMenuItem(
-                                            value: 1,
+                                            value: 3,
                                             child: Row(
                                               children: <
                                                   Widget>[
@@ -1949,7 +1973,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                       .all(5),
                                                   child: Icon(
                                                       Icons
-                                                          .edit_rounded,
+                                                          .person,
                                                       color: Theme
                                                           .of(
                                                           context)
@@ -1957,7 +1981,36 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                           .bodyText2!
                                                           .color),
                                                 ),
-                                                Text("",
+                                                Text("Sign up/Opt out",
+                                                    style: TextStyle(
+                                                        color: Theme
+                                                            .of(
+                                                            context)
+                                                            .textTheme
+                                                            .bodyText2!
+                                                            .color))
+                                              ],
+                                            )),
+                                        PopupMenuItem(
+                                            value: 4,
+                                            child: Row(
+                                              children: <
+                                                  Widget>[
+                                                Padding(
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .all(5),
+                                                  child: Icon(
+                                                      Icons
+                                                          .location_history,
+                                                      color: Theme
+                                                          .of(
+                                                          context)
+                                                          .textTheme
+                                                          .bodyText2!
+                                                          .color),
+                                                ),
+                                                Text("Check in",
                                                     style: TextStyle(
                                                         color: Theme
                                                             .of(
@@ -2170,51 +2223,73 @@ class RegisteredUsers extends StatelessWidget {
                   ]);
                 } else if (registeredModel.users!.length > 0) {
                   return
-                    Column(children: [
-                      SizedBox(height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.01), Center(
-                          child: Text("...............................",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 15 * MediaQuery
-                                      .of(context)
-                                      .textScaleFactor,
-                                  color: Theme
-                                      .of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color))), SizedBox(height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.01)
-                    ]);
+                    Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                    SizedBox(height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.01), Center(
+                child: Text("Participating Adventurers",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                fontSize: 20 * MediaQuery
+                    .of(context)
+                    .textScaleFactor,
+                color: Theme
+                    .of(context)
+                    .textTheme
+                    .bodyText1!
+                    .color))), SizedBox(height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.01),
+    ListView.builder(
+    shrinkWrap: true,
+    itemCount: registeredModel
+        .users!.length,
+    itemBuilder: (context,
+    index) {
+      return ListTile(
+          title: Text(registeredModel.users!.elementAt(index).username,
+              style: TextStyle(
+                  fontSize: 15,
+                  color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color))
+      );
+    }),
+                SizedBox(height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.01),
+                ]);
                 }
                 else {
-                  return Column(children: [
-                    SizedBox(height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.01),
-                    Center(
-                        child: Text("Be the first to join in on this activity!",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                                fontSize: 15 * MediaQuery
-                                    .of(context)
-                                    .textScaleFactor,
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .color))),
-                    SizedBox(height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.01)
-                  ]);
+                return Column(children: [
+                SizedBox(height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.01),
+                Center(
+                child: Text("Be the first to join in on this activity!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                fontSize: 20 * MediaQuery
+                    .of(context)
+                    .textScaleFactor,
+                color: Theme
+                    .of(context)
+                    .textTheme
+                    .bodyText1!
+                    .color))),
+                SizedBox(height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.01)
+                ]);
                 }
               }
 
