@@ -295,4 +295,49 @@ class ItineraryApi {
         .get(Uri.parse("http://"+mainApi+'/itinerary/getStartDateEndDate/'+i.id));
   }
 
+  static Future registerForItinerary(ItineraryEntry i) async {
+    http.Response response = await _registerForItinerary(i);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to register for itinerary item: ${response.body}');
+    }
+
+  }
+
+  static Future<http.Response> _registerForItinerary(ItineraryEntry i) async {
+    return http
+        .get(Uri.parse("http://"+mainApi+'/itinerary/registerUser/' + UserApi.getInstance().getUserProfile()!.userID+"/"+i.id));
+  }
+
+  static Future deregisterForItinerary(ItineraryEntry i) async {
+    http.Response response = await _deregisterForItinerary(i);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to deregister for itinerary item: ${response.body}');
+    }
+
+  }
+
+  static Future<http.Response> _deregisterForItinerary(ItineraryEntry i) async {
+    return http
+        .get(Uri.parse("http://"+mainApi+'/itinerary/deregisterUser/' + UserApi.getInstance().getUserProfile()!.userID+"/"+i.id));
+  }
+
+  static Future checkUserOff(ItineraryEntry i) async {
+    http.Response response = await _checkUserOff(i);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to check itinerary item off for user: ${response.body}');
+    }
+
+  }
+
+  static Future<http.Response> _checkUserOff(ItineraryEntry i) async {
+    return http
+        .get(Uri.parse("http://"+mainApi+'/itinerary/checkUserOff/' + UserApi.getInstance().getUserProfile()!.userID+"/"+i.id));
+  }
+
 }
