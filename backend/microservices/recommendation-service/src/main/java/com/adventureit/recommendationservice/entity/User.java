@@ -42,4 +42,8 @@ public class User {
         return this.visitedLocations.contains(location);
     }
 
+    public UUID getUserId(){
+        return this.userId;
+    }
+
 }

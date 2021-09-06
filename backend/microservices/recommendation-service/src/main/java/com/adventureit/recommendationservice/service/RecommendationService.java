@@ -5,13 +5,16 @@ import com.adventureit.recommendationservice.entity.User;
 import com.adventureit.recommendationservice.exception.*;
 import com.adventureit.recommendationservice.repository.LocationRepository;
 import com.adventureit.recommendationservice.repository.UserRepository;
+import javassist.Loader;
 import org.ejml.data.DMatrixSparseCSC;
 import org.ejml.simple.SimpleMatrix;
 import org.ejml.simple.ops.SimpleOperations_DSCC;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Vector;
 
 @Service
 public class RecommendationService {
@@ -73,10 +76,23 @@ public class RecommendationService {
         }
     }
 
-    public void getUserRecommendations(UUID id){
+    public List<UUID> getUserRecommendations(UUID id){
         // Get users
         List<User> users = this.userRepository.findAll();
         int numUsers = users.size();
+
+        // Find index of current user:
+        int userIndex = -1;
+        for (int i = 0; i < users.size(); i++) {
+            if(users.get(i).getUserId().equals(id)){
+                userIndex = i;
+                break;
+            }
+        }
+
+        if(userIndex == -1){
+            throw new UserNotFoundException(id);
+        }
 
         // Get locations
         List<Location> locations = this.locationRepository.findAll();
@@ -91,7 +107,7 @@ public class RecommendationService {
         }
 
         // For each user (row) add an entry with their "rating" of the corresponding location (col)
-        DMatrixSparseCSC datasetMatrix = new DMatrixSparseCSC(numUsers, numLocations);
+        SimpleMatrix datasetMatrix = new SimpleMatrix(numUsers, numLocations);
 
         for(int i = 0; i < numUsers; i++){
             for(int j = 0; j < numLocations; j++){
@@ -113,13 +129,77 @@ public class RecommendationService {
                 // If user has neither liked nor visited the location, don't insert anything
             }
         }
-        SimpleOperations_DSCC matrixOps = new SimpleOperations_DSCC();
-        double a = datasetMatrix.dot(new SimpleMatrix(datasetMatrix.transpose()));
-        SimpleMatrix norms = datasetMatrix;
-        norms.zero();
-        norms = norms.diag(a);
+        SimpleMatrix transposedDatasetMatrix = datasetMatrix.transpose();
+        SimpleMatrix similarityMatrix = new SimpleMatrix(datasetMatrix);
+        similarityMatrix = transposedDatasetMatrix.mult(datasetMatrix);
+        SimpleMatrix norms = similarityMatrix.diag();
 
-        norms.print();
+        for (int i = 0; i < norms.numRows(); i++) {
+            for (int j = 0; j < norms.numCols(); j++) {
+                norms.set(i,j, Math.sqrt(norms.get(i,j)));
+            }
+        }
+
+        for (int i = 0; i < similarityMatrix.numRows(); i++) {
+            for (int j = 0; j < similarityMatrix.numCols(); j++) {
+                double curValue = similarityMatrix.get(i,j);
+                double newValue = curValue / norms.get(j,0) / norms.transpose().get(0,j);
+                if(Double.isNaN(newValue)){
+                    similarityMatrix.set(i,j, 0);
+                }
+                else {
+                    similarityMatrix.set(i,j, newValue);
+                }
+            }
+        }
+
+        SimpleMatrix x = new SimpleMatrix(1, similarityMatrix.numCols());
+
+        for (int i = 0; i < similarityMatrix.numRows(); i++) {
+            x = x.plus(similarityMatrix.extractVector(true, i));
+        }
+
+        SimpleMatrix predictionMatrix = datasetMatrix.mult(similarityMatrix);
+
+        for (int i = 0; i < predictionMatrix.numRows() - 1; i++) {
+            for (int j = 0; j < x.numCols() - 1; j++) {
+                double prediction = predictionMatrix.get(i,j)/x.get(0,j);
+                if(Double.isNaN(prediction) || prediction == Double.POSITIVE_INFINITY){
+                    prediction = 0;
+                }
+                predictionMatrix.set(i, j, prediction);
+            }
+        }
+
+        double[] locationPredictedRating = new double[predictionMatrix.numCols()];
+        int[] locationIndex = new int[predictionMatrix.numCols()];
+
+
+        for (int i = 0; i < predictionMatrix.numCols(); i++) {
+            locationPredictedRating[i] = predictionMatrix.get(userIndex, i);
+            locationIndex[i] = i;
+        }
+
+        for (int i = 0; i < locationPredictedRating.length - 1; i++) {
+            for (int j = i; j < locationPredictedRating.length; j++) {
+                if(locationPredictedRating[i] < locationPredictedRating[j]){
+                    double tempPrediction = locationPredictedRating[i];
+                    locationPredictedRating[i] = locationPredictedRating[j];
+                    locationPredictedRating[j] = tempPrediction;
+
+                    int tempIndex = locationIndex[i];
+                    locationIndex[i] = locationIndex[j];
+                    locationIndex[j] = tempIndex;
+                }
+            }
+        }
+
+        List<UUID> recommendedLocations = new ArrayList<>();
+        for (int i = 0; i < locationIndex.length; i++) {
+            recommendedLocations.add(locations.get(i).getLocationId());
+        }
+
+        return recommendedLocations;
     }
 }
 

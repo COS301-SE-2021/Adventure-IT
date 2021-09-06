@@ -38,4 +38,8 @@ public class Location {
     public long getVisits(){
         return this.visits;
     }
+
+    public UUID getLocationId(){
+        return this.locationId;
+    }
 }

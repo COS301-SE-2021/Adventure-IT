@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -89,8 +88,6 @@ public class RecommendationController {
     // User requests arbitrary number of recommendations
     @GetMapping("get/{userId}/{numRecommendations}")
     public List<UUID> getUserRecommendations(@PathVariable UUID userId, @PathVariable int numRecommendations){
-
-
-        return new ArrayList<UUID>(){};
+        return this.recommendationService.getUserRecommendations(userId).subList(0, numRecommendations-1);
     }
 }
