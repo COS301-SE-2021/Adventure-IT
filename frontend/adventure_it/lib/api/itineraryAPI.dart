@@ -1,15 +1,18 @@
 import 'dart:convert';
 import 'package:adventure_it/api/createItineraryEntry.dart';
 import 'package:adventure_it/api/userAPI.dart';
+import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/constants.dart';
 import '/api/itinerary.dart';
 import '/api/adventure.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+import 'package:location/location.dart';
 
 import 'itineraryEntry.dart';
 
 import 'createItinerary.dart';
+import 'locationAPI.dart';
 
 class ItineraryApi {
   static Future<List<Itinerary>> getItineraries(Adventure? a) async {
@@ -326,6 +329,28 @@ class ItineraryApi {
   }
 
   static Future checkUserOff(ItineraryEntry i) async {
+
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    Location location = Location();
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+    }
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+    }
+    LocationData? currentLocation;
+    if (permissionGranted == PermissionStatus.granted &&
+        serviceEnabled) {
+      location.changeSettings(accuracy: LocationAccuracy.high);
+      location.getLocation().then((value) {
+        currentLocation = value;
+        LocationApi.setCurrentLocation(currentLocation!);
+      });
+    }
+
     http.Response response = await _checkUserOff(i);
 
 
@@ -338,6 +363,27 @@ class ItineraryApi {
   static Future<http.Response> _checkUserOff(ItineraryEntry i) async {
     return http
         .get(Uri.parse("http://"+mainApi+'/itinerary/checkUserOff/' + UserApi.getInstance().getUserProfile()!.userID+"/"+i.id));
+  }
+
+  static Future<List<UserProfile>> getRegisteredUsers(ItineraryEntry i) async {
+    http.Response response = await _getRegisteredUsers(i);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to get the users for the itinerary: ${response.body}');
+    }
+
+    List<UserProfile> users = (jsonDecode(response.body) as List)
+        .map((x) => UserProfile.fromJson(x))
+        .toList();
+
+    return users;
+
+  }
+
+  static Future<http.Response> _getRegisteredUsers(ItineraryEntry i) async {
+    return http
+        .get(Uri.parse("http://"+mainApi+'/itinerary/getRegisteredUsers/'+i.id));
   }
 
 }
