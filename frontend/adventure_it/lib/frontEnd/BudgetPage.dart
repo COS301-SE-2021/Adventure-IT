@@ -112,7 +112,7 @@ class _BudgetPage extends State<BudgetPage>
                             indicatorSize: TabBarIndicatorSize.tab,
                             tabs: [
                               Tab(icon: Icon(Icons.payments), text: "Transactions"),
-                              Tab(icon: Icon(Icons.auto_graph_rounded), text: "Report"),
+                              Tab(icon: Icon(Icons.insert_chart_rounded), text: "Report"),
                             ],
                           )),
                       SizedBox(height: MediaQuery
