@@ -573,8 +573,8 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                                                       .size
                                                                       .width *
                                                                       0.01),
-                                                              child: Expanded(
-                                                                  child: Text(
+                                                              child: ListTile(
+                                                                  title: Text(
                                                                     locationModel
                                                                         .suggestions!
                                                                         .elementAt(
