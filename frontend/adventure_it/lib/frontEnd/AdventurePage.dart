@@ -778,8 +778,8 @@ class AlertBox extends StatelessWidget {
                                         horizontal:
                                             MediaQuery.of(context).size.width *
                                                 0.01),
-                                    child: Expanded(
-                                        child: Text(
+                                    child:  ListTile(
+                                       title: Text(
                                       friendModel.friends!
                                           .elementAt(index)
                                           .username,
