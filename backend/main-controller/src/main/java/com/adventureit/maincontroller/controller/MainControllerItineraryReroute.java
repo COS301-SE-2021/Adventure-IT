@@ -226,11 +226,11 @@ public class MainControllerItineraryReroute {
 
     @GetMapping("/isRegisteredUser/{id}/{userId}")
     public boolean isRegisteredUser(@PathVariable UUID id, @PathVariable UUID userId) {
-        Map<UUID, Boolean> list = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getRegisteredUsers/" + id, Map.class);
+        Map<String, Boolean> list = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getRegisteredUsers/" + id, Map.class);
         assert list != null;
 
-        for(Map.Entry<UUID, Boolean> entry : list.entrySet()) {
-            if (entry.getKey().equals(userId)){
+        for(Map.Entry<String, Boolean> entry : list.entrySet()) {
+            if (entry.getKey().equals(userId.toString())){
                 return true;
             }
         }
