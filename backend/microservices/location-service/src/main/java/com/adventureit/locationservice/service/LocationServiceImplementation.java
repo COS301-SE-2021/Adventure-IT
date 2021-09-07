@@ -208,10 +208,19 @@ public class LocationServiceImplementation implements LocationService {
        lat = json.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getString("lat");
        lng = json.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getString("lng");
 
-       if(lat.equals(currentLocation.getLatitude()) && lng.equals(currentLocation.getLongitude())){
-           return true;
-       }
+       double lat1 = Double.parseDouble(lat);
+       double lng1 = Double.parseDouble(lng);
 
-        return false;
+           if((lat1 >= Double.parseDouble(currentLocation.getLatitude()) || lat1 <= Double.parseDouble(currentLocation.getLatitude()) + 0.01) || (lat1 <= Double.parseDouble(currentLocation.getLatitude()) || lat1 >= Double.parseDouble(currentLocation.getLatitude()) - 0.01)){
+               if((lng1 >= Double.parseDouble(currentLocation.getLongitude()) || lng1 <= Double.parseDouble(currentLocation.getLongitude()) + 0.01) || (lng1 <= Double.parseDouble(currentLocation.getLongitude()) || lng1 >= Double.parseDouble(currentLocation.getLongitude()) - 0.01)){
+                    return true;
+               }
+               else{
+                   return false;
+               }
+           }
+           else{
+               return false;
+           }
     }
 }

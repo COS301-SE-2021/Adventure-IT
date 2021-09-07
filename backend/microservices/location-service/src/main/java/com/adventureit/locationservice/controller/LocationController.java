@@ -43,7 +43,7 @@ public class LocationController {
     }
 
     @GetMapping(value = "/compareGeography/{id}/{userID}")
-    public void compareGeography(@PathVariable UUID id, @PathVariable UUID userID) throws JSONException, IOException {
-        locationServiceImplementation.compareGeometry(id,userID);
+    public boolean compareGeography(@PathVariable UUID id, @PathVariable UUID userID) throws JSONException, IOException {
+        return locationServiceImplementation.compareGeometry(id,userID);
     }
 }
