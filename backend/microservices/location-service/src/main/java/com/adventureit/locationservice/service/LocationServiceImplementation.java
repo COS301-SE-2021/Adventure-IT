@@ -212,12 +212,7 @@ public class LocationServiceImplementation implements LocationService {
        double lng1 = Double.parseDouble(lng);
 
            if((lat1 >= Double.parseDouble(currentLocation.getLatitude()) || lat1 <= Double.parseDouble(currentLocation.getLatitude()) + 0.01) || (lat1 <= Double.parseDouble(currentLocation.getLatitude()) || lat1 >= Double.parseDouble(currentLocation.getLatitude()) - 0.01)){
-               if((lng1 >= Double.parseDouble(currentLocation.getLongitude()) || lng1 <= Double.parseDouble(currentLocation.getLongitude()) + 0.01) || (lng1 <= Double.parseDouble(currentLocation.getLongitude()) || lng1 >= Double.parseDouble(currentLocation.getLongitude()) - 0.01)){
-                    return true;
-               }
-               else{
-                   return false;
-               }
+               return (lng1 >= Double.parseDouble(currentLocation.getLongitude()) || lng1 <= Double.parseDouble(currentLocation.getLongitude()) + 0.01) || (lng1 <= Double.parseDouble(currentLocation.getLongitude()) || lng1 >= Double.parseDouble(currentLocation.getLongitude()) - 0.01);
            }
            else{
                return false;
