@@ -2251,8 +2251,11 @@ class RegisteredUsers extends StatelessWidget {
     itemBuilder: (context,
     index) {
       return ListTile(
-          title: Text(registeredModel.users!.elementAt(index).username,
+          title: Text(registeredModel.users!.elementAt(index).user.username,
               style: TextStyle(
+                decoration: registeredModel.users!.elementAt(index).checkIn?TextDecoration
+                    .lineThrough
+                    : null,
                   fontSize: 15,
                   color: Theme
                       .of(context)

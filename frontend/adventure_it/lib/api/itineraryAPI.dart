@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:adventure_it/api/createItineraryEntry.dart';
+import 'package:adventure_it/api/participatingUser.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/constants.dart';
@@ -365,7 +366,7 @@ class ItineraryApi {
         .get(Uri.parse("http://"+mainApi+'/itinerary/checkUserOff/' + UserApi.getInstance().getUserProfile()!.userID+"/"+i.id));
   }
 
-  static Future<List<RegisteredUser>> getRegisteredUsers(ItineraryEntry i) async {
+  static Future<List<ParticipatingUser>> getRegisteredUsers(ItineraryEntry i) async {
     http.Response response = await _getRegisteredUsers(i);
 
 
@@ -373,8 +374,8 @@ class ItineraryApi {
       throw Exception('Failed to get the users for the itinerary: ${response.body}');
     }
 
-    List<RegisteredUser> users = (jsonDecode(response.body) as List)
-        .map((x) => RegisteredUser.fromJson(x))
+    List<ParticipatingUser> users = (jsonDecode(response.body) as List)
+        .map((x) => ParticipatingUser.fromJson(x))
         .toList();
 
     return users;
