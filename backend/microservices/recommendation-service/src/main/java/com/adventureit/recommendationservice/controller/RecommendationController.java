@@ -72,7 +72,7 @@ public class RecommendationController {
     }
 
     // Add a new user
-    @PostMapping("add/Location")
+    @PostMapping("add/location")
     public ResponseEntity<String> addLocation(@RequestBody CreateLocationRequest req){
         try {
             this.recommendationService.addLocation(req.locationId);
