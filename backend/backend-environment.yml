@@ -18,8 +18,8 @@ service-registry-client:
 
 # Service Registry (server)
 service-registry-server:
+  name: SERVICE-REGISTRY
   port: 8761
-  application-name: SERVICE-REGISTRY
   eureka:
     client:
       register-with-eureka: false

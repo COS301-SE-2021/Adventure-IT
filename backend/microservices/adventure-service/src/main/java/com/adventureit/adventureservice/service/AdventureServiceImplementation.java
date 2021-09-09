@@ -5,11 +5,11 @@ import com.adventureit.adventureservice.entity.Adventure;
 import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
 import com.adventureit.adventureservice.exceptions.UserNotInAdventureException;
 import com.adventureit.adventureservice.repository.AdventureRepository;
-import com.adventureit.adventureservice.requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.requests.EditAdventureRequest;
 import com.adventureit.adventureservice.requests.GetAdventureByUUIDRequest;
 import com.adventureit.adventureservice.responses.*;
 import com.adventureit.adventureservice.exceptions.NullFieldException;
+import com.adventureit.shareddtos.adventure.request.CreateAdventureRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

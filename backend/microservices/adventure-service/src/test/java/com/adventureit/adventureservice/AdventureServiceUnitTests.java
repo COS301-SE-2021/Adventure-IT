@@ -2,11 +2,11 @@ package com.adventureit.adventureservice;
 
 import com.adventureit.adventureservice.entity.Adventure;
 import com.adventureit.adventureservice.repository.AdventureRepository;
-import com.adventureit.adventureservice.requests.CreateAdventureRequest;
 import com.adventureit.adventureservice.requests.GetAdventureByUUIDRequest;
 import com.adventureit.adventureservice.responses.*;
 import com.adventureit.adventureservice.service.AdventureServiceImplementation;
 import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
+import com.adventureit.shareddtos.adventure.request.CreateAdventureRequest;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
