@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service("BudgetServiceImplementation")
@@ -126,6 +127,7 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
+    @Transactional
     public AddUTOExpenseEntryResponse addUTOExpenseEntry(UUID entryContainerID, double amount, String title, String description,Category category,String payer, String payee) {
         verifyBudgetRequestForm(entryContainerID, amount, title, description, category);
 

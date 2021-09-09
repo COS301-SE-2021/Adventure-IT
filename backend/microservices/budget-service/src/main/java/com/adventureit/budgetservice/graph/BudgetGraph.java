@@ -84,22 +84,6 @@ public class BudgetGraph{
                 payer.addEdge(new Edge(payer,payee,entry.getAmount(),entry.getId()));
             }
         }
-
-//        System.out.println(nodes.size());
-//        for (int i = 0; i<nodes.size();i++){
-//            System.out.println("______________________________________________________________");
-//            System.out.println(nodes.get(i).getName());
-//            for (int j = 0 ; j <nodes.get(i).getEdges().size();j++ ){
-//                System.out.println();
-//                Edge edge = (Edge)nodes.get(i).getEdges().get(j);
-//                System.out.println(edge.getPayer().getName()+"pays "+edge.getAmount()+" to "+edge.getPayee().getName());
-//            }
-//        }
-
-
-
-
-
         this.nodes = nodes;
         return nodes;
     }
