@@ -26,8 +26,9 @@
         <module>microservices/itinerary-service</module>
         <module>microservices/chat-service</module>
         <module>microservices/timeline-service</module>
+        <module>sharedDTOs</module>
         <module>service-registry</module>
-        <module>main-controller</module>
+<!--        <module>main-controller</module>-->
     </modules>
     <properties>
         <java.version>11</java.version>

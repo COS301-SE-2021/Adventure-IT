@@ -1,8 +1,10 @@
 FROM maven:3.8.2-jdk-11 as DEPS
 WORKDIR /dependencies/
 COPY pom.xml pom.xml
+COPY sharedDTOs/pom.xml sharedDTOs/pom.xml
 COPY service-registry/pom.xml service-registry/pom.xml
 COPY microservices/adventure-service/pom.xml microservices/adventure-service/pom.xml
+COPY microservices/recommendation-service/pom.xml microservices/recommendation-service/pom.xml
 COPY microservices/budget-service/pom.xml microservices/budget-service/pom.xml
 COPY microservices/chat-service/pom.xml microservices/chat-service/pom.xml
 COPY microservices/checklist-service/pom.xml microservices/checklist-service/pom.xml
@@ -19,7 +21,9 @@ COPY --from=DEPS /root/.m2/ /root/.m2/
 COPY --from=DEPS /dependencies/ /dependencies/
 WORKDIR /dependencies/
 COPY service-registry/src service-registry/src
+COPY sharedDTOs/src sharedDTOs/src
 COPY microservices/adventure-service/src microservices/adventure-service/src
+COPY microservices/recommendation-service/src microservices/recommendation-service/src
 COPY microservices/budget-service/src microservices/budget-service/src
 COPY microservices/chat-service/src microservices/chat-service/src
 COPY microservices/checklist-service/src microservices/checklist-service/src
@@ -30,5 +34,6 @@ COPY microservices/notification-service/src microservices/notification-service/s
 COPY microservices/timeline-service/src microservices/timeline-service/src
 COPY microservices/user-service/src microservices/user-service/src
 COPY backend-environment.yml /env/backend-environment.yml
+VOLUME /env/
 RUN mvn -B -e -o -DskipTests=true clean install
 CMD ["echo","Build done"]
