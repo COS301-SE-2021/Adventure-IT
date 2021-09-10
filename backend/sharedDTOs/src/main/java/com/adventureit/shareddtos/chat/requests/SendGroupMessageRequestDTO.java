@@ -1,4 +1,4 @@
-package com.adventureit.chat.requests;
+package com.adventureit.shareddtos.chat.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -2,12 +2,12 @@ package com.adventureit.chat.controller;
 
 import com.adventureit.chat.entity.DirectMessage;
 import com.adventureit.chat.entity.GroupMessage;
-import com.adventureit.chat.requests.CreateDirectChatRequest;
-import com.adventureit.chat.requests.CreateGroupChatRequest;
-import com.adventureit.chat.requests.SendDirectMessageRequestDTO;
-import com.adventureit.chat.requests.SendGroupMessageRequestDTO;
-import com.adventureit.chat.responses.DirectChatResponseDTO;
-import com.adventureit.chat.responses.GroupChatResponseDTO;
+import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
+import com.adventureit.shareddtos.chat.requests.CreateGroupChatRequest;
+import com.adventureit.shareddtos.chat.requests.SendDirectMessageRequestDTO;
+import com.adventureit.shareddtos.chat.requests.SendGroupMessageRequestDTO;
+import com.adventureit.shareddtos.chat.responses.DirectChatResponseDTO;
+import com.adventureit.shareddtos.chat.responses.GroupChatResponseDTO;
 import com.adventureit.chat.service.ChatServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
