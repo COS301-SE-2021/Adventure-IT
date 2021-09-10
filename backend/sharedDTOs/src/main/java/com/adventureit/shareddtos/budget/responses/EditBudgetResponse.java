@@ -1,12 +1,11 @@
-package com.adventureit.budgetservice.responses;
+package com.adventureit.shareddtos.budget.responses;
 
-
-public class AddUTUExpenseEntryResponse {
+public class EditBudgetResponse {
     boolean success;
     String message;
 
-    public AddUTUExpenseEntryResponse(boolean success){
-        this.message = "Entry added successfully!";
+    public EditBudgetResponse(boolean success){
+        this.message = "Budget successfully edited!";
         this.success = success;
     }
 

@@ -1,4 +1,4 @@
-package com.adventureit.budgetservice.responses;
+package com.adventureit.shareddtos.budget.responses;
 
 public class CreateBudgetResponse {
     private final boolean success;

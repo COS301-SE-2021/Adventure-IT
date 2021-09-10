@@ -1,11 +1,11 @@
-package com.adventureit.budgetservice.responses;
+package com.adventureit.shareddtos.budget.responses;
 
-public class SoftDeleteResponse {
+public class AddUTOExpenseEntryResponse {
     boolean success;
     String message;
 
-    public SoftDeleteResponse(boolean success){
-        this.message = "Budget successfully moved to recycle bin!";
+    public AddUTOExpenseEntryResponse(boolean success){
+        this.message = "Entry added successfully!";
         this.success = success;
     }
 

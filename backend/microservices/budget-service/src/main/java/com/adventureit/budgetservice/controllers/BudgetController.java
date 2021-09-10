@@ -1,11 +1,10 @@
 package com.adventureit.budgetservice.controllers;
 
 import com.adventureit.budgetservice.entity.Budget;
-import com.adventureit.budgetservice.exception.BudgetNotFoundException;
 import com.adventureit.budgetservice.repository.BudgetRepository;
-import com.adventureit.budgetservice.requests.*;
-import com.adventureit.budgetservice.responses.*;
 import com.adventureit.budgetservice.service.BudgetServiceImplementation;
+import com.adventureit.shareddtos.budget.requests.*;
+import com.adventureit.shareddtos.budget.responses.*;
 import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

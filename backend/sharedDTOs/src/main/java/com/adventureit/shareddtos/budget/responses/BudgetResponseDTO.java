@@ -1,4 +1,4 @@
-package com.adventureit.budgetservice.responses;
+package com.adventureit.shareddtos.budget.responses;
 
 import java.util.UUID;
 

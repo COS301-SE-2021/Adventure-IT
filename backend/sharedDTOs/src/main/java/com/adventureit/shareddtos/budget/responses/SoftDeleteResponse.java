@@ -1,12 +1,12 @@
-package com.adventureit.budgetservice.responses;
+package com.adventureit.shareddtos.budget.responses;
 
-public class RemoveEntryResponse {
-    private boolean success;
-    private String message;
+public class SoftDeleteResponse {
+    boolean success;
+    String message;
 
-    public RemoveEntryResponse(boolean success){
+    public SoftDeleteResponse(boolean success){
+        this.message = "Budget successfully moved to recycle bin!";
         this.success = success;
-        this.message = "Entry successfully removed.";
     }
 
     public String getMessage() {
@@ -20,5 +20,4 @@ public class RemoveEntryResponse {
     public boolean isSuccess() {
         return success;
     }
-
 }

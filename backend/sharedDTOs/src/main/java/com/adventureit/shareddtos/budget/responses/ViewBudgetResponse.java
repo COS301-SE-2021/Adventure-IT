@@ -1,6 +1,6 @@
-package com.adventureit.budgetservice.responses;
+package com.adventureit.shareddtos.budget.responses;
 
-import com.adventureit.budgetservice.entity.Category;
+import com.adventureit.shareddtos.budget.Category;
 
 import java.util.UUID;
 
