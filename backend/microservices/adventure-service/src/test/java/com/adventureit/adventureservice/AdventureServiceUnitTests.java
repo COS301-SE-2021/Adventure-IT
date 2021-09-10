@@ -2,11 +2,11 @@ package com.adventureit.adventureservice;
 
 import com.adventureit.adventureservice.entity.Adventure;
 import com.adventureit.adventureservice.repository.AdventureRepository;
-import com.adventureit.adventureservice.requests.GetAdventureByUUIDRequest;
-import com.adventureit.adventureservice.responses.*;
+import com.adventureit.shareddtos.adventure.requests.GetAdventureByUUIDRequest;
 import com.adventureit.adventureservice.service.AdventureServiceImplementation;
 import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
-import com.adventureit.shareddtos.adventure.request.CreateAdventureRequest;
+import com.adventureit.shareddtos.adventure.requests.CreateAdventureRequest;
+import com.adventureit.shareddtos.adventure.responses.*;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -87,7 +87,7 @@ public class AdventureServiceUnitTests {
         Adventure mockAdventure = new Adventure("Mock Adventure 1","Mock Description 1", adventureId1, validUserID1, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 1),UUID.randomUUID());
 
         //When
-        CreateAdventureResponse response = new CreateAdventureResponse(success,message,mockAdventure);
+        CreateAdventureResponse response = new CreateAdventureResponse(success,message,adventureService.createAdventureDTO(mockAdventure));
 
         //Then
         Assertions.assertEquals(success, response.isSuccess());
@@ -103,7 +103,7 @@ public class AdventureServiceUnitTests {
         Adventure mockAdventure = new Adventure("Mock Adventure 1","Mock Description 1", adventureId1, validUserID1, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 1),UUID.randomUUID());
 
         //When
-        GetAdventureByUUIDResponse response = new GetAdventureByUUIDResponse(success,mockAdventure);
+        GetAdventureByUUIDResponse response = new GetAdventureByUUIDResponse(success,adventureService.createAdventureDTO(mockAdventure));
 
         //Then
         Assertions.assertEquals(success, response.isSuccess());

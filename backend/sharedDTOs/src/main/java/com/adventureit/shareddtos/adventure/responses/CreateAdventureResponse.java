@@ -1,11 +1,11 @@
-package com.adventureit.adventureservice.responses;
-import com.adventureit.adventureservice.entity.Adventure;
+package com.adventureit.shareddtos.adventure.responses;
+import com.adventureit.shareddtos.adventure.AdventureDTO;
 
 public class CreateAdventureResponse {
 
     private boolean success;
     private String message;
-    private Adventure adventure;
+    private AdventureDTO adventure;
 
     /**
      * This object will store the response attributes from the GetAdventureByUUID service, currently a mock
@@ -16,19 +16,19 @@ public class CreateAdventureResponse {
 
     }
 
-    public CreateAdventureResponse(boolean success, String message, Adventure adventure) {
+    public CreateAdventureResponse(boolean success, String message, AdventureDTO adventure) {
         this.success = success;
         this.message = message;
         this.adventure = adventure;
     }
 
-    public CreateAdventureResponse(boolean success, Adventure adventure) {
+    public CreateAdventureResponse(boolean success, AdventureDTO adventure) {
         this.success = success;
         this.message = "Adventure was successfully created";
         this.adventure = adventure;
     }
 
-    public Adventure getAdventure(){
+    public AdventureDTO getAdventure(){
         return this.adventure;
     }
 
@@ -40,7 +40,7 @@ public class CreateAdventureResponse {
         this.message = message;
     }
 
-    public void setAdventure(Adventure adventure){
+    public void setAdventure(AdventureDTO adventure){
         this.adventure = adventure;
     }
 

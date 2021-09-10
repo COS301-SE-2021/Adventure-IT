@@ -1,4 +1,4 @@
-package com.adventureit.shareddtos.adventure.request;
+package com.adventureit.shareddtos.adventure.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
