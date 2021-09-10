@@ -1,18 +1,7 @@
 package com.adventureit.maincontroller.controller;
 
-import com.adventureit.adventureservice.requests.CreateAdventureRequest;
-import com.adventureit.adventureservice.requests.EditAdventureRequest;
-import com.adventureit.adventureservice.responses.CreateAdventureResponse;
-import com.adventureit.adventureservice.responses.GetAdventuresByUserUUIDResponse;
-import com.adventureit.adventureservice.responses.GetAllAdventuresResponse;
-import com.adventureit.adventureservice.responses.RemoveAdventureResponse;
-import com.adventureit.chat.requests.CreateGroupChatRequest;
-import com.adventureit.locationservice.responses.LocationResponseDTO;
 import com.adventureit.maincontroller.responses.AdventureResponseDTO;
-import com.adventureit.timelineservice.entity.TimelineType;
-import com.adventureit.timelineservice.requests.CreateTimelineRequest;
-import com.adventureit.userservice.entities.Users;
-import com.adventureit.userservice.responses.GetUserByUUIDDTO;
+import com.adventureit.shareddtos.adventure.requests.CreateAdventureRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 

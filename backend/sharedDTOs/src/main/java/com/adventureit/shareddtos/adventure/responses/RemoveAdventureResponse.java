@@ -1,4 +1,4 @@
-package com.adventureit.adventureservice.responses;
+package com.adventureit.shareddtos.adventure.responses;
 
 public class RemoveAdventureResponse {
     private final boolean success;

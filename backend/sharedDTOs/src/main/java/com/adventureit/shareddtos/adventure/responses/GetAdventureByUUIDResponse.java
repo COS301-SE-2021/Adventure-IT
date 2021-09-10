@@ -1,10 +1,10 @@
-package com.adventureit.adventureservice.responses;
+package com.adventureit.shareddtos.adventure.responses;
 
-import com.adventureit.adventureservice.entity.Adventure;
+import com.adventureit.shareddtos.adventure.AdventureDTO;
 
 public class GetAdventureByUUIDResponse {
     private boolean success;
-    private Adventure adventure;
+    private AdventureDTO adventure;
 
 
     public GetAdventureByUUIDResponse(){}
@@ -17,12 +17,12 @@ public class GetAdventureByUUIDResponse {
      */
 
 
-    public GetAdventureByUUIDResponse(boolean success, Adventure adventure){
+    public GetAdventureByUUIDResponse(boolean success, AdventureDTO adventure){
         this.adventure = adventure;
         this.success = success;
     }
 
-    public Adventure getAdventure(){
+    public AdventureDTO getAdventure(){
         return adventure;
     }
 
@@ -31,7 +31,7 @@ public class GetAdventureByUUIDResponse {
     }
 
 
-    public void setAdventure(Adventure adventure){
+    public void setAdventure(AdventureDTO adventure){
         this.adventure = adventure;
     }
 }
