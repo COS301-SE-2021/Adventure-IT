@@ -1,13 +1,12 @@
 package com.adventureit.maincontroller.controller;
 
-import com.adventureit.chat.entity.DirectMessage;
-import com.adventureit.chat.entity.GroupMessage;
-import com.adventureit.chat.requests.CreateDirectChatRequest;
-import com.adventureit.chat.requests.CreateGroupChatRequest;
-import com.adventureit.chat.requests.SendDirectMessageRequestDTO;
-import com.adventureit.chat.requests.SendGroupMessageRequestDTO;
-import com.adventureit.chat.responses.DirectChatResponseDTO;
-import com.adventureit.chat.responses.GroupChatResponseDTO;
+import com.adventureit.shareddtos.chat.GroupMessageDTO;
+import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
+import com.adventureit.shareddtos.chat.requests.CreateGroupChatRequest;
+import com.adventureit.shareddtos.chat.requests.SendDirectMessageRequestDTO;
+import com.adventureit.shareddtos.chat.requests.SendGroupMessageRequestDTO;
+import com.adventureit.shareddtos.chat.responses.DirectChatResponseDTO;
+import com.adventureit.shareddtos.chat.responses.GroupChatResponseDTO;
 
 
 import com.adventureit.maincontroller.responses.DirectMessageResponseDTO;
@@ -51,7 +50,7 @@ public class MainControllerChatReroute {
     @GetMapping("/getGroupMessages/{id}")
     public List<GroupMessageResponseDTO> getGroupMessages(@PathVariable UUID id) throws Exception {
         GroupChatResponseDTO chat = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getGroupChat/" + id, GroupChatResponseDTO.class);
-        GroupMessage message;
+        GroupMessageDTO message;
         GetUserByUUIDDTO user;
         List<GetUserByUUIDDTO> users = new ArrayList<>();
         List <GroupMessageResponseDTO> list = new ArrayList<>();
@@ -59,7 +58,7 @@ public class MainControllerChatReroute {
         assert chat != null;
 
         for (UUID ID:chat.getMessages()) {
-            message = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getGroupMessageByID/" + ID, GroupMessage.class);
+            message = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getGroupMessageByID/" + ID, GroupMessageDTO.class);
             assert message != null;
             user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + message.getSender(), GetUserByUUIDDTO.class);
 

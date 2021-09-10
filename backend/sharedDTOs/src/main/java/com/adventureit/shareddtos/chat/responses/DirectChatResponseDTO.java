@@ -1,4 +1,4 @@
-package com.adventureit.chat.responses;
+package com.adventureit.shareddtos.chat.responses;
 
 import java.util.ArrayList;
 import java.util.List;

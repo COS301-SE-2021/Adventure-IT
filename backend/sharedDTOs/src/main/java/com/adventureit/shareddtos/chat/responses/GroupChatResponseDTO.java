@@ -1,6 +1,6 @@
-package com.adventureit.chat.responses;
+package com.adventureit.shareddtos.chat.responses;
 
-import com.adventureit.chat.entity.ColorPair;
+import com.adventureit.shareddtos.chat.ColorPairDTO;
 
 import java.util.*;
 
@@ -10,9 +10,9 @@ public class GroupChatResponseDTO {
     List<UUID> participants = new ArrayList<>();
     List<UUID> messages = new ArrayList<>();
     private String name;
-    private List<ColorPair> colors;
+    private List<ColorPairDTO> colors;
 
-    public GroupChatResponseDTO(UUID id, UUID adventureID, List<UUID> participants, List<UUID> messages, String name,List<ColorPair> colors){
+    public GroupChatResponseDTO(UUID id, UUID adventureID, List<UUID> participants, List<UUID> messages, String name,List<ColorPairDTO> colors){
         this.id = id;
         this.adventureID = adventureID;
         this.participants = participants;
@@ -63,11 +63,11 @@ public class GroupChatResponseDTO {
         this.name = name;
     }
 
-    public List<ColorPair> getColors() {
+    public List<ColorPairDTO> getColors() {
         return colors;
     }
 
-    public void setColors(List<ColorPair> colors) {
+    public void setColors(List<ColorPairDTO> colors) {
         this.colors = colors;
     }
 }
