@@ -1,4 +1,4 @@
-package com.adventureit.budgetservice.entity;
+package com.adventureit.shareddtos.budget;
 
 public enum Category {
     TRANSPORT,

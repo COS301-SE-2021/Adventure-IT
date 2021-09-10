@@ -1,13 +1,13 @@
 package com.adventureit.maincontroller.controller;
 
 
-import com.adventureit.budgetservice.requests.AddUTOExpenseEntryRequest;
-import com.adventureit.budgetservice.requests.AddUTUExpenseEntryRequest;
-import com.adventureit.budgetservice.requests.CreateBudgetRequest;
-import com.adventureit.budgetservice.requests.EditBudgetRequest;
-import com.adventureit.budgetservice.responses.BudgetResponseDTO;
-import com.adventureit.budgetservice.responses.ReportResponseDTO;
-import com.adventureit.budgetservice.responses.ViewBudgetResponse;
+import com.adventureit.shareddtos.budget.requests.AddUTOExpenseEntryRequest;
+import com.adventureit.shareddtos.budget.requests.AddUTUExpenseEntryRequest;
+import com.adventureit.shareddtos.budget.requests.CreateBudgetRequest;
+import com.adventureit.shareddtos.budget.requests.EditBudgetRequest;
+import com.adventureit.shareddtos.budget.responses.BudgetResponseDTO;
+import com.adventureit.shareddtos.budget.responses.ReportResponseDTO;
+import com.adventureit.shareddtos.budget.responses.ViewBudgetResponse;
 import com.adventureit.timelineservice.entity.TimelineType;
 import com.adventureit.timelineservice.requests.CreateTimelineRequest;
 import com.adventureit.userservice.responses.GetUserByUUIDDTO;

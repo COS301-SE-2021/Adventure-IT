@@ -1,6 +1,6 @@
-package com.adventureit.budgetservice.requests;
+package com.adventureit.shareddtos.budget.requests;
 
-import com.adventureit.budgetservice.entity.Category;
+import com.adventureit.shareddtos.budget.Category;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;

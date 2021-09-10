@@ -1,4 +1,4 @@
-package com.adventureit.budgetservice.requests;
+package com.adventureit.shareddtos.budget.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

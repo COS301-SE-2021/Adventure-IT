@@ -1,11 +1,11 @@
-package com.adventureit.budgetservice.responses;
+package com.adventureit.shareddtos.budget.responses;
 
-public class EditBudgetResponse {
+public class HardDeleteResponse {
     boolean success;
     String message;
 
-    public EditBudgetResponse(boolean success){
-        this.message = "Budget successfully edited!";
+    public HardDeleteResponse(boolean success){
+        this.message = "Budget permanently deleted!";
         this.success = success;
     }
 
