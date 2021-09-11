@@ -59,7 +59,7 @@ public class UserServiceImplementation  {
     private void initializeFirebase() throws IOException {
         bucketName = "adventure-it-bc0b6.appspot.com";
         String projectId = "Adventure-IT";
-        FileInputStream serviceAccount = new FileInputStream("C:\\Users\\sgood\\Documents\\CS\\SEM 2\\COS301\\adventure-it-bc0b6-firebase-adminsdk-o2fq8-ad3a51fb5e.json");
+        FileInputStream serviceAccount = new FileInputStream("C:\\Users\\Ashton\\Documents\\GitHub\\Adventure-IT\\adventure-it-bc0b6-firebase-adminsdk-o2fq8-ad3a51fb5e.json");
         this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
     }
 
@@ -142,7 +142,7 @@ public class UserServiceImplementation  {
 
     public HttpStatus updateProfilePicture(MultipartFile file, UUID userId){
         try {
-            UUID id = UUID.randomUUID();
+            UUID id = userId;
             String fileName = file.getOriginalFilename();
 
             PictureInfo uploadedPicture = new PictureInfo(id, file.getContentType(), fileName, userId);

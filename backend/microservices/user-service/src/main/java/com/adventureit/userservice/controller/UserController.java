@@ -58,9 +58,9 @@ public class UserController {
         return service.updateProfilePicture(file, userId);
     }
 
-    @PostMapping(value = "viewPicture/{id}")
-    public ResponseEntity<byte[]> viewPicture(@PathVariable UUID id) throws IOException {
-        return service.viewImage(id);
+    @GetMapping(value = "viewPicture/{id}")
+    public ResponseEntity<byte[]> viewImage(@PathVariable UUID user) throws IOException {
+        return service.viewImage(user);
     }
 
     @PostMapping(value = "removePicture/{id}")

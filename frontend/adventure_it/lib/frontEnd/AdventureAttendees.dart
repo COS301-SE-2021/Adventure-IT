@@ -168,32 +168,27 @@ class _Carousel extends State<Carousel> {
       Container(
           height: MediaQuery.of(context).size.height * 0.25,
           width: MediaQuery.of(context).size.width,
-              child: CarouselSlider.builder(
-                carouselController: carouselController,
-                options: CarouselOptions(
-                  autoPlay: false,
-                  enlargeCenterPage: true,
-                  viewportFraction: 0.2,
-                  aspectRatio: 2.0,
-                  initialPage: (attendeeModel!.attendees!.length / 2).toInt(),
-                  enableInfiniteScroll: false,
-                ),
-                itemCount: attendeeModel!.attendees!.length,
-                itemBuilder:
-                    (BuildContext context, int index, int pageViewIndex) =>
-                        Container(
-                            height: MediaQuery.of(context).size.height * 0.15,
-                            width: MediaQuery.of(context).size.height * 0.15,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Theme.of(context).accentColor,
-                                  width: 2,
-                                ),
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: AssetImage("logo.png"),
-                                    fit: BoxFit.cover))),
-              )),
+          child: CarouselSlider.builder(
+            carouselController: carouselController,
+            options: CarouselOptions(
+              autoPlay: false,
+              enlargeCenterPage: true,
+              viewportFraction: 0.2,
+              aspectRatio: 2.0,
+              initialPage: (attendeeModel!.attendees!.length / 2).toInt(),
+              enableInfiniteScroll: false,
+            ),
+            itemCount: attendeeModel!.attendees!.length,
+            itemBuilder: (BuildContext context, int index, int pageViewIndex) =>
+                Container(
+                    width: 100,
+                    height: 100,
+                    decoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: ExactAssetImage('pfp.png'), fit: BoxFit.contain),
+                    )),
+          )),
       Row(children: [
         Spacer(),
         Expanded(
@@ -214,7 +209,8 @@ class _Carousel extends State<Carousel> {
                           position: getTarget(attendeeModel!)));
                       _initialPosition = CameraPosition(
                           zoom: 15, target: getTarget(attendeeModel!));
-                      controller!.animateCamera(CameraUpdate.newCameraPosition(_initialPosition!));
+                      controller!.animateCamera(
+                          CameraUpdate.newCameraPosition(_initialPosition!));
                     });
                   } else {
                     setState(() {
@@ -231,7 +227,8 @@ class _Carousel extends State<Carousel> {
                           position: getTarget(attendeeModel!)));
                       _initialPosition = CameraPosition(
                           zoom: 15, target: getTarget(attendeeModel!));
-                      controller!.animateCamera(CameraUpdate.newCameraPosition(_initialPosition!));
+                      controller!.animateCamera(
+                          CameraUpdate.newCameraPosition(_initialPosition!));
                     });
                   }
                 },
@@ -317,7 +314,8 @@ class _Carousel extends State<Carousel> {
                           position: getTarget(attendeeModel!)));
                       _initialPosition = CameraPosition(
                           zoom: 15, target: getTarget(attendeeModel!));
-                      controller!.animateCamera(CameraUpdate.newCameraPosition(_initialPosition!));
+                      controller!.animateCamera(
+                          CameraUpdate.newCameraPosition(_initialPosition!));
                     });
                   } else {
                     setState(() {
@@ -334,8 +332,8 @@ class _Carousel extends State<Carousel> {
                           position: getTarget(attendeeModel!)));
                       _initialPosition = CameraPosition(
                           zoom: 15, target: getTarget(attendeeModel!));
-                      controller!.animateCamera(CameraUpdate.newCameraPosition(_initialPosition!));
-
+                      controller!.animateCamera(
+                          CameraUpdate.newCameraPosition(_initialPosition!));
                     });
                   }
                 },
@@ -349,9 +347,9 @@ class _Carousel extends State<Carousel> {
             child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(
-                      color: Theme.of(context).accentColor,
-                      width: 2,
-                    )),
+                  color: Theme.of(context).accentColor,
+                  width: 2,
+                )),
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: GoogleMap(
                     mapType: MapType.normal,
@@ -370,7 +368,7 @@ class _Carousel extends State<Carousel> {
                                     .elementAt(i)
                                     .username),
                             position: getTarget(attendeeModel!)));
-                        this.controller=controller;
+                        this.controller = controller;
                       });
                     },
                     initialCameraPosition: _initialPosition == null

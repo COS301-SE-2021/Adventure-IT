@@ -1,7 +1,11 @@
 import 'package:adventure_it/Providers/user_model.dart';
+import 'package:adventure_it/api/mediaAPI.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:adventure_it/api/userProfile.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import '../constants.dart';
 import 'DocumentList.dart';
 import 'Navbar.dart';
 import 'package:adventure_it/api/userAPI.dart';
@@ -55,6 +59,23 @@ class ProfileFutureBuilderCaller extends StatefulWidget {
 class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
   UserProfile? user;
 
+  Future<List<PlatformFile>?> openFileExplorer() async {
+    try {
+      return (await FilePicker.platform.pickFiles(
+              allowMultiple: false,
+              type: FileType.custom,
+              onFileLoading: (FilePickerStatus status) => print(status),
+              allowedExtensions: ['jpg', 'png', 'gif', 'mp4']))
+          ?.files;
+    } on PlatformException catch (e) {
+      print("Unsupported operation" + e.toString());
+      return null;
+    } catch (ex) {
+      print(ex);
+      return null;
+    }
+  }
+
   // final UserApi api = new UserApi();
 
   @override
@@ -73,138 +94,169 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
     } else {
       return ChangeNotifierProvider(
           create: (context) => UserModel(),
-          builder: (context, widget) => Container(
-          margin: EdgeInsets.symmetric(
-              vertical: MediaQuery.of(context).size.height * 0.01),
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.55,
-          child: Card(
-              color: Theme.of(context).primaryColorDark,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Center(
-                        child: Column(children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        decoration: new BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: ExactAssetImage('assets/logo.png'),
-                              fit: BoxFit.contain),
-                        ),
-                      ),
-                      Container(
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.01),
-                            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                Text(user!.username,
-                                    textAlign: TextAlign.center,
-                                    style: new TextStyle(
+          builder: (context, widget) => ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.45,
+                  child: Card(
+                      color: Theme.of(context).primaryColorDark,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Center(
+                                child: Column(children: <Widget>[
+                              Stack(clipBehavior: Clip.none, children: <Widget>[
+                                Container(
+                                    width: 100,
+                                    height: 100,
+                                    decoration: new BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: FadeInImage(
+                                                  image: NetworkImage(
+                                                      userApi +
+                                                          "/user/viewPicture/" +
+                                                          UserApi.getInstance()
+                                                              .getUserProfile()!
+                                                              .userID),
+                                                  placeholder: AssetImage(
+                                                      "pfp.png"))
+                                              .image,
+                                          fit: BoxFit.contain),
+                                    )),
+                                Positioned(
+                                    right: -8,
+                                    top: -8,
+                                    child: IconButton(
+                                        iconSize: 20,
+                                        icon: const Icon(Icons.add_a_photo),
                                         color: Theme.of(context)
                                             .textTheme
                                             .bodyText1!
                                             .color,
-                                        fontSize:
-                                        MediaQuery.of(context).size.height *
-                                            0.06)),
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.005),
-                                Text(user!.firstname + " " + user!.lastname,
-                                    textAlign: TextAlign.center,
-                                    style: new TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                        fontSize:
-                                        MediaQuery.of(context).size.height *
-                                            0.03)),
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.03),
-                              Text(user!.email,
-                                      textAlign: TextAlign.center,
-                                      style: new TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.03)),
-                          SizedBox(
-                              height:
-                              MediaQuery.of(context).size.height * 0.05),
-                          Row(children: [
-                              Expanded(
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Theme.of(context).accentColor,
-                                          shape: BoxShape.circle),
-                                      child: IconButton(
-                                          icon: const Icon(
-                                              Icons.attach_file),
-                                          color: Theme.of(context).primaryColorDark,
                                         onPressed: () {
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                              builder: (context) =>
-                                              DocumentPage()));
-                                        },
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.05,
-                                              vertical: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.01),
-                                          ))),
-                            Expanded(
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Theme.of(context).accentColor,
-                                          shape: BoxShape.circle),
-                                      child: IconButton(
-                                          onPressed: () {
-                                            {
-                                              var provider = Provider.of<UserModel>(context, listen: false);
-                                              showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return AlertBox(user!, provider);
-                                                  });
+                                          openFileExplorer().then((value) {
+                                            if (value != null) {
+                                              ProfileApi.addProfilePicture(
+                                                  value);
                                             }
-                                          },
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.05,
-                                              vertical: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.01),
-                                          icon: const Icon(
-                                            Icons.edit),
-                                            color: Theme.of(context).primaryColorDark))
-                                          ),
-                            ])
-                          ]))
-                    ]))
-                  ]))));
+                                          });
+                                          setState(() {});
+                                        })),
+                              ]),
+                              Container(
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    Text(user!.username,
+                                        textAlign: TextAlign.center,
+                                        style: new TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.06)),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.005),
+                                    Text(user!.firstname + " " + user!.lastname,
+                                        textAlign: TextAlign.center,
+                                        style: new TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.03)),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.005),
+                                    Text(user!.email,
+                                        textAlign: TextAlign.center,
+                                        style: new TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.02)),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    Row(children: [
+                                      Expanded(
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .accentColor,
+                                                  shape: BoxShape.circle),
+                                              child: IconButton(
+                                                icon: const Icon(
+                                                    Icons.attach_file),
+                                                color: Theme.of(context)
+                                                    .primaryColorDark,
+                                                onPressed: () {
+                                                  Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              DocumentPage()));
+                                                },
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 5, vertical: 5),
+                                              ))),
+                                      Expanded(
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .accentColor,
+                                                  shape: BoxShape.circle),
+                                              child: IconButton(
+                                                  onPressed: () {
+                                                    {
+                                                      var provider = Provider
+                                                          .of<UserModel>(
+                                                              context,
+                                                              listen: false);
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return AlertBox(
+                                                                user!,
+                                                                provider);
+                                                          });
+                                                    }
+                                                  },
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 5,
+                                                      vertical: 5),
+                                                  icon: const Icon(Icons.edit),
+                                                  color: Theme.of(context)
+                                                      .primaryColorDark))),
+                                    ])
+                                  ]))
+                            ]))
+                          ])))));
     }
   }
 }
@@ -261,10 +313,9 @@ class _AlertBox extends State<AlertBox> {
               ),
               Center(
                   child: Column(
-                  // mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(
-                        "Edit Profile: " + user!.username,
+                      // mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                    Text("Edit Profile: " + user!.username,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Theme.of(context).textTheme.bodyText1!.color,
@@ -279,7 +330,7 @@ class _AlertBox extends State<AlertBox> {
                       child: TextField(
                           style: TextStyle(
                               color:
-                              Theme.of(context).textTheme.bodyText1!.color),
+                                  Theme.of(context).textTheme.bodyText1!.color),
                           controller: usernameController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
@@ -305,7 +356,7 @@ class _AlertBox extends State<AlertBox> {
                       child: TextField(
                           style: TextStyle(
                               color:
-                              Theme.of(context).textTheme.bodyText1!.color),
+                                  Theme.of(context).textTheme.bodyText1!.color),
                           controller: firstNameController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
@@ -331,7 +382,7 @@ class _AlertBox extends State<AlertBox> {
                       child: TextField(
                           style: TextStyle(
                               color:
-                              Theme.of(context).textTheme.bodyText1!.color),
+                                  Theme.of(context).textTheme.bodyText1!.color),
                           controller: lastNameController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
@@ -357,7 +408,7 @@ class _AlertBox extends State<AlertBox> {
                       child: TextField(
                           style: TextStyle(
                               color:
-                              Theme.of(context).textTheme.bodyText1!.color),
+                                  Theme.of(context).textTheme.bodyText1!.color),
                           controller: emailController,
                           decoration: InputDecoration(
                               hintStyle: TextStyle(
@@ -384,7 +435,8 @@ class _AlertBox extends State<AlertBox> {
                             style: ElevatedButton.styleFrom(
                                 primary: Theme.of(context).accentColor),
                             onPressed: () async {
-                              await widget.userModel.editProfile(user!.userID,
+                              await widget.userModel.editProfile(
+                                  user!.userID,
                                   usernameController.text,
                                   firstNameController.text,
                                   lastNameController.text,
@@ -392,7 +444,7 @@ class _AlertBox extends State<AlertBox> {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                  builder: (context) => ProfileCaller()));
+                                      builder: (context) => ProfileCaller()));
                             },
                             child: Text("Edit",
                                 style: TextStyle(
