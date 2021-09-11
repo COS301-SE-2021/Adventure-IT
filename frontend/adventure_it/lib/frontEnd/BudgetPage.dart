@@ -1957,7 +1957,9 @@ class GetReport extends StatelessWidget {
                             .accentColor)));
           }
           if (budgetReportModel.reports!.length > 0) {
-            return Expanded(
+            return Column(
+                mainAxisSize: MainAxisSize.max,
+                children:[Expanded(
                 flex: 2,
                 child: ListView(children: [
                   ...List.generate(
@@ -2120,7 +2122,7 @@ class GetReport extends StatelessWidget {
                                 ))),
 
                   )
-                ]));
+                ]))]);
           } else {
             return Center(
                 child: Text("Well done! You owe no one money!",

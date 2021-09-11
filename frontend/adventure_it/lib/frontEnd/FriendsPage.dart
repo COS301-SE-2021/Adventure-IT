@@ -150,7 +150,7 @@ class GetFriends extends StatelessWidget {
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
           } else if (friendModel.friends!.length > 0) {
-            return Expanded(
+            return Column( children:[Expanded(
                 flex: 2,
                 child: ListView(children: [
                   ...List.generate(
@@ -291,7 +291,7 @@ class GetFriends extends StatelessWidget {
                                     ),
                                   ))),
 
-                            ]));
+                            ]))]);
           } else {
             return Center(
                 child: Text("You have no friends. That's so sad.",
@@ -325,7 +325,7 @@ class GetFriendRequests extends StatelessWidget {
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
           } else if (friendModel.friends!.length > 0) {
-            return Expanded(
+            return Column( children:[Expanded(
                 flex: 2,
                 child: ListView(children: [
                   ...List.generate(
@@ -457,7 +457,7 @@ class GetFriendRequests extends StatelessWidget {
                               ),
                             ))),
                   )
-                ]));
+                ]))]);
           } else {
             return Center(
                 child: Text("No one wants to be your friend. That's so sad.",

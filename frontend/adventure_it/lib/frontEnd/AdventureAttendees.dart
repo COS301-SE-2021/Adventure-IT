@@ -168,8 +168,6 @@ class _Carousel extends State<Carousel> {
       Container(
           height: MediaQuery.of(context).size.height * 0.25,
           width: MediaQuery.of(context).size.width,
-          child: Expanded(
-              flex: 1,
               child: CarouselSlider.builder(
                 carouselController: carouselController,
                 options: CarouselOptions(
@@ -195,7 +193,7 @@ class _Carousel extends State<Carousel> {
                                 image: DecorationImage(
                                     image: AssetImage("logo.png"),
                                     fit: BoxFit.cover))),
-              ))),
+              )),
       Row(children: [
         Spacer(),
         Expanded(
