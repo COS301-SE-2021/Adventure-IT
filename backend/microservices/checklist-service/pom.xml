@@ -18,12 +18,6 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>com.adventure-it</groupId>
-			<artifactId>adventure-service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
