@@ -8,16 +8,18 @@ import java.util.*;
 
 public class BudgetGraph{
     List<Node> nodes;
-    Stack<Node> stack = new Stack<Node>();
     private int i = 0;
 
     public BudgetGraph() {
-
+        this.nodes = new ArrayList<>();
     }
 
     public List<Node> generateGraph(List<BudgetEntry> budgets){
         this.i = 0;
         List<Node> nodes = new ArrayList<Node>();
+        if(budgets.isEmpty()){
+            return nodes;
+        }
         budgets.sort(new Comparator<BudgetEntry>() {
             @Override
             public int compare(BudgetEntry o1, BudgetEntry o2) {
@@ -107,6 +109,9 @@ public class BudgetGraph{
     public List<Edge> summarizeGraph(){
         List<Node> cycleNodes = new ArrayList<>();
         List<Edge> cycleEdges = new ArrayList<>();
+        if(this.nodes == null||this.nodes.isEmpty()){
+            return cycleEdges;
+        }
 
         for (Node node : this.nodes) {
             node.setNum(0);
