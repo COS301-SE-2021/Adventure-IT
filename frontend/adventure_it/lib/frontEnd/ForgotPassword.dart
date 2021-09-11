@@ -38,6 +38,18 @@ class ForgotPassword extends State<ForgotPasswordCaller> {
               SizedBox(height: MediaQuery.of(context).size.height * 0.25),
               Container(
                 child: Center(
+                  child: Text(
+                    "Enter an email address to reset your password",
+                    textAlign: TextAlign.center,
+                    style: new TextStyle(
+                      color: Theme.of(context).textTheme.bodyText1!.color,
+                      fontSize: MediaQuery.of(context).size.height * 0.03)
+                  ),
+                ),
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+              Container(
+                child: Center(
                   child: SizedBox(
                   width: 350,
                   child: TextField(
@@ -54,8 +66,9 @@ class ForgotPassword extends State<ForgotPasswordCaller> {
                     height: MediaQuery.of(context).size.height * 0.05),
                 Row(
                       children: [
+                        Spacer(),
                         Expanded(
-                          flex: 2,
+                          flex: 1,
                           child: Container(
                             decoration: BoxDecoration(
                                 color: Theme.of(context).accentColor,
@@ -74,7 +87,7 @@ class ForgotPassword extends State<ForgotPasswordCaller> {
                           ),
                         ),
                           Expanded(
-                            flex: 2,
+                            flex: 1,
                             child: Container(
                             decoration: BoxDecoration(
                                 color: Theme.of(context).accentColor,
@@ -118,6 +131,7 @@ class ForgotPassword extends State<ForgotPasswordCaller> {
                                 color: Theme.of(context)
                                     .primaryColorDark),
                           )),
+                        Spacer()
                       ]),
                       SizedBox(height: MediaQuery.of(context).size.height / 60),
               ]))));
