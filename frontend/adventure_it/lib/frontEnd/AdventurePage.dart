@@ -589,7 +589,7 @@ class AdventurePage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(width: MediaQuery.of(context).size.width * 0.416),
+                            SizedBox(width: MediaQuery.of(context).size.width * 0.23 < 137.5? 137.5: MediaQuery.of(context).size.width * 0.416),
                             Container(
                               child: ClipRRect(
                                 borderRadius:
