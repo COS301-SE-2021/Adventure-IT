@@ -191,6 +191,7 @@ class _ItinerariesList extends State<ItinerariesList> {
           Expanded(
               flex: 3,
               child: Container(
+                  width: MediaQuery.of(context).size.width * 0.8 < 500? 500: MediaQuery.of(context).size.width * 0.8,
                   decoration: new BoxDecoration(
                       image: new DecorationImage(
                           image: next != null
@@ -313,76 +314,81 @@ class _ItinerariesList extends State<ItinerariesList> {
                           )),
                       direction: DismissDirection.endToStart,
                       key: Key(itineraryModel.itineraries!.elementAt(index).id),
-                      child: Card(
-                          color: Theme.of(context).primaryColorDark,
-                          child: InkWell(
-                              hoverColor: Theme.of(context).primaryColorLight,
-                              onTap: () {
-                                UserApi.getInstance()
-                                    .findUser(itineraryModel.itineraries!
-                                        .elementAt(index)
-                                        .creatorID)
-                                    .then((c) {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ItineraryPage(
-                                              itineraryModel.itineraries!
-                                                  .elementAt(index),
-                                              a,
-                                              c)));
-                                });
-                              },
-                              child: Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      flex: 4,
-                                      child: ListTile(
-                                          title: Text(
-                                              itineraryModel.itineraries!
-                                                  .elementAt(index)
-                                                  .title,
-                                              style: TextStyle(
-                                                  fontSize: 25 *
-                                                      MediaQuery.of(context)
-                                                          .textScaleFactor,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color)),
-                                          // subtitle:Text(adventures.elementAt(index).description),
-                                          subtitle:
-                                            Text(
-                                                itineraryModel
-                                                    .itineraries!
-                                                    .elementAt(index)
-                                                    .description,
-                                                style: TextStyle(
-                                                    fontSize: 15 *
-                                                        MediaQuery.of(context)
-                                                            .textScaleFactor,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color)),
-                                            trailing: Text(
-                                                itineraryModel.dates!
-                                                    .elementAt(index),
-                                                style: TextStyle(
-                                                    fontSize: 11 *
-                                                        MediaQuery.of(context)
-                                                            .textScaleFactor,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color))
-                                          ),
+                      child: Center(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.8 < 500? 500: MediaQuery.of(context).size.width * 0.8,
+                          child: Card(
+                              color: Theme.of(context).primaryColorDark,
+                              child: InkWell(
+                                  hoverColor: Theme.of(context).primaryColorLight,
+                                  onTap: () {
+                                    UserApi.getInstance()
+                                        .findUser(itineraryModel.itineraries!
+                                            .elementAt(index)
+                                            .creatorID)
+                                        .then((c) {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => ItineraryPage(
+                                                  itineraryModel.itineraries!
+                                                      .elementAt(index),
+                                                  a,
+                                                  c)));
+                                    });
+                                  },
+                                  child: Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 4,
+                                          child: ListTile(
+                                              title: Text(
+                                                  itineraryModel.itineraries!
+                                                      .elementAt(index)
+                                                      .title,
+                                                  style: TextStyle(
+                                                      fontSize: 25 *
+                                                          MediaQuery.of(context)
+                                                              .textScaleFactor,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color)),
+                                              // subtitle:Text(adventures.elementAt(index).description),
+                                              subtitle:
+                                                Text(
+                                                    itineraryModel
+                                                        .itineraries!
+                                                        .elementAt(index)
+                                                        .description,
+                                                    style: TextStyle(
+                                                        fontSize: 15 *
+                                                            MediaQuery.of(context)
+                                                                .textScaleFactor,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color)),
+                                                trailing: Text(
+                                                    itineraryModel.dates!
+                                                        .elementAt(index),
+                                                    style: TextStyle(
+                                                        fontSize: 11 *
+                                                            MediaQuery.of(context)
+                                                                .textScaleFactor,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color))
+                                              ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ))),
+                                  ))),
+                        ),
+                      ),
                       onDismissed: (direction) {
                         Provider.of<ItineraryModel>(context, listen: false)
                             .softDeleteItinerary(
