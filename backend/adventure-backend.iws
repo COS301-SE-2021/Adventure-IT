@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51a90799-d850-4f45-9f71-c80c24076f5d" name="Default Changelist" comment="CreateAdventure now uses fields instead of buttons">
+    <list default="true" id="51a90799-d850-4f45-9f71-c80c24076f5d" name="Default Changelist" comment="AdventureUnitTestsFixed">
       <change beforePath="$PROJECT_DIR$/adventure-backend.iws" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/CreateAdventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/CreateAdventure.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/BudgetPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/BudgetPage.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,6 +179,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="Sprint_Seven_AndroidError" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HierarchyBrowserManager">
@@ -261,7 +264,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../frontend/adventure_it" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
@@ -278,7 +281,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.MainControllerApplication">
+  <component name="RunManager" selected="Spring Boot.TimelineServiceApplication">
     <configuration selected="false" default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -306,16 +309,56 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AdventureServiceIntegrationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="adventure-service" />
+    <configuration name="TimelineServiceUnitTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="timeline-service" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.adventureit.adventureservice.*" />
+          <option name="PATTERN" value="com.adventureit.timelineservice.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.adventureit.adventureservice" />
-      <option name="MAIN_CLASS_NAME" value="com.adventureit.adventureservice.AdventureServiceIntegrationTests" />
+      <option name="PACKAGE_NAME" value="com.adventureit.timelineservice" />
+      <option name="MAIN_CLASS_NAME" value="com.adventureit.timelineservice.TimelineServiceUnitTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceIntegrationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="user-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.userservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.adventureit.userservice" />
+      <option name="MAIN_CLASS_NAME" value="com.adventureit.userservice.UserServiceIntegrationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserUnitTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="user-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.userservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.adventureit.userservice" />
+      <option name="MAIN_CLASS_NAME" value="com.adventureit.userservice.UserUnitTests" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -406,13 +449,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServiceRegistryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
-      <module name="service-registry" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.serviceregistry.ServiceRegistryApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="TimelineServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="timeline-service" />
       <extension name="coverage">
@@ -436,9 +472,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.MainControllerApplication" />
-        <item itemvalue="JUnit.AdventureServiceIntegrationTests" />
         <item itemvalue="Spring Boot.TimelineServiceApplication" />
-        <item itemvalue="Spring Boot.ServiceRegistryApplication" />
+        <item itemvalue="JUnit.UserUnitTests" />
+        <item itemvalue="JUnit.UserServiceIntegrationTests" />
+        <item itemvalue="JUnit.TimelineServiceUnitTests" />
       </list>
     </recent_temporary>
   </component>
@@ -491,7 +528,13 @@
       <workItem from="1627957121689" duration="1489000" />
       <workItem from="1629987510640" duration="12948000" />
       <workItem from="1630048021066" duration="16849000" />
-      <workItem from="1630158673219" duration="8287000" />
+      <workItem from="1630158673219" duration="8315000" />
+      <workItem from="1630226313685" duration="1169000" />
+      <workItem from="1630228560966" duration="5699000" />
+      <workItem from="1630321737678" duration="599000" />
+      <workItem from="1630323047237" duration="1231000" />
+      <workItem from="1630746725669" duration="6844000" />
+      <workItem from="1630777000698" duration="8547000" />
     </task>
     <task id="LOCAL-00001" summary="removed id fields from create- requests">
       <created>1627942105472</created>
@@ -521,7 +564,35 @@
       <option name="project" value="LOCAL" />
       <updated>1630181173062</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="AdventureUnitTestsFixed">
+      <created>1630239561542</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1630239561542</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Updated itinerary to show dates">
+      <created>1630776898127</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1630776898127</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Show the start and end date of itinerary (Backend errors still to be fixed)">
+      <created>1630790732226</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1630790732226</updated>
+    </task>
+    <task id="LOCAL-00008" summary="All &quot;trashes&quot; now use popmenu for options">
+      <created>1630790755481</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1630790755481</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -579,7 +650,11 @@
     <MESSAGE value="Changed GetUser to getUser for all uses" />
     <MESSAGE value="Null exception fix for when there are no adventures" />
     <MESSAGE value="CreateAdventure now uses fields instead of buttons" />
-    <option name="LAST_COMMIT_MESSAGE" value="CreateAdventure now uses fields instead of buttons" />
+    <MESSAGE value="AdventureUnitTestsFixed" />
+    <MESSAGE value="Updated itinerary to show dates" />
+    <MESSAGE value="Show the start and end date of itinerary (Backend errors still to be fixed)" />
+    <MESSAGE value="All &quot;trashes&quot; now use popmenu for options" />
+    <option name="LAST_COMMIT_MESSAGE" value="All &quot;trashes&quot; now use popmenu for options" />
   </component>
   <component name="VssConfiguration">
     <CheckoutOptions>

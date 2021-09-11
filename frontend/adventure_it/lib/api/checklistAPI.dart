@@ -110,8 +110,9 @@ class ChecklistApi {
 
   static Future<http.Response> _deleteChecklistEntryRequest(
       ChecklistEntryID) async {
+    String userID = UserApi.getInstance().getUserProfile()!.userID;
     return http
-        .get(Uri.http(mainApi, '/checklist/removeEntry/' + ChecklistEntryID));
+        .get(Uri.http(mainApi, '/checklist/removeEntry/' + ChecklistEntryID + '/' + userID));
   }
 
   static Future<http.Response> _getDeletedChecklistsResponse(
@@ -181,7 +182,7 @@ class ChecklistApi {
   }
 
   static Future<CreateChecklistEntry> createChecklistEntry(
-      String title, String entryContainerID) async {
+      String title, String entryContainerID, String userId) async {
     final response = await http.post(
       Uri.parse('http://localhost:9999/checklist/addEntry'),
       headers: <String, String>{
@@ -189,7 +190,8 @@ class ChecklistApi {
       },
       body: jsonEncode(<String, String>{
         'title': title,
-        'entryContainerID': entryContainerID
+        'entryContainerID': entryContainerID,
+        'userId': userId
       }),
     );
 
@@ -199,7 +201,7 @@ class ChecklistApi {
       print('Status code: ${response.statusCode}');
       print('Body: ${response.body}');
       return CreateChecklistEntry(
-          title: title, entryContainerID: entryContainerID);
+          title: title, entryContainerID: entryContainerID, userId: userId);
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
@@ -210,7 +212,7 @@ class ChecklistApi {
   }
 
   static Future<http.Response> editChecklistEntry(
-      String id, String entryContainerID, String title) async {
+      String id, String entryContainerID, String title, String userId) async {
     final response = await http.post(
       Uri.parse('http://localhost:9999/checklist/editEntry'),
       headers: <String, String>{
@@ -219,7 +221,8 @@ class ChecklistApi {
       body: jsonEncode(<String, String>{
         'id': id,
         'title': title,
-        'entryContainerID': entryContainerID
+        'entryContainerID': entryContainerID,
+        'userId': userId
       }),
     );
 
@@ -238,9 +241,9 @@ class ChecklistApi {
     }
   }
 
-  static Future checklistEdit(ChecklistEntry c, String s) async {
+  static Future checklistEdit(ChecklistEntry c, String s, String userId) async {
     http.Response response =
-        (await editChecklistEntry(c.id, c.entryContainerID, s));
+        (await editChecklistEntry(c.id, c.entryContainerID, s, userId));
 
     if (response.statusCode != 200) {
       throw Exception('Failed to edit checklist entry ${response.body}');

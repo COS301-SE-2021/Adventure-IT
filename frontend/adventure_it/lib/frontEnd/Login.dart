@@ -1,3 +1,4 @@
+import 'package:adventure_it/api/locationAPI.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/frontEnd/ForgotPassword.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'ForgotPassword.dart';
 import 'HomepageStartup.dart';
 import 'Register.dart';
+import 'package:location/location.dart';
 
 class LoginCaller extends StatefulWidget {
   @override
@@ -104,6 +106,27 @@ class Login extends State<LoginCaller> {
                   final success = await api.logIn(username, password);
 
                   if (success == true) {
+                    bool serviceEnabled;
+                    PermissionStatus permissionGranted;
+                    Location location = Location();
+                    serviceEnabled = await location.serviceEnabled();
+                    if (!serviceEnabled) {
+                      serviceEnabled = await location.requestService();
+                    }
+                    permissionGranted = await location.hasPermission();
+                    if (permissionGranted == PermissionStatus.denied) {
+                      permissionGranted = await location.requestPermission();
+                    }
+                    LocationData? currentLocation;
+                    if (permissionGranted == PermissionStatus.granted &&
+                        serviceEnabled) {
+                      location.changeSettings(accuracy: LocationAccuracy.high);
+                      location.getLocation().then((value) {
+                        currentLocation = value;
+                        LocationApi.setCurrentLocation(currentLocation!);
+                      });
+                    }
+
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

@@ -2,9 +2,11 @@ package com.adventureit.itinerary.service;
 
 import com.adventureit.itinerary.responses.ItineraryEntryResponseDTO;
 import com.adventureit.itinerary.responses.ItineraryResponseDTO;
+import com.adventureit.itinerary.responses.StartDateEndDateResponseDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface ItineraryService {
@@ -20,9 +22,15 @@ public interface ItineraryService {
      List<ItineraryEntryResponseDTO> viewItinerary(UUID id);
      void markCompleted(UUID id);
      String mockPopulate();
-     ItineraryEntryResponseDTO nextItem(UUID id);
+     ItineraryEntryResponseDTO nextItem(UUID id,  UUID userID);
      void setItineraryEntryLocation(UUID itineraryID, UUID locationID);
      ItineraryResponseDTO getItineraryById(UUID itineraryID);
      List<ItineraryResponseDTO> viewItinerariesByAdventure(UUID id);
      ItineraryResponseDTO getItineraryByEntryId(UUID itineraryEntryID);
+     ItineraryEntryResponseDTO getItineraryEntry(UUID id);
+     void checkUserOff(UUID entryID, UUID userID);
+     String registerUser(UUID entryID, UUID userID);
+     String deregisterUser(UUID entryID, UUID userID);
+     StartDateEndDateResponseDTO getStartAndEndDate(UUID id);
+     Map<UUID,Boolean> getRegisteredUsers(UUID id);
 }

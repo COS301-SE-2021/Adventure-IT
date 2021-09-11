@@ -397,26 +397,7 @@ class BudgetList extends StatelessWidget {
               SizedBox(height: MediaQuery.of(context).size.height / 60),
                    Expanded(flex: 6, child: ListView.builder(
                         itemCount: budgetModel.budgets!.length,
-                        itemBuilder: (context, index) => Dismissible(
-                            background: Container(
-                              // color: Theme.of(context).primaryColor,
-                              //   margin: const EdgeInsets.all(5),
-                              padding: EdgeInsets.all(
-                                  MediaQuery.of(context).size.height / 60),
-                              child: Row(
-                                children: [
-                                  new Spacer(),
-                                  Icon(Icons.delete,
-                                      color: Theme.of(context).accentColor,
-                                      size: 35 *
-                                          MediaQuery.of(context)
-                                              .textScaleFactor),
-                                ],
-                              ),
-                            ),
-                            direction: DismissDirection.endToStart,
-                            key: Key(budgetModel.budgets!.elementAt(index).id),
-                            child: Card(
+                        itemBuilder: (context, index) => Card(
                                 color: Theme.of(context).primaryColorDark,
                                 child: InkWell(
                                     hoverColor:
@@ -470,7 +451,7 @@ class BudgetList extends StatelessWidget {
                                           Expanded(
                                             flex: 1,
                                             child: Text(
-                                                "Total: " +
+                                                "Total: \$" +
                                                     budgetModel.expenses!
                                                         .elementAt(index),
                                                 textAlign: TextAlign.center,
@@ -483,14 +464,36 @@ class BudgetList extends StatelessWidget {
                                                         .bodyText1!
                                                         .color)),
                                           ),
+                                          PopupMenuButton(
+                                              color: Theme.of(context).textTheme.bodyText1!.color,
+                                              onSelected: (value) {
+                                                if (value == 1) {
+                                                  Provider.of<BudgetModel>(
+                                                      context,
+                                                      listen: false).softDeleteBudget(budgetModel.budgets!.elementAt(index));
+                                                }
+
+                                              },
+                                              itemBuilder: (context) => [
+                                                PopupMenuItem(
+                                                    value: 1,
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding:
+                                                          const EdgeInsets
+                                                              .all(5),
+                                                          child: Icon(Icons
+                                                              .delete,color: Theme.of(context).textTheme.bodyText2!.color),
+                                                        ),
+                                                        Text("Delete", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color))
+                                                      ],
+                                                    ))
+                                              ]),
                                         ],
                                       ),
                                     ))),
-                            onDismissed: (direction) {
-                              Provider.of<BudgetModel>(context, listen: false)
-                                  .softDeleteBudget(
-                                      budgetModel.budgets!.elementAt(index));
-                            }))
+                         )
                    )]);
           } else {
             return Center(
@@ -569,7 +572,7 @@ class _AlertBox extends State<AlertBox> {
                         )),
                     Spacer(),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.5,
+                      width: 300,
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
@@ -595,7 +598,7 @@ class _AlertBox extends State<AlertBox> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.5,
+                      width: 300,
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(

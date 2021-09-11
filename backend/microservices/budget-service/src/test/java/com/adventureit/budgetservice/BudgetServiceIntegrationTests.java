@@ -87,7 +87,7 @@ class BudgetServiceIntegrationTests {
         Budget budget1 = new Budget(budgetID,"Test Budget 1","Mock",UUID.randomUUID(),adventureID);
         budgetRepository.saveAndFlush(budget1);
 
-        AddUTOExpenseEntryRequest request = new AddUTOExpenseEntryRequest(budgetID,null,100,"Mock","Mock","ACTIVITIES","Shop1");
+        AddUTOExpenseEntryRequest request = new AddUTOExpenseEntryRequest(budgetID,"Sam",100,"Mock","Mock","ACTIVITIES","Shop1");
         String response = this.restTemplate.postForObject("http://localhost:" + port + "/budget/addUTOExpense", request,String.class);
         Assertions.assertEquals("Entry added successfully!", response);
     }
@@ -104,7 +104,7 @@ class BudgetServiceIntegrationTests {
         budgetRepository.saveAndFlush(budget1);
         budgetEntryRepository.saveAndFlush(expense);
 
-        EditBudgetRequest request = new EditBudgetRequest(entryID,userId,budgetID,100,"Mock","Mock",null,null);
+        EditBudgetRequest request = new EditBudgetRequest(entryID,userId,budgetID,100,"Mock","Mock",null,null,null);
         String response = this.restTemplate.postForObject("http://localhost:" + port + "/budget/editBudget", request,String.class);
         Assertions.assertEquals("Budget successfully edited!", response);
     }

@@ -16,12 +16,13 @@ public class EditBudgetRequest {
     String payer;
     String payee;
 
-    public EditBudgetRequest(@JsonProperty("id") UUID id,@JsonProperty("userId") UUID userId, @JsonProperty("budgetID") UUID budgetID, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description, @JsonProperty("payer") String payer, @JsonProperty("payee") String payee){
+    public EditBudgetRequest(@JsonProperty("id") UUID id,@JsonProperty("userId") UUID userId, @JsonProperty("budgetID") UUID budgetID, @JsonProperty("amount") double amount, @JsonProperty("title") String title, @JsonProperty("description") String description,@JsonProperty("category") String category, @JsonProperty("payer") String payer, @JsonProperty("payee") String payee){
         this.id = id;
         this.budgetID = budgetID;
         this.amount = amount;
         this.title = title;
         this.description = description;
+        this.category = Category.valueOf(category);
         this.payer = payer;
         this.payee = payee;
         this.userId = userId;

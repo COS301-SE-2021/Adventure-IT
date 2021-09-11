@@ -62,8 +62,8 @@ public class MainControllerChecklistReroute {
     @GetMapping("/hardDelete/{id}/{userID}")
     public String hardDelete(@PathVariable UUID id,@PathVariable UUID userID){
         GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
-        restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/hardDelete/"+id+"/"+userID, String.class);
         ChecklistDTO checklist = restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/getChecklist/"+id, ChecklistDTO.class);
+        restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/hardDelete/"+id+"/"+userID, String.class);
         CreateTimelineRequest req2 = new CreateTimelineRequest(id, TimelineType.BUDGET,user.getUsername()+" deleted the "+checklist+" checklist." );
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
@@ -84,7 +84,7 @@ public class MainControllerChecklistReroute {
         ChecklistDTO checklist = restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,user.getUsername()+" added an entry to the "+req.getTitle()+" checklist." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,user.getUsername()+" added an entry to the "+checklist.getTitle()+" checklist." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
 
@@ -109,7 +109,7 @@ public class MainControllerChecklistReroute {
         ChecklistDTO checklist = restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" edited the "+req.getTitle()+" checklist.");
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" edited the "+checklist.getTitle()+" checklist.");
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 

@@ -139,7 +139,7 @@ class Register extends State<RegisterCaller> {
                         border: OutlineInputBorder(),
                         hintText: 'Confirm Password')),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               ElevatedButton(
                   child: Text("Register",
                       style: new TextStyle(
@@ -182,7 +182,7 @@ class Register extends State<RegisterCaller> {
                       });
                     }
                   }),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               RichText(
                   text: new TextSpan(children: [
                 new TextSpan(
@@ -201,7 +201,32 @@ class Register extends State<RegisterCaller> {
                               builder: (context) => LoginCaller()),
                         );
                       })
-              ]))
+              ])),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                /*Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 50, right: 0, top: 0, bottom: 0),
+                      child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).accentColor,
+                              shape: BoxShape.circle),
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            LoginCaller()));
+                              },
+                              icon:
+                              const Icon(Icons.arrow_back_ios_new_rounded),
+                              color: Theme.of(context).primaryColorDark))),
+                    ),
+                  ],
+                )*/
             ]))));
   }
 }

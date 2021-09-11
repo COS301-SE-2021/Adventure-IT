@@ -3,6 +3,7 @@ package com.adventureit.adventureservice.service;
 
 import com.adventureit.adventureservice.entity.Adventure;
 import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
+import com.adventureit.adventureservice.exceptions.AttendeeAlreadyExistsException;
 import com.adventureit.adventureservice.exceptions.UserNotInAdventureException;
 import com.adventureit.adventureservice.repository.AdventureRepository;
 import com.adventureit.adventureservice.requests.CreateAdventureRequest;
@@ -172,6 +173,10 @@ public class AdventureServiceImplementation implements AdventureService {
             throw new AdventureNotFoundException("Adventure does not exist");
         }
 
+        if(adventure.getAttendees().contains(userID)){
+            throw new AttendeeAlreadyExistsException("Add Attendees: Attendee already added");
+        }
+
         adventure.getAttendees().add(userID);
         adventureRepository.save(adventure);
     }
@@ -221,14 +226,14 @@ public class AdventureServiceImplementation implements AdventureService {
             adventure.setName(req.getName());
         }
 
-        if(req.getStartDate().equals("")){
+        if(req.getStartDate().equals(null)||req.getStartDate().equals("")){
 
         }else{
             LocalDate sd = LocalDate.parse(req.getStartDate(),formatter);
             adventure.setStartDate(sd);
         }
 
-        if(req.getEndDate().equals("")){
+        if(req.getEndDate().equals("")||req.getEndDate()==null){
 
         }else{
             LocalDate ed = LocalDate.parse(req.getEndDate(),formatter);
