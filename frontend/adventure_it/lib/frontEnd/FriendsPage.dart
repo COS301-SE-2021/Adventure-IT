@@ -52,7 +52,7 @@ class FriendsPage extends State<Friends> with SingleTickerProviderStateMixin {
                 children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Row(mainAxisSize: MainAxisSize.max, children: [
-                Spacer(flex: 1),
+                Spacer(flex: 2),
                 Expanded(
                     flex: 7,
                     child: TextField(
@@ -100,7 +100,7 @@ class FriendsPage extends State<Friends> with SingleTickerProviderStateMixin {
                             iconSize: 30,
                             color: Theme.of(context)
                                 .primaryColorDark))), //Your widget he
-                Spacer(flex: 1),
+                Spacer(flex: 2),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 40),
               Container(
@@ -173,8 +173,8 @@ class GetFriends extends StatelessWidget {
                                                 "/user/viewPicture/" +
                                                 friendModel!.friends!.elementAt(index).userID,
                                                 imageBuilder: (context, imageProvider) => Container(
-                                                    width: 50,
-                                                    height: 50,
+                                                    width: 70,
+                                                    height: 70,
                                                     decoration: new BoxDecoration(
                                                         border: Border.all(
                                                           color: Theme.of(context).accentColor,
@@ -187,8 +187,8 @@ class GetFriends extends StatelessWidget {
                                                         ))),
 
                                                 placeholder: (context, url) => Container(
-                                                    width: 50,
-                                                    height: 50,
+                                                    width: 70,
+                                                    height: 70,
                                                     decoration: new BoxDecoration(
                                                         border: Border.all(
                                                           color: Theme.of(context).accentColor,
@@ -201,8 +201,8 @@ class GetFriends extends StatelessWidget {
                                                         ))),
 
                                                 errorWidget: (context, url, error) => Container(
-                                                    width: 50,
-                                                    height: 50,
+                                                    width: 70,
+                                                    height: 70,
                                                     decoration: new BoxDecoration(
                                                         border: Border.all(
                                                           color: Theme.of(context).accentColor,
