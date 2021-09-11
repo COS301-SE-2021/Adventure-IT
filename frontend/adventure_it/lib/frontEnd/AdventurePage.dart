@@ -222,8 +222,8 @@ class AdventurePage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Expanded(
-                              flex: 8,
+                            Spacer(),
+                            Container(
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
@@ -274,58 +274,57 @@ class AdventurePage extends StatelessWidget {
                               ),
                             ),
                             Spacer(),
-                            Expanded(
-                                flex: 8,
-                                child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0)),
-                                  child: Container(
-                                      padding:
-                                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
-                                      color:
-                                      Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
-                                    child: MaterialButton(
-                                      hoverColor: Theme.of(context)
-                                          .primaryColorLight
-                                          .withOpacity(0),
-                                      padding: EdgeInsets.symmetric(
-                                          vertical:
-                                              MediaQuery.of(context).size.height *
-                                                  0.01),
-                                      onPressed: () {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => Checklists(
-                                                    currentAdventure)));
-                                      },
-                                      child: Column(
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.checklist,
-                                            size: 50,
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color,
-                                          ),
-                                          Text(
-                                            'Checklists',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color),
-                                          ),
-                                        ],
-                                      ),
+                            Container(
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Checklists(
+                                                  currentAdventure)));
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.checklist,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                        Text(
+                                          'Checklists',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                )),
+                                ),
+                              ),
+                            ),
                             Spacer(),
-                            Expanded(
-                              flex: 8,
+                            Container(
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
@@ -374,6 +373,7 @@ class AdventurePage extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            Spacer(),
                           ],
                         ),
                         SizedBox(
@@ -381,8 +381,8 @@ class AdventurePage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Expanded(
-                              flex: 8,
+                            Spacer(),
+                            Container(
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
@@ -432,8 +432,7 @@ class AdventurePage extends StatelessWidget {
                               ),
                             ),
                             Spacer(),
-                            Expanded(
-                              flex: 8,
+                            Container(
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
@@ -483,55 +482,56 @@ class AdventurePage extends StatelessWidget {
                               ),
                             ),
                             Spacer(),
-                            Expanded(
-                                flex: 8,
-                                child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20.0)),
-                                    child: Container(
-                                        padding:
-                                        EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
-                                        color:
-                                        Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
-                                      child: MaterialButton(
-                                        hoverColor: Theme.of(context)
-                                            .primaryColorLight
-                                            .withOpacity(0),
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.01),
-                                        onPressed: () {
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => MediaPage(
-                                                      currentAdventure)));
-                                        },
-                                        child: Column(
-                                          children: <Widget>[
-                                            Icon(
-                                              Icons.filter,
-                                              size: 50,
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color,
-                                            ),
-                                            Text(
-                                              'Media',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color),
-                                            ),
-                                          ],
-                                        ),
+                            Container(
+                              child: ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0)),
+                                  child: Container(
+                                      padding:
+                                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
+                                      color:
+                                      Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                    child: MaterialButton(
+                                      hoverColor: Theme.of(context)
+                                          .primaryColorLight
+                                          .withOpacity(0),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.01),
+                                      onPressed: () {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => MediaPage(
+                                                    currentAdventure)));
+                                      },
+                                      child: Column(
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.filter,
+                                            size: 50,
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color,
+                                          ),
+                                          Text(
+                                            'Media',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color),
+                                          ),
+                                        ],
                                       ),
-                                    ))),
+                                    ),
+                                  )),
+                            ),
+                            Spacer(),
                           ],
                         ),
                         SizedBox(
@@ -539,8 +539,8 @@ class AdventurePage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Expanded(
-                              flex: 8,
+                            Spacer(),
+                            Container(
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
@@ -589,11 +589,8 @@ class AdventurePage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Spacer(),
-                            Expanded(flex:8, child: Container()),
-                            Spacer(),
-                            Expanded(
-                              flex: 8,
+                            SizedBox(width: MediaQuery.of(context).size.width * 0.416),
+                            Container(
                               child: ClipRRect(
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(20.0)),
@@ -638,6 +635,7 @@ class AdventurePage extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            Spacer(),
                           ],
                         ),
                       ])),
