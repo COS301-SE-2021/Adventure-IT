@@ -87,7 +87,7 @@ class BudgetServiceIntegrationTests {
         Budget budget1 = new Budget(budgetID,"Test Budget 1","Mock",UUID.randomUUID(),adventureID);
         budgetRepository.saveAndFlush(budget1);
 
-        AddUTOExpenseEntryRequest request = new AddUTOExpenseEntryRequest(budgetID,null,100,"Mock","Mock","ACTIVITIES","Shop1");
+        AddUTOExpenseEntryRequest request = new AddUTOExpenseEntryRequest(budgetID,"Sam",100,"Mock","Mock","ACTIVITIES","Shop1");
         String response = this.restTemplate.postForObject("http://localhost:" + port + "/budget/addUTOExpense", request,String.class);
         Assertions.assertEquals("Entry added successfully!", response);
     }
