@@ -1017,75 +1017,52 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                             ),
                           ),
                           key: Key(entryModel.entries!.elementAt(index).id),
-                          child: Card(
-                              color: Theme
-                                  .of(context)
-                                  .primaryColorDark,
-                              child: InkWell(
-                                hoverColor: Theme
-                                    .of(context)
-                                    .primaryColorLight,
-                                child: Container(
-                                  decoration: new BoxDecoration(
-                                      image: new DecorationImage(
-                                        //TODO: operand can't be null (always false)
-                                          image: entryModel.entries!.elementAt(
-                                              index).location.photoReference ==
-                                              null ? NetworkImage(
-                                              "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                                  currentAdventure!.location
-                                                      .photoReference +
-                                                  "&maxwidth=700&key=" +
-                                                  googleMapsKey) : NetworkImage(
-                                              "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                                  entryModel.entries!.elementAt(
-                                                      index).location
-                                                      .photoReference +
-                                                  "&maxwidth=500&key=" +
-                                                  googleMapsKey),
-                                          fit: BoxFit.cover,
-                                          colorFilter: ColorFilter.mode(
-                                              Theme
-                                                  .of(context)
-                                                  .backgroundColor
-                                                  .withOpacity(0.25),
-                                              BlendMode.dstATop))
-                                  ),
-                                  child: Row(children: <Widget>[
-                                    Expanded(
-                                        flex: 4,
-                                        child: ListTile(
-                                          isThreeLine: true,
-                                          title: Text(
-                                              entryModel.entries!
-                                                  .elementAt(index)
-                                                  .title,
-                                              style: TextStyle(
-                                                  decoration: entryModel
-                                                      .entries!
-                                                      .elementAt(index)
-                                                      .completed
-                                                      ? TextDecoration
-                                                      .lineThrough
-                                                      : null,
-                                                  fontSize: 25 *
-                                                      MediaQuery
-                                                          .of(context)
-                                                          .textScaleFactor,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Theme
+                          child: Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.8 < 500? 500: MediaQuery.of(context).size.width * 0.8,
+                              child: Card(
+                                  color: Theme
+                                      .of(context)
+                                      .primaryColorDark,
+                                  child: InkWell(
+                                    hoverColor: Theme
+                                        .of(context)
+                                        .primaryColorLight,
+                                    child: Container(
+                                      decoration: new BoxDecoration(
+                                          image: new DecorationImage(
+                                            //TODO: operand can't be null (always false)
+                                              image: entryModel.entries!.elementAt(
+                                                  index).location.photoReference ==
+                                                  null ? NetworkImage(
+                                                  "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                                      currentAdventure!.location
+                                                          .photoReference +
+                                                      "&maxwidth=700&key=" +
+                                                      googleMapsKey) : NetworkImage(
+                                                  "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                                      entryModel.entries!.elementAt(
+                                                          index).location
+                                                          .photoReference +
+                                                      "&maxwidth=500&key=" +
+                                                      googleMapsKey),
+                                              fit: BoxFit.cover,
+                                              colorFilter: ColorFilter.mode(
+                                                  Theme
                                                       .of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color)),
-                                          // subtitle:Text(adventures.elementAt(index).description),
-                                          subtitle: RichText(
-                                            text: TextSpan(children: [
-                                              TextSpan(
-                                                  text: entryModel.entries!
+                                                      .backgroundColor
+                                                      .withOpacity(0.25),
+                                                  BlendMode.dstATop))
+                                      ),
+                                      child: Row(children: <Widget>[
+                                        Expanded(
+                                            flex: 4,
+                                            child: ListTile(
+                                              isThreeLine: true,
+                                              title: Text(
+                                                  entryModel.entries!
                                                       .elementAt(index)
-                                                      .description +
-                                                      "\n",
+                                                      .title,
                                                   style: TextStyle(
                                                       decoration: entryModel
                                                           .entries!
@@ -1094,32 +1071,81 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                           ? TextDecoration
                                                           .lineThrough
                                                           : null,
-                                                      fontSize: 15 *
+                                                      fontSize: 25 *
                                                           MediaQuery
-                                                              .of(
-                                                              context)
+                                                              .of(context)
                                                               .textScaleFactor,
+                                                      fontWeight: FontWeight.bold,
                                                       color: Theme
                                                           .of(context)
                                                           .textTheme
                                                           .bodyText1!
                                                           .color)),
-                                              WidgetSpan(
-                                                  child: Icon(
-                                                    Icons.location_on,
-                                                    size: 15,
-                                                    color: Theme
-                                                        .of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color,
-                                                  )),
-                                              TextSpan(
-                                                  text: " " +
-                                                      entryModel.entries!
+                                              // subtitle:Text(adventures.elementAt(index).description),
+                                              subtitle: RichText(
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                      text: entryModel.entries!
                                                           .elementAt(index)
-                                                          .location
-                                                          .formattedAddress,
+                                                          .description +
+                                                          "\n",
+                                                      style: TextStyle(
+                                                          decoration: entryModel
+                                                              .entries!
+                                                              .elementAt(index)
+                                                              .completed
+                                                              ? TextDecoration
+                                                              .lineThrough
+                                                              : null,
+                                                          fontSize: 15 *
+                                                              MediaQuery
+                                                                  .of(
+                                                                  context)
+                                                                  .textScaleFactor,
+                                                          color: Theme
+                                                              .of(context)
+                                                              .textTheme
+                                                              .bodyText1!
+                                                              .color)),
+                                                  WidgetSpan(
+                                                      child: Icon(
+                                                        Icons.location_on,
+                                                        size: 15,
+                                                        color: Theme
+                                                            .of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color,
+                                                      )),
+                                                  TextSpan(
+                                                      text: " " +
+                                                          entryModel.entries!
+                                                              .elementAt(index)
+                                                              .location
+                                                              .formattedAddress,
+                                                      style: TextStyle(
+                                                          decoration: entryModel
+                                                              .entries!
+                                                              .elementAt(index)
+                                                              .completed
+                                                              ? TextDecoration
+                                                              .lineThrough
+                                                              : null,
+                                                          fontSize: 15 *
+                                                              MediaQuery
+                                                                  .of(
+                                                                  context)
+                                                                  .textScaleFactor,
+                                                          color: Theme
+                                                              .of(context)
+                                                              .textTheme
+                                                              .bodyText1!
+                                                              .color))
+                                                ]),
+                                              ),
+                                              trailing: Text(
+                                                  getTime(entryModel.entries!
+                                                      .elementAt(index)),
                                                   style: TextStyle(
                                                       decoration: entryModel
                                                           .entries!
@@ -1128,43 +1154,22 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                           ? TextDecoration
                                                           .lineThrough
                                                           : null,
-                                                      fontSize: 15 *
+                                                      fontSize: 25 *
                                                           MediaQuery
-                                                              .of(
-                                                              context)
+                                                              .of(context)
                                                               .textScaleFactor,
+                                                      fontWeight: FontWeight.bold,
                                                       color: Theme
                                                           .of(context)
                                                           .textTheme
                                                           .bodyText1!
-                                                          .color))
-                                            ]),
-                                          ),
-                                          trailing: Text(
-                                              getTime(entryModel.entries!
-                                                  .elementAt(index)),
-                                              style: TextStyle(
-                                                  decoration: entryModel
-                                                      .entries!
-                                                      .elementAt(index)
-                                                      .completed
-                                                      ? TextDecoration
-                                                      .lineThrough
-                                                      : null,
-                                                  fontSize: 25 *
-                                                      MediaQuery
-                                                          .of(context)
-                                                          .textScaleFactor,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Theme
-                                                      .of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color)),
-                                        )),
-                                  ]),
-                                ),
-                              )),
+                                                          .color)),
+                                            )),
+                                      ]),
+                                    ),
+                                  )),
+                            ),
+                          ),
                           confirmDismiss: (DismissDirection direction) async {
                             if (direction == DismissDirection.endToStart) {
                               return await showDialog(
