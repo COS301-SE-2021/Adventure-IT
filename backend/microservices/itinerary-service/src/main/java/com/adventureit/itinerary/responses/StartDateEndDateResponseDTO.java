@@ -11,6 +11,9 @@ public class StartDateEndDateResponseDTO {
         this.endDate = endDate;
     }
 
+    public StartDateEndDateResponseDTO() {
+    }
+
     public LocalDateTime getStartDate() {
         return startDate;
     }

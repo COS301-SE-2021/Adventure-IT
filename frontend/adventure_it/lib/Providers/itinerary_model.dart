@@ -105,7 +105,9 @@ class ItineraryModel extends ChangeNotifier {
       await ItineraryApi.getStartAndEndDate(i).then((val) {
         if (val == null) {
           dateList.add("No dates yet!");
-        } else {
+        }
+
+        else {
           DateTime start = DateTime.parse(val[0]);
           DateTime end = DateTime.parse(val[1]);
           String x = start.day.toString() +

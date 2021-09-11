@@ -331,6 +331,18 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new RegistrationException("Get Itinerary Entry: User not registered");
         }
 
+        Map<UUID, Boolean> list = entry.getRegisteredUsers();
+
+        if (list.size() != 0) {
+            for (Map.Entry<UUID, Boolean> item : list.entrySet()){
+                if(item.getValue() == false){
+                    entry.setCompleted(false);
+                    break;
+                }
+                entry.setCompleted(true);
+            }
+        }
+
         entry.getRegisteredUsers().replace(userID, true);
         itineraryEntryRepository.save(entry);
     }
@@ -379,7 +391,6 @@ public class ItineraryServiceImplementation implements ItineraryService {
         List<ItineraryEntry> entries = itineraryEntryRepository.findAllByEntryContainerID(id);
 
         if (entries != null) {
-            System.out.println("heeeeeeeeeeere"+entries.size());
             entries.sort(Comparator.comparing(ItineraryEntry::getTimestamp));
             LocalDateTime startDate = entries.get(0).getTimestamp();
             LocalDateTime endDate = entries.get(entries.size() - 1).getTimestamp();

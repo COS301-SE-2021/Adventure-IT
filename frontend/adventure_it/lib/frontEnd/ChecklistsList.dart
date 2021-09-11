@@ -126,26 +126,7 @@ class ChecklistList extends StatelessWidget {
           } else if (checklistModel.checklists!.length > 0) {
             return ListView.builder(
                     itemCount:                      checklistModel.checklists!.length,
-                      itemBuilder: (context, index) => Dismissible(
-                          background: Container(
-                            // color: Theme.of(context).primaryColor,
-                            //   margin: const EdgeInsets.all(5),
-                            padding: EdgeInsets.all(
-                                MediaQuery.of(context).size.height / 60),
-                            child: Row(
-                              children: [
-                                new Spacer(),
-                                Icon(Icons.delete,
-                                    color: Theme.of(context).accentColor,
-                                    size: 35 *
-                                        MediaQuery.of(context).textScaleFactor),
-                              ],
-                            ),
-                          ),
-                          direction: DismissDirection.endToStart,
-                          key: Key(
-                              checklistModel.checklists!.elementAt(index).id),
-                          child: Card(
+                      itemBuilder: (context, index) =>  Card(
                               color: Theme.of(context).primaryColorDark,
                               child: InkWell(
                                   hoverColor:
@@ -194,14 +175,36 @@ class ChecklistList extends StatelessWidget {
                                                         .color)),
                                           ),
                                         ),
+                                        PopupMenuButton(
+                                            color: Theme.of(context).textTheme.bodyText1!.color,
+                                            onSelected: (value) {
+                                              if (value == 1) {
+                                                Provider.of<ChecklistModel>(
+                                                    context,
+                                                    listen: false).softDeleteChecklist(checklistModel.checklists!.elementAt(index));
+                                              }
+
+                                            },
+                                            itemBuilder: (context) => [
+                                              PopupMenuItem(
+                                                  value: 1,
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .all(5),
+                                                        child: Icon(Icons
+                                                            .delete,color: Theme.of(context).textTheme.bodyText2!.color),
+                                                      ),
+                                                      Text("Delete", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color))
+                                                    ],
+                                                  ))
+                                            ]),
                                       ],
                                     ),
                                   ))),
-                          onDismissed: (direction) {
-                            Provider.of<ChecklistModel>(context, listen: false)
-                                .softDeleteChecklist(checklistModel.checklists!
-                                    .elementAt(index));
-                          }));
+            );
           } else {
             return Center(
                 child: Text("Let's get you organised!",
@@ -278,7 +281,7 @@ class _AlertBox extends State<AlertBox> {
                         )),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.07),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.5,
+                      width: 300,
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
@@ -304,7 +307,7 @@ class _AlertBox extends State<AlertBox> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.5,
+                      width: 300,
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(

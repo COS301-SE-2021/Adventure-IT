@@ -145,13 +145,13 @@ class MediaList extends StatelessWidget {
                   color: Theme.of(context).primaryColorDark,
                   child: Column(children: [
                     Expanded(
-                      flex: 9,
+                      flex: 8,
                       child: Ink.image(
                           image: mediaModel.media!
                                   .elementAt(index)
                                   .type
                                   .contains("mp4")
-                              ? Image.asset("assets/play button.png").image
+                              ? Image.asset("playbutton.png").image
                               : NetworkImage("http://" +
                                   mediaApi +
                                   "/media/mediaUploaded/" +
@@ -159,7 +159,7 @@ class MediaList extends StatelessWidget {
                           fit: BoxFit.cover),
                     ),
                     Expanded(
-                        flex: 4,
+                        flex: 6,
                         child: Padding(
                             padding: EdgeInsets.all(2),
                             child: Column(
@@ -183,13 +183,9 @@ class MediaList extends StatelessWidget {
                                         Expanded(
                                             flex: 6,
                                             child: ElevatedButton(
-                                                child: Text("Download",
-                                                    style: new TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        color: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyText1!
-                                                            .color)),
+                                                child: Icon(
+                                                  Icons.download,
+                                                  color: Theme.of(context).textTheme.bodyText1!.color,),
                                                 style: ElevatedButton.styleFrom(
                                                   primary: Theme.of(context)
                                                       .accentColor,
@@ -198,12 +194,12 @@ class MediaList extends StatelessWidget {
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .width *
-                                                              0.03,
+                                                              0.02,
                                                       vertical:
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .height *
-                                                              0.01),
+                                                              0.005),
                                                 ),
                                                 onPressed: () {
                                                   if (kIsWeb) {
@@ -225,11 +221,9 @@ class MediaList extends StatelessWidget {
                                         Expanded(
                                           flex: 6,
                                             child: ElevatedButton(
-                                          child: Text("Remove",
-                                              style: new TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                  color: Theme.of(context)
-                                                      .accentColor)),
+                                              child: Icon(
+                                                Icons.delete,
+                                                color: Theme.of(context).textTheme.bodyText1!.color,),
                                           style: ElevatedButton.styleFrom(
                                             side: BorderSide(width: 1.0, color: Theme.of(context)
                                                 .accentColor),
@@ -240,11 +234,11 @@ class MediaList extends StatelessWidget {
                                                     MediaQuery.of(context)
                                                             .size
                                                             .width *
-                                                        0.03,
+                                                        0.02,
                                                 vertical: MediaQuery.of(context)
                                                         .size
                                                         .height *
-                                                    0.01),
+                                                    0.005),
                                           ),
                                           onPressed: () {
                                             Provider.of<MediaModel>(context,
@@ -262,8 +256,8 @@ class MediaList extends StatelessWidget {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: MediaQuery.of(context).size.height >
                         MediaQuery.of(context).size.width
-                    ? 1
-                    : 2,
+                    ? 2
+                    : 4,
                 crossAxisSpacing: 4.0,
                 mainAxisSpacing: 4.0,
               ),
