@@ -12,13 +12,11 @@ public class BudgetGraph{
     private int i = 0;
 
     public BudgetGraph() {
-    }
 
-    public void setGraph(List<Node> nodes){
-        this.nodes = nodes;
     }
 
     public List<Node> generateGraph(List<BudgetEntry> budgets){
+        this.i = 0;
         List<Node> nodes = new ArrayList<Node>();
         budgets.sort(new Comparator<BudgetEntry>() {
             @Override
@@ -27,7 +25,6 @@ public class BudgetGraph{
             }
         });
         String name = budgets.get(0).getPayer();
-
 
         for(int i = 0; i<budgets.size();i++){
             if(nodes.isEmpty()){
@@ -119,6 +116,7 @@ public class BudgetGraph{
         if(cycleNode == null){
             return cycleEdges;
         }else{
+            System.out.println("Cycle detected");
             String start = cycleNode.getName();
             Node ptr = cycleNode.getPred();
             for (int j = 0;j<ptr.getEdges().size();j++){
@@ -166,11 +164,9 @@ public class BudgetGraph{
 
     public List<Edge> summarizeEdges(List<Edge> edges){
         double smallest = Double.MAX_VALUE;
-        Edge lowest = null;
         for (int i =0;i<edges.size();i++){
             if(edges.get(i).getAmount()<smallest){
                 smallest= edges.get(i).getAmount();
-                lowest = edges.get(i);
             }
         }
 
