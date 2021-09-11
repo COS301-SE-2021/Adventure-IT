@@ -1,3 +1,4 @@
+import 'package:adventure_it/api/mediaAPI.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,4 +22,10 @@ class UserModel extends ChangeNotifier {
     await getProfile();
     notifyListeners();
   }
+
+  Future addProfilePicture(value) async {
+    await ProfileApi.addProfilePicture(value);
+    notifyListeners();
+  }
+
 }

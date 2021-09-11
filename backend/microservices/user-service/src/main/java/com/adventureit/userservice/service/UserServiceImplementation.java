@@ -142,7 +142,7 @@ public class UserServiceImplementation  {
 
     public HttpStatus updateProfilePicture(MultipartFile file, UUID userId){
         try {
-            UUID id = userId;
+            UUID id = UUID.randomUUID();
             String fileName = file.getOriginalFilename();
 
             PictureInfo uploadedPicture = new PictureInfo(id, file.getContentType(), fileName, userId);

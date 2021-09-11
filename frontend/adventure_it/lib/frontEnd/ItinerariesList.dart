@@ -351,6 +351,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                                 .color)),
                                     trailing: Text(
                                         itineraryModel.dates!.elementAt(index),
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize:
                                                 11 * MediaQuery.of(context).textScaleFactor,

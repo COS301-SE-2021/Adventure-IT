@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import 'DocumentList.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'Navbar.dart';
 import 'package:adventure_it/api/userAPI.dart';
 
@@ -65,7 +66,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
               allowMultiple: false,
               type: FileType.custom,
               onFileLoading: (FilePickerStatus status) => print(status),
-              allowedExtensions: ['jpg', 'png', 'gif', 'mp4']))
+              allowedExtensions: ['jpg', 'png', 'gif']))
           ?.files;
     } on PlatformException catch (e) {
       print("Unsupported operation" + e.toString());
@@ -109,24 +110,52 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                             Center(
                                 child: Column(children: <Widget>[
                               Stack(clipBehavior: Clip.none, children: <Widget>[
-                                Container(
+                                CachedNetworkImage( imageUrl:
+                      userApi +
+                          "/user/viewPicture/" +
+                          user!.userID,
+                           imageBuilder: (context, imageProvider) => Container(
                                     width: 100,
                                     height: 100,
                                     decoration: new BoxDecoration(
+                                      border: Border.all(
+                                        color: Theme.of(context).accentColor,
+                                        width: 3,
+                                      ),
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
-                                          image: FadeInImage(
-                                                  image: NetworkImage(
-                                                      userApi +
-                                                          "/user/viewPicture/" +
-                                                          UserApi.getInstance()
-                                                              .getUserProfile()!
-                                                              .userID),
-                                                  placeholder: AssetImage(
-                                                      "pfp.png"))
-                                              .image,
-                                          fit: BoxFit.contain),
-                                    )),
+                                          fit: BoxFit.fill,
+                                          image: imageProvider
+                                      ))),
+
+                                              placeholder: (context, url) => Container(
+                                                  width: 100,
+                                                  height: 100,
+                                                  decoration: new BoxDecoration(
+                                                      border: Border.all(
+                                                        color: Theme.of(context).accentColor,
+                                                        width: 3,
+                                                      ),
+                                                      shape: BoxShape.circle,
+                                                      image: DecorationImage(
+                                                          fit: BoxFit.fill,
+                                                          image: AssetImage("pfp.png")
+                                                      ))),
+
+                                              errorWidget: (context, url, error) => Container(
+                                                  width: 100,
+                                                  height: 100,
+                                                  decoration: new BoxDecoration(
+                                                      border: Border.all(
+                                                        color: Theme.of(context).accentColor,
+                                                        width: 3,
+                                                      ),
+                                                      shape: BoxShape.circle,
+                                                      image: DecorationImage(
+                                                          fit: BoxFit.fill,
+                                                          image: AssetImage("pfp.png")
+                                                      )))),
+
                                 Positioned(
                                     right: -8,
                                     top: -8,
@@ -140,11 +169,12 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                         onPressed: () {
                                           openFileExplorer().then((value) {
                                             if (value != null) {
-                                              ProfileApi.addProfilePicture(
-                                                  value);
+                                              Provider
+                                                  .of<UserModel>(
+                                                  context,
+                                                  listen: false).addProfilePicture(value);
                                             }
                                           });
-                                          setState(() {});
                                         })),
                               ]),
                               Container(

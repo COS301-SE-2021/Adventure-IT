@@ -115,7 +115,7 @@ class ItineraryModel extends ChangeNotifier {
               months[start.month - 1] +
               " " +
               start.year.toString() +
-              " to " +
+              "\n to \n" +
               end.day.toString() +
               " " +
               months[end.month - 1] +

@@ -1,11 +1,13 @@
 import 'package:adventure_it/api/currentLocation.dart';
 import 'package:adventure_it/api/locationAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:adventure_it/Providers/adventure_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:provider/provider.dart';
+import '../constants.dart';
 import 'AdventurePage.dart';
 import 'Navbar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -180,14 +182,51 @@ class _Carousel extends State<Carousel> {
             ),
             itemCount: attendeeModel!.attendees!.length,
             itemBuilder: (BuildContext context, int index, int pageViewIndex) =>
-                Container(
-                    width: 100,
-                    height: 100,
-                    decoration: new BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: ExactAssetImage('pfp.png'), fit: BoxFit.contain),
-                    )),
+                CachedNetworkImage( imageUrl:
+                userApi +
+                    "/user/viewPicture/" +
+                    attendeeModel!.attendees!.elementAt(index).userID,
+                    imageBuilder: (context, imageProvider) => Container(
+                        width: 100,
+                        height: 100,
+                        decoration: new BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context).accentColor,
+                              width: 3,
+                            ),
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: imageProvider
+                            ))),
+
+                    placeholder: (context, url) => Container(
+                        width: 100,
+                        height: 100,
+                        decoration: new BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context).accentColor,
+                              width: 3,
+                            ),
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.fitWidth,
+                                image: AssetImage("pfp.png")
+                            ))),
+
+                    errorWidget: (context, url, error) => Container(
+                        width: 100,
+                        height: 100,
+                        decoration: new BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context).accentColor,
+                              width: 3,
+                            ),
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.fitWidth,
+                                image: AssetImage("pfp.png")
+                            )))),
           )),
       Row(children: [
         Spacer(),
