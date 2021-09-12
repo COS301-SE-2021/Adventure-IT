@@ -171,6 +171,24 @@ public class MainControllerItineraryReroute {
         restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/setLocation/"+itineraryId+"/"+locationID, String.class);
     }
 
+    @GetMapping("/checkUserOff/{userID}/{entryID}")
+    public void checkUserOff(@PathVariable UUID userID,@PathVariable UUID entryID){
+        ItineraryEntryResponseDTO entry = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryEntry/"+ entryID, ItineraryEntryResponseDTO.class);
+        assert entry != null;
+
+        Boolean flag = restTemplate.getForObject(IP + ":" + locationPort + "/location/compareGeography/"+ entry.getLocation() + "/" + userID, boolean.class);
+        assert flag != null;
+        if(flag){
+            restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/checkUserOff/"+ entryID + "/" + userID, String.class);
+            restTemplate.getForObject(IP + ":" + userPort + "/user/addVisitedLocation/"+ userID + "/" + entry.getLocation(), String.class);
+            restTemplate.getForObject(IP + ":" + locationPort + "/location/addFlagLocation/"+ entry.getLocation() + "/" + userID, String.class);
+            restTemplate.getForObject(IP + ":" + locationPort + "/location/addVisit/" + entry.getLocation(), String.class);
+        }
+        else{
+            throw new CurrentLocationException("Check User Off: User is in the incorrect location");
+        }
+    }
+
     @GetMapping("/getStartDateEndDate/{id}")
     public StartDateEndDateResponseDTO getStartDateEndDate(@PathVariable UUID id){
         return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getStartDateEndDate/"+id, StartDateEndDateResponseDTO.class);
