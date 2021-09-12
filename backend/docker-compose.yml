@@ -44,6 +44,18 @@ services:
       - resolve-and-build
       - service-registry
       - db
+  main-controller:
+    build: main-controller
+    network_mode: host
+    environment:
+      - spring.config.import=file:/env/backend-environment.yml
+    volumes:
+      - shared-volume:/env/
+    depends_on:
+      - resolve-and-build
+      - service-registry
+      - keycloak
+      - db
   adventure-microservice:
     build: microservices/adventure-service
     network_mode: host
@@ -56,6 +68,7 @@ services:
       - service-registry
       - keycloak
       - db
+      - main-controller
   budget-microservice:
     build: microservices/budget-service
     network_mode: host
@@ -68,6 +81,7 @@ services:
       - service-registry
       - keycloak
       - db
+      - main-controller
   chat-microservice:
     build: microservices/chat-service
     network_mode: host
@@ -92,6 +106,7 @@ services:
       - service-registry
       - keycloak
       - db
+      - main-controller
   itinerary-microservice:
     build: microservices/itinerary-service
     network_mode: host
@@ -104,6 +119,7 @@ services:
       - service-registry
       - keycloak
       - db
+      - main-controller
   location-microservice:
     build: microservices/location-service
     network_mode: host
@@ -116,6 +132,7 @@ services:
       - service-registry
       - keycloak
       - db
+      - main-controller
   media-microservice:
     build: microservices/media-service
     network_mode: host
@@ -128,6 +145,7 @@ services:
       - service-registry
       - keycloak
       - db
+      - main-controller
   notification-microservice:
     build: microservices/notification-service
     network_mode: host
@@ -140,6 +158,7 @@ services:
       - service-registry
       - keycloak
       - db
+      - main-controller
   timeline-microservice:
     build: microservices/timeline-service
     network_mode: host
@@ -152,6 +171,7 @@ services:
       - service-registry
       - keycloak
       - db
+      - main-controller
   user-microservice:
     build: microservices/user-service
     network_mode: host
@@ -164,3 +184,4 @@ services:
       - service-registry
       - keycloak
       - db
+      - main-controller
