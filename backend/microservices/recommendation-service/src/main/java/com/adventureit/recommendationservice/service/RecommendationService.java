@@ -11,10 +11,7 @@ import org.ejml.simple.SimpleMatrix;
 import org.ejml.simple.ops.SimpleOperations_DSCC;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.Vector;
+import java.util.*;
 
 @Service
 public class RecommendationService {
@@ -200,6 +197,16 @@ public class RecommendationService {
         }
 
         return recommendedLocations;
+    }
+
+    public List<UUID> getMostPopular() {
+        List<UUID> locationUUIDList = new ArrayList<>();
+        List<Location> locations = locationRepository.findAll();
+        locations.sort(Comparator.comparing(Location::getVisits));
+        for(Location l : locations){
+            locationUUIDList.add(l.getLocationId());
+        }
+        return locationUUIDList;
     }
 }
 

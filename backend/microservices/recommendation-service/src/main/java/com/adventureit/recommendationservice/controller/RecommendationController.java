@@ -71,7 +71,7 @@ public class RecommendationController {
         return ResponseEntity.status(HttpStatus.OK).body("User added successfully");
     }
 
-    // Add a new user
+    // Add a new location
     @PostMapping("add/location")
     public ResponseEntity<String> addLocation(@RequestBody CreateLocationRequest req){
         try {
@@ -83,11 +83,16 @@ public class RecommendationController {
         return ResponseEntity.status(HttpStatus.OK).body("Location added successfully");
     }
 
-    // Add a new location
 
     // User requests arbitrary number of recommendations
     @GetMapping("get/{userId}/{numRecommendations}")
     public List<UUID> getUserRecommendations(@PathVariable UUID userId, @PathVariable int numRecommendations){
         return this.recommendationService.getUserRecommendations(userId).subList(0, numRecommendations-1);
+    }
+
+    // User requests arbitrary number of popular locations
+    @GetMapping("get/popular/{numPopular}")
+    public List<UUID> getMostPopular(@PathVariable UUID userId, @PathVariable int numPopular){
+        return this.recommendationService.getMostPopular();
     }
 }
