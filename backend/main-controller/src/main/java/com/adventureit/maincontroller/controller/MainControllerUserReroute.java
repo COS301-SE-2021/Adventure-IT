@@ -1,16 +1,14 @@
 package com.adventureit.maincontroller.controller;
 
 
-import com.adventureit.chat.requests.CreateDirectChatRequest;
-import com.adventureit.userservice.exceptions.InvalidRequestException;
-import com.adventureit.userservice.exceptions.InvalidUserEmailException;
-import com.adventureit.userservice.exceptions.InvalidUserPasswordException;
-import com.adventureit.userservice.exceptions.InvalidUserPhoneNumberException;
-import com.adventureit.userservice.requests.EditUserProfileRequest;
-import com.adventureit.userservice.requests.LoginUserRequest;
-import com.adventureit.userservice.requests.RegisterUserRequest;
-import com.adventureit.userservice.requests.UpdatePictureRequest;
-import com.adventureit.userservice.responses.*;
+import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
+import com.adventureit.shareddtos.recommendation.request.CreateUserRequest;
+import com.adventureit.shareddtos.user.requests.EditUserProfileRequest;
+import com.adventureit.shareddtos.user.requests.LoginUserRequest;
+import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
+import com.adventureit.shareddtos.user.requests.UpdatePictureRequest;
+import com.adventureit.shareddtos.user.responses.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,11 +23,13 @@ public class MainControllerUserReroute {
     private final String IP = "http://localhost";
     private final String userPort = "9002";
     private final String locationPort = "9006";
+    private final String recommendationPort = "9013";
 
 
     @PostMapping(value = "registerUser", consumes = "application/json", produces = "application/json")
-    public RegisterUserResponse registerUser(@RequestBody RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
-        restTemplate.getForObject(IP + ":" + locationPort + "/location/storeCurrentLocation/" + req.getUserID() + "/" + 0 + "/" + 0, String.class);
+    public RegisterUserResponse registerUser(@RequestBody RegisterUserRequest req) throws Exception {
+        CreateUserRequest req2 = new CreateUserRequest(req.getUserID());
+        restTemplate.postForObject(IP + ":" + recommendationPort + "/recommendation/add/user", req2, ResponseEntity.class);
         return restTemplate.postForObject(IP + ":" + userPort + "/user/registerUser/",req, RegisterUserResponse.class);
     }
 
@@ -50,7 +50,7 @@ public class MainControllerUserReroute {
     }
 
     @PostMapping(value = "loginUser", consumes = "application/json", produces = "application/json")
-    public LoginUserDTO login(@RequestBody LoginUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
+    public LoginUserDTO login(@RequestBody LoginUserRequest req) throws Exception {
         return restTemplate.postForObject(IP + ":" + userPort + "/user/loginUser/",req, LoginUserDTO.class);
     }
 
@@ -134,6 +134,12 @@ public class MainControllerUserReroute {
     @GetMapping("setUserTheme/{userId}/{bool}")
     public String setUserTheme( @PathVariable UUID userId,@PathVariable Boolean bool){
         return restTemplate.getForObject(IP + ":" + userPort + "/user/setUserTheme/"+ userId+"/"+bool, String.class);
+    }
+
+    @GetMapping("likeLocation/{userID}/{locationID}")
+    public void likeLocation(@PathVariable UUID userID, @PathVariable UUID locationID){
+        restTemplate.getForObject(IP + ":" + userPort + "/user/addLikedLocation/"+ userID + "/" + locationID, String.class);
+        restTemplate.getForObject(IP + ":" + locationPort + "/location/addLike/" + locationID, String.class);
     }
 }
 

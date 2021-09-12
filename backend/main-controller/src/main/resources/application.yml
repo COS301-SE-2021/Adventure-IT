@@ -1,22 +1,9 @@
 server:
-  port: 9999
+  port: ${main-controller.port}
 
 spring:
   application:
-    name: MAIN-CONTROLLER
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8080/auth/realms/adventure-it
+    name: ${main-controller.application-name}
+  security: ${keycloak}
 
-
-
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-    instance:
-      hostname: localhost
+eureka: ${service-registry-client}

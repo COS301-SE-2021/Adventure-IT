@@ -1,9 +1,9 @@
 package com.adventureit.timelineservice;
 
 import com.adventureit.timelineservice.entity.Timeline;
-import com.adventureit.timelineservice.entity.TimelineType;
+import com.adventureit.shareddtos.timeline.TimelineType;
 import com.adventureit.timelineservice.repository.TimelineRepository;
-import com.adventureit.timelineservice.requests.CreateTimelineRequest;
+import com.adventureit.shareddtos.timeline.requests.CreateTimelineRequest;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

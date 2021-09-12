@@ -1,9 +1,9 @@
 package com.adventureit.userservice;
 
 import com.adventureit.userservice.controller.UserController;
-import com.adventureit.userservice.requests.RegisterUserRequest;
-import com.adventureit.userservice.responses.GetUserByUUIDDTO;
-import com.adventureit.userservice.responses.RegisterUserResponse;
+import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
+import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
+import com.adventureit.shareddtos.user.responses.RegisterUserResponse;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;

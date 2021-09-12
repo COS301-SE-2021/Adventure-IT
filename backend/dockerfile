@@ -1,18 +1,41 @@
-FROM openjdk:11
+FROM maven:3.8.2-jdk-11 as DEPS
+WORKDIR /dependencies/
+COPY pom.xml pom.xml
+COPY main-controller/pom.xml main-controller/pom.xml
+COPY sharedDTOs/pom.xml sharedDTOs/pom.xml
+COPY service-registry/pom.xml service-registry/pom.xml
+COPY microservices/adventure-service/pom.xml microservices/adventure-service/pom.xml
+COPY microservices/recommendation-service/pom.xml microservices/recommendation-service/pom.xml
+COPY microservices/budget-service/pom.xml microservices/budget-service/pom.xml
+COPY microservices/chat-service/pom.xml microservices/chat-service/pom.xml
+COPY microservices/checklist-service/pom.xml microservices/checklist-service/pom.xml
+COPY microservices/itinerary-service/pom.xml microservices/itinerary-service/pom.xml
+COPY microservices/location-service/pom.xml microservices/location-service/pom.xml
+COPY microservices/media-service/pom.xml microservices/media-service/pom.xml
+COPY microservices/notification-service/pom.xml microservices/notification-service/pom.xml
+COPY microservices/timeline-service/pom.xml microservices/timeline-service/pom.xml
+COPY microservices/user-service/pom.xml microservices/user-service/pom.xml
+RUN mvn -B -e -C dependency:go-offline
 
-# COPY ../main-controller/target/main-controller-0.0.1-SNAPSHOT.jar
-COPY ./microservices/adventure-service/target/adventure-service-0.0.1-SNAPSHOT.jar .
-COPY ./microservices/budget-service/target/budget-service-0.0.1-SNAPSHOT.jar .
-COPY ./microservices/chat-service/target/chat-service-0.0.1-SNAPSHOT.jar .
-COPY ./microservices/checklist-service/target/checklist-service-0.0.1-SNAPSHOT.jar .
-COPY ./microservices/itinerary-service/target/itinerary-service-0.0.1-SNAPSHOT.jar .
-COPY ./microservices/location-service/target/location-service-0.0.1-SNAPSHOT.jar .
-COPY ./microservices/media-service/target/media-service-0.0.1-SNAPSHOT.jar .
-COPY ./microservices/notification-service/target/notification-service-0.0.1-SNAPSHOT.jar .
-COPY ./microservices/sharing-service/target/sharing-service-0.0.1-SNAPSHOT.jar .
-COPY ./microservices/timeline-service/target/timeline-service-0.0.1-SNAPSHOT.jar .
-COPY ./microservices/user-service/target/user-service-0.0.1-SNAPSHOT.jar .
-COPY ./service-registry/target/service-registry-0.0.1-SNAPSHOT.jar .
-COPY ./run_backend.sh .
-
-CMD ["bash", "./run_backend.sh"]
+FROM maven:3.8.2-jdk-11 as BUILD
+COPY --from=DEPS /root/.m2/ /root/.m2/
+COPY --from=DEPS /dependencies/ /dependencies/
+WORKDIR /dependencies/
+COPY main-controller/src main-controller/src
+COPY service-registry/src service-registry/src
+COPY sharedDTOs/src sharedDTOs/src
+COPY microservices/adventure-service/src microservices/adventure-service/src
+COPY microservices/recommendation-service/src microservices/recommendation-service/src
+COPY microservices/budget-service/src microservices/budget-service/src
+COPY microservices/chat-service/src microservices/chat-service/src
+COPY microservices/checklist-service/src microservices/checklist-service/src
+COPY microservices/itinerary-service/src microservices/itinerary-service/src
+COPY microservices/location-service/src microservices/location-service/src
+COPY microservices/media-service/src microservices/media-service/src
+COPY microservices/notification-service/src microservices/notification-service/src
+COPY microservices/timeline-service/src microservices/timeline-service/src
+COPY microservices/user-service/src microservices/user-service/src
+COPY backend-environment.yml /env/backend-environment.yml
+VOLUME /env/
+RUN mvn -B -e -o -DskipTests=true clean install
+CMD ["echo","Build done"]

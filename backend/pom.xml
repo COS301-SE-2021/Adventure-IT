@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.5.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>com.adventure-it</groupId>
     <artifactId>adventure-backend</artifactId>
@@ -20,12 +20,13 @@
         <module>microservices/location-service</module>
         <module>microservices/media-service</module>
         <module>microservices/notification-service</module>
-        <module>microservices/sharing-service</module>
+        <module>microservices/recommendation-service</module>
         <module>microservices/user-service</module>
         <module>microservices/checklist-service</module>
         <module>microservices/itinerary-service</module>
         <module>microservices/chat-service</module>
         <module>microservices/timeline-service</module>
+        <module>sharedDTOs</module>
         <module>service-registry</module>
         <module>main-controller</module>
     </modules>

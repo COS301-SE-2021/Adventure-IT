@@ -8,7 +8,7 @@ import com.adventureit.chat.repository.ColorPairRepository;
 import com.adventureit.chat.repository.DirectChatRepository;
 import com.adventureit.chat.repository.GroupChatRepository;
 import com.adventureit.chat.repository.MessageRepository;
-import com.adventureit.chat.responses.GroupChatResponseDTO;
+import com.adventureit.shareddtos.chat.responses.GroupChatResponseDTO;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

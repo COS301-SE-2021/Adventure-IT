@@ -6,12 +6,12 @@ import com.adventureit.userservice.entities.Users;
 import com.adventureit.userservice.exceptions.*;
 import com.adventureit.userservice.repository.FriendRepository;
 import com.adventureit.userservice.repository.UserRepository;
-import com.adventureit.userservice.requests.EditUserProfileRequest;
-import com.adventureit.userservice.requests.RegisterUserRequest;
-import com.adventureit.userservice.responses.FriendDTO;
-import com.adventureit.userservice.responses.GetFriendRequestsResponse;
-import com.adventureit.userservice.responses.GetUserByUUIDDTO;
-import com.adventureit.userservice.responses.RegisterUserResponse;
+import com.adventureit.shareddtos.user.requests.EditUserProfileRequest;
+import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
+import com.adventureit.shareddtos.user.responses.FriendDTO;
+import com.adventureit.shareddtos.user.responses.GetFriendRequestsResponse;
+import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
+import com.adventureit.shareddtos.user.responses.RegisterUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +24,6 @@ import java.util.List;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.util.UUID;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service("UserServiceImplementation")
@@ -378,6 +377,26 @@ public class UserServiceImplementation  {
         repo.save(user);
         return "Editing successful";
 
+    }
+
+    public void addLikedLocation(UUID userID,UUID locationID){
+        Users user = repo.getUserByUserID(userID);
+        if(user == null){
+            throw new UserDoesNotExistException("Add Liked Location: User does not exist");
+        }
+
+        user.getLikedLocations().add(locationID);
+        repo.save(user);
+    }
+
+    public void addVisitedLocation(UUID userID,UUID locationID){
+        Users user = repo.getUserByUserID(userID);
+        if(user == null){
+            throw new UserDoesNotExistException("Add Liked Location: User does not exist");
+        }
+
+        user.getVisitedLocations().add(locationID);
+        repo.save(user);
     }
 
     public String setEmergencyContact(UUID userId, String email){

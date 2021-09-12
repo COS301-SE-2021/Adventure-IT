@@ -1,9 +1,9 @@
 package com.adventureit.checklist.controllers;
 
 import com.adventureit.checklist.repository.ChecklistRepository;
-import com.adventureit.checklist.requests.*;
-import com.adventureit.checklist.responses.ChecklistEntryResponseDTO;
-import com.adventureit.checklist.responses.ChecklistResponseDTO;
+import com.adventureit.shareddtos.checklist.requests.*;
+import com.adventureit.shareddtos.checklist.responses.ChecklistEntryResponseDTO;
+import com.adventureit.shareddtos.checklist.responses.ChecklistResponseDTO;
 import com.adventureit.checklist.service.ChecklistServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,5 +1,7 @@
 package com.adventureit.budgetservice.entity;
 
+import com.adventureit.shareddtos.budget.Category;
+
 import javax.persistence.Entity;
 import java.util.UUID;
 

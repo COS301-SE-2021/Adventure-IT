@@ -4,10 +4,10 @@ import com.adventureit.userservice.exceptions.InvalidRequestException;
 import com.adventureit.userservice.exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.exceptions.InvalidUserPhoneNumberException;
-import com.adventureit.userservice.requests.EditUserProfileRequest;
-import com.adventureit.userservice.requests.RegisterUserRequest;
-import com.adventureit.userservice.requests.UpdatePictureRequest;
-import com.adventureit.userservice.responses.*;
+import com.adventureit.shareddtos.user.requests.EditUserProfileRequest;
+import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
+import com.adventureit.shareddtos.user.requests.UpdatePictureRequest;
+import com.adventureit.shareddtos.user.responses.*;
 import com.adventureit.userservice.service.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
@@ -114,6 +114,16 @@ public class UserController {
     @GetMapping("deleteUser/{id}")
     public void deleteUser(@PathVariable UUID id){
         service.deleteUser(id);
+    }
+
+    @GetMapping("addLikedLocation/{userID}/{locationID}")
+    public void addLikedLocation(@PathVariable UUID userID,@PathVariable UUID locationID){
+        service.addLikedLocation(userID,locationID);
+    }
+
+    @GetMapping("addVisitedLocation/{userID}/{locationID}")
+    public void addVisitedLocation(@PathVariable UUID userID,@PathVariable UUID locationID){
+        service.addVisitedLocation(userID,locationID);
     }
 
     @PostMapping("editUserProfile")

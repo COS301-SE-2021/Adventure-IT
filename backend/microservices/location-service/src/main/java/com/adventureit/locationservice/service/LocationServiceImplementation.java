@@ -1,13 +1,16 @@
 package com.adventureit.locationservice.service;
 
 import com.adventureit.locationservice.entity.CurrentLocation;
+import com.adventureit.locationservice.entity.Flags;
 import com.adventureit.locationservice.entity.Location;
 import com.adventureit.locationservice.exceptions.NotFoundException;
 import com.adventureit.locationservice.repository.CurrentLocationRepository;
+import com.adventureit.locationservice.repository.FlagRepository;
 import com.adventureit.locationservice.repository.LocationRepository;
-import com.adventureit.locationservice.responses.CurrentLocationResponseDTO;
-import com.adventureit.locationservice.responses.LocationResponseDTO;
-import com.adventureit.locationservice.responses.ShortestPathResponseDTO;
+import com.adventureit.shareddtos.location.responses.CurrentLocationResponseDTO;
+import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
+import com.adventureit.shareddtos.location.responses.LocationsResponseDTO;
+import com.adventureit.shareddtos.location.responses.ShortestPathResponseDTO;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +35,8 @@ public class LocationServiceImplementation implements LocationService {
     @Autowired
     CurrentLocationRepository currentLocationRepository;
     @Autowired
+    FlagRepository flagRepository;
+    @Autowired
     private static HttpURLConnection connection;
     private final String APIKey = System.getenv("Google Maps API Key");
 
@@ -43,15 +48,25 @@ public class LocationServiceImplementation implements LocationService {
         JSONObject json = new JSONObject(makeConnection(string2));
         Location location1 = new Location();
 
+        String placeID = json.getJSONArray("candidates").getJSONObject(0).getString("place_id");
+
+        Location location2 = locationRepository.findLocationByPlaceID(placeID);
+        if(location2 != null){
+            return location2.getId();
+        }
+
         String address = json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address");
-        String [] array = address.split(",");
-        String country = array[array.length - 1].trim();
+        String[] array = address.split(",");
+        String country = array[array.length -1].trim();
+        List<String> types = getTypes(placeID);
 
         if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
-            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country));
+            location1 = new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,placeID,country,types);
+            locationRepository.save(location1);
         }
         else {
-            location1 = locationRepository.save(new Location("",address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country));
+            location1 = new Location("",address,placeID,country,types);
+            locationRepository.save(location1);
         }
 
         return location1.getId();
@@ -163,6 +178,28 @@ public class LocationServiceImplementation implements LocationService {
     }
 
     @Override
+    public void addLike(UUID id) {
+        Location location = locationRepository.findLocationById(id);
+        if(location == null){
+            throw new NotFoundException("Like Location: Location does not exist");
+        }
+
+        location.setLikes(location.getLikes() + 1);
+        locationRepository.save(location);
+    }
+
+    @Override
+    public void addVisit(UUID id) {
+        Location location = locationRepository.findLocationById(id);
+        if(location == null){
+            throw new NotFoundException("Like Location: Location does not exist");
+        }
+
+        location.setVisits(location.getVisits() + 1);
+        locationRepository.save(location);
+    }
+
+    @Override
     public void storeCurrentLocation(UUID userID, String latitude, String longitude) {
         CurrentLocation currentLocation = currentLocationRepository.findCurrentLocationByUserID(userID);
         if(currentLocation == null){
@@ -217,5 +254,60 @@ public class LocationServiceImplementation implements LocationService {
            else{
                return false;
            }
+    }
+
+    @Override
+    public List<String> getTypes(String placeID) throws IOException, JSONException {
+        String string1 = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + placeID + "&fields=type&key=AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
+
+        JSONObject json = new JSONObject(makeConnection(string1));
+        JSONArray array = json.getJSONObject("result").getJSONArray("types");
+
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < array.length(); ++i) {
+            list.add(array.optString(i));
+        }
+
+        return list;
+    }
+
+    public void addFlagLocation(UUID locationID, UUID userID){
+        Location location = locationRepository.findLocationById(locationID);
+        if(location == null){
+            throw new NotFoundException("Add Flag Location: Location does not exist");
+        }
+
+        Flags flags = flagRepository.getFlagsByUserID(userID);
+        if(flags == null){
+            flagRepository.save(new Flags(userID,new ArrayList<>()));
+        }
+
+        if(!flags.getPlacesVisited().contains(location.getCountry())){
+            flags.getPlacesVisited().add(location.getCountry());
+        }
+
+        flagRepository.save(flags);
+    }
+
+    @Override
+    public List<String> getFlagList(UUID id) {
+        Flags flags = flagRepository.getFlagsByUserID(id);
+        if(flags == null){
+            throw new NotFoundException("Get Flag List: User list not found");
+        }
+        return flags.getPlacesVisited();
+    }
+
+    public LocationsResponseDTO getLocations(List<UUID> ids) {
+        List<Location> locations = this.locationRepository.findAllById(ids);
+        return new LocationsResponseDTO(convertToDTO(locations));
+    }
+
+    public List<LocationResponseDTO> convertToDTO(List<Location> locations){
+        List<LocationResponseDTO> converted = new ArrayList<>();
+        for(Location l : locations){
+            converted.add(new LocationResponseDTO(l.getId(), l.getPhotoReference(), l.getFormattedAddress(), l.getPlaceID()));
+        }
+        return converted;
     }
 }
