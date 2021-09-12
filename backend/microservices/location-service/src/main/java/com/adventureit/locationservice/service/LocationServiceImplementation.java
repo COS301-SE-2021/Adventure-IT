@@ -159,7 +159,7 @@ public class LocationServiceImplementation implements LocationService {
             throw new NotFoundException("Get Location: Location does not exist");
         }
 
-        return new LocationResponseDTO(location.getId(),location.getPhotoReference(),location.getFormattedAddress(),location.getPlaceID());
+        return new LocationResponseDTO(location.getId(),location.getPhotoReference(),location.getFormattedAddress(),location.getPlaceID(), location.getName());
     }
 
     @Override

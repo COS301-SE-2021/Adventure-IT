@@ -7,12 +7,14 @@ public class LocationResponseDTO {
     String photoReference;
     String formattedAddress;
     String placeId;
+    String name;
 
-    public LocationResponseDTO(UUID id, String photoReference, String formattedAddress, String placeId){
+    public LocationResponseDTO(UUID id, String photoReference, String formattedAddress, String placeId, String name){
         this.id =id;
         this.photoReference = photoReference;
         this.formattedAddress = formattedAddress;
         this.placeId = placeId;
+        this.name = name;
     }
 
     public LocationResponseDTO(){}
@@ -47,5 +49,13 @@ public class LocationResponseDTO {
 
     public void setFormattedAddress(String formattedAddress) {
         this.formattedAddress = formattedAddress;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
