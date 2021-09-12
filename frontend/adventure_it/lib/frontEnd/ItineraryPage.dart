@@ -81,17 +81,7 @@ class ItineraryPage extends StatelessWidget {
                         .size
                         .height / 60),
                     Expanded(
-                      flex: 3,
                       child: _ListItineraryItems(
-                          currentAdventure!, currentItinerary!, c!),
-                    ),
-                    SizedBox(height: MediaQuery
-                        .of(context)
-                        .size
-                        .height / 100),
-                    Expanded(
-                      flex: 3,
-                      child: _RecommendationItems(
                           currentAdventure!, currentItinerary!, c!),
                     ),
                     SizedBox(height: MediaQuery
@@ -621,7 +611,8 @@ class _AlertBox extends State<AlertBox> {
                                                                   locationModel
                                                                       .suggestions!
                                                                       .elementAt(
-                                                                      index).description;
+                                                                      index)
+                                                                      .description;
                                                               locationController
                                                                   .text =
                                                               this.location!;
@@ -1921,8 +1912,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                           ItineraryApi.isRegisteredUser(
                                               entryModel.entries!.elementAt(
                                                   index)).then((value) {
-                                            print("here here here" +
-                                                value.toString());
+                                                    print("here here here"+value.toString());
                                             if (value) {
                                               ItineraryApi
                                                   .deregisterForItinerary(
@@ -2237,160 +2227,122 @@ class RegisteredUsers extends StatelessWidget {
                     Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          SizedBox(height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.01), Center(
-                              child: Text("Participating Adventurers",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 20 * MediaQuery
-                                          .of(context)
-                                          .textScaleFactor,
-                                      color: Theme
-                                          .of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .color))), SizedBox(height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.01),
-                          ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: registeredModel
-                                  .users!.length,
-                              itemBuilder: (context,
-                                  index) {
-                                return ListTile(
-                                    leading: CachedNetworkImage(imageUrl:
-                                    userApi + "/user/viewPicture/" +
-                                        registeredModel.users!.elementAt(index)
-                                            .user.userID,
-                                        imageBuilder: (context,
-                                            imageProvider) =>
-                                            Container(
-                                                width: 70,
-                                                height: 70,
-                                                decoration: new BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Theme
-                                                          .of(context)
-                                                          .accentColor,
-                                                      width: 3,
-                                                    ),
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        fit: BoxFit.fill,
-                                                        image: imageProvider
-                                                    ))),
+                    SizedBox(height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.01), Center(
+                child: Text("Participating Adventurers",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                fontSize: 20 * MediaQuery
+                    .of(context)
+                    .textScaleFactor,
+                color: Theme
+                    .of(context)
+                    .textTheme
+                    .bodyText1!
+                    .color))), SizedBox(height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.01),
+    ListView.builder(
+    shrinkWrap: true,
+    itemCount: registeredModel
+        .users!.length,
+    itemBuilder: (context,
+    index) {
+      return ListTile(
+          leading:CachedNetworkImage( imageUrl:
+          userApi+"/user/viewPicture/" +
+             registeredModel.users!.elementAt(index).user.userID,
+              imageBuilder: (context, imageProvider) => Container(
+                  width: 70,
+                  height: 70,
+                  decoration: new BoxDecoration(
+                      border: Border.all(
+                        color: Theme.of(context).accentColor,
+                        width: 3,
+                      ),
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: imageProvider
+                      ))),
 
-                                        placeholder: (context, url) =>
-                                            Container(
-                                                width: 70,
-                                                height: 70,
-                                                decoration: new BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Theme
-                                                          .of(context)
-                                                          .accentColor,
-                                                      width: 3,
-                                                    ),
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        fit: BoxFit.fill,
-                                                        image: AssetImage(
-                                                            "pfp.png")
-                                                    ))),
+              placeholder: (context, url) => Container(
+                  width:70,
+                  height: 70,
+                  decoration: new BoxDecoration(
+                      border: Border.all(
+                        color: Theme.of(context).accentColor,
+                        width: 3,
+                      ),
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage("pfp.png")
+                      ))),
 
-                                        errorWidget: (context, url, error) =>
-                                            Container(
-                                                width: 70,
-                                                height: 70,
-                                                decoration: new BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Theme
-                                                          .of(context)
-                                                          .accentColor,
-                                                      width: 3,
-                                                    ),
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        fit: BoxFit.fill,
-                                                        image: AssetImage(
-                                                            "pfp.png")
-                                                    )))),
+              errorWidget: (context, url, error) => Container(
+                  width: 70,
+                  height: 70,
+                  decoration: new BoxDecoration(
+                      border: Border.all(
+                        color: Theme.of(context).accentColor,
+                        width: 3,
+                      ),
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage("pfp.png")
+                      )))),
 
-                                    title: Text(
-                                        registeredModel.users!.elementAt(index)
-                                            .user.username,
-                                        style: TextStyle(
-                                            decoration: registeredModel.users!
-                                                .elementAt(index).checkIn
-                                                ? TextDecoration
-                                                .lineThrough
-                                                : null,
-                                            fontSize: 15,
-                                            color: Theme
-                                                .of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color))
-                                );
-                              }),
-                          SizedBox(height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.01),
-                        ]);
+          title: Text(registeredModel.users!.elementAt(index).user.username,
+              style: TextStyle(
+                decoration: registeredModel.users!.elementAt(index).checkIn?TextDecoration
+                    .lineThrough
+                    : null,
+                  fontSize: 15,
+                  color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color))
+      );
+    }),
+                SizedBox(height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.01),
+                ]);
                 }
                 else {
-                  return Column(children: [
-                    SizedBox(height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.01),
-                    Center(
-                        child: Text("Be the first to join in on this activity!",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20 * MediaQuery
-                                    .of(context)
-                                    .textScaleFactor,
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .color))),
-                    SizedBox(height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.01)
-                  ]);
+                return Column(children: [
+                SizedBox(height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.01),
+                Center(
+                child: Text("Be the first to join in on this activity!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                fontSize: 20 * MediaQuery
+                    .of(context)
+                    .textScaleFactor,
+                color: Theme
+                    .of(context)
+                    .textTheme
+                    .bodyText1!
+                    .color))),
+                SizedBox(height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.01)
+                ]);
                 }
               }
 
           );
-        });
-  }
-}
-
-class _RecommendationItems extends StatelessWidget {
-  late final Adventure? currentAdventure;
-  late final Itinerary? currentItinerary;
-  late final BuildContext? c;
-
-  _RecommendationItems(Adventure a, Itinerary i, BuildContext c) {
-    this.currentAdventure = a;
-    this.currentItinerary = i;
-    this.c = c;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => ItineraryEntryModel(currentItinerary!),
-        builder: (context, widget) {
-          return Container();
         });
   }
 }

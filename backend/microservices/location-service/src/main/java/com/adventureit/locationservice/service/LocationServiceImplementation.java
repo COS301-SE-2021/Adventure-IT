@@ -44,15 +44,14 @@ public class LocationServiceImplementation implements LocationService {
         Location location1 = new Location();
 
         String address = json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address");
-        String name = json.getJSONArray("candidates").getJSONObject(0).getString("name");
         String [] array = address.split(",");
         String country = array[array.length - 1].trim();
 
         if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
-            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country, name));
+            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country));
         }
         else {
-            location1 = locationRepository.save(new Location("",address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country,name));
+            location1 = locationRepository.save(new Location("",address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country));
         }
 
         return location1.getId();
@@ -160,7 +159,7 @@ public class LocationServiceImplementation implements LocationService {
             throw new NotFoundException("Get Location: Location does not exist");
         }
 
-        return new LocationResponseDTO(location.getId(),location.getPhotoReference(),location.getFormattedAddress(),location.getPlaceID(), location.getName());
+        return new LocationResponseDTO(location.getId(),location.getPhotoReference(),location.getFormattedAddress(),location.getPlaceID());
     }
 
     @Override

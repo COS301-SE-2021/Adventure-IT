@@ -7,14 +7,12 @@ public class LocationResponseDTO {
     String photoReference;
     String formattedAddress;
     String placeId;
-    String name;
 
-    public LocationResponseDTO(UUID id, String photoReference, String formattedAddress, String placeId, String name){
+    public LocationResponseDTO(UUID id, String photoReference, String formattedAddress, String placeId){
         this.id =id;
         this.photoReference = photoReference;
         this.formattedAddress = formattedAddress;
         this.placeId = placeId;
-        this.name=name;
     }
 
     public LocationResponseDTO(){}
