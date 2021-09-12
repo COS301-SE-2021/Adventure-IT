@@ -2,10 +2,6 @@ package com.adventureit.maincontroller.controller;
 
 
 import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
-import com.adventureit.userservice.exceptions.InvalidRequestException;
-import com.adventureit.userservice.exceptions.InvalidUserEmailException;
-import com.adventureit.userservice.exceptions.InvalidUserPasswordException;
-import com.adventureit.userservice.exceptions.InvalidUserPhoneNumberException;
 import com.adventureit.shareddtos.user.requests.EditUserProfileRequest;
 import com.adventureit.shareddtos.user.requests.LoginUserRequest;
 import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
@@ -28,7 +24,7 @@ public class MainControllerUserReroute {
 
 
     @PostMapping(value = "registerUser", consumes = "application/json", produces = "application/json")
-    public RegisterUserResponse registerUser(@RequestBody RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
+    public RegisterUserResponse registerUser(@RequestBody RegisterUserRequest req) throws Exception {
         return restTemplate.postForObject(IP + ":" + userPort + "/user/registerUser/",req, RegisterUserResponse.class);
     }
 
@@ -50,7 +46,7 @@ public class MainControllerUserReroute {
     }
 
     @PostMapping(value = "loginUser", consumes = "application/json", produces = "application/json")
-    public LoginUserDTO login(@RequestBody LoginUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
+    public LoginUserDTO login(@RequestBody LoginUserRequest req) throws Exception {
         return restTemplate.postForObject(IP + ":" + userPort + "/user/loginUser/",req, LoginUserDTO.class);
     }
 
