@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:adventure_it/Providers/recommendation_model.dart';
 import 'package:adventure_it/Providers/registeredUser_model.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
@@ -962,8 +963,8 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                             .of(context)
                             .accentColor)));
           } else if (entryModel.entries!.length > 0) {
-            return Expanded(
-                flex: 2,
+            return Column(children: [Expanded(
+                flex: 3,
                 child: GroupedListView<dynamic, String>(
                     physics: const AlwaysScrollableScrollPhysics(),
                     elements: entryModel.entries!,
@@ -1912,7 +1913,8 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                           ItineraryApi.isRegisteredUser(
                                               entryModel.entries!.elementAt(
                                                   index)).then((value) {
-                                                    print("here here here"+value.toString());
+                                            print("here here here" +
+                                                value.toString());
                                             if (value) {
                                               ItineraryApi
                                                   .deregisterForItinerary(
@@ -2056,9 +2058,14 @@ class ListItineraryItems extends State<_ListItineraryItems> {
 
                               ))
                       );
-                    }));
+                    })),
+              Expanded(
+                child: _RecommendedItems(
+                    currentAdventure!, currentItinerary!, c!),
+              )
+            ]);
           } else {
-            return Center(
+            return Column(children: [Expanded(flex: 3, child: Center(
                 child: Text("Seems like you've got nowhere to go!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -2069,7 +2076,9 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                             .of(context)
                             .textTheme
                             .bodyText1!
-                            .color)));
+                            .color)))), Expanded(child: _RecommendedItems(
+                currentAdventure!, currentItinerary!, c!))
+            ]);
           }
         });
   }
@@ -2227,122 +2236,203 @@ class RegisteredUsers extends StatelessWidget {
                     Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          SizedBox(height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.01), Center(
+                              child: Text("Participating Adventurers",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20 * MediaQuery
+                                          .of(context)
+                                          .textScaleFactor,
+                                      color: Theme
+                                          .of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color))), SizedBox(height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.01),
+                          ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: registeredModel
+                                  .users!.length,
+                              itemBuilder: (context,
+                                  index) {
+                                return ListTile(
+                                    leading: CachedNetworkImage(imageUrl:
+                                    userApi + "/user/viewPicture/" +
+                                        registeredModel.users!.elementAt(index)
+                                            .user.userID,
+                                        imageBuilder: (context,
+                                            imageProvider) =>
+                                            Container(
+                                                width: 70,
+                                                height: 70,
+                                                decoration: new BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Theme
+                                                          .of(context)
+                                                          .accentColor,
+                                                      width: 3,
+                                                    ),
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: imageProvider
+                                                    ))),
+
+                                        placeholder: (context, url) =>
+                                            Container(
+                                                width: 70,
+                                                height: 70,
+                                                decoration: new BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Theme
+                                                          .of(context)
+                                                          .accentColor,
+                                                      width: 3,
+                                                    ),
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: AssetImage(
+                                                            "pfp.png")
+                                                    ))),
+
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                                width: 70,
+                                                height: 70,
+                                                decoration: new BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Theme
+                                                          .of(context)
+                                                          .accentColor,
+                                                      width: 3,
+                                                    ),
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: AssetImage(
+                                                            "pfp.png")
+                                                    )))),
+
+                                    title: Text(
+                                        registeredModel.users!.elementAt(index)
+                                            .user.username,
+                                        style: TextStyle(
+                                            decoration: registeredModel.users!
+                                                .elementAt(index).checkIn
+                                                ? TextDecoration
+                                                .lineThrough
+                                                : null,
+                                            fontSize: 15,
+                                            color: Theme
+                                                .of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color))
+                                );
+                              }),
+                          SizedBox(height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.01),
+                        ]);
+                }
+                else {
+                  return Column(children: [
                     SizedBox(height: MediaQuery
                         .of(context)
                         .size
-                        .height * 0.01), Center(
-                child: Text("Participating Adventurers",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                fontSize: 20 * MediaQuery
-                    .of(context)
-                    .textScaleFactor,
-                color: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1!
-                    .color))), SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.01),
-    ListView.builder(
-    shrinkWrap: true,
-    itemCount: registeredModel
-        .users!.length,
-    itemBuilder: (context,
-    index) {
-      return ListTile(
-          leading:CachedNetworkImage( imageUrl:
-          userApi+"/user/viewPicture/" +
-             registeredModel.users!.elementAt(index).user.userID,
-              imageBuilder: (context, imageProvider) => Container(
-                  width: 70,
-                  height: 70,
-                  decoration: new BoxDecoration(
-                      border: Border.all(
-                        color: Theme.of(context).accentColor,
-                        width: 3,
-                      ),
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: imageProvider
-                      ))),
-
-              placeholder: (context, url) => Container(
-                  width:70,
-                  height: 70,
-                  decoration: new BoxDecoration(
-                      border: Border.all(
-                        color: Theme.of(context).accentColor,
-                        width: 3,
-                      ),
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage("pfp.png")
-                      ))),
-
-              errorWidget: (context, url, error) => Container(
-                  width: 70,
-                  height: 70,
-                  decoration: new BoxDecoration(
-                      border: Border.all(
-                        color: Theme.of(context).accentColor,
-                        width: 3,
-                      ),
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage("pfp.png")
-                      )))),
-
-          title: Text(registeredModel.users!.elementAt(index).user.username,
-              style: TextStyle(
-                decoration: registeredModel.users!.elementAt(index).checkIn?TextDecoration
-                    .lineThrough
-                    : null,
-                  fontSize: 15,
-                  color: Theme
-                      .of(context)
-                      .textTheme
-                      .bodyText1!
-                      .color))
-      );
-    }),
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.01),
-                ]);
-                }
-                else {
-                return Column(children: [
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.01),
-                Center(
-                child: Text("Be the first to join in on this activity!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                fontSize: 20 * MediaQuery
-                    .of(context)
-                    .textScaleFactor,
-                color: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1!
-                    .color))),
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.01)
-                ]);
+                        .height * 0.01),
+                    Center(
+                        child: Text("Be the first to join in on this activity!",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20 * MediaQuery
+                                    .of(context)
+                                    .textScaleFactor,
+                                color: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color))),
+                    SizedBox(height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.01)
+                  ]);
                 }
               }
 
           );
         });
+  }
+}
+
+class _RecommendedItems extends StatelessWidget {
+  Adventure? currentAdventure;
+  Itinerary? currentItinerary;
+  BuildContext? context;
+
+  _RecommendedItems(Adventure a, Itinerary i, BuildContext c) {
+    this.currentAdventure = a;
+    this.currentItinerary = i;
+    this.context = c;
+  }
+
+  @override
+  Widget build(context) {
+    return ChangeNotifierProvider(
+        create: (context) =>
+            RecommendationModel(currentAdventure!)
+        ,
+        builder: (context, widget) {
+          return Consumer<RecommendationModel>(
+              builder: (context, recModel,
+                  child) {
+                if (recModel.recommendations == null &&
+                    recModel.popular == null) {
+                  return Center(
+                      child: CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Theme
+                                  .of(context)
+                                  .accentColor)));
+                }
+                else if (recModel.popular!.length > 0) {
+                  return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: recModel
+                          .recommendations!.length,
+                      itemBuilder: (context,
+                          index) {
+                        return Container();
+                      }
+                  );
+                }
+                else {
+                  return Center(
+                      child: Text(
+                          "What an adventurer! You're the first one to ever go here!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 30 * MediaQuery
+                                  .of(context)
+                                  .textScaleFactor,
+                              color: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color)));
+                }
+              }
+          );
+        }
+    );
   }
 }
