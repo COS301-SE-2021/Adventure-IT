@@ -1,6 +1,7 @@
 FROM maven:3.8.2-jdk-11 as DEPS
 WORKDIR /dependencies/
 COPY pom.xml pom.xml
+COPY main-controller/pom.xml main-controller/pom.xml
 COPY sharedDTOs/pom.xml sharedDTOs/pom.xml
 COPY service-registry/pom.xml service-registry/pom.xml
 COPY microservices/adventure-service/pom.xml microservices/adventure-service/pom.xml
@@ -20,6 +21,7 @@ FROM maven:3.8.2-jdk-11 as BUILD
 COPY --from=DEPS /root/.m2/ /root/.m2/
 COPY --from=DEPS /dependencies/ /dependencies/
 WORKDIR /dependencies/
+COPY main-controller/src main-controller/src
 COPY service-registry/src service-registry/src
 COPY sharedDTOs/src sharedDTOs/src
 COPY microservices/adventure-service/src microservices/adventure-service/src
