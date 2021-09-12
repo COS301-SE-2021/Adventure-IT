@@ -7,6 +7,7 @@ import com.adventureit.locationservice.repository.CurrentLocationRepository;
 import com.adventureit.locationservice.repository.LocationRepository;
 import com.adventureit.shareddtos.location.responses.CurrentLocationResponseDTO;
 import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
+import com.adventureit.shareddtos.location.responses.LocationsResponseDTO;
 import com.adventureit.shareddtos.location.responses.ShortestPathResponseDTO;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -258,5 +259,18 @@ public class LocationServiceImplementation implements LocationService {
         }
 
         return list;
+    }
+
+    public LocationsResponseDTO getLocations(List<UUID> ids) {
+        List<Location> locations = this.locationRepository.findAllById(ids);
+        return new LocationsResponseDTO(convertToDTO(locations));
+    }
+
+    public List<LocationResponseDTO> convertToDTO(List<Location> locations){
+        List<LocationResponseDTO> converted = new ArrayList<>();
+        for(Location l : locations){
+            converted.add(new LocationResponseDTO(l.getId(), l.getPhotoReference(), l.getFormattedAddress(), l.getPlaceID()));
+        }
+        return converted;
     }
 }
