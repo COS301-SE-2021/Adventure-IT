@@ -12,7 +12,6 @@ Location _$LocationFromJson(Map<String, dynamic> json) {
     photoReference: json['photoReference'] as String,
     formattedAddress: json['formattedAddress'] as String,
     placeId: json['placeId'] as String,
-    name: json['name'] as String,
   );
 }
 
@@ -21,5 +20,4 @@ Map<String, dynamic> _$LocationToJson(Location instance) => <String, dynamic>{
       'photoReference': instance.photoReference,
       'formattedAddress': instance.formattedAddress,
       'placeId': instance.placeId,
-  'name': instance.name,
     };
