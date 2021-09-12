@@ -1911,7 +1911,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                           ItineraryApi.isRegisteredUser(
                                               entryModel.entries!.elementAt(
                                                   index)).then((value) {
-                                                    print("here here here"+value.toString());
+                                            print("here here here"+value.toString());
                                             if (value) {
                                               ItineraryApi
                                                   .deregisterForItinerary(
@@ -2226,73 +2226,73 @@ class RegisteredUsers extends StatelessWidget {
                     Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          SizedBox(height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.01), Center(
+                              child: Text("Participating Adventurers",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20 * MediaQuery
+                                          .of(context)
+                                          .textScaleFactor,
+                                      color: Theme
+                                          .of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color))), SizedBox(height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.01),
+                          ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: registeredModel
+                                  .users!.length,
+                              itemBuilder: (context,
+                                  index) {
+                                return ListTile(
+                                    title: Text(registeredModel.users!.elementAt(index).user.username,
+                                        style: TextStyle(
+                                            decoration: registeredModel.users!.elementAt(index).checkIn?TextDecoration
+                                                .lineThrough
+                                                : null,
+                                            fontSize: 15,
+                                            color: Theme
+                                                .of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color))
+                                );
+                              }),
+                          SizedBox(height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.01),
+                        ]);
+                }
+                else {
+                  return Column(children: [
                     SizedBox(height: MediaQuery
                         .of(context)
                         .size
-                        .height * 0.01), Center(
-                child: Text("Participating Adventurers",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                fontSize: 20 * MediaQuery
-                    .of(context)
-                    .textScaleFactor,
-                color: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1!
-                    .color))), SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.01),
-    ListView.builder(
-    shrinkWrap: true,
-    itemCount: registeredModel
-        .users!.length,
-    itemBuilder: (context,
-    index) {
-      return ListTile(
-          title: Text(registeredModel.users!.elementAt(index).user.username,
-              style: TextStyle(
-                decoration: registeredModel.users!.elementAt(index).checkIn?TextDecoration
-                    .lineThrough
-                    : null,
-                  fontSize: 15,
-                  color: Theme
-                      .of(context)
-                      .textTheme
-                      .bodyText1!
-                      .color))
-      );
-    }),
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.01),
-                ]);
-                }
-                else {
-                return Column(children: [
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.01),
-                Center(
-                child: Text("Be the first to join in on this activity!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                fontSize: 20 * MediaQuery
-                    .of(context)
-                    .textScaleFactor,
-                color: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1!
-                    .color))),
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.01)
-                ]);
+                        .height * 0.01),
+                    Center(
+                        child: Text("Be the first to join in on this activity!",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20 * MediaQuery
+                                    .of(context)
+                                    .textScaleFactor,
+                                color: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color))),
+                    SizedBox(height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.01)
+                  ]);
                 }
               }
 

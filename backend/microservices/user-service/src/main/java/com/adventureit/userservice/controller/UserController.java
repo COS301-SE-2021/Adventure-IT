@@ -121,4 +121,20 @@ public class UserController {
         return service.editUserProfile(req);
     }
 
+    @GetMapping("setEmergencyContact/{userId}/{email}")
+    public String setEmergencyContact( @PathVariable UUID userId,@PathVariable String email){
+        return service.setEmergencyContact(userId,email);
+    }
+
+    @GetMapping("getUserTheme/{userId}")
+    public Boolean getUserTheme( @PathVariable UUID userId){
+        return service.getUserTheme(userId);
+    }
+
+    @GetMapping("setUserTheme/{userId}/{bool}")
+    public String setUserTheme( @PathVariable UUID userId,@PathVariable Boolean bool){
+        return service.setUserTheme(userId,bool);
+    }
+
+
 }

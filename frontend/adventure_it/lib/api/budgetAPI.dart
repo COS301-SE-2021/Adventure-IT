@@ -151,15 +151,16 @@ class BudgetApi {
   }
 
   static Future deleteEntry(BudgetEntry i, String id) async {
-    http.Response response = await _deleteBudgetEntryRequest(i.budgetEntryID, id);
+    http.Response response = await _deleteBudgetEntryRequest(i.budgetEntryID);
 
     if (response.statusCode != 200) {
       throw Exception('Failed to delete budget entry ${response.body}');
     }
   }
 
-  static Future<http.Response> _deleteBudgetEntryRequest(BudgetEntryID, String id) async {
-    return http.get(Uri.http(mainApi, '/budget/removeEntry/' + BudgetEntryID+"/"+id));
+  static Future<http.Response> _deleteBudgetEntryRequest(BudgetEntryID) async {
+    String userID = UserApi.getInstance().getUserProfile()!.userID;
+    return http.get(Uri.http(mainApi, '/budget/removeEntry/' + BudgetEntryID + '/' + userID));
   }
 
   static Future<List<Report>?> getReport(Budget b, String userID) async {
@@ -314,12 +315,14 @@ class BudgetApi {
 
   static Future<http.Response> editBudgetEntry(
       String id,
-      String entryContainerID,
+      String budgetID,
+      String userId,
       String payer,
       String amount,
       String title,
       String description,
-      String payee) async {
+      String payee,
+      String category) async {
     double x = double.parse(amount);
     amount = x.toStringAsFixed(2);
       final response = await http.post(
@@ -329,12 +332,14 @@ class BudgetApi {
         },
         body: jsonEncode(<String, String>{
           'id': id,
-          'entryContainerID': entryContainerID,
+          'budgetID': budgetID,
+          'userId': userId,
           'payer': payer,
           'amount': amount,
           'title': title,
           'description': description,
-          'payee': payee
+          'payee': payee,
+          'category': category
         }),
       );
 

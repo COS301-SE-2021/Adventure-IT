@@ -104,7 +104,7 @@ class BudgetServiceIntegrationTests {
         budgetRepository.saveAndFlush(budget1);
         budgetEntryRepository.saveAndFlush(expense);
 
-        EditBudgetRequest request = new EditBudgetRequest(entryID,userId,budgetID,100,"Mock","Mock",null,null,null);
+        EditBudgetRequest request = new EditBudgetRequest(entryID,userId,budgetID,100,"Mock","Mock","OTHER",null,null);
         String response = this.restTemplate.postForObject("http://localhost:" + port + "/budget/editBudget", request,String.class);
         Assertions.assertEquals("Budget successfully edited!", response);
     }

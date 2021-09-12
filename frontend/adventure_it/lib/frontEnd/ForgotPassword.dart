@@ -38,10 +38,22 @@ class ForgotPassword extends State<ForgotPasswordCaller> {
               Spacer(),
               Container(
                 child: Center(
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                  SizedBox(
+                  child: Text(
+                    "Enter an email address to reset your password",
+                    textAlign: TextAlign.center,
+                    style: new TextStyle(
+                      color: Theme.of(context).textTheme.bodyText1!.color,
+                      fontSize: MediaQuery.of(context).size.height * 0.03)
+                  ),
+                ),
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+              Container(
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    SizedBox(
                     width: 250,
                     child: TextField(
                         controller: emailController,

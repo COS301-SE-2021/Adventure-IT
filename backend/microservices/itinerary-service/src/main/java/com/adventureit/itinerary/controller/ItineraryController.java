@@ -102,7 +102,7 @@ public class ItineraryController {
 
     @GetMapping("/getItineraryByEntryId/{itineraryEntryId}")
     public ItineraryResponseDTO getItineraryByEntryId(@PathVariable UUID itineraryEntryId){
-        return itineraryServiceImplementation.getItineraryById(itineraryEntryId);
+        return itineraryServiceImplementation.getItineraryByEntryId(itineraryEntryId);
     }
 
     @GetMapping("/getItineraryEntry/{entryId}")

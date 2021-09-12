@@ -1799,11 +1799,13 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                                                   .elementAt(index)
                                                                                                   .budgetEntryID,
                                                                                               currentBudget!.id,
+                                                                                              UserApi.getInstance().getUserProfile()!.userID,
                                                                                               payer!,
                                                                                               amountController.text,
                                                                                               titleController.text,
                                                                                               descriptionController.text,
-                                                                                              payee!);
+                                                                                              payee!,
+                                                                                              categoryNames[selectedCategory! - 1]);
                                                                                           Provider.of<
                                                                                               BudgetEntryModel>(
                                                                                               c,
