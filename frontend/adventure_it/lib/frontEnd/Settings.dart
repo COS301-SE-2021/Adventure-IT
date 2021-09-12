@@ -58,7 +58,7 @@ class SettingsBuilder extends State<_SettingsBuilder> {
         Container(
           margin: EdgeInsets.symmetric(
           vertical: MediaQuery.of(context).size.height * 0.01),
-          width: MediaQuery.of(context).size.width * 0.9,
+          width: MediaQuery.of(context).size.width * 0.8,
           height: MediaQuery.of(context).size.height * 0.2,
           child: Card(
             color: Theme.of(context).primaryColorDark,
@@ -93,24 +93,21 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                           )
                       ),
                       Spacer(),
-                      Expanded(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.05,
-                          height: MediaQuery.of(context).size.height * 0.02,
-                          child: Switch(
-                            value: themeSwitch,
-                            activeTrackColor: Theme.of(context).scaffoldBackgroundColor,
-                            activeColor: Theme.of(context).accentColor,
-                            onChanged: (value) {
-                              setState(() {
-                                themeSwitch = value;
-                                /*Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Themes(isSwitched)));*/
-                              });
-                            },
-                          ),
+                      Transform.scale(
+                        scale: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? 2 : 1,
+                        child: Switch(
+                          value: themeSwitch,
+                          activeTrackColor: Theme.of(context).scaffoldBackgroundColor,
+                          activeColor: Theme.of(context).accentColor,
+                          onChanged: (value) {
+                            setState(() {
+                              themeSwitch = value;
+                              /*Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Themes(isSwitched)));*/
+                            });
+                          },
                         ),
                       ),
                       Spacer(),
@@ -140,8 +137,8 @@ class SettingsBuilder extends State<_SettingsBuilder> {
         Container(
           margin: EdgeInsets.symmetric(
               vertical: MediaQuery.of(context).size.height * 0.01),
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.35,
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: MediaQuery.of(context).size.height * 0.4,
           child: Card(
               color: Theme.of(context).primaryColorDark,
               child: Column(
@@ -154,12 +151,14 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                               color: Theme.of(context).textTheme.bodyText1!.color,
                               fontSize: MediaQuery.of(context).size.height * 0.04))
                     ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                     Center(
                         child: Text("Emergency contact",
                             style: new TextStyle(
                                 color: Theme.of(context).textTheme.bodyText1!.color,
                                 fontSize: MediaQuery.of(context).size.height * 0.025))
                     ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -198,7 +197,7 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                         )
                       ],
                     ),
-                    SizedBox(width: MediaQuery.of(context).size.height * 0.5),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                     Center(
                         child: Text("Disable location for 24h?",
                             style: new TextStyle(
@@ -221,25 +220,22 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                                   Text("Enable",
                                       style: new TextStyle(
                                           color: Theme.of(context).textTheme.bodyText1!.color,
-                                          fontSize: MediaQuery.of(context).size.height * 0.02)),
+                                          fontSize: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? MediaQuery.of(context).size.height * 0.02 : MediaQuery.of(context).size.height * 0.018)),
                                 ],
                               )
                           ),
                           Spacer(),
-                          Expanded(
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.05,
-                              height: MediaQuery.of(context).size.height * 0.02,
-                              child: Switch(
-                                value: locationSwitch,
-                                activeTrackColor: Theme.of(context).scaffoldBackgroundColor,
-                                activeColor: Theme.of(context).accentColor,
-                                onChanged: (value) {
-                                  setState(() {
-                                    locationSwitch = value;
-                                  });
-                                },
-                              ),
+                          Transform.scale(
+                            scale: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? 2 : 1,
+                            child: Switch(
+                              value: locationSwitch,
+                              activeTrackColor: Theme.of(context).scaffoldBackgroundColor,
+                              activeColor: Theme.of(context).accentColor,
+                              onChanged: (value) {
+                                setState(() {
+                                  locationSwitch = value;
+                                });
+                              },
                             ),
                           ),
                           Spacer(),
@@ -254,7 +250,7 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                                 Text("Disable",
                                     style: new TextStyle(
                                         color: Theme.of(context).textTheme.bodyText1!.color,
-                                        fontSize: MediaQuery.of(context).size.height * 0.02)),
+                                        fontSize: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? MediaQuery.of(context).size.height * 0.02 : MediaQuery.of(context).size.height * 0.018)),
                               ],
                             ),
                           ),
