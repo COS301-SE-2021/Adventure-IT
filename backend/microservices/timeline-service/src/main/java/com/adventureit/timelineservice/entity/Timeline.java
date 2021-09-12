@@ -1,5 +1,6 @@
 package com.adventureit.timelineservice.entity;
 
+import com.adventureit.shareddtos.timeline.TimelineType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;

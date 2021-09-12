@@ -8,9 +8,9 @@ import com.adventureit.shareddtos.budget.requests.EditBudgetRequest;
 import com.adventureit.shareddtos.budget.responses.BudgetResponseDTO;
 import com.adventureit.shareddtos.budget.responses.ReportResponseDTO;
 import com.adventureit.shareddtos.budget.responses.ViewBudgetResponse;
-import com.adventureit.timelineservice.entity.TimelineType;
-import com.adventureit.timelineservice.requests.CreateTimelineRequest;
-import com.adventureit.userservice.responses.GetUserByUUIDDTO;
+import com.adventureit.shareddtos.timeline.TimelineType;
+import com.adventureit.shareddtos.timeline.requests.CreateTimelineRequest;
+import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 

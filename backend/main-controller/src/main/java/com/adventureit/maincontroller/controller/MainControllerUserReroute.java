@@ -1,16 +1,16 @@
 package com.adventureit.maincontroller.controller;
 
 
-import com.adventureit.chat.requests.CreateDirectChatRequest;
+import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
 import com.adventureit.userservice.exceptions.InvalidRequestException;
 import com.adventureit.userservice.exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.exceptions.InvalidUserPhoneNumberException;
-import com.adventureit.userservice.requests.EditUserProfileRequest;
-import com.adventureit.userservice.requests.LoginUserRequest;
-import com.adventureit.userservice.requests.RegisterUserRequest;
-import com.adventureit.userservice.requests.UpdatePictureRequest;
-import com.adventureit.userservice.responses.*;
+import com.adventureit.shareddtos.user.requests.EditUserProfileRequest;
+import com.adventureit.shareddtos.user.requests.LoginUserRequest;
+import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
+import com.adventureit.shareddtos.user.requests.UpdatePictureRequest;
+import com.adventureit.shareddtos.user.responses.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 

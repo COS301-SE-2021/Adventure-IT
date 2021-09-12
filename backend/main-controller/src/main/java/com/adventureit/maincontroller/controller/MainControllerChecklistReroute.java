@@ -1,15 +1,15 @@
 package com.adventureit.maincontroller.controller;
 
 
-import com.adventureit.checklist.requests.AddChecklistEntryRequest;
-import com.adventureit.checklist.requests.ChecklistDTO;
-import com.adventureit.checklist.requests.CreateChecklistRequest;
-import com.adventureit.checklist.requests.EditChecklistEntryRequest;
-import com.adventureit.checklist.responses.ChecklistEntryResponseDTO;
-import com.adventureit.checklist.responses.ChecklistResponseDTO;
-import com.adventureit.timelineservice.entity.TimelineType;
-import com.adventureit.timelineservice.requests.CreateTimelineRequest;
-import com.adventureit.userservice.responses.GetUserByUUIDDTO;
+import com.adventureit.shareddtos.checklist.requests.AddChecklistEntryRequest;
+import com.adventureit.shareddtos.checklist.requests.ChecklistDTO;
+import com.adventureit.shareddtos.checklist.requests.CreateChecklistRequest;
+import com.adventureit.shareddtos.checklist.requests.EditChecklistEntryRequest;
+import com.adventureit.shareddtos.checklist.responses.ChecklistEntryResponseDTO;
+import com.adventureit.shareddtos.checklist.responses.ChecklistResponseDTO;
+import com.adventureit.shareddtos.timeline.TimelineType;
+import com.adventureit.shareddtos.timeline.requests.CreateTimelineRequest;
+import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 

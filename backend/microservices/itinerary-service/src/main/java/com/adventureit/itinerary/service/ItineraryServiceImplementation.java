@@ -8,9 +8,8 @@ import com.adventureit.itinerary.exceptions.RegistrationException;
 import com.adventureit.itinerary.exceptions.UnauthorisedException;
 import com.adventureit.itinerary.repository.ItineraryEntryRepository;
 import com.adventureit.itinerary.repository.ItineraryRepository;
-import com.adventureit.itinerary.responses.ItineraryEntryResponseDTO;
-import com.adventureit.itinerary.responses.ItineraryResponseDTO;
-import com.adventureit.itinerary.responses.StartDateEndDateResponseDTO;
+import com.adventureit.shareddtos.itinerary.responses.ItineraryEntryResponseDTO;
+import com.adventureit.shareddtos.itinerary.responses.ItineraryResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
