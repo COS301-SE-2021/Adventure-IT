@@ -386,4 +386,16 @@ public class UserServiceImplementation  {
         repo.save(user);
         return "User Emergency contact has been set";
     }
+
+    public Boolean getUserTheme(UUID userId){
+        Users user = repo.getUserByUserID(userId);
+        return user.getTheme();
+    }
+
+    public String setUserTheme(UUID userId, Boolean bool){
+        Users user = repo.getUserByUserID(userId);
+        user.setTheme(bool);
+        repo.save(user);
+        return "User theme has been set";
+    }
 }
