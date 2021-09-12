@@ -13,8 +13,6 @@ public class Flags {
     UUID userID;
     @ElementCollection
     List<String> placesVisited;
-    @ElementCollection
-    Map<String,String> flagMap;
 
     public Flags(UUID userID, List<String> placesVisited) {
         this.userID = userID;
@@ -39,13 +37,5 @@ public class Flags {
 
     public void setPlacesVisited(List<String> placesVisited) {
         this.placesVisited = placesVisited;
-    }
-
-    public Map<String, String> getFlagMap() {
-        return flagMap;
-    }
-
-    public void setFlagMap(Map<String, String> flagMap) {
-        this.flagMap = flagMap;
     }
 }

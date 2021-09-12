@@ -59,7 +59,7 @@ public class LocationController {
     }
 
     @GetMapping(value = "/addFlagLocation/{locationID}/{userID}")
-    public void addFlagLocation(@PathVariable UUID locationID, @PathVariable UUID userID){
+    public void addFlagLocation(@PathVariable UUID locationID, @PathVariable UUID userID) throws JSONException, IOException {
         locationServiceImplementation.addFlagLocation(locationID,userID);
     }
 
