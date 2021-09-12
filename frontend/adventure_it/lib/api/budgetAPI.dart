@@ -150,7 +150,7 @@ class BudgetApi {
     return http.get(Uri.http(mainApi, '/budget/viewBudget/' + budgetID));
   }
 
-  static Future deleteEntry(BudgetEntry i) async {
+  static Future deleteEntry(BudgetEntry i, String id) async {
     http.Response response = await _deleteBudgetEntryRequest(i.budgetEntryID);
 
     if (response.statusCode != 200) {

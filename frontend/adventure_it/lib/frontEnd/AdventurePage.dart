@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:adventure_it/Providers/adventure_model.dart';
+import 'package:adventure_it/frontEnd/AdventureAttendees.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -766,8 +767,8 @@ class AlertBox extends StatelessWidget {
                                         horizontal:
                                             MediaQuery.of(context).size.width *
                                                 0.01),
-                                    child: Expanded(
-                                        child: Text(
+                                    child:  ListTile(
+                                       title: Text(
                                       friendModel.friends!
                                           .elementAt(index)
                                           .username,

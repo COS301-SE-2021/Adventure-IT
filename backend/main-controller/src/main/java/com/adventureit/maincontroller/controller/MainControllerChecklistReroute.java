@@ -62,8 +62,8 @@ public class MainControllerChecklistReroute {
     @GetMapping("/hardDelete/{id}/{userID}")
     public String hardDelete(@PathVariable UUID id,@PathVariable UUID userID){
         GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
-        restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/hardDelete/"+id+"/"+userID, String.class);
         ChecklistDTO checklist = restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/getChecklist/"+id, ChecklistDTO.class);
+        restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/hardDelete/"+id+"/"+userID, String.class);
         CreateTimelineRequest req2 = new CreateTimelineRequest(id, TimelineType.BUDGET,user.getUsername()+" deleted the "+checklist+" checklist." );
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }

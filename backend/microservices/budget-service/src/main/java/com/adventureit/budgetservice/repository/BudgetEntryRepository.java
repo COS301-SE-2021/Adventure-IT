@@ -1,6 +1,7 @@
 package com.adventureit.budgetservice.repository;
 
 import com.adventureit.budgetservice.entity.BudgetEntry;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +12,5 @@ import java.util.UUID;
 public interface BudgetEntryRepository extends JpaRepository<BudgetEntry,UUID> {
     List<BudgetEntry> findBudgetEntryByEntryContainerID(UUID budgetId);
     BudgetEntry findBudgetEntryByBudgetEntryID(UUID id);
+    void removeBudgetEntryByBudgetEntryID(UUID id);
 }
