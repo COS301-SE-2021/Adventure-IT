@@ -1431,7 +1431,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                                                   getTextDate(
                                                                                       picked!);
                                                                             }
-                                                                        ))),
+                                                                        )),
                                                                     SizedBox(
                                                                         height: MediaQuery
                                                                             .of(
