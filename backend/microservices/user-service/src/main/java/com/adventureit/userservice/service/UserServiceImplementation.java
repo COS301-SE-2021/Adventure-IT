@@ -145,6 +145,8 @@ public class UserServiceImplementation  {
             UUID id = UUID.randomUUID();
             String fileName = file.getOriginalFilename();
 
+            removeImage(userId);
+
             PictureInfo uploadedPicture = new PictureInfo(id, file.getContentType(), fileName, userId);
             pictureInfoRepository.save(uploadedPicture);
 
