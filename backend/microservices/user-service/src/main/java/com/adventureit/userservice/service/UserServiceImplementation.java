@@ -134,10 +134,13 @@ public class UserServiceImplementation  {
      */
     public GetUserByUUIDDTO getUserByUUID(UUID req){
         Users newUser = repo.getUserByUserID(req);
+        PictureInfo pictureInfo = pictureInfoRepository.findPictureInfoByOwner(req);
         if(newUser == null) {
             throw new UserDoesNotExistException("User does not exist - user is not registered as an Adventure-IT member");
         }
-        return new GetUserByUUIDDTO(newUser.getUserID(),newUser.getUsername(),newUser.getFirstname(), newUser.getLastname(), newUser.getEmail());
+        GetUserByUUIDDTO response = new GetUserByUUIDDTO(newUser.getUserID(),newUser.getUsername(),newUser.getFirstname(), newUser.getLastname(), newUser.getEmail());
+        response.setPictureId(pictureInfo.getId().toString());
+        return response;
     }
 
     public HttpStatus updateProfilePicture(MultipartFile file, UUID userId){
