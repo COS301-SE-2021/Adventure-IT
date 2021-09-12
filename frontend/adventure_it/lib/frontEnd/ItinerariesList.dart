@@ -195,6 +195,7 @@ class _ItinerariesList extends State<ItinerariesList> {
           Expanded(
               flex: 3,
               child: Container(
+                  width: MediaQuery.of(context).size.width * 0.8 < 500? 500: MediaQuery.of(context).size.width * 0.8,
                   decoration: new BoxDecoration(
                       image: new DecorationImage(
                           image: next != null
@@ -321,6 +322,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                           });
                         },
                         child: Container(
+                          width: MediaQuery.of(context).size.width * 0.8 < 500? 500: MediaQuery.of(context).size.width * 0.8,
                           child: Row(
                             children: <Widget>[
                               Expanded(
@@ -477,7 +479,7 @@ class _AlertBox extends State<AlertBox> {
                         )),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.07),
                     Container(
-                      width: 300,
+                      width: MediaQuery.of(context).size.width * 0.5,
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
@@ -503,7 +505,7 @@ class _AlertBox extends State<AlertBox> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     Container(
-                      width: 300,
+                      width: MediaQuery.of(context).size.width * 0.5,
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
