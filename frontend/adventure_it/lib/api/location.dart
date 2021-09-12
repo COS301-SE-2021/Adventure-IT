@@ -8,12 +8,14 @@ class Location {
   final String photoReference;
   final String formattedAddress;
   final String placeId;
+  final String name;
 
   Location({
     required this.id,
     required this.photoReference,
     required this.formattedAddress,
     required this.placeId,
+    required this.name;
   });
 
   factory Location.fromJson(Map<String, dynamic> json) =>
