@@ -187,4 +187,9 @@ public class MainControllerItineraryReroute {
             throw new CurrentLocationException("Check User Off: User is in the incorrect location");
         }
     }
+
+    @GetMapping("/getStartDateEndDate/{id}")
+    public StartDateEndDateResponseDTO getStartDateEndDate(@PathVariable UUID id){
+        return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getStartDateEndDate/"+id, StartDateEndDateResponseDTO.class);
+    }
 }

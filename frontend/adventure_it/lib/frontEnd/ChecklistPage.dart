@@ -354,6 +354,7 @@ class GetChecklistEntries extends StatelessWidget {
                       },
                     );
                   } else if (direction == DismissDirection.startToEnd) {
+                    editController.text = checklistEntry.entries!.elementAt(index).title;
                     return showDialog(
                         context: context,
                         builder: (BuildContext context) {

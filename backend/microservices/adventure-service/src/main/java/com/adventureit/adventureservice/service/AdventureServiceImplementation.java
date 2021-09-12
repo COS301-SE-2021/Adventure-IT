@@ -221,14 +221,14 @@ public class AdventureServiceImplementation implements AdventureService {
             adventure.setName(req.getName());
         }
 
-        if(req.getStartDate().equals("")){
+        if(req.getStartDate().equals(null)||req.getStartDate().equals("")){
 
         }else{
             LocalDate sd = LocalDate.parse(req.getStartDate(),formatter);
             adventure.setStartDate(sd);
         }
 
-        if(req.getEndDate().equals("")){
+        if(req.getEndDate().equals("")||req.getEndDate()==null){
 
         }else{
             LocalDate ed = LocalDate.parse(req.getEndDate(),formatter);

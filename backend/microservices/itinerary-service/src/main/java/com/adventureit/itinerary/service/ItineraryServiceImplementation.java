@@ -352,6 +352,22 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
+    public StartDateEndDateResponseDTO getStartAndEndDate(UUID id) {
+        Itinerary itinerary = itineraryRepository.findItineraryByIdAndDeleted(id, false);
+        if (itinerary == null) {
+            throw new NotFoundException("Get Start And End Date: Itinerary does not exist");
+        }
+
+        List<ItineraryEntry> entries = itineraryEntryRepository.findAllByEntryContainerID(id);
+        entries.sort(Comparator.comparing(ItineraryEntry::getTimestamp));
+
+        LocalDateTime startDate = entries.get(0).getTimestamp();
+        LocalDateTime endDate = entries.get(entries.size()-1).getTimestamp();
+
+        return new StartDateEndDateResponseDTO(startDate,endDate);
+    }
+
+    @Override
     public String mockPopulate() {
         final UUID mockItineraryID1 = UUID.fromString("d99dde68-664a-4618-9bb6-4b5dca7d40a8");
         final UUID mockItineraryID2 = UUID.fromString("d99dde68-664a-4618-9bb6-4b4dca7d40a8");
