@@ -66,4 +66,9 @@ public class MainControllerLocationReroute {
 
         return list;
     }
+
+    @GetMapping(value = "/getFlagList/{userID}")
+    public List<String> getFlagList(@PathVariable UUID userID){
+        return restTemplate.getForObject(IP + ":" + locationPort + "/location/getFlagList/" + userID, List.class);
+    }
 }
