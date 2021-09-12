@@ -30,6 +30,9 @@ public class Users  {
     @Lob
     private byte [] profilePicture;
     private Boolean locked = false;
+    private String fireBaseId;
+    // true is dark(default) false is light
+    private Boolean theme;
 
 
 
@@ -48,7 +51,9 @@ public class Users  {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        this.enabled =false;
+        this.enabled = false;
+        this.theme = false;
+        this.fireBaseId = "";
     }
 
     /**
@@ -132,5 +137,13 @@ public class Users  {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean getTheme() {
+        return theme;
+    }
+
+    public void setTheme(Boolean theme) {
+        this.theme = theme;
     }
 }
