@@ -2,11 +2,13 @@ package com.adventureit.maincontroller.controller;
 
 
 import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
+import com.adventureit.shareddtos.recommendation.request.CreateUserRequest;
 import com.adventureit.shareddtos.user.requests.EditUserProfileRequest;
 import com.adventureit.shareddtos.user.requests.LoginUserRequest;
 import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
 import com.adventureit.shareddtos.user.requests.UpdatePictureRequest;
 import com.adventureit.shareddtos.user.responses.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,10 +23,13 @@ public class MainControllerUserReroute {
     private final String IP = "http://localhost";
     private final String userPort = "9002";
     private final String locationPort = "9006";
+    private final String recommendationPort = "9013";
 
 
     @PostMapping(value = "registerUser", consumes = "application/json", produces = "application/json")
     public RegisterUserResponse registerUser(@RequestBody RegisterUserRequest req) throws Exception {
+        CreateUserRequest req2 = new CreateUserRequest(req.getUserID());
+        restTemplate.postForObject(IP + ":" + recommendationPort + "/recommendation/add/user", req2, ResponseEntity.class);
         return restTemplate.postForObject(IP + ":" + userPort + "/user/registerUser/",req, RegisterUserResponse.class);
     }
 

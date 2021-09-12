@@ -1,6 +1,7 @@
 package com.adventureit.maincontroller.controller;
 
 import com.adventureit.shareddtos.location.responses.CurrentLocationResponseDTO;
+import com.adventureit.shareddtos.recommendation.request.CreateLocationRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,10 +35,8 @@ public class MainControllerLocationReroute {
     public String createLocation(@PathVariable String location) {
         UUID createdLocationUUID = restTemplate.getForObject(IP + ":" + locationPort + "/location/create/" + location, UUID.class);
         try {
-            Object obj = new Object(){
-                UUID locationId = createdLocationUUID;
-            };
-            restTemplate.postForObject(IP + ":" + recommendationPort + "/recommendation/add/location", obj, ResponseEntity.class);
+            CreateLocationRequest req = new CreateLocationRequest(createdLocationUUID);
+            restTemplate.postForObject(IP + ":" + recommendationPort + "/recommendation/add/location", req, ResponseEntity.class);
         }
         catch(Exception e){
             return "Error: Malformed create location request";
@@ -66,5 +65,10 @@ public class MainControllerLocationReroute {
         }
 
         return list;
+    }
+
+    @GetMapping(value = "/getFlagList/{userID}")
+    public List<String> getFlagList(@PathVariable UUID userID){
+        return restTemplate.getForObject(IP + ":" + locationPort + "/location/getFlagList/" + userID, List.class);
     }
 }
