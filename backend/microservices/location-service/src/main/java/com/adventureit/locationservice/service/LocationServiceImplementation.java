@@ -63,10 +63,12 @@ public class LocationServiceImplementation implements LocationService {
         if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
             location1 = new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,placeID,country,types);
             locationRepository.save(location1);
+            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country,json.getJSONArray("candidates").getJSONObject(0).getString("name")));
         }
         else {
             location1 = new Location("",address,placeID,country,types);
             locationRepository.save(location1);
+            location1 = locationRepository.save(new Location("",address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country,json.getJSONArray("candidates").getJSONObject(0).getString("name")));
         }
 
         return location1.getId();
@@ -174,7 +176,7 @@ public class LocationServiceImplementation implements LocationService {
             throw new NotFoundException("Get Location: Location does not exist");
         }
 
-        return new LocationResponseDTO(location.getId(),location.getPhotoReference(),location.getFormattedAddress(),location.getPlaceID());
+        return new LocationResponseDTO(location.getId(),location.getPhotoReference(),location.getFormattedAddress(),location.getPlaceID(), location.getName());
     }
 
     @Override
@@ -248,8 +250,8 @@ public class LocationServiceImplementation implements LocationService {
        double lat1 = Double.parseDouble(lat);
        double lng1 = Double.parseDouble(lng);
 
-           if((lat1 >= Double.parseDouble(currentLocation.getLatitude()) || lat1 <= Double.parseDouble(currentLocation.getLatitude()) + 0.01) || (lat1 <= Double.parseDouble(currentLocation.getLatitude()) || lat1 >= Double.parseDouble(currentLocation.getLatitude()) - 0.01)){
-               return (lng1 >= Double.parseDouble(currentLocation.getLongitude()) || lng1 <= Double.parseDouble(currentLocation.getLongitude()) + 0.01) || (lng1 <= Double.parseDouble(currentLocation.getLongitude()) || lng1 >= Double.parseDouble(currentLocation.getLongitude()) - 0.01);
+           if((lat1 >= Double.parseDouble(currentLocation.getLatitude()) && lat1 <= Double.parseDouble(currentLocation.getLatitude()) + 0.01) || (lat1 <= Double.parseDouble(currentLocation.getLatitude()) && lat1 >= Double.parseDouble(currentLocation.getLatitude()) - 0.01)){
+               return (lng1 >= Double.parseDouble(currentLocation.getLongitude()) && lng1 <= Double.parseDouble(currentLocation.getLongitude()) + 0.01) || (lng1 <= Double.parseDouble(currentLocation.getLongitude()) && lng1 >= Double.parseDouble(currentLocation.getLongitude()) - 0.01);
            }
            else{
                return false;
