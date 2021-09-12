@@ -1,9 +1,11 @@
 package com.adventureit.locationservice.service;
 
 import com.adventureit.locationservice.entity.CurrentLocation;
+import com.adventureit.locationservice.entity.Flags;
 import com.adventureit.locationservice.entity.Location;
 import com.adventureit.locationservice.exceptions.NotFoundException;
 import com.adventureit.locationservice.repository.CurrentLocationRepository;
+import com.adventureit.locationservice.repository.FlagRepository;
 import com.adventureit.locationservice.repository.LocationRepository;
 import com.adventureit.shareddtos.location.responses.CurrentLocationResponseDTO;
 import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
@@ -31,6 +33,8 @@ public class LocationServiceImplementation implements LocationService {
     LocationRepository locationRepository;
     @Autowired
     CurrentLocationRepository currentLocationRepository;
+    @Autowired
+    FlagRepository flagRepository;
     @Autowired
     private static HttpURLConnection connection;
     private final String APIKey = System.getenv("Google Maps API Key");
@@ -272,5 +276,32 @@ public class LocationServiceImplementation implements LocationService {
             converted.add(new LocationResponseDTO(l.getId(), l.getPhotoReference(), l.getFormattedAddress(), l.getPlaceID()));
         }
         return converted;
+    }
+
+    public void addFlagLocation(UUID locationID, UUID userID){
+        Location location = locationRepository.findLocationById(locationID);
+        if(location == null){
+            throw new NotFoundException("Add Flag Location: Location does not exist");
+        }
+
+        Flags flags = flagRepository.getFlagsByUserID(userID);
+        if(flags == null){
+            flagRepository.save(new Flags(userID,new ArrayList<>()));
+        }
+
+        if(!flags.getPlacesVisited().contains(location.getCountry())){
+            flags.getPlacesVisited().add(location.getCountry());
+        }
+
+        flagRepository.save(flags);
+    }
+
+    @Override
+    public List<String> getFlagList(UUID id) {
+        Flags flags = flagRepository.getFlagsByUserID(id);
+        if(flags == null){
+            throw new NotFoundException("Get Flag List: User list not found");
+        }
+        return flags.getPlacesVisited();
     }
 }
