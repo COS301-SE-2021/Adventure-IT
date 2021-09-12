@@ -10,6 +10,7 @@ import com.adventureit.itinerary.repository.ItineraryEntryRepository;
 import com.adventureit.itinerary.repository.ItineraryRepository;
 import com.adventureit.shareddtos.itinerary.responses.ItineraryEntryResponseDTO;
 import com.adventureit.shareddtos.itinerary.responses.ItineraryResponseDTO;
+import com.adventureit.shareddtos.itinerary.responses.StartDateEndDateResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

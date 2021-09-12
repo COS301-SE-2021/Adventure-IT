@@ -1,4 +1,4 @@
-package com.adventureit.itinerary.responses;
+package com.adventureit.shareddtos.itinerary.responses;
 
 import java.time.LocalDateTime;
 
