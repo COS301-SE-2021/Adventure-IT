@@ -4,7 +4,7 @@ import com.adventureit.checklist.entity.Checklist;
 import com.adventureit.checklist.entity.ChecklistEntry;
 import com.adventureit.checklist.repository.ChecklistEntryRepository;
 import com.adventureit.checklist.repository.ChecklistRepository;
-import com.adventureit.checklist.responses.ChecklistResponseDTO;
+import com.adventureit.shareddtos.checklist.responses.ChecklistResponseDTO;
 import com.adventureit.checklist.service.ChecklistServiceImplementation;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;

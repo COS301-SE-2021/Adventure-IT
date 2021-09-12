@@ -1,7 +1,7 @@
 package com.adventureit.maincontroller.controller;
 
 
-import com.adventureit.timelineservice.responses.TimelineDTO;
+import com.adventureit.shareddtos.timeline.responses.TimelineDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
