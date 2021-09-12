@@ -1,5 +1,6 @@
 package com.adventureit.itinerary.controller;
 
+import com.adventureit.shareddtos.itinerary.responses.StartDateEndDateResponseDTO;
 import com.adventureit.shareddtos.itinerary.requests.AddItineraryEntryRequest;
 import com.adventureit.shareddtos.itinerary.requests.CreateItineraryRequest;
 import com.adventureit.shareddtos.itinerary.requests.EditItineraryEntryRequest;
