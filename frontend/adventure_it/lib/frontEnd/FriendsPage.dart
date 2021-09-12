@@ -171,7 +171,7 @@ class GetFriends extends StatelessWidget {
                                             leading: CachedNetworkImage( imageUrl:
                                             userApi +
                                                 "/user/viewPicture/" +
-                                                friendModel!.friends!.elementAt(index).userID,
+                                                friendModel.friends!.elementAt(index).userID,
                                                 imageBuilder: (context, imageProvider) => Container(
                                                     width: 70,
                                                     height: 70,
@@ -396,7 +396,7 @@ class GetFriendRequests extends StatelessWidget {
                                     flex: 4,
                                     child: ListTile(
                                       leading: CachedNetworkImage( imageUrl:
-                                      getUserID(friendModel!.friends!.elementAt(index).requester),
+                                      getUserID(friendModel.friends!.elementAt(index).requester),
                                           imageBuilder: (context, imageProvider) => Container(
                                               width: 70,
                                               height: 70,

@@ -1,8 +1,11 @@
+import 'package:adventure_it/api/userAPI.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
 import 'package:adventure_it/Providers/chat_model.dart';
 import 'package:adventure_it/api/adventure.dart';
+import '../constants.dart';
 import 'AdventurePage.dart';
 import 'Navbar.dart';
 
@@ -92,6 +95,7 @@ class GroupChat extends StatelessWidget {
                                   Provider.of<GroupChatModel>(context,
                                           listen: false)
                                       .sendMessage(messageController.text);
+                                  messageController.clear();
                                 },
                                 icon: const Icon(Icons.send_rounded),
                                 color: Theme.of(context).primaryColorDark))),
@@ -186,9 +190,55 @@ class _MessageList extends State<MessageList> {
                           color: Theme.of(context).textTheme.bodyText1!.color),
                     )),
                 indexedItemBuilder: (context, element, index) {
-                  return Card(
+                  return Row( children: [
+                    chatModel.messages!.elementAt(index).sender.userID==UserApi.getInstance().getUserProfile()!.userID?Spacer():Container(),
+                    Expanded(flex: 2,child: Card(
                       color: Theme.of(context).primaryColorDark,
                       child: ListTile(
+                        leading:CachedNetworkImage( imageUrl:
+                        userApi+"/user/viewPicture/" +
+                            chatModel.messages!.elementAt(index).sender.userID,
+                            imageBuilder: (context, imageProvider) => Container(
+                                width:70,
+                                height: 70,
+                                decoration: new BoxDecoration(
+                                    border: Border.all(
+                                      color: Theme.of(context).accentColor,
+                                      width: 3,
+                                    ),
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: imageProvider
+                                    ))),
+
+                            placeholder: (context, url) => Container(
+                                width: 70,
+                                height: 70,
+                                decoration: new BoxDecoration(
+                                    border: Border.all(
+                                      color: Theme.of(context).accentColor,
+                                      width: 3,
+                                    ),
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: AssetImage("pfp.png")
+                                    ))),
+
+                            errorWidget: (context, url, error) => Container(
+                                width: 70,
+                                height: 70,
+                                decoration: new BoxDecoration(
+                                    border: Border.all(
+                                      color: Theme.of(context).accentColor,
+                                      width: 3,
+                                    ),
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: AssetImage("pfp.png")
+                                    )))),
                         title: Row(children: [
                           Expanded(
                               child: Text(
@@ -244,7 +294,7 @@ class _MessageList extends State<MessageList> {
                                     .textTheme
                                     .bodyText1!
                                     .color)),
-                      ));
+                      ))),chatModel.messages!.elementAt(index).sender.userID!=UserApi.getInstance().getUserProfile()!.userID?Spacer():Container(),]);
                 }));
       } else {
         return Center(
