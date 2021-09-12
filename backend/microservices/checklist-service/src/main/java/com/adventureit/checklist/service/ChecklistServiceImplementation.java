@@ -7,9 +7,9 @@ import com.adventureit.checklist.exceptions.NullFieldException;
 import com.adventureit.checklist.exceptions.UnauthorisedException;
 import com.adventureit.checklist.repository.ChecklistEntryRepository;
 import com.adventureit.checklist.repository.ChecklistRepository;
-import com.adventureit.checklist.requests.ChecklistDTO;
-import com.adventureit.checklist.responses.ChecklistEntryResponseDTO;
-import com.adventureit.checklist.responses.ChecklistResponseDTO;
+import com.adventureit.shareddtos.checklist.requests.ChecklistDTO;
+import com.adventureit.shareddtos.checklist.responses.ChecklistEntryResponseDTO;
+import com.adventureit.shareddtos.checklist.responses.ChecklistResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

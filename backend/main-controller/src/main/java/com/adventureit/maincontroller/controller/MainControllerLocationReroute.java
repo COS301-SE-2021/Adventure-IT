@@ -1,6 +1,6 @@
 package com.adventureit.maincontroller.controller;
 
-import com.adventureit.locationservice.responses.CurrentLocationResponseDTO;
+import com.adventureit.shareddtos.location.responses.CurrentLocationResponseDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

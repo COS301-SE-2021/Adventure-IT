@@ -1,8 +1,8 @@
 package com.adventureit.timelineservice.controller;
 
 
-import com.adventureit.timelineservice.requests.CreateTimelineRequest;
-import com.adventureit.timelineservice.responses.TimelineDTO;
+import com.adventureit.shareddtos.timeline.requests.CreateTimelineRequest;
+import com.adventureit.shareddtos.timeline.responses.TimelineDTO;
 import com.adventureit.timelineservice.service.TimelineServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

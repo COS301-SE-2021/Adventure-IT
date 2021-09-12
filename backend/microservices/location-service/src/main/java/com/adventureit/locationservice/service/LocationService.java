@@ -1,8 +1,8 @@
 package com.adventureit.locationservice.service;
 
-import com.adventureit.locationservice.responses.CurrentLocationResponseDTO;
-import com.adventureit.locationservice.responses.LocationResponseDTO;
-import com.adventureit.locationservice.responses.ShortestPathResponseDTO;
+import com.adventureit.shareddtos.location.responses.CurrentLocationResponseDTO;
+import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
+import com.adventureit.shareddtos.location.responses.ShortestPathResponseDTO;
 import org.json.JSONException;
 import org.json.JSONObject;
 

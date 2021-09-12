@@ -1,10 +1,10 @@
 package com.adventureit.itinerary.controller;
 
-import com.adventureit.itinerary.requests.AddItineraryEntryRequest;
-import com.adventureit.itinerary.requests.CreateItineraryRequest;
-import com.adventureit.itinerary.requests.EditItineraryEntryRequest;
-import com.adventureit.itinerary.responses.ItineraryEntryResponseDTO;
-import com.adventureit.itinerary.responses.ItineraryResponseDTO;
+import com.adventureit.shareddtos.itinerary.requests.AddItineraryEntryRequest;
+import com.adventureit.shareddtos.itinerary.requests.CreateItineraryRequest;
+import com.adventureit.shareddtos.itinerary.requests.EditItineraryEntryRequest;
+import com.adventureit.shareddtos.itinerary.responses.ItineraryEntryResponseDTO;
+import com.adventureit.shareddtos.itinerary.responses.ItineraryResponseDTO;
 import com.adventureit.itinerary.service.ItineraryServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

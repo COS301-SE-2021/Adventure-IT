@@ -1,7 +1,7 @@
 package com.adventureit.locationservice.controller;
 
-import com.adventureit.locationservice.responses.CurrentLocationResponseDTO;
-import com.adventureit.locationservice.responses.LocationResponseDTO;
+import com.adventureit.shareddtos.location.responses.CurrentLocationResponseDTO;
+import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
 import com.adventureit.locationservice.service.LocationServiceImplementation;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
