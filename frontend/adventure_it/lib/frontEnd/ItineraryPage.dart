@@ -963,11 +963,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                             .of(context)
                             .accentColor)));
           } else if (entryModel.entries!.length > 0) {
-<<<<<<< HEAD
-            return Expanded(
-=======
             return Column(children: [Expanded(
->>>>>>> cf75c199d8cde6ab40c2b33e4ce665771c4b0b3f
                 flex: 2,
                 child: GroupedListView<dynamic, String>(
                     physics: const AlwaysScrollableScrollPhysics(),
@@ -2063,7 +2059,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
 
                               ))
                       );
-                    }));
+                    }))]);
           } else {
             return Center(
                 child: Text("Seems like you've got nowhere to go!",
@@ -2279,7 +2275,7 @@ class RegisteredUsers extends StatelessWidget {
                                                     ),
                                                     shape: BoxShape.circle,
                                                     image: DecorationImage(
-                                                        fit: BoxFit.fill,
+                                                        fit: BoxFit.cover,
                                                         image: imageProvider
                                                     ))),
 
@@ -2296,7 +2292,7 @@ class RegisteredUsers extends StatelessWidget {
                                                     ),
                                                     shape: BoxShape.circle,
                                                     image: DecorationImage(
-                                                        fit: BoxFit.fill,
+                                                        fit: BoxFit.cover,
                                                         image: AssetImage(
                                                             "pfp.png")
                                                     ))),
@@ -2314,7 +2310,7 @@ class RegisteredUsers extends StatelessWidget {
                                                     ),
                                                     shape: BoxShape.circle,
                                                     image: DecorationImage(
-                                                        fit: BoxFit.fill,
+                                                        fit: BoxFit.cover,
                                                         image: AssetImage(
                                                             "pfp.png")
                                                     )))),
