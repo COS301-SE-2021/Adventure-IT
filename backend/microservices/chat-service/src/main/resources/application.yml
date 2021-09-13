@@ -6,7 +6,28 @@ server:
 spring:
   application:
     name: ${chat-microservice.application-name}
-  datasource: ${chat-microservice.datasource}
-  jpa: ${chat-microservice.jpa}
+  datasource:
+    url: ${chat-microservice.datasource.url}
+    username: ${chat-microservice.datasource.username}
+    password: ${chat-microservice.datasource.password}
+    hikari:
+      maximum-pool-size: ${chat-microservice.datasource.hikari.maximum-pool-size}
+  jpa:
+    hibernate:
+      ddl-auto: ${chat-microservice.jpa.hibernate.ddl-auto}
+    show-sql: ${chat-microservice.jpa.show-sql}
+    properties:
+      hibernate:
+        dialect: ${chat-microservice.jpa.hibernate.properties.hibernate.dialect}
+        format_sql: ${chat-microservice.jpa.hibernate.properties.hibernate.format_sql}
 
-eureka: ${service-registry.client}
+eureka:
+  client:
+    register-with-eureka: ${service-registry-client.client.register-with-eureka}
+    fetch-registry: ${service-registry-client.client.fetch-registry}
+    service-url:
+      defaultZone: ${service-registry-client.client.service-url.defaultZone}
+  instance:
+    hostname: ${service-registry-client.client.hostname}
+
+
