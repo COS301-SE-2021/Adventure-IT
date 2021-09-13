@@ -43,12 +43,19 @@ public class MainControllerAdventureReroute {
     public List<GetUserByUUIDDTO> getAttendees(@PathVariable UUID id){
         List<UUID> users = restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/getAttendees/" + id, List.class);
         List<GetUserByUUIDDTO> list = new ArrayList<>();
+<<<<<<< HEAD
         UsersDTO user;
         assert users != null;
         for (int i = 0; i<users.size();i++) {
             user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + users.get(i), UsersDTO.class);
+=======
+        GetUserByUUIDDTO user;
+        assert users != null;
+        for (int i = 0; i<users.size();i++) {
+            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + users.get(i), GetUserByUUIDDTO.class);
+>>>>>>> cf75c199d8cde6ab40c2b33e4ce665771c4b0b3f
             assert user != null;
-            list.add(new GetUserByUUIDDTO(user.getUserID(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail()));
+           list.add(user);
         }
         return list;
     }

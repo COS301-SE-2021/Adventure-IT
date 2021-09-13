@@ -4,9 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="51a90799-d850-4f45-9f71-c80c24076f5d" name="Default Changelist" comment="CreateAdventure now uses fields instead of buttons">
       <change beforePath="$PROJECT_DIR$/adventure-backend.iws" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.iws" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/main.dart" afterDir="false" />
+=======
+    <list default="true" id="51a90799-d850-4f45-9f71-c80c24076f5d" name="Default Changelist" comment="AdventureUnitTestsFixed">
+      <change beforePath="$PROJECT_DIR$/adventure-backend.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.ipr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adventure-backend.iws" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerAdventureReroute.java" beforeDir="false" afterPath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerAdventureReroute.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerItineraryReroute.java" beforeDir="false" afterPath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerItineraryReroute.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/media-service/src/main/java/com/adventureit/mediaservice/service/MediaServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/media-service/src/main/java/com/adventureit/mediaservice/service/MediaServiceImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/user-service/src/main/java/com/adventureit/userservice/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/user-service/src/main/java/com/adventureit/userservice/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/user-service/src/main/java/com/adventureit/userservice/service/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/user-service/src/main/java/com/adventureit/userservice/service/UserServiceImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/user_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/user_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/mediaAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/mediaAPI.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/userAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/userAPI.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/userProfile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/userProfile.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/userProfile.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/userProfile.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/AdventureAttendees.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/AdventureAttendees.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/AdventurePage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/AdventurePage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/DirectChat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/DirectChat.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/FriendsPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/FriendsPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/GroupChat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/GroupChat.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/Profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/Profile.dart" afterDir="false" />
+>>>>>>> cf75c199d8cde6ab40c2b33e4ce665771c4b0b3f
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,6 +204,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="HierarchyBrowserManager">
     <option name="SHOW_PACKAGES" value="false" />
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -261,6 +292,7 @@
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RunAnythingCache">
@@ -293,6 +325,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+<<<<<<< HEAD
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -300,12 +333,55 @@
         </value>
       </option>
       <option name="TEST_OBJECT" value="class" />
+=======
+    <configuration name="TimelineServiceUnitTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="timeline-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.timelineservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.adventureit.timelineservice" />
+      <option name="MAIN_CLASS_NAME" value="com.adventureit.timelineservice.TimelineServiceUnitTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="UserServiceIntegrationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="user-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.userservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.adventureit.userservice" />
+      <option name="MAIN_CLASS_NAME" value="com.adventureit.userservice.UserServiceIntegrationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+>>>>>>> cf75c199d8cde6ab40c2b33e4ce665771c4b0b3f
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+<<<<<<< HEAD
     <configuration name="AdventureServiceIntegrationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="adventure-service" />
+=======
+    <configuration name="UserUnitTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="user-service" />
+>>>>>>> cf75c199d8cde6ab40c2b33e4ce665771c4b0b3f
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.adventureit.adventureservice.*" />
@@ -404,13 +480,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+<<<<<<< HEAD
     <configuration name="ServiceRegistryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
+=======
+    <configuration name="ServiceRegistryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+>>>>>>> cf75c199d8cde6ab40c2b33e4ce665771c4b0b3f
       <module name="service-registry" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.serviceregistry.ServiceRegistryApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+<<<<<<< HEAD
+=======
+    <configuration name="SharingServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="sharing-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.sharingservice.SharingServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+>>>>>>> cf75c199d8cde6ab40c2b33e4ce665771c4b0b3f
     <configuration name="TimelineServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="timeline-service" />
       <extension name="coverage">
@@ -431,12 +521,38 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JUnit.TimelineServiceUnitTests" />
+      <item itemvalue="JUnit.UserServiceIntegrationTests" />
+      <item itemvalue="JUnit.UserUnitTests" />
+      <item itemvalue="Spring Boot.UserServiceApplication" />
+      <item itemvalue="Spring Boot.AdventureServiceApplication" />
+      <item itemvalue="Spring Boot.BudgetServiceApplication" />
+      <item itemvalue="Spring Boot.ChatServiceApplication" />
+      <item itemvalue="Spring Boot.ChecklistServiceApplication" />
+      <item itemvalue="Spring Boot.ItineraryServiceApplication" />
+      <item itemvalue="Spring Boot.LocationServiceApplication" />
+      <item itemvalue="Spring Boot.MediaServiceApplication" />
+      <item itemvalue="Spring Boot.NotificationServiceApplication" />
+      <item itemvalue="Spring Boot.ServiceRegistryApplication" />
+      <item itemvalue="Spring Boot.SharingServiceApplication" />
+      <item itemvalue="Spring Boot.MainControllerApplication" />
+      <item itemvalue="Spring Boot.TimelineServiceApplication" />
+    </list>
     <recent_temporary>
       <list>
+<<<<<<< HEAD
         <item itemvalue="Spring Boot.MainControllerApplication" />
         <item itemvalue="JUnit.AdventureServiceIntegrationTests" />
         <item itemvalue="Spring Boot.TimelineServiceApplication" />
         <item itemvalue="Spring Boot.ServiceRegistryApplication" />
+=======
+        <item itemvalue="Spring Boot.TimelineServiceApplication" />
+        <item itemvalue="Spring Boot.MainControllerApplication" />
+        <item itemvalue="JUnit.UserUnitTests" />
+        <item itemvalue="JUnit.UserServiceIntegrationTests" />
+        <item itemvalue="JUnit.TimelineServiceUnitTests" />
+>>>>>>> cf75c199d8cde6ab40c2b33e4ce665771c4b0b3f
       </list>
     </recent_temporary>
   </component>
@@ -489,7 +605,21 @@
       <workItem from="1627957121689" duration="1489000" />
       <workItem from="1629987510640" duration="12948000" />
       <workItem from="1630048021066" duration="16849000" />
+<<<<<<< HEAD
       <workItem from="1630158673219" duration="8287000" />
+=======
+      <workItem from="1630158673219" duration="8315000" />
+      <workItem from="1630226313685" duration="1169000" />
+      <workItem from="1630228560966" duration="5699000" />
+      <workItem from="1630321737678" duration="599000" />
+      <workItem from="1630323047237" duration="1231000" />
+      <workItem from="1630746725669" duration="6844000" />
+      <workItem from="1630777000698" duration="8547000" />
+      <workItem from="1631452789724" duration="1222000" />
+      <workItem from="1631457790853" duration="4318000" />
+      <workItem from="1631468530522" duration="125000" />
+      <workItem from="1631468722223" duration="11672000" />
+>>>>>>> cf75c199d8cde6ab40c2b33e4ce665771c4b0b3f
     </task>
     <task id="LOCAL-00001" summary="removed id fields from create- requests">
       <created>1627942105472</created>
