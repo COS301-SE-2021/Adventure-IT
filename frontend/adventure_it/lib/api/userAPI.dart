@@ -162,6 +162,7 @@ class UserApi {
       firstname: userInfo.firstName,
       lastname: userInfo.lastName,
       email: userInfo.email,
+      profileID: ""
     );
   }
 
@@ -302,6 +303,22 @@ class UserApi {
     return http.get(Uri.parse(userApi + "/user/getUser/" + userID));
   }
 
+  Future updateUserProfile() async {
+    http.Response response = await _updateUserProfile(_instance.getUserProfile()!.userID);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to find user: ${response.body}');
+    }
+
+    Map<String, dynamic> parsed = json.decode(response.body);
+    UserProfile user = UserProfile.fromJson(parsed);
+
+   _userProfile=user;
+  }
+
+  Future<http.Response> _updateUserProfile(String userID) async {
+    return http.get(Uri.parse(userApi + "/user/getUser/" + userID));
+  }
+
   Future<String?> _retrieve(key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(key);
@@ -421,4 +438,6 @@ class UserApi {
       throw Exception('Failed to edit the user\'s profile.');
     }
   }
+
+
 }

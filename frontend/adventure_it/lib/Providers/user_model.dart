@@ -4,20 +4,26 @@ import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/cupertino.dart';
 
 class UserModel extends ChangeNotifier {
-  UserProfile? _profile = null;
+  UserProfile? _profile;
   final UserApi api = UserApi.getInstance();
 
-  UserModel();
+  UserModel() {
+    getProfile().then((value) {
+      if (value != null) {
+        _profile = value;
+      }
+    });
+  }
 
   Future getProfile() async {
     UserApi.getInstance().getUserProfile();
+    _profile = UserApi.getInstance().getUserProfile();
     return;
   }
 
   UserProfile? get profile => _profile;
 
-  Future editProfile(
-      String a, String b, String c, String d, String e) async {
+  Future editProfile(String a, String b, String c, String d, String e) async {
     await UserApi.editProfile(a, b, c, d, e);
     await getProfile();
     notifyListeners();
@@ -25,7 +31,8 @@ class UserModel extends ChangeNotifier {
 
   Future addProfilePicture(value) async {
     await ProfileApi.addProfilePicture(value);
+    await getProfile();
+
     notifyListeners();
   }
-
 }
