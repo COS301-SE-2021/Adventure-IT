@@ -30,6 +30,7 @@ services:
       - service-registry
   keycloak:
     image: jboss/keycloak
+    command: ["-Djboss.bind.address.private=127.0.0.1 -Djboss.bind.address=0.0.0.0"]
     network_mode: host
     environment:
       DB_VENDOR: ${keycloak_DB_VENDOR}
