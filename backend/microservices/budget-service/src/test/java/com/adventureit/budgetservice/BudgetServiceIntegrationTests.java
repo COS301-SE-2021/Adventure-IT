@@ -1,14 +1,14 @@
 package com.adventureit.budgetservice;
 import com.adventureit.budgetservice.controllers.BudgetController;
 import com.adventureit.budgetservice.entity.Budget;
-import com.adventureit.budgetservice.entity.Category;
+import com.adventureit.shareddtos.budget.Category;
 import com.adventureit.budgetservice.entity.UTOExpense;
 import com.adventureit.budgetservice.entity.UTUExpense;
 import com.adventureit.budgetservice.repository.BudgetEntryRepository;
 import com.adventureit.budgetservice.repository.BudgetRepository;
-import com.adventureit.budgetservice.requests.AddUTOExpenseEntryRequest;
-import com.adventureit.budgetservice.requests.CreateBudgetRequest;
-import com.adventureit.budgetservice.requests.EditBudgetRequest;
+import com.adventureit.shareddtos.budget.requests.AddUTOExpenseEntryRequest;
+import com.adventureit.shareddtos.budget.requests.CreateBudgetRequest;
+import com.adventureit.shareddtos.budget.requests.EditBudgetRequest;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -87,7 +87,7 @@ class BudgetServiceIntegrationTests {
         Budget budget1 = new Budget(budgetID,"Test Budget 1","Mock",UUID.randomUUID(),adventureID);
         budgetRepository.saveAndFlush(budget1);
 
-        AddUTOExpenseEntryRequest request = new AddUTOExpenseEntryRequest(budgetID,null,100,"Mock","Mock","ACTIVITIES","Shop1");
+        AddUTOExpenseEntryRequest request = new AddUTOExpenseEntryRequest(budgetID,"Sam",100,"Mock","Mock","ACTIVITIES","Shop1");
         String response = this.restTemplate.postForObject("http://localhost:" + port + "/budget/addUTOExpense", request,String.class);
         Assertions.assertEquals("Entry added successfully!", response);
     }
@@ -104,7 +104,7 @@ class BudgetServiceIntegrationTests {
         budgetRepository.saveAndFlush(budget1);
         budgetEntryRepository.saveAndFlush(expense);
 
-        EditBudgetRequest request = new EditBudgetRequest(entryID,userId,budgetID,100,"Mock","Mock",null,null);
+        EditBudgetRequest request = new EditBudgetRequest(entryID,userId,budgetID,100,"Mock","Mock","OTHER",null,null);
         String response = this.restTemplate.postForObject("http://localhost:" + port + "/budget/editBudget", request,String.class);
         Assertions.assertEquals("Budget successfully edited!", response);
     }

@@ -1,3 +1,4 @@
+import 'package:adventure_it/frontEnd/Settings.dart';
 import 'package:flutter/material.dart';
 
 import 'HomepageStartup.dart';
@@ -64,7 +65,10 @@ class NavDrawer extends StatelessWidget {
                 leading:
                     Icon(Icons.settings, color: Theme.of(context).accentColor),
                 title: Text('Settings'),
-                onTap: () => {},
+                onTap: () => {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => SettingsCaller())),
+                },
               ),
               ListTile(
                 tileColor: Colors.red,

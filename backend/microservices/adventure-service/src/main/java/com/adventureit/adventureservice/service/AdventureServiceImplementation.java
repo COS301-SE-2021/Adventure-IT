@@ -3,13 +3,15 @@ package com.adventureit.adventureservice.service;
 
 import com.adventureit.adventureservice.entity.Adventure;
 import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
+import com.adventureit.adventureservice.exceptions.AttendeeAlreadyExistsException;
 import com.adventureit.adventureservice.exceptions.UserNotInAdventureException;
 import com.adventureit.adventureservice.repository.AdventureRepository;
-import com.adventureit.adventureservice.requests.CreateAdventureRequest;
-import com.adventureit.adventureservice.requests.EditAdventureRequest;
-import com.adventureit.adventureservice.requests.GetAdventureByUUIDRequest;
-import com.adventureit.adventureservice.responses.*;
+import com.adventureit.shareddtos.adventure.AdventureDTO;
+import com.adventureit.shareddtos.adventure.requests.EditAdventureRequest;
+import com.adventureit.shareddtos.adventure.requests.GetAdventureByUUIDRequest;
 import com.adventureit.adventureservice.exceptions.NullFieldException;
+import com.adventureit.shareddtos.adventure.requests.CreateAdventureRequest;
+import com.adventureit.shareddtos.adventure.responses.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -61,7 +63,7 @@ public class AdventureServiceImplementation implements AdventureService {
         LocalDate ed = LocalDate.parse(req.getEndDate(),formatter);
         Adventure persistedAdventure = new Adventure(req.getName(),req.getDescription(), UUID.randomUUID() , req.getOwnerId(), sd, ed, null);
         adventureRepository.save(persistedAdventure);
-        return new CreateAdventureResponse(true, persistedAdventure);
+        return new CreateAdventureResponse(true,  createAdventureDTO(persistedAdventure));
     }
 
     /**
@@ -87,7 +89,7 @@ public class AdventureServiceImplementation implements AdventureService {
         if(retrievedAdventure == null){
             throw new AdventureNotFoundException("Get Adventure by UUID: Adventure with UUID [" + req.getId() + "] not found");
         }
-        return new GetAdventureByUUIDResponse(true, retrievedAdventure);
+        return new GetAdventureByUUIDResponse(true, createAdventureDTO(retrievedAdventure));
     }
 
     @Override
@@ -125,7 +127,6 @@ public class AdventureServiceImplementation implements AdventureService {
     @Override
     public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUUID(UUID id) {
         List<Adventure> userAdventures = adventureRepository.findAllByOwnerIdOrAttendeesContains(id,id);
-
         return sortAdventures(userAdventures);
     }
 
@@ -170,6 +171,10 @@ public class AdventureServiceImplementation implements AdventureService {
         Adventure adventure = adventureRepository.findAdventureByAdventureId(adventureID);
         if(adventure == null){
             throw new AdventureNotFoundException("Adventure does not exist");
+        }
+
+        if(adventure.getAttendees().contains(userID)){
+            throw new AttendeeAlreadyExistsException("Add Attendees: Attendee already added");
         }
 
         adventure.getAttendees().add(userID);
@@ -221,14 +226,14 @@ public class AdventureServiceImplementation implements AdventureService {
             adventure.setName(req.getName());
         }
 
-        if(req.getStartDate().equals("")){
+        if(req.getStartDate().equals(null)||req.getStartDate().equals("")){
 
         }else{
             LocalDate sd = LocalDate.parse(req.getStartDate(),formatter);
             adventure.setStartDate(sd);
         }
 
-        if(req.getEndDate().equals("")){
+        if(req.getEndDate().equals("")||req.getEndDate()==null){
 
         }else{
             LocalDate ed = LocalDate.parse(req.getEndDate(),formatter);
@@ -239,4 +244,7 @@ public class AdventureServiceImplementation implements AdventureService {
         return "Adventure successfully edited";
     }
 
+    public AdventureDTO createAdventureDTO(Adventure adv){
+        return new AdventureDTO(adv.getName(), adv.getDescription(), adv.getAdventureId(), adv.getOwnerId(), adv.getStartDate(), adv.getEndDate(), adv.getLocation());
+    }
 }

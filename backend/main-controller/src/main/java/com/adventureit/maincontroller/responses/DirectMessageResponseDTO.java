@@ -1,6 +1,6 @@
 package com.adventureit.maincontroller.responses;
 
-import com.adventureit.userservice.responses.GetUserByUUIDDTO;
+import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -34,4 +34,19 @@ public class DirectMessageResponseDTO {
         return timestamp;
     }
 
+    public GetUserByUUIDDTO getSender() {
+        return sender;
+    }
+
+    public GetUserByUUIDDTO getReceiver() {
+        return receiver;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Boolean getRead() {
+        return read;
+    }
 }

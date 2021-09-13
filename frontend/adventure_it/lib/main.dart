@@ -1,17 +1,12 @@
 // @dart=2.9
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
-import 'Providers/adventure_model.dart';
 import 'Providers/location_model.dart';
-import 'api/budget.dart';
 import 'api/mediaAPI.dart';
 import 'frontEnd/Login.dart';
-import 'frontEnd/HomepageStartup.dart';
 
 void main() async {
   if (!kIsWeb) {
@@ -24,12 +19,13 @@ void main() async {
 }
 //
 class MyApp extends StatelessWidget {
+  bool theme=true;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => LocationModel(),
         child: MaterialApp(
-            theme: ThemeData(
+            theme: theme?ThemeData(
                 iconTheme: IconThemeData(color: Color(0xffA7AAB9)),
                 primaryColorLight: Color(0xff484D64),
                 primaryColorDark: Color(0xff323647),
@@ -44,7 +40,22 @@ class MyApp extends StatelessWidget {
                     TextSelectionThemeData(selectionColor: Color(0xffA7AAB9)),
                 textTheme: TextTheme(
                     bodyText1: TextStyle(color: Color(0xffA7AAB9)),
-                    bodyText2: TextStyle(color: Color(0xff20222D)))),
+                    bodyText2: TextStyle(color: Color(0xff20222D)))):ThemeData(
+                iconTheme: IconThemeData(color: Color(0xff20222D)),
+                primaryColorLight: Color(0xff323647),
+                primaryColorDark: Color(0xff20222D),
+                scaffoldBackgroundColor: Color(0xff484D64),
+                accentColor: Color(0xff6A7AC7),
+                colorScheme: ThemeData().colorScheme.copyWith(
+                  primary: Color(0xff6A7AC7),
+                  secondary: Color(0xff6A7AC7),
+                ),
+                primaryColor: Color(0xffA7AAB9),
+                textSelectionTheme:
+                TextSelectionThemeData(selectionColor: Color(0xff20222D)),
+                textTheme: TextTheme(
+                    bodyText2: TextStyle(color: Color(0xffA7AAB9)),
+                    bodyText1: TextStyle(color: Color(0xffA7AAB9)))),
             home: LoginCaller()));
   }
 }

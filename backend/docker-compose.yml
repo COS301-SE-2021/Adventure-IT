@@ -1,32 +1,188 @@
 version: "3.3"
 
+volumes:
+  shared-volume:
 services:
-#  adventure-it:
-#    image: adventure-it-backend:latest
-#    ports:
-#      - 9001:9001
-#      - 9002:9002
-#      - 9003:9003
-#      - 9004:9004
-#      - 9005:9005
-#      - 9006:9006
-#      - 9007:9007
-#      - 9009:9009
-#      - 9010:9010
-#      - 9012:9012
-#      - 8761:8761
+  resolve-and-build:
+    build: .
+    network_mode: host
+    volumes:
+      - shared-volume:/env/
+  service-registry:
+    build: service-registry
+    network_mode: host
+    environment:
+      - spring.config.import=file:/env/backend-environment.yml
+    volumes:
+      - shared-volume:/env/
+    depends_on:
+      - resolve-and-build
+  db:
+    image: postgres
+    network_mode: host
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_DATABASE}
+    depends_on:
+      - resolve-and-build
+      - service-registry
   keycloak:
     image: jboss/keycloak
+    command: ["-Djboss.bind.address.private=127.0.0.1 -Djboss.bind.address=0.0.0.0"]
+    network_mode: host
     environment:
-      DB_VENDOR: POSTGRES
-      DB_ADDR: adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com
-      DB_DATABASE: adventureit
-      DB_USER: postgres
-      DB_SCHEMA: keycloak
-      DB_PASSWORD: 310PB!Gq%f&J
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: Pa55w0rd
-    ports:
-      - 8080:8080
-#    depends_on:
-#      - adventure-it
+      DB_VENDOR: ${keycloak_DB_VENDOR}
+      DB_ADDR: ${keycloak_DB_ADDR}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_SCHEMA: ${keycloak_DB_SCHEMA}
+      DB_PASSWORD: ${DB_PASSWORD}
+      KEYCLOAK_USER: ${keycloak_USER}
+      KEYCLOAK_PASSWORD: ${keycloak_PASSWORD}
+    depends_on:
+      - resolve-and-build
+      - service-registry
+      - db
+  main-controller:
+    build: main-controller
+    network_mode: host
+    environment:
+      - spring.config.import=file:/env/backend-environment.yml
+    volumes:
+      - shared-volume:/env/
+    depends_on:
+      - resolve-and-build
+      - service-registry
+      - keycloak
+      - db
+  adventure-microservice:
+    build: microservices/adventure-service
+    network_mode: host
+    environment:
+      - spring.config.import=file:/env/backend-environment.yml
+    volumes:
+      - shared-volume:/env/
+    depends_on:
+      - resolve-and-build
+      - service-registry
+      - keycloak
+      - db
+      - main-controller
+  budget-microservice:
+    build: microservices/budget-service
+    network_mode: host
+    environment:
+      - spring.config.import=file:/env/backend-environment.yml
+    volumes:
+      - shared-volume:/env/
+    depends_on:
+      - resolve-and-build
+      - service-registry
+      - keycloak
+      - db
+      - main-controller
+  chat-microservice:
+    build: microservices/chat-service
+    network_mode: host
+    environment:
+      - spring.config.import=file:/env/backend-environment.yml
+    volumes:
+      - shared-volume:/env/
+    depends_on:
+      - resolve-and-build
+      - service-registry
+      - keycloak
+      - db
+  checklist-microservice:
+    build: microservices/checklist-service
+    network_mode: host
+    environment:
+      - spring.config.import=file:/env/backend-environment.yml
+    volumes:
+      - shared-volume:/env/
+    depends_on:
+      - resolve-and-build
+      - service-registry
+      - keycloak
+      - db
+      - main-controller
+  itinerary-microservice:
+    build: microservices/itinerary-service
+    network_mode: host
+    environment:
+      - spring.config.import=file:/env/backend-environment.yml
+    volumes:
+      - shared-volume:/env/
+    depends_on:
+      - resolve-and-build
+      - service-registry
+      - keycloak
+      - db
+      - main-controller
+  location-microservice:
+    build: microservices/location-service
+    network_mode: host
+    environment:
+      - spring.config.import=file:/env/backend-environment.yml
+    volumes:
+      - shared-volume:/env/
+    depends_on:
+      - resolve-and-build
+      - service-registry
+      - keycloak
+      - db
+      - main-controller
+  media-microservice:
+    build: microservices/media-service
+    network_mode: host
+    environment:
+      - spring.config.import=file:/env/backend-environment.yml
+    volumes:
+      - shared-volume:/env/
+    depends_on:
+      - resolve-and-build
+      - service-registry
+      - keycloak
+      - db
+      - main-controller
+  notification-microservice:
+    build: microservices/notification-service
+    network_mode: host
+    environment:
+      - spring.config.import=file:/env/backend-environment.yml
+    volumes:
+      - shared-volume:/env/
+    depends_on:
+      - resolve-and-build
+      - service-registry
+      - keycloak
+      - db
+      - main-controller
+  timeline-microservice:
+    build: microservices/timeline-service
+    network_mode: host
+    environment:
+      - spring.config.import=file:/env/backend-environment.yml
+    volumes:
+      - shared-volume:/env/
+    depends_on:
+      - resolve-and-build
+      - service-registry
+      - keycloak
+      - db
+      - main-controller
+  user-microservice:
+    build: microservices/user-service
+    network_mode: host
+    environment:
+      - spring.config.import=file:/env/backend-environment.yml
+    volumes:
+      - shared-volume:/env/
+    depends_on:
+      - resolve-and-build
+      - service-registry
+      - keycloak
+      - db
+      - main-controller

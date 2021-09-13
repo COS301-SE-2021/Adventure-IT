@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:time_machine/time_machine.dart';
+
 //TODO: timemachine should not be imported here
 //
 import 'package:adventure_it/Providers/adventure_model.dart';
@@ -45,6 +46,48 @@ class CreateAdventure extends State<CreateAdventureCaller> {
     }
   }
 
+  double getHeight(context) {
+    if (MediaQuery
+        .of(context)
+        .size
+        .height >
+        MediaQuery
+            .of(context)
+            .size
+            .width) {
+      return MediaQuery
+          .of(context)
+          .size
+          .height * 0.75;
+    } else {
+      return MediaQuery
+          .of(context)
+          .size
+          .height * 0.90;
+    }
+  }
+
+  double getWidth(context) {
+    if (MediaQuery
+        .of(context)
+        .size
+        .height >
+        MediaQuery
+            .of(context)
+            .size
+            .width) {
+      return MediaQuery
+          .of(context)
+          .size
+          .width * 0.90;
+    } else {
+      return MediaQuery
+          .of(context)
+          .size
+          .width * 0.65;
+    }
+  }
+
   DateTimeRange? dates;
   final _debouncer = Debouncer(milliseconds: 500);
   String? location;
@@ -68,8 +111,8 @@ class CreateAdventure extends State<CreateAdventureCaller> {
     "December"
   ];
 
-  String getText( DateTimeRange? dateRange) {
-    if(dateRange!.start == dateRange.end) {
+  String getText(DateTimeRange? dateRange) {
+    if (dateRange!.start == dateRange.end) {
       String x = dateRange.start.day.toString() + " " +
           months.elementAt(dateRange.start.month - 1) + " " +
           dateRange.start.year.toString();
@@ -78,7 +121,8 @@ class CreateAdventure extends State<CreateAdventureCaller> {
     else {
       String x = dateRange.start.day.toString() + " " +
           months.elementAt(dateRange.start.month - 1) + " " +
-          dateRange.start.year.toString() + " to " + dateRange.end.day.toString() +
+          dateRange.start.year.toString() + " to " +
+          dateRange.end.day.toString() +
           " " + months.elementAt(dateRange.end.month - 1) + " " +
           dateRange.end.year.toString();
       return x;
@@ -124,10 +168,14 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                 .bodyText1!
                 .color)
         )),
-            iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
+            iconTheme: IconThemeData(color: Theme
+                .of(context)
+                .textTheme
+                .bodyText1!
+                .color),
             backgroundColor: Theme
-            .of(context)
-            .primaryColorDark),
+                .of(context)
+                .primaryColorDark),
         body: Center(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -233,95 +281,103 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                       .of(context)
                       .size
                       .height * 0.02),
-                 Container(
-                   width: 350,
-                   child: TextField (
-                       style: TextStyle(color: Theme
-                           .of(context)
-                           .textTheme
-                           .bodyText1!
-                           .color, fontSize: 15 * MediaQuery
-                           .of(context)
-                           .textScaleFactor),
-                       controller: dateController,
-                       decoration: InputDecoration(
-                           prefixIcon: Icon(Icons.calendar_today_rounded),
-                           hintStyle: TextStyle(color: Theme
-                               .of(context)
-                               .textTheme
-                               .bodyText2!
-                               .color, fontSize: 15 * MediaQuery
-                               .of(context)
-                               .textScaleFactor),
-                           filled: true,
-                           enabledBorder: InputBorder.none,
-                           errorBorder: InputBorder.none,
-                           disabledBorder: InputBorder.none,
-                           fillColor: Theme
-                               .of(context)
-                               .primaryColorLight,
-                           focusedBorder: OutlineInputBorder(
-                               borderSide: new BorderSide(color: Theme
-                                   .of(context)
-                                   .accentColor)),
-                           hintText: 'Select Dates'),
-                      onTap: () async {
-                        DateTimeRange? picked = await showDateRangePicker(
-                            context: context,
-                            builder: (BuildContext context, Widget ?child) {
-                              return Theme(
+                  Container(
+                      width: 350,
+                      child: TextField(
+                        style: TextStyle(color: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color, fontSize: 15 * MediaQuery
+                            .of(context)
+                            .textScaleFactor),
+                        controller: dateController,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.calendar_today_rounded),
+                            hintStyle: TextStyle(color: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText2!
+                                .color, fontSize: 15 * MediaQuery
+                                .of(context)
+                                .textScaleFactor),
+                            filled: true,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            fillColor: Theme
+                                .of(context)
+                                .primaryColorLight,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: new BorderSide(color: Theme
+                                    .of(context)
+                                    .accentColor)),
+                            hintText: 'Select Dates'),
+                        onTap: () async {
+                          DateTimeRange? picked = await showDateRangePicker(
+                              context: context,
+                              builder: (BuildContext context, Widget ?child) {
+                                return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [Container(
+                                    width:getWidth(context),
+                                height: getHeight(context),
+                                child: Theme(
                                 data: ThemeData(
-                                    primarySwatch: MaterialColor(
-                                        0xFF20222D, color),
-                                    splashColor: Color(0xff20222D),
-                                    scaffoldBackgroundColor: Color(0xff484D64),
-                                    canvasColor: Color(0xff484D64),
-                                    textTheme: TextTheme(
-                                        subtitle1: TextStyle(
-                                            color: Color(0xffA7AAB9)),
-                                        bodyText2: TextStyle(
-                                            color: Color(0xffA7AAB9)),
-                                        bodyText1: TextStyle(
-                                            color: Color(0xffA7AAB9))
-                                        subtitle2: TextStyle(color:Color(
-                                        0xffA7AAB9)),
+                                primarySwatch: MaterialColor(
+                                0xFF20222D, color),
+                                splashColor: Color(0xff20222D),
+                                scaffoldBackgroundColor: Color(0xff484D64),
+                                canvasColor: Color(0xff484D64),
+                                textTheme: TextTheme(
+                                subtitle1: TextStyle(
+                                color: Color(0xffA7AAB9)),
+                                bodyText2: TextStyle(
+                                color: Color(0xffA7AAB9)),
+                                bodyText1: TextStyle(
+                                color: Color(0xffA7AAB9))
+                                subtitle2: TextStyle(color:Color(
+                                0xffA7AAB9)),
                                 button: TextStyle(color: Color(0xffA7AAB9),
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              accentColor: Color(0xff6A7AC7),
-                              colorScheme: ColorScheme.light(
-                              primary: Color(0xff20222D),
-                              primaryVariant: Color(0xff20222D),
-                              secondaryVariant: Color(0xff20222D),
-                              onSecondary: Color(0xff20222D),
-                              onPrimary: Color(0xffA7AAB9),
-                              surface: Color(0xff20222D)
-                              onSurface: Color(0xffA7AAB9),
-                              secondary: Color(0xff6A7AC7)),
-                              dialogBackgroundColor: Color(0xff484D64),
-                              backgroundColor:Color(0xff484D64),
-                              highlightColor: Color(0xff484D64)
+                                fontWeight: FontWeight.bold),
+                                ),
+                                accentColor: Color(0xff6A7AC7),
+                                colorScheme: ColorScheme.light(
+                                primary: Color(0xff20222D),
+                                primaryVariant: Color(0xff20222D),
+                                secondaryVariant: Color(0xff20222D),
+                                onSecondary: Color(0xff20222D),
+                                onPrimary: Color(0xffA7AAB9),
+                                surface: Color(0xff20222D)
+                                onSurface: Color(0xffA7AAB9),
+                                secondary: Color(0xff6A7AC7)),
+                                dialogBackgroundColor: Color(0xff484D64),
+                                backgroundColor:Color(0xff484D64),
+                                highlightColor: Color(0xff484D64)
 
 
-                              ) child
-                              :
-                              child
-                              !
-                              ,
-                              );
-                            },
-                            initialDateRange: dates ?? initialDateRange
-                            firstDate: new DateTime(DateTime.now().year - 5),
-                        lastDate: new DateTime(DateTime.now().year + 5)
-                        );
-                        if (picked!=null) {
-                        setState((){dates=picked;
+                                ) child
+                                    :
+                                child
+                                !
+                                ,
+                                )
+                                )
+                                ]
+                                );
+                              },
+                              initialDateRange: dates ?? initialDateRange
+                              firstDate: new DateTime(DateTime.now().year - 5),
+                          lastDate: new DateTime(DateTime.now().year + 5)
+                          );
+                          if (picked!=null) {
+                          setState((){dates=picked;
                           dateController.text=getText(picked);
 
-                        });
+                          });
 
-                        }
-                      },) //
+                          }
+                        },) //
 
                   ),
                   SizedBox(height: MediaQuery
@@ -431,9 +487,10 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                                           context)
                                                           .textTheme
                                                           .bodyText2!
-                                                          .color, fontSize: 15 * MediaQuery
-                                                      .of(context)
-                                                      .textScaleFactor),
+                                                          .color,
+                                                      fontSize: 15 * MediaQuery
+                                                          .of(context)
+                                                          .textScaleFactor),
                                                   filled: true,
                                                   enabledBorder: InputBorder
                                                       .none,
@@ -516,8 +573,8 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                                                                       .size
                                                                       .width *
                                                                       0.01),
-                                                              child: Expanded(
-                                                                  child: Text(
+                                                              child: ListTile(
+                                                                  title: Text(
                                                                     locationModel
                                                                         .suggestions!
                                                                         .elementAt(

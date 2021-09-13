@@ -2,6 +2,10 @@ server:
   port: ${service-registry-server.port}
 
 spring:
-  name: ${service-registry-server.application-name}
+  application:
+    name: SERVICE-REGISTRY
 
-eureka: ${service-registry-server.eureka}
+eureka:
+  client:
+    register-with-eureka: ${service-registry-server.eureka.client.register-with-eureka}
+    fetch-registry: ${service-registry-server.eureka.client.fetch-registry}

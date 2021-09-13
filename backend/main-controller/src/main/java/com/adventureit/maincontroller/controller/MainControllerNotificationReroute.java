@@ -1,10 +1,10 @@
 package com.adventureit.maincontroller.controller;
 
 
-import com.adventureit.notificationservice.entity.Notification;
-import com.adventureit.notificationservice.requests.CreateNotificationRequest;
-import com.adventureit.notificationservice.requests.RetrieveNotificationRequest;
-import com.adventureit.notificationservice.requests.SendEmailRequest;
+import com.adventureit.shareddtos.notification.NotificationDTO;
+import com.adventureit.shareddtos.notification.requests.CreateNotificationRequest;
+import com.adventureit.shareddtos.notification.requests.RetrieveNotificationRequest;
+import com.adventureit.shareddtos.notification.requests.SendEmailRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,7 +33,7 @@ public class MainControllerNotificationReroute {
     }
 
     @PostMapping("/retrieveNotification")
-    public List<Notification> test3(@RequestBody RetrieveNotificationRequest req){
+    public List<NotificationDTO> test3(@RequestBody RetrieveNotificationRequest req){
         return restTemplate.postForObject(IP + ":" + notificationPort + "/notification/retrieveNotification/", req, List.class);
     }
 

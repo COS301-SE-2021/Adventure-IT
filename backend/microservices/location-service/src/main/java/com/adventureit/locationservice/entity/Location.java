@@ -16,6 +16,7 @@ public class Location {
     int visits = 0;
     @ElementCollection
     List<String> types;
+    private String name;
 
 
     public Location(){}
@@ -100,5 +101,13 @@ public class Location {
 
     public void setTypes(List<String> types) {
         this.types = types;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }

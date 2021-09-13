@@ -4,7 +4,7 @@ import com.adventureit.itinerary.entity.Itinerary;
 import com.adventureit.itinerary.entity.ItineraryEntry;
 import com.adventureit.itinerary.repository.ItineraryEntryRepository;
 import com.adventureit.itinerary.repository.ItineraryRepository;
-import com.adventureit.itinerary.responses.ItineraryResponseDTO;
+import com.adventureit.shareddtos.itinerary.responses.ItineraryResponseDTO;
 import com.adventureit.itinerary.service.ItineraryServiceImplementation;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;

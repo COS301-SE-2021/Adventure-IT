@@ -26,17 +26,17 @@ class ChecklistsTrash extends StatelessWidget {
                 child: Text("Deleted Checklists",
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
-            iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
+            iconTheme: IconThemeData(
+                color: Theme.of(context).textTheme.bodyText1!.color),
             backgroundColor: Theme.of(context).primaryColorDark),
         body: Column(
+            mainAxisSize:MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-              Container(
-                  height: MediaQuery.of(context).size.height * 0.75,
-                  child: DeletedChecklistList(adventure)),
-              Spacer(),
+              Expanded(child: DeletedChecklistList(adventure)),
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
               Row(children: [
                 Expanded(
                   flex: 1,
@@ -81,206 +81,279 @@ class DeletedChecklistList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => DeletedChecklistModel(a!),
-        child:
-            Consumer<DeletedChecklistModel>(builder: (context, deletedChecklistModel, child) {
-              this.c=context;
-          if(deletedChecklistModel.deletedChecklists==null||deletedChecklistModel.deletedChecklists!.length!=deletedChecklistModel.creators!.length) {
+        child: Consumer<DeletedChecklistModel>(
+            builder: (context, deletedChecklistModel, child) {
+          this.c = context;
+          if (deletedChecklistModel.deletedChecklists == null ||
+              deletedChecklistModel.deletedChecklists!.length !=
+                  deletedChecklistModel.creators!.length) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
           } else if (deletedChecklistModel.deletedChecklists!.length > 0) {
-            return Expanded(
-                flex: 2,
-                child: ListView(children: [
-                  ...List.generate(
-                      deletedChecklistModel.deletedChecklists!.length,
-                      (index) => Dismissible(
-                          background: Container(
-                            // color: Theme.of(context).primaryColor,
-                            //   margin: const EdgeInsets.all(5),
-                            padding: EdgeInsets.all(
-                                MediaQuery.of(context).size.height / 60),
-                            child: Row(
-                              children: [
-                                new Spacer(),
-                                Icon(Icons.delete,
-                                    color: Theme.of(context).accentColor,
-                                    size: 35 *
-                                        MediaQuery.of(context).textScaleFactor),
-                              ],
-                            ),
-                          ),
-                          direction: DismissDirection.endToStart,
-                          key: Key(deletedChecklistModel.deletedChecklists!
-                              .elementAt(index)
-                              .id),
-                          child: Card(
-                              color: Theme.of(context).primaryColorDark,
-                              child: InkWell(
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                              backgroundColor: Theme.of(context)
-                                                  .primaryColorDark,
-                                              title: Text(
-                                                'Confirm Restoration',
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color),
-                                              ),
-                                              content: Text(
-                                                'Are you sure you want to restore this checklist to your adventure?',
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color),
-                                              ),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  child: Text('Restore',
-                                                      style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyText1!
-                                                                  .color)),
-                                                  onPressed: () {
-                                                    Provider.of<DeletedChecklistModel>(
-                                                            c!,
-                                                            listen: false)
-                                                        .restoreChecklist(
-                                                            deletedChecklistModel
-                                                                .deletedChecklists!
-                                                                .elementAt(
-                                                                    index));
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                                TextButton(
-                                                  child: Text('Cancel',
-                                                      style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyText1!
-                                                                  .color)),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                              ]);
-                                        });
-                                  },
-                                  hoverColor:
-                                      Theme.of(context).primaryColorLight,
-                                  child: Container(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 4,
-                                          child: ListTile(
-                                            trailing:
-                                                Text("Created by: "+deletedChecklistModel
-                                                    .creators!
-                                                    .elementAt(index)!
-                                                    .username, style: TextStyle(
-                                                    fontSize: 10,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color)),
-                                            title: Text(
-                                                deletedChecklistModel
-                                                    .deletedChecklists!
-                                                    .elementAt(index)
-                                                    .title,
-                                                style: TextStyle(
-                                                    fontSize: 25 *
-                                                        MediaQuery.of(context)
-                                                            .textScaleFactor,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color)),
-                                            // subtitle:Text(adventures.elementAt(index).description),
-                                            subtitle: Text(
-                                                deletedChecklistModel
-                                                    .deletedChecklists!
-                                                    .elementAt(index)
-                                                    .description,
-                                                style: TextStyle(
-                                                    fontSize: 15 *
-                                                        MediaQuery.of(context)
-                                                            .textScaleFactor,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color)),
-                                          ),
+            return Column(children: [
+              Expanded(
+                  flex: 2,
+                  child: ListView(children: [
+                    ...List.generate(
+                        deletedChecklistModel.deletedChecklists!.length,
+                        (index) => Card(
+                            color: Theme.of(context).primaryColorDark,
+                            child: InkWell(
+                                hoverColor: Theme.of(context).primaryColorLight,
+                                child: Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        flex: 4,
+                                        child: ListTile(
+                                          trailing: Text(
+                                              "Created by: " +
+                                                  deletedChecklistModel
+                                                      .creators!
+                                                      .elementAt(index)!
+                                                      .username,
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color)),
+                                          title: Text(
+                                              deletedChecklistModel
+                                                  .deletedChecklists!
+                                                  .elementAt(index)
+                                                  .title,
+                                              style: TextStyle(
+                                                  fontSize: 25 *
+                                                      MediaQuery.of(context)
+                                                          .textScaleFactor,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color)),
+                                          // subtitle:Text(adventures.elementAt(index).description),
+                                          subtitle: Text(
+                                              deletedChecklistModel
+                                                  .deletedChecklists!
+                                                  .elementAt(index)
+                                                  .description,
+                                              style: TextStyle(
+                                                  fontSize: 15 *
+                                                      MediaQuery.of(context)
+                                                          .textScaleFactor,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color)),
                                         ),
-                                      ],
-                                    ),
-                                  ))),
-                          confirmDismiss: (DismissDirection direction) async {
-                            return await showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor:
-                                      Theme.of(context).primaryColorDark,
-                                  title: Text("Confirm Removal",
-                                      style: TextStyle(
+                                      ),
+                                      PopupMenuButton(
                                           color: Theme.of(context)
                                               .textTheme
                                               .bodyText1!
-                                              .color)),
-                                  content: Text(
-                                      "Are you sure you want to remove this checklist for definite?",
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color)),
-                                  actions: <Widget>[
-                                    TextButton(
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(true),
-                                        child: Text("Remove",
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color))),
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(false),
-                                      child: Text("Cancel",
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color)),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          onDismissed: (direction) {
-                            Provider.of<DeletedChecklistModel>(context,
-                                    listen: false)
-                                .hardDeleteChecklist(deletedChecklistModel
-                                    .deletedChecklists!
-                                    .elementAt(index));
-                          }))
-                ]));
+                                              .color,
+                                          onSelected: (value) {
+                                            if (value == 1) {
+                                              showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                        backgroundColor: Theme
+                                                                .of(context)
+                                                            .primaryColorDark,
+                                                        title: Text(
+                                                          'Confirm Restoration',
+                                                          style: TextStyle(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyText1!
+                                                                  .color),
+                                                        ),
+                                                        content: Text(
+                                                          'Are you sure you want to restore this checklist to your adventure?',
+                                                          style: TextStyle(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyText1!
+                                                                  .color),
+                                                        ),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            child: Text(
+                                                                'Restore',
+                                                                style: TextStyle(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .bodyText1!
+                                                                        .color)),
+                                                            onPressed: () {
+                                                              Provider.of<DeletedChecklistModel>(
+                                                                      c!,
+                                                                      listen:
+                                                                          false)
+                                                                  .restoreChecklist(deletedChecklistModel
+                                                                      .deletedChecklists!
+                                                                      .elementAt(
+                                                                          index));
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                          TextButton(
+                                                            child: Text(
+                                                                'Cancel',
+                                                                style: TextStyle(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .bodyText1!
+                                                                        .color)),
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                        ]);
+                                                  });
+                                            }
+                                            if (value == 2) {
+                                              showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                        backgroundColor: Theme
+                                                                .of(context)
+                                                            .primaryColorDark,
+                                                        title: Text(
+                                                          'Confirm Removal',
+                                                          style: TextStyle(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyText1!
+                                                                  .color),
+                                                        ),
+                                                        content: Text(
+                                                          'Are you sure you want to remove this checklist forever?',
+                                                          style: TextStyle(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyText1!
+                                                                  .color),
+                                                        ),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            child: Text(
+                                                                'Remove',
+                                                                style: TextStyle(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .bodyText1!
+                                                                        .color)),
+                                                            onPressed: () {
+                                                              Provider.of<DeletedChecklistModel>(
+                                                                      c!,
+                                                                      listen:
+                                                                          false)
+                                                                  .hardDeleteChecklist(deletedChecklistModel
+                                                                      .deletedChecklists!
+                                                                      .elementAt(
+                                                                          index));
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                          TextButton(
+                                                            child: Text(
+                                                                'Cancel',
+                                                                style: TextStyle(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .bodyText1!
+                                                                        .color)),
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                        ]);
+                                                  });
+                                            }
+                                          },
+                                          itemBuilder: (context) => [
+                                                PopupMenuItem(
+                                                    value: 1,
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(5),
+                                                          child: Icon(
+                                                              Icons
+                                                                  .restore_from_trash_rounded,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyText2!
+                                                                  .color),
+                                                        ),
+                                                        Text("Restore",
+                                                            style: TextStyle(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodyText2!
+                                                                    .color))
+                                                      ],
+                                                    )),
+                                                PopupMenuItem(
+                                                    value: 2,
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(5),
+                                                          child: Icon(
+                                                              Icons
+                                                                  .delete_forever_rounded,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyText2!
+                                                                  .color),
+                                                        ),
+                                                        Text("Delete",
+                                                            style: TextStyle(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodyText2!
+                                                                    .color))
+                                                      ],
+                                                    ))
+                                              ]),
+                                    ],
+                                  ),
+                                ))))
+                  ]))
+            ]);
           } else {
             return Center(
                 child: Text("It seems you're not one for recycling...",
@@ -292,3 +365,105 @@ class DeletedChecklistList extends StatelessWidget {
         }));
   }
 }
+
+// showDialog(
+// context: context,
+// builder: (BuildContext context) {
+// return AlertDialog(
+// backgroundColor: Theme.of(context)
+//     .primaryColorDark,
+// title: Text(
+// 'Confirm Restoration',
+// style: TextStyle(
+// color: Theme.of(context)
+//     .textTheme
+//     .bodyText1!
+//     .color),
+// ),
+// content: Text(
+// 'Are you sure you want to restore this checklist to your adventure?',
+// style: TextStyle(
+// color: Theme.of(context)
+//     .textTheme
+//     .bodyText1!
+//     .color),
+// ),
+// actions: <Widget>[
+// TextButton(
+// child: Text('Restore',
+// style: TextStyle(
+// color:
+// Theme.of(context)
+//     .textTheme
+//     .bodyText1!
+//     .color)),
+// onPressed: () {
+// Provider.of<DeletedChecklistModel>(
+// c!,
+// listen: false)
+//     .restoreChecklist(
+// deletedChecklistModel
+//     .deletedChecklists!
+//     .elementAt(
+// index));
+// Navigator.of(context).pop();
+// },
+// ),
+// TextButton(
+// child: Text('Cancel',
+// style: TextStyle(
+// color:
+// Theme.of(context)
+//     .textTheme
+//     .bodyText1!
+//     .color)),
+// onPressed: () {
+// Navigator.of(context).pop();
+// },
+// ),
+// ]);
+// });
+
+// showDialog(
+// context: context,
+// builder: (BuildContext context) {
+// return AlertDialog(
+// backgroundColor:
+// Theme.of(context).primaryColorDark,
+// title: Text("Confirm Removal",
+// style: TextStyle(
+// color: Theme.of(context)
+//     .textTheme
+//     .bodyText1!
+//     .color)),
+// content: Text(
+// "Are you sure you want to remove this checklist for definite?",
+// style: TextStyle(
+// color: Theme.of(context)
+//     .textTheme
+//     .bodyText1!
+//     .color)),
+// actions: <Widget>[
+// TextButton(
+// onPressed: () =>
+// Navigator.of(context).pop(true),
+// child: Text("Remove",
+// style: TextStyle(
+// color: Theme.of(context)
+//     .textTheme
+//     .bodyText1!
+//     .color))),
+// TextButton(
+// onPressed: () =>
+// Navigator.of(context).pop(false),
+// child: Text("Cancel",
+// style: TextStyle(
+// color: Theme.of(context)
+//     .textTheme
+//     .bodyText1!
+//     .color)),
+// ),
+// ],
+// );
+// },
+// );
