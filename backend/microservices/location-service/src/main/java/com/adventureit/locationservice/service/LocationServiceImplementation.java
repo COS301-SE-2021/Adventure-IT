@@ -182,28 +182,6 @@ public class LocationServiceImplementation implements LocationService {
     }
 
     @Override
-    public void addLike(UUID id) {
-        Location location = locationRepository.findLocationById(id);
-        if(location == null){
-            throw new NotFoundException("Like Location: Location does not exist");
-        }
-
-        location.setLikes(location.getLikes() + 1);
-        locationRepository.save(location);
-    }
-
-    @Override
-    public void addVisit(UUID id) {
-        Location location = locationRepository.findLocationById(id);
-        if(location == null){
-            throw new NotFoundException("Like Location: Location does not exist");
-        }
-
-        location.setVisits(location.getVisits() + 1);
-        locationRepository.save(location);
-    }
-
-    @Override
     public void storeCurrentLocation(UUID userID, String latitude, String longitude) {
         CurrentLocation currentLocation = currentLocationRepository.findCurrentLocationByUserID(userID);
         if(currentLocation == null){
