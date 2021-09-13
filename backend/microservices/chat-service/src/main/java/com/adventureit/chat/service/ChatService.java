@@ -1,8 +1,8 @@
 package com.adventureit.chat.service;
 
 import com.adventureit.chat.entity.Message;
-import com.adventureit.chat.responses.DirectChatResponseDTO;
-import com.adventureit.chat.responses.GroupChatResponseDTO;
+import com.adventureit.shareddtos.chat.responses.DirectChatResponseDTO;
+import com.adventureit.shareddtos.chat.responses.GroupChatResponseDTO;
 
 import java.util.List;
 import java.util.UUID;

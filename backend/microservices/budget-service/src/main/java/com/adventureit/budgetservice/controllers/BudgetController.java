@@ -1,11 +1,14 @@
 package com.adventureit.budgetservice.controllers;
 
 import com.adventureit.budgetservice.entity.Budget;
+import com.adventureit.budgetservice.entity.BudgetEntry;
 import com.adventureit.budgetservice.exception.BudgetNotFoundException;
+import com.adventureit.budgetservice.graph.Edge;
+import com.adventureit.budgetservice.graph.Node;
 import com.adventureit.budgetservice.repository.BudgetRepository;
-import com.adventureit.budgetservice.requests.*;
-import com.adventureit.budgetservice.responses.*;
 import com.adventureit.budgetservice.service.BudgetServiceImplementation;
+import com.adventureit.shareddtos.budget.requests.*;
+import com.adventureit.shareddtos.budget.responses.*;
 import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +21,6 @@ import java.util.UUID;
 @RequestMapping("/budget")
 public class BudgetController {
 	BudgetServiceImplementation budgetServiceImplementation;
-	
 	BudgetRepository budgetRepository;
 
 	public BudgetController(BudgetServiceImplementation budgetServiceImplementation, BudgetRepository budgetRepository){
@@ -130,6 +132,16 @@ public class BudgetController {
 	@GetMapping("/getBudgetByBudgetEntryId/{budgetId}")
 	public BudgetResponseDTO getBudgetByBudgetEntryId(@PathVariable UUID budgetId) {
 		return budgetServiceImplementation.getBudgetByBudgetEntryId(budgetId);
+	}
+
+	@GetMapping("/kevinTest")
+	public List<Edge> test() {
+		List<Edge> edges = budgetServiceImplementation.kevTest();
+		for (int i = 0;i<edges.size();i++){
+			System.out.println("UUID: "+edges.get(i).getEntryId());
+			System.out.println(edges.get(i).getPayer().getName()+" pays "+edges.get(i).getAmount()+ " to "+edges.get(i).getPayee().getName());
+		}
+		return edges;
 	}
 
 }

@@ -1,16 +1,16 @@
 package com.adventureit.maincontroller.controller;
 
 
-import com.adventureit.budgetservice.requests.AddUTOExpenseEntryRequest;
-import com.adventureit.budgetservice.requests.AddUTUExpenseEntryRequest;
-import com.adventureit.budgetservice.requests.CreateBudgetRequest;
-import com.adventureit.budgetservice.requests.EditBudgetRequest;
-import com.adventureit.budgetservice.responses.BudgetResponseDTO;
-import com.adventureit.budgetservice.responses.ReportResponseDTO;
-import com.adventureit.budgetservice.responses.ViewBudgetResponse;
-import com.adventureit.timelineservice.entity.TimelineType;
-import com.adventureit.timelineservice.requests.CreateTimelineRequest;
-import com.adventureit.userservice.responses.GetUserByUUIDDTO;
+import com.adventureit.shareddtos.budget.requests.AddUTOExpenseEntryRequest;
+import com.adventureit.shareddtos.budget.requests.AddUTUExpenseEntryRequest;
+import com.adventureit.shareddtos.budget.requests.CreateBudgetRequest;
+import com.adventureit.shareddtos.budget.requests.EditBudgetRequest;
+import com.adventureit.shareddtos.budget.responses.BudgetResponseDTO;
+import com.adventureit.shareddtos.budget.responses.ReportResponseDTO;
+import com.adventureit.shareddtos.budget.responses.ViewBudgetResponse;
+import com.adventureit.shareddtos.timeline.TimelineType;
+import com.adventureit.shareddtos.timeline.requests.CreateTimelineRequest;
+import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -55,7 +55,7 @@ public class MainControllerBudgetReroute {
         BudgetResponseDTO response = restTemplate.getForObject(IP + ":" + budgetPort + createBudget+budgetID, BudgetResponseDTO.class);
         assert response != null;
         UUID adventureId = response.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" edited the "+req.getTitle()+" budget." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" edited the "+response.getName()+" budget." );
         return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
     }
 

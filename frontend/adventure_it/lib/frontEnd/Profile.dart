@@ -104,35 +104,33 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.01),
                             //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            Text(user!.firstname + " " + user!.lastname,
-                                textAlign: TextAlign.center,
-                                style: new TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color,
-                                    fontSize:
+                                Text(user!.username,
+                                    textAlign: TextAlign.center,
+                                    style: new TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .color,
+                                        fontSize:
                                         MediaQuery.of(context).size.height *
-                                            0.04)),
+                                            0.06)),
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.005),
-                            Text(user!.username,
-                                textAlign: TextAlign.center,
-                                style: new TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color,
-                                    fontSize:
+                                Text(user!.firstname + " " + user!.lastname,
+                                    textAlign: TextAlign.center,
+                                    style: new TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .color,
+                                        fontSize:
                                         MediaQuery.of(context).size.height *
-                                            0.04)),
+                                            0.03)),
                             SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.01),
-                            Row(children: [
-                              Expanded(
-                                  child: Text(user!.email,
+                                    MediaQuery.of(context).size.height * 0.03),
+                              Text(user!.email,
                                       textAlign: TextAlign.center,
                                       style: new TextStyle(
                                           color: Theme.of(context)
@@ -142,22 +140,27 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                           fontSize: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.03))),
+                                              0.03)),
+                          SizedBox(
+                              height:
+                              MediaQuery.of(context).size.height * 0.05),
+                          Row(children: [
                               Expanded(
                                   child: Container(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.1),
-                                      child: MaterialButton(
-                                          child: Text("My Documents",
-                                              style: new TextStyle(
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color)),
+                                      decoration: BoxDecoration(
                                           color: Theme.of(context).accentColor,
+                                          shape: BoxShape.circle),
+                                      child: IconButton(
+                                          icon: const Icon(
+                                              Icons.attach_file),
+                                          color: Theme.of(context).primaryColorDark,
+                                        onPressed: () {
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                              builder: (context) =>
+                                              DocumentPage()));
+                                        },
                                           padding: EdgeInsets.symmetric(
                                               horizontal: MediaQuery.of(context)
                                                       .size
@@ -167,33 +170,13 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                       .size
                                                       .width *
                                                   0.01),
-                                          onPressed: () {
-                                            Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      DocumentPage()),
-                                            );
-                                          }))),
-                            ]),
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.03),
-                            Row(children: [
-                              // Expanded(
-                              //     child: Text(user.phoneNumber,
-                              //         textAlign: TextAlign.center,
-                              //         style: new TextStyle(
-                              //             color: Theme.of(context).textTheme.bodyText1!.color,
-                              //             fontSize: MediaQuery.of(context).size.height * 0.03))),
-                              Expanded(
+                                          ))),
+                            Expanded(
                                   child: Container(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.1),
-                                      child: MaterialButton(
+                                      decoration: BoxDecoration(
+                                          color: Theme.of(context).accentColor,
+                                          shape: BoxShape.circle),
+                                      child: IconButton(
                                           onPressed: () {
                                             {
                                               var provider = Provider.of<UserModel>(context, listen: false);
@@ -205,7 +188,6 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                   });
                                             }
                                           },
-                                          color: Theme.of(context).accentColor,
                                           padding: EdgeInsets.symmetric(
                                               horizontal: MediaQuery.of(context)
                                                       .size
@@ -215,13 +197,10 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                       .size
                                                       .width *
                                                   0.01),
-                                          child: Text("Edit Profile",
-                                              textAlign: TextAlign.center,
-                                              style: new TextStyle(
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color))))),
+                                          icon: const Icon(
+                                            Icons.edit),
+                                            color: Theme.of(context).primaryColorDark))
+                                          ),
                             ])
                           ]))
                     ]))
@@ -294,7 +273,7 @@ class _AlertBox extends State<AlertBox> {
                         )),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.5,
+                      width: 300,
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
@@ -320,7 +299,7 @@ class _AlertBox extends State<AlertBox> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.5,
+                      width: 300,
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
@@ -346,7 +325,7 @@ class _AlertBox extends State<AlertBox> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.5,
+                      width: 300,
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
@@ -372,7 +351,7 @@ class _AlertBox extends State<AlertBox> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.5,
+                      width: 300,
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(

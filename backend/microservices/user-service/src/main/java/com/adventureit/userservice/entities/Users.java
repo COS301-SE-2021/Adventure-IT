@@ -24,10 +24,14 @@ public class Users  {
     private String firstname;
     private String lastname;
     private String email;
+    private String emergencyContact;
     private Boolean enabled = false;
     @Lob
     private byte [] profilePicture;
     private Boolean locked = false;
+    private String fireBaseId;
+    // true is dark(default) false is light
+    private Boolean theme;
     @ElementCollection
     private List<UUID> likedLocations = new ArrayList<>();
     @ElementCollection
@@ -50,7 +54,9 @@ public class Users  {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        this.enabled =false;
+        this.enabled = false;
+        this.theme = false;
+        this.fireBaseId = "";
     }
 
     /**
@@ -124,8 +130,24 @@ public class Users  {
         this.lastname = lastname;
     }
 
+    public String getEmergencyContact() {
+        return emergencyContact;
+    }
+
+    public void setEmergencyContact(String emergencyContact) {
+        this.emergencyContact = emergencyContact;
+    }
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean getTheme() {
+        return theme;
+    }
+
+    public void setTheme(Boolean theme) {
+        this.theme = theme;
     }
 
     public Boolean getEnabled() {

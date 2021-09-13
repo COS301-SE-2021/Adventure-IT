@@ -1,20 +1,23 @@
 package com.adventureit.maincontroller.controller;
 
 
-import com.adventureit.adventureservice.entity.Adventure;
-import com.adventureit.adventureservice.responses.GetAdventureByUUIDResponse;
-import com.adventureit.itinerary.requests.AddItineraryEntryRequest;
-import com.adventureit.itinerary.requests.CreateItineraryRequest;
-import com.adventureit.itinerary.requests.EditItineraryEntryRequest;
-import com.adventureit.itinerary.responses.ItineraryEntryResponseDTO;
-import com.adventureit.itinerary.responses.ItineraryResponseDTO;
-import com.adventureit.locationservice.responses.LocationResponseDTO;
+import com.adventureit.maincontroller.responses.RegisteredUsersDTO;
+import com.adventureit.shareddtos.adventure.AdventureDTO;
+import com.adventureit.shareddtos.adventure.responses.GetAdventureByUUIDResponse;
+import com.adventureit.shareddtos.itinerary.requests.AddItineraryEntryRequest;
+import com.adventureit.shareddtos.itinerary.requests.CreateItineraryRequest;
+import com.adventureit.shareddtos.itinerary.requests.EditItineraryEntryRequest;
+import com.adventureit.shareddtos.itinerary.responses.ItineraryEntryResponseDTO;
+import com.adventureit.shareddtos.itinerary.responses.ItineraryResponseDTO;
+import com.adventureit.shareddtos.itinerary.responses.StartDateEndDateResponseDTO;
+import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
 import com.adventureit.maincontroller.exceptions.CurrentLocationException;
 import com.adventureit.maincontroller.exceptions.InvalidItineraryEntryException;
 import com.adventureit.maincontroller.responses.MainItineraryEntryResponseDTO;
-import com.adventureit.timelineservice.entity.TimelineType;
-import com.adventureit.timelineservice.requests.CreateTimelineRequest;
-import com.adventureit.userservice.responses.GetUserByUUIDDTO;
+import com.adventureit.shareddtos.timeline.TimelineType;
+import com.adventureit.shareddtos.timeline.requests.CreateTimelineRequest;
+import com.adventureit.shareddtos.user.UsersDTO;
+import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -45,7 +48,7 @@ public class MainControllerItineraryReroute {
         ItineraryResponseDTO itinerary = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryById/"+req.getEntryContainerID(), ItineraryResponseDTO.class);
         assert itinerary != null;
         UUID adventureId = itinerary.getAdventureID();
-        Adventure adventureResponse = restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/getAdventureByUUID/"+adventureId ,GetAdventureByUUIDResponse.class).getAdventure();
+        AdventureDTO adventureResponse = restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/getAdventureByUUID/"+adventureId ,GetAdventureByUUIDResponse.class).getAdventure();
         LocalDateTime timestamp = LocalDateTime.parse(req.getTimestamp());
         if((timestamp.toLocalDate().compareTo(adventureResponse.getEndDate()) > 0) || (timestamp.toLocalDate().compareTo(adventureResponse.getStartDate()) < 0)){
             throw new InvalidItineraryEntryException("Itinerary Entry does not fit within Adventure");
@@ -137,7 +140,7 @@ public class MainControllerItineraryReroute {
         ItineraryResponseDTO itinerary = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryById/"+req.getEntryContainerID(), ItineraryResponseDTO.class);
         assert itinerary != null;
         UUID adventureId = itinerary.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY,user.getUsername()+" edited the "+req.getTitle()+" itinerary." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY,user.getUsername()+" edited the "+itinerary.getTitle()+" itinerary." );
         restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
         return returnString;
     }
@@ -158,9 +161,9 @@ public class MainControllerItineraryReroute {
         restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/markEntry/"+id, String.class);
     }
 
-    @GetMapping("/getNextEntry/{id}")
-    public MainItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id){
-        ItineraryEntryResponseDTO entry = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getNextEntry/"+id, ItineraryEntryResponseDTO.class);
+    @GetMapping("/getNextEntry/{id}//{userID}")
+    public MainItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id,@PathVariable UUID userID){
+        ItineraryEntryResponseDTO entry = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getNextEntry/"+id+"/"+userID, ItineraryEntryResponseDTO.class);
         assert entry != null;
         LocationResponseDTO location = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/" + entry.getLocation(), LocationResponseDTO.class);
         return new MainItineraryEntryResponseDTO(entry.getTitle(),entry.getDescription(),entry.getId(),entry.getEntryContainerID(),entry.isCompleted(),location,entry.getTimestamp(), entry.getRegisteredUsers());
@@ -176,8 +179,9 @@ public class MainControllerItineraryReroute {
         ItineraryEntryResponseDTO entry = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getItineraryEntry/"+ entryID, ItineraryEntryResponseDTO.class);
         assert entry != null;
 
-        Boolean flag = restTemplate.getForObject(IP + ":" + locationPort + "/location/compareGeography/"+ entry.getLocation() + "/" + userID, boolean.class);
+        Boolean flag = restTemplate.getForObject(IP + ":" + locationPort + "/location/compareGeography/"+ entry.getLocation() + "/" + userID, Boolean.class);
         assert flag != null;
+
         if(flag){
             restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/checkUserOff/"+ entryID + "/" + userID, String.class);
             restTemplate.getForObject(IP + ":" + userPort + "/user/addVisitedLocation/"+ userID + "/" + entry.getLocation(), String.class);
@@ -188,4 +192,53 @@ public class MainControllerItineraryReroute {
             throw new CurrentLocationException("Check User Off: User is in the incorrect location");
         }
     }
+
+    @GetMapping("/getStartDateEndDate/{id}")
+    public StartDateEndDateResponseDTO getStartDateEndDate(@PathVariable UUID id){
+        return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getStartDateEndDate/"+id, StartDateEndDateResponseDTO.class);
+    }
+
+    @GetMapping("/registerUser/{userID}/{entryID}")
+    public String registerUser(@PathVariable UUID userID,@PathVariable UUID entryID){
+       return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/registerUser/"+ entryID + "/" + userID, String.class);
+    }
+
+    @GetMapping("/deregisterUser/{userID}/{entryID}")
+    public String deregisterUser(@PathVariable UUID userID,@PathVariable UUID entryID){
+        return restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/deregisterUser/"+ entryID + "/" + userID, String.class);
+    }
+
+    @GetMapping("/getRegisteredUsers/{id}")
+    public List<RegisteredUsersDTO> getRegisteredUsers(@PathVariable UUID id) {
+        Map<UUID, Boolean> list = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getRegisteredUsers/" + id, Map.class);
+        assert list != null;
+        List<RegisteredUsersDTO> users = new ArrayList<>();
+        UsersDTO user;
+
+        if (list.size() == 0) {
+            return users;
+        }
+
+        for (Map.Entry<UUID, Boolean> entry : list.entrySet()){
+            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + entry.getKey(), UsersDTO.class);
+            assert user != null;
+            users.add(new RegisteredUsersDTO( new GetUserByUUIDDTO(user.getUserID(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail()),entry.getValue()));
+        }
+
+        return users;
+    }
+
+    @GetMapping("/isRegisteredUser/{id}/{userId}")
+    public boolean isRegisteredUser(@PathVariable UUID id, @PathVariable UUID userId) {
+        Map<String, Boolean> list = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getRegisteredUsers/" + id, Map.class);
+        assert list != null;
+
+        for(Map.Entry<String, Boolean> entry : list.entrySet()) {
+            if (entry.getKey().equals(userId.toString())){
+                return true;
+            }
+        }
+            return false;
+    }
+
 }

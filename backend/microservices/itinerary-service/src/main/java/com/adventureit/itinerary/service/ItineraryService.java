@@ -1,10 +1,12 @@
 package com.adventureit.itinerary.service;
 
-import com.adventureit.itinerary.responses.ItineraryEntryResponseDTO;
-import com.adventureit.itinerary.responses.ItineraryResponseDTO;
+import com.adventureit.shareddtos.itinerary.responses.ItineraryEntryResponseDTO;
+import com.adventureit.shareddtos.itinerary.responses.ItineraryResponseDTO;
+import com.adventureit.shareddtos.itinerary.responses.StartDateEndDateResponseDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface ItineraryService {
@@ -28,4 +30,7 @@ public interface ItineraryService {
      ItineraryEntryResponseDTO getItineraryEntry(UUID id);
      void checkUserOff(UUID entryID, UUID userID);
      String registerUser(UUID entryID, UUID userID);
+     String deregisterUser(UUID entryID, UUID userID);
+     StartDateEndDateResponseDTO getStartAndEndDate(UUID id);
+     Map<UUID,Boolean> getRegisteredUsers(UUID id);
 }

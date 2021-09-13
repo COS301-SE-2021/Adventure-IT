@@ -1,0 +1,5 @@
+FROM openjdk:11-jre
+COPY --from=backend_resolve-and-build:latest /dependencies/microservices/checklist-service/target/checklist-service-0.0.1-SNAPSHOT.jar .
+CMD ["java", "-jar", "checklist-service-0.0.1-SNAPSHOT.jar"]
+
+

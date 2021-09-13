@@ -3,14 +3,20 @@ package com.adventureit.budgetservice.service;
 
 import com.adventureit.budgetservice.entity.*;
 import com.adventureit.budgetservice.exception.*;
+import com.adventureit.budgetservice.graph.BudgetGraph;
+import com.adventureit.budgetservice.graph.Edge;
+import com.adventureit.budgetservice.graph.Node;
 import com.adventureit.budgetservice.repository.BudgetEntryRepository;
 import com.adventureit.budgetservice.repository.BudgetRepository;
-import com.adventureit.budgetservice.requests.*;
-import com.adventureit.budgetservice.responses.*;
+import com.adventureit.shareddtos.budget.Category;
+import com.adventureit.shareddtos.budget.requests.EditBudgetRequest;
+import com.adventureit.shareddtos.budget.requests.SoftDeleteRequest;
+import com.adventureit.shareddtos.budget.responses.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service("BudgetServiceImplementation")
@@ -30,7 +36,7 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
 
-    public CreateBudgetResponse createBudget(String name, String description,UUID creatorID, UUID adventureID) {
+    public CreateBudgetResponse createBudget(String name, String description, UUID creatorID, UUID adventureID) {
         if (name == null) {
             throw new MalformedBudgetRequestException("Budget name not provided.");
         }
@@ -68,7 +74,7 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
 //  @Transactional
-    public AddUTUExpenseEntryResponse addUTUExpenseEntry(UUID entryContainerID, double amount, String title, String description, Category category,String payer, String payeeID) {
+    public AddUTUExpenseEntryResponse addUTUExpenseEntry(UUID entryContainerID, double amount, String title, String description, Category category, String payer, String payeeID) {
         verifyBudgetRequestForm(entryContainerID, amount, title, description, category);
 
         Budget budget = budgetRepository.findBudgetByBudgetID(entryContainerID);
@@ -77,6 +83,19 @@ public class BudgetServiceImplementation implements BudgetService {
 
         budgetEntryRepository.save(budgetEntry);
         budgetRepository.save(budget);
+        List <BudgetEntry> list = budgetEntryRepository.findBudgetEntryByEntryContainerID(entryContainerID);
+        BudgetGraph graph = new BudgetGraph();
+        graph.generateGraph(list);
+        List<Edge> list2 = graph.summarizeGraph();
+        for (int i =0 ; i<list2.size();i++){
+            if(list2.get(i).getAmount()==0){
+                budgetEntryRepository.removeBudgetEntryByBudgetEntryID(list2.get(i).getEntryId());
+            }else{
+                BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryID(list2.get(i).getEntryId());
+                entry.setAmount(list2.get(i).getAmount());
+                budgetEntryRepository.save(entry);
+            }
+        }
         return new AddUTUExpenseEntryResponse(true);
     }
 
@@ -110,6 +129,7 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
+    @Transactional
     public AddUTOExpenseEntryResponse addUTOExpenseEntry(UUID entryContainerID, double amount, String title, String description,Category category,String payer, String payee) {
         verifyBudgetRequestForm(entryContainerID, amount, title, description, category);
 
@@ -119,6 +139,20 @@ public class BudgetServiceImplementation implements BudgetService {
 
         budgetEntryRepository.save(budgetEntry);
         budgetRepository.save(budget);
+        List <BudgetEntry> list = budgetEntryRepository.findBudgetEntryByEntryContainerID(entryContainerID);
+        BudgetGraph graph = new BudgetGraph();
+        graph.generateGraph(list);
+        List<Edge> list2 = graph.summarizeGraph();
+        for (int i =0 ; i<list2.size();i++){
+            if(list2.get(i).getAmount()==0){
+                budgetEntryRepository.removeBudgetEntryByBudgetEntryID(list2.get(i).getEntryId());
+            }else{
+                BudgetEntry entry = budgetEntryRepository.findBudgetEntryByBudgetEntryID(list2.get(i).getEntryId());
+                entry.setAmount(list2.get(i).getAmount());
+                budgetEntryRepository.save(entry);
+            }
+        }
+
         return new AddUTOExpenseEntryResponse(true);
     }
 
@@ -496,5 +530,14 @@ public class BudgetServiceImplementation implements BudgetService {
         if (description == null || description.equals("")) {
             throw new MalformedBudgetRequestException("Description not provided");
         }
+    }
+
+
+    public List<Edge> kevTest(){
+        UUID id = UUID.fromString("cacdc6e0-a8a5-4367-a513-f06d467495e1");
+        List <BudgetEntry> list = budgetEntryRepository.findBudgetEntryByEntryContainerID(id);
+        BudgetGraph graph = new BudgetGraph();
+        graph.generateGraph(list);
+        return graph.summarizeGraph();
     }
 }

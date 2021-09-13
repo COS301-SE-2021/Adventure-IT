@@ -13,6 +13,7 @@ CreateItineraryEntry _$CreateItineraryEntryFromJson(Map<String, dynamic> json) {
     description: json['description'] as String,
     location: json['location'] as String,
     timestamp: json['timestamp'] as String,
+    userId: json['userId'] as String,
   );
 }
 
@@ -24,4 +25,5 @@ Map<String, dynamic> _$CreateItineraryEntryToJson(
       'description': instance.description,
       'location': instance.location,
       'timestamp': instance.timestamp,
+      'userId': instance.userId,
     };

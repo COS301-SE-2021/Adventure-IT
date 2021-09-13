@@ -1,0 +1,5 @@
+FROM openjdk:11-jre
+COPY --from=backend_resolve-and-build:latest /dependencies/microservices/itinerary-service/target/itinerary-service-0.0.1-SNAPSHOT.jar .
+ENTRYPOINT ["java", "-jar", "./itinerary-service-0.0.1-SNAPSHOT.jar"]
+
+

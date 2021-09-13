@@ -1,15 +1,19 @@
 import 'dart:convert';
 import 'package:adventure_it/api/createItineraryEntry.dart';
+import 'package:adventure_it/api/participatingUser.dart';
 import 'package:adventure_it/api/userAPI.dart';
+import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/constants.dart';
 import '/api/itinerary.dart';
 import '/api/adventure.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+import 'package:location/location.dart';
 
 import 'itineraryEntry.dart';
 
 import 'createItinerary.dart';
+import 'locationAPI.dart';
 
 class ItineraryApi {
   static Future<List<Itinerary>> getItineraries(Adventure? a) async {
@@ -104,8 +108,9 @@ class ItineraryApi {
 
   static Future<http.Response> _deleteItineraryEntryRequest(
       itineraryEntryID) async {
+    String userID = UserApi.getInstance().getUserProfile()!.userID;
     return http
-        .get(Uri.http(mainApi, '/itinerary/removeEntry/' + itineraryEntryID));
+        .get(Uri.http(mainApi, '/itinerary/removeEntry/' + itineraryEntryID + '/' + userID));
   }
 
   static Future<http.Response> _deleteItineraryRequest(itineraryID) async {
@@ -183,7 +188,7 @@ class ItineraryApi {
 
   static Future<http.Response> _getNextEntry(Adventure a) async {
     return http
-        .get(Uri.http(mainApi, '/itinerary/getNextEntry/' + a.adventureId));
+        .get(Uri.http(mainApi, '/itinerary/getNextEntry/' + a.adventureId+'/'+UserApi.getInstance().getUserProfile()!.userID));
   }
 
   static Future<CreateItineraryEntry> createItineraryEntry(
@@ -191,7 +196,8 @@ class ItineraryApi {
       String title,
       String description,
       String location,
-      String timestamp) async {
+      String timestamp,
+      String userId) async {
     final response = await http.post(
       Uri.parse('http://localhost:9999/itinerary/addEntry'), //get uri
       headers: <String, String>{
@@ -199,10 +205,12 @@ class ItineraryApi {
       },
       body: jsonEncode(<String, String>{
         'entryContainerID': entryContainerID,
+        'userId':UserApi.getInstance().getUserProfile()!.userID,
         'title': title,
         'description': description,
         'location': location,
-        'timestamp': timestamp
+        'timestamp': timestamp,
+        'userId': userId
       }),
     );
 
@@ -216,7 +224,8 @@ class ItineraryApi {
           title: title,
           description: description,
           location: location,
-          timestamp: timestamp);
+          timestamp: timestamp,
+          userId: userId);
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
@@ -228,6 +237,7 @@ class ItineraryApi {
 
   static Future<http.Response> itineraryEdit(
       String id,
+      String userId,
       String entryContainerID,
       String title,
       String description,
@@ -240,6 +250,7 @@ class ItineraryApi {
       },
       body: jsonEncode(<String, String>{
         'id': id,
+        'userId': userId,
         'entryContainerID': entryContainerID,
         'title': title,
         'description': description,
@@ -262,4 +273,137 @@ class ItineraryApi {
       throw Exception('Failed to edit an itinerary entry.');
     }
   }
+
+  static Future<List<String>?> getStartAndEndDate(Itinerary i) async {
+    http.Response response = await _getStartAndEndDate(i);
+
+
+    if (response.statusCode != 200) {
+      return null;
+    }
+
+    if(response.body.length==0)
+      {
+        return null;
+      }
+
+    final body = json.decode(response.body);
+    String start=body['startDate'].toString();
+    String end=body['endDate'].toString();
+    List<String> list=[start,end];
+    return list;
+  }
+
+  static Future<http.Response> _getStartAndEndDate(Itinerary i) async {
+    return http
+        .get(Uri.parse("http://"+mainApi+'/itinerary/getStartDateEndDate/'+i.id));
+  }
+
+  static Future registerForItinerary(ItineraryEntry i) async {
+    http.Response response = await _registerForItinerary(i);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to register for itinerary item: ${response.body}');
+    }
+
+  }
+
+  static Future<http.Response> _registerForItinerary(ItineraryEntry i) async {
+    return http
+        .get(Uri.parse("http://"+mainApi+'/itinerary/registerUser/' + UserApi.getInstance().getUserProfile()!.userID+"/"+i.id));
+  }
+
+  static Future deregisterForItinerary(ItineraryEntry i) async {
+    http.Response response = await _deregisterForItinerary(i);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to deregister for itinerary item: ${response.body}');
+    }
+
+  }
+
+  static Future<http.Response> _deregisterForItinerary(ItineraryEntry i) async {
+    return http
+        .get(Uri.parse("http://"+mainApi+'/itinerary/deregisterUser/' + UserApi.getInstance().getUserProfile()!.userID+"/"+i.id));
+  }
+
+  static Future checkUserOff(ItineraryEntry i) async {
+
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    Location location = Location();
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+    }
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+    }
+    LocationData? currentLocation;
+    if (permissionGranted == PermissionStatus.granted &&
+        serviceEnabled) {
+      location.changeSettings(accuracy: LocationAccuracy.high);
+      location.getLocation().then((value) {
+        currentLocation = value;
+        LocationApi.setCurrentLocation(currentLocation!);
+      });
+    }
+
+    http.Response response = await _checkUserOff(i);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to check itinerary item off for user: ${response.body}');
+    }
+
+  }
+
+  static Future<http.Response> _checkUserOff(ItineraryEntry i) async {
+    return http
+        .get(Uri.parse("http://"+mainApi+'/itinerary/checkUserOff/' + UserApi.getInstance().getUserProfile()!.userID+"/"+i.id));
+  }
+
+  static Future<List<ParticipatingUser>> getRegisteredUsers(ItineraryEntry i) async {
+    http.Response response = await _getRegisteredUsers(i);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to get the users for the itinerary: ${response.body}');
+    }
+
+    List<ParticipatingUser> users = (jsonDecode(response.body) as List)
+        .map((x) => ParticipatingUser.fromJson(x))
+        .toList();
+
+    return users;
+
+  }
+
+  static Future<http.Response> _getRegisteredUsers(ItineraryEntry i) async {
+    return http
+        .get(Uri.parse("http://"+mainApi+'/itinerary/getRegisteredUsers/'+i.id));
+  }
+
+  static Future<bool> isRegisteredUser(ItineraryEntry i) async {
+    http.Response response = await _isRegisteredUser(i);
+
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to see if user is registered for entry: ${response.body}');
+    }
+
+    bool x =(jsonDecode(response.body) as bool);
+
+    return x;
+
+  }
+
+  static Future<http.Response> _isRegisteredUser(ItineraryEntry i) async {
+    return http
+        .get(Uri.parse("http://"+mainApi+'/itinerary/isRegisteredUser/'+i.id+"/"+UserApi.getInstance().getUserProfile()!.userID));
+  }
+
 }

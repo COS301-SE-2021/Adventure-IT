@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'package:adventure_it/Providers/adventure_model.dart';
+import 'package:adventure_it/frontEnd/AdventureAttendees.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:date_count_down/date_count_down.dart';
 import 'package:adventure_it/constants.dart';
@@ -7,6 +10,7 @@ import 'package:adventure_it/Providers/friends_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventureAPI.dart';
 import 'package:adventure_it/api/userAPI.dart';
+import 'package:time_machine/time_machine.dart';
 import 'ChecklistsList.dart';
 import 'FileList.dart';
 import 'GroupChat.dart';
@@ -64,7 +68,7 @@ class _AdventureTimer extends State<AdventureTimer> {
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
               child: Container(
                   padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                   color: Theme.of(context)
                       .scaffoldBackgroundColor
                       .withOpacity(0.2),
@@ -101,7 +105,7 @@ class _AdventureTimer extends State<AdventureTimer> {
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
             child: Container(
                 padding:
-                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                 color:
                     Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                 child: Column(children: [
@@ -132,7 +136,7 @@ class _AdventureTimer extends State<AdventureTimer> {
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
               child: Container(
                   padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                   color: Theme.of(context)
                       .scaffoldBackgroundColor
                       .withOpacity(0.2),
@@ -158,19 +162,33 @@ class AdventurePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+      return ChangeNotifierProvider(
+          create: (context) => AdventuresModel(),
+      builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
+            iconTheme: IconThemeData(color: Theme
+                .of(context)
+                .textTheme
+                .bodyText1!
+                .color),
             title: Center(
                 child: Text(currentAdventure!.name,
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
-            iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
             actions: [
               IconButton(
                   onPressed: () {
-                    {}
+                    {
+                      var provider = Provider.of<AdventuresModel>(
+                          context, listen: false);
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return _EditAlert(currentAdventure!, provider);
+                          });
+                    }
                   },
                   icon: const Icon(Icons.edit),
                   color: Theme.of(context).textTheme.bodyText1!.color),
@@ -205,57 +223,67 @@ class AdventurePage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Expanded(
-                              flex: 8,
+                            Spacer(),
+                            Container(
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
-                                child: MaterialButton(
-                                  hoverColor: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(0),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Itineraries(currentAdventure)));
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.list_alt,
-                                        size: 50,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                      Text(
-                                        'Itineraries',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Itineraries(currentAdventure)));
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.list_alt,
+                                          size: 50,
                                           color: Theme.of(context)
                                               .textTheme
                                               .bodyText1!
                                               .color,
                                         ),
-                                      ),
-                                    ],
+                                        Text(
+                                          'Itineraries',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                             Spacer(),
-                            Expanded(
-                                flex: 8,
-                                child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0)),
+                            Container(
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
                                   child: MaterialButton(
                                     hoverColor: Theme.of(context)
                                         .primaryColorLight
@@ -293,52 +321,60 @@ class AdventurePage extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                )),
+                                ),
+                              ),
+                            ),
                             Spacer(),
-                            Expanded(
-                              flex: 8,
+                            Container(
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
-                                child: MaterialButton(
-                                  hoverColor: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(0),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Budgets(currentAdventure)));
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.attach_money,
-                                        size: 50,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                      Text(
-                                        'Budgets',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color),
-                                      ),
-                                    ],
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Budgets(currentAdventure)));
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.attach_money,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                        Text(
+                                          'Budgets',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
+                            Spacer(),
                           ],
                         ),
                         SizedBox(
@@ -346,101 +382,116 @@ class AdventurePage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Expanded(
-                              flex: 8,
+                            Spacer(),
+                            Container(
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
-                                child: MaterialButton(
-                                  hoverColor: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(0),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                GroupChat(currentAdventure)));
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.chat_bubble,
-                                        size: 50,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                      Text(
-                                        'Group Chat',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color),
-                                      ),
-                                    ],
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  GroupChat(currentAdventure)));
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.chat_bubble,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                        Text(
+                                          'Group Chat',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                             Spacer(),
-                            Expanded(
-                              flex: 8,
+                            Container(
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
-                                child: MaterialButton(
-                                  hoverColor: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(0),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Files(currentAdventure)));
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.insert_drive_file,
-                                        size: 50,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                      Text(
-                                        'Files',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color),
-                                      ),
-                                    ],
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Files(currentAdventure)));
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.insert_drive_file,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                        Text(
+                                          'Files',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                             Spacer(),
-                            Expanded(
-                                flex: 8,
-                                child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20.0)),
+                            Container(
+                              child: ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0)),
+                                  child: Container(
+                                      padding:
+                                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
+                                      color:
+                                      Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
                                     child: MaterialButton(
                                       hoverColor: Theme.of(context)
                                           .primaryColorLight
@@ -478,7 +529,10 @@ class AdventurePage extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                    ))),
+                                    ),
+                                  )),
+                            ),
+                            Spacer(),
                           ],
                         ),
                         SizedBox(
@@ -486,132 +540,103 @@ class AdventurePage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Expanded(
-                              flex: 8,
+                            Spacer(),
+                            Container(
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
-                                child: MaterialButton(
-                                  hoverColor: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(0),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                TimePage(currentAdventure)));
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.access_time_filled,
-                                        size: 50,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                      Text(
-                                        'Timeline',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color),
-                                      ),
-                                    ],
+                                child: Container(
+                                    padding:
+                                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TimePage(currentAdventure)));
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.access_time_filled,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                        Text(
+                                          'Timeline',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: MediaQuery.of(context).size.width * 0.23 < 137.5? 137.5: MediaQuery.of(context).size.width * 0.416),
+                            Container(
+                              child: ClipRRect(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(20.0)),
+                                child: Container(
+                                  padding:
+                                  EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
+                                  color:
+                                  Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  child: MaterialButton(
+                                    hoverColor: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                        MediaQuery.of(context).size.height *
+                                            0.01),
+                                    onPressed: () {
+                                      {}
+                                    },
+                                    child: Column(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.person,
+                                          size: 50,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                        Text(
+                                          'Adventurers',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                             Spacer(),
-                            Expanded(
-                              flex: 8,
-                              child: ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0)),
-                                child: MaterialButton(
-                                  hoverColor: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(0),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
-                                  onPressed: () {
-                                    {}
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.person,
-                                        size: 50,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                      Text(
-                                        'Adventurers',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Spacer(),
-                            Expanded(
-                              flex: 8,
-                              child: ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0)),
-                                child: MaterialButton(
-                                  hoverColor: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(0),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
-                                  onPressed: () {
-                                    {}
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.play_arrow,
-                                        size: 50,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                      Text(
-                                        'Play this song',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                       ])),
@@ -656,7 +681,7 @@ class AdventurePage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
-                ]))));
+                ])))));
   }
 }
 
@@ -742,8 +767,8 @@ class AlertBox extends StatelessWidget {
                                         horizontal:
                                             MediaQuery.of(context).size.width *
                                                 0.01),
-                                    child: Expanded(
-                                        child: Text(
+                                    child:  ListTile(
+                                       title: Text(
                                       friendModel.friends!
                                           .elementAt(index)
                                           .username,
@@ -760,5 +785,437 @@ class AlertBox extends StatelessWidget {
                           })
                       : Container(height: 10);
                 }))));
+  }
+}
+
+class _EditAlert extends StatefulWidget {
+  late final Adventure? currentAdventure;
+  final AdventuresModel adventuresModel;
+
+  _EditAlert(this.currentAdventure, this.adventuresModel);
+
+  @override
+  EditAlert createState() => EditAlert(currentAdventure!);
+}
+
+class EditAlert extends State<_EditAlert> {
+  late final Adventure? adventure;
+
+  EditAlert(this.adventure) {
+    nameController.text = adventure!.name;
+    descriptionController.text = adventure!.description;
+    dateController.text =
+        adventure!.startDate.toString() + " - " + adventure!.endDate.toString();
+  }
+
+  double getSize(context) {
+    if (MediaQuery
+        .of(context)
+        .size
+        .height >
+        MediaQuery
+            .of(context)
+            .size
+            .width) {
+      return MediaQuery
+          .of(context)
+          .size
+          .height * 0.60;
+    } else {
+      return MediaQuery
+          .of(context)
+          .size
+          .height * 0.8;
+    }
+  }
+
+  double getHeight(context) {
+    if (MediaQuery
+        .of(context)
+        .size
+        .height >
+        MediaQuery
+            .of(context)
+            .size
+            .width) {
+      return MediaQuery
+          .of(context)
+          .size
+          .height * 0.50;
+    } else {
+      return MediaQuery
+          .of(context)
+          .size
+          .height * 0.80;
+    }
+  }
+
+  double getWidth(context) {
+    if (MediaQuery
+        .of(context)
+        .size
+        .height >
+        MediaQuery
+            .of(context)
+            .size
+            .width) {
+      return MediaQuery
+          .of(context)
+          .size
+          .width * 0.8;
+    } else {
+      return MediaQuery
+          .of(context)
+          .size
+          .width * 0.5;
+    }
+  }
+
+  DateTimeRange? dates;
+  String? location;
+  final initialDateRange = DateTimeRange(
+    start: DateTime.now(),
+    end: DateTime.now().add(Duration(hours: 24 * 7)),
+  );
+
+  List<String> months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
+  String getText(DateTimeRange? dateRange) {
+    if (dateRange!.start == dateRange.end) {
+      String x = dateRange.start.day.toString() + " " +
+          months.elementAt(dateRange.start.month - 1) + " " +
+          dateRange.start.year.toString();
+      return x;
+    }
+    else {
+      String x = dateRange.start.day.toString() + " " +
+          months.elementAt(dateRange.start.month - 1) + " " +
+          dateRange.start.year.toString() + " to " +
+          dateRange.end.day.toString() +
+          " " + months.elementAt(dateRange.end.month - 1) + " " +
+          dateRange.end.year.toString();
+      return x;
+    }
+  }
+
+
+  Map<int, Color> color =
+  {
+    50: Color.fromRGBO(32, 34, 45, .1),
+    100: Color.fromRGBO(32, 34, 45, .2),
+    200: Color.fromRGBO(32, 34, 45, .3),
+    300: Color.fromRGBO(32, 34, 45, .4),
+    400: Color.fromRGBO(32, 34, 45, .5),
+    500: Color.fromRGBO(32, 34, 45, .6),
+    600: Color.fromRGBO(32, 34, 45, .7),
+    700: Color.fromRGBO(32, 34, 45, .8),
+    800: Color.fromRGBO(32, 34, 45, .9),
+    900: Color.fromRGBO(32, 34, 45, 1),
+  };
+
+  //controllers for the form fields
+  String ownerID = UserApi.getInstance().getUserProfile()!.userID;
+
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final dateController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        backgroundColor: Theme
+            .of(context)
+            .primaryColorDark,
+        content: Container(
+            height: getSize(context),
+            child: Stack(
+                clipBehavior: Clip.none, children: <Widget>[
+              Positioned(
+                right: -40.0,
+                top: -40.0,
+                child: InkResponse(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: CircleAvatar(
+                    child: Icon(Icons.close,
+                        color: Theme
+                            .of(context)
+                            .primaryColorDark),
+                    backgroundColor: Theme
+                        .of(context)
+                        .accentColor,
+                  ),
+                ),
+              ),
+              Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                            "Edit: " +
+                                adventure!.name,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color,
+                              fontSize: 25 *
+                                  MediaQuery
+                                      .of(context)
+                                      .textScaleFactor,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        SizedBox(height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.03),
+                        SizedBox(
+                          width: 350,
+                          child: TextField(
+                              style: TextStyle(color: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color, fontSize: 15 * MediaQuery
+                                  .of(context)
+                                  .textScaleFactor),
+                              controller: nameController,
+                              decoration: InputDecoration(
+                                  hintStyle: TextStyle(color: Theme
+                                      .of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color, fontSize: 15 * MediaQuery
+                                      .of(context)
+                                      .textScaleFactor),
+                                  filled: true,
+                                  enabledBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                  fillColor: Theme
+                                      .of(context)
+                                      .primaryColorLight,
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Theme
+                                          .of(context)
+                                          .accentColor)),
+                                  hintText: 'Adventure Name')),
+                        ),
+                        SizedBox(height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.01),
+                        SizedBox(
+                          width: 350,
+                          child: TextField(
+                              maxLength: 255,
+                              maxLengthEnforcement: MaxLengthEnforcement
+                                  .enforced,
+                              maxLines: 4,
+                              style: TextStyle(color: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color, fontSize: 15 * MediaQuery
+                                  .of(context)
+                                  .textScaleFactor),
+                              controller: descriptionController,
+                              decoration: InputDecoration(
+                                  hintStyle: TextStyle(color: Theme
+                                      .of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color, fontSize: 15 * MediaQuery
+                                      .of(context)
+                                      .textScaleFactor),
+                                  filled: true,
+                                  enabledBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                  fillColor: Theme
+                                      .of(context)
+                                      .primaryColorLight,
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Theme
+                                          .of(context)
+                                          .accentColor)),
+                                  hintText: 'Adventure Description')),
+                        ),
+                        Container(
+                            width: 350,
+                            child: TextField(
+                              style: TextStyle(color: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color, fontSize: 15 * MediaQuery
+                                  .of(context)
+                                  .textScaleFactor),
+                              controller: dateController,
+                              decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                      Icons.calendar_today_rounded),
+                                  hintStyle: TextStyle(color: Theme
+                                      .of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color, fontSize: 15 * MediaQuery
+                                      .of(context)
+                                      .textScaleFactor),
+                                  filled: true,
+                                  enabledBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                  fillColor: Theme
+                                      .of(context)
+                                      .primaryColorLight,
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Theme
+                                          .of(context)
+                                          .accentColor)),
+                                  hintText: 'Select Dates'),
+                              onTap: () async {
+                                DateTimeRange? picked = await showDateRangePicker(
+                                    context: context,
+                                    builder: (BuildContext context,
+                                        Widget ?child) {
+                                      return Column(
+                                          mainAxisAlignment: MainAxisAlignment
+                                              .center,
+                                          children:[
+                                          Container(
+                                          width: getWidth(context),
+                                      height: getHeight(context),
+                                      child: Theme(
+                                      data: ThemeData(
+                                      primarySwatch: MaterialColor(
+                                      0xFF20222D, color),
+                                      splashColor: Color(0xff20222D),
+                                      scaffoldBackgroundColor: Color(0xff484D64),
+                                      canvasColor: Color(0xff484D64),
+                                      textTheme: TextTheme(
+                                      subtitle1: TextStyle(
+                                      color: Color(0xffA7AAB9)),
+                                      bodyText2: TextStyle(
+                                      color: Color(0xffA7AAB9)),
+                                      bodyText1: TextStyle(
+                                      color: Color(0xffA7AAB9))
+                                      subtitle2: TextStyle(color:Color(
+                                      0xffA7AAB9)),
+                                      button: TextStyle(color: Color(0xffA7AAB9),
+                                      fontWeight: FontWeight.bold),
+                                      ),
+                                      accentColor: Color(0xff6A7AC7),
+                                      colorScheme: ColorScheme.light(
+                                      primary: Color(0xff20222D),
+                                      primaryVariant: Color(0xff20222D),
+                                      secondaryVariant: Color(0xff20222D),
+                                      onSecondary: Color(0xff20222D),
+                                      onPrimary: Color(0xffA7AAB9),
+                                      surface: Color(0xff20222D)
+                                      onSurface: Color(0xffA7AAB9),
+                                      secondary: Color(0xff6A7AC7)),
+                                      dialogBackgroundColor: Color(0xff484D64),
+                                      backgroundColor:Color(0xff484D64),
+                                      highlightColor: Color(0xff484D64)
+
+
+                                      ) child
+                                          :
+                                      child
+                                      !
+                                      ,
+                                      )
+                                      )
+                                      ]
+                                      );
+                                    },
+                                    initialDateRange: dates ?? initialDateRange
+                                    firstDate: new DateTime(DateTime.now()
+                                    .year - 5),
+                                lastDate: new DateTime(DateTime.now().year + 5)
+                                );
+                                setState((){dates=picked;
+                                dateController.text=getText(picked);
+                                });
+                              },
+                            )
+                        ),
+                        SizedBox(height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.03),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Spacer(flex: 2),
+                              Expanded(
+                                  flex: 3,
+                                  child: ElevatedButton(
+                                      child: Text("Edit",
+                                          style: new TextStyle(color: Theme
+                                              .of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color)),
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Theme
+                                            .of(context)
+                                            .accentColor,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 3, vertical: 20),
+                                      ),
+                                      onPressed: () async {
+                                        await widget.adventuresModel
+                                            .editAdventure(
+                                            adventure!.adventureId,
+                                            UserApi.getInstance().getUserProfile()!.userID,
+                                            nameController.text,
+                                            dates == null ?
+                                            LocalDate.dateTime(DateTime.parse(
+                                                adventure!.startDate))
+                                                : LocalDate.dateTime(
+                                                dates!.start),
+                                            dates == null ?
+                                            LocalDate.dateTime(DateTime.parse(
+                                                adventure!.endDate))
+                                                : LocalDate.dateTime(
+                                                dates!.end),
+                                            descriptionController.text);
+                                        Navigator.of(context)
+                                            .pop(true);
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomepageStartupCaller()));
+                                      })),
+                              Spacer(flex: 2),
+                            ]
+                        )
+                      ]
+                  ))
+            ]
+            )
+        )
+    );
   }
 }

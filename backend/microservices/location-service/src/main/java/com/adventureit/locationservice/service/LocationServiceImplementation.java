@@ -7,9 +7,10 @@ import com.adventureit.locationservice.exceptions.NotFoundException;
 import com.adventureit.locationservice.repository.CurrentLocationRepository;
 import com.adventureit.locationservice.repository.FlagRepository;
 import com.adventureit.locationservice.repository.LocationRepository;
-import com.adventureit.locationservice.responses.CurrentLocationResponseDTO;
-import com.adventureit.locationservice.responses.LocationResponseDTO;
-import com.adventureit.locationservice.responses.ShortestPathResponseDTO;
+import com.adventureit.shareddtos.location.responses.CurrentLocationResponseDTO;
+import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
+import com.adventureit.shareddtos.location.responses.LocationsResponseDTO;
+import com.adventureit.shareddtos.location.responses.ShortestPathResponseDTO;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,7 +23,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -61,10 +64,12 @@ public class LocationServiceImplementation implements LocationService {
         if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
             location1 = new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,placeID,country,types);
             locationRepository.save(location1);
+            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country, Collections.singletonList(json.getJSONArray("candidates").getJSONObject(0).getString("name"))));
         }
         else {
             location1 = new Location("",address,placeID,country,types);
             locationRepository.save(location1);
+            location1 = locationRepository.save(new Location("",address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country, Collections.singletonList(json.getJSONArray("candidates").getJSONObject(0).getString("name"))));
         }
 
         return location1.getId();
@@ -172,7 +177,7 @@ public class LocationServiceImplementation implements LocationService {
             throw new NotFoundException("Get Location: Location does not exist");
         }
 
-        return new LocationResponseDTO(location.getId(),location.getPhotoReference(),location.getFormattedAddress(),location.getPlaceID());
+        return new LocationResponseDTO(location.getId(),location.getPhotoReference(),location.getFormattedAddress(),location.getPlaceID(), location.getName());
     }
 
     @Override
@@ -206,6 +211,7 @@ public class LocationServiceImplementation implements LocationService {
         else {
             currentLocation.setLatitude(latitude);
             currentLocation.setLongitude(longitude);
+            currentLocation.setTimestamp(LocalDateTime.now());
             currentLocationRepository.save(currentLocation);
         }
     }
@@ -242,11 +248,15 @@ public class LocationServiceImplementation implements LocationService {
        lat = json.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getString("lat");
        lng = json.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getString("lng");
 
-       if(lat.equals(currentLocation.getLatitude()) && lng.equals(currentLocation.getLongitude())){
-           return true;
-       }
+       double lat1 = Double.parseDouble(lat);
+       double lng1 = Double.parseDouble(lng);
 
-        return false;
+           if((lat1 >= Double.parseDouble(currentLocation.getLatitude()) && lat1 <= Double.parseDouble(currentLocation.getLatitude()) + 0.01) || (lat1 <= Double.parseDouble(currentLocation.getLatitude()) && lat1 >= Double.parseDouble(currentLocation.getLatitude()) - 0.01)){
+               return (lng1 >= Double.parseDouble(currentLocation.getLongitude()) && lng1 <= Double.parseDouble(currentLocation.getLongitude()) + 0.01) || (lng1 <= Double.parseDouble(currentLocation.getLongitude()) && lng1 >= Double.parseDouble(currentLocation.getLongitude()) - 0.01);
+           }
+           else{
+               return false;
+           }
     }
 
     @Override
@@ -301,5 +311,18 @@ public class LocationServiceImplementation implements LocationService {
             throw new NotFoundException("Get Flag List: User list not found");
         }
         return flags.getPlacesVisited();
+    }
+
+    public LocationsResponseDTO getLocations(List<UUID> ids) {
+        List<Location> locations = this.locationRepository.findAllById(ids);
+        return new LocationsResponseDTO(convertToDTO(locations));
+    }
+
+    public List<LocationResponseDTO> convertToDTO(List<Location> locations){
+        List<LocationResponseDTO> converted = new ArrayList<>();
+        for(Location l : locations){
+            converted.add(new LocationResponseDTO(l.getId(), l.getPhotoReference(), l.getFormattedAddress(), l.getPlaceID(), l.getName()));
+        }
+        return converted;
     }
 }
