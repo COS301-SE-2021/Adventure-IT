@@ -35,7 +35,7 @@ COPY microservices/media-service/src microservices/media-service/src
 COPY microservices/notification-service/src microservices/notification-service/src
 COPY microservices/timeline-service/src microservices/timeline-service/src
 COPY microservices/user-service/src microservices/user-service/src
-COPY backend-environment.yml /env/backend-environment.yml
+COPY backend-environment.yml /env/backend-environment-production.yml
 VOLUME /env/
 RUN mvn -B -e -o -DskipTests=true clean install
 CMD ["echo","Build done"]

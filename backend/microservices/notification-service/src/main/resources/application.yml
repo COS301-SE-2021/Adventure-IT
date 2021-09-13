@@ -3,11 +3,24 @@ server:
   error:
     include-message: always
 
+
 spring:
   application:
-    name: ${notification-microservice.application-name}
-  datasource: ${notification-microservice.datasource}
-  jpa: ${notification-microservice.jpa}
+    name: ${chat-microservice.application-name}
+  datasource:
+    url: ${chat-microservice.datasource.url}
+    username: ${chat-microservice.datasource.username}
+    password: ${chat-microservice.datasource.password}
+    hikari:
+      maximum-pool-size: ${chat-microservice.datasource.hikari.maximum-pool-size}
+  jpa:
+    hibernate:
+      ddl-auto: ${chat-microservice.jpa.hibernate.ddl-auto}
+    show-sql: ${chat-microservice.jpa.show-sql}
+    properties:
+      hibernate:
+        dialect: ${chat-microservice.jpa.hibernate.properties.hibernate.dialect}
+        format_sql: ${chat-microservice.jpa.hibernate.properties.hibernate.format_sql}
   mail:
     host: ${notification-microservice.mail.host}
     port: ${notification-microservice.mail.port}
@@ -21,5 +34,17 @@ spring:
       startttls:
         enable: ${notification-microservice.mail.smtp.startttls.enable}
 
-eureka: ${service-registry-client}
+
+
+eureka:
+  client:
+    register-with-eureka: ${service-registry-client.client.register-with-eureka}
+    fetch-registry: ${service-registry-client.client.fetch-registry}
+    service-url:
+      defaultZone: ${service-registry-client.client.service-url.defaultZone}
+  instance:
+    hostname: ${service-registry-client.client.hostname}
+
+
+
 
