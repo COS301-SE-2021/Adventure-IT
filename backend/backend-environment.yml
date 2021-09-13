@@ -15,6 +15,8 @@ service-registry-client:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
 
 # Service Registry (server)
 service-registry-server:
