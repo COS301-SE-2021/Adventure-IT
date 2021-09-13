@@ -317,6 +317,7 @@ class ProfileApi
     if (response.statusCode != 200) {
       throw Exception('Failed to upload profilePicture: ${response.body}');
     }
+    await UserApi.getInstance().updateUserProfile();
   }
 
   static Future<http.Response> _addProfilePicture(

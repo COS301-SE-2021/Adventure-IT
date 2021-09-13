@@ -349,6 +349,237 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/classmate/1.5.1/classmate-1.5.1-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: com.google.android:annotations:4.1.1.4">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/android/annotations/4.1.1.4/annotations-4.1.1.4.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/android/annotations/4.1.1.4/annotations-4.1.1.4-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/android/annotations/4.1.1.4/annotations-4.1.1.4-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.api-client:google-api-client-gson:1.30.10">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api-client/google-api-client-gson/1.30.10/google-api-client-gson-1.30.10.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api-client/google-api-client-gson/1.30.10/google-api-client-gson-1.30.10-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api-client/google-api-client-gson/1.30.10/google-api-client-gson-1.30.10-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.api-client:google-api-client:1.30.10">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api-client/google-api-client/1.30.10/google-api-client-1.30.10.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api-client/google-api-client/1.30.10/google-api-client-1.30.10-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api-client/google-api-client/1.30.10/google-api-client-1.30.10-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.api.grpc:proto-google-cloud-firestore-admin-v1:1.35.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-cloud-firestore-admin-v1/1.35.0/proto-google-cloud-firestore-admin-v1-1.35.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-cloud-firestore-admin-v1/1.35.0/proto-google-cloud-firestore-admin-v1-1.35.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-cloud-firestore-admin-v1/1.35.0/proto-google-cloud-firestore-admin-v1-1.35.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.api.grpc:proto-google-cloud-firestore-v1:1.35.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-cloud-firestore-v1/1.35.0/proto-google-cloud-firestore-v1-1.35.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-cloud-firestore-v1/1.35.0/proto-google-cloud-firestore-v1-1.35.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-cloud-firestore-v1/1.35.0/proto-google-cloud-firestore-v1-1.35.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.api.grpc:proto-google-cloud-firestore-v1beta1:0.88.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-cloud-firestore-v1beta1/0.88.0/proto-google-cloud-firestore-v1beta1-0.88.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-cloud-firestore-v1beta1/0.88.0/proto-google-cloud-firestore-v1beta1-0.88.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-cloud-firestore-v1beta1/0.88.0/proto-google-cloud-firestore-v1beta1-0.88.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.api.grpc:proto-google-common-protos:1.18.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-common-protos/1.18.0/proto-google-common-protos-1.18.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-common-protos/1.18.0/proto-google-common-protos-1.18.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-common-protos/1.18.0/proto-google-common-protos-1.18.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.api.grpc:proto-google-iam-v1:0.13.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-iam-v1/0.13.0/proto-google-iam-v1-0.13.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-iam-v1/0.13.0/proto-google-iam-v1-0.13.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-iam-v1/0.13.0/proto-google-iam-v1-0.13.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.api:api-common:1.9.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/api-common/1.9.2/api-common-1.9.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/api-common/1.9.2/api-common-1.9.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/api-common/1.9.2/api-common-1.9.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.api:gax-grpc:1.57.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/gax-grpc/1.57.0/gax-grpc-1.57.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/gax-grpc/1.57.0/gax-grpc-1.57.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/gax-grpc/1.57.0/gax-grpc-1.57.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.api:gax-httpjson:0.74.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/gax-httpjson/0.74.0/gax-httpjson-0.74.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/gax-httpjson/0.74.0/gax-httpjson-0.74.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/gax-httpjson/0.74.0/gax-httpjson-0.74.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.api:gax:1.57.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/gax/1.57.0/gax-1.57.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/gax/1.57.0/gax-1.57.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/api/gax/1.57.0/gax-1.57.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.apis:google-api-services-storage:v1-rev20200430-1.30.9">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/apis/google-api-services-storage/v1-rev20200430-1.30.9/google-api-services-storage-v1-rev20200430-1.30.9.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/apis/google-api-services-storage/v1-rev20200430-1.30.9/google-api-services-storage-v1-rev20200430-1.30.9-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/apis/google-api-services-storage/v1-rev20200430-1.30.9/google-api-services-storage-v1-rev20200430-1.30.9-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.auth:google-auth-library-credentials:0.20.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/auth/google-auth-library-credentials/0.20.0/google-auth-library-credentials-0.20.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/auth/google-auth-library-credentials/0.20.0/google-auth-library-credentials-0.20.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/auth/google-auth-library-credentials/0.20.0/google-auth-library-credentials-0.20.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.auth:google-auth-library-oauth2-http:0.20.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/auth/google-auth-library-oauth2-http/0.20.0/google-auth-library-oauth2-http-0.20.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/auth/google-auth-library-oauth2-http/0.20.0/google-auth-library-oauth2-http-0.20.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/auth/google-auth-library-oauth2-http/0.20.0/google-auth-library-oauth2-http-0.20.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.auto.value:auto-value-annotations:1.7.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/auto/value/auto-value-annotations/1.7.2/auto-value-annotations-1.7.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/auto/value/auto-value-annotations/1.7.2/auto-value-annotations-1.7.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/auto/value/auto-value-annotations/1.7.2/auto-value-annotations-1.7.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.cloud:google-cloud-core-grpc:1.93.6">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/google-cloud-core-grpc/1.93.6/google-cloud-core-grpc-1.93.6.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/google-cloud-core-grpc/1.93.6/google-cloud-core-grpc-1.93.6-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/google-cloud-core-grpc/1.93.6/google-cloud-core-grpc-1.93.6-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.cloud:google-cloud-core-http:1.93.6">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/google-cloud-core-http/1.93.6/google-cloud-core-http-1.93.6.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/google-cloud-core-http/1.93.6/google-cloud-core-http-1.93.6-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/google-cloud-core-http/1.93.6/google-cloud-core-http-1.93.6-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.cloud:google-cloud-core:1.93.6">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/google-cloud-core/1.93.6/google-cloud-core-1.93.6.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/google-cloud-core/1.93.6/google-cloud-core-1.93.6-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/google-cloud-core/1.93.6/google-cloud-core-1.93.6-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.cloud:google-cloud-firestore:1.35.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/google-cloud-firestore/1.35.0/google-cloud-firestore-1.35.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/google-cloud-firestore/1.35.0/google-cloud-firestore-1.35.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/google-cloud-firestore/1.35.0/google-cloud-firestore-1.35.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.cloud:google-cloud-storage:1.110.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/google-cloud-storage/1.110.0/google-cloud-storage-1.110.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/google-cloud-storage/1.110.0/google-cloud-storage-1.110.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/google-cloud-storage/1.110.0/google-cloud-storage-1.110.0-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Maven: com.google.code.findbugs:jsr305:3.0.1">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/com/google/code/findbugs/jsr305/3.0.1/jsr305-3.0.1.jar!/" />
@@ -360,6 +591,17 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/google/code/findbugs/jsr305/3.0.1/jsr305-3.0.1-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: com.google.code.findbugs:jsr305:3.0.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Maven: com.google.code.gson:gson:2.8.6">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.6/gson-2.8.6.jar!/" />
@@ -369,6 +611,39 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.6/gson-2.8.6-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.errorprone:error_prone_annotations:2.3.4">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/errorprone/error_prone_annotations/2.3.4/error_prone_annotations-2.3.4.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/errorprone/error_prone_annotations/2.3.4/error_prone_annotations-2.3.4-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/errorprone/error_prone_annotations/2.3.4/error_prone_annotations-2.3.4-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.firebase:firebase-admin:7.0.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/firebase/firebase-admin/7.0.1/firebase-admin-7.0.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/firebase/firebase-admin/7.0.1/firebase-admin-7.0.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/firebase/firebase-admin/7.0.1/firebase-admin-7.0.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.guava:failureaccess:1.0.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: com.google.guava:guava:16.0">
@@ -393,6 +668,72 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/19.0/guava-19.0-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: com.google.guava:guava:29.0-android">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/29.0-android/guava-29.0-android.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/29.0-android/guava-29.0-android-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/29.0-android/guava-29.0-android-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.http-client:google-http-client-appengine:1.35.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/http-client/google-http-client-appengine/1.35.0/google-http-client-appengine-1.35.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/http-client/google-http-client-appengine/1.35.0/google-http-client-appengine-1.35.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/http-client/google-http-client-appengine/1.35.0/google-http-client-appengine-1.35.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.http-client:google-http-client-gson:1.36.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/http-client/google-http-client-gson/1.36.0/google-http-client-gson-1.36.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/http-client/google-http-client-gson/1.36.0/google-http-client-gson-1.36.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/http-client/google-http-client-gson/1.36.0/google-http-client-gson-1.36.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.http-client:google-http-client-jackson2:1.36.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/http-client/google-http-client-jackson2/1.36.0/google-http-client-jackson2-1.36.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/http-client/google-http-client-jackson2/1.36.0/google-http-client-jackson2-1.36.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/http-client/google-http-client-jackson2/1.36.0/google-http-client-jackson2-1.36.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.http-client:google-http-client:1.35.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/http-client/google-http-client/1.35.0/google-http-client-1.35.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/http-client/google-http-client/1.35.0/google-http-client-1.35.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/http-client/google-http-client/1.35.0/google-http-client-1.35.0-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Maven: com.google.inject:guice:4.1.0">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/com/google/inject/guice/4.1.0/guice-4.1.0.jar!/" />
@@ -402,6 +743,50 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/com/google/inject/guice/4.1.0/guice-4.1.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.j2objc:j2objc-annotations:1.3">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/j2objc/j2objc-annotations/1.3/j2objc-annotations-1.3.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/j2objc/j2objc-annotations/1.3/j2objc-annotations-1.3-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/j2objc/j2objc-annotations/1.3/j2objc-annotations-1.3-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.oauth-client:google-oauth-client:1.31.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/oauth-client/google-oauth-client/1.31.0/google-oauth-client-1.31.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/oauth-client/google-oauth-client/1.31.0/google-oauth-client-1.31.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/oauth-client/google-oauth-client/1.31.0/google-oauth-client-1.31.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.protobuf:protobuf-java-util:3.12.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/protobuf/protobuf-java-util/3.12.2/protobuf-java-util-3.12.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/protobuf/protobuf-java-util/3.12.2/protobuf-java-util-3.12.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/protobuf/protobuf-java-util/3.12.2/protobuf-java-util-3.12.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.protobuf:protobuf-java:3.12.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/protobuf/protobuf-java/3.12.2/protobuf-java-3.12.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/protobuf/protobuf-java/3.12.2/protobuf-java-3.12.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/protobuf/protobuf-java/3.12.2/protobuf-java-3.12.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: com.h2database:h2:1.4.200">
@@ -811,6 +1196,17 @@
         <root url="jar://$MAVEN_REPOSITORY$/commons-lang/commons-lang/2.6/commons-lang-2.6-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: commons-logging:commons-logging:1.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/commons-logging/commons-logging/1.2/commons-logging-1.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/commons-logging/commons-logging/1.2/commons-logging-1.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/commons-logging/commons-logging/1.2/commons-logging-1.2-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Maven: io.github.x-stream:mxparser:1.2.1">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/io/github/x-stream/mxparser/1.2.1/mxparser-1.2.1.jar!/" />
@@ -822,6 +1218,116 @@
         <root url="jar://$MAVEN_REPOSITORY$/io/github/x-stream/mxparser/1.2.1/mxparser-1.2.1-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: io.grpc:grpc-alts:1.30.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-alts/1.30.0/grpc-alts-1.30.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-alts/1.30.0/grpc-alts-1.30.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-alts/1.30.0/grpc-alts-1.30.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.grpc:grpc-api:1.30.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-api/1.30.0/grpc-api-1.30.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-api/1.30.0/grpc-api-1.30.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-api/1.30.0/grpc-api-1.30.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.grpc:grpc-auth:1.30.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-auth/1.30.0/grpc-auth-1.30.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-auth/1.30.0/grpc-auth-1.30.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-auth/1.30.0/grpc-auth-1.30.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.grpc:grpc-context:1.30.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-context/1.30.0/grpc-context-1.30.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-context/1.30.0/grpc-context-1.30.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-context/1.30.0/grpc-context-1.30.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.grpc:grpc-core:1.30.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-core/1.30.0/grpc-core-1.30.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-core/1.30.0/grpc-core-1.30.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-core/1.30.0/grpc-core-1.30.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.grpc:grpc-grpclb:1.30.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-grpclb/1.30.0/grpc-grpclb-1.30.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-grpclb/1.30.0/grpc-grpclb-1.30.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-grpclb/1.30.0/grpc-grpclb-1.30.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.grpc:grpc-netty-shaded:1.30.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-netty-shaded/1.30.0/grpc-netty-shaded-1.30.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-netty-shaded/1.30.0/grpc-netty-shaded-1.30.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-netty-shaded/1.30.0/grpc-netty-shaded-1.30.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.grpc:grpc-protobuf-lite:1.30.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf-lite/1.30.0/grpc-protobuf-lite-1.30.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf-lite/1.30.0/grpc-protobuf-lite-1.30.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf-lite/1.30.0/grpc-protobuf-lite-1.30.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.grpc:grpc-protobuf:1.30.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf/1.30.0/grpc-protobuf-1.30.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf/1.30.0/grpc-protobuf-1.30.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf/1.30.0/grpc-protobuf-1.30.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.grpc:grpc-stub:1.30.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-stub/1.30.0/grpc-stub-1.30.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-stub/1.30.0/grpc-stub-1.30.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/grpc/grpc-stub/1.30.0/grpc-stub-1.30.0-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Maven: io.micrometer:micrometer-core:1.7.0">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/io/micrometer/micrometer-core/1.7.0/micrometer-core-1.7.0.jar!/" />
@@ -831,6 +1337,127 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/io/micrometer/micrometer-core/1.7.0/micrometer-core-1.7.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.netty:netty-buffer:4.1.65.Final">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-buffer/4.1.65.Final/netty-buffer-4.1.65.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-buffer/4.1.65.Final/netty-buffer-4.1.65.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-buffer/4.1.65.Final/netty-buffer-4.1.65.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.netty:netty-codec-http:4.1.65.Final">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-codec-http/4.1.65.Final/netty-codec-http-4.1.65.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-codec-http/4.1.65.Final/netty-codec-http-4.1.65.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-codec-http/4.1.65.Final/netty-codec-http-4.1.65.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.netty:netty-codec:4.1.65.Final">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-codec/4.1.65.Final/netty-codec-4.1.65.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-codec/4.1.65.Final/netty-codec-4.1.65.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-codec/4.1.65.Final/netty-codec-4.1.65.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.netty:netty-common:4.1.65.Final">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-common/4.1.65.Final/netty-common-4.1.65.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-common/4.1.65.Final/netty-common-4.1.65.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-common/4.1.65.Final/netty-common-4.1.65.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.netty:netty-handler:4.1.65.Final">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-handler/4.1.65.Final/netty-handler-4.1.65.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-handler/4.1.65.Final/netty-handler-4.1.65.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-handler/4.1.65.Final/netty-handler-4.1.65.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.netty:netty-resolver:4.1.65.Final">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-resolver/4.1.65.Final/netty-resolver-4.1.65.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-resolver/4.1.65.Final/netty-resolver-4.1.65.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-resolver/4.1.65.Final/netty-resolver-4.1.65.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.netty:netty-transport:4.1.65.Final">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-transport/4.1.65.Final/netty-transport-4.1.65.Final.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-transport/4.1.65.Final/netty-transport-4.1.65.Final-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-transport/4.1.65.Final/netty-transport-4.1.65.Final-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.opencensus:opencensus-api:0.24.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/opencensus/opencensus-api/0.24.0/opencensus-api-0.24.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/opencensus/opencensus-api/0.24.0/opencensus-api-0.24.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/opencensus/opencensus-api/0.24.0/opencensus-api-0.24.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.opencensus:opencensus-contrib-grpc-util:0.24.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/opencensus/opencensus-contrib-grpc-util/0.24.0/opencensus-contrib-grpc-util-0.24.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/opencensus/opencensus-contrib-grpc-util/0.24.0/opencensus-contrib-grpc-util-0.24.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/opencensus/opencensus-contrib-grpc-util/0.24.0/opencensus-contrib-grpc-util-0.24.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.opencensus:opencensus-contrib-http-util:0.24.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/opencensus/opencensus-contrib-http-util/0.24.0/opencensus-contrib-http-util-0.24.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/opencensus/opencensus-contrib-http-util/0.24.0/opencensus-contrib-http-util-0.24.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/opencensus/opencensus-contrib-http-util/0.24.0/opencensus-contrib-http-util-0.24.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: io.perfmark:perfmark-api:0.19.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/perfmark/perfmark-api/0.19.0/perfmark-api-0.19.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/io/perfmark/perfmark-api/0.19.0/perfmark-api-0.19.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/io/perfmark/perfmark-api/0.19.0/perfmark-api-0.19.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: io.projectreactor.addons:reactor-extra:3.4.3">
@@ -963,6 +1590,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/jakarta/xml/bind/jakarta.xml.bind-api/2.3.3/jakarta.xml.bind-api-2.3.3-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: javax.annotation:javax.annotation-api:1.3.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/annotation/javax.annotation-api/1.3.2/javax.annotation-api-1.3.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/annotation/javax.annotation-api/1.3.2/javax.annotation-api-1.3.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/annotation/javax.annotation-api/1.3.2/javax.annotation-api-1.3.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: javax.inject:javax.inject:1">
@@ -1108,6 +1746,17 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: org.apache.httpcomponents:httpcore:4.4.13">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpcore/4.4.13/httpcore-4.4.13.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpcore/4.4.13/httpcore-4.4.13-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpcore/4.4.13/httpcore-4.4.13-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Maven: org.apache.httpcomponents:httpcore:4.4.14">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpcore/4.4.14/httpcore-4.4.14.jar!/" />
@@ -1229,6 +1878,17 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/bouncycastle/bcprov-jdk15on/1.68/bcprov-jdk15on-1.68-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: org.checkerframework:checker-compat-qual:2.5.5">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/checkerframework/checker-compat-qual/2.5.5/checker-compat-qual-2.5.5.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/checkerframework/checker-compat-qual/2.5.5/checker-compat-qual-2.5.5-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/checkerframework/checker-compat-qual/2.5.5/checker-compat-qual-2.5.5-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Maven: org.checkerframework:checker-qual:3.5.0">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/checkerframework/checker-qual/3.5.0/checker-qual-3.5.0.jar!/" />
@@ -1251,6 +1911,17 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jettison/jettison/1.4.0/jettison-1.4.0-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: org.codehaus.mojo:animal-sniffer-annotations:1.18">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/mojo/animal-sniffer-annotations/1.18/animal-sniffer-annotations-1.18.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/mojo/animal-sniffer-annotations/1.18/animal-sniffer-annotations-1.18-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/mojo/animal-sniffer-annotations/1.18/animal-sniffer-annotations-1.18-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Maven: org.codehaus.woodstox:stax2-api:4.2.1">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/woodstox/stax2-api/4.2.1/stax2-api-4.2.1.jar!/" />
@@ -1260,6 +1931,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/woodstox/stax2-api/4.2.1/stax2-api-4.2.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.conscrypt:conscrypt-openjdk-uber:2.2.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/conscrypt/conscrypt-openjdk-uber/2.2.1/conscrypt-openjdk-uber-2.2.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/conscrypt/conscrypt-openjdk-uber/2.2.1/conscrypt-openjdk-uber-2.2.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/conscrypt/conscrypt-openjdk-uber/2.2.1/conscrypt-openjdk-uber-2.2.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.dom4j:dom4j:2.1.3">
@@ -2184,6 +2866,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-webmvc/5.3.7/spring-webmvc-5.3.7-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.threeten:threetenbp:1.4.4">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/threeten/threetenbp/1.4.4/threetenbp-1.4.4.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/threeten/threetenbp/1.4.4/threetenbp-1.4.4-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/threeten/threetenbp/1.4.4/threetenbp-1.4.4-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.xmlunit:xmlunit-core:2.8.2">
