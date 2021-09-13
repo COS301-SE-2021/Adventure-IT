@@ -17,8 +17,8 @@ class RecommendationModel extends ChangeNotifier {
     this.currentAdventure=a;
     fetchAllRecommendations().then((recs) =>
         recs != null ? _recommendations = recs : List.empty());
-    fetchAllPopular().then((recs) =>
-    recs != null ? _popular = recs : List.empty());
+    fetchAllPopular().then((pops) =>
+    pops != null ? _popular = pops : List.empty());
   }
 
   List<Location>? get recommendations => _recommendations?.toList();
