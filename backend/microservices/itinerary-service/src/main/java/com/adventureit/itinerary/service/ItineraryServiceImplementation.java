@@ -411,7 +411,6 @@ public class ItineraryServiceImplementation implements ItineraryService {
         }
 
         return entry.getRegisteredUsers();
-
     }
 
     @Override
