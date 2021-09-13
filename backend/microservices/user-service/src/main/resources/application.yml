@@ -6,8 +6,24 @@ server:
 spring:
   application:
     name: ${user-microservice.application-name}
-  datasource: ${user-microservice.datasource}
-  jpa: ${user-microservice.jpa}
+  datasource:
+    url: ${user-microservice.datasource.url}
+    username: ${user-microservice.datasource.username}
+    password: ${user-microservice.datasource.password}
+    hikari:
+      maximum-pool-size: ${user-microservice.datasource.hikari.maximum-pool-size}
+  jpa:
+    hibernate:
+      ddl-auto: ${user-microservice.jpa.hibernate.ddl-auto}
+    show-sql: ${user-microservice.jpa.show-sql}
+    properties:
+      hibernate:
+        dialect: ${user-microservice.jpa.hibernate.properties.hibernate.dialect}
+        format_sql: ${user-microservice.jpa.hibernate.properties.hibernate.format_sql}
 
-eureka: ${service-registry-client}
-
+eureka:
+  client:
+    register-with-eureka: ${service-registry-client.client.register-with-eureka}
+    fetch-registry: ${service-registry-client.client.fetch-registry}
+    service-url:
+      defaultZone: ${service-registry-client.client.service-url.defaultZone}

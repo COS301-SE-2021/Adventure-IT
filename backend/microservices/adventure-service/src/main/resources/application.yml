@@ -6,8 +6,27 @@ server:
 spring:
   application:
     name: ${adventure-microservice.application-name}
-  datasource: ${adventure-microservice.datasource}
-  jpa: ${adventure-microservice.jpa}
+  datasource:
+    url: ${adventure-microservice.datasource.url}
+    username: ${adventure-microservice.datasource.username}
+    password: ${adventure-microservice.datasource.password}
+    hikari:
+      maximum-pool-size: ${adventure-microservice.datasource.hikari.maximum-pool-size}
+  jpa:
+    hibernate:
+      ddl-auto: ${adventure-microservice.jpa.hibernate.ddl-auto}
+    show-sql: ${adventure-microservice.jpa.show-sql}
+    properties:
+      hibernate:
+        dialect: ${adventure-microservice.jpa.hibernate.properties.hibernate.dialect}
+        format_sql: ${adventure-microservice.jpa.hibernate.properties.hibernate.format_sql}
 
-eureka: ${service-registry-client}
+eureka:
+  client:
+    register-with-eureka: ${service-registry-client.client.register-with-eureka}
+    fetch-registry: ${service-registry-client.client.fetch-registry}
+    service-url:
+      defaultZone: ${service-registry-client.client.service-url.defaultZone}
+
+
 
