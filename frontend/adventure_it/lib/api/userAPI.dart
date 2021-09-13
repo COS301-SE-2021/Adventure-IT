@@ -45,7 +45,7 @@ class UserApi {
     // if (this._keycloakUser != null) {
     //   final keycloakUser = this._keycloakUser!;
     //   if(keycloakUser.emailVerified&&keycloakUser.enabled) {
-    //     this._userProfile = await this.fetchBackendProfile(keycloakUser.id);
+        this._userProfile = await this.fetchBackendProfile('80e1b64d-fd53-4f3a-84a9-14541caff723');
     //     if (this._userProfile == null) {
     //       this._userProfile = await this.registerBackendProfile(keycloakUser);
     //     }
@@ -59,13 +59,13 @@ class UserApi {
     //   return false;
     // }
 
-    this._userProfile = new UserProfile(
-        userID: '80e1b64d-fd53-4f3a-84a9-14541caff723',
-        username: 'sim',
-        firstname: 'Sim',
-        lastname: 'Siiiiiiiiiiim',
-        email: 'u17015465@gmail.com',
-        profileID: "");
+    // this._userProfile = new UserProfile(
+    //     userID: '80e1b64d-fd53-4f3a-84a9-14541caff723',
+    //     username: 'sim',
+    //     firstname: 'Sim',
+    //     lastname: 'Siiiiiiiiiiim',
+    //     email: 'u17015465@gmail.com',
+    //     profileID: "");
     return true;
 
 

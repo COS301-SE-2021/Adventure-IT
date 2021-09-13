@@ -16,7 +16,7 @@ class UserModel extends ChangeNotifier {
   }
 
   Future getProfile() async {
-    UserApi.getInstance().getUserProfile();
+    UserApi.getInstance().fetchBackendProfile(UserApi.getInstance().getUserProfile()!.userID);
     _profile = UserApi.getInstance().getUserProfile();
     return;
   }
