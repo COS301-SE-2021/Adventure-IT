@@ -213,16 +213,16 @@ public class MainControllerItineraryReroute {
         Map<UUID, Boolean> list = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getRegisteredUsers/" + id, Map.class);
         assert list != null;
         List<RegisteredUsersDTO> users = new ArrayList<>();
-        Users user;
+        GetUserByUUIDDTO user;
 
         if (list.size() == 0) {
             return users;
         }
 
         for (Map.Entry<UUID, Boolean> entry : list.entrySet()){
-            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + entry.getKey(), Users.class);
+            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + entry.getKey(), GetUserByUUIDDTO.class);
             assert user != null;
-            users.add(new RegisteredUsersDTO( new GetUserByUUIDDTO(user.getUserID(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail()),entry.getValue()));
+            users.add(new RegisteredUsersDTO( user,entry.getValue()));
         }
 
         return users;
