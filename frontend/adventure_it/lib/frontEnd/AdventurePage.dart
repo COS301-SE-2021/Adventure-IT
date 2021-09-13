@@ -610,7 +610,13 @@ class AdventurePage extends StatelessWidget {
                                         MediaQuery.of(context).size.height *
                                             0.01),
                                     onPressed: () {
-                                      {}
+                                      {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AdventureAttendees(currentAdventure!)));
+                                      }
                                     },
                                     child: Column(
                                       children: <Widget>[
