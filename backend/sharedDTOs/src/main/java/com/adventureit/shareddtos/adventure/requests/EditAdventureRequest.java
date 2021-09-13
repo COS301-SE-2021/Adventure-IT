@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public class EditAdventureRequest {
     private UUID adventureId;
+    private UUID userId;
     private String name;
     private String description;
     private String startDate;
@@ -15,6 +16,7 @@ public class EditAdventureRequest {
 
     public EditAdventureRequest(@JsonProperty("adventureId")UUID adventureId,@JsonProperty("userId")UUID userId,@JsonProperty("name")String name, @JsonProperty("description")String description, @JsonProperty("startDate")String startDate, @JsonProperty("endDate") String endDate){
         this.name = name;
+        this.userId = userId;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -41,4 +43,7 @@ public class EditAdventureRequest {
         return endDate;
     }
 
+    public UUID getUserId() {
+        return userId;
+    }
 }

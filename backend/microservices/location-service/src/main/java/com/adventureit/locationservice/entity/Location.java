@@ -16,6 +16,7 @@ public class Location {
     int visits = 0;
     @ElementCollection
     List<String> types;
+    private String name;
 
 
     public Location(){}

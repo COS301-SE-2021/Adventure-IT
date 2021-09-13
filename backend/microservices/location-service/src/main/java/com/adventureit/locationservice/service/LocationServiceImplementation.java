@@ -25,6 +25,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -63,12 +64,12 @@ public class LocationServiceImplementation implements LocationService {
         if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
             location1 = new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,placeID,country,types);
             locationRepository.save(location1);
-            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country,json.getJSONArray("candidates").getJSONObject(0).getString("name")));
+            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country, Collections.singletonList(json.getJSONArray("candidates").getJSONObject(0).getString("name"))));
         }
         else {
             location1 = new Location("",address,placeID,country,types);
             locationRepository.save(location1);
-            location1 = locationRepository.save(new Location("",address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country,json.getJSONArray("candidates").getJSONObject(0).getString("name")));
+            location1 = locationRepository.save(new Location("",address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country, Collections.singletonList(json.getJSONArray("candidates").getJSONObject(0).getString("name"))));
         }
 
         return location1.getId();
@@ -308,7 +309,7 @@ public class LocationServiceImplementation implements LocationService {
     public List<LocationResponseDTO> convertToDTO(List<Location> locations){
         List<LocationResponseDTO> converted = new ArrayList<>();
         for(Location l : locations){
-            converted.add(new LocationResponseDTO(l.getId(), l.getPhotoReference(), l.getFormattedAddress(), l.getPlaceID()));
+            converted.add(new LocationResponseDTO(l.getId(), l.getPhotoReference(), l.getFormattedAddress(), l.getPlaceID(), l.getName()));
         }
         return converted;
     }

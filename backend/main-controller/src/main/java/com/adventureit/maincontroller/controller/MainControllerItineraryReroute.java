@@ -16,8 +16,8 @@ import com.adventureit.maincontroller.exceptions.InvalidItineraryEntryException;
 import com.adventureit.maincontroller.responses.MainItineraryEntryResponseDTO;
 import com.adventureit.shareddtos.timeline.TimelineType;
 import com.adventureit.shareddtos.timeline.requests.CreateTimelineRequest;
+import com.adventureit.shareddtos.user.UsersDTO;
 import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
-import com.adventureit.userservice.entities.Users;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -213,14 +213,14 @@ public class MainControllerItineraryReroute {
         Map<UUID, Boolean> list = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getRegisteredUsers/" + id, Map.class);
         assert list != null;
         List<RegisteredUsersDTO> users = new ArrayList<>();
-        Users user;
+        UsersDTO user;
 
         if (list.size() == 0) {
             return users;
         }
 
         for (Map.Entry<UUID, Boolean> entry : list.entrySet()){
-            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + entry.getKey(), Users.class);
+            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + entry.getKey(), UsersDTO.class);
             assert user != null;
             users.add(new RegisteredUsersDTO( new GetUserByUUIDDTO(user.getUserID(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail()),entry.getValue()));
         }
