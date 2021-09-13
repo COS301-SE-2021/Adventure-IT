@@ -13,9 +13,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'adventure.dart';
 import 'currentLocation.dart';
 
+import 'flags.dart';
+
 class LocationApi {
   static Future<List<PlaceSearch>> getSuggestions(String query) async {
     http.Response response = await _getSuggestions(query);
+
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load place suggestions: ${response.body}');
@@ -93,4 +96,21 @@ class LocationApi {
         longitude));
   }
 
+
+  static Future<Flags> getFlagList() async {
+    http.Response response = await _getFlagList();
+
+    if(response.statusCode != 200) {
+      throw Exception('Failed to load flags: ${response.body}');
+    }
+
+    Flags flag = (jsonDecode(response.body));
+    print(response.body);
+    return flag;
+  }
+
+  static Future<http.Response> _getFlagList() async {
+    return http.get(Uri.http(mainApi,
+      'location/getFlagList/'+UserApi.getInstance().getUserProfile()!.userID));
+  }
 }

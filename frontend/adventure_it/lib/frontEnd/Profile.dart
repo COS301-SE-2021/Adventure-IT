@@ -1,4 +1,5 @@
 import 'package:adventure_it/Providers/user_model.dart';
+import 'package:adventure_it/api/locationAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:provider/provider.dart';
@@ -84,6 +85,26 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    MaterialButton(
+                        child: Text("Flags",
+                            style: new TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color)),
+                        color: Theme.of(context).accentColor,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context)
+                                .size
+                                .width *
+                                0.05,
+                            vertical: MediaQuery.of(context)
+                                .size
+                                .width *
+                                0.01),
+                        onPressed: () {
+                          LocationApi.getFlagList();
+                        }),
                     Center(
                         child: Column(children: <Widget>[
                       Container(
