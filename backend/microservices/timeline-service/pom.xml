@@ -48,7 +48,13 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <artifactId>sharedDTOs</artifactId>
+            <groupId>com.adventure-it</groupId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 	<dependencyManagement>
 		<dependencies>

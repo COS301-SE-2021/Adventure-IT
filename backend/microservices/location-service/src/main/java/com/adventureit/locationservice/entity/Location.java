@@ -16,26 +16,29 @@ public class Location {
     int visits = 0;
     @ElementCollection
     List<String> types;
+    String name;
 
 
     public Location(){}
 
-    public Location(UUID id, String photoReference, String formattedAddress, String placeID, String country, List<String> types){
+    public Location(UUID id, String photoReference, String formattedAddress, String placeID, String country, List<String> types, String name){
         this.id = id;
         this.photoReference = photoReference;
         this.formattedAddress = formattedAddress;
         this.placeID = placeID;
         this.country = country;
         this.types = types;
+        this.name=name;
     }
 
-    public Location(String photoReference, String formattedAddress, String placeID, String country, List<String> types){
+    public Location(String photoReference, String formattedAddress, String placeID, String country, List<String> types, String name){
         this.id = UUID.randomUUID();
         this.photoReference = photoReference;
         this.formattedAddress = formattedAddress;
         this.placeID = placeID;
         this.country = country;
         this.types = types;
+        this.name=name;
     }
 
     public UUID getId() {

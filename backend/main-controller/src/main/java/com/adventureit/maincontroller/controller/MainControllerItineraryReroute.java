@@ -17,7 +17,6 @@ import com.adventureit.maincontroller.responses.MainItineraryEntryResponseDTO;
 import com.adventureit.shareddtos.timeline.TimelineType;
 import com.adventureit.shareddtos.timeline.requests.CreateTimelineRequest;
 import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
-import com.adventureit.userservice.entities.Users;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 

@@ -14,12 +14,6 @@ import com.adventureit.shareddtos.user.responses.FriendDTO;
 import com.adventureit.shareddtos.user.responses.GetFriendRequestsResponse;
 import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 import com.adventureit.shareddtos.user.responses.RegisterUserResponse;
-import com.adventureit.userservice.requests.EditUserProfileRequest;
-import com.adventureit.userservice.requests.RegisterUserRequest;
-import com.adventureit.userservice.responses.FriendDTO;
-import com.adventureit.userservice.responses.GetFriendRequestsResponse;
-import com.adventureit.userservice.responses.GetUserByUUIDDTO;
-import com.adventureit.userservice.responses.RegisterUserResponse;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.ReadChannel;
 import com.google.cloud.storage.*;
@@ -30,17 +24,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import javax.imageio.ImageIO;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.*;
-import java.io.ByteArrayInputStream;
 import java.util.UUID;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service("UserServiceImplementation")

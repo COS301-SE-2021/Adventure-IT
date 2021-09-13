@@ -9,23 +9,9 @@ import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
 import com.adventureit.shareddtos.user.requests.UpdatePictureRequest;
 import com.adventureit.shareddtos.user.responses.*;
 import org.springframework.http.ResponseEntity;
-import com.adventureit.chat.requests.CreateDirectChatRequest;
-import com.adventureit.userservice.exceptions.InvalidRequestException;
-import com.adventureit.userservice.exceptions.InvalidUserEmailException;
-import com.adventureit.userservice.exceptions.InvalidUserPasswordException;
-import com.adventureit.userservice.exceptions.InvalidUserPhoneNumberException;
-import com.adventureit.userservice.requests.EditUserProfileRequest;
-import com.adventureit.userservice.requests.LoginUserRequest;
-import com.adventureit.userservice.requests.RegisterUserRequest;
-import com.adventureit.userservice.requests.UpdatePictureRequest;
-import com.adventureit.userservice.responses.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 

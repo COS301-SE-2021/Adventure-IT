@@ -49,6 +49,7 @@ public class LocationServiceImplementation implements LocationService {
         Location location1 = new Location();
 
         String placeID = json.getJSONArray("candidates").getJSONObject(0).getString("place_id");
+        String name = json.getJSONArray("candidates").getJSONObject(0).getString("name");
 
         Location location2 = locationRepository.findLocationByPlaceID(placeID);
         if(location2 != null){
@@ -61,14 +62,14 @@ public class LocationServiceImplementation implements LocationService {
         List<String> types = getTypes(placeID);
 
         if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
-            location1 = new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,placeID,country,types);
+            location1 = new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,placeID,country,types,name);
             locationRepository.save(location1);
-            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country,json.getJSONArray("candidates").getJSONObject(0).getString("name")));
+            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country,types,json.getJSONArray("candidates").getJSONObject(0).getString("name")));
         }
         else {
-            location1 = new Location("",address,placeID,country,types);
+            location1 = new Location("",address,placeID,country,types,name);
             locationRepository.save(location1);
-            location1 = locationRepository.save(new Location("",address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country,json.getJSONArray("candidates").getJSONObject(0).getString("name")));
+            location1 = locationRepository.save(new Location("",address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country,types,json.getJSONArray("candidates").getJSONObject(0).getString("name")));
         }
 
         return location1.getId();
@@ -308,7 +309,7 @@ public class LocationServiceImplementation implements LocationService {
     public List<LocationResponseDTO> convertToDTO(List<Location> locations){
         List<LocationResponseDTO> converted = new ArrayList<>();
         for(Location l : locations){
-            converted.add(new LocationResponseDTO(l.getId(), l.getPhotoReference(), l.getFormattedAddress(), l.getPlaceID()));
+            converted.add(new LocationResponseDTO(l.getId(), l.getPhotoReference(), l.getFormattedAddress(), l.getPlaceID(),l.getName()));
         }
         return converted;
     }

@@ -10,6 +10,7 @@ public class EditAdventureRequest {
     private String description;
     private String startDate;
     private String endDate;
+    private UUID userId;
 
 
 
@@ -19,6 +20,7 @@ public class EditAdventureRequest {
         this.startDate = startDate;
         this.endDate = endDate;
         this.adventureId = adventureId;
+        this.userId=userId;
     }
 
     public String getName() {
@@ -40,5 +42,7 @@ public class EditAdventureRequest {
     public String getEndDate() {
         return endDate;
     }
+
+    public UUID getUserId(){return userId;}
 
 }
