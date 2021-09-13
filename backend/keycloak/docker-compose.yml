@@ -7,9 +7,9 @@ services:
     environment:
       DB_VENDOR: ${keycloak_DB_VENDOR}
       DB_ADDR: ${keycloak_DB_ADDR}
-      DB_DATABASE: ${keycloak_DB_DATABASE}
-      DB_USER: ${keycloak_DB_USER}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
       DB_SCHEMA: ${keycloak_DB_SCHEMA}
       DB_PASSWORD: ${DB_PASSWORD}
-      KEYCLOAK_USER: ${KEYCLOAK_USER}
-      KEYCLOAK_PASSWORD: ${keycloak_KEYCLOAK_PASSWORD}
+      KEYCLOAK_USER: ${keycloak_USER}
+      KEYCLOAK_PASSWORD: ${keycloak_PASSWORD}
