@@ -6,11 +6,12 @@ import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
 import com.adventureit.adventureservice.exceptions.AttendeeAlreadyExistsException;
 import com.adventureit.adventureservice.exceptions.UserNotInAdventureException;
 import com.adventureit.adventureservice.repository.AdventureRepository;
-import com.adventureit.adventureservice.requests.CreateAdventureRequest;
-import com.adventureit.adventureservice.requests.EditAdventureRequest;
-import com.adventureit.adventureservice.requests.GetAdventureByUUIDRequest;
-import com.adventureit.adventureservice.responses.*;
+import com.adventureit.shareddtos.adventure.AdventureDTO;
+import com.adventureit.shareddtos.adventure.requests.EditAdventureRequest;
+import com.adventureit.shareddtos.adventure.requests.GetAdventureByUUIDRequest;
 import com.adventureit.adventureservice.exceptions.NullFieldException;
+import com.adventureit.shareddtos.adventure.requests.CreateAdventureRequest;
+import com.adventureit.shareddtos.adventure.responses.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -62,7 +63,7 @@ public class AdventureServiceImplementation implements AdventureService {
         LocalDate ed = LocalDate.parse(req.getEndDate(),formatter);
         Adventure persistedAdventure = new Adventure(req.getName(),req.getDescription(), UUID.randomUUID() , req.getOwnerId(), sd, ed, null);
         adventureRepository.save(persistedAdventure);
-        return new CreateAdventureResponse(true, persistedAdventure);
+        return new CreateAdventureResponse(true,  createAdventureDTO(persistedAdventure));
     }
 
     /**
@@ -88,7 +89,7 @@ public class AdventureServiceImplementation implements AdventureService {
         if(retrievedAdventure == null){
             throw new AdventureNotFoundException("Get Adventure by UUID: Adventure with UUID [" + req.getId() + "] not found");
         }
-        return new GetAdventureByUUIDResponse(true, retrievedAdventure);
+        return new GetAdventureByUUIDResponse(true, createAdventureDTO(retrievedAdventure));
     }
 
     @Override
@@ -126,7 +127,6 @@ public class AdventureServiceImplementation implements AdventureService {
     @Override
     public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUUID(UUID id) {
         List<Adventure> userAdventures = adventureRepository.findAllByOwnerIdOrAttendeesContains(id,id);
-
         return sortAdventures(userAdventures);
     }
 
@@ -244,4 +244,7 @@ public class AdventureServiceImplementation implements AdventureService {
         return "Adventure successfully edited";
     }
 
+    public AdventureDTO createAdventureDTO(Adventure adv){
+        return new AdventureDTO(adv.getName(), adv.getDescription(), adv.getAdventureId(), adv.getOwnerId(), adv.getStartDate(), adv.getEndDate(), adv.getLocation());
+    }
 }

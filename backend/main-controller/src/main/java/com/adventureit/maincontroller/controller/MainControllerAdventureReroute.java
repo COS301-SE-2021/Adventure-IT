@@ -1,18 +1,18 @@
 package com.adventureit.maincontroller.controller;
 
-import com.adventureit.adventureservice.requests.CreateAdventureRequest;
-import com.adventureit.adventureservice.requests.EditAdventureRequest;
-import com.adventureit.adventureservice.responses.CreateAdventureResponse;
-import com.adventureit.adventureservice.responses.GetAdventuresByUserUUIDResponse;
-import com.adventureit.adventureservice.responses.GetAllAdventuresResponse;
-import com.adventureit.adventureservice.responses.RemoveAdventureResponse;
-import com.adventureit.chat.requests.CreateGroupChatRequest;
-import com.adventureit.locationservice.responses.LocationResponseDTO;
 import com.adventureit.maincontroller.responses.AdventureResponseDTO;
-import com.adventureit.timelineservice.entity.TimelineType;
-import com.adventureit.timelineservice.requests.CreateTimelineRequest;
-import com.adventureit.userservice.entities.Users;
-import com.adventureit.userservice.responses.GetUserByUUIDDTO;
+import com.adventureit.shareddtos.adventure.requests.CreateAdventureRequest;
+import com.adventureit.shareddtos.adventure.requests.EditAdventureRequest;
+import com.adventureit.shareddtos.adventure.responses.CreateAdventureResponse;
+import com.adventureit.shareddtos.adventure.responses.GetAdventuresByUserUUIDResponse;
+import com.adventureit.shareddtos.adventure.responses.GetAllAdventuresResponse;
+import com.adventureit.shareddtos.adventure.responses.RemoveAdventureResponse;
+import com.adventureit.shareddtos.chat.requests.CreateGroupChatRequest;
+import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
+import com.adventureit.shareddtos.timeline.TimelineType;
+import com.adventureit.shareddtos.timeline.requests.CreateTimelineRequest;
+import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
+import com.adventureit.shareddtos.user.UsersDTO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -43,10 +43,10 @@ public class MainControllerAdventureReroute {
     public List<GetUserByUUIDDTO> getAttendees(@PathVariable UUID id){
         List<UUID> users = restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/getAttendees/" + id, List.class);
         List<GetUserByUUIDDTO> list = new ArrayList<>();
-        Users user;
+        UsersDTO user;
         assert users != null;
         for (int i = 0; i<users.size();i++) {
-            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + users.get(i), Users.class);
+            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + users.get(i), UsersDTO.class);
             assert user != null;
             list.add(new GetUserByUUIDDTO(user.getUserID(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail()));
         }

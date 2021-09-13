@@ -1,31 +1,12 @@
 server:
-  port: 9010
+  port: ${chat-microservice.port}
   error:
     include-message: always
 
 spring:
   application:
-    name: CHAT-SERVICE
-  datasource:
-    url: jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5
-    username: postgres
-    password: 310PB!Gq%f&J
-    hikari:
-      maximum-pool-size: 2
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: false
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
+    name: ${chat-microservice.application-name}
+  datasource: ${chat-microservice.datasource}
+  jpa: ${chat-microservice.jpa}
 
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-    instance:
-      hostname: localhost
+eureka: ${service-registry.client}

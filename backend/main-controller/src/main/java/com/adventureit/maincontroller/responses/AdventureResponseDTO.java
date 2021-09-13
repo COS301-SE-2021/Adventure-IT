@@ -1,6 +1,6 @@
 package com.adventureit.maincontroller.responses;
 
-import com.adventureit.locationservice.responses.LocationResponseDTO;
+import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

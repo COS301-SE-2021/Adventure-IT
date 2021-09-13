@@ -1,9 +1,9 @@
 package com.adventureit.notificationservice.controllers;
 
 import com.adventureit.notificationservice.entity.Notification;
-import com.adventureit.notificationservice.requests.CreateNotificationRequest;
-import com.adventureit.notificationservice.requests.RetrieveNotificationRequest;
-import com.adventureit.notificationservice.requests.SendEmailRequest;
+import com.adventureit.shareddtos.notification.requests.CreateNotificationRequest;
+import com.adventureit.shareddtos.notification.requests.RetrieveNotificationRequest;
+import com.adventureit.shareddtos.notification.requests.SendEmailRequest;
 import com.adventureit.notificationservice.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

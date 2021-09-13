@@ -8,6 +8,12 @@ import com.adventureit.userservice.exceptions.*;
 import com.adventureit.userservice.repository.FriendRepository;
 import com.adventureit.userservice.repository.PictureInfoRepository;
 import com.adventureit.userservice.repository.UserRepository;
+import com.adventureit.shareddtos.user.requests.EditUserProfileRequest;
+import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
+import com.adventureit.shareddtos.user.responses.FriendDTO;
+import com.adventureit.shareddtos.user.responses.GetFriendRequestsResponse;
+import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
+import com.adventureit.shareddtos.user.responses.RegisterUserResponse;
 import com.adventureit.userservice.requests.EditUserProfileRequest;
 import com.adventureit.userservice.requests.RegisterUserRequest;
 import com.adventureit.userservice.responses.FriendDTO;
@@ -405,5 +411,44 @@ public class UserServiceImplementation  {
         repo.save(user);
         return "Editing successful";
 
+    }
+
+    public void addLikedLocation(UUID userID,UUID locationID){
+        Users user = repo.getUserByUserID(userID);
+        if(user == null){
+            throw new UserDoesNotExistException("Add Liked Location: User does not exist");
+        }
+
+        user.getLikedLocations().add(locationID);
+        repo.save(user);
+    }
+
+    public void addVisitedLocation(UUID userID,UUID locationID){
+        Users user = repo.getUserByUserID(userID);
+        if(user == null){
+            throw new UserDoesNotExistException("Add Liked Location: User does not exist");
+        }
+
+        user.getVisitedLocations().add(locationID);
+        repo.save(user);
+    }
+
+    public String setEmergencyContact(UUID userId, String email){
+        Users user = repo.getUserByUserID(userId);
+        user.setEmergencyContact(email);
+        repo.save(user);
+        return "User Emergency contact has been set";
+    }
+
+    public Boolean getUserTheme(UUID userId){
+        Users user = repo.getUserByUserID(userId);
+        return user.getTheme();
+    }
+
+    public String setUserTheme(UUID userId, Boolean bool){
+        Users user = repo.getUserByUserID(userId);
+        user.setTheme(bool);
+        repo.save(user);
+        return "User theme has been set";
     }
 }

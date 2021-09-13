@@ -3,9 +3,9 @@ package com.adventureit.notificationservice.service;
 
 import com.adventureit.notificationservice.entity.Notification;
 import com.adventureit.notificationservice.repos.NotificationRepository;
-import com.adventureit.notificationservice.requests.CreateNotificationRequest;
-import com.adventureit.notificationservice.requests.RetrieveNotificationRequest;
-import com.adventureit.notificationservice.requests.SendEmailNotificationRequest;
+import com.adventureit.shareddtos.notification.requests.CreateNotificationRequest;
+import com.adventureit.shareddtos.notification.requests.RetrieveNotificationRequest;
+import com.adventureit.shareddtos.notification.requests.SendEmailNotificationRequest;
 import com.adventureit.notificationservice.responses.CreateNotificationResponse;
 import com.adventureit.notificationservice.responses.SendEmailNotificationResponse;
 import org.springframework.mail.SimpleMailMessage;

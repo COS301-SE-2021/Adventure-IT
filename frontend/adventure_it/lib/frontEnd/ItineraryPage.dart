@@ -963,8 +963,8 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                             .of(context)
                             .accentColor)));
           } else if (entryModel.entries!.length > 0) {
-            return Column(children: [Expanded(
-                flex: 3,
+            return Expanded(
+                flex: 2,
                 child: GroupedListView<dynamic, String>(
                     physics: const AlwaysScrollableScrollPhysics(),
                     elements: entryModel.entries!,
@@ -1915,6 +1915,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                   index)).then((value) {
                                             print("here here here" +
                                                 value.toString());
+                                            print("here here here"+value.toString());
                                             if (value) {
                                               ItineraryApi
                                                   .deregisterForItinerary(
@@ -2058,14 +2059,9 @@ class ListItineraryItems extends State<_ListItineraryItems> {
 
                               ))
                       );
-                    })),
-              Expanded(
-                child: _RecommendedItems(
-                    currentAdventure!, currentItinerary!, c!),
-              )
-            ]);
+                    }));
           } else {
-            return Column(children: [Expanded(flex: 3, child: Center(
+            return Center(
                 child: Text("Seems like you've got nowhere to go!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -2076,9 +2072,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                             .of(context)
                             .textTheme
                             .bodyText1!
-                            .color)))), Expanded(child: _RecommendedItems(
-                currentAdventure!, currentItinerary!, c!))
-            ]);
+                            .color)));
           }
         });
   }

@@ -8,8 +8,10 @@ import com.adventureit.budgetservice.graph.Edge;
 import com.adventureit.budgetservice.graph.Node;
 import com.adventureit.budgetservice.repository.BudgetEntryRepository;
 import com.adventureit.budgetservice.repository.BudgetRepository;
-import com.adventureit.budgetservice.requests.*;
-import com.adventureit.budgetservice.responses.*;
+import com.adventureit.shareddtos.budget.Category;
+import com.adventureit.shareddtos.budget.requests.EditBudgetRequest;
+import com.adventureit.shareddtos.budget.requests.SoftDeleteRequest;
+import com.adventureit.shareddtos.budget.responses.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -34,7 +36,7 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
 
-    public CreateBudgetResponse createBudget(String name, String description,UUID creatorID, UUID adventureID) {
+    public CreateBudgetResponse createBudget(String name, String description, UUID creatorID, UUID adventureID) {
         if (name == null) {
             throw new MalformedBudgetRequestException("Budget name not provided.");
         }
@@ -72,7 +74,7 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
 //  @Transactional
-    public AddUTUExpenseEntryResponse addUTUExpenseEntry(UUID entryContainerID, double amount, String title, String description, Category category,String payer, String payeeID) {
+    public AddUTUExpenseEntryResponse addUTUExpenseEntry(UUID entryContainerID, double amount, String title, String description, Category category, String payer, String payeeID) {
         verifyBudgetRequestForm(entryContainerID, amount, title, description, category);
 
         Budget budget = budgetRepository.findBudgetByBudgetID(entryContainerID);

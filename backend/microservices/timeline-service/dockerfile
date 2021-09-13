@@ -1,0 +1,4 @@
+FROM openjdk:11-jre
+COPY --from=backend_resolve-and-build:latest /dependencies/microservices/timeline-service/target/timeline-service-0.0.1-SNAPSHOT.jar .
+ENTRYPOINT ["java", "-jar", "./timeline-service-0.0.1-SNAPSHOT.jar"]
+

@@ -1,10 +1,10 @@
 package com.adventureit.timelineservice.service;
 
 import com.adventureit.timelineservice.entity.Timeline;
-import com.adventureit.timelineservice.entity.TimelineType;
+import com.adventureit.shareddtos.timeline.TimelineType;
 import com.adventureit.timelineservice.exceptions.TimelineDoesNotExistException;
 import com.adventureit.timelineservice.repository.TimelineRepository;
-import com.adventureit.timelineservice.responses.TimelineDTO;
+import com.adventureit.shareddtos.timeline.responses.TimelineDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

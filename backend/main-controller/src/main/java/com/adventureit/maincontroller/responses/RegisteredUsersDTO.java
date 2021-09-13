@@ -1,6 +1,6 @@
 package com.adventureit.maincontroller.responses;
 
-import com.adventureit.userservice.responses.GetUserByUUIDDTO;
+import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 
 import java.time.LocalDateTime;
 import java.util.Map;

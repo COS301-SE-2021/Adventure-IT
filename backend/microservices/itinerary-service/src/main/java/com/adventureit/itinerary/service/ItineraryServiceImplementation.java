@@ -8,9 +8,9 @@ import com.adventureit.itinerary.exceptions.RegistrationException;
 import com.adventureit.itinerary.exceptions.UnauthorisedException;
 import com.adventureit.itinerary.repository.ItineraryEntryRepository;
 import com.adventureit.itinerary.repository.ItineraryRepository;
-import com.adventureit.itinerary.responses.ItineraryEntryResponseDTO;
-import com.adventureit.itinerary.responses.ItineraryResponseDTO;
-import com.adventureit.itinerary.responses.StartDateEndDateResponseDTO;
+import com.adventureit.shareddtos.itinerary.responses.ItineraryEntryResponseDTO;
+import com.adventureit.shareddtos.itinerary.responses.ItineraryResponseDTO;
+import com.adventureit.shareddtos.itinerary.responses.StartDateEndDateResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -382,6 +382,9 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
+    }
+
+    @Override
     public StartDateEndDateResponseDTO getStartAndEndDate(UUID id) {
         Itinerary itinerary = itineraryRepository.findItineraryByIdAndDeleted(id, false);
         if (itinerary == null) {
@@ -411,6 +414,12 @@ public class ItineraryServiceImplementation implements ItineraryService {
         }
 
         return entry.getRegisteredUsers();
+        entries.sort(Comparator.comparing(ItineraryEntry::getTimestamp));
+
+        LocalDateTime startDate = entries.get(0).getTimestamp();
+        LocalDateTime endDate = entries.get(entries.size()-1).getTimestamp();
+
+        return new StartDateEndDateResponseDTO(startDate,endDate);
     }
 
     @Override

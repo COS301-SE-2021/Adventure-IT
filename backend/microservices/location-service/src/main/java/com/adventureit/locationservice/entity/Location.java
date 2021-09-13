@@ -1,6 +1,7 @@
 package com.adventureit.locationservice.entity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -11,24 +12,30 @@ public class Location {
     String formattedAddress;
     String placeID;
     String country;
+    int likes = 0;
+    int visits = 0;
+    @ElementCollection
+    List<String> types;
 
 
     public Location(){}
 
-    public Location(UUID id, String photoReference, String formattedAddress, String placeID, String country){
+    public Location(UUID id, String photoReference, String formattedAddress, String placeID, String country, List<String> types){
         this.id = id;
         this.photoReference = photoReference;
         this.formattedAddress = formattedAddress;
         this.placeID = placeID;
         this.country = country;
+        this.types = types;
     }
 
-    public Location(String photoReference, String formattedAddress, String placeID, String country){
+    public Location(String photoReference, String formattedAddress, String placeID, String country, List<String> types){
         this.id = UUID.randomUUID();
         this.photoReference = photoReference;
         this.formattedAddress = formattedAddress;
         this.placeID = placeID;
         this.country = country;
+        this.types = types;
     }
 
     public UUID getId() {
@@ -69,5 +76,37 @@ public class Location {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getVisits() {
+        return visits;
+    }
+
+    public void setVisits(int visits) {
+        this.visits = visits;
+    }
+
+    public List<String> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<String> types) {
+        this.types = types;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }
