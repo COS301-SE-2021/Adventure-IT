@@ -1,5 +1,5 @@
 FROM openjdk:11-jre
-VOLUME /build/
+COPY --from=backend_resolve-and-build:latest /dependencies/microservices/budget-service/target/budget-service-0.0.1-SNAPSHOT.jar .
 CMD ["java", "-jar", "budget-service-0.0.1-SNAPSHOT.jar"]
 
 
