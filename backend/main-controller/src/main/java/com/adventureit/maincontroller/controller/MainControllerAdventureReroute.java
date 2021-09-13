@@ -1,6 +1,5 @@
 package com.adventureit.maincontroller.controller;
 
-import com.adventureit.maincontroller.responses.AdventureResponseDTO;
 import com.adventureit.shareddtos.adventure.requests.CreateAdventureRequest;
 import com.adventureit.shareddtos.adventure.requests.EditAdventureRequest;
 import com.adventureit.shareddtos.adventure.responses.CreateAdventureResponse;
@@ -13,6 +12,7 @@ import com.adventureit.shareddtos.timeline.TimelineType;
 import com.adventureit.shareddtos.timeline.requests.CreateTimelineRequest;
 import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 import com.adventureit.shareddtos.user.UsersDTO;
+import com.adventureit.maincontroller.responses.AdventureResponseDTO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/adventure")
