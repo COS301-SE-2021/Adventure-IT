@@ -17,7 +17,3 @@ eureka:
     fetch-registry: ${service-registry-client.client.fetch-registry}
     service-url:
       defaultZone: ${service-registry-client.client.service-url.defaultZone}
-  instance:
-    hostname: ${service-registry-client.client.hostname}
-
-
