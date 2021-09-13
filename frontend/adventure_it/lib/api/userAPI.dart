@@ -40,7 +40,7 @@ class UserApi {
 
   // Publically Exposed Login Method
   Future<bool> logIn(String username, String password) async {
-    print("Attempting login for $username");
+    /*print("Attempting login for $username");
     this._keycloakUser = await attemptLogIn(username, password);
     if (this._keycloakUser != null) {
       final keycloakUser = this._keycloakUser!;
@@ -57,7 +57,14 @@ class UserApi {
       }
     } else {
       return false;
-    }
+    }*/
+    this._userProfile = new UserProfile(
+        userID: '80e1b64d-fd53-4f3a-84a9-14541caff723',
+        username: 'sim',
+        firstname: 'sim',
+        lastname: 'r',
+        email: 'u19212314@tuks.co.za');
+    return true;
   }
 
   // Attempt Login to Keycloak (PRIVATE)
