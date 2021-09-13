@@ -964,7 +964,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                             .accentColor)));
           } else if (entryModel.entries!.length > 0) {
             return Column(children: [Expanded(
-                flex: 3,
+                flex: 2,
                 child: GroupedListView<dynamic, String>(
                     physics: const AlwaysScrollableScrollPhysics(),
                     elements: entryModel.entries!,
@@ -2261,10 +2261,12 @@ class RegisteredUsers extends StatelessWidget {
                               itemBuilder: (context,
                                   index) {
                                 return ListTile(
-                                    leading: CachedNetworkImage(imageUrl:
+                                    leading: CachedNetworkImage(
+                                        useOldImageOnUrlChange: true,
+                                        imageUrl:
                                     userApi + "/user/viewPicture/" +
                                         registeredModel.users!.elementAt(index)
-                                            .user.userID,
+                                            .user.profileID,
                                         imageBuilder: (context,
                                             imageProvider) =>
                                             Container(

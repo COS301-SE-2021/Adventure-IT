@@ -780,7 +780,9 @@ class AlertBox extends StatelessWidget {
                                             MediaQuery.of(context).size.width *
                                                 0.01),
                                     child:  ListTile(
-                                        leading:CachedNetworkImage( imageUrl:
+                                        leading:CachedNetworkImage(
+                                            useOldImageOnUrlChange: true,
+                                            imageUrl:
                                         userApi+"/user/viewPicture/" +
                                             friendModel.friends!.elementAt(index).userID,
                                             imageBuilder: (context, imageProvider) => Container(

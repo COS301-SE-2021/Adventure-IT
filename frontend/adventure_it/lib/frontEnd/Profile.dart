@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import 'DocumentList.dart';
@@ -94,39 +95,53 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                   Theme.of(context).accentColor)));
     } else {
       return ChangeNotifierProvider(
-          create: (context) => UserModel(),
-          builder: (context, widget) => ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-              child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  height: MediaQuery.of(context).size.height * 0.45,
-                  child: Card(
-                      color: Theme.of(context).primaryColorDark,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Center(
-                                child: Column(children: <Widget>[
+          create: (context) =>
+          UserModel(),
+    child: Consumer<UserModel>(
+    builder: (context, userModel, child) {
+          if(userModel.profile==null)
+            {
+            return Center(
+            child: CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(
+            Theme.of(context).accentColor)));
+            }
+            else {
+              return ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    height: MediaQuery.of(context).size.height * 0.45,
+                    child: Card(
+                        color: Theme.of(context).primaryColorDark,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Center(
+                                  child: Column
+                                  (children: <Widget>[
                               Stack(clipBehavior: Clip.none, children: <Widget>[
-                                CachedNetworkImage( imageUrl:
-                      userApi +
-                          "/user/viewPicture/" +
-                          user!.userID,
-                           imageBuilder: (context, imageProvider) => Container(
-                                    width: 100,
-                                    height: 100,
-                                    decoration: new BoxDecoration(
-                                      border: Border.all(
-                                        color: Theme.of(context).accentColor,
-                                        width: 3,
-                                      ),
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: imageProvider
-                                      ))),
+                          CachedNetworkImage(
+                              useOldImageOnUrlChange: true,
+                              imageUrl:
+                                          userApi +
+                                              "/user/viewPicture/" +
+                                              userModel.profile!.profileID,
+                                              imageBuilder: (context, imageProvider) => Container(
+                                                  width:100,
+                                                  height: 100,
+                                                  decoration: new BoxDecoration(
+                                                      border: Border.all(
+                                                        color: Theme.of(context).accentColor,
+                                                        width: 3,
+                                                      ),
+                                                      shape: BoxShape.circle,
+                                                      image: DecorationImage(
+                                                          fit: BoxFit.fill,
+                                                          image: imageProvider
+                                                      ))),
 
                                               placeholder: (context, url) => Container(
                                                   width: 100,
@@ -138,7 +153,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                       ),
                                                       shape: BoxShape.circle,
                                                       image: DecorationImage(
-                                                          fit: BoxFit.fill,
+                                                          fit: BoxFit.fitWidth,
                                                           image: AssetImage("pfp.png")
                                                       ))),
 
@@ -152,9 +167,10 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                       ),
                                                       shape: BoxShape.circle,
                                                       image: DecorationImage(
-                                                          fit: BoxFit.fill,
+                                                          fit: BoxFit.fitWidth,
                                                           image: AssetImage("pfp.png")
                                                       )))),
+
 
                                 Positioned(
                                     right: -8,
@@ -167,13 +183,15 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                             .bodyText1!
                                             .color,
                                         onPressed: () {
-                                          openFileExplorer().then((value) {
+                                          openFileExplorer().then((value) async {
                                             if (value != null) {
-                                              Provider
+                                             final UserModel provider = Provider
                                                   .of<UserModel>(
                                                   context,
-                                                  listen: false).addProfilePicture(value);
+                                                  listen: false);
+                                              await provider.addProfilePicture(value);
                                             }
+
                                           });
                                         })),
                               ]),
@@ -286,10 +304,9 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                     ])
                                   ]))
                             ]))
-                          ])))));
+                          ]))));}}));}
     }
   }
-}
 
 class AlertBox extends StatefulWidget {
   late final UserProfile? user;

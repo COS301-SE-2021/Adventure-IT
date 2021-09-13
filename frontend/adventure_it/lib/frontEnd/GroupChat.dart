@@ -195,9 +195,9 @@ class _MessageList extends State<MessageList> {
                     Expanded(flex: 2,child: Card(
                       color: Theme.of(context).primaryColorDark,
                       child: ListTile(
-                        leading:CachedNetworkImage( imageUrl:
+                        leading:CachedNetworkImage(  useOldImageOnUrlChange: true,imageUrl:
                         userApi+"/user/viewPicture/" +
-                            chatModel.messages!.elementAt(index).sender.userID,
+                            chatModel.messages!.elementAt(index).sender.profileID,
                             imageBuilder: (context, imageProvider) => Container(
                                 width:70,
                                 height: 70,
