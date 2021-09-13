@@ -62,9 +62,9 @@ class UserApi {
     this._userProfile = new UserProfile(
         userID: '80e1b64d-fd53-4f3a-84a9-14541caff723',
         username: 'sim',
-        firstname: 'sim',
-        lastname: 'r',
-        email: 'u19212314@tuks.co.za',
+        firstname: 'Sim',
+        lastname: 'Siiiiiiiiiiim',
+        email: 'u17015465@gmail.com',
         profileID: "");
     return true;
 
