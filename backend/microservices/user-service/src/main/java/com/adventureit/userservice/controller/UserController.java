@@ -1,20 +1,22 @@
 package com.adventureit.userservice.controller;
 
+import com.adventureit.shareddtos.user.requests.EditUserProfileRequest;
+import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
+import com.adventureit.shareddtos.user.responses.FriendDTO;
+import com.adventureit.shareddtos.user.responses.GetFriendRequestsResponse;
+import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
+import com.adventureit.shareddtos.user.responses.RegisterUserResponse;
 import com.adventureit.userservice.exceptions.InvalidRequestException;
 import com.adventureit.userservice.exceptions.InvalidUserEmailException;
 import com.adventureit.userservice.exceptions.InvalidUserPasswordException;
 import com.adventureit.userservice.exceptions.InvalidUserPhoneNumberException;
-import com.adventureit.shareddtos.user.requests.EditUserProfileRequest;
-import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
-import com.adventureit.shareddtos.user.requests.UpdatePictureRequest;
-import com.adventureit.shareddtos.user.responses.*;
 import com.adventureit.userservice.service.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
