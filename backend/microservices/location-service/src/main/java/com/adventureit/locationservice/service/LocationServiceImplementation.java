@@ -261,7 +261,7 @@ public class LocationServiceImplementation implements LocationService {
 
         Flags flags = flagRepository.getFlagsByUserID(userID);
         if(flags == null){
-            flagRepository.save(new Flags(userID,new ArrayList<>()));
+            flags = flagRepository.save(new Flags(userID,new ArrayList<>()));
         }
 
         String string1 = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + location.getPlaceID() + "&fields=address_components&key=AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
