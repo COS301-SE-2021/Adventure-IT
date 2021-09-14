@@ -14,12 +14,16 @@ void main() async {
     FlutterDownloader.registerCallback(MediaApi.downloadCallback);
   }
   runApp(
-    MyApp(),
+    MyApp(false),
   );
 }
 //
 class MyApp extends StatelessWidget {
-  bool theme=true;
+  bool theme = false;
+
+  MyApp(bool value) {
+    theme = value;
+  }
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -37,7 +41,7 @@ class MyApp extends StatelessWidget {
                 ),
                 primaryColor: Color(0xff808080),
                 textSelectionTheme:
-                    TextSelectionThemeData(selectionColor: Color(0xffA7AAB9)),
+                TextSelectionThemeData(selectionColor: Color(0xffA7AAB9)),
                 textTheme: TextTheme(
                     bodyText1: TextStyle(color: Color(0xffA7AAB9)),
                     bodyText2: TextStyle(color: Color(0xff20222D)))):ThemeData(

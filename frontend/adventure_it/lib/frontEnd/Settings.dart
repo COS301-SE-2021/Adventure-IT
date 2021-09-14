@@ -1,5 +1,6 @@
 import 'package:adventure_it/Providers/user_model.dart';
 import 'package:adventure_it/api/userAPI.dart';
+import 'package:adventure_it/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -115,7 +116,8 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                             activeColor: Theme.of(context).accentColor,
                             onChanged: (value) {
                               setState(() {
-                                //
+                                userModel.setT(value);
+                                MyApp(value);
                               });
                             },
                           ),
