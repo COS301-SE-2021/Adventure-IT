@@ -82,7 +82,12 @@ class ItineraryPage extends StatelessWidget {
                         .size
                         .height / 60),
                     Expanded(
+                      flex: 3,
                       child: _ListItineraryItems(
+                          currentAdventure!, currentItinerary!, c!),
+                    ),
+                    Expanded(
+                      child: _RecommendedItems(
                           currentAdventure!, currentItinerary!, c!),
                     ),
                     SizedBox(height: MediaQuery
@@ -2407,7 +2412,16 @@ class _RecommendedItems extends StatelessWidget {
                           .recommendations!.length,
                       itemBuilder: (context,
                           index) {
-                        return Container();
+                        return Text( recModel.recommendations!.elementAt(index).name,textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 10 * MediaQuery
+                                    .of(context)
+                                    .textScaleFactor,
+                                color: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color));
                       }
                   );
                 }
