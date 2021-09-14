@@ -126,6 +126,11 @@ public class MainControllerUserReroute {
         return restTemplate.getForObject(IP + ":" + userPort + "/user/setEmergencyContact/"+ userId+"/"+email, String.class);
     }
 
+    @GetMapping("getEmergencyContact/{userId}")
+    public String setEmergencyContact(@PathVariable UUID userId){
+        return restTemplate.getForObject(IP + ":" + userPort + "/user/getEmergencyContact/"+ userId, String.class);
+    }
+
     @GetMapping("getUserTheme/{userId}")
     public Boolean getUserTheme( @PathVariable UUID userId){
         return restTemplate.getForObject(IP + ":" + userPort + "/user/getUserTheme/"+ userId, Boolean.class);
