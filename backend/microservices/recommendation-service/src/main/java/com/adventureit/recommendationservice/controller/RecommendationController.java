@@ -87,6 +87,7 @@ public class RecommendationController {
     // User requests arbitrary number of recommendations
     @GetMapping("get/{userId}/{numRecommendations}")
     public List<UUID> getUserRecommendations(@PathVariable UUID userId, @PathVariable int numRecommendations){
+        // TODO: Return map instead of list of UUIDS
         return this.recommendationService.getUserRecommendations(userId).subList(0, numRecommendations-1);
     }
 
@@ -95,4 +96,5 @@ public class RecommendationController {
     public List<UUID> getMostPopular(@PathVariable UUID userId, @PathVariable int numPopular){
         return this.recommendationService.getMostPopular();
     }
+
 }
