@@ -59,7 +59,6 @@ class SettingsBuilder extends State<_SettingsBuilder> {
     return ChangeNotifierProvider(
       create: (context) => UserModel(),
       child: Consumer<UserModel>(builder: (context, userModel, child) {
-        print("===EMERGENCY CONTACT===  " + userModel.em);
       return Column(
         children: [
           Container(

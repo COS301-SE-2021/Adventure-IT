@@ -471,6 +471,12 @@ class UserApi {
 
   static Future<http.Response> setEmergencyContact(String email) async {
     String userID = UserApi.getInstance().getUserProfile()!.userID;
+    /*RegExp emailReg = RegExp(
+      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+      caseSensitive: false,
+      multiLine: false,
+    );*/
+    //if(emailReg.hasMatch(email)) {
     final response = await http.post(
       Uri.parse('http://localhost:9999/user/setEmergencyContact/'),
       headers: <String, String>{
@@ -495,5 +501,7 @@ class UserApi {
       print('Body: ${response.body}');
       throw Exception('Failed to set the emergency contact.');
     }
+  //}
+    //this.message = "Email must have"
   }
 }
