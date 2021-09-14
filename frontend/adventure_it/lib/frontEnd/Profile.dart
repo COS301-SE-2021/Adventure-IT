@@ -1,7 +1,9 @@
 import 'package:adventure_it/Providers/user_model.dart';
 import 'package:adventure_it/api/locationAPI.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:adventure_it/api/userProfile.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import 'DocumentList.dart';
@@ -106,233 +108,238 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                       margin: EdgeInsets.symmetric(vertical: 10),
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: MediaQuery.of(context).size.height * 0.45,
-                      child: Card(
-                          color: Theme.of(context).primaryColorDark,
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                MaterialButton(
-                                    child: Text("Flags",
-                                        style: new TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color)),
-                                    color: Theme.of(context).accentColor,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: MediaQuery.of(context)
-                                            .size
-                                            .width *
-                                            0.05,
-                                        vertical: MediaQuery.of(context)
-                                            .size
-                                            .width *
-                                            0.01),
-                                    onPressed: () {
-                                      LocationApi.getFlagList();
-                                    }),
-                                Center(
-                                    child: Column(children: <Widget>[
-                                  Stack(clipBehavior: Clip.none, children: <
-                                      Widget>[
-                                    CachedNetworkImage(
-                                        useOldImageOnUrlChange: true,
-                                        imageUrl: userApi +
-                                            "/user/viewPicture/" +
-                                            userModel.profile!.profileID,
-                                        imageBuilder: (context,
-                                                imageProvider) =>
-                                            Container(
-                                                width: 100,
-                                                height: 100,
-                                                decoration: new BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Theme.of(context)
-                                                          .accentColor,
-                                                      width: 3,
-                                                    ),
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        fit: BoxFit.fill,
-                                                        image: imageProvider))),
-                                        placeholder: (context, url) =>
-                                            Container(
-                                                width: 100,
-                                                height: 100,
-                                                decoration: new BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Theme.of(context)
-                                                          .accentColor,
-                                                      width: 3,
-                                                    ),
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        fit: BoxFit.fitWidth,
-                                                        image: AssetImage(
-                                                            "pfp.png")))),
-                                        errorWidget: (context, url, error) =>
-                                            Container(
-                                                width: 100,
-                                                height: 100,
-                                                decoration: new BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Theme.of(context)
-                                                          .accentColor,
-                                                      width: 3,
-                                                    ),
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        fit: BoxFit.fitWidth,
-                                                        image: AssetImage(
-                                                            "pfp.png"))))),
-                                    Positioned(
-                                        right: -8,
-                                        top: -8,
-                                        child: IconButton(
-                                            iconSize: 20,
-                                            icon: const Icon(Icons.add_a_photo),
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color,
-                                            onPressed: () {
-                                              openFileExplorer()
-                                                  .then((value) async {
-                                                if (value != null) {
-                                                  final UserModel provider =
-                                                      Provider.of<UserModel>(
-                                                          context,
-                                                          listen: false);
-                                                  await provider
-                                                      .addProfilePicture(value);
-                                                }
-                                              });
-                                            })),
-                                  ]),
-                                  Container(
-                                      child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                        SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.01),
-                                        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        Text(user!.username,
-                                            textAlign: TextAlign.center,
-                                            style: new TextStyle(
+                      child: Column(
+                        children: [
+                          Card(
+                              color: Theme.of(context).primaryColorDark,
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Center(
+                                        child: Column(children: <Widget>[
+                                      Stack(clipBehavior: Clip.none, children: <
+                                          Widget>[
+                                        CachedNetworkImage(
+                                            useOldImageOnUrlChange: true,
+                                            imageUrl: userApi +
+                                                "/user/viewPicture/" +
+                                                userModel.profile!.profileID,
+                                            imageBuilder: (context,
+                                                    imageProvider) =>
+                                                Container(
+                                                    width: 100,
+                                                    height: 100,
+                                                    decoration: new BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Theme.of(context)
+                                                              .accentColor,
+                                                          width: 3,
+                                                        ),
+                                                        shape: BoxShape.circle,
+                                                        image: DecorationImage(
+                                                            fit: BoxFit.fill,
+                                                            image: imageProvider))),
+                                            placeholder: (context, url) =>
+                                                Container(
+                                                    width: 100,
+                                                    height: 100,
+                                                    decoration: new BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Theme.of(context)
+                                                              .accentColor,
+                                                          width: 3,
+                                                        ),
+                                                        shape: BoxShape.circle,
+                                                        image: DecorationImage(
+                                                            fit: BoxFit.fitWidth,
+                                                            image: AssetImage(
+                                                                "pfp.png")))),
+                                            errorWidget: (context, url, error) =>
+                                                Container(
+                                                    width: 100,
+                                                    height: 100,
+                                                    decoration: new BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Theme.of(context)
+                                                              .accentColor,
+                                                          width: 3,
+                                                        ),
+                                                        shape: BoxShape.circle,
+                                                        image: DecorationImage(
+                                                            fit: BoxFit.fitWidth,
+                                                            image: AssetImage(
+                                                                "pfp.png"))))),
+                                        Positioned(
+                                            right: -8,
+                                            top: -8,
+                                            child: IconButton(
+                                                iconSize: 20,
+                                                icon: const Icon(Icons.add_a_photo),
                                                 color: Theme.of(context)
                                                     .textTheme
                                                     .bodyText1!
                                                     .color,
-                                                fontSize: MediaQuery.of(context)
+                                                onPressed: () {
+                                                  openFileExplorer()
+                                                      .then((value) async {
+                                                    if (value != null) {
+                                                      final UserModel provider =
+                                                          Provider.of<UserModel>(
+                                                              context,
+                                                              listen: false);
+                                                      await provider
+                                                          .addProfilePicture(value);
+                                                    }
+                                                  });
+                                                })),
+                                      ]),
+                                      Container(
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                            SizedBox(
+                                                height: MediaQuery.of(context)
                                                         .size
                                                         .height *
-                                                    0.06)),
-                                        SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.005),
-                                        Text(
-                                            user!.firstname +
-                                                " " +
-                                                user!.lastname,
-                                            textAlign: TextAlign.center,
-                                            style: new TextStyle(
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color,
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.03)),
-                                        SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.005),
-                                        Text(user!.email,
-                                            textAlign: TextAlign.center,
-                                            style: new TextStyle(
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color,
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.02)),
-                                        SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.01),
-                                        Row(children: [
-                                          Expanded(
-                                              child: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: Theme.of(context)
-                                                          .accentColor,
-                                                      shape: BoxShape.circle),
-                                                  child: IconButton(
-                                                    icon: const Icon(
-                                                        Icons.attach_file),
+                                                    0.01),
+                                            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            Text(user!.username,
+                                                textAlign: TextAlign.center,
+                                                style: new TextStyle(
                                                     color: Theme.of(context)
-                                                        .primaryColorDark,
-                                                    onPressed: () {
-                                                      Navigator.pushReplacement(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  DocumentPage()));
-                                                    },
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 5,
-                                                            vertical: 5),
-                                                  ))),
-                                          Expanded(
-                                              child: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: Theme.of(context)
-                                                          .accentColor,
-                                                      shape: BoxShape.circle),
-                                                  child: IconButton(
-                                                      onPressed: () {
-                                                        {
-                                                          var provider = Provider
-                                                              .of<UserModel>(
-                                                                  context,
-                                                                  listen:
-                                                                      false);
-                                                          showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                                return AlertBox(
-                                                                    user!,
-                                                                    provider);
-                                                              });
-                                                        }
-                                                      },
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 5,
-                                                              vertical: 5),
-                                                      icon: const Icon(
-                                                          Icons.edit),
-                                                      color: Theme.of(context)
-                                                          .primaryColorDark))),
-                                        ])
-                                      ]))
-                                ]))
-                              ]))));
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color,
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .height *
+                                                        0.06)),
+                                            SizedBox(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.005),
+                                            Text(
+                                                user!.firstname +
+                                                    " " +
+                                                    user!.lastname,
+                                                textAlign: TextAlign.center,
+                                                style: new TextStyle(
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color,
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .height *
+                                                        0.03)),
+                                            SizedBox(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.005),
+                                            Text(user!.email,
+                                                textAlign: TextAlign.center,
+                                                style: new TextStyle(
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color,
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .height *
+                                                        0.02)),
+                                            SizedBox(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.01),
+                                            Row(children: [
+                                              Expanded(
+                                                  child: Container(
+                                                      decoration: BoxDecoration(
+                                                          color: Theme.of(context)
+                                                              .accentColor,
+                                                          shape: BoxShape.circle),
+                                                      child: IconButton(
+                                                        icon: const Icon(
+                                                            Icons.attach_file),
+                                                        color: Theme.of(context)
+                                                            .primaryColorDark,
+                                                        onPressed: () {
+                                                          Navigator.pushReplacement(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) =>
+                                                                      DocumentPage()));
+                                                        },
+                                                        padding:
+                                                            EdgeInsets.symmetric(
+                                                                horizontal: 5,
+                                                                vertical: 5),
+                                                      ))),
+                                              Expanded(
+                                                  child: Container(
+                                                      decoration: BoxDecoration(
+                                                          color: Theme.of(context)
+                                                              .accentColor,
+                                                          shape: BoxShape.circle),
+                                                      child: IconButton(
+                                                          onPressed: () {
+                                                            {
+                                                              var provider = Provider
+                                                                  .of<UserModel>(
+                                                                      context,
+                                                                      listen:
+                                                                          false);
+                                                              showDialog(
+                                                                  context: context,
+                                                                  builder:
+                                                                      (BuildContext
+                                                                          context) {
+                                                                    return AlertBox(
+                                                                        user!,
+                                                                        provider);
+                                                                  });
+                                                            }
+                                                          },
+                                                          padding:
+                                                              EdgeInsets.symmetric(
+                                                                  horizontal: 5,
+                                                                  vertical: 5),
+                                                          icon: const Icon(
+                                                              Icons.edit),
+                                                          color: Theme.of(context)
+                                                              .primaryColorDark))),
+                                            ])
+                                          ]))
+                                    ]))
+                                  ])),
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                          MaterialButton(
+                              child: Text("Flags",
+                                  style: new TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color)),
+                              color: Theme.of(context).accentColor,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: MediaQuery.of(context)
+                                      .size
+                                      .width *
+                                      0.05,
+                                  vertical: MediaQuery.of(context)
+                                      .size
+                                      .width *
+                                      0.01),
+                              onPressed: () {
+                                LocationApi.getFlagList();
+                              }),
+                        ],
+                      )));
             }
           }));
     }
