@@ -55,7 +55,7 @@ public class UserServiceImplementation  {
     private void initializeFirebase() throws IOException {
         bucketName = "adventure-it-bc0b6.appspot.com";
         String projectId = "Adventure-IT";
-        FileInputStream serviceAccount = new FileInputStream("C:\\Users\\Ashton\\Documents\\GitHub\\Adventure-IT\\adventure-it-bc0b6-firebase-adminsdk-o2fq8-ad3a51fb5e.json");
+        FileInputStream serviceAccount = new FileInputStream("D:\\UP\\Coding\\adventure-it-bc0b6-firebase-adminsdk-o2fq8-ad3a51fb5e.json");
         this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
     }
 
