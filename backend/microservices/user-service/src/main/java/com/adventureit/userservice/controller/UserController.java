@@ -144,6 +144,11 @@ public class UserController {
         return service.setEmergencyContact(userId,email);
     }
 
+    @GetMapping("getEmergencyContact/{userId}")
+    public String setEmergencyContact( @PathVariable UUID userId){
+        return service.getEmergencyContact(userId);
+    }
+
     @GetMapping("getUserTheme/{userId}")
     public Boolean getUserTheme( @PathVariable UUID userId){
         return service.getUserTheme(userId);
