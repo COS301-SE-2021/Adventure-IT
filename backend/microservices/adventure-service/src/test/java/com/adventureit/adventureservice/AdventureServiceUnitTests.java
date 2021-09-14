@@ -92,7 +92,7 @@ public class AdventureServiceUnitTests {
         //Then
         Assertions.assertEquals(success, response.isSuccess());
         Assertions.assertEquals(message, response.getMessage());
-        Assertions.assertEquals(mockAdventure, response.getAdventure());
+        Assertions.assertEquals(mockAdventure.getAdventureId(), response.getAdventure().getAdventureId());
     }
 
     @Test
@@ -107,7 +107,7 @@ public class AdventureServiceUnitTests {
 
         //Then
         Assertions.assertEquals(success, response.isSuccess());
-        Assertions.assertEquals(mockAdventure, response.getAdventure());
+        Assertions.assertEquals(mockAdventure.getAdventureId(), response.getAdventure().getAdventureId());
     }
 
     @Test
@@ -267,7 +267,7 @@ public class AdventureServiceUnitTests {
         Mockito.when(adventureRepository.findByAdventureId(mockId)).thenReturn(mockAdventure1);
         GetAdventureByUUIDRequest req = new GetAdventureByUUIDRequest(mockId);
         GetAdventureByUUIDResponse res = adventureService.getAdventureByUUID(req);
-        Assertions.assertEquals(res.getAdventure(), mockAdventure1);
+        Assertions.assertEquals(res.getAdventure().getAdventureId(), mockAdventure1.getAdventureId());
     }
 
     @Test
