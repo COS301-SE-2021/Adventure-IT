@@ -1,12 +1,13 @@
 name: Budget Microservice - Tests
 
-on: workflow_dispatch
-#   push:
-#     branches:
-#       - master
-#       - development
-#       - sprint*
-#       - Sprint*
+on: 
+  push:
+    branches:
+      - master
+      - development
+      - sprint*
+      - Sprint*
+  workflow_dispatch:
   
 
 jobs:
