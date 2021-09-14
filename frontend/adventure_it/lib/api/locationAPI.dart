@@ -10,6 +10,7 @@ import 'package:location/location.dart' as loc;
 
 import 'adventure.dart';
 import 'currentLocation.dart';
+import 'flags.dart';
 
 class LocationApi {
   static Future<List<PlaceSearch>> getSuggestions(String query) async {
