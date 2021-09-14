@@ -3,10 +3,7 @@ package com.adventureit.maincontroller.controller;
 
 import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
 import com.adventureit.shareddtos.recommendation.request.CreateUserRequest;
-import com.adventureit.shareddtos.user.requests.EditUserProfileRequest;
-import com.adventureit.shareddtos.user.requests.LoginUserRequest;
-import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
-import com.adventureit.shareddtos.user.requests.UpdatePictureRequest;
+import com.adventureit.shareddtos.user.requests.*;
 import com.adventureit.shareddtos.user.responses.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -108,7 +105,6 @@ public class MainControllerUserReroute {
     @GetMapping(value = "createFriendRequest/{id1}/{id2}")
     public void createFriendRequest(@PathVariable String id1, @PathVariable String id2){
         restTemplate.getForObject(IP + ":" + userPort + "/user/createFriendRequest/"+ id1+"/"+id2, UUID.class);
-
     }
 
     @GetMapping("getFriendRequest/{id}")
@@ -121,9 +117,9 @@ public class MainControllerUserReroute {
         return restTemplate.postForObject(IP + ":" + userPort + "/user/editUserProfile", req,String.class);
     }
 
-    @GetMapping("setEmergencyContact/{userId}/{email}")
-    public String setEmergencyContact(@PathVariable UUID userId, @PathVariable String email){
-        return restTemplate.getForObject(IP + ":" + userPort + "/user/setEmergencyContact/"+ userId+"/"+email, String.class);
+    @PostMapping("setEmergencyContact")
+    public String setEmergencyContact(@RequestBody SetUserEmergencyContactRequest req){
+        return restTemplate.postForObject(IP + ":" + userPort + "/user/setEmergencyContact/",req, String.class);
     }
 
     @GetMapping("getEmergencyContact/{userId}")
@@ -136,9 +132,9 @@ public class MainControllerUserReroute {
         return restTemplate.getForObject(IP + ":" + userPort + "/user/getUserTheme/"+ userId, Boolean.class);
     }
 
-    @GetMapping("setUserTheme/{userId}/{bool}")
-    public String setUserTheme( @PathVariable UUID userId,@PathVariable Boolean bool){
-        return restTemplate.getForObject(IP + ":" + userPort + "/user/setUserTheme/"+ userId+"/"+bool, String.class);
+    @PostMapping("setUserTheme")
+    public String setUserTheme(@RequestBody SetUserThemeRequest req){
+        return restTemplate.postForObject(IP + ":" + userPort + "/user/setUserTheme/",req, String.class);
     }
 
     @GetMapping("likeLocation/{userID}/{locationID}")
