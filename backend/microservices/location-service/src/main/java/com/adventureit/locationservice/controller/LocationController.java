@@ -60,7 +60,7 @@ public class LocationController {
     }
 
     @GetMapping(value = "/getFlagList/{userID}")
-    public List<String> getFlagList(@PathVariable UUID locationID, @PathVariable UUID userID){
+    public List<String> getFlagList(@PathVariable UUID userID){
         return locationServiceImplementation.getFlagList(userID);
     }
 }
