@@ -460,12 +460,11 @@ class UserApi {
     final response = await http.get(
       Uri.http(mainApi, 'user/getEmergencyContact/' + userID)
     );
-
     if(response.statusCode != 200) {
       throw Exception('Failed to retrieve emergency contact: ${response.body}');
     }
 
-    String em = jsonDecode(response.body);
+    String em = response.body.toString();
     return em;
   }
 
@@ -503,5 +502,19 @@ class UserApi {
     }
   //}
     //this.message = "Email must have"
+  }
+
+  static Future<bool> getTheme() async {
+    String userID = UserApi.getInstance().getUserProfile()!.userID;
+    final response = await http.get(
+        Uri.http(mainApi, 'user/getUserTheme/' + userID)
+    );
+
+    if(response.statusCode != 200) {
+      throw Exception('Failed to retrieve user theme: ${response.body}');
+    }
+
+    bool t = jsonDecode(response.body);
+    return t;
   }
 }

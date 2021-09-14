@@ -1,4 +1,5 @@
 import 'package:adventure_it/Providers/user_model.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -51,7 +52,7 @@ class _SettingsBuilder extends StatefulWidget {
 
 class SettingsBuilder extends State<_SettingsBuilder> {
 
-  bool themeSwitch = false;
+  late bool themeSwitch;
   bool locationSwitch = false;
 
   @override
@@ -59,6 +60,13 @@ class SettingsBuilder extends State<_SettingsBuilder> {
     return ChangeNotifierProvider(
       create: (context) => UserModel(),
       child: Consumer<UserModel>(builder: (context, userModel, child) {
+        if(userModel.em == null || userModel.t == null) {
+          return Center(
+              child: CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).accentColor)));
+        }
+        else {
       return Column(
         children: [
           Container(
@@ -102,16 +110,12 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                         Transform.scale(
                           scale: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? 2 : 1,
                           child: Switch(
-                            value: themeSwitch,
+                            value: userModel.t!,
                             activeTrackColor: Theme.of(context).scaffoldBackgroundColor,
                             activeColor: Theme.of(context).accentColor,
                             onChanged: (value) {
                               setState(() {
-                                themeSwitch = value;
-                                /*Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Themes(isSwitched)));*/
+                                //
                               });
                             },
                           ),
@@ -171,7 +175,7 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                           Expanded(
                             child: Center(
                               child: Text(
-                              userModel.em == "" ? "No emergency contact set" : userModel.em,
+                              userModel.em! == "" ? "No emergency contact set" : userModel.em!,
                                   style: new TextStyle(
                                       color: Theme.of(context).textTheme.bodyText1!.color,
                                       fontSize: MediaQuery.of(context).size.height * 0.02))
@@ -282,7 +286,7 @@ class SettingsBuilder extends State<_SettingsBuilder> {
             ),
           )
         ],
-      );}),
+      );}}),
     );
   }
 }
