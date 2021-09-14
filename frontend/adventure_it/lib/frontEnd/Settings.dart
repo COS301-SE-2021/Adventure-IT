@@ -1,4 +1,6 @@
+import 'package:adventure_it/Providers/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'Navbar.dart';
 
@@ -48,221 +50,227 @@ class _SettingsBuilder extends StatefulWidget {
 }
 
 class SettingsBuilder extends State<_SettingsBuilder> {
+
   bool themeSwitch = false;
   bool locationSwitch = false;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height * 0.01),
-          width: MediaQuery.of(context).size.width * 0.8,
-          height: MediaQuery.of(context).size.height * 0.2,
-          child: Card(
-            color: Theme.of(context).primaryColorDark,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                    child: Text("Themes",
-                        style: new TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1!.color,
-                            fontSize: MediaQuery.of(context).size.height * 0.04))
-                ),
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Spacer(),
-                      Expanded(
+    return ChangeNotifierProvider(
+      create: (context) => UserModel(),
+      child: Consumer<UserModel>(builder: (context, userModel, child) {
+      return Column(
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(
+            vertical: MediaQuery.of(context).size.height * 0.01),
+            width: MediaQuery.of(context).size.width * 0.8,
+            height: MediaQuery.of(context).size.height * 0.2,
+            child: Card(
+              color: Theme.of(context).primaryColorDark,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                      child: Text("Themes",
+                          style: new TextStyle(
+                              color: Theme.of(context).textTheme.bodyText1!.color,
+                              fontSize: MediaQuery.of(context).size.height * 0.04))
+                  ),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Spacer(),
+                        Expanded(
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.dark_mode_outlined,
+                                  size: 40,
+                                  color: Theme.of(context).textTheme.bodyText1!.color,
+                                ),
+                                Text("Dark Mode",
+                                    style: new TextStyle(
+                                        color: Theme.of(context).textTheme.bodyText1!.color,
+                                        fontSize: MediaQuery.of(context).size.height * 0.02)),
+                              ],
+                            )
+                        ),
+                        Spacer(),
+                        Transform.scale(
+                          scale: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? 2 : 1,
+                          child: Switch(
+                            value: themeSwitch,
+                            activeTrackColor: Theme.of(context).scaffoldBackgroundColor,
+                            activeColor: Theme.of(context).accentColor,
+                            onChanged: (value) {
+                              setState(() {
+                                themeSwitch = value;
+                                /*Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Themes(isSwitched)));*/
+                              });
+                            },
+                          ),
+                        ),
+                        Spacer(),
+                        Expanded(
                           child: Column(
                             children: [
                               Icon(
-                                Icons.dark_mode_outlined,
+                                Icons.light_mode_outlined,
                                 size: 40,
                                 color: Theme.of(context).textTheme.bodyText1!.color,
                               ),
-                              Text("Dark Mode",
+                              Text("Light Mode",
                                   style: new TextStyle(
                                       color: Theme.of(context).textTheme.bodyText1!.color,
                                       fontSize: MediaQuery.of(context).size.height * 0.02)),
                             ],
-                          )
-                      ),
-                      Spacer(),
-                      Transform.scale(
-                        scale: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? 2 : 1,
-                        child: Switch(
-                          value: themeSwitch,
-                          activeTrackColor: Theme.of(context).scaffoldBackgroundColor,
-                          activeColor: Theme.of(context).accentColor,
-                          onChanged: (value) {
-                            setState(() {
-                              themeSwitch = value;
-                              /*Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Themes(isSwitched)));*/
-                            });
-                          },
+                          ),
                         ),
-                      ),
-                      Spacer(),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.light_mode_outlined,
-                              size: 40,
-                              color: Theme.of(context).textTheme.bodyText1!.color,
-                            ),
-                            Text("Light Mode",
-                                style: new TextStyle(
-                                    color: Theme.of(context).textTheme.bodyText1!.color,
-                                    fontSize: MediaQuery.of(context).size.height * 0.02)),
-                          ],
-                        ),
-                      ),
-                      Spacer()
-                    ],
-                  ),
-                )
-              ],
-            ),
-          )
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(
-              vertical: MediaQuery.of(context).size.height * 0.01),
-          width: MediaQuery.of(context).size.width * 0.8,
-          height: MediaQuery.of(context).size.height * 0.4,
-          child: Card(
-              color: Theme.of(context).primaryColorDark,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Text("Privacy",
-                          style: new TextStyle(
-                              color: Theme.of(context).textTheme.bodyText1!.color,
-                              fontSize: MediaQuery.of(context).size.height * 0.04))
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-                    Center(
-                        child: Text("Emergency contact",
-                            style: new TextStyle(
-                                color: Theme.of(context).textTheme.bodyText1!.color,
-                                fontSize: MediaQuery.of(context).size.height * 0.025))
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Text("user.emergencyContact",
-                                style: new TextStyle(
-                                    color: Theme.of(context).textTheme.bodyText1!.color,
-                                    fontSize: MediaQuery.of(context).size.height * 0.02))
-                          )
-                        ),
-                        SizedBox(width: MediaQuery.of(context).size.height * 0.02),
-                        Divider(
-                          height: 20,
-                          thickness: 5,
-                          indent: 20,
-                          endIndent: 20,
-                          color: Theme.of(context).textTheme.bodyText1!.color,
-                        ),
-                        Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).accentColor,
-                                  shape: BoxShape.circle),
-                              child: IconButton(
-                                icon: Icon(Icons.edit),
-                                color: Theme.of(context).primaryColorDark,
-                                onPressed: () {
-                                  //alert dialog for edit
-                                },
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: MediaQuery.of(context).size.width * 0.05,
-                                    vertical: MediaQuery.of(context).size.width * 0.01),
-                              ),
-                            )
-                        )
+                        Spacer()
                       ],
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                    Center(
-                        child: Text("Disable location for 24h?",
+                  )
+                ],
+              ),
+            )
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(
+                vertical: MediaQuery.of(context).size.height * 0.01),
+            width: MediaQuery.of(context).size.width * 0.8,
+            height: MediaQuery.of(context).size.height * 0.4,
+            child: Card(
+                color: Theme.of(context).primaryColorDark,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Text("Privacy",
                             style: new TextStyle(
                                 color: Theme.of(context).textTheme.bodyText1!.color,
-                                fontSize: MediaQuery.of(context).size.height * 0.025))
-                    ),
-                    Center(
-                      child: Row(
+                                fontSize: MediaQuery.of(context).size.height * 0.04))
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                      Center(
+                          child: Text("Emergency contact",
+                              style: new TextStyle(
+                                  color: Theme.of(context).textTheme.bodyText1!.color,
+                                  fontSize: MediaQuery.of(context).size.height * 0.025))
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Spacer(),
                           Expanded(
+                            child: Center(
+                              child: Text(
+                              userModel.em == "" ? "No emergency contact set" : userModel.em,
+                                  style: new TextStyle(
+                                      color: Theme.of(context).textTheme.bodyText1!.color,
+                                      fontSize: MediaQuery.of(context).size.height * 0.02))
+                            )
+                          ),
+                          SizedBox(width: MediaQuery.of(context).size.height * 0.02),
+                          Divider(
+                            height: 20,
+                            thickness: 5,
+                            indent: 20,
+                            endIndent: 20,
+                            color: Theme.of(context).textTheme.bodyText1!.color,
+                          ),
+                          Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context).accentColor,
+                                    shape: BoxShape.circle),
+                                child: IconButton(
+                                  icon: Icon(Icons.edit),
+                                  color: Theme.of(context).primaryColorDark,
+                                  onPressed: () {
+                                    //alert dialog for edit
+                                  },
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: MediaQuery.of(context).size.width * 0.05,
+                                      vertical: MediaQuery.of(context).size.width * 0.01),
+                                ),
+                              )
+                          )
+                        ],
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                      Center(
+                          child: Text("Disable location for 24h?",
+                              style: new TextStyle(
+                                  color: Theme.of(context).textTheme.bodyText1!.color,
+                                  fontSize: MediaQuery.of(context).size.height * 0.025))
+                      ),
+                      Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Spacer(),
+                            Expanded(
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.thumb_up_outlined,
+                                      size: 40,
+                                      color: Theme.of(context).textTheme.bodyText1!.color,
+                                    ),
+                                    Text("Enable",
+                                        style: new TextStyle(
+                                            color: Theme.of(context).textTheme.bodyText1!.color,
+                                            fontSize: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? MediaQuery.of(context).size.height * 0.02 : MediaQuery.of(context).size.height * 0.018)),
+                                  ],
+                                )
+                            ),
+                            Spacer(),
+                            Transform.scale(
+                              scale: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? 2 : 1,
+                              child: Switch(
+                                value: locationSwitch,
+                                activeTrackColor: Theme.of(context).scaffoldBackgroundColor,
+                                activeColor: Theme.of(context).accentColor,
+                                onChanged: (value) {
+                                  setState(() {
+                                    locationSwitch = value;
+                                  });
+                                },
+                              ),
+                            ),
+                            Spacer(),
+                            Expanded(
                               child: Column(
                                 children: [
                                   Icon(
-                                    Icons.thumb_up_outlined,
+                                    Icons.thumb_down_outlined,
                                     size: 40,
                                     color: Theme.of(context).textTheme.bodyText1!.color,
                                   ),
-                                  Text("Enable",
+                                  Text("Disable",
                                       style: new TextStyle(
                                           color: Theme.of(context).textTheme.bodyText1!.color,
                                           fontSize: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? MediaQuery.of(context).size.height * 0.02 : MediaQuery.of(context).size.height * 0.018)),
                                 ],
-                              )
-                          ),
-                          Spacer(),
-                          Transform.scale(
-                            scale: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? 2 : 1,
-                            child: Switch(
-                              value: locationSwitch,
-                              activeTrackColor: Theme.of(context).scaffoldBackgroundColor,
-                              activeColor: Theme.of(context).accentColor,
-                              onChanged: (value) {
-                                setState(() {
-                                  locationSwitch = value;
-                                });
-                              },
+                              ),
                             ),
-                          ),
-                          Spacer(),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Icon(
-                                  Icons.thumb_down_outlined,
-                                  size: 40,
-                                  color: Theme.of(context).textTheme.bodyText1!.color,
-                                ),
-                                Text("Disable",
-                                    style: new TextStyle(
-                                        color: Theme.of(context).textTheme.bodyText1!.color,
-                                        fontSize: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? MediaQuery.of(context).size.height * 0.02 : MediaQuery.of(context).size.height * 0.018)),
-                              ],
-                            ),
-                          ),
-                          Spacer()
-                        ],
-                      ),
-                    )
-                  ]
-              )
-          ),
-        )
-      ],
+                            Spacer()
+                          ],
+                        ),
+                      )
+                    ]
+                )
+            ),
+          )
+        ],
+      );}),
     );
   }
 }
