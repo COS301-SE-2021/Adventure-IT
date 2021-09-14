@@ -1,6 +1,5 @@
 package com.adventureit.maincontroller.controller;
 
-import com.adventureit.maincontroller.responses.AdventureResponseDTO;
 import com.adventureit.shareddtos.adventure.requests.CreateAdventureRequest;
 import com.adventureit.shareddtos.adventure.requests.EditAdventureRequest;
 import com.adventureit.shareddtos.adventure.responses.CreateAdventureResponse;
@@ -13,6 +12,7 @@ import com.adventureit.shareddtos.timeline.TimelineType;
 import com.adventureit.shareddtos.timeline.requests.CreateTimelineRequest;
 import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 import com.adventureit.shareddtos.user.UsersDTO;
+import com.adventureit.maincontroller.responses.AdventureResponseDTO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/adventure")
@@ -43,12 +44,12 @@ public class MainControllerAdventureReroute {
     public List<GetUserByUUIDDTO> getAttendees(@PathVariable UUID id){
         List<UUID> users = restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/getAttendees/" + id, List.class);
         List<GetUserByUUIDDTO> list = new ArrayList<>();
-        UsersDTO user;
+        GetUserByUUIDDTO user;
         assert users != null;
         for (int i = 0; i<users.size();i++) {
-            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + users.get(i), UsersDTO.class);
+            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + users.get(i), GetUserByUUIDDTO.class);
             assert user != null;
-            list.add(new GetUserByUUIDDTO(user.getUserID(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail()));
+           list.add(user);
         }
         return list;
     }

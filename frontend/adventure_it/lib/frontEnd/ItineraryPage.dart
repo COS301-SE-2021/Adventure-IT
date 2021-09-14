@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:adventure_it/Providers/recommendation_model.dart';
 import 'package:adventure_it/Providers/registeredUser_model.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
 import 'package:adventure_it/api/userAPI.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
@@ -80,7 +82,12 @@ class ItineraryPage extends StatelessWidget {
                         .size
                         .height / 60),
                     Expanded(
+                      flex: 3,
                       child: _ListItineraryItems(
+                          currentAdventure!, currentItinerary!, c!),
+                    ),
+                    Expanded(
+                      child: _RecommendedItems(
                           currentAdventure!, currentItinerary!, c!),
                     ),
                     SizedBox(height: MediaQuery
@@ -961,7 +968,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                             .of(context)
                             .accentColor)));
           } else if (entryModel.entries!.length > 0) {
-            return Expanded(
+            return Column(children: [Expanded(
                 flex: 2,
                 child: GroupedListView<dynamic, String>(
                     physics: const AlwaysScrollableScrollPhysics(),
@@ -1911,6 +1918,8 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                           ItineraryApi.isRegisteredUser(
                                               entryModel.entries!.elementAt(
                                                   index)).then((value) {
+                                            print("here here here" +
+                                                value.toString());
                                             print("here here here"+value.toString());
                                             if (value) {
                                               ItineraryApi
@@ -2055,7 +2064,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
 
                               ))
                       );
-                    }));
+                    }))]);
           } else {
             return Center(
                 child: Text("Seems like you've got nowhere to go!",
@@ -2251,9 +2260,73 @@ class RegisteredUsers extends StatelessWidget {
                               itemBuilder: (context,
                                   index) {
                                 return ListTile(
-                                    title: Text(registeredModel.users!.elementAt(index).user.username,
+                                    leading: CachedNetworkImage(
+                                        useOldImageOnUrlChange: true,
+                                        imageUrl:
+                                    userApi + "/user/viewPicture/" +
+                                        registeredModel.users!.elementAt(index)
+                                            .user.profileID,
+                                        imageBuilder: (context,
+                                            imageProvider) =>
+                                            Container(
+                                                width: 70,
+                                                height: 70,
+                                                decoration: new BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Theme
+                                                          .of(context)
+                                                          .accentColor,
+                                                      width: 3,
+                                                    ),
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                        fit: BoxFit.cover,
+                                                        image: imageProvider
+                                                    ))),
+
+                                        placeholder: (context, url) =>
+                                            Container(
+                                                width: 70,
+                                                height: 70,
+                                                decoration: new BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Theme
+                                                          .of(context)
+                                                          .accentColor,
+                                                      width: 3,
+                                                    ),
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                        fit: BoxFit.cover,
+                                                        image: AssetImage(
+                                                            "pfp.png")
+                                                    ))),
+
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                                width: 70,
+                                                height: 70,
+                                                decoration: new BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Theme
+                                                          .of(context)
+                                                          .accentColor,
+                                                      width: 3,
+                                                    ),
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                        fit: BoxFit.cover,
+                                                        image: AssetImage(
+                                                            "pfp.png")
+                                                    )))),
+
+                                    title: Text(
+                                        registeredModel.users!.elementAt(index)
+                                            .user.username,
                                         style: TextStyle(
-                                            decoration: registeredModel.users!.elementAt(index).checkIn?TextDecoration
+                                            decoration: registeredModel.users!
+                                                .elementAt(index).checkIn
+                                                ? TextDecoration
                                                 .lineThrough
                                                 : null,
                                             fontSize: 15,
@@ -2298,5 +2371,78 @@ class RegisteredUsers extends StatelessWidget {
 
           );
         });
+  }
+}
+
+class _RecommendedItems extends StatelessWidget {
+  Adventure? currentAdventure;
+  Itinerary? currentItinerary;
+  BuildContext? context;
+
+  _RecommendedItems(Adventure a, Itinerary i, BuildContext c) {
+    this.currentAdventure = a;
+    this.currentItinerary = i;
+    this.context = c;
+  }
+
+  @override
+  Widget build(context) {
+    return ChangeNotifierProvider(
+        create: (context) =>
+            RecommendationModel(currentAdventure!)
+        ,
+        builder: (context, widget) {
+          return Consumer<RecommendationModel>(
+              builder: (context, recModel,
+                  child) {
+                if (recModel.recommendations == null &&
+                    recModel.popular == null) {
+                  return Center(
+                      child: CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Theme
+                                  .of(context)
+                                  .accentColor)));
+                }
+                else if (recModel.popular!.length > 0) {
+                  return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: recModel
+                          .recommendations!.length,
+                      itemBuilder: (context,
+                          index) {
+                        return Text( recModel.recommendations!.elementAt(index).name,textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 10 * MediaQuery
+                                    .of(context)
+                                    .textScaleFactor,
+                                color: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color));
+                      }
+                  );
+                }
+                else {
+                  return Center(
+                      child: Text(
+                          "What an adventurer! You're the first one to ever go here!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 30 * MediaQuery
+                                  .of(context)
+                                  .textScaleFactor,
+                              color: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color)));
+                }
+              }
+          );
+        }
+    );
   }
 }

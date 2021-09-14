@@ -304,4 +304,33 @@ class DocumentApi {
         IsolateNameServer.lookupPortByName('downloader_send_port');
     send!.send([id, status, progress]);
   }
+
+
+}
+
+class ProfileApi
+{
+  static Future addProfilePicture(List<PlatformFile> documents) async {
+    http.Response response = await _addProfilePicture(documents.elementAt(0),
+        UserApi.getInstance().getUserProfile()!.userID);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to upload profilePicture: ${response.body}');
+    }
+    await UserApi.getInstance().updateUserProfile();
+  }
+
+  static Future<http.Response> _addProfilePicture(
+      PlatformFile file, String userID) async {
+    final mimeType = lookupMimeType(file.name); // 'image/jpeg'
+    var request = http.MultipartRequest(
+        'POST', Uri.parse(userApi + '/user/updatePicture'));
+    request.fields['userid'] = userID;
+    request.files.add(http.MultipartFile.fromBytes(
+        'file', file.bytes!.cast<int>(),
+        filename: file.name, contentType: new MediaType.parse(mimeType!)));
+
+    var x = await request.send();
+    return await http.Response.fromStream(x);
+  }
 }

@@ -9,6 +9,7 @@ class UserProfile {
   final String firstname;
   final String lastname;
   final String email;
+  final String profileID;
 
   UserProfile({
     required this.userID,
@@ -16,6 +17,7 @@ class UserProfile {
     required this.firstname,
     required this.lastname,
     required this.email,
+    required this.profileID
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) =>

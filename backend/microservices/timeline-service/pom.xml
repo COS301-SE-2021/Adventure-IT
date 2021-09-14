@@ -49,8 +49,8 @@
 			<artifactId>postgresql</artifactId>
 		</dependency>
         <dependency>
-            <groupId>com.adventure-it</groupId>
             <artifactId>sharedDTOs</artifactId>
+            <groupId>com.adventure-it</groupId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

@@ -1,11 +1,13 @@
 import 'package:adventure_it/api/currentLocation.dart';
 import 'package:adventure_it/api/locationAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:adventure_it/Providers/adventure_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:provider/provider.dart';
+import '../constants.dart';
 import 'AdventurePage.dart';
 import 'Navbar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -168,32 +170,62 @@ class _Carousel extends State<Carousel> {
       Container(
           height: MediaQuery.of(context).size.height * 0.25,
           width: MediaQuery.of(context).size.width,
-              child: CarouselSlider.builder(
-                carouselController: carouselController,
-                options: CarouselOptions(
-                  autoPlay: false,
-                  enlargeCenterPage: true,
-                  viewportFraction: 0.2,
-                  aspectRatio: 2.0,
-                  initialPage: (attendeeModel!.attendees!.length / 2).toInt(),
-                  enableInfiniteScroll: false,
-                ),
-                itemCount: attendeeModel!.attendees!.length,
-                itemBuilder:
-                    (BuildContext context, int index, int pageViewIndex) =>
-                        Container(
-                            height: MediaQuery.of(context).size.height * 0.15,
-                            width: MediaQuery.of(context).size.height * 0.15,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Theme.of(context).accentColor,
-                                  width: 2,
-                                ),
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: AssetImage("logo.png"),
-                                    fit: BoxFit.cover))),
-              )),
+          child: CarouselSlider.builder(
+            carouselController: carouselController,
+            options: CarouselOptions(
+              autoPlay: false,
+              enlargeCenterPage: true,
+              viewportFraction: 0.2,
+              aspectRatio: 2.0,
+              initialPage: (attendeeModel!.attendees!.length / 2).toInt(),
+              enableInfiniteScroll: false,
+            ),
+            itemCount: attendeeModel!.attendees!.length,
+            itemBuilder: (BuildContext context, int index, int pageViewIndex) =>
+                CachedNetworkImage(  useOldImageOnUrlChange: true,
+                    imageUrl: userApi+"/user/viewPicture/"+attendeeModel!.attendees!.elementAt(index).profileID,
+                    imageBuilder: (context, imageProvider) => Container(
+                        width: 100,
+                        height: 100,
+                        decoration: new BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context).accentColor,
+                              width: 3,
+                            ),
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: imageProvider
+                            ))),
+
+                    placeholder: (context, url) => Container(
+                        width: 100,
+                        height: 100,
+                        decoration: new BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context).accentColor,
+                              width: 3,
+                            ),
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.fitWidth,
+                                image: AssetImage("pfp.png")
+                            ))),
+
+                    errorWidget: (context, url, error) => Container(
+                        width: 100,
+                        height: 100,
+                        decoration: new BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context).accentColor,
+                              width: 3,
+                            ),
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.fitWidth,
+                                image: AssetImage("pfp.png")
+                            )))),
+          )),
       Row(children: [
         Spacer(),
         Expanded(
@@ -214,7 +246,8 @@ class _Carousel extends State<Carousel> {
                           position: getTarget(attendeeModel!)));
                       _initialPosition = CameraPosition(
                           zoom: 15, target: getTarget(attendeeModel!));
-                      controller!.animateCamera(CameraUpdate.newCameraPosition(_initialPosition!));
+                      controller!.animateCamera(
+                          CameraUpdate.newCameraPosition(_initialPosition!));
                     });
                   } else {
                     setState(() {
@@ -231,7 +264,8 @@ class _Carousel extends State<Carousel> {
                           position: getTarget(attendeeModel!)));
                       _initialPosition = CameraPosition(
                           zoom: 15, target: getTarget(attendeeModel!));
-                      controller!.animateCamera(CameraUpdate.newCameraPosition(_initialPosition!));
+                      controller!.animateCamera(
+                          CameraUpdate.newCameraPosition(_initialPosition!));
                     });
                   }
                 },
@@ -317,7 +351,8 @@ class _Carousel extends State<Carousel> {
                           position: getTarget(attendeeModel!)));
                       _initialPosition = CameraPosition(
                           zoom: 15, target: getTarget(attendeeModel!));
-                      controller!.animateCamera(CameraUpdate.newCameraPosition(_initialPosition!));
+                      controller!.animateCamera(
+                          CameraUpdate.newCameraPosition(_initialPosition!));
                     });
                   } else {
                     setState(() {
@@ -334,8 +369,8 @@ class _Carousel extends State<Carousel> {
                           position: getTarget(attendeeModel!)));
                       _initialPosition = CameraPosition(
                           zoom: 15, target: getTarget(attendeeModel!));
-                      controller!.animateCamera(CameraUpdate.newCameraPosition(_initialPosition!));
-
+                      controller!.animateCamera(
+                          CameraUpdate.newCameraPosition(_initialPosition!));
                     });
                   }
                 },
@@ -349,9 +384,9 @@ class _Carousel extends State<Carousel> {
             child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(
-                      color: Theme.of(context).accentColor,
-                      width: 2,
-                    )),
+                  color: Theme.of(context).accentColor,
+                  width: 2,
+                )),
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: GoogleMap(
                     mapType: MapType.normal,
@@ -370,7 +405,7 @@ class _Carousel extends State<Carousel> {
                                     .elementAt(i)
                                     .username),
                             position: getTarget(attendeeModel!)));
-                        this.controller=controller;
+                        this.controller = controller;
                       });
                     },
                     initialCameraPosition: _initialPosition == null

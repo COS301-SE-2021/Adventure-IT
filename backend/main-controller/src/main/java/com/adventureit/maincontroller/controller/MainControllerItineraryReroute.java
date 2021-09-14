@@ -36,6 +36,7 @@ public class MainControllerItineraryReroute {
     private final String timelinePort = "9012";
     private final String adventurePort = "9001";
     private final String userPort = "9002";
+    private final String recommendationPort = "9013";
 
     @GetMapping("/test")
     public String itineraryTest(){
@@ -184,9 +185,8 @@ public class MainControllerItineraryReroute {
 
         if(flag){
             restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/checkUserOff/"+ entryID + "/" + userID, String.class);
-            restTemplate.getForObject(IP + ":" + userPort + "/user/addVisitedLocation/"+ userID + "/" + entry.getLocation(), String.class);
             restTemplate.getForObject(IP + ":" + locationPort + "/location/addFlagLocation/"+ entry.getLocation() + "/" + userID, String.class);
-            restTemplate.getForObject(IP + ":" + locationPort + "/location/addVisit/" + entry.getLocation(), String.class);
+            restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/visit/" + userID + "/" + entry.getLocation(), String.class);
         }
         else{
             throw new CurrentLocationException("Check User Off: User is in the incorrect location");
@@ -213,16 +213,16 @@ public class MainControllerItineraryReroute {
         Map<UUID, Boolean> list = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getRegisteredUsers/" + id, Map.class);
         assert list != null;
         List<RegisteredUsersDTO> users = new ArrayList<>();
-        UsersDTO user;
+        GetUserByUUIDDTO user;
 
         if (list.size() == 0) {
             return users;
         }
 
         for (Map.Entry<UUID, Boolean> entry : list.entrySet()){
-            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + entry.getKey(), UsersDTO.class);
+            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + entry.getKey(), GetUserByUUIDDTO.class);
             assert user != null;
-            users.add(new RegisteredUsersDTO( new GetUserByUUIDDTO(user.getUserID(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail()),entry.getValue()));
+            users.add(new RegisteredUsersDTO( user,entry.getValue()));
         }
 
         return users;

@@ -2,6 +2,7 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/media.dart';
 import 'package:adventure_it/api/document.dart';
 import 'package:adventure_it/api/mediaAPI.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -109,3 +110,4 @@ class DocumentModel extends ChangeNotifier {
     notifyListeners();
   }
 }
+

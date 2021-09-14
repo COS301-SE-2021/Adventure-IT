@@ -91,7 +91,7 @@ class ItineraryModel extends ChangeNotifier {
 
   Future fetchAllItineraries(Adventure a) async {
     _itineraries = await ItineraryApi.getItineraries(a);
-    fetchAllDates().then(
+    await fetchAllDates().then(
             (dates) => dates != null ? _startAndEndDates = dates : List.empty());
 
     notifyListeners();
@@ -115,7 +115,7 @@ class ItineraryModel extends ChangeNotifier {
               months[start.month - 1] +
               " " +
               start.year.toString() +
-              " to " +
+              "\n to \n" +
               end.day.toString() +
               " " +
               months[end.month - 1] +
@@ -128,7 +128,7 @@ class ItineraryModel extends ChangeNotifier {
 
     this._startAndEndDates = dateList;
 
-    notifyListeners();
+
   }
 
   Future softDeleteItinerary(Itinerary c) async {
@@ -136,6 +136,7 @@ class ItineraryModel extends ChangeNotifier {
 
     var index = _itineraries!.indexWhere((element) => element.id == c.id);
     _itineraries!.removeAt(index);
+    _startAndEndDates!.removeAt(index);
 
     notifyListeners();
   }

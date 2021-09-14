@@ -141,6 +141,7 @@ public class MainControllerUserReroute {
         restTemplate.getForObject(IP + ":" + userPort + "/user/addLikedLocation/"+ userID + "/" + locationID, String.class);
         restTemplate.getForObject(IP + ":" + locationPort + "/location/addLike/" + locationID, String.class);
     }
+
 }
 
 

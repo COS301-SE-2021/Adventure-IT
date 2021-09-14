@@ -1,6 +1,6 @@
 name: Budget Microservice - Tests
 
-on:
+on: 
   push:
     branches:
       - master
@@ -8,6 +8,7 @@ on:
       - sprint*
       - Sprint*
   workflow_dispatch:
+  
 
 jobs:
   build:
@@ -21,6 +22,8 @@ jobs:
         with:
           java-version: "11"
           distribution: "adopt"
+      - name: Set up env file
+        run: env
       - name: Build with Maven
 
         working-directory: backend/microservices/budget-service
@@ -28,3 +31,4 @@ jobs:
           chmod +x ./mvnw
           ./mvnw clean
           ./mvnw --batch-mode test
+          
