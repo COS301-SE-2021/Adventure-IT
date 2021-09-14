@@ -472,12 +472,13 @@ class UserApi {
   static Future<http.Response> setEmergencyContact(String email) async {
     String userID = UserApi.getInstance().getUserProfile()!.userID;
     final response = await http.post(
-      Uri.parse('http://localhost:9999/user/setEmergencyContact/' + userID),
+      Uri.parse('http://localhost:9999/user/setEmergencyContact/'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-
+        'userId': userID,
+        'email': email
       }),
     );
 

@@ -38,6 +38,7 @@ class UserModel extends ChangeNotifier {
 
   Future setEM(String a) async {
     await UserApi.setEmergencyContact(a);
+    em = a;
     notifyListeners();
   }
 

@@ -59,6 +59,7 @@ class SettingsBuilder extends State<_SettingsBuilder> {
     return ChangeNotifierProvider(
       create: (context) => UserModel(),
       child: Consumer<UserModel>(builder: (context, userModel, child) {
+        print("===EMERGENCY CONTACT===  " + userModel.em);
       return Column(
         children: [
           Container(
@@ -194,7 +195,19 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                                   icon: Icon(Icons.edit),
                                   color: Theme.of(context).primaryColorDark,
                                   onPressed: () {
-                                    //alert dialog for edit
+                                    var provider = Provider
+                                        .of<UserModel>(
+                                        context,
+                                        listen:
+                                        false);
+                                    showDialog(
+                                        context: context,
+                                        builder:
+                                            (BuildContext
+                                        context) {
+                                          return AlertBox(
+                                              provider);
+                                        });
                                   },
                                   padding: EdgeInsets.symmetric(
                                       horizontal: MediaQuery.of(context).size.width * 0.05,
@@ -271,6 +284,115 @@ class SettingsBuilder extends State<_SettingsBuilder> {
           )
         ],
       );}),
+    );
+  }
+}
+
+class AlertBox extends StatefulWidget {
+  final UserModel userModel;
+
+  AlertBox(this.userModel);
+
+  @override
+  _AlertBox createState() => _AlertBox();
+}
+
+class _AlertBox extends State<AlertBox> {
+  final editController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Theme.of(context).primaryColorDark,
+      content: Container(
+        height: MediaQuery.of(context).size.height * 0.3,
+        child: Stack(
+          clipBehavior: Clip.none, children: <Widget>[
+          Positioned(right: -40.0,
+             top: -40.0,
+             child: InkResponse(
+               onTap: () {
+                 Navigator.of(context).pop();
+               },
+               child: CircleAvatar(
+                 child: Icon(Icons.close,
+                    color: Theme.of(context).primaryColorDark),
+                    backgroundColor: Theme.of(context).accentColor,
+               ),
+             )
+            ),
+          Column(
+            children: <Widget>[
+              Text(
+                "Change emergency contact",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontSize: 25 * MediaQuery.of(context).textScaleFactor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Spacer(),
+              Container(
+                width: 300,
+                padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.02
+                ),
+                child: TextField(
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1!.color),
+                      controller: editController,
+                      decoration: InputDecoration(
+                          hintStyle: TextStyle(
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .color),
+                          filled: true,
+                          enabledBorder:
+                          InputBorder.none,
+                          errorBorder:
+                          InputBorder.none,
+                          disabledBorder:
+                          InputBorder.none,
+                          fillColor:
+                          Theme.of(context)
+                              .primaryColorLight,
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: new BorderSide(
+                                  color: Theme.of(context)
+                                      .accentColor)),
+                          hintText:
+                          'Emergency contact email address')),
+                  ),
+                  Spacer(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal:
+                        MediaQuery.of(context)
+                            .size
+                            .width *
+                            0.02),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).accentColor),
+                        onPressed: () async {
+                          await widget.userModel.setEM(editController.text);
+                          Navigator.of(
+                              context)
+                              .pop();
+                        },
+                        child: Text("Set",
+                            style: TextStyle(
+                                color: Theme.of(
+                                    context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color))))
+            ],
+          )
+        ]),
+      ),
     );
   }
 }
