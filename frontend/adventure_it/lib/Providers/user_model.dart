@@ -36,6 +36,11 @@ class UserModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future setEM(String a) async {
+    await UserApi.setEmergencyContact(a);
+    notifyListeners();
+  }
+
   Future addProfilePicture(value) async {
     await ProfileApi.addProfilePicture(value);
     await getProfile();

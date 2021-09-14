@@ -468,4 +468,31 @@ class UserApi {
     String em = jsonDecode(response.body);
     return em;
   }
+
+  static Future<http.Response> setEmergencyContact(String email) async {
+    String userID = UserApi.getInstance().getUserProfile()!.userID;
+    final response = await http.post(
+      Uri.parse('http://localhost:9999/user/setEmergencyContact/' + userID),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      return response;
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      throw Exception('Failed to set the emergency contact.');
+    }
+  }
 }
