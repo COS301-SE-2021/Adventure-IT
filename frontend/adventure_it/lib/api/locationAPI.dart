@@ -117,7 +117,6 @@ class LocationApi {
     //     .map((x) => loc.Location.fromJson(x))
     //     .toList();
     List<Location> locations=[Location(id:"2344d7ac-4689-468f-9531-a7180ccc239f",formattedAddress: "South Africa",photoReference: "Aap_uEAP73TFAeNg106T7IOabdtTS0J3AXcsNqRtUMrZXBkq0cKNRcrxILec8igl-zLRx3HNrTvxHOsykA2ak79vK-pfWDlA19yykx-3AKdSckUU6Ho9R1DCA2Ysmt3F0GTskkX93fRdDt_yNlUo8EEL6REitWoxWHjcWc3lwk3NP20pan8Y",placeId: "ChIJoaA1xZZIwx4Re3hnH9NOUJo",name:"Pop 1"),Location(id:"68da551e-43d2-458e-812a-7f9e65fe0971",formattedAddress: "Rue de Rivoli, 75001 Paris, France",photoReference: "Aap_uEDzjpFaQEgjtZzLibwZcVQnjiFDaRtXuiLVmIg9vdNfm2Z-61YWBz5y-wNYvXdscV-jZW2-4TLDmO2UfKu65womOGN8WDmj0PFwcO7YirbyLGJUrY-TzRmlcn48hRSui_BA0f0l2-RRhjHtDMUmpuqimfuNSFIv1qGOElmUt9R5A61-",placeId: "ChIJD3uTd9hx5kcR1IQvGfr8dbk",name:"Pop 2"),Location(id: "822f88de-d5d7-42e4-a178-997994051045", photoReference: "Aap_uEAZ8eBCVUw3Ed7GVsrB0EsgZeb9DtIDoXqPFklYeTm413hAHuucjKpVXyaWadhW2nWfL2CRDDs47D5BmrSGPj0-ZRYb15n9xz1END7URoy-B3NiwFdH0n3zH-TDMDLsqZ6zCwpdYXx4glCqELtIp-N3rRFJcxWwJ6toonD2mLEDTszq", formattedAddress: "Hawaii, USA", placeId: "ChIJBeB5Twbb_3sRKIbMdNKCd0s",name:"Pop 3")];
-
     return locations;
 
   }

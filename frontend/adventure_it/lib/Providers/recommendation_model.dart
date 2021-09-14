@@ -32,7 +32,7 @@ class RecommendationModel extends ChangeNotifier {
   }
 
   Future fetchAllPopular() async {
-    _recommendations = await LocationApi.getPopular(
+    _popular = await LocationApi.getPopular(
         this.currentAdventure!);
 
     notifyListeners();

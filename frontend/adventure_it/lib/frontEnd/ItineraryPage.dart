@@ -82,7 +82,7 @@ class ItineraryPage extends StatelessWidget {
                         .size
                         .height / 60),
                     Expanded(
-                      flex: 3,
+                      flex:2,
                       child: _ListItineraryItems(
                           currentAdventure!, currentItinerary!, c!),
                     ),
@@ -2389,14 +2389,12 @@ class _RecommendedItems extends StatelessWidget {
   Widget build(context) {
     return ChangeNotifierProvider(
         create: (context) =>
-            RecommendationModel(currentAdventure!)
-        ,
+            RecommendationModel(currentAdventure!),
         builder: (context, widget) {
           return Consumer<RecommendationModel>(
               builder: (context, recModel,
                   child) {
-                if (recModel.recommendations == null &&
-                    recModel.popular == null) {
+                if (recModel.popular == null) {
                   return Center(
                       child: CircularProgressIndicator(
                           valueColor: new AlwaysStoppedAnimation<Color>(
@@ -2404,15 +2402,15 @@ class _RecommendedItems extends StatelessWidget {
                                   .of(context)
                                   .accentColor)));
                 }
-                else if (recModel.popular!.length > 0) {
+                else if (recModel.popular!.length>0) {
                   return ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemCount: recModel
-                          .recommendations!.length,
+                          .popular!.length,
                       itemBuilder: (context,
                           index) {
-                        return Text( recModel.recommendations!.elementAt(index).name,textAlign: TextAlign.center,
+                        return Text( recModel.popular!.elementAt(index).name,textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 10 * MediaQuery
                                     .of(context)
