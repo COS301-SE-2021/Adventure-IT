@@ -287,7 +287,7 @@ public class LocationServiceImplementation implements LocationService {
     public List<String> getFlagList(UUID id) {
         Flags flags = flagRepository.getFlagsByUserID(id);
         if(flags == null){
-            throw new NotFoundException("Get Flag List: User list not found");
+            return new ArrayList<>();
         }
         return flags.getPlacesVisited();
     }
