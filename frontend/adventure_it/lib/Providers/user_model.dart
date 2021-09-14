@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 
 class UserModel extends ChangeNotifier {
   UserProfile? _profile;
+  String em = "";
+
   final UserApi api = UserApi.getInstance();
 
   UserModel() {
@@ -26,6 +28,11 @@ class UserModel extends ChangeNotifier {
   Future editProfile(String a, String b, String c, String d, String e) async {
     await UserApi.editProfile(a, b, c, d, e);
     await getProfile();
+    notifyListeners();
+  }
+
+  Future getEM() async {
+    em = await UserApi.getEmergencyContact();
     notifyListeners();
   }
 
