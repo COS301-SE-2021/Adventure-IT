@@ -21,6 +21,8 @@ jobs:
         with:
           java-version: "11"
           distribution: "adopt"
+      - name: Set up env file
+        run: env
       - name: Build with Maven
 
         working-directory: backend/microservices/budget-service
@@ -28,3 +30,4 @@ jobs:
           chmod +x ./mvnw
           ./mvnw clean
           ./mvnw --batch-mode test
+          
