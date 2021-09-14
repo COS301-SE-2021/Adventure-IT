@@ -4,75 +4,103 @@ import com.adventureit.mediaservice.entity.*;
 import com.adventureit.mediaservice.exceptions.NotFoundException;
 import com.adventureit.mediaservice.exceptions.UnauthorisedException;
 import com.adventureit.mediaservice.repository.*;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.ReadChannel;
+import com.google.cloud.storage.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
+import java.io.*;
+import java.nio.channels.Channels;
 import java.util.UUID;
 
 @Service
 public class MediaServiceImplementation implements MediaService{
     @Autowired
-    private final MediaRepository mediaRepository;
+    private  MediaInfoRepository mediaInfoRepository;
     @Autowired
-    private final MediaInfoRepository mediaInfoRepository;
+    private  DocumentInfoRepository documentInfoRepository;
     @Autowired
-    private final FileRepository fileRepository;
-    @Autowired
-    private final FileInfoRepository fileInfoRepository;
-    @Autowired
-    private DocumentRepository documentRepository;
-    @Autowired
-    private DocumentInfoRepository documentInfoRepository;
+    private  FileInfoRepository fileInfoRepository;
 
-    @Autowired
-    public MediaServiceImplementation(MediaRepository mediaRepository,MediaInfoRepository mediaInfoRepository,FileRepository fileRepository,FileInfoRepository fileInfoRepository){
-        this.mediaRepository = mediaRepository;
-        this.mediaInfoRepository = mediaInfoRepository;
-        this.fileRepository = fileRepository;
-        this.fileInfoRepository = fileInfoRepository;
+    private StorageOptions storageOptions;
+    private String bucketName;
+
+    @PostConstruct
+    private void initializeFirebase() throws IOException {
+        bucketName = "adventure-it-bc0b6.appspot.com";
+        String projectId = "Adventure-IT";
+        FileInputStream serviceAccount = new FileInputStream("C:\\Users\\Ashton\\Documents\\GitHub\\Adventure-IT\\adventure-it-bc0b6-firebase-adminsdk-o2fq8-ad3a51fb5e.json");
+        this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
     }
 
     @Override
-    public ResponseEntity<byte[]> testMediaUploaded(UUID file) {
+    public ResponseEntity<byte[]> testMediaUploaded(UUID file) throws IOException {
+        MediaInfo info = mediaInfoRepository.findMediaById(file);
         HttpHeaders headers = new HttpHeaders();
-        Media storedMedia = mediaRepository.findMediaById(file);
-        headers.setCacheControl(CacheControl.noCache().getHeaderValue()); // disabling caching for client who requests the resource
-        headers.setContentType(MediaType.parseMediaType(storedMedia.getType()));
-        return new ResponseEntity<>(storedMedia.getData(), headers, HttpStatus.OK);
+        headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+        headers.setContentType(MediaType.parseMediaType(info.getType()));
+
+        Storage storage = storageOptions.getService();
+        Blob blob = storage.get(BlobId.of(bucketName, file.toString()));
+        ReadChannel reader = blob.reader();
+        InputStream inputStream = Channels.newInputStream(reader);
+        byte[] content = inputStream.readAllBytes();
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<byte[]> testFileUploaded(UUID file) {
+    public ResponseEntity<byte[]> testFileUploaded(UUID file) throws IOException {
+        FileInfo info = fileInfoRepository.findFileInfoById(file);
         HttpHeaders headers = new HttpHeaders();
-        File storedFile = fileRepository.findFileById(file);
-        headers.setCacheControl(CacheControl.noCache().getHeaderValue()); // disabling caching for client who requests the resource
-        headers.setContentType(MediaType.parseMediaType(storedFile.getType()));
-        return new ResponseEntity<>(storedFile.getData(), headers, HttpStatus.OK);
+        headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+        headers.setContentType(MediaType.parseMediaType(info.getType()));
+
+        Storage storage = storageOptions.getService();
+        Blob blob = storage.get(BlobId.of(bucketName, file.toString()));
+        ReadChannel reader = blob.reader();
+        InputStream inputStream = Channels.newInputStream(reader);
+        byte[] content = inputStream.readAllBytes();
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<byte[]> testDocumentUploaded(UUID file) {
+    public ResponseEntity<byte[]> testDocumentUploaded(UUID file) throws IOException {
+        DocumentInfo info = documentInfoRepository.findDocumentInfoById(file);
         HttpHeaders headers = new HttpHeaders();
-        Document storedFile = documentRepository.findDocumentById(file);
-        headers.setCacheControl(CacheControl.noCache().getHeaderValue()); // disabling caching for client who requests the resource
-        headers.setContentType(MediaType.parseMediaType(storedFile.getType()));
-        return new ResponseEntity<>(storedFile.getData(), headers, HttpStatus.OK);
+        headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+        headers.setContentType(MediaType.parseMediaType(info.getType()));
+
+        Storage storage = storageOptions.getService();
+        Blob blob = storage.get(BlobId.of(bucketName, file.toString()));
+        ReadChannel reader = blob.reader();
+        InputStream inputStream = Channels.newInputStream(reader);
+        byte[] content = inputStream.readAllBytes();
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
     @Override
     public HttpStatus uploadMedia(MultipartFile file, UUID userId, UUID adventureId) {
         try {
-            final byte[] content = file.getBytes();
-            Media uploadedMedia = new Media(UUID.randomUUID(), file.getContentType(), file.getOriginalFilename(), "DESCRIPTION", adventureId , userId);
-            MediaInfo uploadedMediaInfo = new MediaInfo(uploadedMedia.getId(), uploadedMedia.getType(), uploadedMedia.getName(), uploadedMedia.getDescription(), uploadedMedia.getAdventureID(), uploadedMedia.getOwner());
-            uploadedMedia.setData(content);
-            mediaRepository.save(uploadedMedia);
-            mediaInfoRepository.save(uploadedMediaInfo);
+            UUID id = UUID.randomUUID();
+            String fileName = file.getOriginalFilename();
+
+            MediaInfo uploadedMedia = new MediaInfo(id, file.getContentType(), fileName, "DESCRIPTION", adventureId , userId);
+            mediaInfoRepository.save(uploadedMedia);
+
+            Storage storage = storageOptions.getService();
+            BlobId blobId = BlobId.of(bucketName, id.toString());
+            BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+            storage.create(blobInfo, file.getBytes());
+
             return HttpStatus.OK;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return HttpStatus.NO_CONTENT;
         }
@@ -81,15 +109,19 @@ public class MediaServiceImplementation implements MediaService{
     @Override
     public HttpStatus uploadFile(MultipartFile file, UUID userId, UUID adventureId) {
         try {
-            final byte[] content = file.getBytes();
-            File uploadedFile = new File(UUID.randomUUID(), file.getContentType(), file.getOriginalFilename(), "DESCRIPTION", adventureId , userId);
-            FileInfo uploadedFileInfo = new FileInfo(uploadedFile.getId(), uploadedFile.getType(), uploadedFile.getName(), uploadedFile.getDescription(), uploadedFile.getAdventureID(), uploadedFile.getOwner());
-            uploadedFile.setData(content);
-            fileRepository.save(uploadedFile);
-            fileInfoRepository.save(uploadedFileInfo);
+            UUID id = UUID.randomUUID();
+            String fileName = file.getOriginalFilename();
+
+            FileInfo uploadedFile = new FileInfo(id, file.getContentType(), fileName, "DESCRIPTION", adventureId , userId);
+            fileInfoRepository.save(uploadedFile);
+
+            Storage storage = storageOptions.getService();
+            BlobId blobId = BlobId.of(bucketName, id.toString());
+            BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+            storage.create(blobInfo, file.getBytes());
+
             return HttpStatus.OK;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return HttpStatus.NO_CONTENT;
         }
@@ -98,68 +130,72 @@ public class MediaServiceImplementation implements MediaService{
     @Override
     public HttpStatus uploadDocument(MultipartFile file, UUID userId) {
         try {
-            final byte[] content = file.getBytes();
-            Document uploadedDoc = new Document(UUID.randomUUID(), file.getContentType(), file.getOriginalFilename(), "DESCRIPTION", userId);
-            DocumentInfo uploadedDocInfo = new DocumentInfo(uploadedDoc.getId(), uploadedDoc.getType(), uploadedDoc.getName(), uploadedDoc.getDescription(), uploadedDoc.getOwner());
-            uploadedDoc.setData(content);
-            documentRepository.save(uploadedDoc);
-            documentInfoRepository.save(uploadedDocInfo);
+            UUID id = UUID.randomUUID();
+            String fileName = file.getOriginalFilename();
+
+            DocumentInfo uploadedDoc = new DocumentInfo(id, file.getContentType(), fileName, "DESCRIPTION" , userId);
+            documentInfoRepository.save(uploadedDoc);
+
+            Storage storage = storageOptions.getService();
+            BlobId blobId = BlobId.of(bucketName, id.toString());
+            BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+            storage.create(blobInfo, file.getBytes());
+
             return HttpStatus.OK;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return HttpStatus.NO_CONTENT;
         }
     }
 
     @Override
-    public void deleteFile(UUID id, UUID userID){
-        File file = fileRepository.findFileById(id);
-        FileInfo fileInfo = fileInfoRepository.findFileInfoById(id);
-
-        if(file == null || fileInfo == null){
-            throw new NotFoundException("Delete File: File does not exist");
-        }
-
-        if(!file.getOwner().equals(userID)){
-            throw new UnauthorisedException("Delete File: User not Authorised");
-        }
-
-        fileRepository.delete(file);
-        fileInfoRepository.delete(fileInfo);
-    }
-
-    @Override
     public void deleteMedia(UUID id, UUID userID){
-        Media media = mediaRepository.findMediaById(id);
         MediaInfo mediaInfo = mediaInfoRepository.findMediaById(id);
+        Storage storage = storageOptions.getService();
 
-        if(media == null || mediaInfo == null){
+        if(mediaInfo == null){
             throw new NotFoundException("Delete Media: Media does not exist");
         }
 
-        if(!media.getOwner().equals(userID)){
+        if(!mediaInfo.getOwner().equals(userID)){
             throw new UnauthorisedException("Delete Media: User not Authorised");
         }
 
-        mediaRepository.delete(media);
+        storage.get(BlobId.of(bucketName, id.toString())).delete();
         mediaInfoRepository.delete(mediaInfo);
     }
 
     @Override
-    public void deleteDocument(UUID id, UUID userID){
-        Document document = documentRepository.findDocumentById(id);
-        DocumentInfo documentInfo = documentInfoRepository.findDocumentInfoById(id);
+    public void deleteFile(UUID id, UUID userID){
+        FileInfo fileInfo = fileInfoRepository.findFileInfoById(id);
+        Storage storage = storageOptions.getService();
 
-        if(document == null || documentInfo == null){
-            throw new NotFoundException("Delete Document: Doc does not exist");
+        if(fileInfo == null){
+            throw new NotFoundException("Delete File: Media does not exist");
         }
 
-        if(!document.getOwner().equals(userID)){
+        if(!fileInfo.getOwner().equals(userID)){
+            throw new UnauthorisedException("Delete File: User not Authorised");
+        }
+
+        storage.get(BlobId.of(bucketName, id.toString())).delete();
+        fileInfoRepository.delete(fileInfo);
+    }
+
+    @Override
+    public void deleteDocument(UUID id, UUID userID){
+        DocumentInfo documentInfo = documentInfoRepository.findDocumentInfoById(id);
+        Storage storage = storageOptions.getService();
+
+        if(documentInfo == null){
+            throw new NotFoundException("Delete Document: Media does not exist");
+        }
+
+        if(!documentInfo.getOwner().equals(userID)){
             throw new UnauthorisedException("Delete Document: User not Authorised");
         }
 
-        documentRepository.delete(document);
+        storage.get(BlobId.of(bucketName, id.toString())).delete();
         documentInfoRepository.delete(documentInfo);
     }
 }

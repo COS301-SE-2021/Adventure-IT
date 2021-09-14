@@ -12,8 +12,6 @@ public class Location {
     String formattedAddress;
     String placeID;
     String country;
-    int likes = 0;
-    int visits = 0;
     @ElementCollection
     List<String> types;
     private String name;
@@ -21,22 +19,24 @@ public class Location {
 
     public Location(){}
 
-    public Location(UUID id, String photoReference, String formattedAddress, String placeID, String country, List<String> types){
+    public Location(UUID id, String photoReference, String formattedAddress, String placeID, String country, List<String> types, String name){
         this.id = id;
         this.photoReference = photoReference;
         this.formattedAddress = formattedAddress;
         this.placeID = placeID;
         this.country = country;
         this.types = types;
+        this.name=name;
     }
 
-    public Location(String photoReference, String formattedAddress, String placeID, String country, List<String> types){
+    public Location(String photoReference, String formattedAddress, String placeID, String country, List<String> types, String name){
         this.id = UUID.randomUUID();
         this.photoReference = photoReference;
         this.formattedAddress = formattedAddress;
         this.placeID = placeID;
         this.country = country;
         this.types = types;
+        this.name=name;
     }
 
     public UUID getId() {
@@ -77,22 +77,6 @@ public class Location {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
-
-    public int getVisits() {
-        return visits;
-    }
-
-    public void setVisits(int visits) {
-        this.visits = visits;
     }
 
     public List<String> getTypes() {

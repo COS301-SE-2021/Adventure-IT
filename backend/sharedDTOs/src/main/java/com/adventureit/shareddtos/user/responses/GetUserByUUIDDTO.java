@@ -8,6 +8,7 @@ public class GetUserByUUIDDTO {
     private String firstname;
     private String lastname;
     private String email;
+    private String pictureId = "";
 
     public GetUserByUUIDDTO(UUID userID, String username, String firstname, String lastname, String email) {
         this.userID = userID;
@@ -15,6 +16,7 @@ public class GetUserByUUIDDTO {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
+        this.pictureId = "";
     }
 
     public GetUserByUUIDDTO(){}
@@ -37,5 +39,13 @@ public class GetUserByUUIDDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPictureId() {
+        return pictureId;
+    }
+
+    public void setPictureId(String pictureId) {
+        this.pictureId = pictureId;
     }
 }

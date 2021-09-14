@@ -3,10 +3,12 @@ package com.adventureit.recommendationservice.entity;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(name="RecommendedLocation")
 public class Location {
     @Id
     private final UUID locationId;

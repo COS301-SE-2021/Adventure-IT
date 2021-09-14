@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:adventure_it/Providers/adventure_model.dart';
 import 'package:adventure_it/frontEnd/AdventureAttendees.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -609,7 +610,13 @@ class AdventurePage extends StatelessWidget {
                                         MediaQuery.of(context).size.height *
                                             0.01),
                                     onPressed: () {
-                                      {}
+                                      {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AdventureAttendees(currentAdventure!)));
+                                      }
                                     },
                                     child: Column(
                                       children: <Widget>[
@@ -768,6 +775,52 @@ class AlertBox extends StatelessWidget {
                                             MediaQuery.of(context).size.width *
                                                 0.01),
                                     child:  ListTile(
+                                        leading:CachedNetworkImage(
+                                            useOldImageOnUrlChange: true,
+                                            imageUrl:
+                                        userApi+"/user/viewPicture/" +
+                                            friendModel.friends!.elementAt(index).userID,
+                                            imageBuilder: (context, imageProvider) => Container(
+                                                width:70,
+                                                height: 70,
+                                                decoration: new BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Theme.of(context).accentColor,
+                                                      width: 3,
+                                                    ),
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: imageProvider
+                                                    ))),
+
+                                            placeholder: (context, url) => Container(
+                                                width: 70,
+                                                height: 70,
+                                                decoration: new BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Theme.of(context).accentColor,
+                                                      width: 3,
+                                                    ),
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: AssetImage("pfp.png")
+                                                    ))),
+
+                                            errorWidget: (context, url, error) => Container(
+                                                width: 70,
+                                                height: 70,
+                                                decoration: new BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Theme.of(context).accentColor,
+                                                      width: 3,
+                                                    ),
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: AssetImage("pfp.png")
+                                                    )))),
                                        title: Text(
                                       friendModel.friends!
                                           .elementAt(index)

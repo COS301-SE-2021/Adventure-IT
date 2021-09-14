@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:adventure_it/Providers/friends_model.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
+import '../constants.dart';
 import 'DirectChat.dart';
 import 'Navbar.dart';
 
@@ -50,7 +52,7 @@ class FriendsPage extends State<Friends> with SingleTickerProviderStateMixin {
                 children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height / 60),
               Row(mainAxisSize: MainAxisSize.max, children: [
-                Spacer(flex: 1),
+                Spacer(flex: 2),
                 Expanded(
                     flex: 7,
                     child: TextField(
@@ -98,7 +100,7 @@ class FriendsPage extends State<Friends> with SingleTickerProviderStateMixin {
                             iconSize: 30,
                             color: Theme.of(context)
                                 .primaryColorDark))), //Your widget he
-                Spacer(flex: 1),
+                Spacer(flex: 2),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height / 40),
               Container(
@@ -166,6 +168,53 @@ class GetFriends extends StatelessWidget {
                                         Expanded(
                                           flex: 4,
                                           child: ListTile(
+                                            leading:
+
+                                            CachedNetworkImage( useOldImageOnUrlChange: true, imageUrl:
+                                            userApi +
+                                                "/user/viewPicture/" +
+                                                friendModel.friends!.elementAt(index).profileID,
+                                                imageBuilder: (context, imageProvider) => Container(
+                                                    width: 70,
+                                                    height: 70,
+                                                    decoration: new BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Theme.of(context).accentColor,
+                                                          width: 3,
+                                                        ),
+                                                        shape: BoxShape.circle,
+                                                        image: DecorationImage(
+                                                            fit: BoxFit.fill,
+                                                            image: imageProvider
+                                                        ))),
+
+                                                placeholder: (context, url) => Container(
+                                                    width: 70,
+                                                    height: 70,
+                                                    decoration: new BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Theme.of(context).accentColor,
+                                                          width: 3,
+                                                        ),
+                                                        shape: BoxShape.circle,
+                                                        image: DecorationImage(
+                                                            fit: BoxFit.fitWidth,
+                                                            image: AssetImage("pfp.png")
+                                                        ))),
+
+                                                errorWidget: (context, url, error) => Container(
+                                                    width: 70,
+                                                    height: 70,
+                                                    decoration: new BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Theme.of(context).accentColor,
+                                                          width: 3,
+                                                        ),
+                                                        shape: BoxShape.circle,
+                                                        image: DecorationImage(
+                                                            fit: BoxFit.fitWidth,
+                                                            image: AssetImage("pfp.png")
+                                                        )))),
                                             title: Text(
                                                 friendModel.friends!
                                                     .elementAt(index)
@@ -311,6 +360,16 @@ class GetFriendRequests extends StatelessWidget {
     this.c = context;
   }
 
+  String getUserID(String requester)
+  {
+    UserApi.getInstance().searchUsername(requester).then((value){
+      UserApi.getInstance().findUser(value).then((user){
+    return  userApi +
+        "/user/viewPicture/" +user.profileID;});
+    });
+    return "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -340,6 +399,49 @@ class GetFriendRequests extends StatelessWidget {
                                   Expanded(
                                     flex: 4,
                                     child: ListTile(
+                                      leading: CachedNetworkImage( imageUrl:
+                                      getUserID(friendModel.friends!.elementAt(index).requester),
+                                          imageBuilder: (context, imageProvider) => Container(
+                                              width: 70,
+                                              height: 70,
+                                              decoration: new BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Theme.of(context).accentColor,
+                                                    width: 3,
+                                                  ),
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                      fit: BoxFit.fill,
+                                                      image: imageProvider
+                                                  ))),
+
+                                          placeholder: (context, url) => Container(
+                                              width: 70,
+                                              height: 70,
+                                              decoration: new BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Theme.of(context).accentColor,
+                                                    width: 3,
+                                                  ),
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                      fit: BoxFit.fill,
+                                                      image: AssetImage("pfp.png")
+                                                  ))),
+
+                                          errorWidget: (context, url, error) => Container(
+                                              width: 70,
+                                              height: 70,
+                                              decoration: new BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Theme.of(context).accentColor,
+                                                    width: 3,
+                                                  ),
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                      fit: BoxFit.fill,
+                                                      image: AssetImage("pfp.png")
+                                                  )))),
                                       title: Text(
                                           friendModel.friends!
                                               .elementAt(index)

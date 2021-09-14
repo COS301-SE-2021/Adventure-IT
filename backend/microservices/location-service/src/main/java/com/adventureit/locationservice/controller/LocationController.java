@@ -54,16 +54,6 @@ public class LocationController {
         return locationServiceImplementation.compareGeometry(id,userID);
     }
 
-    @GetMapping(value = "/addLike/{id}")
-    public void addLike(@PathVariable UUID id){
-        locationServiceImplementation.addLike(id);
-    }
-
-    @GetMapping(value = "/addVisit/{id}")
-    public void addVisit(@PathVariable UUID id){
-        locationServiceImplementation.addVisit(id);
-    }
-
     @GetMapping(value = "/addFlagLocation/{locationID}/{userID}")
     public void addFlagLocation(@PathVariable UUID locationID, @PathVariable UUID userID) throws JSONException, IOException {
         locationServiceImplementation.addFlagLocation(locationID,userID);

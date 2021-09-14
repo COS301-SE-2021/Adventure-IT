@@ -40,31 +40,35 @@ class UserApi {
 
   // Publically Exposed Login Method
   Future<bool> logIn(String username, String password) async {
-    /*print("Attempting login for $username");
-    this._keycloakUser = await attemptLogIn(username, password);
-    if (this._keycloakUser != null) {
-      final keycloakUser = this._keycloakUser!;
-      if(keycloakUser.emailVerified&&keycloakUser.enabled) {
-        this._userProfile = await this.fetchBackendProfile(keycloakUser.id);
-        if (this._userProfile == null) {
-          this._userProfile = await this.registerBackendProfile(keycloakUser);
-        }
-        return true;
-      }
-      else {
-        this.message="Your email has not yet been verified.";
-        return false;
-      }
-    } else {
-      return false;
-    }*/
-    this._userProfile = new UserProfile(
-        userID: '80e1b64d-fd53-4f3a-84a9-14541caff723',
-        username: 'sim',
-        firstname: 'sim',
-        lastname: 'r',
-        email: 'u19212314@tuks.co.za');
+    // print("Attempting login for $username");
+    // this._keycloakUser = await attemptLogIn(username, password);
+    // if (this._keycloakUser != null) {
+    //   final keycloakUser = this._keycloakUser!;
+    //   if(keycloakUser.emailVerified&&keycloakUser.enabled) {
+        this._userProfile = await this.fetchBackendProfile('80e1b64d-fd53-4f3a-84a9-14541caff723');
+    //     if (this._userProfile == null) {
+    //       this._userProfile = await this.registerBackendProfile(keycloakUser);
+    //     }
+    //     return true;
+    //   }
+    //   else {
+    //     this.message="Your email has not yet been verified.";
+    //     return false;
+    //   }
+    // } else {
+    //   return false;
+    // }
+
+    // this._userProfile = new UserProfile(
+    //     userID: '80e1b64d-fd53-4f3a-84a9-14541caff723',
+    //     username: 'sim',
+    //     firstname: 'Sim',
+    //     lastname: 'Siiiiiiiiiiim',
+    //     email: 'u17015465@gmail.com',
+    //     profileID: "");
     return true;
+
+
   }
 
   // Attempt Login to Keycloak (PRIVATE)
@@ -85,7 +89,7 @@ class UserApi {
       return this.fetchKeyCloakUser(username);
     } else {
       String errorMessage = jsonDecode(res.body)['error_description'];
-        this.message = errorMessage;
+      this.message = errorMessage;
     }
   }
 
@@ -117,7 +121,7 @@ class UserApi {
     final uri = Uri.parse(
         authApiAdmin + 'users?' + Uri(queryParameters: queryParameters).query);
     var res =
-        await http.get(uri, headers: {'Authorization': 'Bearer $adminJWT'});
+    await http.get(uri, headers: {'Authorization': 'Bearer $adminJWT'});
     if (res.statusCode == 200) {
       responseJson = jsonDecode(res.body)[0];
       return KeycloakUser.fromJson(responseJson);
@@ -132,7 +136,7 @@ class UserApi {
   Future<UserProfile?> fetchBackendProfile(String targetUuid) async {
     debugPrint("Getting backend profile for: " + targetUuid);
     final res =
-        await http.get(Uri.parse(userApi + "/user/getUser/" + targetUuid));
+    await http.get(Uri.parse(userApi + "/user/getUser/" + targetUuid));
     final jsonRes = jsonDecode(res.body);
     print(jsonRes);
     print(res.statusCode);
@@ -164,11 +168,12 @@ class UserApi {
         }));
     print(res.body);
     return new UserProfile(
-      userID: userInfo.id,
-      username: userInfo.username,
-      firstname: userInfo.firstName,
-      lastname: userInfo.lastName,
-      email: userInfo.email,
+        userID: userInfo.id,
+        username: userInfo.username,
+        firstname: userInfo.firstName,
+        lastname: userInfo.lastName,
+        email: userInfo.email,
+        profileID: ""
     );
   }
 
@@ -309,6 +314,23 @@ class UserApi {
     return http.get(Uri.parse(userApi + "/user/getUser/" + userID));
   }
 
+  Future updateUserProfile() async {
+    http.Response response = await _updateUserProfile(
+        _instance.getUserProfile()!.userID);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to find user: ${response.body}');
+    }
+
+    Map<String, dynamic> parsed = json.decode(response.body);
+    UserProfile user = UserProfile.fromJson(parsed);
+
+    _userProfile = user;
+  }
+
+  Future<http.Response> _updateUserProfile(String userID) async {
+    return http.get(Uri.parse(userApi + "/user/getUser/" + userID));
+  }
+
   Future<String?> _retrieve(key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(key);
@@ -320,13 +342,13 @@ class UserApi {
   }
 
   // Register a user in Keycloak
-  Future<bool> registerKeycloakUser(
-      firstname, lastname, username, email, password, passwordCheck) async {
-    if(firstname==""||lastname==""||username==""||email==""||password==""||passwordCheck=="")
-      {
-        this.message="Please fill in all necessary fields";
-        return false;
-      }
+  Future<bool> registerKeycloakUser(firstname, lastname, username, email,
+      password, passwordCheck) async {
+    if (firstname == "" || lastname == "" || username == "" || email == "" ||
+        password == "" || passwordCheck == "") {
+      this.message = "Please fill in all necessary fields";
+      return false;
+    }
     if (password == passwordCheck) {
       RegExp passwordReg = RegExp(
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$',
@@ -373,27 +395,26 @@ class UserApi {
           }
         }
         this.message =
-            "Password must contain one uppercase letter, one lowercase letter, one special character, one digit and be at least 8 characters long";
+        "Password must contain one uppercase letter, one lowercase letter, one special character, one digit and be at least 8 characters long";
         return false;
       }
       this.message =
-          "Username may only be comprised of lowercase letters and digits and must be at least 5 characters long";
+      "Username may only be comprised of lowercase letters and digits and must be at least 5 characters long";
       return false;
     }
     this.message = "Passwords do not match";
     return false;
   }
 
-  Future<void> displayDialog(
-          BuildContext context, String title, String text) async =>
+  Future<void> displayDialog(BuildContext context, String title,
+      String text) async =>
       await showDialog(
         context: context,
         builder: (context) =>
             AlertDialog(title: Text(title), content: Text(text)),
       );
 
-  static Future<http.Response> editProfile(
-      String userId,
+  static Future<http.Response> editProfile(String userId,
       String username,
       String firstName,
       String lastName,
@@ -417,8 +438,13 @@ class UserApi {
       // then parse the JSON.
       print('Status code: ${response.statusCode}');
       print('Body: ${response.body}');
-      final keycloakUser = UserApi.getInstance()._keycloakUser;
-      UserApi.getInstance()._userProfile = await UserApi.getInstance().fetchBackendProfile(keycloakUser!.id);
+      final keycloakUser = UserApi
+          .getInstance()
+          ._keycloakUser;
+      UserApi
+          .getInstance()
+          ._userProfile =
+      await UserApi.getInstance().fetchBackendProfile(keycloakUser!.id);
       return response;
     } else {
       // If the server did not return a 201 CREATED response,
@@ -428,4 +454,6 @@ class UserApi {
       throw Exception('Failed to edit the user\'s profile.');
     }
   }
+
+
 }
