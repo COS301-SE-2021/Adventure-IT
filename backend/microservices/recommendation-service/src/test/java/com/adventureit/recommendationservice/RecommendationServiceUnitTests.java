@@ -92,7 +92,7 @@ public class RecommendationServiceUnitTests {
     @Test
     void testGetRecommendations(){
         createMockEntries();
-        this.recommendationService.getUserRecommendations(UUID.randomUUID());
+        this.recommendationService.getUserRecommendations(UUID.randomUUID(),15);
     }
 }
 

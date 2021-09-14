@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -86,8 +87,8 @@ public class RecommendationController {
 
     // User requests arbitrary number of recommendations
     @GetMapping("get/{userId}/{numRecommendations}")
-    public List<UUID> getUserRecommendations(@PathVariable UUID userId, @PathVariable int numRecommendations){
-        return this.recommendationService.getUserRecommendations(userId).subList(0, numRecommendations-1);
+    public String[][] getUserRecommendations(@PathVariable UUID userId, @PathVariable int numRecommendations){
+        return this.recommendationService.getUserRecommendations(userId, numRecommendations);
     }
 
     // User requests arbitrary number of popular locations
