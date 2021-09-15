@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:adventure_it/Providers/recommendation_model.dart';
 import 'package:adventure_it/Providers/registeredUser_model.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +32,8 @@ class ItineraryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => ItineraryEntryModel(currentItinerary!),
+        create: (context) =>
+            ItineraryEntryModel(currentItinerary!, currentAdventure!),
         builder: (context, widget) {
           this.c = context;
           return Scaffold(
@@ -76,18 +77,14 @@ class ItineraryPage extends StatelessWidget {
               body: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     SizedBox(height: MediaQuery
                         .of(context)
                         .size
                         .height / 60),
                     Expanded(
-                      flex:2,
                       child: _ListItineraryItems(
-                          currentAdventure!, currentItinerary!, c!),
-                    ),
-                    Expanded(
-                      child: _RecommendedItems(
                           currentAdventure!, currentItinerary!, c!),
                     ),
                     SizedBox(height: MediaQuery
@@ -960,7 +957,8 @@ class ListItineraryItems extends State<_ListItineraryItems> {
   Widget build(BuildContext context) {
     return Consumer<ItineraryEntryModel>(
         builder: (context, entryModel, child) {
-          if (entryModel.entries == null) {
+          if (entryModel.entries == null && entryModel.popular == null &&
+              entryModel.recommendations == null) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
@@ -969,7 +967,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                             .accentColor)));
           } else if (entryModel.entries!.length > 0) {
             return Column(children: [Expanded(
-                flex: 2,
+                flex:4,
                 child: GroupedListView<dynamic, String>(
                     physics: const AlwaysScrollableScrollPhysics(),
                     elements: entryModel.entries!,
@@ -1920,7 +1918,8 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                   index)).then((value) {
                                             print("here here here" +
                                                 value.toString());
-                                            print("here here here"+value.toString());
+                                            print("here here here" +
+                                                value.toString());
                                             if (value) {
                                               ItineraryApi
                                                   .deregisterForItinerary(
@@ -2064,20 +2063,60 @@ class ListItineraryItems extends State<_ListItineraryItems> {
 
                               ))
                       );
-                    }))]);
+                    }),),
+              SizedBox(height: 10),
+              SizedBox(child: Text("Recommendations",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 20 * MediaQuery
+                          .of(context)
+                          .textScaleFactor,
+                      fontWeight: FontWeight.bold,
+                      color: Theme
+                          .of(context)
+                          .textTheme
+                          .bodyText1!
+                          .color))),
+              SizedBox(height: 10),
+              Expanded(
+                flex:3,
+                child: _RecommendedItems(
+                    currentAdventure!, currentItinerary!, c!, entryModel),
+              ),
+            ]);
           } else {
-            return Center(
-                child: Text("Seems like you've got nowhere to go!",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 30 * MediaQuery
-                            .of(context)
-                            .textScaleFactor,
-                        color: Theme
-                            .of(context)
-                            .textTheme
-                            .bodyText1!
-                            .color)));
+            return Column(children: [
+              Expanded(flex: 4,
+                  child: Center(
+                      child: Text("Seems like you've got nowhere to go!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 30 * MediaQuery
+                                  .of(context)
+                                  .textScaleFactor,
+                              color: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color)))),
+              SizedBox(height: 10),
+              SizedBox(child: Text("Recommendations",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 20 * MediaQuery
+                          .of(context)
+                          .textScaleFactor,
+                      fontWeight: FontWeight.bold,
+                      color: Theme
+                          .of(context)
+                          .textTheme
+                          .bodyText1!
+                          .color))),
+              SizedBox(height: 10),
+              Expanded(flex: 3,
+                child: _RecommendedItems(
+                  currentAdventure!, currentItinerary!, c!, entryModel),)
+            ]);
           }
         });
   }
@@ -2263,9 +2302,10 @@ class RegisteredUsers extends StatelessWidget {
                                     leading: CachedNetworkImage(
                                         useOldImageOnUrlChange: true,
                                         imageUrl:
-                                    userApi + "/user/viewPicture/" +
-                                        registeredModel.users!.elementAt(index)
-                                            .user.profileID,
+                                        userApi + "/user/viewPicture/" +
+                                            registeredModel.users!.elementAt(
+                                                index)
+                                                .user.profileID,
                                         imageBuilder: (context,
                                             imageProvider) =>
                                             Container(
@@ -2378,69 +2418,208 @@ class _RecommendedItems extends StatelessWidget {
   Adventure? currentAdventure;
   Itinerary? currentItinerary;
   BuildContext? context;
+  ItineraryEntryModel? entryModel;
+  final ScrollController _controller = ScrollController();
 
-  _RecommendedItems(Adventure a, Itinerary i, BuildContext c) {
+
+  _RecommendedItems(Adventure a, Itinerary i, BuildContext c,
+      ItineraryEntryModel iEM) {
     this.currentAdventure = a;
     this.currentItinerary = i;
     this.context = c;
+    this.entryModel = iEM;
   }
+  
+  double getSize(BuildContext context)
+  {
+    if(MediaQuery.of(context).size.width>MediaQuery.of(context).size.height) {
+      return (MediaQuery
+          .of(context)
+          .size
+          .width / 3);
+    }
+    else {
+      return (MediaQuery
+          .of(context)
+          .size
+          .width / 2);
+    }
+  }
+
+
 
   @override
   Widget build(context) {
-    return ChangeNotifierProvider(
-        create: (context) =>
-            RecommendationModel(currentAdventure!),
-        builder: (context, widget) {
-          return Consumer<RecommendationModel>(
-              builder: (context, recModel,
-                  child) {
-                if (recModel.popular == null) {
-                  return Center(
-                      child: CircularProgressIndicator(
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                              Theme
-                                  .of(context)
-                                  .accentColor)));
-                }
-                else if (recModel.popular!.length>0) {
-                  return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: recModel
-                          .popular!.length,
-                      itemBuilder: (context,
-                          index) {
-                        return Text( recModel.popular!.elementAt(index).name,textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 10 * MediaQuery
-                                    .of(context)
-                                    .textScaleFactor,
+    if (entryModel!.popular!.length > 0) {
+      return
+      Container(width:MediaQuery.of(context).size.width, child:
+          Stack(children:[
+        ListView.builder(
+          scrollDirection: Axis.horizontal,
+            controller: _controller,
+          shrinkWrap: true,
+          itemCount: entryModel!
+              .popular!.length,
+          itemBuilder: (context,
+              index) {
+            print( entryModel!
+                .popular!.length);
+            return   Container(width: getSize(context),child: ClipRect(child:Card(
+                color: Theme
+                    .of(context)
+                    .primaryColorDark,
+                child: Banner(
+                    location: BannerLocation.topEnd,
+                    message: "Popular",
+                    color: Theme.of(context).accentColor,
+                    textStyle: TextStyle(
+                        fontSize: 12 *
+                            MediaQuery
+                                .of(context)
+                                .textScaleFactor,
+                        color: Theme
+                            .of(context)
+                            .scaffoldBackgroundColor),
+                    child: InkWell(
+                    hoverColor: Theme
+                        .of(context)
+                        .primaryColorLight,
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children:[
+                  Expanded( flex: 5,child:Container(
+                        decoration: new BoxDecoration(
+                            image: new DecorationImage(
+                              //TODO: operand can't be null (always false)
+                                image: entryModel!.popular!.elementAt(
+                                    index).photoReference =="" ? NetworkImage(
+                                    "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                        currentAdventure!.location
+                                            .photoReference +
+                                        "&maxwidth=700&key=" +
+                                        googleMapsKey) : NetworkImage(
+                                    "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                        entryModel!.popular!.elementAt(
+                                            index)
+                                            .photoReference +
+                                        "&maxwidth=500&key=" +
+                                        googleMapsKey),
+                                fit: BoxFit.cover,
+                                )
+                        ))),
+                              Expanded(flex: 3,child:
+                              ListTile(
+                                title: Text(
+                                    entryModel!.popular!
+                                        .elementAt(index).name,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 20 *
+                                            MediaQuery
+                                                .of(context)
+                                                .textScaleFactor,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme
+                                            .of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .color)),
+                                // subtitle:Text(adventures.elementAt(index).description),
+                                subtitle: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(children: [
+                                    WidgetSpan(
+                                        child: Icon(
+                                          Icons.location_on,
+                                          size: 15,
+                                          color: Theme
+                                              .of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        )),
+                                    TextSpan(
+                                        text: " " +
+                                            entryModel!.popular!
+                                                .elementAt(index)
+                                                .formattedAddress,
+                                        style: TextStyle(
+                                            fontSize: 12 *
+                                                MediaQuery
+                                                    .of(
+                                                    context)
+                                                    .textScaleFactor,
+                                            color: Theme
+                                                .of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color)),
+
+                                  ]),
+                                ),
+                              )),Expanded(child:Center(child:true?IconButton(
+                              splashRadius:21,
+                              onPressed:(){},
+                                iconSize: 20,
+                                color: Color(0xff931621),
+                                icon: Icon(Icons.favorite_rounded)):IconButton(
+                                onPressed:(){},
+                                splashRadius:21,
+                                iconSize: 20,
                                 color: Theme
                                     .of(context)
                                     .textTheme
                                     .bodyText1!
-                                    .color));
-                      }
-                  );
-                }
-                else {
-                  return Center(
-                      child: Text(
-                          "What an adventurer! You're the first one to ever go here!",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 30 * MediaQuery
-                                  .of(context)
-                                  .textScaleFactor,
-                              color: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .color)));
-                }
-              }
-          );
-        }
-    );
+                                    .color,
+                              icon: Icon(Icons.favorite_outline_rounded)
+                            )),
+                          ),Spacer(),])
+                        )))));
+          }
+      ), Positioned(
+                top: 50,
+                left: 0,
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Theme
+                            .of(context)
+                            .accentColor,
+                        shape: BoxShape.circle),child:IconButton(
+                  color: Theme.of(context).primaryColorDark,
+                  icon: Icon(Icons.arrow_left_rounded),
+                  onPressed: (){_controller.jumpTo(_controller.offset-getSize(context));},
+                ))
+            ),Positioned(
+                top: 50,
+                right: 0,
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Theme
+                            .of(context)
+                            .accentColor,
+                        shape: BoxShape.circle),child:IconButton(
+                  color: Theme
+                    .of(context)
+                    .primaryColorDark,
+                  icon: Icon(Icons.arrow_right_rounded),
+                  onPressed: (){_controller.jumpTo(_controller.offset+getSize(context));},
+                ))
+            ),]));
+    }
+    else {
+      return Center(
+          child: Text(
+              "What an adventurer! You're the first one to ever go here!",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 30 * MediaQuery
+                      .of(context)
+                      .textScaleFactor,
+                  color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color)));
+    }
   }
 }

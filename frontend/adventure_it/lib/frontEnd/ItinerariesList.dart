@@ -226,7 +226,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                           Spacer(),
                           Text("Next Stop!",
                               style: TextStyle(
-                                  fontSize: 30 *
+                                  fontSize: 20 *
                                       MediaQuery.of(context).textScaleFactor,
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context)
@@ -235,7 +235,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                       .color)),
                           Text(next!.title,
                               style: TextStyle(
-                                  fontSize: 40 *
+                                  fontSize: 35 *
                                       MediaQuery.of(context).textScaleFactor,
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context)
@@ -250,7 +250,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                 WidgetSpan(
                                     child: Icon(
                                   Icons.location_on,
-                                  size: 15,
+                                  size: 12,
                                   color: Theme.of(context)
                                       .textTheme
                                       .bodyText1!
@@ -259,7 +259,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                 TextSpan(
                                     text: " " + next!.location.formattedAddress,
                                     style: TextStyle(
-                                        fontSize: 15 *
+                                        fontSize: 12 *
                                             MediaQuery.of(context)
                                                 .textScaleFactor,
                                         color: Theme.of(context)
@@ -273,7 +273,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                               child: Text(getTime(next!),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: 15 *
+                                      fontSize: 12 *
                                           MediaQuery.of(context)
                                               .textScaleFactor,
                                       fontWeight: FontWeight.bold,
