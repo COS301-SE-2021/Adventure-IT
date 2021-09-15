@@ -2,6 +2,8 @@ import 'package:adventure_it/api/itinerary.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
+import 'package:adventure_it/api/location.dart';
+import 'package:adventure_it/api/locationAPI.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/cupertino.dart';
@@ -151,13 +153,37 @@ class ItineraryModel extends ChangeNotifier {
 
 class ItineraryEntryModel extends ChangeNotifier {
   List<ItineraryEntry>? _entries;
+  List<Location>? _recommendations;
+  List<Location>? _popular;
+  Adventure? currentAdventure;
 
-  ItineraryEntryModel(Itinerary i) {
+
+  Future fetchAllRecommendations() async {
+    _recommendations = await LocationApi.getRecommendations(
+        this.currentAdventure!);
+
+  }
+
+  Future fetchAllPopular() async {
+    _popular = await LocationApi.getPopular(
+        this.currentAdventure!);
+
+  }
+
+  ItineraryEntryModel(Itinerary i,Adventure a) {
+    this.currentAdventure=a;
+    fetchAllRecommendations().then((recs) =>
+    recs != null ? _recommendations = recs : List.empty());
+    fetchAllPopular().then((pops) =>
+    pops != null ? _popular = pops : List.empty());
     fetchAllEntries(i)
         .then((entries) => entries != null ? _entries = entries : List.empty());
+
   }
 
   List<ItineraryEntry>? get entries => _entries?.toList();
+  List<Location>? get recommendations => _recommendations?.toList();
+  List<Location>? get popular => _popular?.toList();
 
   Future fetchAllEntries(Itinerary i) async {
     _entries = await ItineraryApi.getItineraryEntries(i);
