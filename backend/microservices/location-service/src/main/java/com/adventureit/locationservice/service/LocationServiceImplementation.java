@@ -274,9 +274,13 @@ public class LocationServiceImplementation implements LocationService {
             for (int i = 0; i < array.length(); ++i) {
                 jsonObject = array.getJSONObject(i);
                 if(location.getCountry().equals(jsonObject.get("long_name").toString())){
-                    System.out.println(jsonObject.get("short_name").toString());
-                    flags.getPlacesVisited().add(jsonObject.get("short_name").toString());
-                    break;
+                    if(flags.getPlacesVisited().contains(jsonObject.get("short_name").toString())){
+                        break;
+                    }
+                    else{
+                        flags.getPlacesVisited().add(jsonObject.get("short_name").toString());
+                        break;
+                    }
                 }
             }
         }
