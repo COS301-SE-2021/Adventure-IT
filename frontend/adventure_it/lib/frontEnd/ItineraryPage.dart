@@ -2501,8 +2501,8 @@ class _RecommendedItems extends StatelessWidget {
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return AlertBox(
-                                          currentItinerary!, provider, entryModel.popular.elementAt(entryModel!.popular!.elementAt(index)));
+                                      return AlertBoxRecommendation(
+                                          currentItinerary!, provider, entryModel!.popular!.elementAt(index));
                                     });
                               },
                               hoverColor: Theme
@@ -2634,16 +2634,16 @@ class _RecommendedItems extends StatelessWidget {
                                     .of(context)
                                     .scaffoldBackgroundColor),
                             child: InkWell(
-                              onTap:(){
-                                var provider = Provider.of<
-                                    ItineraryEntryModel>(
-                                    context, listen: false);
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertBox(
-                                          currentItinerary!, provider, entryModel.recommendations.elementAt( index-entryModel!.popular!.length));
-                                    });
+                                onTap:(){
+                                  var provider = Provider.of<
+                                      ItineraryEntryModel>(
+                                      context, listen: false);
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertBoxRecommendation(
+                                            currentItinerary!, provider, entryModel!.recommendations!.elementAt(index-entryModel!.popular!.length));
+                                      });
                               },
                                 hoverColor: Theme
                                     .of(context)
@@ -2804,5 +2804,688 @@ class _RecommendedItems extends StatelessWidget {
                       .bodyText1!
                       .color)));
     }
+  }
+}
+
+class AlertBoxRecommendation extends StatefulWidget {
+  late final Itinerary? currentItinerary;
+  final ItineraryEntryModel itineraryEntryModel;
+  late final RecommendedLocation? recommendedLocation;
+
+  AlertBoxRecommendation(this.currentItinerary, this.itineraryEntryModel,this.recommendedLocation);
+
+  @override
+  _AlertBoxRecommended createState() => _AlertBoxRecommended(currentItinerary!,recommendedLocation);
+}
+
+class _AlertBoxRecommended extends State<AlertBoxRecommendation> {
+  Itinerary? currentItinerary;
+  RecommendedLocation? recommendedLocation;
+  DateTime? date;
+  TimeOfDay? time;
+  String? location;
+  final _debouncer = Debouncer(milliseconds: 500);
+
+  Map<int, Color> color = {
+    50: Color.fromRGBO(32, 34, 45, .1),
+    100: Color.fromRGBO(32, 34, 45, .2),
+    200: Color.fromRGBO(32, 34, 45, .3),
+    300: Color.fromRGBO(32, 34, 45, .4),
+    400: Color.fromRGBO(32, 34, 45, .5),
+    500: Color.fromRGBO(32, 34, 45, .6),
+    600: Color.fromRGBO(32, 34, 45, .7),
+    700: Color.fromRGBO(32, 34, 45, .8),
+    800: Color.fromRGBO(32, 34, 45, .9),
+    900: Color.fromRGBO(32, 34, 45, 1),
+  };
+
+  List<String> months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
+  double getSize(context) {
+    if (MediaQuery
+        .of(context)
+        .size
+        .height >
+        MediaQuery
+            .of(context)
+            .size
+            .width) {
+      return MediaQuery
+          .of(context)
+          .size
+          .height * 0.65;
+    } else {
+      return MediaQuery
+          .of(context)
+          .size
+          .height * 0.70;
+    }
+  }
+
+  _AlertBoxRecommended(this.currentItinerary, this.recommendedLocation) {
+    locationController.text = recommendedLocation!.name;
+  }
+
+
+  String userID = UserApi.getInstance().getUserProfile()!.userID;
+
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final locationController = TextEditingController();
+  final dateController = TextEditingController();
+  final timeController = TextEditingController();
+
+  Future<DateTime?> showDate() {
+    return showDatePicker(
+      context: context,
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData(
+            primarySwatch: Colors.grey,
+            splashColor: Color(0xff20222D),
+            textTheme: TextTheme(
+              subtitle1: TextStyle(color: Color(0xffA7AAB9)),
+              button: TextStyle(
+                  color: Color(0xffA7AAB9), fontWeight: FontWeight.bold),
+            ),
+            textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                  primary: Color(0xffA7AAB9), // button text color
+                )),
+            accentColor: Color(0xff6A7AC7),
+            colorScheme: ColorScheme.light(
+                primary: Color(0xff20222D),
+                primaryVariant: Color(0xff20222D),
+                secondaryVariant: Color(0xff20222D),
+                onSecondary: Color(0xff20222D),
+                onPrimary: Color(0xffA7AAB9),
+                surface: Color(0xff20222D),
+                onSurface: Color(0xffA7AAB9),
+                secondary: Color(0xff6A7AC7)),
+            dialogBackgroundColor: Color(0xff484D64),
+          ),
+          child: child!,
+        );
+      },
+      initialDate: date ?? DateTime.now(),
+      firstDate: new DateTime(DateTime
+          .now()
+          .year - 5),
+      lastDate: new DateTime(DateTime
+          .now()
+          .year + 5),
+    );
+  }
+
+  Future<TimeOfDay?> showTime() {
+    return showTimePicker(
+      context: context,
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData(
+            primarySwatch: MaterialColor(0xFF20222D, color),
+            splashColor: Color(0xff20222D),
+            timePickerTheme: TimePickerThemeData(
+                helpTextStyle: TextStyle(
+                  color: Color(0xffA7AAB9),
+                )),
+            textTheme: TextTheme(
+              subtitle1: TextStyle(color: Color(0xffA7AAB9)),
+              bodyText2: TextStyle(color: Color(0xffA7AAB9)),
+              bodyText1: TextStyle(color: Color(0xffA7AAB9)),
+              subtitle2: TextStyle(color: Color(0xffA7AAB9)),
+              button: TextStyle(
+                  color: Color(0xffA7AAB9), fontWeight: FontWeight.bold),
+            ),
+            textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                  primary: Color(0xffA7AAB9), // button text color
+                )),
+            accentColor: Color(0xff6A7AC7),
+            colorScheme: ColorScheme.light(
+                primary: Color(0xff6A7AC7),
+                primaryVariant: Color(0xff484D64),
+                secondaryVariant: Color(0xff484D64),
+                onSecondary: Color(0xffA7AAB9),
+                onPrimary: Color(0xffA7AAB9),
+                surface: Color(0xff20222D),
+                onSurface: Color(0xffA7AAB9),
+                secondary: Color(0xff6A7AC7)),
+            dialogBackgroundColor: Color(0xff484D64),
+            backgroundColor: Color(0xff484D64),
+          ),
+          child: child!,
+        );
+      },
+      initialTime: TimeOfDay.now(),
+    );
+  }
+
+  String getTextDate(DateTime theDate) {
+    String x = theDate.day.toString() +
+        " " +
+        months.elementAt(theDate.month - 1) +
+        " " +
+        theDate.year.toString();
+    return x;
+  }
+
+  String getTextTime(TimeOfDay theTime) {
+    final hours = time!.hour.toString().padLeft(2, '0');
+    final minutes = time!.minute.toString().padLeft(2, '0');
+    return '$hours:$minutes';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        backgroundColor: Theme
+            .of(context)
+            .primaryColorDark,
+        content: Container(
+          height: getSize(context),
+          child: Stack(
+            clipBehavior: Clip.none, children: <Widget>[
+            Positioned(
+              right: -40.0,
+              top: -40.0,
+              child: InkResponse(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: CircleAvatar(
+                  child: Icon(Icons.close,
+                      color: Theme
+                          .of(context)
+                          .primaryColorDark),
+                  backgroundColor: Theme
+                      .of(context)
+                      .accentColor,
+                ),
+              ),
+            ),
+            Center(
+              child: Column(
+                // mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text("Add Item To Itinerary",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color,
+                        fontSize: 25 * MediaQuery
+                            .of(context)
+                            .textScaleFactor,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  Spacer(),
+                  Container(
+                    width: 300,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.02),
+                    child: TextField(
+                        style: TextStyle(
+                            color:
+                            Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1!
+                                .color),
+                        controller: titleController,
+                        decoration: InputDecoration(
+                            hintStyle: TextStyle(
+                                color: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color),
+                            filled: true,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            fillColor: Theme
+                                .of(context)
+                                .primaryColorLight,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: new BorderSide(
+                                    color: Theme
+                                        .of(context)
+                                        .accentColor)),
+                            hintText: 'Title')),
+                  ),
+                  SizedBox(height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.01),
+                  Container(
+                    width: 300,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.02),
+                    child: TextField(
+                        maxLength: 255,
+                        maxLines: 3,
+                        style: TextStyle(
+                            color:
+                            Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1!
+                                .color),
+                        controller: descriptionController,
+                        decoration: InputDecoration(
+                            hintStyle: TextStyle(
+                                color: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color),
+                            filled: true,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            fillColor: Theme
+                                .of(context)
+                                .primaryColorLight,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: new BorderSide(
+                                    color: Theme
+                                        .of(context)
+                                        .accentColor)),
+                            hintText: 'Description')),
+                  ),
+                  SizedBox(height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.02),
+                  Container(
+                      width: 300,
+                      padding: EdgeInsets
+                          .symmetric(
+                          horizontal: MediaQuery
+                              .of(context)
+                              .size
+                              .width *
+                              0.02),
+                      child: TextField(
+                        maxLines: 1,
+                        style: TextStyle(
+                            color:
+                            Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1!
+                                .color),
+                        controller: dateController,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.calendar_today_rounded),
+                            hintStyle: TextStyle(
+                                color: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color),
+                            filled: true,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            fillColor: Theme
+                                .of(context)
+                                .primaryColorLight,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: new BorderSide(
+                                    color: Theme
+                                        .of(context)
+                                        .accentColor)),
+                            hintText: 'Pick a date'),
+                        onTap: () async {
+                          DateTime? picked = await showDate();
+                          if (picked != null) {
+                            setState(() {
+                              date = picked;
+                              dateController.text = getTextDate(picked);
+                            });
+                          }
+                        },
+                      )),
+                  SizedBox(height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.02),
+                  Container(
+                      width: 300,
+                      padding: EdgeInsets
+                          .symmetric(
+                          horizontal: MediaQuery
+                              .of(context)
+                              .size
+                              .width *
+                              0.02),
+                      child: TextField(
+                        maxLines: 1,
+                        style: TextStyle(
+                            color:
+                            Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1!
+                                .color),
+                        controller: timeController,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.access_time_rounded),
+                            hintStyle: TextStyle(
+                                color: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color),
+                            filled: true,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            fillColor: Theme
+                                .of(context)
+                                .primaryColorLight,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: new BorderSide(
+                                    color: Theme
+                                        .of(context)
+                                        .accentColor)),
+                            hintText: 'Pick a time'),
+                        onTap: () async {
+                          TimeOfDay? picked = await showTime();
+                          if (picked != null) {
+                            setState(() {
+                              time = picked;
+                              timeController.text = getTextTime(picked);
+                            });
+                          }
+                        },
+                      )),
+                  SizedBox(height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.02),
+                  Container(
+                      width: 300,
+                      padding: EdgeInsets
+                          .symmetric(
+                          horizontal: MediaQuery
+                              .of(context)
+                              .size
+                              .width *
+                              0.02),
+                      child: TextField(
+                        maxLines: 1,
+                        style: TextStyle(
+                            color:
+                            Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1!
+                                .color),
+                        controller: locationController,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.location_on_rounded),
+                            hintStyle: TextStyle(
+                                color: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color),
+                            filled: true,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            fillColor: Theme
+                                .of(context)
+                                .primaryColorLight,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: new BorderSide(
+                                    color: Theme
+                                        .of(context)
+                                        .accentColor)),
+                            hintText: 'Find a location'),
+                        onTap: () async {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                    backgroundColor: Theme
+                                        .of(context)
+                                        .primaryColorDark,
+                                    title: Stack(
+                                        clipBehavior: Clip.none,
+                                        children: <Widget>[
+                                          Positioned(
+                                            right: -40.0,
+                                            top: -40.0,
+                                            child: InkResponse(
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: CircleAvatar(
+                                                child: Icon(Icons.close,
+                                                    color: Theme
+                                                        .of(context)
+                                                        .primaryColorDark),
+                                                backgroundColor: Theme
+                                                    .of(context)
+                                                    .accentColor,
+                                              ),
+                                            ),
+                                          ), Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text("Find Location",
+                                                    textAlign: TextAlign
+                                                        .center,
+                                                    style: TextStyle(
+                                                      color: Theme
+                                                          .of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color,
+                                                      fontSize: 25 *
+                                                          MediaQuery
+                                                              .of(
+                                                              context)
+                                                              .textScaleFactor,
+                                                      fontWeight: FontWeight
+                                                          .bold,
+                                                    )),
+                                                SizedBox(height: MediaQuery
+                                                    .of(context)
+                                                    .size
+                                                    .height * 0.01, width: 300),
+                                                TextField(
+                                                  style: TextStyle(
+                                                      color:
+                                                      Theme
+                                                          .of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color),
+                                                  decoration: InputDecoration(
+                                                      hintStyle: TextStyle(
+                                                          color: Theme
+                                                              .of(
+                                                              context)
+                                                              .textTheme
+                                                              .bodyText2!
+                                                              .color),
+                                                      filled: true,
+                                                      enabledBorder: InputBorder
+                                                          .none,
+                                                      errorBorder: InputBorder
+                                                          .none,
+                                                      disabledBorder: InputBorder
+                                                          .none,
+                                                      fillColor: Theme
+                                                          .of(context)
+                                                          .primaryColorLight,
+                                                      focusedBorder: OutlineInputBorder(
+                                                          borderSide: new BorderSide(
+                                                              color: Theme
+                                                                  .of(
+                                                                  context)
+                                                                  .accentColor)),
+                                                      hintText: 'Search for a place of interest'),
+                                                  onChanged: (value) {
+                                                    _debouncer.run(() {
+                                                      Provider.of<
+                                                          LocationModel>(
+                                                          context,
+                                                          listen: false)
+                                                          .fetchAllSuggestions(
+                                                          value);
+                                                    });
+                                                  },
+                                                ),
+                                              ])
+                                        ]),
+                                    content:
+                                    Container(
+                                        width: 300,
+                                        child: Consumer<LocationModel>(
+                                            builder: (context, locationModel,
+                                                child) {
+                                              return locationModel
+                                                  .suggestions != null &&
+                                                  locationModel.suggestions!
+                                                      .length > 0 ?
+                                              ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount: locationModel
+                                                      .suggestions!.length,
+                                                  itemBuilder: (context,
+                                                      index) {
+                                                    return
+                                                      InkWell(
+                                                          hoverColor:
+                                                          Theme
+                                                              .of(context)
+                                                              .primaryColorLight,
+                                                          onTap: () {
+                                                            setState(() {
+                                                              this.location =
+                                                                  locationModel
+                                                                      .suggestions!
+                                                                      .elementAt(
+                                                                      index)
+                                                                      .description;
+                                                              locationController
+                                                                  .text =
+                                                              this.location!;
+                                                            });
+                                                            Navigator.of(
+                                                                context).pop();
+                                                          },
+                                                          child: Padding(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                  vertical: MediaQuery
+                                                                      .of(
+                                                                      context)
+                                                                      .size
+                                                                      .height *
+                                                                      0.01,
+                                                                  horizontal: MediaQuery
+                                                                      .of(
+                                                                      context)
+                                                                      .size
+                                                                      .width *
+                                                                      0.01),
+                                                              child: ListTile(
+                                                                  title: Text(
+                                                                    locationModel
+                                                                        .suggestions!
+                                                                        .elementAt(
+                                                                        index)
+                                                                        .description,
+                                                                    style: TextStyle(
+                                                                        fontSize: 16 *
+                                                                            MediaQuery
+                                                                                .of(
+                                                                                context)
+                                                                                .textScaleFactor,
+                                                                        fontWeight: FontWeight
+                                                                            .bold,
+                                                                        color: Theme
+                                                                            .of(
+                                                                            context)
+                                                                            .textTheme
+                                                                            .bodyText1!
+                                                                            .color
+                                                                    ),
+                                                                  )
+                                                              )));
+                                                  })
+                                                  : Container(height: 10);
+                                            })));
+                              });
+                        },
+
+                      )), Spacer(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.02),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Theme
+                              .of(context)
+                              .accentColor),
+                      child: Text("Create",
+                          style: TextStyle(
+                              color: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .color)),
+                      onPressed: () async {
+                        await widget.itineraryEntryModel.addItineraryEntry(
+                            currentItinerary!,
+                            currentItinerary!.id,
+                            titleController.text,
+                            descriptionController.text,
+                            location!,
+                            (date!.toString()).substring(0, 10) +
+                                "T" + (time.toString()).substring(10, 15),
+                            userID);
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  Spacer(),
+                ],
+              ),
+            )
+          ],
+          ),
+        ));
   }
 }
