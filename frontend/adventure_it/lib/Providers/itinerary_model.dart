@@ -4,6 +4,7 @@ import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
 import 'package:adventure_it/api/location.dart';
 import 'package:adventure_it/api/locationAPI.dart';
+import 'package:adventure_it/api/recommendedLocation.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/cupertino.dart';
@@ -153,8 +154,8 @@ class ItineraryModel extends ChangeNotifier {
 
 class ItineraryEntryModel extends ChangeNotifier {
   List<ItineraryEntry>? _entries;
-  List<Location>? _recommendations;
-  List<Location>? _popular;
+  List<RecommendedLocation>? _recommendations;
+  List<RecommendedLocation>? _popular;
   Adventure? currentAdventure;
 
 
@@ -182,8 +183,8 @@ class ItineraryEntryModel extends ChangeNotifier {
   }
 
   List<ItineraryEntry>? get entries => _entries?.toList();
-  List<Location>? get recommendations => _recommendations?.toList();
-  List<Location>? get popular => _popular?.toList();
+  List<RecommendedLocation>? get recommendations => _recommendations?.toList();
+  List<RecommendedLocation>? get popular => _popular?.toList();
 
   Future fetchAllEntries(Itinerary i) async {
     _entries = await ItineraryApi.getItineraryEntries(i);

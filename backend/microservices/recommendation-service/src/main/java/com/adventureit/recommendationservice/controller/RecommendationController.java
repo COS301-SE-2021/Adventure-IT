@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -93,7 +91,7 @@ public class RecommendationController {
 
     // User requests arbitrary number of popular locations
     @GetMapping("get/popular/{numPopular}")
-    public List<UUID> getMostPopular(@PathVariable UUID userId, @PathVariable int numPopular){
-        return this.recommendationService.getMostPopular();
+    public String[][] getMostPopular(@PathVariable UUID userId, @PathVariable int numPopular){
+        return this.recommendationService.getMostPopular(userId,numPopular);
     }
 }

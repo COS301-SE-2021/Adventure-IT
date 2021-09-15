@@ -48,9 +48,14 @@ public class MainControllerRecommendationReroute {
     }
 
     // User requests arbitrary number of popular locations
-    @GetMapping("get/popular/{numPopular}")
-    public LocationsResponseDTO getMostPopular(@PathVariable UUID userId, @PathVariable int numPopular){
-        List<UUID> locationUUIDs = restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/popular/" + numPopular, List.class);
-        return restTemplate.getForObject(IP + ":" + recommendationPort + "/location/getLocations/"+locationUUIDs.toString(), LocationsResponseDTO.class);
+    @GetMapping("get/popular/{userId}/{numPopular}")
+    public List<RecommendedLocationResponseDTO> getMostPopular(@PathVariable UUID userId, @PathVariable int numPopular){
+        String[][] locationUUIDs = restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/popular/"+ userId+"/" + numPopular, String[][].class);
+        List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
+        for(int i = 0; i < Objects.requireNonNull(locationUUIDs).length; i++){
+            LocationResponseDTO location = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/"+locationUUIDs[i][0], LocationResponseDTO.class);
+            returnList.add(new RecommendedLocationResponseDTO(location.getId(),location.getPhotoReference(),location.getFormattedAddress(),location.getPlaceId(),location.getName(),Boolean.parseBoolean(locationUUIDs[i][1])));
+        }
+        return returnList;
     }
 }

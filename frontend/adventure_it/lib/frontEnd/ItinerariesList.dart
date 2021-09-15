@@ -257,7 +257,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                       .color,
                                 )),
                                 TextSpan(
-                                    text: " " + next!.location.formattedAddress,
+                                    text: " " + next!.location.name,
                                     style: TextStyle(
                                         fontSize: 12 *
                                             MediaQuery.of(context)

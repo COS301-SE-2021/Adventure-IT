@@ -5,10 +5,7 @@ import com.adventureit.recommendationservice.entity.User;
 import com.adventureit.recommendationservice.exception.*;
 import com.adventureit.recommendationservice.repository.LocationRepository;
 import com.adventureit.recommendationservice.repository.UserRepository;
-import javassist.Loader;
-import org.ejml.data.DMatrixSparseCSC;
 import org.ejml.simple.SimpleMatrix;
-import org.ejml.simple.ops.SimpleOperations_DSCC;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -209,14 +206,32 @@ public class RecommendationService {
         return returnMatrix;
     }
 
-    public List<UUID> getMostPopular() {
-        List<UUID> locationUUIDList = new ArrayList<>();
+    public String[][] getMostPopular(UUID id, int numPopular) {
         List<Location> locations = locationRepository.findAll();
         locations.sort(Comparator.comparing(Location::getVisits));
-        for(Location l : locations){
-            locationUUIDList.add(l.getLocationId());
+        String[][] returnMatrix = new String[locations.size()][2];
+        List<User> users = this.userRepository.findAll();
+
+        // Find index of current user:
+        int userIndex = -1;
+        for (int i = 0; i < users.size(); i++) {
+            if(users.get(i).getUserId().equals(id)){
+                userIndex = i;
+                break;
+            }
         }
-        return locationUUIDList;
+
+        if(userIndex == -1){
+            throw new UserNotFoundException(id);
+        }
+        User user=users.get(userIndex);
+
+        for(int i = 0; i<numPopular;i++){
+            returnMatrix[i][0] = locations.get(i).getLocationId().toString();
+            returnMatrix[i][1] = user.hasLiked(locations.get(i)).toString();
+        }
+
+        return returnMatrix;
     }
 }
 
