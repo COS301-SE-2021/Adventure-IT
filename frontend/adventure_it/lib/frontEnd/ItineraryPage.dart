@@ -16,6 +16,7 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/itinerary.dart';
 import 'package:adventure_it/api/userProfile.dart';
 import 'ItinerariesList.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'Navbar.dart';
 
 class ItineraryPage extends StatelessWidget {
@@ -1914,14 +1915,17 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                           },
                                         );
                                       }
+                                      if(value==5)
+                                        {
+
+                                          MapsLauncher.launchQuery(entryModel.entries!.elementAt(
+                                              index).location.formattedAddress);
+
+                                        }
                                       if (value == 3) {
                                         ItineraryApi.isRegisteredUser(
                                             entryModel.entries!.elementAt(
                                                 index)).then((value) {
-                                          print("here here here" +
-                                              value.toString());
-                                          print("here here here" +
-                                              value.toString());
                                           if (value) {
                                             ItineraryApi
                                                 .deregisterForItinerary(
@@ -2002,6 +2006,35 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                             ],
                                           )),
                                       PopupMenuItem(
+                                          value: 5,
+                                          child: Row(
+                                            children: <
+                                                Widget>[
+                                              Padding(
+                                                padding:
+                                                const EdgeInsets
+                                                    .all(5),
+                                                child: Icon(
+                                                    Icons
+                                                        .map_outlined,
+                                                    color: Theme
+                                                        .of(
+                                                        context)
+                                                        .textTheme
+                                                        .bodyText2!
+                                                        .color),
+                                              ),
+                                              Text("Open Map",
+                                                  style: TextStyle(
+                                                      color: Theme
+                                                          .of(
+                                                          context)
+                                                          .textTheme
+                                                          .bodyText2!
+                                                          .color))
+                                            ],
+                                          )),
+                                      PopupMenuItem(
                                           value: 4,
                                           child: Row(
                                             children: <
@@ -2030,6 +2063,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                           .color))
                                             ],
                                           )),
+
                                       PopupMenuItem(
                                           value: 2,
                                           child: Row(

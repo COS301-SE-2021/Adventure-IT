@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:provider/provider.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/Providers/itinerary_model.dart';
@@ -194,7 +195,11 @@ class _ItinerariesList extends State<ItinerariesList> {
         return Column(children: [
           Expanded(
               flex: 3,
-              child: Container(
+              child: InkWell(
+                  onTap:(){
+                    MapsLauncher.launchQuery(next!.location.formattedAddress);
+                  },
+                  child:Container(
                   width: MediaQuery.of(context).size.width * 0.8 < 500? 500: MediaQuery.of(context).size.width * 0.8,
                   decoration: new BoxDecoration(
                       image: new DecorationImage(
@@ -295,7 +300,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                   color: Theme.of(context)
                                       .textTheme
                                       .bodyText1!
-                                      .color))))),
+                                      .color)))))),
           SizedBox(height: MediaQuery.of(context).size.height / 60),
           Expanded(
               flex: 8,
@@ -400,7 +405,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                           ),
                         ))),
               ))
-        ]);
+          ]);
       } else {
         return Center(
             child: Text(

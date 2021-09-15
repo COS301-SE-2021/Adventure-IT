@@ -6,6 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:adventure_it/Providers/adventure_model.dart';
 import 'package:adventure_it/api/adventure.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import 'AdventurePage.dart';
@@ -237,6 +238,9 @@ class _Carousel extends State<Carousel> {
                       carouselController.previousPage();
                       _markers.clear();
                       _markers.add(Marker(
+                        onTap:(){
+                          MapsLauncher.launchCoordinates(double.parse(attendeeModel!.locations!.elementAt(i).latitude), double.parse(attendeeModel!.locations!.elementAt(i).longitude));
+                        },
                           markerId: MarkerId(
                               attendeeModel!.attendees!.elementAt(i).username),
                           infoWindow: InfoWindow(
@@ -255,6 +259,9 @@ class _Carousel extends State<Carousel> {
                       carouselController.previousPage();
                       _markers.clear();
                       _markers.add(Marker(
+                          onTap:(){
+                            MapsLauncher.launchCoordinates(double.parse(attendeeModel!.locations!.elementAt(i).latitude), double.parse(attendeeModel!.locations!.elementAt(i).longitude));
+                          },
                           markerId: MarkerId(
                               attendeeModel!.attendees!.elementAt(i).username),
                           infoWindow: InfoWindow(
@@ -342,6 +349,9 @@ class _Carousel extends State<Carousel> {
                       carouselController.nextPage();
                       _markers.clear();
                       _markers.add(Marker(
+                          onTap:(){
+                            MapsLauncher.launchCoordinates(double.parse(attendeeModel!.locations!.elementAt(i).latitude), double.parse(attendeeModel!.locations!.elementAt(i).longitude));
+                          },
                           markerId: MarkerId(
                               attendeeModel!.attendees!.elementAt(i).username),
                           infoWindow: InfoWindow(
@@ -360,6 +370,9 @@ class _Carousel extends State<Carousel> {
                       carouselController.nextPage();
                       _markers.clear();
                       _markers.add(Marker(
+                          onTap:(){
+                            MapsLauncher.launchCoordinates(double.parse(attendeeModel!.locations!.elementAt(i).latitude), double.parse(attendeeModel!.locations!.elementAt(i).longitude));
+                          },
                           markerId: MarkerId(
                               attendeeModel!.attendees!.elementAt(i).username),
                           infoWindow: InfoWindow(
@@ -397,6 +410,9 @@ class _Carousel extends State<Carousel> {
                       setState(() {
                         _markers.clear();
                         _markers.add(Marker(
+                            onTap:(){
+                              MapsLauncher.launchCoordinates(double.parse(attendeeModel!.locations!.elementAt(i).latitude), double.parse(attendeeModel!.locations!.elementAt(i).longitude));
+                            },
                             markerId: MarkerId(attendeeModel!.attendees!
                                 .elementAt(i)
                                 .username),
