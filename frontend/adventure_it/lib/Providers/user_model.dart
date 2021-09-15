@@ -58,6 +58,12 @@ class UserModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future setT(bool t) async {
+    await UserApi.setTheme(t);
+    _t = t;
+    notifyListeners();
+  }
+
   Future addProfilePicture(value) async {
     await ProfileApi.addProfilePicture(value);
     await getProfile();
