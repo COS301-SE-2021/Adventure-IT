@@ -73,7 +73,7 @@ public class RecommendationService {
         }
     }
 
-    public List<UUID> getUserRecommendations(UUID id){
+    public String[][] getUserRecommendations(UUID id, int numRecommendations){
         // Get users
         List<User> users = this.userRepository.findAll();
         int numUsers = users.size();
@@ -190,13 +190,23 @@ public class RecommendationService {
                 }
             }
         }
-
+        User user = users.get(userIndex);
         List<UUID> recommendedLocations = new ArrayList<>();
         for (int i = 0; i < locationIndex.length; i++) {
             recommendedLocations.add(locations.get(i).getLocationId());
         }
 
-        return recommendedLocations;
+        if(numRecommendations>= recommendedLocations.size()){
+            numRecommendations = recommendedLocations.size();
+        }
+        String[][] returnMatrix = new String[numLocations][2];
+        for(int i = 0; i<numRecommendations;i++){
+            Location currentLocation = locationRepository.findLocationByLocationId(recommendedLocations.get(i));
+            returnMatrix[i][0] = recommendedLocations.get(i).toString();
+            returnMatrix[i][1] = user.hasLiked(currentLocation).toString();
+        }
+
+        return returnMatrix;
     }
 
     public List<UUID> getMostPopular() {

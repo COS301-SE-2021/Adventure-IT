@@ -36,11 +36,11 @@ public class User {
         this.visitedLocations.add(location);
     }
 
-    public boolean hasLiked(Location location){
+    public Boolean hasLiked(Location location){
         return this.likedLocations.contains(location);
     }
 
-    public boolean hasVisited(Location location){
+    public Boolean hasVisited(Location location){
         return this.visitedLocations.contains(location);
     }
 
