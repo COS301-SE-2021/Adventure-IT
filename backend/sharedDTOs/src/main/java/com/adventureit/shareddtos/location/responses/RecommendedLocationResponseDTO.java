@@ -10,6 +10,10 @@ public class RecommendedLocationResponseDTO extends LocationResponseDTO{
         this.liked = liked;
     }
 
+    public Boolean getLiked() {
+        return liked;
+    }
+
     public RecommendedLocationResponseDTO(Boolean liked) {
         this.liked = liked;
     }
