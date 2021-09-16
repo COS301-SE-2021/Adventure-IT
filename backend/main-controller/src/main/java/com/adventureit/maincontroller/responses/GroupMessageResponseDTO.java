@@ -12,15 +12,13 @@ public class GroupMessageResponseDTO {
     GetUserByUUIDDTO sender;
     String message;
     LocalDateTime timestamp;
-    List<GetUserByUUIDDTO> receivers;
     Map<UUID, Boolean> read;
 
-    public GroupMessageResponseDTO(UUID id, GetUserByUUIDDTO sender, String message, LocalDateTime timestamp, List<GetUserByUUIDDTO> receivers, Map<UUID,Boolean> read){
+    public GroupMessageResponseDTO(UUID id, GetUserByUUIDDTO sender, String message, LocalDateTime timestamp, Map<UUID,Boolean> read){
         this.id = id;
         this.sender = sender;
         this.message = message;
         this.timestamp = timestamp;
-        this.receivers = receivers;
         this.read = read;
     }
 
@@ -42,10 +40,6 @@ public class GroupMessageResponseDTO {
 
     public String getMessage() {
         return message;
-    }
-
-    public List<GetUserByUUIDDTO> getReceivers() {
-        return receivers;
     }
 
     public Map<UUID, Boolean> getRead() {

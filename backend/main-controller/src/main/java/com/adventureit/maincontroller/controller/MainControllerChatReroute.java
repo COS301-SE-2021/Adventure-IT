@@ -53,7 +53,6 @@ public class MainControllerChatReroute {
         GroupChatResponseDTO chat = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getGroupChat/" + id, GroupChatResponseDTO.class);
         GroupMessageDTO message;
         GetUserByUUIDDTO user;
-        List<GetUserByUUIDDTO> users = new ArrayList<>();
         List <GroupMessageResponseDTO> list = new ArrayList<>();
 
         assert chat != null;
@@ -63,11 +62,7 @@ public class MainControllerChatReroute {
             assert message != null;
             user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + message.getSender(), GetUserByUUIDDTO.class);
 
-            for (UUID x:chat.getParticipants()) {
-                users.add(restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + x, GetUserByUUIDDTO.class));
-            }
-
-            list.add(new GroupMessageResponseDTO(message.getId(),user,message.getPayload(), message.getTimestamp(),users,message.getRead()));
+            list.add(new GroupMessageResponseDTO(message.getId(),user,message.getPayload(), message.getTimestamp(),message.getRead()));
         }
 
         list.sort(new Comparator<>() {
