@@ -7,6 +7,7 @@ import com.adventureit.recommendationservice.exception.UserNotFoundException;
 import com.adventureit.shareddtos.recommendation.request.CreateLocationRequest;
 import com.adventureit.shareddtos.recommendation.request.CreateUserRequest;
 import com.adventureit.recommendationservice.service.RecommendationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/recommendation")
 public class RecommendationController {
-
+    @Autowired
     RecommendationService recommendationService;
 
     // User likes a location
@@ -85,13 +86,17 @@ public class RecommendationController {
 
     // User requests arbitrary number of recommendations
     @GetMapping("get/{userId}/{numRecommendations}/{location}")
-    public String[][] getUserRecommendations(@PathVariable UUID userId, @PathVariable int numRecommendations, @PathVariable String location){
-        return this.recommendationService.getUserRecommendations(userId, numRecommendations, location);
+    public String[][] getUserRecommendations(@PathVariable UUID userId, @PathVariable String numRecommendations, @PathVariable String location){
+        System.out.println("111111111111111111111111111111111111111111111111111111111");
+        String[][] returnMap= this.recommendationService.getUserRecommendations(userId, numRecommendations, location);
+        System.out.println("22222222222222222222222222222222222222222222222222222222222222222222");
+        return returnMap;
     }
 
     // User requests arbitrary number of popular locations
     @GetMapping("get/popular/{userId}/{numPopular}/{location}")
-    public String[][] getMostPopular(@PathVariable UUID userId, @PathVariable int numPopular, @PathVariable String location){
-        return this.recommendationService.getMostPopular(userId,numPopular,location);
+    public String[][] getMostPopular(@PathVariable UUID userId, @PathVariable String numPopular, @PathVariable String location){
+        String[][] returnMap=this.recommendationService.getMostPopular(userId,numPopular,location);
+        return returnMap;
     }
 }

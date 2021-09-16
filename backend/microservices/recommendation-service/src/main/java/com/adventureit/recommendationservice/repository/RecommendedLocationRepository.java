@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface LocationRepository extends JpaRepository<RecommendedLocation, UUID> {
+public interface RecommendedLocationRepository extends JpaRepository<RecommendedLocation, UUID> {
     RecommendedLocation findLocationByLocationId(UUID id);
 }

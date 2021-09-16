@@ -2,8 +2,8 @@ package com.adventureit.recommendationservice;
 
 import com.adventureit.recommendationservice.entity.RecommendedLocation;
 import com.adventureit.recommendationservice.entity.User;
-import com.adventureit.recommendationservice.repository.LocationRepository;
-import com.adventureit.recommendationservice.repository.UserRepository;
+import com.adventureit.recommendationservice.repository.RecommendedLocationRepository;
+import com.adventureit.recommendationservice.repository.RecommendedUserRepository;
 import com.adventureit.recommendationservice.service.RecommendationService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -15,10 +15,10 @@ import java.util.UUID;
 
 public class RecommendationServiceUnitTests {
 
-    UserRepository userRepository = Mockito.mock(UserRepository.class);
-    LocationRepository locationRepository = Mockito.mock(LocationRepository.class);;
+    RecommendedUserRepository recommendedUserRepository = Mockito.mock(RecommendedUserRepository.class);
+    RecommendedLocationRepository recommendedLocationRepository = Mockito.mock(RecommendedLocationRepository.class);;
 
-    RecommendationService recommendationService = new RecommendationService(userRepository, locationRepository);
+    RecommendationService recommendationService = new RecommendationService(recommendedUserRepository, recommendedLocationRepository);
 
     Random rand = new Random();
 
@@ -85,14 +85,14 @@ public class RecommendationServiceUnitTests {
         }
 
         // Ensure mocked repositories return mocked entries
-        Mockito.when(userRepository.findAll()).thenReturn(mockUsers);
-        Mockito.when(locationRepository.findAll()).thenReturn(mockLocations);
+        Mockito.when(recommendedUserRepository.findAll()).thenReturn(mockUsers);
+        Mockito.when(recommendedLocationRepository.findAll()).thenReturn(mockLocations);
     }
 
     @Test
     void testGetRecommendations(){
         createMockEntries();
-        this.recommendationService.getUserRecommendations(UUID.randomUUID(),15,"Paris, France");
+        this.recommendationService.getUserRecommendations(UUID.randomUUID(),"15","Paris, France");
     }
 }
 
