@@ -30,8 +30,9 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/adventure")
 public class MainControllerAdventureReroute {
 
-    MainControllerServiceImplementation service;
     private final RestTemplate restTemplate = new RestTemplate();
+    private MainControllerServiceImplementation service;
+
     private final String IP = "http://localhost";
     private final String adventurePort = "9001";
     private final String userPort = "9002";

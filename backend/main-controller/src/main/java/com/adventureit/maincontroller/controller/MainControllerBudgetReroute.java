@@ -12,6 +12,7 @@ import com.adventureit.shareddtos.budget.responses.ViewBudgetResponse;
 import com.adventureit.shareddtos.timeline.TimelineType;
 import com.adventureit.shareddtos.timeline.requests.CreateTimelineRequest;
 import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,18 +22,20 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/budget")
 public class MainControllerBudgetReroute {
-    MainControllerServiceImplementation service;
-
-    public MainControllerBudgetReroute(MainControllerServiceImplementation service) {
-        this.service = service;
-    }
 
     private final RestTemplate restTemplate = new RestTemplate();
+    private MainControllerServiceImplementation service;
+
     private final String IP = "http://localhost";
     private final String timelinePort = "9012";
     private final String budgetPort = "9007";
     private final String createBudget ="/budget/getBudgetByBudgetId/";
     private final String userPort = "9002";
+
+    @Autowired
+    public MainControllerBudgetReroute(MainControllerServiceImplementation service) {
+        this.service = service;
+    }
 
     @PostMapping(value ="/create")
     public String createBudget(@RequestBody CreateBudgetRequest req) throws Exception {

@@ -28,8 +28,9 @@ import java.util.UUID;
 @RequestMapping("/chat")
 public class MainControllerChatReroute {
 
-    private MainControllerServiceImplementation service;
     private final RestTemplate restTemplate = new RestTemplate();
+    private MainControllerServiceImplementation service;
+
     private final String IP = "http://localhost";
     private final String userPort = "9002";
     private final String chatPort = "9010";
