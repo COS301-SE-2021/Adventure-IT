@@ -4,13 +4,14 @@ import 'package:flutter/cupertino.dart';
 
 class LocationModel extends ChangeNotifier {
   List<PlaceSearch>? _suggestions = List.empty();
+  BuildContext? context;
 
-  LocationModel();
+  LocationModel(this.context);
 
   List<PlaceSearch>? get suggestions => _suggestions?.toList();
 
   Future fetchAllSuggestions(String value) async {
-    _suggestions = await LocationApi.getSuggestions(value);
+    _suggestions = await LocationApi.getSuggestions(value,context);
     notifyListeners();
   }
 }
