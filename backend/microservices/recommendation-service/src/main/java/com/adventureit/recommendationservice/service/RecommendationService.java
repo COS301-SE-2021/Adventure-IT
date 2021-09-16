@@ -1,6 +1,6 @@
 package com.adventureit.recommendationservice.service;
 
-import com.adventureit.recommendationservice.entity.Location;
+import com.adventureit.recommendationservice.entity.RecommendedLocation;
 import com.adventureit.recommendationservice.entity.User;
 import com.adventureit.recommendationservice.exception.*;
 import com.adventureit.recommendationservice.repository.LocationRepository;
@@ -23,7 +23,7 @@ public class RecommendationService {
 
     public void likeLocation(UUID userId, UUID locationId){
         User foundUser = this.userRepository.findUserByUserId(userId);
-        Location foundLocation = this.locationRepository.findLocationByLocationId(locationId);
+        RecommendedLocation foundLocation = this.locationRepository.findLocationByLocationId(locationId);
 
         if(foundUser == null){
             throw new UserNotFoundException(userId);
@@ -38,7 +38,7 @@ public class RecommendationService {
 
     public void visitLocation(UUID userId, UUID locationId){
         User foundUser = this.userRepository.findUserByUserId(userId);
-        Location foundLocation = this.locationRepository.findLocationByLocationId(locationId);
+        RecommendedLocation foundLocation = this.locationRepository.findLocationByLocationId(locationId);
 
         if(foundUser == null){
             throw new UserNotFoundException(userId);
@@ -63,7 +63,7 @@ public class RecommendationService {
 
     public void addLocation(UUID locationId) {
         if(this.locationRepository.findLocationByLocationId(locationId) == null){
-            this.locationRepository.save(new Location(locationId));
+            this.locationRepository.save(new RecommendedLocation(locationId));
         }
         else {
             throw new LocationExistsException(locationId);
@@ -89,15 +89,17 @@ public class RecommendationService {
         }
 
         // Get locations
-        List<Location> locations = this.locationRepository.findAll();
+        List<RecommendedLocation> locations = this.locationRepository.findAll();
         int numLocations = locations.size();
 
         if(numUsers == 0){
-            throw new RecommendationException("No persisted users, cannot create recommendations");
+            String[][] returnMatrix = new String[numLocations][2];
+            return returnMatrix;
         }
 
         if(numLocations == 0){
-            throw new RecommendationException("No persisted locations, cannot create recommendations");
+            String[][] returnMatrix = new String[numLocations][2];
+            return returnMatrix;
         }
 
         // For each user (row) add an entry with their "rating" of the corresponding location (col)
@@ -106,7 +108,7 @@ public class RecommendationService {
         for(int i = 0; i < numUsers; i++){
             for(int j = 0; j < numLocations; j++){
                 User currentUser = users.get(i);
-                Location currentLocation = locations.get(j);
+                RecommendedLocation currentLocation = locations.get(j);
 
                 // If user has liked the location and visited the location, insert rating 4
                 if(currentUser.hasLiked(currentLocation) && currentUser.hasVisited(currentLocation)){
@@ -198,7 +200,7 @@ public class RecommendationService {
         }
         String[][] returnMatrix = new String[numLocations][2];
         for(int i = 0; i<numRecommendations;i++){
-            Location currentLocation = locationRepository.findLocationByLocationId(recommendedLocations.get(i));
+            RecommendedLocation currentLocation = locationRepository.findLocationByLocationId(recommendedLocations.get(i));
             returnMatrix[i][0] = recommendedLocations.get(i).toString();
             returnMatrix[i][1] = user.hasLiked(currentLocation).toString();
         }
@@ -207,8 +209,8 @@ public class RecommendationService {
     }
 
     public String[][] getMostPopular(UUID id, int numPopular, String location) {
-        List<Location> locations = locationRepository.findAll();
-        locations.sort(Comparator.comparing(Location::getVisits));
+        List<RecommendedLocation> locations = locationRepository.findAll();
+        locations.sort(Comparator.comparing(RecommendedLocation::getVisits));
         String[][] returnMatrix = new String[locations.size()][2];
         List<User> users = this.userRepository.findAll();
 

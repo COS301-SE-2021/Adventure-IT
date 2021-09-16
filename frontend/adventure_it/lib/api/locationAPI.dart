@@ -102,34 +102,43 @@ class LocationApi {
   }
 
   static Future<List<RecommendedLocation>> getRecommendations(Adventure a,context) async {
-    // http.Response response = await _getRecommendations(a);
-    //
-    // if (response.statusCode != 200) {
-    //   throw Exception('Failed to get recommendations: ${response.body}');
-    // }
+    http.Response response = await _getRecommendations(a);
 
-    // List<loc.Location> locations = (jsonDecode(response.body) as List)
-    //     .map((x) => loc.Location.fromJson(x))
-    //     .toList();
-    List<RecommendedLocation> locations=[RecommendedLocation(id:"2344d7ac-4689-468f-9531-a7180ccc239f",formattedAddress: "South Africa",photoReference: "Aap_uEAP73TFAeNg106T7IOabdtTS0J3AXcsNqRtUMrZXBkq0cKNRcrxILec8igl-zLRx3HNrTvxHOsykA2ak79vK-pfWDlA19yykx-3AKdSckUU6Ho9R1DCA2Ysmt3F0GTskkX93fRdDt_yNlUo8EEL6REitWoxWHjcWc3lwk3NP20pan8Y",placeId: "ChIJoaA1xZZIwx4Re3hnH9NOUJo",name:"Location 1",liked:true),RecommendedLocation(id:"68da551e-43d2-458e-812a-7f9e65fe0971",formattedAddress: "Rue de Rivoli, 75001 Paris, France",photoReference: "Aap_uEDzjpFaQEgjtZzLibwZcVQnjiFDaRtXuiLVmIg9vdNfm2Z-61YWBz5y-wNYvXdscV-jZW2-4TLDmO2UfKu65womOGN8WDmj0PFwcO7YirbyLGJUrY-TzRmlcn48hRSui_BA0f0l2-RRhjHtDMUmpuqimfuNSFIv1qGOElmUt9R5A61-",placeId: "ChIJD3uTd9hx5kcR1IQvGfr8dbk",name:"Location 2", liked:false),RecommendedLocation(id: "822f88de-d5d7-42e4-a178-997994051045", photoReference: "Aap_uEAZ8eBCVUw3Ed7GVsrB0EsgZeb9DtIDoXqPFklYeTm413hAHuucjKpVXyaWadhW2nWfL2CRDDs47D5BmrSGPj0-ZRYb15n9xz1END7URoy-B3NiwFdH0n3zH-TDMDLsqZ6zCwpdYXx4glCqELtIp-N3rRFJcxWwJ6toonD2mLEDTszq", formattedAddress: "Hawaii, USA", placeId: "ChIJBeB5Twbb_3sRKIbMdNKCd0s",name:"Location 3",liked:true)];
+    if (response.statusCode != 200) {
+      throw Exception('Failed to get recommendations: ${response.body}');
+    }
+
+    List<RecommendedLocation> locations = (jsonDecode(response.body) as List)
+        .map((x) => RecommendedLocation.fromJson(x))
+        .toList();
     return locations;
 
   }
 
-  static Future<List<RecommendedLocation>> getPopular(Adventure a,context) async {
-    //http.Response response = await _getPopular(a);
-
-    // if (response.statusCode != 200) {
-    //   throw Exception('Failed to get recommendations: ${response.body}');
-    // }
-
-    // List<loc.Location> locations = (jsonDecode(response.body) as List)
-    //     .map((x) => loc.Location.fromJson(x))
-    //     .toList();
-        List<RecommendedLocation> locations=[RecommendedLocation(id:"2344d7ac-4689-468f-9531-a7180ccc239f",formattedAddress: "South Africa",photoReference: "Aap_uEAP73TFAeNg106T7IOabdtTS0J3AXcsNqRtUMrZXBkq0cKNRcrxILec8igl-zLRx3HNrTvxHOsykA2ak79vK-pfWDlA19yykx-3AKdSckUU6Ho9R1DCA2Ysmt3F0GTskkX93fRdDt_yNlUo8EEL6REitWoxWHjcWc3lwk3NP20pan8Y",placeId: "ChIJoaA1xZZIwx4Re3hnH9NOUJo",name:"Location 1",liked:true),RecommendedLocation(id:"68da551e-43d2-458e-812a-7f9e65fe0971",formattedAddress: "Rue de Rivoli, 75001 Paris, France",photoReference: "Aap_uEDzjpFaQEgjtZzLibwZcVQnjiFDaRtXuiLVmIg9vdNfm2Z-61YWBz5y-wNYvXdscV-jZW2-4TLDmO2UfKu65womOGN8WDmj0PFwcO7YirbyLGJUrY-TzRmlcn48hRSui_BA0f0l2-RRhjHtDMUmpuqimfuNSFIv1qGOElmUt9R5A61-",placeId: "ChIJD3uTd9hx5kcR1IQvGfr8dbk",name:"Location 2", liked:false),RecommendedLocation(id: "822f88de-d5d7-42e4-a178-997994051045", photoReference: "Aap_uEAZ8eBCVUw3Ed7GVsrB0EsgZeb9DtIDoXqPFklYeTm413hAHuucjKpVXyaWadhW2nWfL2CRDDs47D5BmrSGPj0-ZRYb15n9xz1END7URoy-B3NiwFdH0n3zH-TDMDLsqZ6zCwpdYXx4glCqELtIp-N3rRFJcxWwJ6toonD2mLEDTszq", formattedAddress: "Hawaii, USA", placeId: "ChIJBeB5Twbb_3sRKIbMdNKCd0s",name:"Location 3",liked:true)];
-        return locations;
-
+  static Future<http.Response> _getRecommendations(
+      Adventure a) async {
+    return http.get(Uri.parse("http://"+mainApi +
+        "/recommendation/get/"+UserApi.getInstance().getUserProfile()!.userID+"/5/"+a.location.formattedAddress));
   }
 
+
+  static Future<List<RecommendedLocation>> getPopular(Adventure a,context) async {
+    http.Response response = await _getPopular(a);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to get recommendations: ${response.body}');
+    }
+
+    List<RecommendedLocation> locations = (jsonDecode(response.body) as List)
+        .map((x) => RecommendedLocation.fromJson(x))
+        .toList();
+        return locations;
+  }
+
+  static Future<http.Response> _getPopular(
+      Adventure a) async {
+    return http.get(Uri.parse("http://"+mainApi +
+        "/recommendation/get/popular/"+UserApi.getInstance().getUserProfile()!.userID+"/5/"+a.location.formattedAddress));
+  }
 
 }

@@ -14,9 +14,9 @@ public class User {
     @Id
     private final UUID userId;
     @ManyToMany
-    private List<Location> likedLocations;
+    private List<RecommendedLocation> likedLocations;
     @ManyToMany
-    private List<Location> visitedLocations;
+    private List<RecommendedLocation> visitedLocations;
 
     public User(){
         this.userId = UUID.randomUUID();
@@ -28,19 +28,19 @@ public class User {
         this.userId = id;
     }
 
-    public void likeLocation(Location location){
+    public void likeLocation(RecommendedLocation location){
         this.likedLocations.add(location);
     }
 
-    public void visitLocation(Location location){
+    public void visitLocation(RecommendedLocation location){
         this.visitedLocations.add(location);
     }
 
-    public Boolean hasLiked(Location location){
+    public Boolean hasLiked(RecommendedLocation location){
         return this.likedLocations.contains(location);
     }
 
-    public Boolean hasVisited(Location location){
+    public Boolean hasVisited(RecommendedLocation location){
         return this.visitedLocations.contains(location);
     }
 
