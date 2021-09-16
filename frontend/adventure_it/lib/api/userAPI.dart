@@ -376,7 +376,7 @@ class UserApi {
         multiLine: false,
       );
       RegExp usernameReg = RegExp(
-        r'^(?=.*?[a-z]?)(?=.*?[0-9]?).{5,}$',
+        r'^[A-Za-z0-9]{5,}$',
         caseSensitive: false,
         multiLine: false,
       );
