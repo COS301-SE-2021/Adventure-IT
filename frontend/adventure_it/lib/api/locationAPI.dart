@@ -10,7 +10,6 @@ import 'package:location/location.dart' as loc;
 
 import 'adventure.dart';
 import 'currentLocation.dart';
-import 'flags.dart';
 
 class LocationApi {
   static Future<List<PlaceSearch>> getSuggestions(String query) async {
@@ -128,15 +127,13 @@ class LocationApi {
   // }
 
 
-  static Future<Flags> getFlagList() async {
+  static Future<List<dynamic>> getFlagList() async {
     http.Response response = await _getFlagList();
-
     if(response.statusCode != 200) {
       throw Exception('Failed to load flags: ${response.body}');
     }
 
-    Flags flag = (jsonDecode(response.body));
-    print(response.body);
+    List<dynamic> flag = (jsonDecode(response.body) as List);
     return flag;
   }
 
