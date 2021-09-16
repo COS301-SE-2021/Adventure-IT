@@ -90,7 +90,7 @@ public class RecommendationController {
     }
 
     // User requests arbitrary number of popular locations
-    @GetMapping("get/popular/{numPopular}/{location}")
+    @GetMapping("get/popular/{userId}/{numPopular}/{location}")
     public String[][] getMostPopular(@PathVariable UUID userId, @PathVariable int numPopular, @PathVariable String location){
         return this.recommendationService.getMostPopular(userId,numPopular,location);
     }
