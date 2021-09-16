@@ -6,6 +6,7 @@ import 'package:adventure_it/api/placeSearch.dart';
 import 'package:adventure_it/api/recommendedLocation.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/constants.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart' as loc;
 
@@ -13,10 +14,12 @@ import 'adventure.dart';
 import 'currentLocation.dart';
 
 class LocationApi {
-  static Future<List<PlaceSearch>> getSuggestions(String query) async {
+  static Future<List<PlaceSearch>> getSuggestions(String query,context) async {
     http.Response response = await _getSuggestions(query);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to load suggestions for places!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to load place suggestions: ${response.body}');
     }
 
@@ -34,10 +37,12 @@ class LocationApi {
   }
 
   static Future<List<CurrentLocation>> getAllCurrentLocations(
-      Adventure a) async {
+      Adventure a,context) async {
     http.Response response = await _getAllCurrentLocations(a.adventureId);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to get current locations of adventurers!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception(
           'Failed to load current locations for adventure: ${response.body}');
     }
@@ -55,10 +60,12 @@ class LocationApi {
         Uri.parse("http://"+mainApi + "/location/getAllCurrentLocations/" + adventureID));
   }
 
-  static Future<CurrentLocation> getCurrentLocation() async {
+  static Future<CurrentLocation> getCurrentLocation(context) async {
     http.Response response = await _getCurrentLocation();
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to get current location of adventurer!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception(
           'Failed to load the current location: ${response.body}');
     }
@@ -73,11 +80,13 @@ class LocationApi {
         Uri.parse("http://"+mainApi + "/location/getCurrentLocation/" + UserApi.getInstance().getUserProfile()!.userID));
   }
 
-  static Future setCurrentLocation(loc.LocationData location) async {
+  static Future setCurrentLocation(loc.LocationData location,context) async {
     http.Response response = await _setCurrentLocation(location.latitude.toString(), location.longitude.toString());
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to set location for user: ${response.body}');
+      SnackBar snackBar=SnackBar(content: Text('Failed to set location for adventurer!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      throw Exception('Failed to set location for adventurer: ${response.body}');
     }
   }
 
@@ -92,7 +101,7 @@ class LocationApi {
         longitude));
   }
 
-  static Future<List<RecommendedLocation>> getRecommendations(Adventure a) async {
+  static Future<List<RecommendedLocation>> getRecommendations(Adventure a,context) async {
     // http.Response response = await _getRecommendations(a);
     //
     // if (response.statusCode != 200) {
@@ -107,7 +116,7 @@ class LocationApi {
 
   }
 
-  static Future<List<RecommendedLocation>> getPopular(Adventure a) async {
+  static Future<List<RecommendedLocation>> getPopular(Adventure a,context) async {
     //http.Response response = await _getPopular(a);
 
     // if (response.statusCode != 200) {
@@ -122,8 +131,5 @@ class LocationApi {
 
   }
 
-  // static Future<http.Response> _getPopular(Adventure a) async {
-  //   return http.get(Uri.parse());
-  // }
 
 }

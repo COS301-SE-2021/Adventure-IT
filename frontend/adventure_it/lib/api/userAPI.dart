@@ -181,9 +181,11 @@ class UserApi {
     return this._userProfile;
   }
 
-  Future<List<String>> getFriends(String userID) async {
+  Future<List<String>> getFriends(String userID,context) async {
     http.Response response = await _getFriends(userID);
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to get list of friends!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to load list of friends: ${response.body}');
     }
     List<String> friends = (jsonDecode(response.body) as List)
@@ -198,9 +200,11 @@ class UserApi {
         .get(Uri.parse("http://" + mainApi + '/user/getFriends/' + userID));
   }
 
-  Future<List<FriendRequest>> getFriendRequests(String userID) async {
+  Future<List<FriendRequest>> getFriendRequests(String userID,context) async {
     http.Response response = await _getFriendRequests(userID);
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to get list of friend requests!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception(
           'Failed to load list of friend requests: ${response.body}');
     }
@@ -217,9 +221,11 @@ class UserApi {
         Uri.parse("http://" + mainApi + '/user/getFriendRequests/' + userID));
   }
 
-  Future<List<UserProfile>> getFriendProfiles(String userID) async {
+  Future<List<UserProfile>> getFriendProfiles(String userID,context) async {
     http.Response response = await _getFriendProfiles(userID);
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to get list of profiles of your friends!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception(
           'Failed to load list of profiles for friends: ${response.body}');
     }
@@ -235,9 +241,11 @@ class UserApi {
     return http.get(Uri.parse(userApi + '/user/getFriendProfiles/' + userID));
   }
 
-  Future deleteFriend(String userID, String friendID) async {
+  Future deleteFriend(String userID, String friendID,context) async {
     http.Response response = await _deleteFriend(userID, friendID);
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to remove adventurer as a friend!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to delete friend: ${response.body}');
     }
   }
@@ -247,9 +255,11 @@ class UserApi {
         Uri.parse(userApi + '/user/removeFriend/' + userID + "/" + friendID));
   }
 
-  Future deleteFriendRequest(String requestID) async {
+  Future deleteFriendRequest(String requestID,context) async {
     http.Response response = await _deleteFriendRequest(requestID);
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to decline friend request!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to delete friendRequest: ${response.body}');
     }
   }
@@ -259,9 +269,11 @@ class UserApi {
         .get(Uri.parse(userApi + '/user/deleteFriendRequest/' + requestID));
   }
 
-  Future acceptFriendRequest(String requestID) async {
+  Future acceptFriendRequest(String requestID,context) async {
     http.Response response = await _acceptFriendRequest(requestID);
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to accept friend request!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to accept friendRequest: ${response.body}');
     }
   }
@@ -271,9 +283,11 @@ class UserApi {
         .get(Uri.parse(userApi + '/user/acceptFriendRequest/' + requestID));
   }
 
-  Future<String> searchUsername(String value) async {
+  Future<String> searchUsername(String value,context) async {
     http.Response response = await _searchUsername(value);
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to find an adventurer with the entered username!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to find user with username: ${response.body}');
     }
 
@@ -286,9 +300,11 @@ class UserApi {
     return http.get(Uri.parse(userApi + '/user/getByUserName/' + username));
   }
 
-  Future createFriendRequest(String from, String to) async {
+  Future createFriendRequest(String from, String to,context) async {
     http.Response response = await _createFriendRequest(from, to);
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to create a friend request!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to create friend request: ${response.body}');
     }
   }
@@ -298,9 +314,11 @@ class UserApi {
         Uri.parse(userApi + '/user/createFriendRequest/' + from + "/" + to));
   }
 
-  Future<UserProfile> findUser(String userID) async {
+  Future<UserProfile> findUser(String userID,context) async {
     http.Response response = await _findUser(userID);
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to find adventurer!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to find user: ${response.body}');
     }
 
@@ -314,10 +332,12 @@ class UserApi {
     return http.get(Uri.parse(userApi + "/user/getUser/" + userID));
   }
 
-  Future updateUserProfile() async {
+  Future updateUserProfile(context) async {
     http.Response response = await _updateUserProfile(
         _instance.getUserProfile()!.userID);
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to update adventurer\'s profile!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to find user: ${response.body}');
     }
 
@@ -418,7 +438,7 @@ class UserApi {
       String username,
       String firstName,
       String lastName,
-      String email) async {
+      String email,context) async {
     final response = await http.post(
       Uri.parse('http://localhost:9999/user/editUserProfile'),
       headers: <String, String>{
@@ -447,6 +467,8 @@ class UserApi {
       await UserApi.getInstance().fetchBackendProfile(keycloakUser!.id);
       return response;
     } else {
+      SnackBar snackBar=SnackBar(content: Text('Failed to edit adventurer\'s profile!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       print('Status code: ${response.statusCode}');
