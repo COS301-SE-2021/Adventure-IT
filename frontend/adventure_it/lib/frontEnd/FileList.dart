@@ -38,7 +38,7 @@ class Files extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => FileModel(adventure!),
+        create: (context) => FileModel(adventure!,context),
         builder: (context, widget) => Scaffold(
               drawer: NavDrawer(),
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,

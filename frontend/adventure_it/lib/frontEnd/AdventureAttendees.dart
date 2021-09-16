@@ -22,9 +22,11 @@ class AdventureAttendees extends StatelessWidget {
   Location location = Location();
   LocationData? currentLocation;
   CurrentLocation? current;
+  BuildContext? context;
 
-  AdventureAttendees(Adventure a) {
+  AdventureAttendees(Adventure a,context) {
     this.currentAdventure = a;
+    this.context=context;
 
     bool serviceEnabled;
     PermissionStatus permissionGranted;
@@ -44,7 +46,7 @@ class AdventureAttendees extends StatelessWidget {
         if (permissionGranted == PermissionStatus.granted && serviceEnabled) {
           location.getLocation().then((value) {
             currentLocation = value;
-            LocationApi.setCurrentLocation(currentLocation!);
+            LocationApi.setCurrentLocation(currentLocation!,context);
           });
         }
       });
@@ -54,7 +56,7 @@ class AdventureAttendees extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-        value: AdventureAttendeesModel(this.currentAdventure!),
+        value: AdventureAttendeesModel(this.currentAdventure!,context),
         builder: (context, widget) => Scaffold(
             drawer: NavDrawer(),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,

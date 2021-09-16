@@ -23,7 +23,7 @@ class Itineraries extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => ItineraryModel(adventure!),
+        create: (context) => ItineraryModel(adventure!,context),
         builder: (context, widget) => Scaffold(
             drawer: NavDrawer(),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -43,7 +43,7 @@ class Itineraries extends StatelessWidget {
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
                   Container(
                       height: MediaQuery.of(context).size.height * 0.80,
-                      child: ItinerariesList(adventure!)),
+                      child: ItinerariesList(adventure!,context)),
                   Spacer(),
                   Row(children: [
                     Expanded(
@@ -112,13 +112,15 @@ class Itineraries extends StatelessWidget {
 
 class ItinerariesList extends StatefulWidget {
   late final Adventure? currentAdventure;
+  late final BuildContext? context;
 
-  ItinerariesList(Adventure a) {
+  ItinerariesList(Adventure a,context) {
     currentAdventure = a;
+    this.context=context;
   }
 
   @override
-  _ItinerariesList createState() => _ItinerariesList(currentAdventure);
+  _ItinerariesList createState() => _ItinerariesList(currentAdventure,context);
 }
 
 class _ItinerariesList extends State<ItinerariesList> {
@@ -141,9 +143,9 @@ class _ItinerariesList extends State<ItinerariesList> {
     "December"
   ];
 
-  _ItinerariesList(Adventure? adventure) {
+  _ItinerariesList(Adventure? adventure,context) {
     this.a = adventure;
-    ItineraryApi.getNextEntry(a!).then((value) {
+    ItineraryApi.getNextEntry(a!,context).then((value) {
       setState(() {
         check = true;
 
@@ -314,7 +316,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                           UserApi.getInstance()
                               .findUser(itineraryModel.itineraries!
                                   .elementAt(index)
-                                  .creatorID)
+                                  .creatorID,context)
                               .then((c) {
                             Navigator.pushReplacement(
                                 context,

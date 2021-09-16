@@ -5,11 +5,50 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e2d70d01-3ff2-4cc2-a958-68c42de5285f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/adventure-backend.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/adventure-backend.iws" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/recommendation_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/recommendation_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/adventure_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/adventure_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/budget_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/budget_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/chat_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/chat_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/checklist_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/checklist_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/friends_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/friends_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/itinerary_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/itinerary_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/location_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/location_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/media_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/media_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/registeredUser_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/registeredUser_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/timeline_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/timeline_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/user_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/user_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/adventureAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/adventureAPI.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/budgetAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/budgetAPI.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/chatAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/chatAPI.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/checklistAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/checklistAPI.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/itineraryAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/itineraryAPI.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/locationAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/locationAPI.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/mediaAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/mediaAPI.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/timelineAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/timelineAPI.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/userAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/userAPI.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/AdventureAttendees.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/AdventureAttendees.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/AdventurePage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/AdventurePage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/Adventures.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/Adventures.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/BudgetList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/BudgetList.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/BudgetPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/BudgetPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/BudgetTrash.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/BudgetTrash.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ChecklistPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ChecklistPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ChecklistsList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ChecklistsList.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ChecklistsTrash.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ChecklistsTrash.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/CreateAdventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/CreateAdventure.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/DirectChat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/DirectChat.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/DocumentList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/DocumentList.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/FileList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/FileList.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/FriendsPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/FriendsPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/GroupChat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/GroupChat.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItinerariesList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItinerariesList.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryTrash.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryTrash.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/Login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/Login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/MediaList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/MediaList.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/Profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/Profile.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/TimelinePage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/TimelinePage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

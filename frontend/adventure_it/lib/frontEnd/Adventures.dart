@@ -30,7 +30,7 @@ class HomePage_Pages_Adventures extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-        value: AdventuresModel(),
+        value: AdventuresModel(context),
         builder: (context, widget) => Column(children: <Widget>[
         Container(
           alignment: Alignment.center,

@@ -35,7 +35,7 @@ class ItineraryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) =>
-            ItineraryEntryModel(currentItinerary!, currentAdventure!),
+            ItineraryEntryModel(currentItinerary!, currentAdventure!,context),
         builder: (context, widget) {
           this.c = context;
           return Scaffold(
@@ -1925,24 +1925,24 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                       if (value == 3) {
                                         ItineraryApi.isRegisteredUser(
                                             entryModel.entries!.elementAt(
-                                                index)).then((value) {
+                                                index),context).then((value) {
                                           if (value) {
                                             ItineraryApi
                                                 .deregisterForItinerary(
                                                 entryModel.entries!.elementAt(
-                                                    index));
+                                                    index),context);
                                           }
                                           else {
                                             ItineraryApi.registerForItinerary(
                                                 entryModel.entries!.elementAt(
-                                                    index));
+                                                    index),context);
                                           }
                                         });
                                       }
                                       if (value == 4) {
                                         ItineraryApi.checkUserOff(
                                             entryModel.entries!.elementAt(
-                                                index));
+                                                index),context);
                                       }
                                     },
                                     itemBuilder: (context) =>
@@ -2285,7 +2285,7 @@ class RegisteredUsers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => RegisteredUserModel(this.currentEntry!),
+        create: (context) => RegisteredUserModel(this.currentEntry!,context),
         builder: (context, widget) {
           return Consumer<RegisteredUserModel>(
               builder: (context, registeredModel,
