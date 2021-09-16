@@ -118,7 +118,7 @@ class LocationApi {
   static Future<http.Response> _getRecommendations(
       Adventure a) async {
     return http.get(Uri.parse("http://"+mainApi +
-        "/recommendation/get/"+UserApi.getInstance().getUserProfile()!.userID+"/5/"+a.location.formattedAddress));
+        "/recommendation/get/"+UserApi.getInstance().getUserProfile()!.userID+"/5/"+a.location.id));
   }
 
 
@@ -138,7 +138,7 @@ class LocationApi {
   static Future<http.Response> _getPopular(
       Adventure a) async {
     return http.get(Uri.parse("http://"+mainApi +
-        "/recommendation/get/popular/"+UserApi.getInstance().getUserProfile()!.userID+"/5/"+a.location.formattedAddress));
+        "/recommendation/get/popular/"+UserApi.getInstance().getUserProfile()!.userID+"/5/"+a.location.id));
   }
 
 }
