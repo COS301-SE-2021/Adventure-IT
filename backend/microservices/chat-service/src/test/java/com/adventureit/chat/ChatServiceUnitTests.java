@@ -4,10 +4,7 @@ package com.adventureit.chat;
 import com.adventureit.chat.entity.ColorPair;
 import com.adventureit.chat.entity.DirectChat;
 import com.adventureit.chat.entity.GroupChat;
-import com.adventureit.chat.repository.ColorPairRepository;
-import com.adventureit.chat.repository.DirectChatRepository;
-import com.adventureit.chat.repository.GroupChatRepository;
-import com.adventureit.chat.repository.MessageRepository;
+import com.adventureit.chat.repository.*;
 import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
 import com.adventureit.shareddtos.chat.requests.CreateGroupChatRequest;
 import com.adventureit.shareddtos.chat.requests.SendDirectMessageRequestDTO;
@@ -32,8 +29,9 @@ public class ChatServiceUnitTests{
     GroupChatRepository groupChatRepository = Mockito.mock(GroupChatRepository.class);
     MessageRepository messageRepository = Mockito.mock(MessageRepository.class);
     ColorPairRepository colorPairRepository = Mockito.mock(ColorPairRepository.class);
+    MessageInfoRepository messageInfoRepository = Mockito.mock(MessageInfoRepository.class);
 
-    ChatServiceImplementation service = new ChatServiceImplementation(colorPairRepository,directChatRepository,groupChatRepository,messageRepository);
+    ChatServiceImplementation service = new ChatServiceImplementation(colorPairRepository,directChatRepository,groupChatRepository,messageRepository,messageInfoRepository);
 
     UUID mockChatID =UUID.randomUUID();
     UUID mockUser1Id = UUID.randomUUID();

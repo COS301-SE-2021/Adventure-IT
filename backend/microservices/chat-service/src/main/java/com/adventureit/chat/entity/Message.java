@@ -1,26 +1,20 @@
 package com.adventureit.chat.entity;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-public class Message {
+public class Message implements Serializable {
     @Id
     UUID id;
-    //@NotNull
     UUID sender;
-    //@NotNull
     UUID chatId;
-    //@NotNull
     @Column(length=5000)
     String payload;
-    //@NotNull
     LocalDateTime timestamp;
 
     public Message(UUID id, UUID sender,UUID chatId, String message){

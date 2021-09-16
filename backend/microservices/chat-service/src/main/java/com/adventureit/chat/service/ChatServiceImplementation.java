@@ -4,16 +4,20 @@ import com.adventureit.chat.entity.*;
 import com.adventureit.chat.exceptions.ChatNotFoundException;
 import com.adventureit.chat.exceptions.GroupChatFullException;
 import com.adventureit.chat.exceptions.MessageNotFoundException;
-import com.adventureit.chat.repository.ColorPairRepository;
-import com.adventureit.chat.repository.DirectChatRepository;
-import com.adventureit.chat.repository.GroupChatRepository;
-import com.adventureit.chat.repository.MessageRepository;
+import com.adventureit.chat.repository.*;
 import com.adventureit.shareddtos.chat.ColorPairDTO;
 import com.adventureit.shareddtos.chat.responses.DirectChatResponseDTO;
 import com.adventureit.shareddtos.chat.responses.GroupChatResponseDTO;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.ReadChannel;
+import com.google.cloud.storage.*;
+import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
+import java.io.*;
+import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,15 +29,27 @@ public class ChatServiceImplementation implements ChatService {
     DirectChatRepository directChatRepository;
     MessageRepository messageRepository;
     ColorPairRepository colorPairRepository;
+    MessageInfoRepository messageInfoRepository;
     Random rand;
 
-    public ChatServiceImplementation(ColorPairRepository colorPairRepository,DirectChatRepository directChatRepository,GroupChatRepository groupChatRepository,MessageRepository messageRepository){
+    private StorageOptions storageOptions;
+    private String bucketName;
+
+    public ChatServiceImplementation(ColorPairRepository colorPairRepository,DirectChatRepository directChatRepository,GroupChatRepository groupChatRepository,MessageRepository messageRepository, MessageInfoRepository messageInfoRepository){
         this.groupChatRepository = groupChatRepository;
         this.directChatRepository = directChatRepository;
         this.messageRepository = messageRepository;
         this.colorPairRepository = colorPairRepository;
         this.rand = new Random();
+        this.messageInfoRepository = messageInfoRepository;
+    }
 
+    @PostConstruct
+    private void initializeFirebase() throws IOException {
+        bucketName = "adventure-it-bc0b6.appspot.com";
+        String projectId = "Adventure-IT";
+        FileInputStream serviceAccount = new FileInputStream("C:\\Users\\sgood\\Documents\\CS\\SEM 2\\COS301\\adventure-it-bc0b6-firebase-adminsdk-o2fq8-ad3a51fb5e.json");
+        this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
     }
 
     @Override
@@ -95,14 +111,29 @@ public class ChatServiceImplementation implements ChatService {
 
     @Override
     @Transactional
-    public String sendDirectMessage(UUID chatID,UUID sender, UUID receiver, String msg) {
+    public String sendDirectMessage(UUID chatID,UUID sender, UUID receiver, String msg) throws IOException {
         DirectChat chat = directChatRepository.findByDirectChatId(chatID);
         if(chat == null){
             throw new ChatNotFoundException(chatID);
         }
-        DirectMessage message = new DirectMessage(UUID.randomUUID(),sender,chatID,msg,false,receiver);
-        messageRepository.save(message);
+
+        UUID id = UUID.randomUUID();
+
+        DirectMessage message = new DirectMessage(id,sender,chatID,msg,false,receiver);
+        MessageInfo messageInfo = new MessageInfo(id,chatID);
+        messageInfoRepository.save(messageInfo);
         directChatRepository.save(chat);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
+        oos.writeObject(message);
+        oos.flush();
+
+        Storage storage = storageOptions.getService();
+        BlobId blobId = BlobId.of(bucketName, id.toString());
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+        storage.create(blobInfo, bos.toByteArray());
+
         return "Message Sent";
     }
 
@@ -226,8 +257,22 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     @Override
-    public Message getMessage(UUID id) {
-        return messageRepository.findMessageById(id);
+    public Message getMessage(UUID id) throws NotFoundException, IOException, ClassNotFoundException {
+        MessageInfo messageInfo = messageInfoRepository.findMessageInfoById(id);
+        if(messageInfo == null){
+            throw new NotFoundException("Get Message: Message does not exist");
+        }
+
+        Storage storage = storageOptions.getService();
+        Blob blob = storage.get(BlobId.of(bucketName, id.toString()));
+        ReadChannel reader = blob.reader();
+        InputStream inputStream = Channels.newInputStream(reader);
+        byte[] content = inputStream.readAllBytes();
+
+        ByteArrayInputStream in = new ByteArrayInputStream(content);
+        ObjectInputStream is = new ObjectInputStream(in);
+
+        return (Message) is.readObject();
     }
 
     @Override

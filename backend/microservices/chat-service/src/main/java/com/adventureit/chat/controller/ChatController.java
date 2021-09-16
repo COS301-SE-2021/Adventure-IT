@@ -9,9 +9,11 @@ import com.adventureit.shareddtos.chat.requests.SendGroupMessageRequestDTO;
 import com.adventureit.shareddtos.chat.responses.DirectChatResponseDTO;
 import com.adventureit.shareddtos.chat.responses.GroupChatResponseDTO;
 import com.adventureit.chat.service.ChatServiceImplementation;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @RestController
@@ -59,12 +61,12 @@ public class ChatController {
     }
 
     @GetMapping("/getGroupMessageByID/{id}")
-    public GroupMessage getGroupMessage(@PathVariable UUID id){
+    public GroupMessage getGroupMessage(@PathVariable UUID id) throws NotFoundException, IOException, ClassNotFoundException {
         return (GroupMessage) service.getMessage(id);
     }
 
     @GetMapping("/getDirectMessageByID/{id}")
-    public DirectMessage getDirectMessage(@PathVariable UUID id){
+    public DirectMessage getDirectMessage(@PathVariable UUID id) throws NotFoundException, IOException, ClassNotFoundException {
         return (DirectMessage) service.getMessage(id);
     }
 
@@ -77,7 +79,7 @@ public class ChatController {
     }
 
     @PostMapping("/sendDirectMessage")
-    public String sendGroupMessage(@RequestBody SendDirectMessageRequestDTO request) {
+    public String sendGroupMessage(@RequestBody SendDirectMessageRequestDTO request) throws IOException {
         service.sendDirectMessage(request.getChatID(),request.getSender(),request.getReceiver(),request.getMsg());
         return "Message sent";
     }
