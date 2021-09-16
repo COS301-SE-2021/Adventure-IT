@@ -1,5 +1,6 @@
 package com.adventureit.maincontroller.controller;
 
+import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.chat.DirectMessageDTO;
 import com.adventureit.shareddtos.chat.GroupMessageDTO;
 import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
@@ -27,11 +28,15 @@ import java.util.UUID;
 @RequestMapping("/chat")
 public class MainControllerChatReroute {
 
+    private MainControllerServiceImplementation service;
     private final RestTemplate restTemplate = new RestTemplate();
-
     private final String IP = "http://localhost";
     private final String userPort = "9002";
     private final String chatPort = "9010";
+
+    public MainControllerChatReroute(MainControllerServiceImplementation service) {
+        this.service = service;
+    }
 
     @GetMapping("/test")
     public String test(){
@@ -39,17 +44,23 @@ public class MainControllerChatReroute {
     }
 
     @PostMapping("/createDirectChat")
-    public String createDirectChat(@RequestBody CreateDirectChatRequest req){
+    public String createDirectChat(@RequestBody CreateDirectChatRequest req) throws Exception {
+        String[] ports = {chatPort};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(IP + ":" + chatPort + "/chat/createDirectChat",req, String.class);
     }
 
     @PostMapping("/createGroupChat")
-    public String createDirectChat(@RequestBody CreateGroupChatRequest req){
+    public String createDirectChat(@RequestBody CreateGroupChatRequest req) throws Exception {
+        String[] ports = {chatPort};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(IP + ":" + chatPort + "/chat/createGroupChat",req, String.class);
     }
 
     @GetMapping("/getGroupMessages/{id}")
     public List<GroupMessageResponseDTO> getGroupMessages(@PathVariable UUID id) throws Exception {
+        String[] ports = {chatPort,userPort};
+        service.pingCheck(ports,restTemplate);
         GroupChatResponseDTO chat = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getGroupChat/" + id, GroupChatResponseDTO.class);
         GroupMessageDTO message;
         GetUserByUUIDDTO user;
@@ -81,7 +92,9 @@ public class MainControllerChatReroute {
     }
 
     @GetMapping("/getGroupChatByAdventureID/{id}")
-    public MainGroupChatResponseDTO getGroupChat(@PathVariable UUID id){
+    public MainGroupChatResponseDTO getGroupChat(@PathVariable UUID id) throws Exception {
+        String[] ports = {chatPort};
+        service.pingCheck(ports,restTemplate);
         GroupChatResponseDTO responseDTO = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getGroupChatByAdventureID/" + id, GroupChatResponseDTO.class);
         assert responseDTO != null;
 
@@ -89,18 +102,24 @@ public class MainControllerChatReroute {
     }
 
     @PostMapping("/sendGroupMessage")
-    public String sendGroupMessage(@RequestBody SendGroupMessageRequestDTO request){
+    public String sendGroupMessage(@RequestBody SendGroupMessageRequestDTO request) throws Exception {
+        String[] ports = {chatPort};
+        service.pingCheck(ports,restTemplate);
         SendGroupMessageRequestDTO req = new SendGroupMessageRequestDTO(request.getChatID(),request.getSender(),request.getMsg());
         return restTemplate.postForObject(IP + ":" + chatPort + "/chat/sendGroupMessage",req,String.class);
     }
 
     @PostMapping("/sendDirectMessage")
-    public String sendDirectMessage(@RequestBody SendDirectMessageRequestDTO request){
+    public String sendDirectMessage(@RequestBody SendDirectMessageRequestDTO request) throws Exception {
+        String[] ports = {chatPort};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(IP + ":" + chatPort + "/chat/sendDirectMessage", request,String.class);
     }
 
     @GetMapping("/getDirectChat/{id1}/{id2}")
-    public MainDirectChatResponseDTO getDirectChat(@PathVariable UUID id1, @PathVariable UUID id2){
+    public MainDirectChatResponseDTO getDirectChat(@PathVariable UUID id1, @PathVariable UUID id2) throws Exception {
+        String[] ports = {chatPort};
+        service.pingCheck(ports,restTemplate);
         DirectChatResponseDTO responseDTO = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getDirectChat/" + id1 + "/" + id2, DirectChatResponseDTO.class);
         assert responseDTO != null;
         return new MainDirectChatResponseDTO(responseDTO.getId(),responseDTO.getParticipants());
@@ -108,6 +127,8 @@ public class MainControllerChatReroute {
 
     @GetMapping("/getDirectMessages/{id}")
     public List<DirectMessageResponseDTO> getDirectMessages(@PathVariable UUID id) throws Exception {
+        String[] ports = {chatPort,userPort};
+        service.pingCheck(ports,restTemplate);
         DirectChatResponseDTO chat = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getDirectChatByID/" + id, DirectChatResponseDTO.class);
         DirectMessageDTO message;
         GetUserByUUIDDTO user;
