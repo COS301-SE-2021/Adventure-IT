@@ -7,17 +7,18 @@ import com.adventureit.recommendationservice.exception.UserNotFoundException;
 import com.adventureit.shareddtos.recommendation.request.CreateLocationRequest;
 import com.adventureit.shareddtos.recommendation.request.CreateUserRequest;
 import com.adventureit.recommendationservice.service.RecommendationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping("/recommendation")
 public class RecommendationController {
 
+    @Autowired
     RecommendationService recommendationService;
 
     // User likes a location
@@ -90,8 +91,9 @@ public class RecommendationController {
     }
 
     // User requests arbitrary number of popular locations
-    @GetMapping("get/popular/{numPopular}/{location}")
+    @GetMapping("get/popular/{userId}/{numPopular}/{location}")
     public String[][] getMostPopular(@PathVariable UUID userId, @PathVariable int numPopular, @PathVariable String location){
-        return this.recommendationService.getMostPopular(userId,numPopular,location);
+        String[][] returnValue = this.recommendationService.getMostPopular(userId,numPopular,location);
+        return returnValue;
     }
 }

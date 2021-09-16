@@ -217,6 +217,9 @@ public class RecommendationService {
         if(locations.size()==0)
         {
             return returnMatrix;
+        } else if(locations.size()<numPopular)
+        {
+            numPopular=locations.size();
         }
 
         // Find index of current user:
