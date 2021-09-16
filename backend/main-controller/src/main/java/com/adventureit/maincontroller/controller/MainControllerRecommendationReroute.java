@@ -38,13 +38,13 @@ public class MainControllerRecommendationReroute {
     }
 
     @GetMapping("like/{userId}/{locationId}")
-    public ResponseEntity<String> likeLocation(@PathVariable UUID userId, @PathVariable UUID locationId) {
-        return restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/like/" + userId + "/" + locationId, ResponseEntity.class);
+    public String likeLocation(@PathVariable UUID userId, @PathVariable UUID locationId) {
+        return restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/like/" + userId + "/" + locationId, String.class);
     }
 
     @GetMapping("visit/{userId}/{locationId}")
-    public ResponseEntity<String> visitLocation(@PathVariable UUID userId, @PathVariable UUID locationId) {
-        return restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/visit/" + userId + "/" + locationId, ResponseEntity.class);
+    public String visitLocation(@PathVariable UUID userId, @PathVariable UUID locationId) {
+        return restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/visit/" + userId + "/" + locationId, String.class);
     }
 
     // User requests arbitrary number of popular locations

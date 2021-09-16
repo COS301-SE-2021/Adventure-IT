@@ -130,7 +130,7 @@ class LocationApi {
     if (response.statusCode != 200) {
       SnackBar snackBar=SnackBar(content: Text('Failed to get recommendations!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      throw Exception('Failed to get recommendations: ${response.body}');
+      throw Exception('Failed to get popular recommendations: ${response.body}');
     }
 
     print(response.body.toString());
@@ -146,5 +146,23 @@ class LocationApi {
     return http.get(Uri.parse("http://"+mainApi +
         "/recommendation/get/popular/"+UserApi.getInstance().getUserProfile()!.userID+"/5/"+a.location.formattedAddress));
   }
+
+
+  static Future likeLocation(String locationId,context) async {
+    http.Response response = await _likeLocation(locationId);
+
+    if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to like location!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      throw Exception('Failed to like the location: ${response.body}');
+    }
+
+  }
+
+  static Future<http.Response> _likeLocation(String locationId) async {
+    return http.get(Uri.parse("http://"+mainApi +
+        "/recommendation/like/"+UserApi.getInstance().getUserProfile()!.userID+"/"+locationId));
+  }
+
 
 }

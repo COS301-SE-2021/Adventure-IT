@@ -223,4 +223,29 @@ class ItineraryEntryModel extends ChangeNotifier {
 
     fetchAllEntries(i);
   }
+
+  Future likeLocation(String locationId, BuildContext context) async
+  {
+    bool saved=false;
+    var index = _popular!.indexWhere((element) => element.id == locationId);
+    if(index>-1) {
+      if(popular!.elementAt(index).liked!=true) {
+        saved=true;
+        _popular!.elementAt(index).setLike();
+        await LocationApi.likeLocation(locationId, context);
+      }
+    }
+
+
+    index = _recommendations!.indexWhere((element) => element.id == locationId);
+    if(index>-1) {
+      if(recommendations!.elementAt(index).liked!=true) {
+        _recommendations!.elementAt(index).setLike();
+        if(saved==false) {
+          await LocationApi.likeLocation(locationId, context);
+        }
+      }
+    }
+    notifyListeners();
+  }
 }

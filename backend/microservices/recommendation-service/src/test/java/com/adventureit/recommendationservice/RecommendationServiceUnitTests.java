@@ -1,7 +1,7 @@
 package com.adventureit.recommendationservice;
 
 import com.adventureit.recommendationservice.entity.RecommendedLocation;
-import com.adventureit.recommendationservice.entity.User;
+import com.adventureit.recommendationservice.entity.RecommendedUser;
 import com.adventureit.recommendationservice.repository.RecommendedLocationRepository;
 import com.adventureit.recommendationservice.repository.RecommendedUserRepository;
 import com.adventureit.recommendationservice.service.RecommendationService;
@@ -22,7 +22,7 @@ public class RecommendationServiceUnitTests {
 
     Random rand = new Random();
 
-    static List<User> mockUsers;
+    static List<RecommendedUser> mockUsers;
     static List<RecommendedLocation> mockLocations;
 
     void createMockEntries(){
@@ -30,9 +30,9 @@ public class RecommendationServiceUnitTests {
         final int numMockLocations = 20;
 
         // Create mock users
-        mockUsers = new ArrayList<User>();
+        mockUsers = new ArrayList<RecommendedUser>();
         for (int i = 0; i < numMockUsers; i++) {
-            mockUsers.add(new User());
+            mockUsers.add(new RecommendedUser());
         }
 
         // Create mock locations
@@ -42,7 +42,7 @@ public class RecommendationServiceUnitTests {
         }
 
         // Create mock "interactions"
-        for (User user : mockUsers) {
+        for (RecommendedUser user : mockUsers) {
 
             // Choose between 1 and 1/4 of the number of mock locations to "interact" with
             int numberOfInteractedLocations = rand.nextInt(numMockLocations / 4) + 1;

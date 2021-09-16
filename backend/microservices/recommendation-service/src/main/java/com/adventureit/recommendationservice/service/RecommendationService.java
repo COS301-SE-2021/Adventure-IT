@@ -1,7 +1,7 @@
 package com.adventureit.recommendationservice.service;
 
 import com.adventureit.recommendationservice.entity.RecommendedLocation;
-import com.adventureit.recommendationservice.entity.User;
+import com.adventureit.recommendationservice.entity.RecommendedUser;
 import com.adventureit.recommendationservice.exception.*;
 import com.adventureit.recommendationservice.repository.RecommendedLocationRepository;
 import com.adventureit.recommendationservice.repository.RecommendedUserRepository;
@@ -22,7 +22,7 @@ public class RecommendationService {
     }
 
     public void likeLocation(UUID userId, UUID locationId){
-        User foundUser = this.recommendedUserRepository.findUserByUserId(userId);
+        RecommendedUser foundUser = this.recommendedUserRepository.findUserByUserId(userId);
         RecommendedLocation foundLocation = this.recommendedLocationRepository.findLocationByLocationId(locationId);
 
         if(foundUser == null){
@@ -33,11 +33,13 @@ public class RecommendationService {
             throw new LocationNotFoundException(locationId);
         }
         foundUser.likeLocation(foundLocation);
+        recommendedUserRepository.save(foundUser);
         foundLocation.like();
+        recommendedLocationRepository.save(foundLocation);
     }
 
     public void visitLocation(UUID userId, UUID locationId){
-        User foundUser = this.recommendedUserRepository.findUserByUserId(userId);
+        RecommendedUser foundUser = this.recommendedUserRepository.findUserByUserId(userId);
         RecommendedLocation foundLocation = this.recommendedLocationRepository.findLocationByLocationId(locationId);
 
         if(foundUser == null){
@@ -47,13 +49,15 @@ public class RecommendationService {
         if(foundLocation == null){
             throw new LocationNotFoundException(locationId);
         }
-        foundUser.visitLocation(foundLocation);;
+        foundUser.visitLocation(foundLocation);
+        recommendedUserRepository.save(foundUser);
         foundLocation.visit();
+        recommendedLocationRepository.save(foundLocation);
     }
 
     public void addUser(UUID userId){
         if(this.recommendedUserRepository.findUserByUserId(userId) == null){
-            this.recommendedUserRepository.save(new User(userId));
+            this.recommendedUserRepository.save(new RecommendedUser(userId));
         }
         else {
             throw new UserExistsException(userId);
@@ -73,7 +77,7 @@ public class RecommendationService {
     public String[][] getUserRecommendations(UUID id, String numRec, String location){
         // Get users
         int numRecommendations=Integer.parseInt(numRec);
-        List<User> users = this.recommendedUserRepository.findAll();
+        List<RecommendedUser> users = this.recommendedUserRepository.findAll();
         int numUsers = users.size();
         // Find index of current user:
         int userIndex = -1;
@@ -103,7 +107,7 @@ public class RecommendationService {
 
         for(int i = 0; i < numUsers; i++){
             for(int j = 0; j < numLocations; j++){
-                User currentUser = users.get(i);
+                RecommendedUser currentUser = users.get(i);
                 RecommendedLocation currentLocation = locations.get(j);
 
                 // If user has liked the location and visited the location, insert rating 4
@@ -185,7 +189,7 @@ public class RecommendationService {
             }
         }
 
-        User user = users.get(userIndex);
+        RecommendedUser user = users.get(userIndex);
         List<UUID> recommendedLocations = new ArrayList<>();
         for (int i = 0; i < locationIndex.length; i++) {
             recommendedLocations.add(locations.get(i).getLocationId());
@@ -211,7 +215,7 @@ public class RecommendationService {
         int numPopular=Integer.parseInt(numPop);
         locations.sort(Comparator.comparing(RecommendedLocation::getVisits));
         String[][] returnMatrix = new String[locations.size()][2];
-        List<User> users = this.recommendedUserRepository.findAll();
+        List<RecommendedUser> users = this.recommendedUserRepository.findAll();
 
         if(locations.size()==0)
         {
@@ -237,7 +241,7 @@ public class RecommendationService {
         if(userIndex == -1){
             throw new UserNotFoundException(id);
         }
-        User user=users.get(userIndex);
+        RecommendedUser user=users.get(userIndex);
 
         for(int i = 0; i<numPopular;i++){
             returnMatrix[i][0] = locations.get(i).getLocationId().toString();

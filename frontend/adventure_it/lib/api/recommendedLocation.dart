@@ -9,7 +9,7 @@ class RecommendedLocation {
   final String formattedAddress;
   final String placeId;
   final String name;
-  final bool liked;
+  bool liked;
 
   RecommendedLocation({
     required this.id,
@@ -19,6 +19,14 @@ class RecommendedLocation {
     required this.name,
     required this.liked,
   });
+
+  void setLike()
+  {
+    if(this.liked!=true)
+      {
+        this.liked=true;
+      }
+  }
 
   factory RecommendedLocation.fromJson(Map<String, dynamic> json) =>
       _$RecommendedLocationFromJson(json);

@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name="RecommendedUser")
-public class User {
+public class RecommendedUser {
     @Id
     private final UUID userId;
     @ManyToMany
@@ -18,18 +17,19 @@ public class User {
     @ManyToMany
     private List<RecommendedLocation> visitedLocations;
 
-    public User(){
+    public RecommendedUser(){
         this.userId = UUID.randomUUID();
         this.likedLocations = new ArrayList<>();
         this.visitedLocations = new ArrayList<>();
     }
 
-    public User(UUID id){
+    public RecommendedUser(UUID id){
         this.userId = id;
     }
 
     public void likeLocation(RecommendedLocation location){
-        this.likedLocations.add(location);
+        System.out.println("Is being added");
+    this.likedLocations.add(location);
     }
 
     public void visitLocation(RecommendedLocation location){

@@ -23,52 +23,52 @@ public class RecommendationController {
 
     // User likes a location
     @GetMapping("like/{userId}/{locationId}")
-    public ResponseEntity<String> likeLocation(@PathVariable UUID userId, @PathVariable UUID locationId){
+    public String likeLocation(@PathVariable UUID userId, @PathVariable UUID locationId){
         try {
             this.recommendationService.likeLocation(userId, locationId);
         }
         catch (UserNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return "User not found";
         }
         catch(LocationNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return "Location not found";
         }
         catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return "Bad request";
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Location Liked Successfully");
+        return "Location successfully liked";
     }
 
     // User visits a location
     @GetMapping("visit/{userId}/{locationId}")
-    public ResponseEntity<String> visitLocation(@PathVariable UUID userId, @PathVariable UUID locationId){
+    public String visitLocation(@PathVariable UUID userId, @PathVariable UUID locationId){
         try {
             this.recommendationService.visitLocation(userId, locationId);
         }
         catch (UserNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return "User not found";
         }
         catch(LocationNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return "Location not found";
         }
         catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return "Bad request";
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Location visited Successfully");
+        return "Location successfully visited";
 
     }
 
     // Add a new user
     @PostMapping("add/user")
-    public ResponseEntity<String> addUser(@RequestBody CreateUserRequest req){
+    public String addUser(@RequestBody CreateUserRequest req){
         try {
             this.recommendationService.addUser(req.userId);
         }
         catch(UserExistsException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return "Bad request";
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body("User added successfully");
+        return "User added successfully";
     }
 
     // Add a new location

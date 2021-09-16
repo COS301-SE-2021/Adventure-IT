@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:adventure_it/Providers/registeredUser_model.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
+import 'package:adventure_it/api/locationAPI.dart';
 import 'package:adventure_it/api/recommendedLocation.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -35,7 +36,7 @@ class ItineraryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) =>
-            ItineraryEntryModel(currentItinerary!, currentAdventure!,context),
+            ItineraryEntryModel(currentItinerary!, currentAdventure!, context),
         builder: (context, widget) {
           this.c = context;
           return Scaffold(
@@ -960,7 +961,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
   Widget build(BuildContext context) {
     return Consumer<ItineraryEntryModel>(
         builder: (context, entryModel, child) {
-          if (entryModel.entries == null && entryModel.popular == null &&
+          if (entryModel.entries == null || entryModel.popular == null ||
               entryModel.recommendations == null) {
             return Center(
                 child: CircularProgressIndicator(
@@ -1915,34 +1916,91 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                           },
                                         );
                                       }
-                                      if(value==5)
-                                        {
-
-                                          MapsLauncher.launchQuery(entryModel.entries!.elementAt(
-                                              index).location.formattedAddress);
-
-                                        }
+                                      if (value == 5) {
+                                        MapsLauncher.launchQuery(
+                                            entryModel.entries!.elementAt(
+                                                index).location
+                                                .formattedAddress);
+                                      }
                                       if (value == 3) {
                                         ItineraryApi.isRegisteredUser(
                                             entryModel.entries!.elementAt(
-                                                index),context).then((value) {
+                                                index), context).then((value) {
                                           if (value) {
                                             ItineraryApi
                                                 .deregisterForItinerary(
                                                 entryModel.entries!.elementAt(
-                                                    index),context);
+                                                    index), context);
                                           }
                                           else {
                                             ItineraryApi.registerForItinerary(
                                                 entryModel.entries!.elementAt(
-                                                    index),context);
+                                                    index), context);
                                           }
                                         });
                                       }
                                       if (value == 4) {
                                         ItineraryApi.checkUserOff(
                                             entryModel.entries!.elementAt(
-                                                index),context);
+                                                index), context).then((value) =>
+                                        {
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                    backgroundColor: Theme
+                                                        .of(context)
+                                                        .primaryColorDark,
+                                                    title: Text(
+                                                      'Did you like this location?',
+                                                      style: TextStyle(
+                                                          color: Theme
+                                                              .of(
+                                                              context)
+                                                              .textTheme
+                                                              .bodyText1!
+                                                              .color),
+                                                    ),
+                                                    actions: <Widget>[
+                                                      TextButton(
+                                                        child: Text(
+                                                            'Yes',
+                                                            style: TextStyle(
+                                                                color: Theme
+                                                                    .of(
+                                                                    context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color)),
+                                                        onPressed: () {
+                                                          LocationApi
+                                                              .likeLocation(
+                                                              entryModel
+                                                                  .entries!
+                                                                  .elementAt(
+                                                                  index).id,
+                                                              context);
+                                                        },
+                                                      ),
+                                                      TextButton(
+                                                        child: Text(
+                                                            'No',
+                                                            style: TextStyle(
+                                                                color: Theme
+                                                                    .of(
+                                                                    context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color)),
+                                                        onPressed: () {
+                                                          Navigator.of(
+                                                              context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                    ]);
+                                              })
+                                        });
                                       }
                                     },
                                     itemBuilder: (context) =>
@@ -2285,7 +2343,7 @@ class RegisteredUsers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => RegisteredUserModel(this.currentEntry!,context),
+        create: (context) => RegisteredUserModel(this.currentEntry!, context),
         builder: (context, widget) {
           return Consumer<RegisteredUserModel>(
               builder: (context, registeredModel,
@@ -2490,7 +2548,8 @@ class _RecommendedItems extends StatelessWidget {
 
   @override
   Widget build(context) {
-    if (entryModel!.popular!=null&&entryModel!.recommendations!=null&&entryModel!.popular!.length > 0) {
+    if (entryModel!.popular != null && entryModel!.recommendations != null &&
+        entryModel!.popular!.length > 0) {
       return
         Container(width: MediaQuery
             .of(context)
@@ -2502,11 +2561,11 @@ class _RecommendedItems extends StatelessWidget {
               controller: _controller,
               shrinkWrap: true,
               itemCount: entryModel!
-                  .popular!.length+entryModel!
+                  .popular!.length + entryModel!
                   .recommendations!.length,
               itemBuilder: (context,
                   index) {
-                if(index<entryModel!.popular!.length) {
+                if (index < entryModel!.popular!.length) {
                   return Container(
                       width: getSize(context), child: ClipRect(child: Card(
                       color: Theme
@@ -2528,7 +2587,7 @@ class _RecommendedItems extends StatelessWidget {
                                   .of(context)
                                   .scaffoldBackgroundColor),
                           child: InkWell(
-                              onTap:(){
+                              onTap: () {
                                 var provider = Provider.of<
                                     ItineraryEntryModel>(
                                     context, listen: false);
@@ -2536,7 +2595,9 @@ class _RecommendedItems extends StatelessWidget {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertBoxRecommendation(
-                                          currentItinerary!, provider, entryModel!.popular!.elementAt(index));
+                                          currentItinerary!, provider,
+                                          entryModel!.popular!.elementAt(
+                                              index));
                                     });
                               },
                               hoverColor: Theme
@@ -2621,170 +2682,228 @@ class _RecommendedItems extends StatelessWidget {
                                       ),
                                     )),
                                     Expanded(
-                                      child: Center(child: entryModel!.popular!.elementAt(index).liked
-                                          ? IconButton(
-                                          splashRadius: 21,
-                                          onPressed: () {},
-                                          iconSize: 20,
-                                          color: Color(0xff931621),
-                                          icon: Icon(Icons.favorite_rounded))
-                                          : IconButton(
-                                          onPressed: () {},
-                                          splashRadius: 21,
-                                          iconSize: 20,
-                                          color: Theme
-                                              .of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color,
-                                          icon: Icon(
-                                              Icons.favorite_outline_rounded)
-                                      )),
+                                      child: Center(
+                                          child: entryModel!.popular!.elementAt(
+                                              index)
+                                              .liked
+                                              ? IconButton(
+                                              splashRadius: 21,
+                                              onPressed: () {
+                                                Provider.of<
+                                                    ItineraryEntryModel>(
+                                                    context, listen: false)
+                                                    .likeLocation(
+                                                    entryModel!.popular!
+                                                        .elementAt(
+                                                        index).id, context);
+                                              },
+                                              iconSize: 20,
+                                              color: Color(0xff931621),
+                                              icon: Icon(
+                                                  Icons.favorite_rounded))
+                                              : IconButton(
+                                              onPressed: () {
+                                                Provider.of<
+                                                    ItineraryEntryModel>(
+                                                    context, listen: false)
+                                                    .likeLocation(
+                                                    entryModel!.popular!
+                                                        .elementAt(
+                                                        index).id, context);
+                                              },
+                                              splashRadius: 21,
+                                              iconSize: 20,
+                                              color: Theme
+                                                  .of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color,
+                                              icon: Icon(
+                                                  Icons
+                                                      .favorite_outline_rounded)
+                                          )),
                                     ),
                                     Spacer(),
                                   ])
                           )))));
                 }
-                else
-                  {
-                    return Container(
-                        width: getSize(context), child: ClipRect(child: Card(
-                        color: Theme
-                            .of(context)
-                            .primaryColorDark,
-                        child: Banner(
-                            location: BannerLocation.topEnd,
-                            message: "Recommended",
-                            color: Theme
-                                .of(context)
-                                .textTheme.bodyText1!.color!,
-                            textStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 10 *
-                                    MediaQuery
-                                        .of(context)
-                                        .textScaleFactor,
-                                color: Theme
-                                    .of(context)
-                                    .scaffoldBackgroundColor),
-                            child: InkWell(
-                                onTap:(){
-                                  var provider = Provider.of<
-                                      ItineraryEntryModel>(
-                                      context, listen: false);
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertBoxRecommendation(
-                                            currentItinerary!, provider, entryModel!.recommendations!.elementAt(index-entryModel!.popular!.length));
-                                      });
+                else {
+                  return Container(
+                      width: getSize(context), child: ClipRect(child: Card(
+                      color: Theme
+                          .of(context)
+                          .primaryColorDark,
+                      child: Banner(
+                          location: BannerLocation.topEnd,
+                          message: "Recommended",
+                          color: Theme
+                              .of(context)
+                              .textTheme
+                              .bodyText1!
+                              .color!,
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 10 *
+                                  MediaQuery
+                                      .of(context)
+                                      .textScaleFactor,
+                              color: Theme
+                                  .of(context)
+                                  .scaffoldBackgroundColor),
+                          child: InkWell(
+                              onTap: () {
+                                var provider = Provider.of<
+                                    ItineraryEntryModel>(
+                                    context, listen: false);
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertBoxRecommendation(
+                                          currentItinerary!, provider,
+                                          entryModel!.recommendations!
+                                              .elementAt(index -
+                                              entryModel!.popular!.length));
+                                    });
                               },
-                                hoverColor: Theme
-                                    .of(context)
-                                    .primaryColorLight,
-                                child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Expanded(flex: 5, child: Container(
-                                          decoration: new BoxDecoration(
-                                              image: new DecorationImage(
-                                                //TODO: operand can't be null (always false)
-                                                image: entryModel!.recommendations!
-                                                    .elementAt(
-                                                    index-entryModel!.popular!.length).photoReference == ""
-                                                    ? NetworkImage(
-                                                    "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                                        currentAdventure!.location
-                                                            .photoReference +
-                                                        "&maxwidth=700&key=" +
-                                                        googleMapsKey)
-                                                    : NetworkImage(
-                                                    "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                                        entryModel!.recommendations!
-                                                            .elementAt(
-                                                            index-entryModel!.popular!.length)
-                                                            .photoReference +
-                                                        "&maxwidth=500&key=" +
-                                                        googleMapsKey),
-                                                fit: BoxFit.cover,
-                                              )
-                                          ))),
-                                      Expanded(flex: 3, child:
-                                      ListTile(
-                                        title: Text(
-                                            entryModel!.recommendations!
-                                                .elementAt(index-entryModel!.popular!.length).name,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 20 *
-                                                    MediaQuery
-                                                        .of(context)
-                                                        .textScaleFactor,
-                                                fontWeight: FontWeight.bold,
+                              hoverColor: Theme
+                                  .of(context)
+                                  .primaryColorLight,
+                              child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Expanded(flex: 5, child: Container(
+                                        decoration: new BoxDecoration(
+                                            image: new DecorationImage(
+                                              //TODO: operand can't be null (always false)
+                                              image: entryModel!
+                                                  .recommendations!
+                                                  .elementAt(
+                                                  index - entryModel!.popular!
+                                                      .length).photoReference ==
+                                                  ""
+                                                  ? NetworkImage(
+                                                  "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                                      currentAdventure!.location
+                                                          .photoReference +
+                                                      "&maxwidth=700&key=" +
+                                                      googleMapsKey)
+                                                  : NetworkImage(
+                                                  "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                                      entryModel!
+                                                          .recommendations!
+                                                          .elementAt(
+                                                          index - entryModel!
+                                                              .popular!.length)
+                                                          .photoReference +
+                                                      "&maxwidth=500&key=" +
+                                                      googleMapsKey),
+                                              fit: BoxFit.cover,
+                                            )
+                                        ))),
+                                    Expanded(flex: 3, child:
+                                    ListTile(
+                                      title: Text(
+                                          entryModel!.recommendations!
+                                              .elementAt(index -
+                                              entryModel!.popular!.length).name,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 20 *
+                                                  MediaQuery
+                                                      .of(context)
+                                                      .textScaleFactor,
+                                              fontWeight: FontWeight.bold,
+                                              color: Theme
+                                                  .of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color)),
+                                      // subtitle:Text(adventures.elementAt(index).description),
+                                      subtitle: RichText(
+                                        textAlign: TextAlign.center,
+                                        text: TextSpan(children: [
+                                          WidgetSpan(
+                                              child: Icon(
+                                                Icons.location_on,
+                                                size: 15,
                                                 color: Theme
                                                     .of(context)
                                                     .textTheme
                                                     .bodyText1!
-                                                    .color)),
-                                        // subtitle:Text(adventures.elementAt(index).description),
-                                        subtitle: RichText(
-                                          textAlign: TextAlign.center,
-                                          text: TextSpan(children: [
-                                            WidgetSpan(
-                                                child: Icon(
-                                                  Icons.location_on,
-                                                  size: 15,
+                                                    .color,
+                                              )),
+                                          TextSpan(
+                                              text: " " +
+                                                  entryModel!.recommendations!
+                                                      .elementAt(index -
+                                                      entryModel!.popular!
+                                                          .length)
+                                                      .name,
+                                              style: TextStyle(
+                                                  fontSize: 12 *
+                                                      MediaQuery
+                                                          .of(
+                                                          context)
+                                                          .textScaleFactor,
                                                   color: Theme
                                                       .of(context)
                                                       .textTheme
                                                       .bodyText1!
-                                                      .color,
-                                                )),
-                                            TextSpan(
-                                                text: " " +
-                                                    entryModel!.recommendations!
-                                                        .elementAt(index-entryModel!.popular!.length)
-                                                        .name,
-                                                style: TextStyle(
-                                                    fontSize: 12 *
-                                                        MediaQuery
-                                                            .of(
-                                                            context)
-                                                            .textScaleFactor,
-                                                    color: Theme
-                                                        .of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color)),
+                                                      .color)),
 
-                                          ]),
-                                        ),
-                                      )),
-                                      Expanded(
-                                        child: Center(child: entryModel!.recommendations!.elementAt(index-entryModel!.popular!.length).liked
-                                            ? IconButton(
-                                            splashRadius: 21,
-                                            onPressed: () {},
-                                            iconSize: 20,
-                                            color: Color(0xff931621),
-                                            icon: Icon(Icons.favorite_rounded))
-                                            : IconButton(
-                                            onPressed: () {},
-                                            splashRadius: 21,
-                                            iconSize: 20,
-                                            color: Theme
-                                                .of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color,
-                                            icon: Icon(
-                                                Icons.favorite_outline_rounded)
-                                        )),
+                                        ]),
                                       ),
-                                      Spacer(),
-                                    ])
-                            )))));
-                  }
+                                    )),
+                                    Expanded(
+                                      child: Center(
+                                          child: entryModel!.recommendations!
+                                              .elementAt(index -
+                                              entryModel!.popular!.length).liked
+                                              ? IconButton(
+                                              splashRadius: 21,
+                                              onPressed: () {
+                                                Provider.of<
+                                                    ItineraryEntryModel>(
+                                                    context, listen: false)
+                                                    .likeLocation(
+                                                    entryModel!.popular!
+                                                        .elementAt(index -
+                                                        entryModel!.popular!
+                                                            .length).id,
+                                                    context);
+                                              },
+                                              iconSize: 20,
+                                              color: Color(0xff931621),
+                                              icon: Icon(
+                                                  Icons.favorite_rounded))
+                                              : IconButton(
+                                              onPressed: () {
+                                                Provider.of<
+                                                    ItineraryEntryModel>(
+                                                    context, listen: false)
+                                                    .likeLocation(
+                                                    entryModel!.popular!
+                                                        .elementAt(index -
+                                                        entryModel!.popular!
+                                                            .length).id,
+                                                    context);
+                                              },
+                                              splashRadius: 21,
+                                              iconSize: 20,
+                                              color: Theme
+                                                  .of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color,
+                                              icon: Icon(
+                                                  Icons
+                                                      .favorite_outline_rounded)
+                                          )),
+                                    ),
+                                    Spacer(),
+                                  ])
+                          )))));
+                }
               }
           ), Positioned(
               top: 50,
@@ -2823,6 +2942,7 @@ class _RecommendedItems extends StatelessWidget {
           ),
         ]));
     }
+
     else {
       return Center(
           child: Text(
@@ -2846,10 +2966,12 @@ class AlertBoxRecommendation extends StatefulWidget {
   final ItineraryEntryModel itineraryEntryModel;
   late final RecommendedLocation? recommendedLocation;
 
-  AlertBoxRecommendation(this.currentItinerary, this.itineraryEntryModel,this.recommendedLocation);
+  AlertBoxRecommendation(this.currentItinerary, this.itineraryEntryModel,
+      this.recommendedLocation);
 
   @override
-  _AlertBoxRecommended createState() => _AlertBoxRecommended(currentItinerary!,recommendedLocation);
+  _AlertBoxRecommended createState() =>
+      _AlertBoxRecommended(currentItinerary!, recommendedLocation);
 }
 
 class _AlertBoxRecommended extends State<AlertBoxRecommendation> {
