@@ -7,6 +7,7 @@ import com.adventureit.recommendationservice.exception.UserNotFoundException;
 import com.adventureit.shareddtos.recommendation.request.CreateLocationRequest;
 import com.adventureit.shareddtos.recommendation.request.CreateUserRequest;
 import com.adventureit.recommendationservice.service.RecommendationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,16 @@ import java.util.UUID;
 public class RecommendationController {
 
     RecommendationService recommendationService;
+
+    @Autowired
+    public RecommendationController(RecommendationService recommendationService) {
+        this.recommendationService = recommendationService;
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return "Recommendation Controller is functional";
+    }
 
     // User likes a location
     @GetMapping("like/{userId}/{locationId}")
@@ -87,7 +98,7 @@ public class RecommendationController {
     // User requests arbitrary number of recommendations
     @GetMapping("get/{userId}/{numRecommendations}")
     public List<UUID> getUserRecommendations(@PathVariable UUID userId, @PathVariable int numRecommendations){
-        // TODO: Return map instead of list of UUIDS
+
         return this.recommendationService.getUserRecommendations(userId).subList(0, numRecommendations-1);
     }
 

@@ -22,6 +22,11 @@ public class TimelineController {
         this.service = service;
     }
 
+    @GetMapping("/test")
+    public String test(){
+        return "Timeline Controller is functional";
+    }
+
     @GetMapping("/getTimelineByAdventure/{id}")
     public List<TimelineDTO> getTimelineByAdventureID(@PathVariable UUID id){
         return service.getTimelineByAdventureID(id);

@@ -21,7 +21,7 @@ public class LocationController {
 
     @GetMapping(value="/test")
     public String test(){
-        return "location controller is working";
+        return "Location Controller is functional";
     }
 
     @GetMapping(value="/create/{location}")

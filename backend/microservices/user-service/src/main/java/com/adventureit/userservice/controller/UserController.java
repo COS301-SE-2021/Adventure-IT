@@ -49,7 +49,7 @@ public class UserController {
 
     @GetMapping(value="test")
     public String test(){
-        return "User controller is working";
+        return "User Controller is functional";
     }
 
     @PostMapping(value = "updatePicture")

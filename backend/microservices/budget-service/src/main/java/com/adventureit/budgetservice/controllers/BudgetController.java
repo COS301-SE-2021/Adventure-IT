@@ -28,6 +28,11 @@ public class BudgetController {
 		this.budgetRepository = budgetRepository;
 	}
 
+	@GetMapping("/test")
+	public String test() {
+		return "Budget Controller is functional";
+	}
+
 	@GetMapping("/viewBudgetsByAdventure/{id}")
 	public List<BudgetResponseDTO> viewBudgetsByAdventure(@PathVariable UUID id) {
 		List<Budget> budgets = budgetRepository.findAllByAdventureID(id);
@@ -134,14 +139,6 @@ public class BudgetController {
 		return budgetServiceImplementation.getBudgetByBudgetEntryId(budgetId);
 	}
 
-	@GetMapping("/kevinTest")
-	public List<Edge> test() {
-		List<Edge> edges = budgetServiceImplementation.kevTest();
-		for (int i = 0;i<edges.size();i++){
-			System.out.println("UUID: "+edges.get(i).getEntryId());
-			System.out.println(edges.get(i).getPayer().getName()+" pays "+edges.get(i).getAmount()+ " to "+edges.get(i).getPayee().getName());
-		}
-		return edges;
-	}
+
 
 }

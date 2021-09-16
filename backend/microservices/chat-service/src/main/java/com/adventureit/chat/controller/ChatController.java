@@ -23,7 +23,7 @@ public class ChatController {
 
     @GetMapping("/test")
     public String test(){
-        return "Chat Controller is functioning";
+        return "Chat Controller is functional";
     }
 
     @PostMapping("/createDirectChat")
