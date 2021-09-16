@@ -1,5 +1,5 @@
+import 'package:adventure_it/Providers/location_model.dart';
 import 'package:adventure_it/Providers/user_model.dart';
-import 'package:adventure_it/api/locationAPI.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:adventure_it/api/userProfile.dart';
@@ -43,10 +43,9 @@ class Profile extends State<ProfileCaller> {
                     children: [
                       Center(
                           child: SizedBox(
-                        width: MediaQuery.of(context).size.height * 0.2,
+                        width: MediaQuery.of(context).size.width * 0.2,
                       ))
                     ])
-                //_buildList()
               ])),
         ]));
   }
@@ -59,6 +58,7 @@ class ProfileFutureBuilderCaller extends StatefulWidget {
 
 class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
   UserProfile? user;
+  late List<dynamic> flags;
 
   Future<List<PlatformFile>?> openFileExplorer() async {
     try {
@@ -107,7 +107,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                   child: Container(
                       margin: EdgeInsets.symmetric(vertical: 10),
                       width: MediaQuery.of(context).size.width * 0.9,
-                      height: MediaQuery.of(context).size.height * 0.45,
+                      height: MediaQuery.of(context).size.height * 0.8,
                       child: Column(
                         children: [
                           Card(
@@ -318,31 +318,109 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                     ]))
                                   ])),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                          MaterialButton(
-                              child: Text("Flags",
-                                  style: new TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .color)),
-                              color: Theme.of(context).accentColor,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: MediaQuery.of(context)
-                                      .size
-                                      .width *
-                                      0.05,
-                                  vertical: MediaQuery.of(context)
-                                      .size
-                                      .width *
-                                      0.01),
-                              onPressed: () {
-                                LocationApi.getFlagList();
-                              }),
-                        ],
-                      )));
+                          _Countries()
+                        ]),
+                      ));
             }
           }));
     }
+  }
+}
+
+class _Countries extends StatefulWidget {
+  @override
+  Countries createState() => Countries();
+}
+
+class Countries extends State<_Countries> {
+  @override
+  Widget build (BuildContext context) {
+    return ChangeNotifierProvider(
+        create: (context) => UserModel(),
+        child: Consumer<LocationModel>(builder: (context, locationModel, child) {
+          String percent = ((locationModel.flags!.length/195)*100).toStringAsFixed(2);
+          if (locationModel.flags != null) {
+            return Container(
+              height: MediaQuery.of(context).size.height * 0.4,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Container(
+                    child: Text("You've Visited " + percent + "% of the World!",
+                        textAlign: TextAlign.center,
+                        style: new TextStyle(
+                            color: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .color,
+                            fontSize: MediaQuery.of(context)
+                                .size
+                                .height *
+                                0.04)),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                  Expanded(
+                      flex: 3,
+                      child: GridView.builder(
+                          itemCount: locationModel.flags!.length,
+                          itemBuilder: (context, index) =>
+                              Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                    ),
+                                  child: ListTile(
+                                    title: Container(
+                                      height: MediaQuery.of(context).size.width > MediaQuery.of(context).size.height ?
+                                      MediaQuery.of(context).size.height * 0.115
+                                      : MediaQuery.of(context).size.height * 0.08,
+                                      decoration: new BoxDecoration(
+                                        color: Theme.of(context)
+                                            .primaryColorDark,
+                                          border: Border.all(
+                                            color: Theme.of(context)
+                                                .primaryColorDark,
+                                          ),
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                              'https://www.countryflags.io/' + locationModel.flags!.elementAt(index) + '/flat/64.png'
+                                              ),
+                                            )
+                                          )
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
+                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: MediaQuery.of(context).size.height >
+                                      MediaQuery.of(context).size.width ? 3 : 8)
+                              )
+                      ),
+                ],
+              ),
+            );
+          } else {
+            return Center(
+                child: Text(
+                    "Looks like you need to journey on your first adventure!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 30 * MediaQuery
+                            .of(context)
+                            .textScaleFactor,
+                        color: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color)));
+          }
+        })
+    );
   }
 }
 
