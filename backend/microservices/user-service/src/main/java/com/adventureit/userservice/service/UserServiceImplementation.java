@@ -455,4 +455,17 @@ public class UserServiceImplementation  {
         repo.save(user);
         return "User theme has been set";
     }
+
+    public void setNotificationSettings(UUID userId)
+    {
+        Users user=repo.getUserByUserID(userId);
+        user.setNotificationSettings();
+        repo.save(user);
+    }
+
+    public boolean getNotificationSetting(UUID userId)
+    {
+        Users user=repo.getUserByUserID(userId);
+        return user.getNotificationSettings();
+    }
 }

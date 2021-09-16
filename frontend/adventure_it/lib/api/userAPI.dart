@@ -16,6 +16,8 @@ class UserApi {
   String message = "";
   KeycloakUser? _keycloakUser;
   UserProfile? _userProfile;
+  bool? notify=false;
+  bool? theme=false;
 
   // TODO: Use ENV for sensitive information
   final String keycloakClientSecret = "f0e75041-7324-4949-bb90-bcd3ddda5bc6";
@@ -46,6 +48,7 @@ class UserApi {
     //   final keycloakUser = this._keycloakUser!;
     //   if(keycloakUser.emailVerified&&keycloakUser.enabled) {
         this._userProfile = await this.fetchBackendProfile('80e1b64d-fd53-4f3a-84a9-14541caff723');
+       this.getNotificationSettings();
     //     if (this._userProfile == null) {
     //       this._userProfile = await this.registerBackendProfile(keycloakUser);
     //     }
@@ -475,6 +478,52 @@ class UserApi {
       print('Body: ${response.body}');
       throw Exception('Failed to edit the user\'s profile.');
     }
+  }
+
+  Future setNotificationSettings(context) async {
+    http.Response response = await _setNotificationSettings();
+    if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to update notification settings!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      throw Exception('Failed to update settings: ${response.body}');
+    }
+
+  }
+
+  Future<http.Response> _setNotificationSettings() async {
+    return http.get(Uri.parse(userApi + "/user/setNotificationSettings/"+_userProfile!.userID));
+  }
+
+  Future getNotificationSettings() async {
+    http.Response response = await _getNotificationSettings();
+    if (response.statusCode != 200) {
+      throw Exception('Failed to getSettings: ${response.body}');
+    }
+
+    bool x=(jsonDecode(response.body));
+
+    this.notify=x;
+
+  }
+
+  Future<http.Response> _getNotificationSettings() async {
+    return http.get(Uri.parse(userApi + "/user/getNotificationSettings/"+_userProfile!.userID));
+  }
+
+  Future getThemeSettings() async {
+    http.Response response = await _getThemeSettings();
+    if (response.statusCode != 200) {
+      throw Exception('Failed to getSettings: ${response.body}');
+    }
+
+    bool x=(jsonDecode(response.body));
+
+    this.theme=x;
+
+  }
+
+  Future<http.Response> _getThemeSettings() async {
+    return http.get(Uri.parse(userApi + "/user/getUserTheme/"+_userProfile!.userID));
   }
 
 

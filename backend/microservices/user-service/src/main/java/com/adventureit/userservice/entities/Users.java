@@ -32,6 +32,23 @@ public class Users  {
     private String fireBaseId;
     // true is dark(default) false is light
     private Boolean theme;
+
+    public Boolean getNotificationSettings() {
+        return notificationSettings;
+    }
+
+    public void setNotificationSettings() {
+        if(this.notificationSettings==false)
+        {
+            this.notificationSettings=true;
+        }
+        else
+        {
+            this.notificationSettings=false;
+        }
+    }
+
+    private Boolean notificationSettings;
     @ElementCollection
     private List<UUID> likedLocations = new ArrayList<>();
     @ElementCollection
@@ -56,6 +73,7 @@ public class Users  {
         this.email = email;
         this.enabled = false;
         this.theme = false;
+        this.notificationSettings=false;
         this.fireBaseId = "";
     }
 
@@ -173,4 +191,5 @@ public class Users  {
     public List<UUID> getVisitedLocations() {
         return visitedLocations;
     }
+
 }
