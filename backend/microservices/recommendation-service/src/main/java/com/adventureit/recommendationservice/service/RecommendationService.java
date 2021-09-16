@@ -196,6 +196,10 @@ public class RecommendationService {
             recommendedLocations.add(locations.get(i).getLocationId());
         }
 
+        // TODO: Iterate through the list of these UUIDS & run the user.hasLiked on each of the UUIDS
+        // UUID - False
+        // UUID - True
+        // UUID - False
         return recommendedLocations;
     }
 
