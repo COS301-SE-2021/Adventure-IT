@@ -1,8 +1,10 @@
 package com.adventureit.maincontroller.controller;
 
+import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.location.responses.CurrentLocationResponseDTO;
 import com.adventureit.shareddtos.recommendation.request.CreateLocationRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,12 +21,17 @@ import java.util.UUID;
 public class MainControllerLocationReroute {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private MainControllerServiceImplementation service;
 
     private final String IP = "http://localhost";
     private final String locationPort = "9006";
     private final String adventurePort = "9001";
     private final String recommendationPort = "9013";
+
+    @Autowired
+    public MainControllerLocationReroute(MainControllerServiceImplementation service) {
+        this.service = service;
+    }
 
     @GetMapping("/test")
     public String locationTest(){
@@ -32,7 +39,9 @@ public class MainControllerLocationReroute {
     }
 
     @GetMapping(value="/create/{location}")
-    public String createLocation(@PathVariable String location) {
+    public String createLocation(@PathVariable String location) throws Exception {
+        String[] ports = {locationPort,recommendationPort};
+        service.pingCheck(ports,restTemplate);
         UUID createdLocationUUID = restTemplate.getForObject(IP + ":" + locationPort + "/location/create/" + location, UUID.class);
         try {
             CreateLocationRequest req = new CreateLocationRequest(createdLocationUUID);
@@ -45,17 +54,23 @@ public class MainControllerLocationReroute {
     }
 
     @GetMapping("/storeCurrentLocation/{userID}/{latitude}/{longitude}")
-    public void storeCurrentLocation(@PathVariable UUID userID, @PathVariable String latitude, @PathVariable String longitude){
+    public void storeCurrentLocation(@PathVariable UUID userID, @PathVariable String latitude, @PathVariable String longitude) throws Exception {
+        String[] ports = {locationPort};
+        service.pingCheck(ports,restTemplate);
         restTemplate.getForObject(IP + ":" + locationPort + "/location/storeCurrentLocation/" + userID + "/" + latitude + "/" + longitude, String.class);
     }
 
     @GetMapping("/getCurrentLocation/{userID}")
-    public CurrentLocationResponseDTO getCurrentLocation(@PathVariable UUID userID){
+    public CurrentLocationResponseDTO getCurrentLocation(@PathVariable UUID userID) throws Exception {
+        String[] ports = {locationPort};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(IP + ":" + locationPort + "/location/getCurrentLocation/" + userID, CurrentLocationResponseDTO.class);
     }
 
     @GetMapping("/getAllCurrentLocations/{adventureID}")
-    public List<CurrentLocationResponseDTO> getAllCurrentLocations(@PathVariable UUID adventureID){
+    public List<CurrentLocationResponseDTO> getAllCurrentLocations(@PathVariable UUID adventureID) throws Exception {
+        String[] ports = {locationPort,adventurePort};
+        service.pingCheck(ports,restTemplate);
         List<UUID> users = restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/getAttendees/" + adventureID, List.class);
         assert users != null;
         List<CurrentLocationResponseDTO> list = new ArrayList<>();
@@ -68,7 +83,9 @@ public class MainControllerLocationReroute {
     }
 
     @GetMapping(value = "/getFlagList/{userID}")
-    public List<String> getFlagList(@PathVariable UUID userID){
+    public List<String> getFlagList(@PathVariable UUID userID) throws Exception {
+        String[] ports = {locationPort};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(IP + ":" + locationPort + "/location/getFlagList/" + userID, List.class);
     }
 }
