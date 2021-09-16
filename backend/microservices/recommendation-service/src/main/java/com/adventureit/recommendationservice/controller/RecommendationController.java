@@ -73,14 +73,15 @@ public class RecommendationController {
 
     // Add a new location
     @PostMapping("add/location")
-    public ResponseEntity<String> addLocation(@RequestBody CreateLocationRequest req){
+    public String addLocation(@RequestBody CreateLocationRequest req){
+
         try {
             this.recommendationService.addLocation(req.locationId);
         }
         catch(LocationExistsException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return "Not successful";
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Location added successfully");
+        return "Successful!";
     }
 
 

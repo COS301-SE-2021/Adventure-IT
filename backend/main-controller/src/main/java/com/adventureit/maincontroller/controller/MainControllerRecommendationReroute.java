@@ -29,7 +29,6 @@ public class MainControllerRecommendationReroute {
     @GetMapping("get/{userId}/{numRecommendations}/{location}")
     public List<RecommendedLocationResponseDTO> getUserRecommendations(@PathVariable UUID userId, @PathVariable String numRecommendations, @PathVariable String location){
         String[][] locationUUIDs = restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/get/" + userId + "/" + numRecommendations+"/"+location, String[][].class);
-        System.out.println("jhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhere");
         List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
         for(int i = 0; i < Objects.requireNonNull(locationUUIDs).length; i++){
             LocationResponseDTO locationObject = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/"+locationUUIDs[i][0], LocationResponseDTO.class);

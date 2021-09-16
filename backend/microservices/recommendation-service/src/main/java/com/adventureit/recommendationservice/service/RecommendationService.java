@@ -72,11 +72,9 @@ public class RecommendationService {
 
     public String[][] getUserRecommendations(UUID id, String numRec, String location){
         // Get users
-        System.out.println("1");
         int numRecommendations=Integer.parseInt(numRec);
         List<User> users = this.recommendedUserRepository.findAll();
         int numUsers = users.size();
-        System.out.println("2");
         // Find index of current user:
         int userIndex = -1;
         for (int i = 0; i < users.size(); i++) {
@@ -85,25 +83,21 @@ public class RecommendationService {
                 break;
             }
         }
-        System.out.println("3");
         if(userIndex == -1){
             throw new UserNotFoundException(id);
         }
-        System.out.println("4");
         // Get locations
         List<RecommendedLocation> locations = this.recommendedLocationRepository.findAll();
         int numLocations = locations.size();
-        System.out.println("5");
         if(numUsers == 0){
             String[][] returnMatrix = new String[numLocations][2];
             return returnMatrix;
         }
-        System.out.println("6");
         if(numLocations == 0){
             String[][] returnMatrix = new String[numLocations][2];
             return returnMatrix;
         }
-        System.out.println("7");
+
         // For each user (row) add an entry with their "rating" of the corresponding location (col)
         SimpleMatrix datasetMatrix = new SimpleMatrix(numUsers, numLocations);
 
@@ -127,18 +121,18 @@ public class RecommendationService {
                 // If user has neither liked nor visited the location, don't insert anything
             }
         }
-        System.out.println("8");
+
         SimpleMatrix transposedDatasetMatrix = datasetMatrix.transpose();
         SimpleMatrix similarityMatrix = new SimpleMatrix(datasetMatrix);
         similarityMatrix = transposedDatasetMatrix.mult(datasetMatrix);
         SimpleMatrix norms = similarityMatrix.diag();
-        System.out.println("9");
+
         for (int i = 0; i < norms.numRows(); i++) {
             for (int j = 0; j < norms.numCols(); j++) {
                 norms.set(i,j, Math.sqrt(norms.get(i,j)));
             }
         }
-        System.out.println("10");
+
         for (int i = 0; i < similarityMatrix.numRows(); i++) {
             for (int j = 0; j < similarityMatrix.numCols(); j++) {
                 double curValue = similarityMatrix.get(i,j);
@@ -151,15 +145,15 @@ public class RecommendationService {
                 }
             }
         }
-        System.out.println("11");
+
         SimpleMatrix x = new SimpleMatrix(1, similarityMatrix.numCols());
 
         for (int i = 0; i < similarityMatrix.numRows(); i++) {
             x = x.plus(similarityMatrix.extractVector(true, i));
         }
-        System.out.println("12");
+
         SimpleMatrix predictionMatrix = datasetMatrix.mult(similarityMatrix);
-        System.out.println("13");
+
         for (int i = 0; i < predictionMatrix.numRows() - 1; i++) {
             for (int j = 0; j < x.numCols() - 1; j++) {
                 double prediction = predictionMatrix.get(i,j)/x.get(0,j);
@@ -169,16 +163,14 @@ public class RecommendationService {
                 predictionMatrix.set(i, j, prediction);
             }
         }
-        System.out.println("14");
         double[] locationPredictedRating = new double[predictionMatrix.numCols()];
         int[] locationIndex = new int[predictionMatrix.numCols()];
 
-        System.out.println("15");
         for (int i = 0; i < predictionMatrix.numCols(); i++) {
             locationPredictedRating[i] = predictionMatrix.get(userIndex, i);
             locationIndex[i] = i;
         }
-        System.out.println("16");
+
         for (int i = 0; i < locationPredictedRating.length - 1; i++) {
             for (int j = i; j < locationPredictedRating.length; j++) {
                 if(locationPredictedRating[i] < locationPredictedRating[j]){
@@ -192,24 +184,24 @@ public class RecommendationService {
                 }
             }
         }
-        System.out.println("17");
+
         User user = users.get(userIndex);
         List<UUID> recommendedLocations = new ArrayList<>();
         for (int i = 0; i < locationIndex.length; i++) {
             recommendedLocations.add(locations.get(i).getLocationId());
         }
-        System.out.println("18");
+
         if(numRecommendations>= recommendedLocations.size()){
             numRecommendations = recommendedLocations.size();
         }
-        System.out.println("19");
+
         String[][] returnMatrix = new String[numLocations][2];
         for(int i = 0; i<numRecommendations;i++){
             RecommendedLocation currentLocation = recommendedLocationRepository.findLocationByLocationId(recommendedLocations.get(i));
             returnMatrix[i][0] = recommendedLocations.get(i).toString();
             returnMatrix[i][1] = user.hasLiked(currentLocation).toString();
         }
-        System.out.println("20");
+
 
         return returnMatrix;
     }

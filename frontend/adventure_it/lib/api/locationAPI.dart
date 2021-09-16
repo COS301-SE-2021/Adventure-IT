@@ -133,6 +133,8 @@ class LocationApi {
       throw Exception('Failed to get recommendations: ${response.body}');
     }
 
+    print(response.body.toString());
+
     List<RecommendedLocation> locations = (jsonDecode(response.body) as List)
         .map((x) => RecommendedLocation.fromJson(x))
         .toList();
