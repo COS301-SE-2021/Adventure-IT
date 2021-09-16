@@ -11,6 +11,7 @@ import com.adventureit.chat.repository.MessageRepository;
 import com.adventureit.shareddtos.chat.ColorPairDTO;
 import com.adventureit.shareddtos.chat.responses.DirectChatResponseDTO;
 import com.adventureit.shareddtos.chat.responses.GroupChatResponseDTO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,8 @@ public class ChatServiceImplementation implements ChatService {
     MessageRepository messageRepository;
     ColorPairRepository colorPairRepository;
     Random rand;
+    @Value("${firebase-path}")
+    private String path;
 
     public ChatServiceImplementation(ColorPairRepository colorPairRepository,DirectChatRepository directChatRepository,GroupChatRepository groupChatRepository,MessageRepository messageRepository){
         this.groupChatRepository = groupChatRepository;
