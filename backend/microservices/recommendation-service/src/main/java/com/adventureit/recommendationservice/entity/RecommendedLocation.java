@@ -13,8 +13,8 @@ public class RecommendedLocation {
     private final UUID locationId;
     @ElementCollection
     private List<String> types;
-    private long likes;
-    private long visits;
+    private long likes=0;
+    private long visits=0;
 
     public RecommendedLocation(){
         this.locationId = UUID.randomUUID();

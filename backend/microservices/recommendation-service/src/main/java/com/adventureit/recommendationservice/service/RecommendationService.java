@@ -214,6 +214,11 @@ public class RecommendationService {
         String[][] returnMatrix = new String[locations.size()][2];
         List<User> users = this.userRepository.findAll();
 
+        if(locations.size()==0)
+        {
+            return returnMatrix;
+        }
+
         // Find index of current user:
         int userIndex = -1;
         for (int i = 0; i < users.size(); i++) {

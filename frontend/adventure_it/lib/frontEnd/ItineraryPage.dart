@@ -2490,7 +2490,7 @@ class _RecommendedItems extends StatelessWidget {
 
   @override
   Widget build(context) {
-    if (entryModel!.popular!.length > 0) {
+    if (entryModel!.popular!=null&&entryModel!.recommendations!=null&&entryModel!.popular!.length > 0) {
       return
         Container(width: MediaQuery
             .of(context)

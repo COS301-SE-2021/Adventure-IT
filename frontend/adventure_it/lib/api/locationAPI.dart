@@ -105,6 +105,8 @@ class LocationApi {
     http.Response response = await _getRecommendations(a);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to get recommendations!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to get recommendations: ${response.body}');
     }
 
@@ -118,7 +120,7 @@ class LocationApi {
   static Future<http.Response> _getRecommendations(
       Adventure a) async {
     return http.get(Uri.parse("http://"+mainApi +
-        "/recommendation/get/"+UserApi.getInstance().getUserProfile()!.userID+"/5/"+a.location.id));
+        "/recommendation/get/"+UserApi.getInstance().getUserProfile()!.userID+"/5/"+a.location.formattedAddress));
   }
 
 
@@ -126,6 +128,8 @@ class LocationApi {
     http.Response response = await _getPopular(a);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to get recommendations!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to get recommendations: ${response.body}');
     }
 
@@ -138,7 +142,7 @@ class LocationApi {
   static Future<http.Response> _getPopular(
       Adventure a) async {
     return http.get(Uri.parse("http://"+mainApi +
-        "/recommendation/get/popular/"+UserApi.getInstance().getUserProfile()!.userID+"/5/"+a.location.id));
+        "/recommendation/get/popular/"+UserApi.getInstance().getUserProfile()!.userID+"/5/"+a.location.formattedAddress));
   }
 
 }
