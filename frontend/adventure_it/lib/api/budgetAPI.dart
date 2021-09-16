@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:adventure_it/api/createUTOBudgetEntry.dart';
 import 'package:adventure_it/api/report.dart';
 import 'package:adventure_it/api/userAPI.dart';
+import 'package:flutter/material.dart';
 import '/constants.dart';
 import '/api/budget.dart';
 import '/api/adventure.dart';
@@ -12,10 +13,12 @@ import 'budgetEntry.dart';
 import 'createUTUBudgetEntry.dart';
 
 class BudgetApi {
-  static Future<List<Budget>> getBudgets(Adventure? a) async {
+  static Future<List<Budget>> getBudgets(Adventure? a,context) async {
     http.Response response = await _getBudgets(a!.adventureId);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to load list of budgets!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to load list of budgets: ${response.body}');
     }
 
@@ -31,10 +34,12 @@ class BudgetApi {
         Uri.http(mainApi, '/budget/viewBudgetsByAdventure/' + adventureID));
   }
 
-  static Future<List<Budget>> getDeletedBudgets(adventureId) async {
+  static Future<List<Budget>> getDeletedBudgets(adventureId,context) async {
     http.Response response = await _getDeletedBudgetsResponse(adventureId);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to get list of deleted budgets!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception(
           'Failed to load list of deleted budgets: ${response.body}');
     }
@@ -46,33 +51,41 @@ class BudgetApi {
     return budgets;
   }
 
-  static Future restoreBudget(budgetID) async {
+  static Future restoreBudget(budgetID,context) async {
     http.Response response = await _restoreBudgetRequest(budgetID);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to restore budget!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to restore budget: ${response.body}');
     }
   }
 
-  static Future softDeleteBudget(budgetID) async {
+  static Future softDeleteBudget(budgetID,context) async {
     http.Response response = await _deleteBudgetRequest(budgetID);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to move budget to trash!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to softDelete budget: ${response.body}');
     }
   }
 
-  static Future hardDeleteBudget(budgetID) async {
+  static Future hardDeleteBudget(budgetID,context) async {
     http.Response response = await _hardDeleteBudgetRequest(budgetID);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to remove budget forever!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to hardDelete budget: ${response.body}');
     }
   }
 
-  static Future<List<int>> getNumberOfCategories(Adventure a) async {
+  static Future<List<int>> getNumberOfCategories(Adventure a,context) async {
     http.Response response = await _getNumberOfCategories(a.adventureId);
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to get budget categories!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to get categories: ${response.body}');
     }
     List<dynamic> categories = (jsonDecode(response.body) as List);
@@ -117,7 +130,7 @@ class BudgetApi {
             UserApi.getInstance().getUserProfile()!.userID));
   }
 
-  static Future<String> getTotalOfExpenses(Budget b, String userID) async {
+  static Future<String> getTotalOfExpenses(Budget b, String userID,context) async {
     http.Response response = await _getTotalOfExpenses(b.id, userID);
 
     if (response.statusCode != 200) {
@@ -132,10 +145,12 @@ class BudgetApi {
         budgetApi, '/budget/calculateExpense/' + budgetID + "/" + userID));
   }
 
-  static Future<List<BudgetEntry>> getEntries(Budget b) async {
+  static Future<List<BudgetEntry>> getEntries(Budget b,context) async {
     http.Response response = await _getEntries(b.id);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to get budget entries!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to get budget entries: ${response.body}');
     }
 
@@ -150,10 +165,12 @@ class BudgetApi {
     return http.get(Uri.http(mainApi, '/budget/viewBudget/' + budgetID));
   }
 
-  static Future deleteEntry(BudgetEntry i, String id) async {
+  static Future deleteEntry(BudgetEntry i, String id,context) async {
     http.Response response = await _deleteBudgetEntryRequest(i.budgetEntryID);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to remove budget entry from budget!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to delete budget entry ${response.body}');
     }
   }
@@ -163,7 +180,7 @@ class BudgetApi {
     return http.get(Uri.http(mainApi, '/budget/removeEntry/' + BudgetEntryID + '/' + userID));
   }
 
-  static Future<List<Report>?> getReport(Budget b, String userID) async {
+  static Future<List<Report>?> getReport(Budget b, String userID,context) async {
     http.Response response = await _getReport(b, userID);
 
     if (response.statusCode != 200) {
@@ -183,7 +200,7 @@ class BudgetApi {
   }
 
   static Future<CreateBudget> createBudget(String name, String description,
-      String creatorID, String adventureID) async {
+      String creatorID, String adventureID,context) async {
     final response = await http.post(
       Uri.parse('http://localhost:9999/budget/create'), //get uri
       headers: <String, String>{
@@ -198,6 +215,7 @@ class BudgetApi {
     );
 
     if (response.statusCode == 200) {
+
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
       print('Status code: ${response.statusCode}');
@@ -208,6 +226,8 @@ class BudgetApi {
           creatorID: creatorID,
           adventureID: adventureID);
     } else {
+      SnackBar snackBar=SnackBar(content: Text('Failed to create budget!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       print('Status code: ${response.statusCode}');
@@ -223,7 +243,7 @@ class BudgetApi {
       String title,
       String description,
       String category,
-      String payee) async {
+      String payee,context) async {
     double x = double.parse(amount);
     amount = x.toStringAsFixed(2);
     final response = await http.post(
@@ -256,6 +276,8 @@ class BudgetApi {
           category: category,
           payee: payee);
     } else {
+      SnackBar snackBar=SnackBar(content: Text('Failed to create budget entry!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       print('Status code: ${response.statusCode}');
@@ -271,7 +293,7 @@ class BudgetApi {
       String title,
       String description,
       String category,
-      String payee) async {
+      String payee,context) async {
     double x = double.parse(amount);
     amount = x.toStringAsFixed(2);
       final response = await http.post(
@@ -304,6 +326,8 @@ class BudgetApi {
             category: category,
             payee: payee);
       } else {
+        SnackBar snackBar=SnackBar(content: Text('Failed to create budget entry!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
         // If the server did not return a 201 CREATED response,
         // then throw an exception.
         print('Status code: ${response.statusCode}');
@@ -322,7 +346,7 @@ class BudgetApi {
       String title,
       String description,
       String payee,
-      String category) async {
+      String category,context) async {
     double x = double.parse(amount);
     amount = x.toStringAsFixed(2);
       final response = await http.post(
@@ -350,6 +374,8 @@ class BudgetApi {
         print('Body: ${response.body}');
         return response;
       } else {
+        SnackBar snackBar=SnackBar(content: Text('Failed to edit budget!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
         // If the server did not return a 201 CREATED response,
         // then throw an exception.
         print('Status code: ${response.statusCode}');

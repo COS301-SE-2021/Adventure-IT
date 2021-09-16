@@ -152,7 +152,6 @@ class CreateAdventure extends State<CreateAdventureCaller> {
   final descriptionController = TextEditingController();
   final locationController = TextEditingController();
   final dateController = TextEditingController();
-  AdventuresModel adventuresModel = new AdventuresModel();
 
   @override
   Widget build(BuildContext context) {

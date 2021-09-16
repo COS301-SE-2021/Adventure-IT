@@ -11,8 +11,9 @@ import 'package:flutter/material.dart';
 class DeletedBudgetModel extends ChangeNotifier {
   List<Budget>? _deletedBudgets;
   List<UserProfile?>? _creators;
+  BuildContext? context;
 
-  DeletedBudgetModel(Adventure a) {
+  DeletedBudgetModel(Adventure a,context) {
     fetchAllDeletedBudgets(a).then((deletedBudgets) => deletedBudgets != null
         ? _deletedBudgets = deletedBudgets
         : List.empty());
@@ -23,12 +24,12 @@ class DeletedBudgetModel extends ChangeNotifier {
   List<UserProfile?>? get creators => _creators?.toList();
 
   Future fetchAllDeletedBudgets(Adventure a) async {
-    _deletedBudgets = await BudgetApi.getDeletedBudgets(a.adventureId);
+    _deletedBudgets = await BudgetApi.getDeletedBudgets(a.adventureId,context);
     var total =
         List<UserProfile?>.filled(deletedBudgets!.length, null, growable: true);
     total.removeRange(0, deletedBudgets!.length);
     for (var b in deletedBudgets!) {
-      await UserApi.getInstance().findUser(b.creatorID).then((value) {
+      await UserApi.getInstance().findUser(b.creatorID,context).then((value) {
         total.add(value);
       });
     }
@@ -39,7 +40,7 @@ class DeletedBudgetModel extends ChangeNotifier {
   }
 
   Future hardDeleteBudget(Budget budget) async {
-    await BudgetApi.hardDeleteBudget(budget.id);
+    await BudgetApi.hardDeleteBudget(budget.id,context);
 
     var index =
         _deletedBudgets!.indexWhere((element) => element.id == budget.id);
@@ -50,7 +51,7 @@ class DeletedBudgetModel extends ChangeNotifier {
   }
 
   Future restoreBudget(Budget budget) async {
-    await BudgetApi.restoreBudget(budget.id);
+    await BudgetApi.restoreBudget(budget.id,context);
 
     var index =
         _deletedBudgets!.indexWhere((element) => element.id == budget.id);
@@ -66,9 +67,11 @@ class BudgetModel extends ChangeNotifier {
   List<int>? _categories;
   List<String>? _expenses;
   Adventure? adventure;
+  BuildContext? context;
 
-  BudgetModel(Adventure a, String userName) {
+  BudgetModel(Adventure a, String userName,context) {
     this.adventure = a;
+    this.context=context;
     fetchAllBudgets(a, userName).then((budgets) {
       budgets != null ? _budgets = budgets : List.empty();
     });
@@ -81,7 +84,7 @@ class BudgetModel extends ChangeNotifier {
   List<int>? get categories => _categories?.toList();
 
   Future fetchAllBudgets(Adventure a, String userName) async {
-    _budgets = await BudgetApi.getBudgets(a);
+    _budgets = await BudgetApi.getBudgets(a,context);
     calculateCategories(a).then((categories) {
       categories != null ? _categories = categories : List<int>.filled(5, 0);
     });
@@ -97,7 +100,7 @@ class BudgetModel extends ChangeNotifier {
     var total = List<String>.filled(budgets!.length, "0", growable: true);
     total.removeRange(0, budgets!.length);
     for (var b in budgets!) {
-      await BudgetApi.getTotalOfExpenses(b, userName).then((val) {
+      await BudgetApi.getTotalOfExpenses(b, userName,context).then((val) {
            double x=double.parse(val);
            String amount=x.toStringAsFixed(2);
            total.add(amount);
@@ -110,7 +113,7 @@ class BudgetModel extends ChangeNotifier {
   }
 
   Future calculateCategories(Adventure a) async {
-    await BudgetApi.getNumberOfCategories(a).then((value) {
+    await BudgetApi.getNumberOfCategories(a,context).then((value) {
       this._categories = value;
     });
 
@@ -118,7 +121,7 @@ class BudgetModel extends ChangeNotifier {
   }
 
   Future softDeleteBudget(Budget budget) async {
-    await BudgetApi.softDeleteBudget(budget.id);
+    await BudgetApi.softDeleteBudget(budget.id,context);
 
     var index = _budgets!.indexWhere((element) => element.id == budget.id);
     _budgets!.removeAt(index);
@@ -134,7 +137,7 @@ class BudgetModel extends ChangeNotifier {
 
   Future addBudget(
       Adventure adv, String a, String b, String c, String d, String uN) async {
-    await BudgetApi.createBudget(a, b, c, d);
+    await BudgetApi.createBudget(a, b, c, d,context);
 
     await fetchAllBudgets(adv, uN);
   }
@@ -144,9 +147,11 @@ class BudgetEntryModel extends ChangeNotifier {
   List<BudgetEntry>? _entries;
   List<Report>? _reports;
   Budget? budget;
+  BuildContext? context;
 
-  BudgetEntryModel(Budget b) {
+  BudgetEntryModel(Budget b,context) {
     this.budget = b;
+    this.context=context;
     fetchAllEntries(b)
         .then((entries) => entries != null ? _entries = entries : List.empty());
   }
@@ -156,20 +161,20 @@ class BudgetEntryModel extends ChangeNotifier {
   List<Report>? get reports => _reports?.toList();
 
   Future fetchAllEntries(Budget b) async {
-    _entries = await BudgetApi.getEntries(b);
+    _entries = await BudgetApi.getEntries(b,context);
 
     fetchAllReports(b, UserApi.getInstance().getUserProfile()!.username)
         .then((entries) => entries != null ? _reports = entries : List.empty());
   }
 
   Future fetchAllReports(Budget b, String userID) async {
-    _reports = await BudgetApi.getReport(b, userID);
+    _reports = await BudgetApi.getReport(b, userID,context);
 
     notifyListeners();
   }
 
   Future deleteBudgetEntry(BudgetEntry c) async {
-    await BudgetApi.deleteEntry(c,UserApi.getInstance().getUserProfile()!.userID);
+    await BudgetApi.deleteEntry(c,UserApi.getInstance().getUserProfile()!.userID,context);
 
     var index = _entries!
         .indexWhere((element) => element.budgetEntryID == c.budgetEntryID);
@@ -181,21 +186,21 @@ class BudgetEntryModel extends ChangeNotifier {
 
   Future addUTUBudgetEntry(Budget budget, String a, String b, String c,
       String d, String e, String f, String g) async {
-    await BudgetApi.createUTUBudget(a, b, c, d, e, f, g);
+    await BudgetApi.createUTUBudget(a, b, c, d, e, f, g,context);
 
     await fetchAllEntries(budget);
   }
 
   Future addUTOBudgetEntry(Budget budget, String a, String b, String c,
-      String d, String e, String f, String g) async {
-    await BudgetApi.createUTOBudget(a, b, c, d, e, f, g);
+      String d, String e, String f, String g,context) async {
+    await BudgetApi.createUTOBudget(a, b, c, d, e, f, g,context);
 
     await fetchAllEntries(budget);
   }
 
   Future editBudgetEntry(Budget budget, BudgetEntry be, String a, String b,
-      String c, String d, String e, String f, String g, String h, String i) async {
-    await BudgetApi.editBudgetEntry(a, b, c, d, e, f, g, h, i);
+      String c, String d, String e, String f, String g, String h, String i,context) async {
+    await BudgetApi.editBudgetEntry(a, b, c, d, e, f, g, h, i,context);
 
     var index = _entries!
         .indexWhere((element) => element.budgetEntryID == be.budgetEntryID);

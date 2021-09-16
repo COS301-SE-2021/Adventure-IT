@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:provider/provider.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:adventure_it/Providers/itinerary_model.dart';
@@ -22,7 +23,7 @@ class Itineraries extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => ItineraryModel(adventure!),
+        create: (context) => ItineraryModel(adventure!,context),
         builder: (context, widget) => Scaffold(
             drawer: NavDrawer(),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -42,7 +43,7 @@ class Itineraries extends StatelessWidget {
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
                   Container(
                       height: MediaQuery.of(context).size.height * 0.80,
-                      child: ItinerariesList(adventure!)),
+                      child: ItinerariesList(adventure!,context)),
                   Spacer(),
                   Row(children: [
                     Expanded(
@@ -111,13 +112,15 @@ class Itineraries extends StatelessWidget {
 
 class ItinerariesList extends StatefulWidget {
   late final Adventure? currentAdventure;
+  late final BuildContext? context;
 
-  ItinerariesList(Adventure a) {
+  ItinerariesList(Adventure a,context) {
     currentAdventure = a;
+    this.context=context;
   }
 
   @override
-  _ItinerariesList createState() => _ItinerariesList(currentAdventure);
+  _ItinerariesList createState() => _ItinerariesList(currentAdventure,context);
 }
 
 class _ItinerariesList extends State<ItinerariesList> {
@@ -140,9 +143,9 @@ class _ItinerariesList extends State<ItinerariesList> {
     "December"
   ];
 
-  _ItinerariesList(Adventure? adventure) {
+  _ItinerariesList(Adventure? adventure,context) {
     this.a = adventure;
-    ItineraryApi.getNextEntry(a!).then((value) {
+    ItineraryApi.getNextEntry(a!,context).then((value) {
       setState(() {
         check = true;
 
@@ -194,7 +197,11 @@ class _ItinerariesList extends State<ItinerariesList> {
         return Column(children: [
           Expanded(
               flex: 3,
-              child: Container(
+              child: InkWell(
+                  onTap:(){
+                    MapsLauncher.launchQuery(next!.location.formattedAddress);
+                  },
+                  child:Container(
                   width: MediaQuery.of(context).size.width * 0.8 < 500? 500: MediaQuery.of(context).size.width * 0.8,
                   decoration: new BoxDecoration(
                       image: new DecorationImage(
@@ -226,7 +233,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                           Spacer(),
                           Text("Next Stop!",
                               style: TextStyle(
-                                  fontSize: 30 *
+                                  fontSize: 20 *
                                       MediaQuery.of(context).textScaleFactor,
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context)
@@ -235,7 +242,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                       .color)),
                           Text(next!.title,
                               style: TextStyle(
-                                  fontSize: 40 *
+                                  fontSize: 35 *
                                       MediaQuery.of(context).textScaleFactor,
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context)
@@ -250,16 +257,16 @@ class _ItinerariesList extends State<ItinerariesList> {
                                 WidgetSpan(
                                     child: Icon(
                                   Icons.location_on,
-                                  size: 15,
+                                  size: 12,
                                   color: Theme.of(context)
                                       .textTheme
                                       .bodyText1!
                                       .color,
                                 )),
                                 TextSpan(
-                                    text: " " + next!.location.formattedAddress,
+                                    text: " " + next!.location.name,
                                     style: TextStyle(
-                                        fontSize: 15 *
+                                        fontSize: 12 *
                                             MediaQuery.of(context)
                                                 .textScaleFactor,
                                         color: Theme.of(context)
@@ -273,7 +280,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                               child: Text(getTime(next!),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: 15 *
+                                      fontSize: 12 *
                                           MediaQuery.of(context)
                                               .textScaleFactor,
                                       fontWeight: FontWeight.bold,
@@ -295,7 +302,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                                   color: Theme.of(context)
                                       .textTheme
                                       .bodyText1!
-                                      .color))))),
+                                      .color)))))),
           SizedBox(height: MediaQuery.of(context).size.height / 60),
           Expanded(
               flex: 8,
@@ -309,7 +316,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                           UserApi.getInstance()
                               .findUser(itineraryModel.itineraries!
                                   .elementAt(index)
-                                  .creatorID)
+                                  .creatorID,context)
                               .then((c) {
                             Navigator.pushReplacement(
                                 context,
@@ -400,7 +407,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                           ),
                         ))),
               ))
-        ]);
+          ]);
       } else {
         return Center(
             child: Text(

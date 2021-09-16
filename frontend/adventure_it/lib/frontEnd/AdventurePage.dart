@@ -164,7 +164,7 @@ class AdventurePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
       return ChangeNotifierProvider(
-          create: (context) => AdventuresModel(),
+          create: (context) => AdventuresModel(context),
       builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -615,7 +615,7 @@ class AdventurePage extends StatelessWidget {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    AdventureAttendees(currentAdventure!)));
+                                                    AdventureAttendees(currentAdventure!,context)));
                                       }
                                     },
                                     child: Column(
@@ -745,7 +745,7 @@ class AlertBox extends StatelessWidget {
         ]),
         content: ChangeNotifierProvider(
             create: (context) =>
-                FriendModel(UserApi.getInstance().getUserProfile()!.userID),
+                FriendModel(UserApi.getInstance().getUserProfile()!.userID,context),
             child: Container(
                 width: 300,
                 child: Consumer<FriendModel>(
@@ -763,7 +763,7 @@ class AlertBox extends StatelessWidget {
                                       currentAdventure!,
                                       friendModel.friends!
                                           .elementAt(index)
-                                          .userID);
+                                          .userID,context);
                                   Navigator.of(context).pop();
                                 },
                                 child: Padding(

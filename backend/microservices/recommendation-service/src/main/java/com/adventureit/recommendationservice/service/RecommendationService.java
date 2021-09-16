@@ -1,14 +1,11 @@
 package com.adventureit.recommendationservice.service;
 
-import com.adventureit.recommendationservice.entity.Location;
-import com.adventureit.recommendationservice.entity.User;
+import com.adventureit.recommendationservice.entity.RecommendedLocation;
+import com.adventureit.recommendationservice.entity.RecommendedUser;
 import com.adventureit.recommendationservice.exception.*;
-import com.adventureit.recommendationservice.repository.LocationRepository;
-import com.adventureit.recommendationservice.repository.UserRepository;
-import javassist.Loader;
-import org.ejml.data.DMatrixSparseCSC;
+import com.adventureit.recommendationservice.repository.RecommendedLocationRepository;
+import com.adventureit.recommendationservice.repository.RecommendedUserRepository;
 import org.ejml.simple.SimpleMatrix;
-import org.ejml.simple.ops.SimpleOperations_DSCC;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,17 +13,17 @@ import java.util.*;
 @Service
 public class RecommendationService {
 
-    private final UserRepository userRepository;
-    private final LocationRepository locationRepository;
+    private final RecommendedUserRepository recommendedUserRepository;
+    private final RecommendedLocationRepository recommendedLocationRepository;
 
-    public RecommendationService(UserRepository userRepository, LocationRepository locationRepository){
-        this.userRepository = userRepository;
-        this.locationRepository = locationRepository;
+    public RecommendationService(RecommendedUserRepository recommendedUserRepository, RecommendedLocationRepository recommendedLocationRepository){
+        this.recommendedUserRepository = recommendedUserRepository;
+        this.recommendedLocationRepository = recommendedLocationRepository;
     }
 
     public void likeLocation(UUID userId, UUID locationId){
-        User foundUser = this.userRepository.findUserByUserId(userId);
-        Location foundLocation = this.locationRepository.findLocationByLocationId(locationId);
+        RecommendedUser foundUser = this.recommendedUserRepository.findUserByUserId(userId);
+        RecommendedLocation foundLocation = this.recommendedLocationRepository.findLocationByLocationId(locationId);
 
         if(foundUser == null){
             throw new UserNotFoundException(userId);
@@ -36,12 +33,14 @@ public class RecommendationService {
             throw new LocationNotFoundException(locationId);
         }
         foundUser.likeLocation(foundLocation);
+        recommendedUserRepository.save(foundUser);
         foundLocation.like();
+        recommendedLocationRepository.save(foundLocation);
     }
 
     public void visitLocation(UUID userId, UUID locationId){
-        User foundUser = this.userRepository.findUserByUserId(userId);
-        Location foundLocation = this.locationRepository.findLocationByLocationId(locationId);
+        RecommendedUser foundUser = this.recommendedUserRepository.findUserByUserId(userId);
+        RecommendedLocation foundLocation = this.recommendedLocationRepository.findLocationByLocationId(locationId);
 
         if(foundUser == null){
             throw new UserNotFoundException(userId);
@@ -50,13 +49,15 @@ public class RecommendationService {
         if(foundLocation == null){
             throw new LocationNotFoundException(locationId);
         }
-        foundUser.visitLocation(foundLocation);;
+        foundUser.visitLocation(foundLocation);
+        recommendedUserRepository.save(foundUser);
         foundLocation.visit();
+        recommendedLocationRepository.save(foundLocation);
     }
 
     public void addUser(UUID userId){
-        if(this.userRepository.findUserByUserId(userId) == null){
-            this.userRepository.save(new User(userId));
+        if(this.recommendedUserRepository.findUserByUserId(userId) == null){
+            this.recommendedUserRepository.save(new RecommendedUser(userId));
         }
         else {
             throw new UserExistsException(userId);
@@ -65,19 +66,19 @@ public class RecommendationService {
 
 
     public void addLocation(UUID locationId) {
-        if(this.locationRepository.findLocationByLocationId(locationId) == null){
-            this.locationRepository.save(new Location(locationId));
+        if(this.recommendedLocationRepository.findLocationByLocationId(locationId) == null){
+            this.recommendedLocationRepository.save(new RecommendedLocation(locationId));
         }
         else {
             throw new LocationExistsException(locationId);
         }
     }
 
-    public List<UUID> getUserRecommendations(UUID id){
+    public String[][] getUserRecommendations(UUID id, String numRec, String location){
         // Get users
-        List<User> users = this.userRepository.findAll();
+        int numRecommendations=Integer.parseInt(numRec);
+        List<RecommendedUser> users = this.recommendedUserRepository.findAll();
         int numUsers = users.size();
-
         // Find index of current user:
         int userIndex = -1;
         for (int i = 0; i < users.size(); i++) {
@@ -86,21 +87,19 @@ public class RecommendationService {
                 break;
             }
         }
-
         if(userIndex == -1){
             throw new UserNotFoundException(id);
         }
-
         // Get locations
-        List<Location> locations = this.locationRepository.findAll();
+        List<RecommendedLocation> locations = this.recommendedLocationRepository.findAll();
         int numLocations = locations.size();
-
         if(numUsers == 0){
-            throw new RecommendationException("No persisted users, cannot create recommendations");
+            String[][] returnMatrix = new String[numLocations][2];
+            return returnMatrix;
         }
-
         if(numLocations == 0){
-            throw new RecommendationException("No persisted locations, cannot create recommendations");
+            String[][] returnMatrix = new String[numLocations][2];
+            return returnMatrix;
         }
 
         // For each user (row) add an entry with their "rating" of the corresponding location (col)
@@ -108,8 +107,8 @@ public class RecommendationService {
 
         for(int i = 0; i < numUsers; i++){
             for(int j = 0; j < numLocations; j++){
-                User currentUser = users.get(i);
-                Location currentLocation = locations.get(j);
+                RecommendedUser currentUser = users.get(i);
+                RecommendedLocation currentLocation = locations.get(j);
 
                 // If user has liked the location and visited the location, insert rating 4
                 if(currentUser.hasLiked(currentLocation) && currentUser.hasVisited(currentLocation)){
@@ -126,6 +125,7 @@ public class RecommendationService {
                 // If user has neither liked nor visited the location, don't insert anything
             }
         }
+
         SimpleMatrix transposedDatasetMatrix = datasetMatrix.transpose();
         SimpleMatrix similarityMatrix = new SimpleMatrix(datasetMatrix);
         similarityMatrix = transposedDatasetMatrix.mult(datasetMatrix);
@@ -167,10 +167,8 @@ public class RecommendationService {
                 predictionMatrix.set(i, j, prediction);
             }
         }
-
         double[] locationPredictedRating = new double[predictionMatrix.numCols()];
         int[] locationIndex = new int[predictionMatrix.numCols()];
-
 
         for (int i = 0; i < predictionMatrix.numCols(); i++) {
             locationPredictedRating[i] = predictionMatrix.get(userIndex, i);
@@ -191,26 +189,66 @@ public class RecommendationService {
             }
         }
 
+        RecommendedUser user = users.get(userIndex);
         List<UUID> recommendedLocations = new ArrayList<>();
         for (int i = 0; i < locationIndex.length; i++) {
             recommendedLocations.add(locations.get(i).getLocationId());
         }
 
-        // TODO: Iterate through the list of these UUIDS & run the user.hasLiked on each of the UUIDS
-        // UUID - False
-        // UUID - True
-        // UUID - False
-        return recommendedLocations;
+        if(numRecommendations>= recommendedLocations.size()){
+            numRecommendations = recommendedLocations.size();
+        }
+
+        String[][] returnMatrix = new String[numLocations][2];
+        for(int i = 0; i<numRecommendations;i++){
+            RecommendedLocation currentLocation = recommendedLocationRepository.findLocationByLocationId(recommendedLocations.get(i));
+            returnMatrix[i][0] = recommendedLocations.get(i).toString();
+            returnMatrix[i][1] = user.hasLiked(currentLocation).toString();
+        }
+
+
+        return returnMatrix;
     }
 
-    public List<UUID> getMostPopular() {
-        List<UUID> locationUUIDList = new ArrayList<>();
-        List<Location> locations = locationRepository.findAll();
-        locations.sort(Comparator.comparing(Location::getVisits));
-        for(Location l : locations){
-            locationUUIDList.add(l.getLocationId());
+    public String[][] getMostPopular(UUID id, String numPop, String location) {
+        List<RecommendedLocation> locations = recommendedLocationRepository.findAll();
+        int numPopular=Integer.parseInt(numPop);
+        locations.sort(Comparator.comparing(RecommendedLocation::getVisits));
+        String[][] returnMatrix = new String[locations.size()][2];
+        List<RecommendedUser> users = this.recommendedUserRepository.findAll();
+
+        if(locations.size()==0)
+        {
+            return returnMatrix;
+        } else if(locations.size()<numPopular)
+        {
+            numPopular=locations.size();
         }
-        return locationUUIDList;
+        else if(locations.size()<numPopular)
+        {
+            numPopular=locations.size();
+        }
+
+        // Find index of current user:
+        int userIndex = -1;
+        for (int i = 0; i < users.size(); i++) {
+            if(users.get(i).getUserId().equals(id)){
+                userIndex = i;
+                break;
+            }
+        }
+
+        if(userIndex == -1){
+            throw new UserNotFoundException(id);
+        }
+        RecommendedUser user=users.get(userIndex);
+
+        for(int i = 0; i<numPopular;i++){
+            returnMatrix[i][0] = locations.get(i).getLocationId().toString();
+            returnMatrix[i][1] = user.hasLiked(locations.get(i)).toString();
+        }
+
+        return returnMatrix;
     }
 }
 

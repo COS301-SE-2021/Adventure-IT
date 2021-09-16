@@ -76,7 +76,7 @@ class DeletedItineraryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => DeletedItineraryModel(a!),
+        create: (context) => DeletedItineraryModel(a!,context),
         child: Consumer<DeletedItineraryModel>(
             builder: (context, deletedItineraryModel, child) {
           this.c = context;

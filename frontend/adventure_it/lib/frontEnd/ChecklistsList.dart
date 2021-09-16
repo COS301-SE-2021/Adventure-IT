@@ -21,7 +21,7 @@ class Checklists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ChecklistModel(adventure!),
+      create: (context) => ChecklistModel(adventure!,context),
       builder: (context, widget) => Scaffold(
         drawer: NavDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -132,7 +132,7 @@ class ChecklistList extends StatelessWidget {
                                   hoverColor:
                                       Theme.of(context).primaryColorLight,
                                   onTap: () {
-                                    UserApi.getInstance().findUser(checklistModel.checklists!.elementAt(index).creatorID).then((c){
+                                    UserApi.getInstance().findUser(checklistModel.checklists!.elementAt(index).creatorID,context).then((c){
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(

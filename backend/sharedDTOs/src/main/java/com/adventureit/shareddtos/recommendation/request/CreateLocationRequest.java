@@ -3,9 +3,20 @@ package com.adventureit.shareddtos.recommendation.request;
 import java.util.UUID;
 
 public class CreateLocationRequest {
-    public final UUID locationId;
+    public UUID locationId;
 
-    public CreateLocationRequest(UUID id){
-        this.locationId = id;
+    public CreateLocationRequest(){};
+
+    public CreateLocationRequest(UUID locationId){
+        this.locationId = locationId;
+    }
+
+    public UUID getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(UUID locationId)
+    {
+        this.locationId=locationId;
     }
 }
