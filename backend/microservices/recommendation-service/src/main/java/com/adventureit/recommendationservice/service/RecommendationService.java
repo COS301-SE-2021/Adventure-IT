@@ -70,7 +70,7 @@ public class RecommendationService {
         }
     }
 
-    public String[][] getUserRecommendations(UUID id, int numRecommendations){
+    public String[][] getUserRecommendations(UUID id, int numRecommendations, String location){
         // Get users
         List<User> users = this.userRepository.findAll();
         int numUsers = users.size();
@@ -206,7 +206,7 @@ public class RecommendationService {
         return returnMatrix;
     }
 
-    public String[][] getMostPopular(UUID id, int numPopular) {
+    public String[][] getMostPopular(UUID id, int numPopular, String location) {
         List<Location> locations = locationRepository.findAll();
         locations.sort(Comparator.comparing(Location::getVisits));
         String[][] returnMatrix = new String[locations.size()][2];

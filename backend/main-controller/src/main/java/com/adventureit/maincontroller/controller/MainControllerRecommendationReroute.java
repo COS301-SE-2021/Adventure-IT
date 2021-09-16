@@ -26,13 +26,13 @@ public class MainControllerRecommendationReroute {
     String locationPort = "9006";
 
     // User requests arbitrary number of recommendations
-    @GetMapping("get/{userId}/{numRecommendations}")
-    public List<RecommendedLocationResponseDTO> getUserRecommendations(@PathVariable UUID userId, @PathVariable int numRecommendations){
-        String[][] locationUUIDs = restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/get/" + userId + "/" + numRecommendations, String[][].class);
+    @GetMapping("get/{userId}/{numRecommendations}/{location}")
+    public List<RecommendedLocationResponseDTO> getUserRecommendations(@PathVariable UUID userId, @PathVariable int numRecommendations, @PathVariable String location){
+        String[][] locationUUIDs = restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/get/" + userId + "/" + numRecommendations+"/"+location, String[][].class);
         List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
         for(int i = 0; i < Objects.requireNonNull(locationUUIDs).length; i++){
-            LocationResponseDTO location = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/"+locationUUIDs[i][0], LocationResponseDTO.class);
-            returnList.add(new RecommendedLocationResponseDTO(location.getId(),location.getPhotoReference(),location.getFormattedAddress(),location.getPlaceId(),location.getName(),Boolean.parseBoolean(locationUUIDs[i][1])));
+            LocationResponseDTO locationObject = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/"+locationUUIDs[i][0], LocationResponseDTO.class);
+            returnList.add(new RecommendedLocationResponseDTO(locationObject.getId(),locationObject.getPhotoReference(),locationObject.getFormattedAddress(),locationObject.getPlaceId(),locationObject.getName(),Boolean.parseBoolean(locationUUIDs[i][1])));
         }
         return returnList;
     }
@@ -48,13 +48,13 @@ public class MainControllerRecommendationReroute {
     }
 
     // User requests arbitrary number of popular locations
-    @GetMapping("get/popular/{userId}/{numPopular}")
-    public List<RecommendedLocationResponseDTO> getMostPopular(@PathVariable UUID userId, @PathVariable int numPopular){
-        String[][] locationUUIDs = restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/popular/"+ userId+"/" + numPopular, String[][].class);
+    @GetMapping("get/popular/{userId}/{numPopular}/{location}")
+    public List<RecommendedLocationResponseDTO> getMostPopular(@PathVariable UUID userId, @PathVariable int numPopular,@PathVariable String location){
+        String[][] locationUUIDs = restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/popular/"+ userId+"/" + numPopular+"/"+location, String[][].class);
         List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
         for(int i = 0; i < Objects.requireNonNull(locationUUIDs).length; i++){
-            LocationResponseDTO location = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/"+locationUUIDs[i][0], LocationResponseDTO.class);
-            returnList.add(new RecommendedLocationResponseDTO(location.getId(),location.getPhotoReference(),location.getFormattedAddress(),location.getPlaceId(),location.getName(),Boolean.parseBoolean(locationUUIDs[i][1])));
+            LocationResponseDTO locationObject = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/"+locationUUIDs[i][0], LocationResponseDTO.class);
+            returnList.add(new RecommendedLocationResponseDTO(locationObject.getId(),locationObject.getPhotoReference(),locationObject.getFormattedAddress(),locationObject.getPlaceId(),locationObject.getName(),Boolean.parseBoolean(locationUUIDs[i][1])));
         }
         return returnList;
     }

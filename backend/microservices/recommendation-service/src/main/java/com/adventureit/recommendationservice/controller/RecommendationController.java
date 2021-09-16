@@ -84,14 +84,14 @@ public class RecommendationController {
 
 
     // User requests arbitrary number of recommendations
-    @GetMapping("get/{userId}/{numRecommendations}")
-    public String[][] getUserRecommendations(@PathVariable UUID userId, @PathVariable int numRecommendations){
-        return this.recommendationService.getUserRecommendations(userId, numRecommendations);
+    @GetMapping("get/{userId}/{numRecommendations}/{location}")
+    public String[][] getUserRecommendations(@PathVariable UUID userId, @PathVariable int numRecommendations, @PathVariable String location){
+        return this.recommendationService.getUserRecommendations(userId, numRecommendations, location);
     }
 
     // User requests arbitrary number of popular locations
-    @GetMapping("get/popular/{numPopular}")
-    public String[][] getMostPopular(@PathVariable UUID userId, @PathVariable int numPopular){
-        return this.recommendationService.getMostPopular(userId,numPopular);
+    @GetMapping("get/popular/{numPopular}/{location}")
+    public String[][] getMostPopular(@PathVariable UUID userId, @PathVariable int numPopular, @PathVariable String location){
+        return this.recommendationService.getMostPopular(userId,numPopular,location);
     }
 }
