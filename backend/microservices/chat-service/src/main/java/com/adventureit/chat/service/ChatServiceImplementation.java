@@ -27,7 +27,6 @@ import java.util.UUID;
 public class ChatServiceImplementation implements ChatService {
     GroupChatRepository groupChatRepository;
     DirectChatRepository directChatRepository;
-    MessageRepository messageRepository;
     ColorPairRepository colorPairRepository;
     MessageInfoRepository messageInfoRepository;
     Random rand;
@@ -35,10 +34,9 @@ public class ChatServiceImplementation implements ChatService {
     private StorageOptions storageOptions;
     private String bucketName;
 
-    public ChatServiceImplementation(ColorPairRepository colorPairRepository,DirectChatRepository directChatRepository,GroupChatRepository groupChatRepository,MessageRepository messageRepository, MessageInfoRepository messageInfoRepository){
+    public ChatServiceImplementation(ColorPairRepository colorPairRepository,DirectChatRepository directChatRepository,GroupChatRepository groupChatRepository, MessageInfoRepository messageInfoRepository){
         this.groupChatRepository = groupChatRepository;
         this.directChatRepository = directChatRepository;
-        this.messageRepository = messageRepository;
         this.colorPairRepository = colorPairRepository;
         this.rand = new Random();
         this.messageInfoRepository = messageInfoRepository;
@@ -139,38 +137,68 @@ public class ChatServiceImplementation implements ChatService {
 
     @Override
     @Transactional
-    public String sendGroupMessage(UUID chatID, UUID sender,String msg) {
+    public String sendGroupMessage(UUID chatID, UUID sender,String msg) throws IOException {
         GroupChat chat = groupChatRepository.getGroupChatByGroupChatId(chatID);
         if(chat == null){
             throw new ChatNotFoundException(chatID);
         }
-        GroupMessage message = new GroupMessage(UUID.randomUUID(),sender,chatID,msg);
-        messageRepository.save(message);
+
+        UUID id = UUID.randomUUID();
+        GroupMessage message = new GroupMessage(id,sender,chatID,msg);
+        MessageInfo messageInfo = new MessageInfo(id,chatID);
+        messageInfoRepository.save(messageInfo);
         groupChatRepository.save(chat);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
+        oos.writeObject(message);
+        oos.flush();
+
+        Storage storage = storageOptions.getService();
+        BlobId blobId = BlobId.of(bucketName, id.toString());
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+        storage.create(blobInfo, bos.toByteArray());
+
         return "Message Sent";
     }
 
     @Override
-    public void markDirectMessageRead(UUID id) {
-        DirectMessage message = (DirectMessage) messageRepository.findMessageById(id);
-        if(message == null){
-            throw new MessageNotFoundException(id);
-        }
-
+    public void markDirectMessageRead(UUID id) throws IOException, ClassNotFoundException {
+        DirectMessage message = (DirectMessage) getMessage(id);
         message.setRead(!message.getRead());
-        messageRepository.save(message);
+        deleteMessage(id);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
+        oos.writeObject(message);
+        oos.flush();
+
+        Storage storage = storageOptions.getService();
+        BlobId blobId = BlobId.of(bucketName, id.toString());
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+        storage.create(blobInfo, bos.toByteArray());
     }
 
     @Override
     @Transactional
-    public void markGroupMessageRead(UUID id, UUID userID) {
-        GroupMessage message = (GroupMessage) messageRepository.findMessageById(id);
+    public void markGroupMessageRead(UUID id, UUID userID) throws IOException, ClassNotFoundException {
+        GroupMessage message = (GroupMessage) getMessage(id);
         if(message == null){
             throw new MessageNotFoundException(id);
         }
 
         message.getRead().replace(userID,true);
-        messageRepository.save(message);
+        deleteMessage(id);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
+        oos.writeObject(message);
+        oos.flush();
+
+        Storage storage = storageOptions.getService();
+        BlobId blobId = BlobId.of(bucketName, id.toString());
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+        storage.create(blobInfo, bos.toByteArray());
     }
 
     @Override
@@ -180,8 +208,8 @@ public class ChatServiceImplementation implements ChatService {
             throw new ChatNotFoundException(id);
         }
         List<UUID> messageIds = new ArrayList<>();
-        List<Message> messages = messageRepository.findAllByChatId(chats.getGroupChatId());
-        for (Message message : messages) {
+        List<MessageInfo> messages = messageInfoRepository.findAllByChatID(chats.getGroupChatId());
+        for (MessageInfo message : messages) {
             messageIds.add(message.getId());
         }
 
@@ -200,8 +228,8 @@ public class ChatServiceImplementation implements ChatService {
             throw new ChatNotFoundException(id);
         }
         List<UUID> messageIds = new ArrayList<>();
-        List<Message> messages = messageRepository.findAllByChatId(chat.getGroupChatId());
-        for (Message message : messages) {
+        List<MessageInfo> messages = messageInfoRepository.findAllByChatID(chat.getGroupChatId());
+        for (MessageInfo message : messages) {
             messageIds.add(message.getId());
         }
 
@@ -232,8 +260,8 @@ public class ChatServiceImplementation implements ChatService {
             throw new ChatNotFoundException();
         }
         List<UUID> messageIds = new ArrayList<>();
-        List<Message> messages = messageRepository.findAllByChatId(chat.getDirectChatId());
-        for (Message message : messages) {
+        List<MessageInfo> messages = messageInfoRepository.findAllByChatID(chat.getDirectChatId());
+        for (MessageInfo message : messages) {
             messageIds.add(message.getId());
         }
 
@@ -248,8 +276,8 @@ public class ChatServiceImplementation implements ChatService {
             throw new ChatNotFoundException(id);
         }
         List<UUID> messageIds = new ArrayList<>();
-        List<Message> messages = messageRepository.findAllByChatId(chat.getDirectChatId());
-        for (Message message : messages) {
+        List<MessageInfo> messages = messageInfoRepository.findAllByChatID(chat.getDirectChatId());
+        for (MessageInfo message : messages) {
             messageIds.add(message.getId());
         }
 
@@ -257,10 +285,10 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     @Override
-    public Message getMessage(UUID id) throws NotFoundException, IOException, ClassNotFoundException {
+    public Message getMessage(UUID id) throws IOException, ClassNotFoundException {
         MessageInfo messageInfo = messageInfoRepository.findMessageInfoById(id);
         if(messageInfo == null){
-            throw new NotFoundException("Get Message: Message does not exist");
+            throw new MessageNotFoundException(id);
         }
 
         Storage storage = storageOptions.getService();
@@ -282,14 +310,24 @@ public class ChatServiceImplementation implements ChatService {
             throw new ChatNotFoundException(id);
         }
 
+        List<MessageInfo> list = messageInfoRepository.findAllByChatID(id);
+        for (MessageInfo x:list) {
+            deleteMessage(x.getId());
+        }
+
         directChatRepository.delete(chat);
     }
 
     @Override
-    public void deleteGroupChat(UUID id) {
+    public void deleteGroupChat(UUID id){
         GroupChat chat = groupChatRepository.findGroupChatByGroupChatId(id);
         if(chat == null){
             throw new ChatNotFoundException(id);
+        }
+
+        List<MessageInfo> list = messageInfoRepository.findAllByChatID(id);
+        for (MessageInfo x:list) {
+            deleteMessage(x.getId());
         }
 
        groupChatRepository.delete(chat);
@@ -297,5 +335,17 @@ public class ChatServiceImplementation implements ChatService {
 
     public ColorPairDTO convertToColorPairDTO(ColorPair c){
         return new ColorPairDTO(c.getColorPairId(), c.getUserID(), c.getAdventureId(), c.getColor());
+    }
+
+    @Override
+    public void deleteMessage(UUID id){
+        MessageInfo messageInfo = messageInfoRepository.findMessageInfoById(id);
+        Storage storage = storageOptions.getService();
+        if(messageInfo == null){
+            throw new MessageNotFoundException(id);
+        }
+
+        storage.get(BlobId.of(bucketName, id.toString())).delete();
+        messageInfoRepository.delete(messageInfo);
     }
 }

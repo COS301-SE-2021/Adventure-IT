@@ -1,19 +1,13 @@
 package com.adventureit.chat.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
 public class Message implements Serializable {
-    @Id
     UUID id;
     UUID sender;
     UUID chatId;
-    @Column(length=5000)
     String payload;
     LocalDateTime timestamp;
 

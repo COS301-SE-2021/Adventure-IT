@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
 public class DirectMessage extends Message{
     Boolean read = false;
     UUID receiver;

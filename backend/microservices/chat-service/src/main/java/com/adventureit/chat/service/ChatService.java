@@ -14,14 +14,15 @@ public interface ChatService {
      String createDirectChat(UUID user1, UUID user2);
      String createGroupChat( UUID adventureID, List<UUID> participants, String name);
      String sendDirectMessage(UUID chatID,UUID sender, UUID receiver,String message) throws IOException;
-     String sendGroupMessage(UUID chatID,UUID sender,String message);
-     void markDirectMessageRead(UUID id);
-     void markGroupMessageRead(UUID id, UUID userID);
+     String sendGroupMessage(UUID chatID,UUID sender,String message) throws IOException;
+     void markDirectMessageRead(UUID id) throws NotFoundException, IOException, ClassNotFoundException;
+     void markGroupMessageRead(UUID id, UUID userID) throws IOException, ClassNotFoundException;
      GroupChatResponseDTO getGroupChat(UUID id);
      GroupChatResponseDTO getGroupChatByAdventureID(UUID id);
      Message getMessage(UUID id) throws NotFoundException, IOException, ClassNotFoundException;
      DirectChatResponseDTO getDirectChat(UUID id1, UUID id2);
      DirectChatResponseDTO getDirectChatByID(UUID id);
      void deleteDirectChat(UUID id);
-     void deleteGroupChat(UUID id);
+     void deleteGroupChat(UUID id) throws NotFoundException;
+     void deleteMessage(UUID id) throws NotFoundException;
 }

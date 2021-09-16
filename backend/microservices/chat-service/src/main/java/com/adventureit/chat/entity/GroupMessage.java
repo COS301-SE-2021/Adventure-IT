@@ -1,17 +1,12 @@
 package com.adventureit.chat.entity;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@Entity
 public class GroupMessage extends Message{
-    @ElementCollection (fetch = FetchType.EAGER)
     Map<UUID, Boolean> read = new HashMap<>();
 
     public GroupMessage(){}

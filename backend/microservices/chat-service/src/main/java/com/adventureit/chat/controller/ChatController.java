@@ -61,18 +61,18 @@ public class ChatController {
     }
 
     @GetMapping("/getGroupMessageByID/{id}")
-    public GroupMessage getGroupMessage(@PathVariable UUID id) throws NotFoundException, IOException, ClassNotFoundException {
+    public GroupMessage getGroupMessage(@PathVariable UUID id) throws  IOException, ClassNotFoundException {
         return (GroupMessage) service.getMessage(id);
     }
 
     @GetMapping("/getDirectMessageByID/{id}")
-    public DirectMessage getDirectMessage(@PathVariable UUID id) throws NotFoundException, IOException, ClassNotFoundException {
+    public DirectMessage getDirectMessage(@PathVariable UUID id) throws IOException, ClassNotFoundException {
         return (DirectMessage) service.getMessage(id);
     }
 
 
     @PostMapping("/sendGroupMessage")
-    public String sendGroupMessage(@RequestBody SendGroupMessageRequestDTO request)  {
+    public String sendGroupMessage(@RequestBody SendGroupMessageRequestDTO request) throws IOException {
         service.sendGroupMessage(request.getChatID(),request.getSender(),request.getMsg());
 
         return "Message sent";

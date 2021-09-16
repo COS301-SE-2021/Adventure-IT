@@ -27,11 +27,10 @@ public class ChatServiceUnitTests{
 
     DirectChatRepository directChatRepository = Mockito.mock(DirectChatRepository.class);
     GroupChatRepository groupChatRepository = Mockito.mock(GroupChatRepository.class);
-    MessageRepository messageRepository = Mockito.mock(MessageRepository.class);
     ColorPairRepository colorPairRepository = Mockito.mock(ColorPairRepository.class);
     MessageInfoRepository messageInfoRepository = Mockito.mock(MessageInfoRepository.class);
 
-    ChatServiceImplementation service = new ChatServiceImplementation(colorPairRepository,directChatRepository,groupChatRepository,messageRepository,messageInfoRepository);
+    ChatServiceImplementation service = new ChatServiceImplementation(colorPairRepository,directChatRepository,groupChatRepository,messageInfoRepository);
 
     UUID mockChatID =UUID.randomUUID();
     UUID mockUser1Id = UUID.randomUUID();
