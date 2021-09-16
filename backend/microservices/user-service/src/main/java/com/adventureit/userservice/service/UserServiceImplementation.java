@@ -206,6 +206,11 @@ public class UserServiceImplementation  {
             throw new InvalidRequestException("One or both of the users do not exist");
         }
 
+        if(userId1.compareTo(userId2)==0)
+        {
+            throw new InvalidRequestException ("Cannot become friends with yourself");
+        }
+
         List<Friend> requests1 = friendRepository.findByFirstUserEquals(UUID.fromString(userId1));
         List<Friend> requests2 = friendRepository.findBySecondUserEquals(UUID.fromString(userId1));
 
