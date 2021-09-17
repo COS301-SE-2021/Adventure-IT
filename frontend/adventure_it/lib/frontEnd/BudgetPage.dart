@@ -1,3 +1,4 @@
+import 'package:adventure_it/api/budgetEntry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -124,7 +125,7 @@ class _BudgetPage extends State<BudgetPage>
                               controller: tabs, children: <Widget>[
                             Container(
                               child: _GetBudgetEntries(
-                                  this.currentBudget!, this.currentAdventure!),
+                                  this.currentBudget!, this.currentAdventure!, context),
                             ),
                             Container(
                               child: GetReport(this.currentBudget!),
@@ -359,7 +360,7 @@ class AlertBox extends State<_AlertBox> {
                 top: -40.0,
                 child: InkResponse(
                   onTap: () {
-                    Navigator.of(context).pop();
+                    Navigator.pop(context);
                   },
                   child: CircleAvatar(
                     child: Icon(Icons.close,
@@ -916,15 +917,17 @@ class AlertBox extends State<_AlertBox> {
 class _GetBudgetEntries extends StatefulWidget {
   late final Budget? currentBudget;
   late final Adventure? currentAdventure;
+  late final BuildContext context;
 
-  _GetBudgetEntries(Budget b, Adventure a) {
+  _GetBudgetEntries(Budget b, Adventure a, context) {
     this.currentBudget = b;
     this.currentAdventure = a;
+    this.context = context;
   }
 
   @override
   GetBudgetEntries createState() =>
-      GetBudgetEntries(currentBudget!, currentAdventure!);
+      GetBudgetEntries(currentBudget!, currentAdventure!, context);
 }
 
 class GetBudgetEntries extends State<_GetBudgetEntries> {
@@ -932,8 +935,9 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
   Adventure? currentAdventure;
   List<UserProfile> users = List.empty();
 
-  GetBudgetEntries(Budget b, Adventure a) {
+  GetBudgetEntries(Budget b, Adventure a, BuildContext context) {
     this.currentBudget = b;
+    this.currentAdventure = a;
     AdventureApi.getAttendeesOfAdventure(a.adventureId,context).then((value) {
       setState(() {
         users = value;
@@ -1219,615 +1223,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                   showDialog(
                                                       context: context,
                                                       builder: (BuildContext context) {
-                                                        return AlertDialog(
-                                                            backgroundColor: Theme
-                                                                .of(context)
-                                                                .primaryColorDark,
-                                                            content: Container(
-                                                                height: getSize(context),
-                                                                child: Stack(
-                                                                    clipBehavior: Clip.none,
-                                                                    children: <Widget>[
-                                                                      Positioned(
-                                                                        right: -40.0,
-                                                                        top: -40.0,
-                                                                        child: InkResponse(
-                                                                          onTap: () {
-                                                                            Navigator.of(context)
-                                                                                .pop();
-                                                                          },
-                                                                          child: CircleAvatar(
-                                                                            child: Icon(Icons.close,
-                                                                                color: Theme
-                                                                                    .of(context)
-                                                                                    .primaryColorDark),
-                                                                            backgroundColor: Theme
-                                                                                .of(context)
-                                                                                .accentColor,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Center(
-                                                                          child: Column(
-                                                                              children: <Widget>[
-                                                                                Text("Edit: "+budgetEntryModel.entries!.elementAt(index).title,
-                                                                                    textAlign: TextAlign
-                                                                                        .center,
-                                                                                    style: TextStyle(
-                                                                                      color: Theme
-                                                                                          .of(context)
-                                                                                          .textTheme
-                                                                                          .bodyText1!
-                                                                                          .color,
-                                                                                      fontSize:
-                                                                                      25 * MediaQuery
-                                                                                          .of(context)
-                                                                                          .textScaleFactor,
-                                                                                      fontWeight: FontWeight
-                                                                                          .bold,
-                                                                                    )),
-                                                                                Spacer(),
-                                                                                Container(
-                                                                                  width: 300,
-                                                                                  padding: EdgeInsets
-                                                                                      .symmetric(
-                                                                                      horizontal:
-                                                                                      MediaQuery
-                                                                                          .of(context)
-                                                                                          .size
-                                                                                          .width *
-                                                                                          0.02),
-                                                                                  child: TextField(
-                                                                                      style: TextStyle(
-                                                                                          color: Theme
-                                                                                              .of(
-                                                                                              context)
-                                                                                              .textTheme
-                                                                                              .bodyText1!
-                                                                                              .color),
-                                                                                      controller: titleController,
-                                                                                      decoration: InputDecoration(
-                                                                                          hintStyle: TextStyle(
-                                                                                              color: Theme
-                                                                                                  .of(
-                                                                                                  context)
-                                                                                                  .textTheme
-                                                                                                  .bodyText2!
-                                                                                                  .color),
-                                                                                          filled: true,
-                                                                                          enabledBorder: InputBorder
-                                                                                              .none,
-                                                                                          errorBorder: InputBorder
-                                                                                              .none,
-                                                                                          disabledBorder: InputBorder
-                                                                                              .none,
-                                                                                          fillColor: Theme
-                                                                                              .of(
-                                                                                              context)
-                                                                                              .primaryColorLight,
-                                                                                          focusedBorder: OutlineInputBorder(
-                                                                                              borderSide: new BorderSide(
-                                                                                                  color: Theme
-                                                                                                      .of(
-                                                                                                      context)
-                                                                                                      .accentColor)),
-                                                                                          hintText: 'Title')),
-                                                                                ),
-                                                                                SizedBox(
-                                                                                    height: MediaQuery
-                                                                                        .of(context)
-                                                                                        .size
-                                                                                        .height *
-                                                                                        0.01),
-                                                                                Container(
-                                                                                  width: 300,
-                                                                                  padding: EdgeInsets
-                                                                                      .symmetric(
-                                                                                      horizontal:
-                                                                                      MediaQuery
-                                                                                          .of(context)
-                                                                                          .size
-                                                                                          .width *
-                                                                                          0.02),
-                                                                                  child: TextField(
-                                                                                      maxLength: 255,
-                                                                                      maxLines: 3,
-                                                                                      style: TextStyle(
-                                                                                          color: Theme
-                                                                                              .of(
-                                                                                              context)
-                                                                                              .textTheme
-                                                                                              .bodyText1!
-                                                                                              .color),
-                                                                                      controller: descriptionController,
-                                                                                      decoration: InputDecoration(
-                                                                                          hintStyle: TextStyle(
-                                                                                              color: Theme
-                                                                                                  .of(
-                                                                                                  context)
-                                                                                                  .textTheme
-                                                                                                  .bodyText2!
-                                                                                                  .color),
-                                                                                          filled: true,
-                                                                                          enabledBorder: InputBorder
-                                                                                              .none,
-                                                                                          errorBorder: InputBorder
-                                                                                              .none,
-                                                                                          disabledBorder: InputBorder
-                                                                                              .none,
-                                                                                          fillColor: Theme
-                                                                                              .of(
-                                                                                              context)
-                                                                                              .primaryColorLight,
-                                                                                          focusedBorder: OutlineInputBorder(
-                                                                                              borderSide: new BorderSide(
-                                                                                                  color: Theme
-                                                                                                      .of(
-                                                                                                      context)
-                                                                                                      .accentColor)),
-                                                                                          hintText: 'Description')),
-                                                                                ),
-                                                                                Spacer(),
-                                                                                Row(children: [
-                                                                                  Spacer(),
-                                                                                  DropdownButton<
-                                                                                      String>(
-                                                                                      dropdownColor: Theme
-                                                                                          .of(context)
-                                                                                          .primaryColorDark,
-                                                                                      hint: new Text(
-                                                                                          "Select a payer",
-                                                                                          style: TextStyle(
-                                                                                              color: Theme
-                                                                                                  .of(
-                                                                                                  context)
-                                                                                                  .textTheme
-                                                                                                  .bodyText1!
-                                                                                                  .color)),
-                                                                                      value: payer,
-                                                                                      onChanged: (
-                                                                                          String? newValue) {
-                                                                                        setState(() {
-                                                                                          payer =
-                                                                                          newValue!;
-                                                                                        });
-                                                                                      },
-                                                                                      items: userNames!
-                                                                                          .map((
-                                                                                          String user) {
-                                                                                        return new DropdownMenuItem<
-                                                                                            String>(
-                                                                                          value: user,
-                                                                                          child: new Text(
-                                                                                            user,
-                                                                                            style: TextStyle(
-                                                                                                color: Theme
-                                                                                                    .of(
-                                                                                                    context)
-                                                                                                    .textTheme
-                                                                                                    .bodyText1!
-                                                                                                    .color),
-                                                                                          ),
-                                                                                        );
-                                                                                      }).toList()),
-                                                                                  Spacer(),
-                                                                                ]),
-                                                                                Spacer(),
-                                                                                Row(children: [
-                                                                                  Spacer(),
-                                                                                  Container(
-                                                                                    width: 125,
-                                                                                    padding: EdgeInsets
-                                                                                        .symmetric(
-                                                                                        horizontal:
-                                                                                        MediaQuery
-                                                                                            .of(
-                                                                                            context)
-                                                                                            .size
-                                                                                            .width *
-                                                                                            0.02),
-                                                                                    child: TextField(
-                                                                                        inputFormatters: <
-                                                                                            TextInputFormatter>[
-                                                                                          FilteringTextInputFormatter
-                                                                                              .allow(
-                                                                                              RegExp(
-                                                                                                  r'[0-9]')),
-                                                                                        ],
-                                                                                        keyboardType: TextInputType
-                                                                                            .number,
-                                                                                        style: TextStyle(
-                                                                                            color: Theme
-                                                                                                .of(
-                                                                                                context)
-                                                                                                .textTheme
-                                                                                                .bodyText1!
-                                                                                                .color),
-                                                                                        controller: amountController,
-                                                                                        decoration: InputDecoration(
-                                                                                            hintStyle: TextStyle(
-                                                                                                color: Theme
-                                                                                                    .of(
-                                                                                                    context)
-                                                                                                    .textTheme
-                                                                                                    .bodyText2!
-                                                                                                    .color),
-                                                                                            filled: true,
-                                                                                            enabledBorder: InputBorder
-                                                                                                .none,
-                                                                                            errorBorder: InputBorder
-                                                                                                .none,
-                                                                                            disabledBorder: InputBorder
-                                                                                                .none,
-                                                                                            fillColor:
-                                                                                            Theme
-                                                                                                .of(
-                                                                                                context)
-                                                                                                .primaryColorLight,
-                                                                                            focusedBorder: OutlineInputBorder(
-                                                                                                borderSide: new BorderSide(
-                                                                                                    color:
-                                                                                                    Theme
-                                                                                                        .of(
-                                                                                                        context)
-                                                                                                        .accentColor)),
-                                                                                            hintText: 'Amount')),
-                                                                                  ),
-                                                                                  Container(
-                                                                                      width: 50,
-                                                                                      child: Text(".",
-                                                                                        textAlign: TextAlign
-                                                                                            .center,
-                                                                                        style: TextStyle(
-                                                                                            color: Theme
-                                                                                                .of(
-                                                                                                context)
-                                                                                                .textTheme
-                                                                                                .bodyText1!
-                                                                                                .color),)
-                                                                                  ),
-                                                                                  Container(
-                                                                                    width: 125,
-                                                                                    padding: EdgeInsets
-                                                                                        .symmetric(
-                                                                                        horizontal:
-                                                                                        MediaQuery
-                                                                                            .of(
-                                                                                            context)
-                                                                                            .size
-                                                                                            .width *
-                                                                                            0.02),
-                                                                                    child: TextField(
-                                                                                        inputFormatters: <
-                                                                                            TextInputFormatter>[
-                                                                                          FilteringTextInputFormatter
-                                                                                              .allow(
-                                                                                              RegExp(
-                                                                                                  r'[0-9]')),
-                                                                                        ],
-                                                                                        keyboardType: TextInputType
-                                                                                            .number,
-                                                                                        style: TextStyle(
-                                                                                            color: Theme
-                                                                                                .of(
-                                                                                                context)
-                                                                                                .textTheme
-                                                                                                .bodyText1!
-                                                                                                .color),
-                                                                                        controller: amountController,
-                                                                                        decoration: InputDecoration(
-                                                                                            hintStyle: TextStyle(
-                                                                                                color: Theme
-                                                                                                    .of(
-                                                                                                    context)
-                                                                                                    .textTheme
-                                                                                                    .bodyText2!
-                                                                                                    .color),
-                                                                                            filled: true,
-                                                                                            enabledBorder: InputBorder
-                                                                                                .none,
-                                                                                            errorBorder: InputBorder
-                                                                                                .none,
-                                                                                            disabledBorder: InputBorder
-                                                                                                .none,
-                                                                                            fillColor:
-                                                                                            Theme
-                                                                                                .of(
-                                                                                                context)
-                                                                                                .primaryColorLight,
-                                                                                            focusedBorder: OutlineInputBorder(
-                                                                                                borderSide: new BorderSide(
-                                                                                                    color:
-                                                                                                    Theme
-                                                                                                        .of(
-                                                                                                        context)
-                                                                                                        .accentColor)),
-                                                                                            hintText: 'Amount')),
-                                                                                  ),
-                                                                                  Spacer(),
-                                                                                ]),
-                                                                                Spacer(),
-                                                                                Row(children: [
-                                                                                  Spacer(),
-                                                                                  DropdownButton<
-                                                                                      String>(
-                                                                                      dropdownColor: Theme
-                                                                                          .of(context)
-                                                                                          .primaryColorDark,
-                                                                                      hint: new Text(
-                                                                                          "Select a payee",
-                                                                                          style: TextStyle(
-                                                                                              color: Theme
-                                                                                                  .of(
-                                                                                                  context)
-                                                                                                  .textTheme
-                                                                                                  .bodyText1!
-                                                                                                  .color)),
-                                                                                      value: payee,
-                                                                                      onChanged: (
-                                                                                          String? newValue) {
-                                                                                        setState(() {
-                                                                                          payee =
-                                                                                          newValue!;
-                                                                                        });
-                                                                                      },
-                                                                                      items: userNamesAndOther!
-                                                                                          .map((
-                                                                                          String user) {
-                                                                                        return new DropdownMenuItem<
-                                                                                            String>(
-                                                                                          value: user,
-                                                                                          child: new Text(
-                                                                                            user,
-                                                                                            style: TextStyle(
-                                                                                                color: Theme
-                                                                                                    .of(
-                                                                                                    context)
-                                                                                                    .textTheme
-                                                                                                    .bodyText1!
-                                                                                                    .color),
-                                                                                          ),
-                                                                                        );
-                                                                                      }).toList()),
-                                                                                  Spacer(),
-                                                                                ]),
-                                                                                SizedBox(
-                                                                                    height: MediaQuery
-                                                                                        .of(context)
-                                                                                        .size
-                                                                                        .height *
-                                                                                        0.01),
-                                                                                Container(
-                                                                                  width: 300,
-                                                                                  padding: EdgeInsets
-                                                                                      .symmetric(
-                                                                                      horizontal:
-                                                                                      MediaQuery
-                                                                                          .of(context)
-                                                                                          .size
-                                                                                          .width *
-                                                                                          0.02),
-                                                                                  child: TextField(
-                                                                                      enabled:
-                                                                                      payee != null &&
-                                                                                          payee!
-                                                                                              .compareTo(
-                                                                                              "Other") ==
-                                                                                              0,
-                                                                                      style: TextStyle(
-                                                                                          color: Theme
-                                                                                              .of(
-                                                                                              context)
-                                                                                              .textTheme
-                                                                                              .bodyText1!
-                                                                                              .color),
-                                                                                      controller: otherController,
-                                                                                      decoration: InputDecoration(
-                                                                                          hintStyle: TextStyle(
-                                                                                              color: Theme
-                                                                                                  .of(
-                                                                                                  context)
-                                                                                                  .textTheme
-                                                                                                  .bodyText2!
-                                                                                                  .color),
-                                                                                          filled: true,
-                                                                                          enabledBorder: InputBorder
-                                                                                              .none,
-                                                                                          errorBorder: InputBorder
-                                                                                              .none,
-                                                                                          disabledBorder: InputBorder
-                                                                                              .none,
-                                                                                          fillColor: Theme
-                                                                                              .of(
-                                                                                              context)
-                                                                                              .primaryColorLight,
-                                                                                          focusedBorder: OutlineInputBorder(
-                                                                                              borderSide: new BorderSide(
-                                                                                                  color: Theme
-                                                                                                      .of(
-                                                                                                      context)
-                                                                                                      .accentColor)),
-                                                                                          hintText: 'Insert name for Other')),
-                                                                                ),
-                                                                                Spacer(),
-                                                                                DropdownButton(
-                                                                                  dropdownColor: Theme
-                                                                                      .of(context)
-                                                                                      .primaryColorDark,
-                                                                                  hint: Text(
-                                                                                    "Select a category",
-                                                                                    style: TextStyle(
-                                                                                        color:
-                                                                                        Theme
-                                                                                            .of(
-                                                                                            context)
-                                                                                            .textTheme
-                                                                                            .bodyText1!
-                                                                                            .color),
-                                                                                  ),
-                                                                                  icon: Icon(Icons
-                                                                                      .arrow_drop_down,
-                                                                                      color:
-                                                                                      Theme
-                                                                                          .of(context)
-                                                                                          .textTheme
-                                                                                          .bodyText1!
-                                                                                          .color),
-                                                                                  iconDisabledColor:
-                                                                                  Theme
-                                                                                      .of(context)
-                                                                                      .scaffoldBackgroundColor,
-                                                                                  iconEnabledColor: Theme
-                                                                                      .of(context)
-                                                                                      .accentColor,
-                                                                                  underline: Container(
-                                                                                    height: 0,
-                                                                                  ),
-                                                                                  value: selectedCategory,
-                                                                                  selectedItemBuilder: (
-                                                                                      BuildContext context) {
-                                                                                    return categoryList;
-                                                                                  },
-                                                                                  items: [
-                                                                                    DropdownMenuItem(
-                                                                                      child: Text(
-                                                                                        "Accommodation",
-                                                                                        style: TextStyle(
-                                                                                            color: Theme
-                                                                                                .of(
-                                                                                                context)
-                                                                                                .textTheme
-                                                                                                .bodyText1!
-                                                                                                .color),
-                                                                                      ),
-                                                                                      value: 1,
-                                                                                    ),
-                                                                                    DropdownMenuItem(
-                                                                                      child: Text(
-                                                                                        "Activities",
-                                                                                        style: TextStyle(
-                                                                                            color: Theme
-                                                                                                .of(
-                                                                                                context)
-                                                                                                .textTheme
-                                                                                                .bodyText1!
-                                                                                                .color),
-                                                                                      ),
-                                                                                      value: 2,
-                                                                                    ),
-                                                                                    DropdownMenuItem(
-                                                                                      child: Text(
-                                                                                        "Food",
-                                                                                        style: TextStyle(
-                                                                                            color: Theme
-                                                                                                .of(
-                                                                                                context)
-                                                                                                .textTheme
-                                                                                                .bodyText1!
-                                                                                                .color),
-                                                                                      ),
-                                                                                      value: 3,
-                                                                                    ),
-                                                                                    DropdownMenuItem(
-                                                                                      child: Text(
-                                                                                        "Transport",
-                                                                                        style: TextStyle(
-                                                                                            color: Theme
-                                                                                                .of(
-                                                                                                context)
-                                                                                                .textTheme
-                                                                                                .bodyText1!
-                                                                                                .color),
-                                                                                      ),
-                                                                                      value: 4,
-                                                                                    ),
-                                                                                    DropdownMenuItem(
-                                                                                      child: Text(
-                                                                                        "Other",
-                                                                                        style: TextStyle(
-                                                                                            color: Theme
-                                                                                                .of(
-                                                                                                context)
-                                                                                                .textTheme
-                                                                                                .bodyText1!
-                                                                                                .color),
-                                                                                      ),
-                                                                                      value: 5,
-                                                                                    )
-                                                                                  ],
-                                                                                  onChanged: (
-                                                                                      int? value) {
-                                                                                    setState(() {
-                                                                                      selectedCategory =
-                                                                                          value;
-                                                                                    });
-                                                                                  },
-                                                                                ),
-                                                                                Spacer(),
-                                                                                Padding(
-                                                                                    padding: EdgeInsets
-                                                                                        .symmetric(
-                                                                                        horizontal:
-                                                                                        MediaQuery
-                                                                                            .of(
-                                                                                            context)
-                                                                                            .size
-                                                                                            .width *
-                                                                                            0.02),
-                                                                                    child: ElevatedButton(
-                                                                                        style: ElevatedButton
-                                                                                            .styleFrom(
-                                                                                            primary: Theme
-                                                                                                .of(
-                                                                                                context)
-                                                                                                .accentColor),
-                                                                                        child: Text(
-                                                                                            "Edit",
-                                                                                            style: TextStyle(
-                                                                                                color: Theme
-                                                                                                    .of(
-                                                                                                    context)
-                                                                                                    .textTheme
-                                                                                                    .bodyText1!
-                                                                                                    .color)),
-                                                                                        onPressed: () {
-                                                                                          Provider.of<BudgetEntryModel>(
-                                                                                              c, listen: false)
-                                                                                              .editBudgetEntry(
-                                                                                              currentBudget!,
-                                                                                              budgetEntryModel.entries!.elementAt(index),
-                                                                                              budgetEntryModel.entries!
-                                                                                                  .elementAt(index)
-                                                                                                  .budgetEntryID,
-                                                                                              currentBudget!.id,
-                                                                                              UserApi.getInstance().getUserProfile()!.userID,
-                                                                                              payer!,
-                                                                                              amountController.text,
-                                                                                              titleController.text,
-                                                                                              descriptionController.text,
-                                                                                              payee!,
-                                                                                              categoryNames[selectedCategory! - 1],context);
-                                                                                          Provider.of<
-                                                                                              BudgetEntryModel>(
-                                                                                              c,
-                                                                                              listen: false)
-                                                                                              .fetchAllReports(
-                                                                                              currentBudget!,
-                                                                                              UserApi
-                                                                                                  .getInstance()
-                                                                                                  .getUserProfile()!
-                                                                                                  .username);
-                                                        Navigator.of(context).pop();
-                                                                                        }
-                                                                                    )
-                                                                                )
-                                                                              ]
-                                                                          )
-                                                                      )
-                                                                    ]
-                                                                )
-                                                            )
-                                                        );
+                                                        return _EditAlertBox(currentBudget!, currentAdventure!, budgetEntryModel, budgetEntryModel.entries!.elementAt(index), context);
                                                       }
                                                   );
                                                 }
@@ -1864,7 +1260,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                   budgetEntryModel.entries!.elementAt(index));
                                                               Provider.of<BudgetEntryModel>(c,
                                                                   listen: false).fetchAllEntries(currentBudget!);
-                                                                Navigator.of(context).pop();},
+                                                                Navigator.pop(context);},
                                                             child: Text("Remove",
                                                                 style: TextStyle(
                                                                     color: Theme
@@ -1874,7 +1270,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                         .color))),
                                                         TextButton(
                                                           onPressed: () =>
-                                                              Navigator.of(context).pop(),
+                                                              Navigator.pop(context),
                                                           child: Text("Cancel",
                                                               style: TextStyle(
                                                                   color: Theme
@@ -1940,7 +1336,771 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
   }
 }
 
-class GetReport extends StatelessWidget {
+class _EditAlertBox extends StatefulWidget {
+  late final Budget? b;
+  late final Adventure? a;
+  late final BudgetEntryModel? budgetEntryModel;
+  late final BuildContext? context;
+  late final BudgetEntry? be;
+
+  _EditAlertBox(this.b, this.a, this.budgetEntryModel, this.be, this.context);
+
+  @override
+  EditAlertBox createState() => EditAlertBox(b!, a!,budgetEntryModel!, be!,context!);
+}
+
+class EditAlertBox extends State<_EditAlertBox> {
+  Budget? currentBudget;
+  int? selectedCategory;
+  String? payer;
+  String? payee;
+  Adventure? currentAdventure;
+  BudgetEntry? budgetE;
+  BudgetEntryModel? budgetEntryModel;
+
+  final otherController = TextEditingController();
+  final amountController = TextEditingController();
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final centsController = TextEditingController();
+
+  List<UserProfile> users = List.empty();
+  List<String>? userNames;
+  List<String>? userNamesAndOther;
+
+  EditAlertBox(Budget budget, Adventure a, BudgetEntryModel budgetEntryModel, BudgetEntry e, context) {
+    this.currentBudget = budget;
+    this.currentAdventure = a;
+    this.budgetE = e;
+    this.budgetEntryModel = budgetEntryModel;
+    AdventureApi.getAttendeesOfAdventure(a.adventureId, context).then((value) {
+      setState(() {
+        users = value;
+      });
+      var temp1 = List<String>.filled(users.length, "", growable: true);
+      temp1.removeRange(0, users.length);
+
+      var temp2 = List<String>.filled(users.length, "", growable: true);
+      temp2.removeRange(0, users.length);
+
+      for (int i = 0; i < users.length; i++) {
+        temp1.add(value
+            .elementAt(i)
+            .username);
+      }
+      for (int i = 0; i < users.length; i++) {
+        temp2.add(value
+            .elementAt(i)
+            .username);
+      }
+      temp2.add("Other");
+
+      setState(() {
+        userNames = temp1;
+        userNamesAndOther = temp2;
+      });
+    });
+  }
+
+  double getSize(context) {
+    if (MediaQuery
+        .of(context)
+        .size
+        .height >
+        MediaQuery
+            .of(context)
+            .size
+            .width) {
+      return MediaQuery
+          .of(context)
+          .size
+          .height * 0.8;
+    } else {
+      return MediaQuery
+          .of(context)
+          .size
+          .height * 0.9;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> categoryList = [
+      Text(
+        "Accommodation",
+        style: TextStyle(color: Theme
+            .of(context)
+            .textTheme
+            .bodyText1!
+            .color),
+      ),
+      Text(
+        "Activities",
+        style: TextStyle(color: Theme
+            .of(context)
+            .textTheme
+            .bodyText1!
+            .color),
+      ),
+      Text(
+        "Food",
+        style: TextStyle(color: Theme
+            .of(context)
+            .textTheme
+            .bodyText1!
+            .color),
+      ),
+      Text(
+        "Transport",
+        style: TextStyle(color: Theme
+            .of(context)
+            .textTheme
+            .bodyText1!
+            .color),
+      ),
+      Text(
+        "Other",
+        style: TextStyle(color: Theme
+            .of(context)
+            .textTheme
+            .bodyText1!
+            .color),
+      )
+    ];
+
+    final categoryNames = [
+      "ACCOMMODATION",
+      "ACTIVITIES",
+      "FOOD",
+      "TRANSPORT",
+      "OTHER"
+    ];
+      BuildContext c = context;
+      if (userNames == null || userNames!.length == 0 ||
+          userNamesAndOther == null || userNamesAndOther!.length == 0) {
+        return AlertDialog(
+            backgroundColor: Theme
+                .of(context)
+                .primaryColorDark,
+            content: Container(
+                height: getSize(context),
+                child: Center(
+                    child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            Theme
+                                .of(context)
+                                .accentColor)))));
+      }
+      else {
+        return AlertDialog(
+            backgroundColor: Theme
+                .of(context)
+                .primaryColorDark,
+            content: Container(
+                height: getSize(context),
+                child: Stack(
+                    clipBehavior: Clip.none,
+                    children: <Widget>[
+                      Positioned(
+                        right: -40.0,
+                        top: -40.0,
+                        child: InkResponse(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: CircleAvatar(
+                            child: Icon(Icons.close,
+                                color: Theme
+                                    .of(context)
+                                    .primaryColorDark),
+                            backgroundColor: Theme
+                                .of(context)
+                                .accentColor,
+                          ),
+                        ),
+                      ),
+                      Center(
+                          child: Column(
+                              children: <Widget>[
+                                Text("Edit: " + budgetE!
+                                    .title,
+                                    textAlign: TextAlign
+                                        .center,
+                                    style: TextStyle(
+                                      color: Theme
+                                          .of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color,
+                                      fontSize:
+                                      25 * MediaQuery
+                                          .of(context)
+                                          .textScaleFactor,
+                                      fontWeight: FontWeight
+                                          .bold,
+                                    )),
+                                Spacer(),
+                                Container(
+                                  width: 300,
+                                  padding: EdgeInsets
+                                      .symmetric(
+                                      horizontal:
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width *
+                                          0.02),
+                                  child: TextField(
+                                      style: TextStyle(
+                                          color: Theme
+                                              .of(
+                                              context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color),
+                                      controller: titleController,
+                                      decoration: InputDecoration(
+                                          hintStyle: TextStyle(
+                                              color: Theme
+                                                  .of(
+                                                  context)
+                                                  .textTheme
+                                                  .bodyText2!
+                                                  .color),
+                                          filled: true,
+                                          enabledBorder: InputBorder
+                                              .none,
+                                          errorBorder: InputBorder
+                                              .none,
+                                          disabledBorder: InputBorder
+                                              .none,
+                                          fillColor: Theme
+                                              .of(
+                                              context)
+                                              .primaryColorLight,
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: new BorderSide(
+                                                  color: Theme
+                                                      .of(
+                                                      context)
+                                                      .accentColor)),
+                                          hintText: 'Title')),
+                                ),
+                                SizedBox(
+                                    height: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height *
+                                        0.01),
+                                Container(
+                                  width: 300,
+                                  padding: EdgeInsets
+                                      .symmetric(
+                                      horizontal:
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width *
+                                          0.02),
+                                  child: TextField(
+                                      maxLength: 255,
+                                      maxLines: 3,
+                                      style: TextStyle(
+                                          color: Theme
+                                              .of(
+                                              context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color),
+                                      controller: descriptionController,
+                                      decoration: InputDecoration(
+                                          hintStyle: TextStyle(
+                                              color: Theme
+                                                  .of(
+                                                  context)
+                                                  .textTheme
+                                                  .bodyText2!
+                                                  .color),
+                                          filled: true,
+                                          enabledBorder: InputBorder
+                                              .none,
+                                          errorBorder: InputBorder
+                                              .none,
+                                          disabledBorder: InputBorder
+                                              .none,
+                                          fillColor: Theme
+                                              .of(
+                                              context)
+                                              .primaryColorLight,
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: new BorderSide(
+                                                  color: Theme
+                                                      .of(
+                                                      context)
+                                                      .accentColor)),
+                                          hintText: 'Description')),
+                                ),
+                                Spacer(),
+                                Row(children: [
+                                  Spacer(),
+                                  DropdownButton<
+                                      String>(
+                                      dropdownColor: Theme
+                                          .of(context)
+                                          .primaryColorDark,
+                                      hint: new Text(
+                                          "Select a payer",
+                                          style: TextStyle(
+                                              color: Theme
+                                                  .of(
+                                                  context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color)),
+                                      value: payer,
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          payer =
+                                          newValue!;
+                                        });
+                                      },
+                                      items: userNames!
+                                          .map((String user) {
+                                        return new DropdownMenuItem<
+                                            String>(
+                                          value: user,
+                                          child: new Text(
+                                            user,
+                                            style: TextStyle(
+                                                color: Theme
+                                                    .of(
+                                                    context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color),
+                                          ),
+                                        );
+                                      }).toList()),
+                                  Spacer(),
+                                ]),
+                                Spacer(),
+                                Row(children: [
+                                  Spacer(),
+                                  Container(
+                                    width: 125,
+                                    padding: EdgeInsets
+                                        .symmetric(
+                                        horizontal:
+                                        MediaQuery
+                                            .of(
+                                            context)
+                                            .size
+                                            .width *
+                                            0.02),
+                                    child: TextField(
+                                        inputFormatters: <
+                                            TextInputFormatter>[
+                                          FilteringTextInputFormatter
+                                              .allow(
+                                              RegExp(
+                                                  r'[0-9]')),
+                                        ],
+                                        keyboardType: TextInputType
+                                            .number,
+                                        style: TextStyle(
+                                            color: Theme
+                                                .of(
+                                                context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color),
+                                        controller: amountController,
+                                        decoration: InputDecoration(
+                                            hintStyle: TextStyle(
+                                                color: Theme
+                                                    .of(
+                                                    context)
+                                                    .textTheme
+                                                    .bodyText2!
+                                                    .color),
+                                            filled: true,
+                                            enabledBorder: InputBorder
+                                                .none,
+                                            errorBorder: InputBorder
+                                                .none,
+                                            disabledBorder: InputBorder
+                                                .none,
+                                            fillColor:
+                                            Theme
+                                                .of(
+                                                context)
+                                                .primaryColorLight,
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: new BorderSide(
+                                                    color:
+                                                    Theme
+                                                        .of(
+                                                        context)
+                                                        .accentColor)),
+                                            hintText: 'Amount')),
+                                  ),
+                                  Container(
+                                      width: 50,
+                                      child: Text(".",
+                                        textAlign: TextAlign
+                                            .center,
+                                        style: TextStyle(
+                                            color: Theme
+                                                .of(
+                                                context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color),)
+                                  ),
+                                  Container(
+                                    width: 125,
+                                    padding: EdgeInsets
+                                        .symmetric(
+                                        horizontal:
+                                        MediaQuery
+                                            .of(
+                                            context)
+                                            .size
+                                            .width *
+                                            0.02),
+                                    child: TextField(
+                                        inputFormatters: <
+                                            TextInputFormatter>[
+                                          FilteringTextInputFormatter
+                                              .allow(
+                                              RegExp(
+                                                  r'[0-9]')),
+                                        ],
+                                        keyboardType: TextInputType
+                                            .number,
+                                        style: TextStyle(
+                                            color: Theme
+                                                .of(
+                                                context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color),
+                                        controller: amountController,
+                                        decoration: InputDecoration(
+                                            hintStyle: TextStyle(
+                                                color: Theme
+                                                    .of(
+                                                    context)
+                                                    .textTheme
+                                                    .bodyText2!
+                                                    .color),
+                                            filled: true,
+                                            enabledBorder: InputBorder
+                                                .none,
+                                            errorBorder: InputBorder
+                                                .none,
+                                            disabledBorder: InputBorder
+                                                .none,
+                                            fillColor:
+                                            Theme
+                                                .of(
+                                                context)
+                                                .primaryColorLight,
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: new BorderSide(
+                                                    color:
+                                                    Theme
+                                                        .of(
+                                                        context)
+                                                        .accentColor)),
+                                            hintText: 'Amount')),
+                                  ),
+                                  Spacer(),
+                                ]),
+                                Spacer(),
+                                Row(children: [
+                                  Spacer(),
+                                  DropdownButton<
+                                      String>(
+                                      dropdownColor: Theme
+                                          .of(context)
+                                          .primaryColorDark,
+                                      hint: new Text(
+                                          "Select a payee",
+                                          style: TextStyle(
+                                              color: Theme
+                                                  .of(
+                                                  context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color)),
+                                      value: payee,
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          payee =
+                                          newValue!;
+                                        });
+                                      },
+                                      items: userNamesAndOther!
+                                          .map((String user) {
+                                        return new DropdownMenuItem<
+                                            String>(
+                                          value: user,
+                                          child: new Text(
+                                            user,
+                                            style: TextStyle(
+                                                color: Theme
+                                                    .of(
+                                                    context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color),
+                                          ),
+                                        );
+                                      }).toList()),
+                                  Spacer(),
+                                ]),
+                                SizedBox(
+                                    height: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height *
+                                        0.01),
+                                Container(
+                                  width: 300,
+                                  padding: EdgeInsets
+                                      .symmetric(
+                                      horizontal:
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width *
+                                          0.02),
+                                  child: TextField(
+                                      enabled:
+                                      payee != null &&
+                                          payee!
+                                              .compareTo(
+                                              "Other") ==
+                                              0,
+                                      style: TextStyle(
+                                          color: Theme
+                                              .of(
+                                              context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color),
+                                      controller: otherController,
+                                      decoration: InputDecoration(
+                                          hintStyle: TextStyle(
+                                              color: Theme
+                                                  .of(
+                                                  context)
+                                                  .textTheme
+                                                  .bodyText2!
+                                                  .color),
+                                          filled: true,
+                                          enabledBorder: InputBorder
+                                              .none,
+                                          errorBorder: InputBorder
+                                              .none,
+                                          disabledBorder: InputBorder
+                                              .none,
+                                          fillColor: Theme
+                                              .of(
+                                              context)
+                                              .primaryColorLight,
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: new BorderSide(
+                                                  color: Theme
+                                                      .of(
+                                                      context)
+                                                      .accentColor)),
+                                          hintText: 'Insert name for Other')),
+                                ),
+                                Spacer(),
+                                DropdownButton(
+                                  dropdownColor: Theme
+                                      .of(context)
+                                      .primaryColorDark,
+                                  hint: Text(
+                                    "Select a category",
+                                    style: TextStyle(
+                                        color:
+                                        Theme
+                                            .of(
+                                            context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .color),
+                                  ),
+                                  icon: Icon(Icons
+                                      .arrow_drop_down,
+                                      color:
+                                      Theme
+                                          .of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color),
+                                  iconDisabledColor:
+                                  Theme
+                                      .of(context)
+                                      .scaffoldBackgroundColor,
+                                  iconEnabledColor: Theme
+                                      .of(context)
+                                      .accentColor,
+                                  underline: Container(
+                                    height: 0,
+                                  ),
+                                  value: selectedCategory,
+                                  selectedItemBuilder: (BuildContext context) {
+                                    return categoryList;
+                                  },
+                                  items: [
+                                    DropdownMenuItem(
+                                      child: Text(
+                                        "Accommodation",
+                                        style: TextStyle(
+                                            color: Theme
+                                                .of(
+                                                context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color),
+                                      ),
+                                      value: 1,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text(
+                                        "Activities",
+                                        style: TextStyle(
+                                            color: Theme
+                                                .of(
+                                                context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color),
+                                      ),
+                                      value: 2,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text(
+                                        "Food",
+                                        style: TextStyle(
+                                            color: Theme
+                                                .of(
+                                                context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color),
+                                      ),
+                                      value: 3,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text(
+                                        "Transport",
+                                        style: TextStyle(
+                                            color: Theme
+                                                .of(
+                                                context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color),
+                                      ),
+                                      value: 4,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text(
+                                        "Other",
+                                        style: TextStyle(
+                                            color: Theme
+                                                .of(
+                                                context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color),
+                                      ),
+                                      value: 5,
+                                    )
+                                  ],
+                                  onChanged: (int? value) {
+                                    setState(() {
+                                      selectedCategory =
+                                          value;
+                                    });
+                                  },
+                                ),
+                                Spacer(),
+                                Padding(
+                                    padding: EdgeInsets
+                                        .symmetric(
+                                        horizontal:
+                                        MediaQuery
+                                            .of(
+                                            context)
+                                            .size
+                                            .width *
+                                            0.02),
+                                    child: ElevatedButton(
+                                        style: ElevatedButton
+                                            .styleFrom(
+                                            primary: Theme
+                                                .of(
+                                                context)
+                                                .accentColor),
+                                        child: Text(
+                                            "Edit",
+                                            style: TextStyle(
+                                                color: Theme
+                                                    .of(
+                                                    context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color)),
+                                        onPressed: () {
+                                          budgetEntryModel!.editBudgetEntry(
+                                              currentBudget!,
+                                              budgetE!,
+                                              budgetE!.budgetEntryID,
+                                              currentBudget!.id,
+                                              UserApi.getInstance()
+                                                  .getUserProfile()!
+                                                  .userID,
+                                              payer!,
+                                              amountController.text,
+                                              titleController.text,
+                                              descriptionController.text,
+                                              payee!,
+                                              categoryNames[selectedCategory! -
+                                                  1],
+                                              context);
+                                          Provider.of<
+                                              BudgetEntryModel>(
+                                              c,
+                                              listen: false)
+                                              .fetchAllReports(
+                                              currentBudget!,
+                                              UserApi
+                                                  .getInstance()
+                                                  .getUserProfile()!
+                                                  .username);
+                                          Navigator.pop(context);
+                                        }
+                                    )
+                                )
+                              ]
+                          )
+                      )
+                    ]
+                )
+            )
+        );
+      }
+  }
+}
+
+
+    class GetReport extends StatelessWidget {
   late final Budget? currentBudget;
 
   GetReport(Budget b) {
