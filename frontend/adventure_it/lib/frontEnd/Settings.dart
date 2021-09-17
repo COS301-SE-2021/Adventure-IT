@@ -1,7 +1,9 @@
+import 'package:adventure_it/Providers/user_model.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../main.dart';
 import 'Navbar.dart';
 
 class SettingsCaller extends StatefulWidget {
@@ -56,7 +58,7 @@ class SettingsBuilder extends State<_SettingsBuilder> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => UserModel(),
+      create: (context) => UserModel(context),
       child: Consumer<UserModel>(builder: (context, userModel, child) {
         if(userModel.em == null || userModel.t == null) {
           return Center(

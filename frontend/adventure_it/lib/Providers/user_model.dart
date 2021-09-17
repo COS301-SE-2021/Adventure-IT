@@ -52,11 +52,11 @@ class UserModel extends ChangeNotifier {
   }
 
   Future getT() async {
-    _t = await UserApi.getTheme();
+    /*_t = await UserApi.getTheme();
     if(_t == null) {
       _t = false;
     }
-    notifyListeners();
+    notifyListeners();*/
   }
 
   Future setT(bool t) async {

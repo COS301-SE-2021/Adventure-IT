@@ -574,22 +574,6 @@ class UserApi {
     return http.get(Uri.parse(userApi + "/user/getUserTheme/"+_userProfile!.userID));
   }
 
-  Future getThemeSettings() async {
-    http.Response response = await _getThemeSettings();
-    if (response.statusCode != 200) {
-      throw Exception('Failed to getSettings: ${response.body}');
-    }
-
-    bool x=(jsonDecode(response.body));
-
-    this.theme=x;
-
-  }
-
-  Future<http.Response> _getThemeSettings() async {
-    return http.get(Uri.parse(userApi + "/user/getUserTheme/"+_userProfile!.userID));
-  }
-
   static Future<http.Response> setTheme(bool theme) async {
     String userID = UserApi.getInstance().getUserProfile()!.userID;
     final response = await http.post(
