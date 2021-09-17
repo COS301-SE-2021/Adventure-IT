@@ -336,7 +336,7 @@ class Countries extends State<_Countries> {
   @override
   Widget build (BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => UserModel(),
+        create: (context) => UserModel(context),
         child: Consumer<LocationModel>(builder: (context, locationModel, child) {
           String percent = ((locationModel.flags!.length/195)*100).toStringAsFixed(2);
           if (locationModel.flags != null) {
