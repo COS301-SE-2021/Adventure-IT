@@ -341,7 +341,7 @@ class Countries extends State<_Countries> {
           String percent = ((locationModel.flags!.length/195)*100).toStringAsFixed(2);
           if (locationModel.flags != null) {
             return Container(
-              height: MediaQuery.of(context).size.height * 0.4,
+              height: MediaQuery.of(context).size.height * 0.3,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
