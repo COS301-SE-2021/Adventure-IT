@@ -163,8 +163,8 @@ public class MainControllerItineraryReroute {
     }
 
     @GetMapping("/markEntry/{id}")
-    public void markItineraryEntry(@PathVariable UUID id) {
-        restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/markEntry/" + id, String.class);
+    public void markItineraryEntry(@PathVariable UUID id){
+        restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/markEntry/"+id, String.class);
     }
 
     @GetMapping("/getNextEntry/{id}//{userID}")

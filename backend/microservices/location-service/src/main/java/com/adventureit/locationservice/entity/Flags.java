@@ -3,6 +3,7 @@ package com.adventureit.locationservice.entity;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -12,9 +13,7 @@ public class Flags {
     @Id
     UUID userID;
     @ElementCollection
-    List<String> placesVisited;
-    @ElementCollection
-    Map<String,String> flagMap;
+    List<String> placesVisited = new ArrayList<>();
 
     public Flags(UUID userID, List<String> placesVisited) {
         this.userID = userID;
@@ -39,13 +38,5 @@ public class Flags {
 
     public void setPlacesVisited(List<String> placesVisited) {
         this.placesVisited = placesVisited;
-    }
-
-    public Map<String, String> getFlagMap() {
-        return flagMap;
-    }
-
-    public void setFlagMap(Map<String, String> flagMap) {
-        this.flagMap = flagMap;
     }
 }

@@ -165,4 +165,19 @@ class LocationApi {
   }
 
 
+
+  static Future<List<dynamic>> getFlagList() async {
+    http.Response response = await _getFlagList();
+    if(response.statusCode != 200) {
+      throw Exception('Failed to load flags: ${response.body}');
+    }
+
+    List<dynamic> flag = (jsonDecode(response.body) as List);
+    return flag;
+  }
+
+  static Future<http.Response> _getFlagList() async {
+    return http.get(Uri.http(mainApi,
+      'location/getFlagList/'+UserApi.getInstance().getUserProfile()!.userID));
+  }
 }
