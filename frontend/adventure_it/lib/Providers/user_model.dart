@@ -9,8 +9,9 @@ class UserModel extends ChangeNotifier {
   bool? _t = null;
 
   final UserApi api = UserApi.getInstance();
+  BuildContext? context;
 
-  UserModel() {
+  UserModel(context) {
     getProfile().then((value) {
       if (value != null) {
         _profile = value;
@@ -31,7 +32,7 @@ class UserModel extends ChangeNotifier {
   bool? get t => _t;
 
   Future editProfile(String a, String b, String c, String d, String e) async {
-    await UserApi.editProfile(a, b, c, d, e);
+    await UserApi.editProfile(a, b, c, d, e,context);
     await getProfile();
     notifyListeners();
   }
@@ -65,7 +66,7 @@ class UserModel extends ChangeNotifier {
   }
 
   Future addProfilePicture(value) async {
-    await ProfileApi.addProfilePicture(value);
+    await ProfileApi.addProfilePicture(value,context);
     await getProfile();
 
     notifyListeners();

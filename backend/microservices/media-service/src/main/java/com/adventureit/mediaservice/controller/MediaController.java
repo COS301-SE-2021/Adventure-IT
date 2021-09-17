@@ -5,12 +5,16 @@ import com.adventureit.mediaservice.entity.FileInfo;
 import com.adventureit.mediaservice.entity.MediaInfo;
 import com.adventureit.mediaservice.repository.*;
 import com.adventureit.mediaservice.service.MediaServiceImplementation;
+import com.adventureit.shareddtos.media.responses.DocumentInfoDTO;
+import com.adventureit.shareddtos.media.responses.FileInfoDTO;
+import com.adventureit.shareddtos.media.responses.MediaInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,28 +51,53 @@ public class MediaController {
     }
 
     @GetMapping(value = "/getUserMediaList/{id}")
-    public List<MediaInfo> getUserMediaList(@PathVariable UUID id){
-        return mediaInfoRepository.findAllByOwner(id);
+    public List<MediaInfoDTO> getUserMediaList(@PathVariable UUID id){
+        List<MediaInfo> response = mediaInfoRepository.findAllByOwner(id);
+        List<MediaInfoDTO> returnList = new ArrayList<MediaInfoDTO>();
+        for(int i = 0;i<response.size();i++){
+            returnList.add(new MediaInfoDTO(response.get(i).getId(),response.get(i).getType(),response.get(i).getName(),response.get(i).getDescription(),response.get(i).getAdventureID(),response.get(i).getOwner()));
+        }
+        return returnList;
     }
 
     @GetMapping(value = "/getUserFileList/{id}")
-    public List<FileInfo> getUserFileList(@PathVariable UUID id){
-        return fileInfoRepository.findAllByOwner(id);
+    public List<FileInfoDTO> getUserFileList(@PathVariable UUID id){
+        List<FileInfo> response = fileInfoRepository.findAllByOwner(id);
+        List<FileInfoDTO> returnList = new ArrayList<FileInfoDTO>();
+        for(int i = 0;i<response.size();i++){
+            returnList.add(new FileInfoDTO(response.get(i).getId(),response.get(i).getType(),response.get(i).getName(),response.get(i).getDescription(),response.get(i).getAdventureID(),response.get(i).getOwner()));
+        }
+        return returnList;
     }
 
     @GetMapping(value = "/getUserDocumentList/{id}")
-    public List<DocumentInfo> getUserDocumentList(@PathVariable UUID id){
-        return documentInfoRepository.findAllByOwner(id);
+    public List<DocumentInfoDTO> getUserDocumentList(@PathVariable UUID id){
+        List<DocumentInfo> response =  documentInfoRepository.findAllByOwner(id);
+        List<DocumentInfoDTO> returnList = new ArrayList<DocumentInfoDTO>();
+        for(int i = 0;i<response.size();i++){
+            returnList.add(new DocumentInfoDTO(response.get(i).getId(),response.get(i).getType(),response.get(i).getName(),response.get(i).getDescription(),response.get(i).getOwner()));
+        }
+        return returnList;
     }
 
     @GetMapping(value = "/getAdventureMediaList/{id}")
-    public List<MediaInfo> getAdventureMediaList(@PathVariable UUID id){
-        return mediaInfoRepository.findAllByAdventureID(id);
+    public List<MediaInfoDTO> getAdventureMediaList(@PathVariable UUID id){
+        List<MediaInfo> response = mediaInfoRepository.findAllByAdventureID(id);
+        List<MediaInfoDTO> returnList = new ArrayList<MediaInfoDTO>();
+        for(int i = 0;i<response.size();i++){
+            returnList.add(new MediaInfoDTO(response.get(i).getId(),response.get(i).getType(),response.get(i).getName(),response.get(i).getDescription(),response.get(i).getAdventureID(),response.get(i).getOwner()));
+        }
+        return returnList;
     }
 
     @GetMapping(value = "/getAdventureFileList/{id}")
-    public List<FileInfo> getAdventureFileList(@PathVariable UUID id){
-        return fileInfoRepository.findAllByAdventureID(id);
+    public List<FileInfoDTO> getAdventureFileList(@PathVariable UUID id){
+        List<FileInfo> response = fileInfoRepository.findAllByAdventureID(id);
+        List<FileInfoDTO> returnList = new ArrayList<FileInfoDTO>();
+        for(int i = 0;i<response.size();i++){
+            returnList.add(new FileInfoDTO(response.get(i).getId(),response.get(i).getType(),response.get(i).getName(),response.get(i).getDescription(),response.get(i).getAdventureID(),response.get(i).getOwner()));
+        }
+        return returnList;
     }
 
     @PostMapping("/uploadMedia")

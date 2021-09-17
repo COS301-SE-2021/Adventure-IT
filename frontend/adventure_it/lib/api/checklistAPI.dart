@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:adventure_it/api/createChecklistEntry.dart';
 import 'package:adventure_it/api/userAPI.dart';
+import 'package:flutter/material.dart';
 import '/constants.dart';
 import '/api/checklist.dart';
 import '/api/adventure.dart';
@@ -10,10 +11,12 @@ import 'checklistEntry.dart';
 import 'createChecklist.dart';
 
 class ChecklistApi {
-  static Future<List<Checklist>> getChecklists(Adventure? a) async {
+  static Future<List<Checklist>> getChecklists(Adventure? a,context) async {
     http.Response response = await _getChecklists(a!.adventureId);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to get list of checklists!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to load list of checklists: ${response.body}');
     }
 
@@ -29,10 +32,12 @@ class ChecklistApi {
         mainApi, 'checklist/viewChecklistsByAdventure/' + adventureID));
   }
 
-  static Future<List<Checklist>> getDeletedChecklist(adventureId) async {
+  static Future<List<Checklist>> getDeletedChecklist(adventureId,context) async {
     http.Response response = await _getDeletedChecklistsResponse(adventureId);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to get list of deleted checklists!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to load list of checklists: ${response.body}');
     }
 
@@ -43,34 +48,42 @@ class ChecklistApi {
     return budgets;
   }
 
-  static Future restoreChecklist(checklistID) async {
+  static Future restoreChecklist(checklistID,context) async {
     http.Response response = await _restoreChecklistRequest(checklistID);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to restore checklist to adventure!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to restore checklist: ${response.body}');
     }
   }
 
-  static Future softDeleteChecklist(checklistID) async {
+  static Future softDeleteChecklist(checklistID,context) async {
     http.Response response = await _deleteChecklistRequest(checklistID);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to remove checklist from adventure!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to softDelete checklist: ${response.body}');
     }
   }
 
-  static Future hardDeleteChecklist(checklistID) async {
+  static Future hardDeleteChecklist(checklistID,context) async {
     http.Response response = await _hardDeleteChecklistRequest(checklistID);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to delete checklist for forever!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to hardDelete checklist: ${response.body}');
     }
   }
 
-  static Future completeEntry(String checklistID) async {
+  static Future completeEntry(String checklistID,context) async {
     http.Response response = await _completeEntry(checklistID);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to tick off checklist item!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception(
           'Failed to load list of entries for checklist: ${response.body}');
     }
@@ -80,10 +93,12 @@ class ChecklistApi {
     return http.get(Uri.http(mainApi, '/checklist/markEntry/' + checklistID));
   }
 
-  static Future<List<ChecklistEntry>> getChecklistEntries(Checklist i) async {
+  static Future<List<ChecklistEntry>> getChecklistEntries(Checklist i,context) async {
     http.Response response = await _getChecklistEntries(i.id);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to load list of checklist items!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception(
           'Failed to load list of entries for checklist: ${response.body}');
     }
@@ -100,10 +115,12 @@ class ChecklistApi {
         .get(Uri.http(mainApi, '/checklist/viewChecklist/' + checklistID));
   }
 
-  static Future deleteChecklistEntry(ChecklistEntry i) async {
+  static Future deleteChecklistEntry(ChecklistEntry i,context) async {
     http.Response response = await _deleteChecklistEntryRequest(i.id);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to remove checklist item from checklist!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to delete checklist entry ${response.body}');
     }
   }
@@ -148,7 +165,7 @@ class ChecklistApi {
   }
 
   static Future<CreateChecklist> createChecklist(String title,
-      String description, String creatorID, String adventureID) async {
+      String description, String creatorID, String adventureID,context) async {
     final response = await http.post(
       Uri.parse('http://localhost:9999/checklist/create'), //get uri
       headers: <String, String>{
@@ -173,6 +190,8 @@ class ChecklistApi {
           adventureID: adventureID,
           creatorID: creatorID);
     } else {
+      SnackBar snackBar=SnackBar(content: Text('Failed to create checklist!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       print('Status code: ${response.statusCode}');
@@ -182,7 +201,7 @@ class ChecklistApi {
   }
 
   static Future<CreateChecklistEntry> createChecklistEntry(
-      String title, String entryContainerID, String userId) async {
+      String title, String entryContainerID, String userId,context) async {
     final response = await http.post(
       Uri.parse('http://localhost:9999/checklist/addEntry'),
       headers: <String, String>{
@@ -203,6 +222,8 @@ class ChecklistApi {
       return CreateChecklistEntry(
           title: title, entryContainerID: entryContainerID, userId: userId);
     } else {
+      SnackBar snackBar=SnackBar(content: Text('Failed to create checklist item!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       print('Status code: ${response.statusCode}');
@@ -212,7 +233,7 @@ class ChecklistApi {
   }
 
   static Future<http.Response> editChecklistEntry(
-      String id, String entryContainerID, String title, String userId) async {
+      String id, String entryContainerID, String title, String userId,context) async {
     final response = await http.post(
       Uri.parse('http://localhost:9999/checklist/editEntry'),
       headers: <String, String>{
@@ -233,6 +254,8 @@ class ChecklistApi {
       print('Body: ${response.body}');
       return response;
     } else {
+      SnackBar snackBar=SnackBar(content: Text('Failed to edit checklist item!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       print('Status code: ${response.statusCode}');
@@ -241,11 +264,13 @@ class ChecklistApi {
     }
   }
 
-  static Future checklistEdit(ChecklistEntry c, String s, String userId) async {
+  static Future checklistEdit(ChecklistEntry c, String s, String userId,context) async {
     http.Response response =
-        (await editChecklistEntry(c.id, c.entryContainerID, s, userId));
+        (await editChecklistEntry(c.id, c.entryContainerID, s, userId,context));
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to edit checklist item!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to edit checklist entry ${response.body}');
     }
   }

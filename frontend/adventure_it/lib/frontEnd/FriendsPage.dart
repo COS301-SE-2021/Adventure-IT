@@ -85,14 +85,14 @@ class FriendsPage extends State<Friends> with SingleTickerProviderStateMixin {
                         child: IconButton(
                             onPressed: () {
                               _userApi
-                                  .searchUsername(usernameController.text)
+                                  .searchUsername(usernameController.text,context)
                                   .then((value) {
                                 if (value.compareTo("") != 0) {
                                   _userApi.createFriendRequest(
                                       UserApi.getInstance()
                                           .getUserProfile()!
                                           .userID,
-                                      value);
+                                      value,context);
                                 }
                               });
                             },
@@ -144,7 +144,7 @@ class GetFriends extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) =>
-            FriendModel(UserApi.getInstance().getUserProfile()!.userID),
+            FriendModel(UserApi.getInstance().getUserProfile()!.userID,context),
         child: Consumer<FriendModel>(builder: (context, friendModel, child) {
           if (friendModel.friends == null) {
             return Center(
@@ -360,10 +360,10 @@ class GetFriendRequests extends StatelessWidget {
     this.c = context;
   }
 
-  String getUserID(String requester)
+  String getUserID(String requester,context)
   {
-    UserApi.getInstance().searchUsername(requester).then((value){
-      UserApi.getInstance().findUser(value).then((user){
+    UserApi.getInstance().searchUsername(requester,context).then((value){
+      UserApi.getInstance().findUser(value,context).then((user){
     return  userApi +
         "/user/viewPicture/" +user.profileID;});
     });
@@ -374,7 +374,7 @@ class GetFriendRequests extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) =>
-            FriendRequestModel(UserApi.getInstance().getUserProfile()!.userID),
+            FriendRequestModel(UserApi.getInstance().getUserProfile()!.userID,context),
         child: Consumer<FriendRequestModel>(
             builder: (context, friendModel, child) {
           this.c = context;
@@ -400,7 +400,7 @@ class GetFriendRequests extends StatelessWidget {
                                     flex: 4,
                                     child: ListTile(
                                       leading: CachedNetworkImage( imageUrl:
-                                      getUserID(friendModel.friends!.elementAt(index).requester),
+                                      getUserID(friendModel.friends!.elementAt(index).requester,context),
                                           imageBuilder: (context, imageProvider) => Container(
                                               width: 70,
                                               height: 70,

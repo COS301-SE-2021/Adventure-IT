@@ -161,5 +161,19 @@ public class UserController {
         return service.setUserTheme(req.getUserId(),req.getTheme());
     }
 
+    @GetMapping("getNotificationSettings/{userId}")
+    public boolean getSettings(@PathVariable UUID userId)
+    {
+        boolean second=service.getNotificationSetting(userId);
+
+        return second;
+    }
+
+    @GetMapping("setNotificationSettings/{userId}")
+    public void setNotificationSettings(@PathVariable UUID userId)
+    {
+        service.setNotificationSettings(userId);
+    }
+
 
 }

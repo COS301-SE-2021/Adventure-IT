@@ -63,13 +63,9 @@ public class LocationServiceImplementation implements LocationService {
         List<String> types = getTypes(placeID);
 
         if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
-            location1 = new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,placeID,country,types,name);
-            locationRepository.save(location1);
             location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country,types,json.getJSONArray("candidates").getJSONObject(0).getString("name")));
         }
         else {
-            location1 = new Location("",address,placeID,country,types,name);
-            locationRepository.save(location1);
             location1 = locationRepository.save(new Location("",address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country,types,json.getJSONArray("candidates").getJSONObject(0).getString("name")));
         }
 
@@ -253,7 +249,7 @@ public class LocationServiceImplementation implements LocationService {
         return list;
     }
 
-    public void addFlagLocation(UUID locationID, UUID userID){
+    public void addFlagLocation(UUID locationID, UUID userID) throws IOException, JSONException {
         Location location = locationRepository.findLocationById(locationID);
         if(location == null){
             throw new NotFoundException("Add Flag Location: Location does not exist");
@@ -261,11 +257,28 @@ public class LocationServiceImplementation implements LocationService {
 
         Flags flags = flagRepository.getFlagsByUserID(userID);
         if(flags == null){
-            flagRepository.save(new Flags(userID,new ArrayList<>()));
+            flags = flagRepository.save(new Flags(userID,new ArrayList<>()));
         }
 
+        String string1 = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + location.getPlaceID() + "&fields=address_components&key=AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
+        JSONObject json = new JSONObject(makeConnection(string1));
+        JSONObject jsonObject;
+
+        JSONArray array = json.getJSONObject("result").getJSONArray("address_components");
+
         if(!flags.getPlacesVisited().contains(location.getCountry())){
-            flags.getPlacesVisited().add(location.getCountry());
+            for (int i = 0; i < array.length(); ++i) {
+                jsonObject = array.getJSONObject(i);
+                if(location.getCountry().equals(jsonObject.get("long_name").toString())){
+                    if(flags.getPlacesVisited().contains(jsonObject.get("short_name").toString())){
+                        break;
+                    }
+                    else{
+                        flags.getPlacesVisited().add(jsonObject.get("short_name").toString());
+                        break;
+                    }
+                }
+            }
         }
 
         flagRepository.save(flags);
@@ -275,7 +288,7 @@ public class LocationServiceImplementation implements LocationService {
     public List<String> getFlagList(UUID id) {
         Flags flags = flagRepository.getFlagsByUserID(id);
         if(flags == null){
-            throw new NotFoundException("Get Flag List: User list not found");
+            return new ArrayList<>();
         }
         return flags.getPlacesVisited();
     }

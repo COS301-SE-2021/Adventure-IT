@@ -20,7 +20,7 @@ class GroupChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => GroupChatModel(adventure!),
+        create: (context) => GroupChatModel(adventure!,context),
         builder: (context, widget) => Scaffold(
             drawer: NavDrawer(),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,

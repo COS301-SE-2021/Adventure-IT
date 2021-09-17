@@ -9,8 +9,10 @@ import 'package:adventure_it/api/locationAPI.dart';
 
 class AdventuresModel extends ChangeNotifier {
   List<Adventure>? _adventures;
+  BuildContext? context;
 
-  AdventuresModel() {
+  AdventuresModel(context) {
+    this.context=context;
     fetchAllAdventures().then((adventures) =>
         adventures != null ? _adventures = adventures : List.empty());
   }
@@ -19,14 +21,14 @@ class AdventuresModel extends ChangeNotifier {
 
   Future fetchAllAdventures() async {
     _adventures = await AdventureApi.getAdventuresByUUID(
-        UserApi.getInstance().getUserProfile()!.userID);
+        UserApi.getInstance().getUserProfile()!.userID,context);
 
     notifyListeners();
   }
 
   Future addAdventure(
       String a, String b, LocalDate c, LocalDate d, String e, String f) async {
-    await AdventureApi.createAdventure(a, b, c, d, e, f);
+    await AdventureApi.createAdventure(a, b, c, d, e, f,context);
 
     fetchAllAdventures();
 
@@ -34,7 +36,7 @@ class AdventuresModel extends ChangeNotifier {
   }
 
   Future deleteAdventure(Adventure adventure) async {
-    await AdventureApi.removeAdventure(adventure.adventureId);
+    await AdventureApi.removeAdventure(adventure.adventureId,context);
 
     var index = _adventures!
         .indexWhere((element) => element.adventureId == adventure.adventureId);
@@ -45,7 +47,7 @@ class AdventuresModel extends ChangeNotifier {
 
   Future editAdventure(
       String a, String b,String c, LocalDate d, LocalDate e, String f) async {
-    await AdventureApi.editAdventure(a, b, c, d, e,f);
+    await AdventureApi.editAdventure(a, b, c, d, e,f,context);
 
     notifyListeners();
   }
@@ -55,9 +57,11 @@ class AdventureAttendeesModel extends ChangeNotifier {
   List<UserProfile>? _attendees;
   Adventure? currentAdventure;
   List<CurrentLocation>? _locations;
+  BuildContext? context;
 
-  AdventureAttendeesModel(Adventure a) {
+  AdventureAttendeesModel(Adventure a,context) {
     this.currentAdventure = a;
+    this.context=context;
     fetchAllAttendees().then((attendees) =>
         attendees != null ? _attendees = attendees : List.empty());
   }
@@ -67,9 +71,9 @@ class AdventureAttendeesModel extends ChangeNotifier {
 
   Future fetchAllAttendees() async {
     _attendees = await AdventureApi.getAttendeesOfAdventure(
-        currentAdventure!.adventureId);
+        currentAdventure!.adventureId,context);
 
-    _locations= await LocationApi.getAllCurrentLocations(this.currentAdventure!);
+    _locations= await LocationApi.getAllCurrentLocations(this.currentAdventure!,context);
 
     notifyListeners();
   }

@@ -18,6 +18,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.ReadChannel;
 import com.google.cloud.storage.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,6 +39,8 @@ public class UserServiceImplementation  {
 
     private final UserRepository repo;
     private final FriendRepository friendRepository;
+    @Value("${firebase-path}")
+    private String path;
 
     @Autowired
     PictureInfoRepository pictureInfoRepository;
@@ -55,7 +58,8 @@ public class UserServiceImplementation  {
     private void initializeFirebase() throws IOException {
         bucketName = "adventure-it-bc0b6.appspot.com";
         String projectId = "Adventure-IT";
-        FileInputStream serviceAccount = new FileInputStream("C:\\Users\\kevin\\Documents\\Enviroment variables\\adventure-it-bc0b6-firebase-adminsdk-o2fq8-ad3a51fb5e.json");
+
+        FileInputStream serviceAccount = new FileInputStream(this.path);
         this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
     }
 
@@ -204,6 +208,11 @@ public class UserServiceImplementation  {
     public String createFriendRequest(String userId1, String userId2){
         if(repo.getUserByUserID(UUID.fromString(userId1)) == null || repo.getUserByUserID(UUID.fromString(userId2)) == null){
             throw new InvalidRequestException("One or both of the users do not exist");
+        }
+
+        if(userId1.compareTo(userId2)==0)
+        {
+            throw new InvalidRequestException ("Cannot become friends with yourself");
         }
 
         List<Friend> requests1 = friendRepository.findByFirstUserEquals(UUID.fromString(userId1));
@@ -454,5 +463,18 @@ public class UserServiceImplementation  {
         user.setTheme(bool);
         repo.save(user);
         return "User theme has been set";
+    }
+
+    public void setNotificationSettings(UUID userId)
+    {
+        Users user=repo.getUserByUserID(userId);
+        user.setNotificationSettings();
+        repo.save(user);
+    }
+
+    public boolean getNotificationSetting(UUID userId)
+    {
+        Users user=repo.getUserByUserID(userId);
+        return user.getNotificationSettings();
     }
 }

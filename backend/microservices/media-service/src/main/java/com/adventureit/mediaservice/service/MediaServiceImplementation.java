@@ -8,6 +8,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.ReadChannel;
 import com.google.cloud.storage.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +26,8 @@ public class MediaServiceImplementation implements MediaService{
     private  DocumentInfoRepository documentInfoRepository;
     @Autowired
     private  FileInfoRepository fileInfoRepository;
+    @Value("${firebase-path}")
+    private String path;
 
     private StorageOptions storageOptions;
     private String bucketName;
@@ -33,7 +36,7 @@ public class MediaServiceImplementation implements MediaService{
     private void initializeFirebase() throws IOException {
         bucketName = "adventure-it-bc0b6.appspot.com";
         String projectId = "Adventure-IT";
-        FileInputStream serviceAccount = new FileInputStream("D:\\UP\\Coding\\adventure-it-bc0b6-firebase-adminsdk-o2fq8-ad3a51fb5e.json");
+        FileInputStream serviceAccount = new FileInputStream(path);
         this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
     }
 

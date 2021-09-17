@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => LocationModel(),
+        create: (context) => LocationModel(context),
         child: MaterialApp(
             theme: theme?ThemeData(
                 iconTheme: IconThemeData(color: Color(0xffA7AAB9)),
