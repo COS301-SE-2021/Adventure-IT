@@ -1011,48 +1011,6 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> categoryList = [
-      Text(
-        "Accommodation",
-        style: TextStyle(color: Theme
-            .of(context)
-            .textTheme
-            .bodyText1!
-            .color),
-      ),
-      Text(
-        "Activities",
-        style: TextStyle(color: Theme
-            .of(context)
-            .textTheme
-            .bodyText1!
-            .color),
-      ),
-      Text(
-        "Food",
-        style: TextStyle(color: Theme
-            .of(context)
-            .textTheme
-            .bodyText1!
-            .color),
-      ),
-      Text(
-        "Transport",
-        style: TextStyle(color: Theme
-            .of(context)
-            .textTheme
-            .bodyText1!
-            .color),
-      ),
-      Text(
-        "Other",
-        style: TextStyle(color: Theme
-            .of(context)
-            .textTheme
-            .bodyText1!
-            .color),
-      )
-    ];
     return Consumer<BudgetEntryModel>(
         builder: (context, budgetEntryModel, child) {
           BuildContext c=context;
@@ -1221,7 +1179,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                               onSelected: (value) {
                                                 if(value==1) {
                                                   showDialog(
-                                                      context: context,
+                                                      context: c,
                                                       builder: (BuildContext context) {
                                                         return _EditAlertBox(currentBudget!, currentAdventure!, budgetEntryModel, budgetEntryModel.entries!.elementAt(index), context);
                                                       }
@@ -1399,6 +1357,19 @@ class EditAlertBox extends State<_EditAlertBox> {
       setState(() {
         userNames = temp1;
         userNamesAndOther = temp2;
+
+        //SETTING PAYEE
+        for(int i = 0; i < userNamesAndOther!.length; i++) {
+          if(userNamesAndOther!.elementAt(i).compareTo(budgetE!.payee) == 0) {
+            payee = budgetE!.payee;
+            otherController.text = budgetE!.payee;
+            break;
+          }
+          else {
+            payee = "Other";
+            otherController.text = budgetE!.payee;
+          }
+        }
       });
     });
 
@@ -1418,7 +1389,7 @@ class EditAlertBox extends State<_EditAlertBox> {
       amountController.text = budgetE!.amount.toString().substring(0, budgetE!
           .amount
           .toString()
-          .length-2);
+          .length-3);
       centsController.text = budgetE!.amount.toString().substring(budgetE!
           .amount
           .toString()
@@ -1515,18 +1486,6 @@ class EditAlertBox extends State<_EditAlertBox> {
       "OTHER"
     ];
 
-    //SETTING PAYEE AND CATEGORY
-    /*for(int i = 0; i < userNamesAndOther!.length; i++) {
-      if(userNamesAndOther!.elementAt(i).compareTo(budgetE!.payee) == 0) {
-        payee = budgetE!.payee;
-        otherController.text = budgetE!.payee;
-      }
-      else {
-        payee = "Other";
-        otherController.text = budgetE!.payee;
-      }
-    }*/
-      BuildContext c = context;
       if (userNames == null || userNames!.length == 0 ||
           userNamesAndOther == null || userNamesAndOther!.length == 0) {
         return AlertDialog(
@@ -2109,6 +2068,10 @@ class EditAlertBox extends State<_EditAlertBox> {
                                                     .bodyText1!
                                                     .color)),
                                         onPressed: () {
+                                          if(payee!.compareTo('Other') == 0) {
+                                            payee = otherController.text;
+                                          }
+
                                           budgetEntryModel!.editBudgetEntry(
                                               currentBudget!,
                                               budgetE!,
@@ -2125,10 +2088,7 @@ class EditAlertBox extends State<_EditAlertBox> {
                                               categoryNames[selectedCategory! -
                                                   1],
                                               context);
-                                          Provider.of<
-                                              BudgetEntryModel>(
-                                              c,
-                                              listen: false)
+                                          budgetEntryModel!
                                               .fetchAllReports(
                                               currentBudget!,
                                               UserApi
