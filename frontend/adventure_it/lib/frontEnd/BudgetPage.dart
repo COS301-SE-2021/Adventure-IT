@@ -1402,6 +1402,14 @@ class EditAlertBox extends State<_EditAlertBox> {
       });
     });
 
+    final catNames = [
+      "ACCOMMODATION",
+      "ACTIVITIES",
+      "FOOD",
+      "TRANSPORT",
+      "OTHER"
+    ];
+
     //SETTING THE CONTROLLERS
     titleController.text = budgetE!.title;
     descriptionController.text = budgetE!.description;
@@ -1425,6 +1433,11 @@ class EditAlertBox extends State<_EditAlertBox> {
           .toString()
           .length);
       centsController.text = '00';
+    }
+    for(int i = 0; i < 4; i++) {
+      if(catNames[i].compareTo(budgetE!.category) == 0) {
+        selectedCategory = i+1;
+      }
     }
   }
 
@@ -1513,12 +1526,6 @@ class EditAlertBox extends State<_EditAlertBox> {
         otherController.text = budgetE!.payee;
       }
     }*/
-    /*for(int i = 0; i < 4; i++) {
-      if(categoryNames[i].compareTo(budgetE!.category) == 0) {
-        selectedCategory = i+1;
-      }
-    }*/
-
       BuildContext c = context;
       if (userNames == null || userNames!.length == 0 ||
           userNamesAndOther == null || userNamesAndOther!.length == 0) {
