@@ -154,7 +154,12 @@ class GetFriends extends StatelessWidget {
           } else if (friendModel.friends!.length > 0) {
             return Column( children:[Expanded(
                 flex: 2,
-                child: ListView(children: [
+                child: Container(width: MediaQuery.of(context).size.width <= 500
+                    ? MediaQuery.of(context).size.width
+                    : MediaQuery.of(context).size.width * 0.9,
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width <= 500
+                        ? 0
+                        : MediaQuery.of(context).size.width * 0.05),child: ListView(children: [
                   ...List.generate(
                       friendModel.friends!.length,
                       (index) => Card(
@@ -340,7 +345,7 @@ class GetFriends extends StatelessWidget {
                                     ),
                                   ))),
 
-                            ]))]);
+                            ])))]);
           } else {
             return Center(
                 child: Text("You have no friends. That's so sad.",
@@ -386,7 +391,14 @@ class GetFriendRequests extends StatelessWidget {
           } else if (friendModel.friends!.length > 0) {
             return Column( children:[Expanded(
                 flex: 2,
-                child: ListView(children: [
+                child: Container(
+                    width: MediaQuery.of(context).size.width <= 500
+                        ? MediaQuery.of(context).size.width
+                        : MediaQuery.of(context).size.width * 0.9,
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width <= 500
+                        ? 0
+                        : MediaQuery.of(context).size.width * 0.05),
+                    child: ListView(children: [
                   ...List.generate(
                     friendModel.friends!.length,
                     (index) => Card(
@@ -559,7 +571,7 @@ class GetFriendRequests extends StatelessWidget {
                               ),
                             ))),
                   )
-                ]))]);
+                ])))]);
           } else {
             return Center(
                 child: Text("No one wants to be your friend. That's so sad.",

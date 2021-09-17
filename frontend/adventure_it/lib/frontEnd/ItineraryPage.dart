@@ -972,7 +972,14 @@ class ListItineraryItems extends State<_ListItineraryItems> {
           } else if (entryModel.entries!.length > 0) {
             return Column(children: [Expanded(
               flex: 4,
-              child: GroupedListView<dynamic, String>(
+              child: Container(
+                width: MediaQuery.of(context).size.width <= 500
+                    ? MediaQuery.of(context).size.width
+                    : MediaQuery.of(context).size.width * 0.9,
+                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width <= 500
+                    ? 0
+                    : MediaQuery.of(context).size.width * 0.05),
+                child:GroupedListView<dynamic, String>(
                   physics: const AlwaysScrollableScrollPhysics(),
                   elements: entryModel.entries!,
                   groupBy: (element) =>
@@ -2157,7 +2164,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
 
                             ))
                     );
-                  }),),
+                  }),)),
               SizedBox(height: 10),
               SizedBox(child: Text("Recommendations",
                   textAlign: TextAlign.center,

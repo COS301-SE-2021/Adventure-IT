@@ -21,8 +21,8 @@ class Budgets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => BudgetModel(
-            adventure!, UserApi.getInstance().getUserProfile()!.username,context),
+        create: (context) => BudgetModel(adventure!,
+            UserApi.getInstance().getUserProfile()!.username, context),
         builder: (context, widget) => Scaffold(
             drawer: NavDrawer(),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -32,17 +32,16 @@ class Budgets extends StatelessWidget {
                         style: new TextStyle(
                             color:
                                 Theme.of(context).textTheme.bodyText1!.color))),
-                iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
+                iconTheme: IconThemeData(
+                    color: Theme.of(context).textTheme.bodyText1!.color),
                 backgroundColor: Theme.of(context).primaryColorDark),
             body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  Spacer(),
-                  Container(
-                      height: MediaQuery.of(context).size.height * 0.80,
-                      width: MediaQuery.of(context).size.width,
-                      child: BudgetList(adventure)),
+                  SizedBox(height: MediaQuery.of(context).size.height / 60),
+                  Expanded(child: BudgetList(adventure)),
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
                   Row(children: [
                     Expanded(
@@ -170,7 +169,6 @@ class _PieChart extends State<PieChartCaller> {
   List<PieChartSectionData> getSections() => data
       .asMap()
       .map<int, PieChartSectionData>((index, data) {
-
         final value = PieChartSectionData(
           color: data.color,
           value: data.percent! * 1.0,
@@ -383,127 +381,151 @@ class BudgetList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<BudgetModel>(builder: (context, budgetModel, child) {
-          if (budgetModel.budgets == null ||
-              budgetModel.expenses == null ||
-              budgetModel.categories == null||budgetModel.budgets!.length!=budgetModel.expenses!.length) {
-            return Center(
-                child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).accentColor)));
-          } else if (budgetModel.budgets!.length > 0) {
-            return Column(
-                children: [
-            Expanded(flex: 8, child: buildChild(budgetModel, context)),
-              SizedBox(height: MediaQuery.of(context).size.height / 60),
-                   Expanded(flex: 6, child: ListView.builder(
-                        itemCount: budgetModel.budgets!.length,
-                        itemBuilder: (context, index) => Card(
-                                color: Theme.of(context).primaryColorDark,
-                                child: InkWell(
-                                    hoverColor:
-                                        Theme.of(context).primaryColorLight,
-                                    onTap: () {
-                                      UserApi.getInstance().findUser(budgetModel.budgets!.elementAt(index).creatorID,context).then((c){
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => BudgetPage(
-                                                  budgetModel.budgets!
-                                                      .elementAt(index),
-                                                  a,c)));
-                                    });},
-                                    child: Container(
-                                      child: Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                            flex: 4,
-                                            child: ListTile(
-                                              title: Text(
-                                                  //
-                                                  budgetModel.budgets!
-                                                      .elementAt(index)
-                                                      .name,
-                                                  style: TextStyle(
-                                                      fontSize: 25 *
-                                                          MediaQuery.of(context)
-                                                              .textScaleFactor,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+      if (budgetModel.budgets == null ||
+          budgetModel.expenses == null ||
+          budgetModel.categories == null ||
+          budgetModel.budgets!.length != budgetModel.expenses!.length) {
+        return Center(
+            child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                    Theme.of(context).accentColor)));
+      } else if (budgetModel.budgets!.length > 0) {
+        return Column(children: [
+          Expanded(flex: 8, child: buildChild(budgetModel, context)),
+          Expanded(
+              flex: 6,
+             child: Container(
+                  width: MediaQuery.of(context).size.width <= 500
+                      ? MediaQuery.of(context).size.width
+                      : MediaQuery.of(context).size.width * 0.9,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width <= 500
+                          ? 0
+                          : MediaQuery.of(context).size.width * 0.05),
+                  child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: budgetModel.budgets!.length,
+                itemBuilder: (context, index) => Card(
+                    color: Theme.of(context).primaryColorDark,
+                    child: InkWell(
+                        hoverColor: Theme.of(context).primaryColorLight,
+                        onTap: () {
+                          UserApi.getInstance()
+                              .findUser(
+                                  budgetModel.budgets!
+                                      .elementAt(index)
+                                      .creatorID,
+                                  context)
+                              .then((c) {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => BudgetPage(
+                                        budgetModel.budgets!.elementAt(index),
+                                        a,
+                                        c)));
+                          });
+                        },
+                        child: Container(
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 4,
+                                child: ListTile(
+                                  title: Text(
+                                      //
+                                      budgetModel.budgets!
+                                          .elementAt(index)
+                                          .name,
+                                      style: TextStyle(
+                                          fontSize: 25 *
+                                              MediaQuery.of(context)
+                                                  .textScaleFactor,
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color)),
+                                  // subtitle:Text(adventures.elementAt(index).description),
+                                  subtitle: Text(
+                                      budgetModel.budgets!
+                                          .elementAt(index)
+                                          .description,
+                                      style: TextStyle(
+                                          fontSize: 15 *
+                                              MediaQuery.of(context)
+                                                  .textScaleFactor,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color)),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                    "Total: \$" +
+                                        budgetModel.expenses!.elementAt(index),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 12 *
+                                            MediaQuery.of(context)
+                                                .textScaleFactor,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .color)),
+                              ),
+                              PopupMenuButton(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color,
+                                  onSelected: (value) {
+                                    if (value == 1) {
+                                      Provider.of<BudgetModel>(context,
+                                              listen: false)
+                                          .softDeleteBudget(budgetModel.budgets!
+                                              .elementAt(index));
+                                    }
+                                  },
+                                  itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                            value: 1,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(5),
+                                                  child: Icon(Icons.delete,
                                                       color: Theme.of(context)
                                                           .textTheme
-                                                          .bodyText1!
-                                                          .color)),
-                                              // subtitle:Text(adventures.elementAt(index).description),
-                                              subtitle: Text(
-                                                  budgetModel.budgets!
-                                                      .elementAt(index)
-                                                      .description,
-                                                  style: TextStyle(
-                                                      fontSize: 15 *
-                                                          MediaQuery.of(context)
-                                                              .textScaleFactor,
-                                                      color: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .color)),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: Text(
-                                                "Total: \$" +
-                                                    budgetModel.expenses!
-                                                        .elementAt(index),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 12 *
-                                                        MediaQuery.of(context)
-                                                            .textScaleFactor,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color)),
-                                          ),
-                                          PopupMenuButton(
-                                              color: Theme.of(context).textTheme.bodyText1!.color,
-                                              onSelected: (value) {
-                                                if (value == 1) {
-                                                  Provider.of<BudgetModel>(
-                                                      context,
-                                                      listen: false).softDeleteBudget(budgetModel.budgets!.elementAt(index));
-                                                }
-
-                                              },
-                                              itemBuilder: (context) => [
-                                                PopupMenuItem(
-                                                    value: 1,
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Padding(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .all(5),
-                                                          child: Icon(Icons
-                                                              .delete,color: Theme.of(context).textTheme.bodyText2!.color),
-                                                        ),
-                                                        Text("Delete", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color))
-                                                      ],
-                                                    ))
-                                              ]),
-                                        ],
-                                      ),
-                                    ))),
-                         )
-                   )]);
-          } else {
-            return Center(
-                child: Text("Start planning how to spend your money!",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-                        color: Theme.of(context).textTheme.bodyText1!.color)));
-          }
-        });
+                                                          .bodyText2!
+                                                          .color),
+                                                ),
+                                                Text("Delete",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText2!
+                                                            .color))
+                                              ],
+                                            ))
+                                      ]),
+                            ],
+                          ),
+                        ))),
+              )))
+          ]);
+      } else {
+        return Center(
+            child: Text("Start planning how to spend your money!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                    color: Theme.of(context).textTheme.bodyText1!.color)));
+      }
+    });
   }
 }
 
@@ -544,7 +566,8 @@ class _AlertBox extends State<AlertBox> {
         content: Container(
           height: getSize(context),
           child: Stack(
-            clipBehavior: Clip.none, children: <Widget>[
+            clipBehavior: Clip.none,
+            children: <Widget>[
               Positioned(
                 right: -40.0,
                 top: -40.0,
