@@ -14,7 +14,7 @@ void main() async {
     FlutterDownloader.registerCallback(MediaApi.downloadCallback);
   }
   runApp(
-    MyApp(false),
+    MyApp(true),
   );
 }
 //

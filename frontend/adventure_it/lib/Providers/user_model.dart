@@ -23,7 +23,7 @@ class UserModel extends ChangeNotifier {
     UserApi.getInstance().fetchBackendProfile(UserApi.getInstance().getUserProfile()!.userID);
     _profile = UserApi.getInstance().getUserProfile();
     await getEM();
-    await getT();
+    //await getT();
     return;
   }
 

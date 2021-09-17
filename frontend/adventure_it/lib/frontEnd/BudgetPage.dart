@@ -1373,6 +1373,7 @@ class EditAlertBox extends State<_EditAlertBox> {
     this.currentAdventure = a;
     this.budgetE = e;
     this.budgetEntryModel = budgetEntryModel;
+
     AdventureApi.getAttendeesOfAdventure(a.adventureId, context).then((value) {
       setState(() {
         users = value;
@@ -1400,6 +1401,31 @@ class EditAlertBox extends State<_EditAlertBox> {
         userNamesAndOther = temp2;
       });
     });
+
+    //SETTING THE CONTROLLERS
+    titleController.text = budgetE!.title;
+    descriptionController.text = budgetE!.description;
+    payer = budgetE!.payer;
+    if(budgetE!.amount.toString().contains('.')) {
+      amountController.text = budgetE!.amount.toString().substring(0, budgetE!
+          .amount
+          .toString()
+          .length-2);
+      centsController.text = budgetE!.amount.toString().substring(budgetE!
+          .amount
+          .toString()
+          .length-2,
+          budgetE!.amount
+              .toString()
+              .length);
+    }
+    else {
+      amountController.text = budgetE!.amount.toString().substring(0, budgetE!
+          .amount
+          .toString()
+          .length);
+      centsController.text = '00';
+    }
   }
 
   double getSize(context) {
@@ -1475,6 +1501,24 @@ class EditAlertBox extends State<_EditAlertBox> {
       "TRANSPORT",
       "OTHER"
     ];
+
+    //SETTING PAYEE AND CATEGORY
+    /*for(int i = 0; i < userNamesAndOther!.length; i++) {
+      if(userNamesAndOther!.elementAt(i).compareTo(budgetE!.payee) == 0) {
+        payee = budgetE!.payee;
+        otherController.text = budgetE!.payee;
+      }
+      else {
+        payee = "Other";
+        otherController.text = budgetE!.payee;
+      }
+    }*/
+    /*for(int i = 0; i < 4; i++) {
+      if(categoryNames[i].compareTo(budgetE!.category) == 0) {
+        selectedCategory = i+1;
+      }
+    }*/
+
       BuildContext c = context;
       if (userNames == null || userNames!.length == 0 ||
           userNamesAndOther == null || userNamesAndOther!.length == 0) {
@@ -1785,7 +1829,7 @@ class EditAlertBox extends State<_EditAlertBox> {
                                                 .textTheme
                                                 .bodyText1!
                                                 .color),
-                                        controller: amountController,
+                                        controller: centsController,
                                         decoration: InputDecoration(
                                             hintStyle: TextStyle(
                                                 color: Theme
@@ -2067,7 +2111,7 @@ class EditAlertBox extends State<_EditAlertBox> {
                                                   .getUserProfile()!
                                                   .userID,
                                               payer!,
-                                              amountController.text,
+                                              amountController.text + '.' + centsController.text ,
                                               titleController.text,
                                               descriptionController.text,
                                               payee!,
