@@ -1,3 +1,4 @@
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:flutter/material.dart';
 
 import 'Navbar.dart';
@@ -48,8 +49,8 @@ class _SettingsBuilder extends StatefulWidget {
 }
 
 class SettingsBuilder extends State<_SettingsBuilder> {
-  bool themeSwitch = false;
-  bool locationSwitch = false;
+  bool? themeSwitch = UserApi.getInstance().theme;
+  bool? locationSwitch = UserApi.getInstance().notify;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +97,7 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                       Transform.scale(
                         scale: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? 2 : 1,
                         child: Switch(
-                          value: themeSwitch,
+                          value: themeSwitch!,
                           activeTrackColor: Theme.of(context).scaffoldBackgroundColor,
                           activeColor: Theme.of(context).accentColor,
                           onChanged: (value) {
@@ -199,7 +200,7 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                     Center(
-                        child: Text("Disable location for 24h?",
+                        child: Text("Disable location updates to emergency contact?",
                             style: new TextStyle(
                                 color: Theme.of(context).textTheme.bodyText1!.color,
                                 fontSize: MediaQuery.of(context).size.height * 0.025))
@@ -228,10 +229,11 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                           Transform.scale(
                             scale: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? 2 : 1,
                             child: Switch(
-                              value: locationSwitch,
+                              value: locationSwitch!,
                               activeTrackColor: Theme.of(context).scaffoldBackgroundColor,
                               activeColor: Theme.of(context).accentColor,
-                              onChanged: (value) {
+                              onChanged: (value) async {
+                                await UserApi.getInstance().setNotificationSettings(context);
                                 setState(() {
                                   locationSwitch = value;
                                 });

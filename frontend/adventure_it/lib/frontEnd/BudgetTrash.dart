@@ -76,7 +76,7 @@ class DeletedBudgetList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => DeletedBudgetModel(a!),
+        create: (context) => DeletedBudgetModel(a!,context),
         child: Consumer<DeletedBudgetModel>(
             builder: (context, deletedBudgetModel, child) {
           this.c = context;

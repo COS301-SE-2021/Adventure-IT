@@ -22,7 +22,7 @@ class Budgets extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => BudgetModel(
-            adventure!, UserApi.getInstance().getUserProfile()!.username),
+            adventure!, UserApi.getInstance().getUserProfile()!.username,context),
         builder: (context, widget) => Scaffold(
             drawer: NavDrawer(),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -403,7 +403,7 @@ class BudgetList extends StatelessWidget {
                                     hoverColor:
                                         Theme.of(context).primaryColorLight,
                                     onTap: () {
-                                      UserApi.getInstance().findUser(budgetModel.budgets!.elementAt(index).creatorID).then((c){
+                                      UserApi.getInstance().findUser(budgetModel.budgets!.elementAt(index).creatorID,context).then((c){
                                       Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(

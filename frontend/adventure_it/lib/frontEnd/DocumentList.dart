@@ -35,7 +35,7 @@ class DocumentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => DocumentModel(),
+        create: (context) => DocumentModel(context),
         builder: (context, widget) => Scaffold(
               drawer: NavDrawer(),
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,

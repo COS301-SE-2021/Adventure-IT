@@ -6,6 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:adventure_it/Providers/adventure_model.dart';
 import 'package:adventure_it/api/adventure.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import 'AdventurePage.dart';
@@ -21,9 +22,11 @@ class AdventureAttendees extends StatelessWidget {
   Location location = Location();
   LocationData? currentLocation;
   CurrentLocation? current;
+  BuildContext? context;
 
-  AdventureAttendees(Adventure a) {
+  AdventureAttendees(Adventure a,context) {
     this.currentAdventure = a;
+    this.context=context;
 
     bool serviceEnabled;
     PermissionStatus permissionGranted;
@@ -43,7 +46,7 @@ class AdventureAttendees extends StatelessWidget {
         if (permissionGranted == PermissionStatus.granted && serviceEnabled) {
           location.getLocation().then((value) {
             currentLocation = value;
-            LocationApi.setCurrentLocation(currentLocation!);
+            LocationApi.setCurrentLocation(currentLocation!,context);
           });
         }
       });
@@ -53,7 +56,7 @@ class AdventureAttendees extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-        value: AdventureAttendeesModel(this.currentAdventure!),
+        value: AdventureAttendeesModel(this.currentAdventure!,context),
         builder: (context, widget) => Scaffold(
             drawer: NavDrawer(),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -237,6 +240,9 @@ class _Carousel extends State<Carousel> {
                       carouselController.previousPage();
                       _markers.clear();
                       _markers.add(Marker(
+                        onTap:(){
+                          MapsLauncher.launchCoordinates(double.parse(attendeeModel!.locations!.elementAt(i).latitude), double.parse(attendeeModel!.locations!.elementAt(i).longitude));
+                        },
                           markerId: MarkerId(
                               attendeeModel!.attendees!.elementAt(i).username),
                           infoWindow: InfoWindow(
@@ -255,6 +261,9 @@ class _Carousel extends State<Carousel> {
                       carouselController.previousPage();
                       _markers.clear();
                       _markers.add(Marker(
+                          onTap:(){
+                            MapsLauncher.launchCoordinates(double.parse(attendeeModel!.locations!.elementAt(i).latitude), double.parse(attendeeModel!.locations!.elementAt(i).longitude));
+                          },
                           markerId: MarkerId(
                               attendeeModel!.attendees!.elementAt(i).username),
                           infoWindow: InfoWindow(
@@ -342,6 +351,9 @@ class _Carousel extends State<Carousel> {
                       carouselController.nextPage();
                       _markers.clear();
                       _markers.add(Marker(
+                          onTap:(){
+                            MapsLauncher.launchCoordinates(double.parse(attendeeModel!.locations!.elementAt(i).latitude), double.parse(attendeeModel!.locations!.elementAt(i).longitude));
+                          },
                           markerId: MarkerId(
                               attendeeModel!.attendees!.elementAt(i).username),
                           infoWindow: InfoWindow(
@@ -360,6 +372,9 @@ class _Carousel extends State<Carousel> {
                       carouselController.nextPage();
                       _markers.clear();
                       _markers.add(Marker(
+                          onTap:(){
+                            MapsLauncher.launchCoordinates(double.parse(attendeeModel!.locations!.elementAt(i).latitude), double.parse(attendeeModel!.locations!.elementAt(i).longitude));
+                          },
                           markerId: MarkerId(
                               attendeeModel!.attendees!.elementAt(i).username),
                           infoWindow: InfoWindow(
@@ -397,6 +412,9 @@ class _Carousel extends State<Carousel> {
                       setState(() {
                         _markers.clear();
                         _markers.add(Marker(
+                            onTap:(){
+                              MapsLauncher.launchCoordinates(double.parse(attendeeModel!.locations!.elementAt(i).latitude), double.parse(attendeeModel!.locations!.elementAt(i).longitude));
+                            },
                             markerId: MarkerId(attendeeModel!.attendees!
                                 .elementAt(i)
                                 .username),

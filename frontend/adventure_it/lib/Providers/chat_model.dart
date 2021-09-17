@@ -11,9 +11,11 @@ class GroupChatModel extends ChangeNotifier {
   List<GroupChatMessage>? _messages;
   GroupChat? _chat;
   Adventure? currentAdventure;
+  BuildContext? context;
 
-  GroupChatModel(Adventure a) {
+  GroupChatModel(Adventure a,context) {
     this.currentAdventure = a;
+    this.context=context;
     fetchAllMessages().then(
         (messages) => messages != null ? _messages = messages : List.empty());
   }
@@ -23,18 +25,18 @@ class GroupChatModel extends ChangeNotifier {
   GroupChat? get chat => _chat;
 
   Future fetchAllMessages() async {
-    _chat = await ChatApi.getGroupChat(currentAdventure);
+    _chat = await ChatApi.getGroupChat(currentAdventure,context);
     if (_chat == null) {
       _messages = List.empty();
     } else {
-      _messages = await ChatApi.getGroupChatMessage(_chat!.id);
+      _messages = await ChatApi.getGroupChatMessage(_chat!.id,context);
     }
     notifyListeners();
   }
 
   Future sendMessage(String message) async {
     await ChatApi.sendGroupMessage(
-        _chat!.id, UserApi.getInstance().getUserProfile()!.userID, message);
+        _chat!.id, UserApi.getInstance().getUserProfile()!.userID, message,context);
 
     fetchAllMessages();
 
@@ -47,10 +49,12 @@ class DirectChatModel extends ChangeNotifier {
   DirectChat? _chat;
   String? user1ID;
   String? user2ID;
+  BuildContext? context;
 
-  DirectChatModel(String user1, String user2) {
+  DirectChatModel(String user1, String user2,context) {
     user1ID = user1;
     user2ID = user2;
+    this.context=context;
     fetchAllMessages(user1, user2).then(
         (messages) => messages != null ? _messages = messages : List.empty());
   }
@@ -60,16 +64,16 @@ class DirectChatModel extends ChangeNotifier {
   DirectChat? get chat => _chat;
 
   Future fetchAllMessages(String user1, String user2) async {
-    _chat = await ChatApi.getDirectChat(user1, user2);
+    _chat = await ChatApi.getDirectChat(user1, user2,context);
     if (_chat == null) {
       _messages = List.empty();
     } else
-      _messages = await ChatApi.getDirectChatMessage(_chat!.id);
+      _messages = await ChatApi.getDirectChatMessage(_chat!.id,context);
     notifyListeners();
   }
 
   Future sendMessage(String message) async {
-    await ChatApi.sendDirectMessage(_chat!.id, user1ID!, user2ID!, message);
+    await ChatApi.sendDirectMessage(_chat!.id, user1ID!, user2ID!, message,context);
 
     fetchAllMessages(user1ID!, user2ID!);
 

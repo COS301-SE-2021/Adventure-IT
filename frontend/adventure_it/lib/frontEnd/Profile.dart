@@ -94,7 +94,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                   Theme.of(context).accentColor)));
     } else {
       return ChangeNotifierProvider(
-          create: (context) => UserModel(),
+          create: (context) => UserModel(context),
           child: Consumer<UserModel>(builder: (context, userModel, child) {
             if (userModel.profile == null) {
               return Center(
