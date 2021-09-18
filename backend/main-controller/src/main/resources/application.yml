@@ -10,7 +10,6 @@ spring:
           jwt:
             issuer-uri: ${keycloak.oauth2.resourceserver.jwt.issuer-uri}
 
-
 eureka:
   client:
     register-with-eureka: ${service-registry-client.client.register-with-eureka}

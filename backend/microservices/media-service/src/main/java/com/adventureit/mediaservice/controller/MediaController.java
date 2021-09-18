@@ -8,6 +8,7 @@ import com.adventureit.mediaservice.service.MediaServiceImplementation;
 import com.adventureit.shareddtos.media.responses.DocumentInfoDTO;
 import com.adventureit.shareddtos.media.responses.FileInfoDTO;
 import com.adventureit.shareddtos.media.responses.MediaInfoDTO;
+import com.adventureit.shareddtos.media.responses.MediaResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -36,17 +37,17 @@ public class MediaController {
     }
 
     @GetMapping(value = "/mediaUploaded/{file}")
-    public ResponseEntity<byte[]> testMediaUploaded(@PathVariable UUID file) throws IOException {
+    public MediaResponseDTO testMediaUploaded(@PathVariable UUID file) throws IOException {
         return mediaServiceImplementation.testMediaUploaded(file);
     }
 
     @GetMapping(value = "/fileUploaded/{file}")
-    public ResponseEntity<byte[]> testFileUploaded(@PathVariable UUID file) throws IOException {
+    public MediaResponseDTO testFileUploaded(@PathVariable UUID file) throws IOException {
         return mediaServiceImplementation.testFileUploaded(file);
     }
 
     @GetMapping(value = "/documentUploaded/{file}")
-    public ResponseEntity<byte[]> testDocumentUploaded(@PathVariable UUID file) throws IOException {
+    public MediaResponseDTO testDocumentUploaded(@PathVariable UUID file) throws IOException {
         return mediaServiceImplementation.testDocumentUploaded(file);
     }
 

@@ -4,6 +4,7 @@ import com.adventureit.mediaservice.entity.*;
 import com.adventureit.mediaservice.exceptions.NotFoundException;
 import com.adventureit.mediaservice.exceptions.UnauthorisedException;
 import com.adventureit.mediaservice.repository.*;
+import com.adventureit.shareddtos.media.responses.MediaResponseDTO;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.ReadChannel;
 import com.google.cloud.storage.*;
@@ -41,7 +42,7 @@ public class MediaServiceImplementation implements MediaService{
     }
 
     @Override
-    public ResponseEntity<byte[]> testMediaUploaded(UUID file) throws IOException {
+    public MediaResponseDTO testMediaUploaded(UUID file) throws IOException {
         MediaInfo info = mediaInfoRepository.findMediaById(file);
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
@@ -53,11 +54,11 @@ public class MediaServiceImplementation implements MediaService{
         InputStream inputStream = Channels.newInputStream(reader);
         byte[] content = inputStream.readAllBytes();
 
-        return new ResponseEntity<>(content, headers, HttpStatus.OK);
+        return new MediaResponseDTO(content,headers);
     }
 
     @Override
-    public ResponseEntity<byte[]> testFileUploaded(UUID file) throws IOException {
+    public MediaResponseDTO testFileUploaded(UUID file) throws IOException {
         FileInfo info = fileInfoRepository.findFileInfoById(file);
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
@@ -69,11 +70,11 @@ public class MediaServiceImplementation implements MediaService{
         InputStream inputStream = Channels.newInputStream(reader);
         byte[] content = inputStream.readAllBytes();
 
-        return new ResponseEntity<>(content, headers, HttpStatus.OK);
+        return new MediaResponseDTO(content,headers);
     }
 
     @Override
-    public ResponseEntity<byte[]> testDocumentUploaded(UUID file) throws IOException {
+    public MediaResponseDTO testDocumentUploaded(UUID file) throws IOException {
         DocumentInfo info = documentInfoRepository.findDocumentInfoById(file);
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
@@ -85,7 +86,7 @@ public class MediaServiceImplementation implements MediaService{
         InputStream inputStream = Channels.newInputStream(reader);
         byte[] content = inputStream.readAllBytes();
 
-        return new ResponseEntity<>(content, headers, HttpStatus.OK);
+        return new MediaResponseDTO(content,headers);
     }
 
     @Override
