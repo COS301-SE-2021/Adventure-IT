@@ -24,11 +24,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(//MultiProvider(
-      //providers: [
+    return ChangeNotifierProvider(
         create: (context) => LocationModel(context),
-        //Provider<UserModel> (create: (context) => UserModel(context)),
-      //],
         child: MaterialAppWithTheme(),
     );
   }
