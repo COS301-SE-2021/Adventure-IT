@@ -9,6 +9,7 @@ import com.adventureit.chat.repository.DirectChatRepository;
 import com.adventureit.chat.repository.GroupChatRepository;
 import com.adventureit.chat.repository.MessageRepository;
 import com.adventureit.shareddtos.chat.ColorPairDTO;
+import com.adventureit.shareddtos.chat.MessageDTO;
 import com.adventureit.shareddtos.chat.responses.DirectChatResponseDTO;
 import com.adventureit.shareddtos.chat.responses.GroupChatResponseDTO;
 import org.springframework.beans.factory.annotation.Value;
@@ -153,8 +154,9 @@ public class ChatServiceImplementation implements ChatService {
         }
         List<UUID> messageIds = new ArrayList<>();
         List<Message> messages = messageRepository.findAllByChatId(chats.getGroupChatId());
+        List<MessageDTO> messageDTOs = new ArrayList<>();
         for (Message message : messages) {
-            messageIds.add(message.getId());
+            messageDTOs.add(convertToMessageDTO(message));
         }
 
         List<ColorPairDTO> colors = new ArrayList<>();
@@ -162,7 +164,7 @@ public class ChatServiceImplementation implements ChatService {
             colors.add(this.convertToColorPairDTO(c));
         }
 
-        return new GroupChatResponseDTO(chats.getGroupChatId(),chats.getAdventureID(),chats.getParticipants(),messageIds,chats.getName(), colors);
+        return new GroupChatResponseDTO(chats.getGroupChatId(),chats.getAdventureID(),chats.getParticipants(),messageDTOs,chats.getName(), colors);
     }
 
     @Override
@@ -173,8 +175,9 @@ public class ChatServiceImplementation implements ChatService {
         }
         List<UUID> messageIds = new ArrayList<>();
         List<Message> messages = messageRepository.findAllByChatId(chat.getGroupChatId());
+        List<MessageDTO> messageDTOs = new ArrayList<>();
         for (Message message : messages) {
-            messageIds.add(message.getId());
+            messageDTOs.add(convertToMessageDTO(message));
         }
 
         List<ColorPairDTO> colors = new ArrayList<>();
@@ -182,7 +185,7 @@ public class ChatServiceImplementation implements ChatService {
             colors.add(this.convertToColorPairDTO(c));
         }
 
-        return new GroupChatResponseDTO(chat.getGroupChatId(),chat.getAdventureID(),chat.getParticipants(),messageIds,chat.getName(), colors);
+        return new GroupChatResponseDTO(chat.getGroupChatId(),chat.getAdventureID(),chat.getParticipants(),messageDTOs,chat.getName(), colors);
     }
 
     @Override
@@ -255,5 +258,9 @@ public class ChatServiceImplementation implements ChatService {
 
     public ColorPairDTO convertToColorPairDTO(ColorPair c){
         return new ColorPairDTO(c.getColorPairId(), c.getUserID(), c.getAdventureId(), c.getColor());
+    }
+
+    public MessageDTO convertToMessageDTO(Message m){
+        return new MessageDTO(m.getId(), m.getSender(), m.getChatId(), m.getPayload());
     }
 }
