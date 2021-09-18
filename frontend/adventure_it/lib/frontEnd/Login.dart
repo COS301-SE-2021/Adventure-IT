@@ -123,7 +123,7 @@ class Login extends State<LoginCaller> {
                       location.changeSettings(accuracy: LocationAccuracy.high);
                       location.getLocation().then((value) {
                         currentLocation = value;
-                        LocationApi.setCurrentLocation(currentLocation!);
+                        LocationApi.setCurrentLocation(currentLocation!,context);
                       });
                     }
 

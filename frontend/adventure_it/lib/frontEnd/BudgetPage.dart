@@ -53,7 +53,7 @@ class _BudgetPage extends State<BudgetPage>
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => BudgetEntryModel(currentBudget!),
+        create: (context) => BudgetEntryModel(currentBudget!,context),
         builder: (context, widget) =>
             Scaffold(
                 drawer: NavDrawer(),
@@ -176,7 +176,7 @@ class _BudgetPage extends State<BudgetPage>
                                           builder: (BuildContext context) {
                                             return _AlertBox(
                                                 currentBudget!,
-                                                currentAdventure!, provider);
+                                                currentAdventure!, provider,context);
                                           });
                                     }
                                   },
@@ -200,11 +200,12 @@ class _AlertBox extends StatefulWidget {
   late final Budget? b;
   late final Adventure? a;
   final BudgetEntryModel budgetEntryModel;
+  late final BuildContext? context;
 
-  _AlertBox(this.b, this.a, this.budgetEntryModel);
+  _AlertBox(this.b, this.a, this.budgetEntryModel,this.context);
 
   @override
-  AlertBox createState() => AlertBox(b!, a!);
+  AlertBox createState() => AlertBox(b!, a!,context!);
 }
 
 class AlertBox extends State<_AlertBox> {
@@ -224,10 +225,10 @@ class AlertBox extends State<_AlertBox> {
   List<String>? userNames;
   List<String>? userNamesAndOther;
 
-  AlertBox(Budget budget, Adventure a) {
+  AlertBox(Budget budget, Adventure a,context) {
     this.b = budget;
     this.currentAdventure = a;
-    AdventureApi.getAttendeesOfAdventure(a.adventureId).then((value) {
+    AdventureApi.getAttendeesOfAdventure(a.adventureId,context).then((value) {
       setState(() {
         users = value;
       });
@@ -882,7 +883,7 @@ class AlertBox extends State<_AlertBox> {
                                   titleController.text,
                                   descriptionController.text,
                                   categoryNames[selectedCategory! - 1],
-                                  otherController.text);
+                                  otherController.text,context);
                             }
                             else {
                               await widget.budgetEntryModel.addUTOBudgetEntry(
@@ -894,7 +895,7 @@ class AlertBox extends State<_AlertBox> {
                                   titleController.text,
                                   descriptionController.text,
                                   categoryNames[selectedCategory! - 1],
-                                  otherController.text);
+                                  otherController.text,context);
                             }
                             Navigator.pop(context);
                           }
@@ -933,7 +934,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
 
   GetBudgetEntries(Budget b, Adventure a) {
     this.currentBudget = b;
-    AdventureApi.getAttendeesOfAdventure(a.adventureId).then((value) {
+    AdventureApi.getAttendeesOfAdventure(a.adventureId,context).then((value) {
       setState(() {
         users = value;
       });
@@ -1805,7 +1806,7 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                                               titleController.text,
                                                                                               descriptionController.text,
                                                                                               payee!,
-                                                                                              categoryNames[selectedCategory! - 1]);
+                                                                                              categoryNames[selectedCategory! - 1],context);
                                                                                           Provider.of<
                                                                                               BudgetEntryModel>(
                                                                                               c,

@@ -4,14 +4,18 @@ import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/constants.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:time_machine/time_machine.dart';
 import 'createAdventure.dart';
 
 class AdventureApi {
-  static Future<List<Adventure>> getAdventuresByUUID(String userId) async {
+  static Future<List<Adventure>> getAdventuresByUUID(String userId,context) async {
     http.Response response = await _getAdventuresByUUID(userId);
     if (response.statusCode != 200) {
+
+      SnackBar snackBar=SnackBar(content: Text('Failed to load list of your adventures!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to load list of adventures: ${response.body}');
     }
 
@@ -22,11 +26,13 @@ class AdventureApi {
   }
 
   static Future<List<UserProfile>> getAttendeesOfAdventure(
-      String adventureID) async {
+      String adventureID,context) async {
     http.Response response = await _getAttendeesOfAdventure(adventureID);
 
     print(response.body);
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to fetch adventurers on adventure!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to load list of attendees: ${response.body}');
     }
 
@@ -42,10 +48,12 @@ class AdventureApi {
         .get(Uri.http(mainApi, '/adventure/getAttendees/' + adventureID));
   }
 
-  static Future addAttendee(Adventure a, String userID) async {
+  static Future addAttendee(Adventure a, String userID,context) async {
     http.Response response = await _addAttendee(a, userID);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to add adventurer to adventure!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to add attendee: ${response.body}');
     }
   }
@@ -60,10 +68,12 @@ class AdventureApi {
     return http.get(Uri.http(mainApi, '/adventure/all/' + userID));
   }
 
-  static Future removeAdventure(String adventureId) async {
+  static Future removeAdventure(String adventureId,context) async {
     http.Response response = await _removeAdventure(adventureId);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to remove adventure from your list!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to remove adventure: ${response.body}');
     }
   }
@@ -83,7 +93,7 @@ class AdventureApi {
       LocalDate startDate,
       LocalDate endDate,
       String description,
-      String location) async {
+      String location,context) async {
     final response = await http.post(
         Uri.parse('http://localhost:9999/adventure/create'), //get uri
         headers: <String, String>{
@@ -113,6 +123,8 @@ class AdventureApi {
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
+      SnackBar snackBar=SnackBar(content: Text('Failed to create adventure!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       print('Status code: ${response.statusCode}');
       print('Body: ${response.body}');
       throw Exception('Failed to create an adventure.');
@@ -125,7 +137,7 @@ class AdventureApi {
       String name,
       LocalDate startDate,
       LocalDate endDate,
-      String description) async {
+      String description,context) async {
     final response = await http.post(
         Uri.parse('http://localhost:9999/adventure/editAdventure'), //get uri
         headers: <String, String>{
@@ -147,6 +159,8 @@ class AdventureApi {
       print('Body: ${response.body}');
       return response;
     } else {
+      SnackBar snackBar=SnackBar(content: Text('Failed to edit adventure!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       print('Status code: ${response.statusCode}');

@@ -1,9 +1,9 @@
 package com.adventureit.recommendationservice;
 
-import com.adventureit.recommendationservice.entity.Location;
-import com.adventureit.recommendationservice.entity.User;
-import com.adventureit.recommendationservice.repository.LocationRepository;
-import com.adventureit.recommendationservice.repository.UserRepository;
+import com.adventureit.recommendationservice.entity.RecommendedLocation;
+import com.adventureit.recommendationservice.entity.RecommendedUser;
+import com.adventureit.recommendationservice.repository.RecommendedLocationRepository;
+import com.adventureit.recommendationservice.repository.RecommendedUserRepository;
 import com.adventureit.recommendationservice.service.RecommendationService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -15,34 +15,34 @@ import java.util.UUID;
 
 public class RecommendationServiceUnitTests {
 
-    UserRepository userRepository = Mockito.mock(UserRepository.class);
-    LocationRepository locationRepository = Mockito.mock(LocationRepository.class);;
+    RecommendedUserRepository recommendedUserRepository = Mockito.mock(RecommendedUserRepository.class);
+    RecommendedLocationRepository recommendedLocationRepository = Mockito.mock(RecommendedLocationRepository.class);;
 
-    RecommendationService recommendationService = new RecommendationService(userRepository, locationRepository);
+    RecommendationService recommendationService = new RecommendationService(recommendedUserRepository, recommendedLocationRepository);
 
     Random rand = new Random();
 
-    static List<User> mockUsers;
-    static List<Location> mockLocations;
+    static List<RecommendedUser> mockUsers;
+    static List<RecommendedLocation> mockLocations;
 
     void createMockEntries(){
         final int numMockUsers = 5;
         final int numMockLocations = 20;
 
         // Create mock users
-        mockUsers = new ArrayList<User>();
+        mockUsers = new ArrayList<RecommendedUser>();
         for (int i = 0; i < numMockUsers; i++) {
-            mockUsers.add(new User());
+            mockUsers.add(new RecommendedUser());
         }
 
         // Create mock locations
-        mockLocations = new ArrayList<Location>();
+        mockLocations = new ArrayList<RecommendedLocation>();
         for (int i = 0; i < numMockLocations; i++) {
-            mockLocations.add(new Location());
+            mockLocations.add(new RecommendedLocation());
         }
 
         // Create mock "interactions"
-        for (User user : mockUsers) {
+        for (RecommendedUser user : mockUsers) {
 
             // Choose between 1 and 1/4 of the number of mock locations to "interact" with
             int numberOfInteractedLocations = rand.nextInt(numMockLocations / 4) + 1;
@@ -85,14 +85,14 @@ public class RecommendationServiceUnitTests {
         }
 
         // Ensure mocked repositories return mocked entries
-        Mockito.when(userRepository.findAll()).thenReturn(mockUsers);
-        Mockito.when(locationRepository.findAll()).thenReturn(mockLocations);
+        Mockito.when(recommendedUserRepository.findAll()).thenReturn(mockUsers);
+        Mockito.when(recommendedLocationRepository.findAll()).thenReturn(mockLocations);
     }
 
     @Test
     void testGetRecommendations(){
         createMockEntries();
-        this.recommendationService.getUserRecommendations(UUID.randomUUID());
+        this.recommendationService.getUserRecommendations(UUID.randomUUID(),"15","Paris, France");
     }
 }
 

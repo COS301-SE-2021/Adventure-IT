@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
+import 'package:flutter/material.dart';
+
 import 'mockHTML.dart' if(dart.library.html) 'dart:html'as html;
 import 'dart:io';
 import 'dart:isolate';
@@ -19,10 +21,12 @@ import 'media.dart';
 import 'document.dart';
 
 class MediaApi {
-  static Future<List<Media>> getAllMedia(Adventure a) async {
+  static Future<List<Media>> getAllMedia(Adventure a,context) async {
     http.Response response = await _getAllMedia(a.adventureId);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to get media!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to load media: ${response.body}');
     }
 
@@ -38,10 +42,12 @@ class MediaApi {
         .get(Uri.http(mediaApi, "/media/getAdventureMediaList/" + adventureID));
   }
 
-  static Future removeMedia(String id) async {
+  static Future removeMedia(String id,context) async {
     http.Response response = await _removeMedia(id);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to remove media from adventure!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to remove media: ${response.body}');
     }
   }
@@ -55,11 +61,13 @@ class MediaApi {
             UserApi.getInstance().getUserProfile()!.userID));
   }
 
-  static Future addMedia(List<PlatformFile> files, Adventure a) async {
+  static Future addMedia(List<PlatformFile> files, Adventure a,context) async {
     for (int i = 0; i < files.length; i++) {
       http.Response response = await _addMedia(files.elementAt(i), a);
 
       if (response.statusCode != 200) {
+        SnackBar snackBar=SnackBar(content: Text('Failed to upload media to adventure!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
         throw Exception('Failed to upload media: ${response.body}');
       }
     }
@@ -114,10 +122,12 @@ class MediaApi {
 }
 
 class FileApi {
-  static Future<List<Media>> getAllFiles(Adventure a) async {
+  static Future<List<Media>> getAllFiles(Adventure a,context) async {
     http.Response response = await _getAllFiles(a.adventureId);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to get files!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to load media: ${response.body}');
     }
 
@@ -133,10 +143,12 @@ class FileApi {
         .get(Uri.http(mediaApi, "/media/getAdventureFileList/" + adventureID));
   }
 
-  static Future removeFile(String id) async {
+  static Future removeFile(String id,context) async {
     http.Response response = await _removeFile(id);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to remove file from adventure!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to remove media: ${response.body}');
     }
   }
@@ -150,11 +162,13 @@ class FileApi {
             UserApi.getInstance().getUserProfile()!.userID));
   }
 
-  static Future addFile(List<PlatformFile> files, Adventure a) async {
+  static Future addFile(List<PlatformFile> files, Adventure a,context) async {
     for (int i = 0; i < files.length; i++) {
       http.Response response = await _addFile(files.elementAt(i), a);
 
       if (response.statusCode != 200) {
+        SnackBar snackBar=SnackBar(content: Text('Failed to upload file to adventure!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
         throw Exception('Failed to upload failed: ${response.body}');
       }
     }
@@ -209,11 +223,13 @@ class FileApi {
 }
 
 class DocumentApi {
-  static Future<List<Documents>> getAllDocuments() async {
+  static Future<List<Documents>> getAllDocuments(context) async {
     http.Response response =
         await _getAllDocuments(UserApi.getInstance().getUserProfile()!.userID);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to get documents!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to load documents: ${response.body}');
     }
 
@@ -228,10 +244,12 @@ class DocumentApi {
     return http.get(Uri.http(mediaApi, "/media/getUserDocumentList/" + userID));
   }
 
-  static Future removeDocument(String id) async {
+  static Future removeDocument(String id,context) async {
     http.Response response = await _removeDocument(id);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to remove document from profile!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to remove document: ${response.body}');
     }
   }
@@ -245,12 +263,14 @@ class DocumentApi {
             UserApi.getInstance().getUserProfile()!.userID));
   }
 
-  static Future addDocument(List<PlatformFile> documents) async {
+  static Future addDocument(List<PlatformFile> documents,context) async {
     for (int i = 0; i < documents.length; i++) {
       http.Response response = await _addDocument(documents.elementAt(i),
           UserApi.getInstance().getUserProfile()!.userID);
 
       if (response.statusCode != 200) {
+        SnackBar snackBar=SnackBar(content: Text('Failed to upload document to profile!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
         throw Exception('Failed to upload document: ${response.body}');
       }
     }
@@ -310,14 +330,16 @@ class DocumentApi {
 
 class ProfileApi
 {
-  static Future addProfilePicture(List<PlatformFile> documents) async {
+  static Future addProfilePicture(List<PlatformFile> documents,context) async {
     http.Response response = await _addProfilePicture(documents.elementAt(0),
         UserApi.getInstance().getUserProfile()!.userID);
 
     if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to upload picture for profile!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to upload profilePicture: ${response.body}');
     }
-    await UserApi.getInstance().updateUserProfile();
+    await UserApi.getInstance().updateUserProfile(context);
   }
 
   static Future<http.Response> _addProfilePicture(

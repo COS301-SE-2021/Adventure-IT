@@ -210,6 +210,11 @@ public class UserServiceImplementation  {
             throw new InvalidRequestException("One or both of the users do not exist");
         }
 
+        if(userId1.compareTo(userId2)==0)
+        {
+            throw new InvalidRequestException ("Cannot become friends with yourself");
+        }
+
         List<Friend> requests1 = friendRepository.findByFirstUserEquals(UUID.fromString(userId1));
         List<Friend> requests2 = friendRepository.findBySecondUserEquals(UUID.fromString(userId1));
 
@@ -453,5 +458,18 @@ public class UserServiceImplementation  {
         user.setTheme(bool);
         repo.save(user);
         return "User theme has been set";
+    }
+
+    public void setNotificationSettings(UUID userId)
+    {
+        Users user=repo.getUserByUserID(userId);
+        user.setNotificationSettings();
+        repo.save(user);
+    }
+
+    public boolean getNotificationSetting(UUID userId)
+    {
+        Users user=repo.getUserByUserID(userId);
+        return user.getNotificationSettings();
     }
 }

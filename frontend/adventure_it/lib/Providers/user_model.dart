@@ -6,8 +6,9 @@ import 'package:flutter/cupertino.dart';
 class UserModel extends ChangeNotifier {
   UserProfile? _profile;
   final UserApi api = UserApi.getInstance();
+  BuildContext? context;
 
-  UserModel() {
+  UserModel(context) {
     getProfile().then((value) {
       if (value != null) {
         _profile = value;
@@ -24,13 +25,13 @@ class UserModel extends ChangeNotifier {
   UserProfile? get profile => _profile;
 
   Future editProfile(String a, String b, String c, String d, String e) async {
-    await UserApi.editProfile(a, b, c, d, e);
+    await UserApi.editProfile(a, b, c, d, e,context);
     await getProfile();
     notifyListeners();
   }
 
   Future addProfilePicture(value) async {
-    await ProfileApi.addProfilePicture(value);
+    await ProfileApi.addProfilePicture(value,context);
     await getProfile();
 
     notifyListeners();

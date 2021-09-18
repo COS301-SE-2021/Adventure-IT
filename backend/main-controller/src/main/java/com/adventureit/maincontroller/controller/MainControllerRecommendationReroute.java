@@ -1,10 +1,7 @@
 package com.adventureit.maincontroller.controller;
 
 
-import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.location.responses.LocationsResponseDTO;
-import org.aspectj.lang.annotation.SuppressAjWarnings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +26,20 @@ public class MainControllerRecommendationReroute {
     public MainControllerRecommendationReroute(MainControllerServiceImplementation service) {
         this.service = service;
     }
+    String IP = "http://localhost";
+    String recommendationPort = "9013";
+    String locationPort = "9006";
 
     // User requests arbitrary number of recommendations
+    @GetMapping("get/{userId}/{numRecommendations}/{location}")
+    public List<RecommendedLocationResponseDTO> getUserRecommendations(@PathVariable UUID userId, @PathVariable String numRecommendations, @PathVariable String location){
+        String[][] locationUUIDs = restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/get/" + userId + "/" + numRecommendations+"/"+location, String[][].class);
+        List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
+        for(int i = 0; i < Objects.requireNonNull(locationUUIDs).length; i++){
+            LocationResponseDTO locationObject = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/"+locationUUIDs[i][0], LocationResponseDTO.class);
+            returnList.add(new RecommendedLocationResponseDTO(locationObject.getId(),locationObject.getPhotoReference(),locationObject.getFormattedAddress(),locationObject.getPlaceId(),locationObject.getName(),Boolean.parseBoolean(locationUUIDs[i][1])));
+        }
+        return returnList;
     @GetMapping("get/{userId}/{numRecommendations}")
     public LocationsResponseDTO getUserRecommendations(@PathVariable UUID userId, @PathVariable int numRecommendations) throws Exception {
         String[] ports = {recommendationPort};
@@ -40,6 +49,8 @@ public class MainControllerRecommendationReroute {
     }
 
     @GetMapping("like/{userId}/{locationId}")
+    public String likeLocation(@PathVariable UUID userId, @PathVariable UUID locationId) {
+        return restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/like/" + userId + "/" + locationId, String.class);
     public ResponseEntity<String> likeLocation(@PathVariable UUID userId, @PathVariable UUID locationId) throws Exception {
         String[] ports = {recommendationPort};
         service.pingCheck(ports,restTemplate);
@@ -47,6 +58,8 @@ public class MainControllerRecommendationReroute {
     }
 
     @GetMapping("visit/{userId}/{locationId}")
+    public String visitLocation(@PathVariable UUID userId, @PathVariable UUID locationId) {
+        return restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/visit/" + userId + "/" + locationId, String.class);
     public ResponseEntity<String> visitLocation(@PathVariable UUID userId, @PathVariable UUID locationId) throws Exception {
         String[] ports = {recommendationPort};
         service.pingCheck(ports,restTemplate);
@@ -54,6 +67,15 @@ public class MainControllerRecommendationReroute {
     }
 
     // User requests arbitrary number of popular locations
+    @GetMapping("get/popular/{userId}/{numPopular}/{location}")
+    public List<RecommendedLocationResponseDTO> getMostPopular(@PathVariable UUID userId, @PathVariable String numPopular,@PathVariable String location){
+        String[][] locationUUIDs = restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/get/popular/"+ userId+"/" +numPopular+"/"+location, String[][].class);
+        List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
+        for(int i = 0; i < Objects.requireNonNull(locationUUIDs).length; i++){
+            LocationResponseDTO locationObject = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/"+locationUUIDs[i][0], LocationResponseDTO.class);
+            returnList.add(new RecommendedLocationResponseDTO(locationObject.getId(),locationObject.getPhotoReference(),locationObject.getFormattedAddress(),locationObject.getPlaceId(),locationObject.getName(),Boolean.parseBoolean(locationUUIDs[i][1])));
+        }
+        return returnList;
     @GetMapping("get/popular/{numPopular}")
     public LocationsResponseDTO getMostPopular(@PathVariable UUID userId, @PathVariable int numPopular) throws Exception {
         String[] ports = {recommendationPort};

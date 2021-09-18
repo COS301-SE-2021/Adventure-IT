@@ -80,7 +80,7 @@ class DeletedChecklistList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => DeletedChecklistModel(a!),
+        create: (context) => DeletedChecklistModel(a!,context),
         child: Consumer<DeletedChecklistModel>(
             builder: (context, deletedChecklistModel, child) {
           this.c = context;

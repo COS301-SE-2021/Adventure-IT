@@ -9,38 +9,38 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name="RecommendedUser")
-public class User {
+public class RecommendedUser {
     @Id
     private final UUID userId;
     @ManyToMany
-    private List<Location> likedLocations;
+    private List<RecommendedLocation> likedLocations;
     @ManyToMany
-    private List<Location> visitedLocations;
+    private List<RecommendedLocation> visitedLocations;
 
-    public User(){
+    public RecommendedUser(){
         this.userId = UUID.randomUUID();
         this.likedLocations = new ArrayList<>();
         this.visitedLocations = new ArrayList<>();
     }
 
-    public User(UUID id){
+    public RecommendedUser(UUID id){
         this.userId = id;
     }
 
-    public void likeLocation(Location location){
-        this.likedLocations.add(location);
+    public void likeLocation(RecommendedLocation location){
+        System.out.println("Is being added");
+    this.likedLocations.add(location);
     }
 
-    public void visitLocation(Location location){
+    public void visitLocation(RecommendedLocation location){
         this.visitedLocations.add(location);
     }
 
-    public boolean hasLiked(Location location){
+    public Boolean hasLiked(RecommendedLocation location){
         return this.likedLocations.contains(location);
     }
 
-    public boolean hasVisited(Location location){
+    public Boolean hasVisited(RecommendedLocation location){
         return this.visitedLocations.contains(location);
     }
 

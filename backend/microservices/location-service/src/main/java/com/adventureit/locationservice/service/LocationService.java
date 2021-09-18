@@ -22,6 +22,6 @@ public interface LocationService {
     public CurrentLocationResponseDTO getCurrentLocation(UUID userID);
     public boolean compareGeometry(UUID id, UUID userID) throws IOException, JSONException;
     public List<String> getTypes(String placeID) throws IOException, JSONException;
-    public void addFlagLocation(UUID locationID, UUID userID);
+    public void addFlagLocation(UUID locationID, UUID userID) throws IOException, JSONException;
     public List<String> getFlagList(UUID id);
 }

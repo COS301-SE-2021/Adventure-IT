@@ -8,20 +8,19 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name="RecommendedLocation")
-public class Location {
+public class RecommendedLocation {
     @Id
     private final UUID locationId;
     @ElementCollection
     private List<String> types;
-    private long likes;
-    private long visits;
+    private long likes=0;
+    private long visits=0;
 
-    public Location(){
+    public RecommendedLocation(){
         this.locationId = UUID.randomUUID();
     }
 
-    public Location(UUID id){
+    public RecommendedLocation(UUID id){
         this.locationId = id;
     }
 
@@ -36,6 +35,7 @@ public class Location {
     public long getLikes(){
         return this.likes;
     }
+
 
     public long getVisits(){
         return this.visits;

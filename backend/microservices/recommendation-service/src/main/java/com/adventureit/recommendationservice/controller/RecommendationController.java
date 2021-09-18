@@ -10,16 +10,15 @@ import com.adventureit.recommendationservice.service.RecommendationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping("/recommendation")
 public class RecommendationController {
 
+    @Autowired
     RecommendationService recommendationService;
 
     @Autowired
@@ -34,78 +33,77 @@ public class RecommendationController {
 
     // User likes a location
     @GetMapping("like/{userId}/{locationId}")
-    public ResponseEntity<String> likeLocation(@PathVariable UUID userId, @PathVariable UUID locationId){
+    public String likeLocation(@PathVariable UUID userId, @PathVariable UUID locationId){
         try {
             this.recommendationService.likeLocation(userId, locationId);
         }
         catch (UserNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return "User not found";
         }
         catch(LocationNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return "Location not found";
         }
         catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return "Bad request";
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Location Liked Successfully");
+        return "Location successfully liked";
     }
 
     // User visits a location
     @GetMapping("visit/{userId}/{locationId}")
-    public ResponseEntity<String> visitLocation(@PathVariable UUID userId, @PathVariable UUID locationId){
+    public String visitLocation(@PathVariable UUID userId, @PathVariable UUID locationId){
         try {
             this.recommendationService.visitLocation(userId, locationId);
         }
         catch (UserNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return "User not found";
         }
         catch(LocationNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return "Location not found";
         }
         catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return "Bad request";
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Location visited Successfully");
+        return "Location successfully visited";
 
     }
 
     // Add a new user
     @PostMapping("add/user")
-    public ResponseEntity<String> addUser(@RequestBody CreateUserRequest req){
+    public String addUser(@RequestBody CreateUserRequest req){
         try {
             this.recommendationService.addUser(req.userId);
         }
         catch(UserExistsException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return "Bad request";
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body("User added successfully");
+        return "User added successfully";
     }
 
     // Add a new location
     @PostMapping("add/location")
-    public ResponseEntity<String> addLocation(@RequestBody CreateLocationRequest req){
+    public String addLocation(@RequestBody CreateLocationRequest req){
+
         try {
             this.recommendationService.addLocation(req.locationId);
         }
         catch(LocationExistsException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return "Not successful";
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Location added successfully");
+        return "Successful!";
     }
 
 
     // User requests arbitrary number of recommendations
-    @GetMapping("get/{userId}/{numRecommendations}")
-    public List<UUID> getUserRecommendations(@PathVariable UUID userId, @PathVariable int numRecommendations){
-
-        return this.recommendationService.getUserRecommendations(userId).subList(0, numRecommendations-1);
+    @GetMapping("get/{userId}/{numRecommendations}/{location}")
+    public String[][] getUserRecommendations(@PathVariable UUID userId, @PathVariable String numRecommendations, @PathVariable String location){
+        return this.recommendationService.getUserRecommendations(userId, numRecommendations, location);
     }
 
     // User requests arbitrary number of popular locations
-    @GetMapping("get/popular/{numPopular}")
-    public List<UUID> getMostPopular(@PathVariable UUID userId, @PathVariable int numPopular){
-        return this.recommendationService.getMostPopular();
+    @GetMapping("get/popular/{userId}/{numPopular}/{location}")
+    public String[][] getMostPopular(@PathVariable UUID userId, @PathVariable String numPopular, @PathVariable String location){
+        return this.recommendationService.getMostPopular(userId,numPopular,location);
     }
-
 }
