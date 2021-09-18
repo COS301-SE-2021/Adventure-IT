@@ -111,27 +111,27 @@ public class MainControllerChatReroute {
 
     @GetMapping("/getDirectMessages/{id}")
     public List<DirectMessageResponseDTO> getDirectMessages(@PathVariable UUID id) throws Exception {
-        DirectChatResponseDTO chat = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getDirectChatByID/" + id, DirectChatResponseDTO.class);
-        DirectMessageDTO message;
-        GetUserByUUIDDTO user;
-        GetUserByUUIDDTO x;
-        List <DirectMessageResponseDTO> list = new ArrayList<>();
-
+        DirectChatResponseDTO chat = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getDirectChat/" + id, DirectChatResponseDTO.class);
+        List<UUID> usersIds=chat.getParticipants();
+        List<GetUserByUUIDDTO>users=new ArrayList<>();
+        List <DirectMessageResponseDTO> list=new ArrayList<>();
         assert chat != null;
-        if(chat.getMessages().isEmpty()){
-         return list;
+
+
+
+
+                GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + usersIds.get(0), GetUserByUUIDDTO.class);
+              users.add(user);
+              user= restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + usersIds.get(1), GetUserByUUIDDTO.class);
+              users.add(user);
+
+
+        for (MessageDTO message: chat.getMessages()) {
+            int sender=usersIds.indexOf(message.getSender());
+            list.add(new DirectMessageResponseDTO(message.getId(),users.get(sender), message.getTimestamp(),message.getPayload()));
         }
 
-        for (UUID ID:chat.getMessages()) {
-            message = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getDirectMessageByID/" + ID, DirectMessageDTO.class);
-            assert message != null;
-            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + message.getSender(), GetUserByUUIDDTO.class);
-            x = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + message.getReceiver(), GetUserByUUIDDTO.class);
-
-            list.add(new DirectMessageResponseDTO(message.getId(),user,x,message.getTimestamp(),message.getPayload(),message.getRead()));
-        }
-
-        list.sort(new Comparator<DirectMessageResponseDTO>() {
+        list.sort(new Comparator<>() {
             @Override
             public int compare(DirectMessageResponseDTO o1, DirectMessageResponseDTO o2) {
                 return o1.getTimestamp().compareTo(o2.getTimestamp());

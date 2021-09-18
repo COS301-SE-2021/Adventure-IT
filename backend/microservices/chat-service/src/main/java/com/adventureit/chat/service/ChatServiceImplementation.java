@@ -173,7 +173,7 @@ public class ChatServiceImplementation implements ChatService {
         if(chat == null){
             throw new ChatNotFoundException(id);
         }
-
+        List<UUID> messageIds = new ArrayList<>();
         List<Message> messages = messageRepository.findAllByChatId(chat.getGroupChatId());
         List<MessageDTO> messageDTOs = new ArrayList<>();
         for (Message message : messages) {
@@ -206,10 +206,10 @@ public class ChatServiceImplementation implements ChatService {
         if(chat ==null){
             throw new ChatNotFoundException();
         }
-        List<UUID> messageIds = new ArrayList<>();
+        List<MessageDTO> messageIds = new ArrayList<>();
         List<Message> messages = messageRepository.findAllByChatId(chat.getDirectChatId());
         for (Message message : messages) {
-            messageIds.add(message.getId());
+            messageIds.add(convertToMessageDTO(message));
         }
 
         return new DirectChatResponseDTO(chat.getDirectChatId(),chat.getParticipants(),messageIds);
@@ -222,10 +222,10 @@ public class ChatServiceImplementation implements ChatService {
         if(chat == null){
             throw new ChatNotFoundException(id);
         }
-        List<UUID> messageIds = new ArrayList<>();
+        List<MessageDTO> messageIds = new ArrayList<>();
         List<Message> messages = messageRepository.findAllByChatId(chat.getDirectChatId());
         for (Message message : messages) {
-            messageIds.add(message.getId());
+            messageIds.add(convertToMessageDTO(message));
         }
 
         return new DirectChatResponseDTO(chat.getDirectChatId(),chat.getParticipants(),messageIds);
@@ -261,6 +261,6 @@ public class ChatServiceImplementation implements ChatService {
     }
 
     public MessageDTO convertToMessageDTO(Message m){
-        return new MessageDTO(m.getId(), m.getSender(), m.getChatId(), m.getPayload());
+        return new MessageDTO(m.getId(), m.getSender(), m.getChatId(), m.getPayload(),m.getTimestamp());
     }
 }

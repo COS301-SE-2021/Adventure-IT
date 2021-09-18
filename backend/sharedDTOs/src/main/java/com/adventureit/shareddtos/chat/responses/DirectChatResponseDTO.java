@@ -1,5 +1,7 @@
 package com.adventureit.shareddtos.chat.responses;
 
+import com.adventureit.shareddtos.chat.MessageDTO;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -7,9 +9,9 @@ import java.util.UUID;
 public class DirectChatResponseDTO {
     UUID id;
     List<UUID> participants = new ArrayList<>();
-    List<UUID> messages = new ArrayList<>();
+    List<MessageDTO> messages = new ArrayList<>();
 
-    public DirectChatResponseDTO(UUID id, List<UUID> participants, List<UUID> messages) {
+    public DirectChatResponseDTO(UUID id, List<UUID> participants, List<MessageDTO> messages) {
         this.id = id;
         this.participants = participants;
         this.messages = messages;
@@ -33,11 +35,11 @@ public class DirectChatResponseDTO {
         this.participants = participants;
     }
 
-    public List<UUID> getMessages() {
+    public List<MessageDTO> getMessages() {
         return messages;
     }
 
-    public void setMessages(List<UUID> messages) {
+    public void setMessages(List<MessageDTO> messages) {
         this.messages = messages;
     }
 }
