@@ -95,7 +95,7 @@ import static org.mockito.Mockito.*;
 
     @Test
      void testSendEmailNotificationRequestObject(){
-        SendEmailNotificationRequest testRequest = new SendEmailNotificationRequest(userId1U,mockSubject1,mockMessage1);
+        SendEmailNotificationRequest testRequest = new SendEmailNotificationRequest(userId1U,mockSubject1,mockMessage1,"testemail@mail.com");
         assertNotNull(testRequest);
         assertEquals(userId1U,testRequest.getUserId());
         assertEquals(mockSubject1,testRequest.getSubject());
@@ -152,7 +152,7 @@ import static org.mockito.Mockito.*;
 
     @Test
      void testSendEmailNotificationService(){
-        SendEmailNotificationRequest testRequest = new SendEmailNotificationRequest(userId1U,mockSubject1,mockMessage1);
+        SendEmailNotificationRequest testRequest = new SendEmailNotificationRequest(userId1U,mockSubject1,mockMessage1,"testemail@mail.com");
         SendEmailNotificationResponse testResponse = notificationSUT.sendEmailNotification(testRequest);
         assertNotNull(testResponse);
         assertEquals("Email sent to user no. "+userId1U,testResponse.getReturnMessage());

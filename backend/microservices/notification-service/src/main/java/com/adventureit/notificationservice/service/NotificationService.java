@@ -51,7 +51,7 @@ public class NotificationService {
     }
     public SendEmailNotificationResponse sendEmailNotification(SendEmailNotificationRequest req){
         UUID userID = req.getUserId();
-        String email = "kevin9716cui@gmail.com";
+        String email = req.getEmail();
         String subject = req.getSubject();
         String body = req.getBody();
         sendEmail(email,subject,body);

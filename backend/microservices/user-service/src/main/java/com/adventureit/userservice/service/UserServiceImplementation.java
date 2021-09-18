@@ -140,7 +140,7 @@ public class UserServiceImplementation  {
         }
 
 
-        GetUserByUUIDDTO response = new GetUserByUUIDDTO(newUser.getUserID(),newUser.getUsername(),newUser.getFirstname(), newUser.getLastname(), newUser.getEmail());
+        GetUserByUUIDDTO response = new GetUserByUUIDDTO(newUser.getUserID(),newUser.getUsername(),newUser.getFirstname(), newUser.getLastname(), newUser.getEmail(),newUser.getNotificationSettings(),newUser.getEmergencyContact());
         if(pictureInfo!=null) {
             response.setPictureId(pictureInfo.getId().toString());
         }
