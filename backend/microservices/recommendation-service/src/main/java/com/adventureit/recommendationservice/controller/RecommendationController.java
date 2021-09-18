@@ -1,12 +1,12 @@
 package com.adventureit.recommendationservice.controller;
-
+import com.adventureit.recommendationservice.service.RecommendationService;
 import com.adventureit.recommendationservice.exception.LocationExistsException;
 import com.adventureit.recommendationservice.exception.LocationNotFoundException;
 import com.adventureit.recommendationservice.exception.UserExistsException;
 import com.adventureit.recommendationservice.exception.UserNotFoundException;
 import com.adventureit.shareddtos.recommendation.request.CreateLocationRequest;
 import com.adventureit.shareddtos.recommendation.request.CreateUserRequest;
-import com.adventureit.recommendationservice.service.RecommendationService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,8 @@ import java.util.UUID;
 @RequestMapping("/recommendation")
 public class RecommendationController {
 
-    @Autowired
-    RecommendationService recommendationService;
+
+    private RecommendationService recommendationService;
 
     @Autowired
     public RecommendationController(RecommendationService recommendationService) {

@@ -2,6 +2,7 @@ package com.adventureit.maincontroller.controller;
 
 
 import com.adventureit.maincontroller.responses.RegisteredUsersDTO;
+import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.adventure.AdventureDTO;
 import com.adventureit.shareddtos.adventure.responses.GetAdventureByUUIDResponse;
 import com.adventureit.shareddtos.itinerary.requests.AddItineraryEntryRequest;

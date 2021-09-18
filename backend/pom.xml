@@ -32,6 +32,8 @@
     </modules>
     <properties>
         <java.version>11</java.version>
+        <sonar.organization>cos301-se-2021</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <build>
         <plugins>
