@@ -2,6 +2,7 @@ package com.adventureit.maincontroller.controller;
 
 import com.adventureit.shareddtos.chat.DirectMessageDTO;
 import com.adventureit.shareddtos.chat.GroupMessageDTO;
+import com.adventureit.shareddtos.chat.MessageDTO;
 import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
 import com.adventureit.shareddtos.chat.requests.CreateGroupChatRequest;
 import com.adventureit.shareddtos.chat.requests.SendDirectMessageRequestDTO;
@@ -32,6 +33,7 @@ public class MainControllerChatReroute {
     private final String IP = "http://localhost";
     private final String userPort = "9002";
     private final String chatPort = "9010";
+    private final String adventurePort="9001";
 
     @GetMapping("/test")
     public String test(){
@@ -51,23 +53,20 @@ public class MainControllerChatReroute {
     @GetMapping("/getGroupMessages/{id}")
     public List<GroupMessageResponseDTO> getGroupMessages(@PathVariable UUID id) throws Exception {
         GroupChatResponseDTO chat = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getGroupChat/" + id, GroupChatResponseDTO.class);
-        GroupMessageDTO message;
-        GetUserByUUIDDTO user;
-        List<GetUserByUUIDDTO> users = new ArrayList<>();
-        List <GroupMessageResponseDTO> list = new ArrayList<>();
-
+        List<UUID> usersIds=new ArrayList<>();
+        List <GroupMessageResponseDTO> list=new ArrayList<>();
         assert chat != null;
 
-        for (UUID ID:chat.getMessages()) {
-            message = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getGroupMessageByID/" + ID, GroupMessageDTO.class);
-            assert message != null;
-            user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + message.getSender(), GetUserByUUIDDTO.class);
-
-            for (UUID x:chat.getParticipants()) {
-                users.add(restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + x, GetUserByUUIDDTO.class));
-            }
-
-            list.add(new GroupMessageResponseDTO(message.getId(),user,message.getPayload(), message.getTimestamp(),users,message.getRead()));
+        for(MessageDTO message: chat.getMessages())
+        {
+            usersIds.add(message.getSender());
+        }
+        List users=restTemplate.postForObject(IP+":"+userPort+"/user/getUsersForAdventure", usersIds , List.class) ;
+        System.out.println(users.getClass().getName());
+        for (MessageDTO message: chat.getMessages()) {
+            int index=usersIds.indexOf(message.getSender());
+            assert users != null;
+            list.add(new GroupMessageResponseDTO(message.getId(),new GetUserByUUIDDTO(),message.getPayload(), message.getTimestamp()));
         }
 
         list.sort(new Comparator<>() {

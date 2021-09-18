@@ -485,4 +485,14 @@ public class UserServiceImplementation  {
         Users user=repo.getUserByUserID(userId);
         return user.getFireBaseId();
     }
+
+    public List<GetUserByUUIDDTO> getUsersForAdventure(List<UUID> list)
+    {
+        List<GetUserByUUIDDTO> returnList=new ArrayList<>();
+        for(UUID i:list)
+        {
+            returnList.add(getUserByUUID(i));
+        }
+        return returnList;
+    }
 }

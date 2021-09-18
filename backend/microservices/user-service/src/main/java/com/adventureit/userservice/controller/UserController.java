@@ -179,4 +179,9 @@ public class UserController {
     {
         return service.getFirebaseId(userId);
     }
+
+    @PostMapping("getUsersForAdventure")
+    public List<GetUserByUUIDDTO> getUsersForAdventure(@RequestBody List<UUID> req) {
+        return service.getUsersForAdventure(req);
+    }
 }
