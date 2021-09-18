@@ -24,21 +24,6 @@ class SettingsPage extends State<SettingsCaller> {
             backgroundColor: Theme.of(context).primaryColorDark),
         body: Column(children: [
           _SettingsBuilder(),
-          Container(
-              padding: const EdgeInsets.only(left: 100.0, top: 0.0),
-              child:
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Center(
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.height * 0.2,
-                          ))
-                    ])
-                //_buildList()
-              ])),
         ]));
   }
 }
@@ -56,6 +41,7 @@ class SettingsBuilder extends State<_SettingsBuilder> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Spacer(),
         Container(
           margin: EdgeInsets.symmetric(
           vertical: MediaQuery.of(context).size.height * 0.01),

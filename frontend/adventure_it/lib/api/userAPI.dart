@@ -526,5 +526,19 @@ class UserApi {
     return http.get(Uri.parse(userApi + "/user/getUserTheme/"+_userProfile!.userID));
   }
 
+  Future setFirebaseID(String value,context) async {
+    http.Response response = await _setFirebaseID(value);
+    if (response.statusCode != 200) {
+      SnackBar snackBar=SnackBar(content: Text('Failed to set Firebase ID!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      throw Exception('Failed to find user with username: ${response.body}');
+    }
+
+  }
+
+  Future<http.Response> _setFirebaseID(String id) async {
+    return http.get(Uri.parse(userApi + '/user/setFirebaseId/'+UserApi.getInstance().getUserProfile()!.userID+"/"+id));
+  }
+
 
 }

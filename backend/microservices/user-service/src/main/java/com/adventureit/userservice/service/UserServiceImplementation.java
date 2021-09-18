@@ -472,4 +472,17 @@ public class UserServiceImplementation  {
         Users user=repo.getUserByUserID(userId);
         return user.getNotificationSettings();
     }
+
+    public void setFirebaseId(UUID userId, String id)
+    {
+        Users user=repo.getUserByUserID(userId);
+        user.setFireBaseId(id);
+        repo.save(user);
+    }
+
+    public String getFirebaseId(UUID userId)
+    {
+        Users user=repo.getUserByUserID(userId);
+        return user.getFireBaseId();
+    }
 }

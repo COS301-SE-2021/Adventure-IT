@@ -168,5 +168,15 @@ public class UserController {
         service.setNotificationSettings(userId);
     }
 
+    @GetMapping("setFirebaseId/{userId}/{id}")
+    public void setFirebaseId(@PathVariable UUID userId, @PathVariable String id)
+    {
+        service.setFirebaseId(userId,id);
+    }
 
+    @GetMapping("getFirebaseId/{userId}")
+    public String getFirebaseId(@PathVariable UUID userId)
+    {
+        return service.getFirebaseId(userId);
+    }
 }
