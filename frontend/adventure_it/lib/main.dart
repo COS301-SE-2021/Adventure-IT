@@ -3,9 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-
 import 'Providers/location_model.dart';
 import 'api/mediaAPI.dart';
+import 'frontEnd/InitializeFireFlutter.dart';
 import 'frontEnd/Login.dart';
 
 void main() async {
@@ -14,7 +14,11 @@ void main() async {
     FlutterDownloader.registerCallback(MediaApi.downloadCallback);
   }
   runApp(
-    MyApp(),
+    MultiProvider(
+      providers: [
+      ],
+      child: InitializeFireFlutter(MyApp()),
+    ),
   );
 }
 //
