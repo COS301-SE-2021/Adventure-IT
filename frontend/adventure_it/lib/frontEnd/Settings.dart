@@ -181,12 +181,14 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Expanded(
+                            flex: MediaQuery.of(context).size.height > MediaQuery.of(context).size.width ? 2 : 1,
                             child: Center(
                               child: Text(
                               UserApi.getInstance().em! == "" ? "No emergency contact set" : UserApi.getInstance().em!,
+                                  textAlign: TextAlign.center,
                                   style: new TextStyle(
                                       color: Theme.of(context).textTheme.bodyText1!.color,
-                                      fontSize: MediaQuery.of(context).size.height * 0.02))
+                                      fontSize: MediaQuery.of(context).size.height * 0.02)),
                             )
                           ),
                           SizedBox(width: MediaQuery.of(context).size.height * 0.02),
@@ -231,9 +233,10 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                       SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                       Center(
                           child: Text("Disable location updates to emergency contact?",
+                              textAlign: TextAlign.center,
                               style: new TextStyle(
                                   color: Theme.of(context).textTheme.bodyText1!.color,
-                                  fontSize: MediaQuery.of(context).size.height * 0.025))
+                                  fontSize: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? MediaQuery.of(context).size.height * 0.025 : MediaQuery.of(context).size.height * 0.02)),
                       ),
                       Center(
                         child: Row(

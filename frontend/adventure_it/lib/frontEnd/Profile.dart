@@ -118,7 +118,12 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                   children: [
                                     Center(
                                         child: Column(children: <Widget>[
-                                      Stack(clipBehavior: Clip.none, children: <
+                                          SizedBox(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                                  0.02),
+                                          Stack(clipBehavior: Clip.none, children: <
                                           Widget>[
                                         CachedNetworkImage(
                                             useOldImageOnUrlChange: true,
@@ -314,7 +319,12 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                           color: Theme.of(context)
                                                               .primaryColorDark))),
                                             ])
-                                          ]))
+                                          ])),
+                                          SizedBox(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                                  0.02),
                                     ]))
                                   ])),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
