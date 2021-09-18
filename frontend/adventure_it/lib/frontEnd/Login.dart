@@ -1,6 +1,8 @@
 import 'package:adventure_it/api/locationAPI.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/frontEnd/ForgotPassword.dart';
+import 'package:adventure_it/frontEnd/InitializeFireFlutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -123,15 +125,24 @@ class Login extends State<LoginCaller> {
                       location.changeSettings(accuracy: LocationAccuracy.high);
                       location.getLocation().then((value) {
                         currentLocation = value;
-                        LocationApi.setCurrentLocation(currentLocation!,context);
+                        LocationApi.setCurrentLocation(
+                            currentLocation!, context);
                       });
                     }
-
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomepageStartupCaller()),
-                    );
+                    if (kIsWeb) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => InitializeFireFlutterWeb(
+                                HomepageStartupCaller())),
+                      );
+                    } else {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => InitializeFireFlutter(
+                                  HomepageStartupCaller())));
+                    }
                   } else {
                     api.displayDialog(context, "Oops!", api.message);
                   }

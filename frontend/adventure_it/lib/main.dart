@@ -1,11 +1,13 @@
 // @dart=2.9
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'Providers/location_model.dart';
 import 'api/mediaAPI.dart';
+import 'api/userAPI.dart';
 import 'frontEnd/InitializeFireFlutter.dart';
 import 'frontEnd/Login.dart';
 
@@ -14,10 +16,8 @@ void main() async {
     await FlutterDownloader.initialize();
     FlutterDownloader.registerCallback(MediaApi.downloadCallback);
     runApp(
-      MultiProvider(
-        providers: [],
-        child: InitializeFireFlutter(MyApp()),
-      ),
+
+        MyApp(),
     );
   } else {
     runApp(MyApp());
