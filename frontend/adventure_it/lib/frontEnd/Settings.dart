@@ -2,8 +2,8 @@ import 'package:adventure_it/Providers/user_model.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:theme_provider/theme_provider.dart';
 
-import '../main.dart';
 import 'Navbar.dart';
 
 class SettingsCaller extends StatefulWidget {
@@ -60,7 +60,7 @@ class SettingsBuilder extends State<_SettingsBuilder> {
     return ChangeNotifierProvider(
       create: (context) => UserModel(context),
       child: Consumer<UserModel>(builder: (context, userModel, child) {
-        if(userModel.em == null || userModel.t == null) {
+        if(userModel.profile == null) {
           return Center(
               child: CircularProgressIndicator(
                   valueColor: new AlwaysStoppedAnimation<Color>(
@@ -114,9 +114,16 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                             activeTrackColor: Theme.of(context).scaffoldBackgroundColor,
                             activeColor: Theme.of(context).accentColor,
                             onChanged: (value) {
+                              UserApi.getInstance().setTheme(value);
                               setState(() {
-                                userModel.setT(value);
-                                MyApp(value);
+                                themeSwitch = value;
+                                if(value == true) {
+                                  ThemeProvider.controllerOf(context).setTheme('light_theme');
+                                }
+                                else {
+                                  ThemeProvider.controllerOf(context).setTheme('dark_theme');
+                                }
+
                               });
                             },
                           ),
@@ -176,7 +183,7 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                           Expanded(
                             child: Center(
                               child: Text(
-                              userModel.em! == "" ? "No emergency contact set" : userModel.em!,
+                              UserApi.getInstance().em! == "" ? "No emergency contact set" : UserApi.getInstance().em!,
                                   style: new TextStyle(
                                       color: Theme.of(context).textTheme.bodyText1!.color,
                                       fontSize: MediaQuery.of(context).size.height * 0.02))
