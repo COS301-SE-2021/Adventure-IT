@@ -168,5 +168,15 @@ public class UserController {
         service.setNotificationSettings(userId);
     }
 
+    @GetMapping("getStorageUsed/{userId}")
+    public long getStorageUsed(@PathVariable UUID userId)
+    {
+        return service.getStorageUsed(userId);
+    }
 
+    @GetMapping("setStorageUsed/{userId}/{size}")
+    public void setStorageUsed(@PathVariable UUID userId, @PathVariable long size)
+    {
+        service.setStorageUsed(userId,size);
+    }
 }

@@ -472,4 +472,23 @@ public class UserServiceImplementation  {
         Users user=repo.getUserByUserID(userId);
         return user.getNotificationSettings();
     }
+
+    public long getStorageUsed(UUID id){
+        Users newUser = repo.getUserByUserID(id);
+        if(newUser == null) {
+            throw new UserDoesNotExistException("User does not exist - user is not registered as an Adventure-IT member");
+        }
+
+        return newUser.getStorageUsed();
+    }
+
+    public void setStorageUsed(UUID id, long size){
+        Users newUser = repo.getUserByUserID(id);
+        if(newUser == null) {
+            throw new UserDoesNotExistException("User does not exist - user is not registered as an Adventure-IT member");
+        }
+
+        newUser.setStorageUsed(newUser.getStorageUsed()+size);
+        repo.save(newUser);
+    }
 }
