@@ -1,14 +1,13 @@
 name: Adventure Microservice - Tests
 
 on:
-  workflow_dispatch
-#   push:
-#     branches:
-#       - master
-#       - development
-#       - sprint*
-#       - Sprint*
-#   workflow_dispatch:
+  push:
+    branches:
+      - master
+      - development
+      - sprint*
+      - Sprint*
+  workflow_dispatch:
 
 jobs:
   build:
@@ -41,11 +40,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=COS301-SE-2021_Adventure-IT
-#       - name: Build with Maven
-#         working-directory: backend/microservices/adventure-service
-#         run: |
-#           chmod +x ./mvnw
-#           ./mvnw clean
-#           ./mvnw --batch-mode test
+      - name: Build with Maven
+        working-directory: backend/microservices/adventure-service
+        run: |
+          chmod +x ./mvnw
+          ./mvnw clean
+          ./mvnw --batch-mode test
           
 
