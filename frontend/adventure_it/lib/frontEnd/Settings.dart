@@ -236,7 +236,7 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                               textAlign: TextAlign.center,
                               style: new TextStyle(
                                   color: Theme.of(context).textTheme.bodyText1!.color,
-                                  fontSize: MediaQuery.of(context).size.height * 0.025))
+                                  fontSize: MediaQuery.of(context).size.height < MediaQuery.of(context).size.width ? MediaQuery.of(context).size.height * 0.025 : MediaQuery.of(context).size.height * 0.02)),
                       ),
                       Center(
                         child: Row(
