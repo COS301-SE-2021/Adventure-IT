@@ -60,7 +60,7 @@ class SettingsBuilder extends State<_SettingsBuilder> {
     return ChangeNotifierProvider(
       create: (context) => UserModel(context),
       child: Consumer<UserModel>(builder: (context, userModel, child) {
-        if(userModel.profile == null) {
+        if(userModel.profile == null || userModel.em == null) {
           return Center(
               child: CircularProgressIndicator(
                   valueColor: new AlwaysStoppedAnimation<Color>(
@@ -389,7 +389,7 @@ class _AlertBox extends State<AlertBox> {
                         style: ElevatedButton.styleFrom(
                             primary: Theme.of(context).accentColor),
                         onPressed: () async {
-                          await widget.userModel.setEM(editController.text);
+                          UserApi.getInstance().setEmergencyContact(editController.text);
                           Navigator.of(
                               context)
                               .pop();

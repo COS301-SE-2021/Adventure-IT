@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 
 class UserModel extends ChangeNotifier {
   UserProfile? _profile;
-  //String? _em = null;
+  String? _em = null;
   //bool? _t = null;
 
   UserApi api = UserApi.getInstance();
@@ -18,14 +18,14 @@ class UserModel extends ChangeNotifier {
   Future getProfile() async {
     UserApi.getInstance().fetchBackendProfile(UserApi.getInstance().getUserProfile()!.userID);
     _profile = UserApi.getInstance().getUserProfile();
-    //await getEM();
+    await getEM();
     //await getT();
     return;
   }
 
   UserProfile? get profile => _profile;
   UserApi? get userApi => api;
-  //String? get em => _em;
+  String? get em => _em;
   //bool? get t => _t;
 
   Future editProfile(String a, String b, String c, String d, String e) async {
@@ -35,13 +35,17 @@ class UserModel extends ChangeNotifier {
   }
 
   Future getEM() async {
-    /*await UserApi.getEmergencyContact();
-    notifyListeners();*/
+    await UserApi.getInstance().getEmergencyContact();
+    api = UserApi.getInstance();
+    if(_em == null) {
+      _em = "";
+    }
+    notifyListeners();
   }
 
   Future setEM(String a) async {
-    await UserApi.setEmergencyContact(a);
-    await getProfile();
+    await UserApi.getInstance().setEmergencyContact(a);
+    api = UserApi.getInstance();
     //_em = a;
     notifyListeners();
   }

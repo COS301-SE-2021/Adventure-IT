@@ -496,7 +496,7 @@ class UserApi {
     return;
   }
 
-  static Future<http.Response> setEmergencyContact(String email) async {
+  Future<http.Response> setEmergencyContact(String email) async {
     String userID = UserApi.getInstance().getUserProfile()!.userID;
     /*RegExp emailReg = RegExp(
       r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
@@ -520,6 +520,7 @@ class UserApi {
       // then parse the JSON.
       print('Status code: ${response.statusCode}');
       print('Body: ${response.body}');
+      this.em = email;
       return response;
     } else {
       // If the server did not return a 201 CREATED response,
