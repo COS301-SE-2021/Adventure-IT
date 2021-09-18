@@ -11,6 +11,7 @@ import 'package:adventure_it/Providers/friends_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/adventureAPI.dart';
 import 'package:adventure_it/api/userAPI.dart';
+import 'package:theme_provider/theme_provider.dart';
 import 'package:time_machine/time_machine.dart';
 import 'ChecklistsList.dart';
 import 'FileList.dart';
@@ -108,7 +109,7 @@ class _AdventureTimer extends State<AdventureTimer> {
                 padding:
                     EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                 color:
-                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
+                ThemeProvider.themeOf(context).id == 'light_theme'? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.65) : Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                 child: Column(children: [
                   Text("Countdown Until Adventure Ends",
                       textAlign: TextAlign.center,
@@ -208,7 +209,7 @@ class AdventurePage extends StatelessWidget {
                                 googleMapsKey),
                         fit: BoxFit.cover,
                         colorFilter: ColorFilter.mode(
-                            Theme.of(context).backgroundColor.withOpacity(0.25),
+                            ThemeProvider.themeOf(context).id == 'light_theme'? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.4) : Theme.of(context).scaffoldBackgroundColor.withOpacity(0.25),
                             BlendMode.dstATop))),
                 child: Column(children: [
                   Spacer(),
@@ -233,7 +234,7 @@ class AdventurePage extends StatelessWidget {
                                     padding:
                                     EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                     color:
-                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                    ThemeProvider.themeOf(context).id == 'light_theme'? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.65) : Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                                   child: MaterialButton(
                                     hoverColor: Theme.of(context)
                                         .primaryColorLight
@@ -284,7 +285,7 @@ class AdventurePage extends StatelessWidget {
                                     padding:
                                     EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                     color:
-                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  ThemeProvider.themeOf(context).id == 'light_theme'? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.65) : Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                                   child: MaterialButton(
                                     hoverColor: Theme.of(context)
                                         .primaryColorLight
@@ -334,7 +335,7 @@ class AdventurePage extends StatelessWidget {
                                     padding:
                                     EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                     color:
-                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  ThemeProvider.themeOf(context).id == 'light_theme'? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.65) : Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                                   child: MaterialButton(
                                     hoverColor: Theme.of(context)
                                         .primaryColorLight
@@ -392,7 +393,7 @@ class AdventurePage extends StatelessWidget {
                                     padding:
                                     EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                     color:
-                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  ThemeProvider.themeOf(context).id == 'light_theme'? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.65) : Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                                   child: MaterialButton(
                                     hoverColor: Theme.of(context)
                                         .primaryColorLight
@@ -442,7 +443,7 @@ class AdventurePage extends StatelessWidget {
                                     padding:
                                     EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                     color:
-                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  ThemeProvider.themeOf(context).id == 'light_theme'? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.65) : Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                                   child: MaterialButton(
                                     hoverColor: Theme.of(context)
                                         .primaryColorLight
@@ -492,7 +493,7 @@ class AdventurePage extends StatelessWidget {
                                       padding:
                                       EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                       color:
-                                      Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                    ThemeProvider.themeOf(context).id == 'light_theme'? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.65) : Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                                     child: MaterialButton(
                                       hoverColor: Theme.of(context)
                                           .primaryColorLight
@@ -550,7 +551,7 @@ class AdventurePage extends StatelessWidget {
                                     padding:
                                     EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                     color:
-                                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  ThemeProvider.themeOf(context).id == 'light_theme'? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.65) : Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                                   child: MaterialButton(
                                     hoverColor: Theme.of(context)
                                         .primaryColorLight
@@ -600,7 +601,7 @@ class AdventurePage extends StatelessWidget {
                                   padding:
                                   EdgeInsets.all(MediaQuery.of(context).size.width * 0.009),
                                   color:
-                                  Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                                  ThemeProvider.themeOf(context).id == 'light_theme'? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.65) : Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                                   child: MaterialButton(
                                     hoverColor: Theme.of(context)
                                         .primaryColorLight

@@ -38,7 +38,7 @@ final lightTheme = ThemeData(
     iconTheme: IconThemeData(color: Color(0xff20222D)),
     primaryColorLight: Color(0xff404662),
     primaryColorDark: Color(0xff323647),
-    scaffoldBackgroundColor: Color(0xff4F5989),
+    scaffoldBackgroundColor: Color(0xff48517D),
     accentColor: Color(0xff6A7AC7),
     colorScheme: ThemeData().colorScheme.copyWith(
       primary: Color(0xff6A7AC7),
