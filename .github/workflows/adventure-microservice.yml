@@ -41,7 +41,9 @@ jobs:
         run: |
           mvn -f backend/microservices/adventure-service/pom.xml
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=COS301-SE-2021_Adventure-IT
-          mvn install
+          chmod +x ./mvnw
+          ./mvnw clean
+          ./mvnw --batch-mode test
 # jobs:
 #   build:
 #     runs-on: ubuntu-latest
