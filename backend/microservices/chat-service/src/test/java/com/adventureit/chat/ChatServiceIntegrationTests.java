@@ -16,12 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(properties = {"service-registry-client.instance.hostname=localhost","service-registry-client.client.service-url.defaultZone=http://localhost:8761/eureka/","service-registry-client.client.register-with-eureka=true", "service-registry-client.client.fetch-registry=true","chat-microservice.application-name=CHAT-MICROSERVICE", "chat-microservice.datasource.url=jdbc:postgresql://chat-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/chatit?socketTimeout=5","chat-microservice.datasource.username=postgres","chat-microservice.datasource.password=310PB!Gq%f&J","chat-microservice.datasource.hikari.maximum-pool-size=2","chat-microservice.jpa.hibernate.ddl-auto=update","chat-microservice.jpa.show-sql=false","chat-microservice.jpa.properties.hibernate.dialect=\"org.hibernate.dialect.PostgreSQLDialect\"","chat-microservice.jpa.properties.hibernate.format_sql=true" })
 public class ChatServiceIntegrationTests {
     @Autowired
     private ChatController chatController;
