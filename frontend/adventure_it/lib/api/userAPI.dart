@@ -17,7 +17,8 @@ class UserApi {
   KeycloakUser? _keycloakUser;
   UserProfile? _userProfile;
   bool? notify=false;
-  bool? theme=false;
+  bool? theme = false;
+  String? em = "";
 
   // TODO: Use ENV for sensitive information
   final String keycloakClientSecret = "f0e75041-7324-4949-bb90-bcd3ddda5bc6";
@@ -48,7 +49,9 @@ class UserApi {
     //   final keycloakUser = this._keycloakUser!;
     //   if(keycloakUser.emailVerified&&keycloakUser.enabled) {
         this._userProfile = await this.fetchBackendProfile('80e1b64d-fd53-4f3a-84a9-14541caff723');
-       this.getNotificationSettings();
+        await this.getNotificationSettings();
+        await this.getThemeSettings();
+        await this.getEmergencyContact();
     //     if (this._userProfile == null) {
     //       this._userProfile = await this.registerBackendProfile(keycloakUser);
     //     }
@@ -480,6 +483,55 @@ class UserApi {
     }
   }
 
+  Future getEmergencyContact() async {
+    String userID = UserApi.getInstance().getUserProfile()!.userID;
+    final response = await http.get(
+      Uri.http(mainApi, 'user/getEmergencyContact/' + userID)
+    );
+    if(response.statusCode != 200) {
+      throw Exception('Failed to retrieve emergency contact: ${response.body}');
+    }
+
+    em = response.body.toString();
+    return;
+  }
+
+  Future<http.Response> setEmergencyContact(String email) async {
+    String userID = UserApi.getInstance().getUserProfile()!.userID;
+    /*RegExp emailReg = RegExp(
+      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+      caseSensitive: false,
+      multiLine: false,
+    );*/
+    //if(emailReg.hasMatch(email)) {
+    final response = await http.post(
+      Uri.parse('http://localhost:9999/user/setEmergencyContact/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'userId': userID,
+        'email': email
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      this.em = email;
+      return response;
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      throw Exception('Failed to set the emergency contact.');
+    }
+  //}
+    //this.message = "Email must have"
+  }
   Future setNotificationSettings(context) async {
     http.Response response = await _setNotificationSettings();
     if (response.statusCode != 200) {
@@ -503,6 +555,7 @@ class UserApi {
     bool x=(jsonDecode(response.body));
 
     this.notify=x;
+    return;
 
   }
 
@@ -517,14 +570,43 @@ class UserApi {
     }
 
     bool x=(jsonDecode(response.body));
-
+    print(x);
     this.theme=x;
+    return;
 
   }
 
-  Future<http.Response> _getThemeSettings() async {
-    return http.get(Uri.parse(userApi + "/user/getUserTheme/"+_userProfile!.userID));
+  static Future<http.Response> _getThemeSettings() async {
+    return http.get(Uri.parse(userApi + "/user/getUserTheme/"+ UserApi.getInstance().getUserProfile()!.userID));
   }
 
+  Future<http.Response> setTheme(bool theme) async {
+    String userID = UserApi.getInstance().getUserProfile()!.userID;
+    final response = await http.post(
+      Uri.parse('http://localhost:9999/user/setUserTheme'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'userId': userID,
+        'theme': theme.toString()
+      }),
+    );
 
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      this.theme = theme;
+      //fetchBackendProfile(UserApi.getInstance().getUserProfile()!.userID);
+      return response;
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      print('Status code: ${response.statusCode}');
+      print('Body: ${response.body}');
+      throw Exception('Failed to set the theme.');
+    }
+  }
 }

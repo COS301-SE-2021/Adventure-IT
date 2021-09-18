@@ -1,8 +1,10 @@
 // @dart=2.9
+import 'package:adventure_it/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 import 'Providers/location_model.dart';
 import 'api/mediaAPI.dart';
@@ -14,48 +16,44 @@ void main() async {
     FlutterDownloader.registerCallback(MediaApi.downloadCallback);
   }
   runApp(
-    MyApp(),
+      MyApp(),
   );
 }
 //
 class MyApp extends StatelessWidget {
-  bool theme=true;
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return ChangeNotifierProvider(//MultiProvider(
+      //providers: [
         create: (context) => LocationModel(context),
-        child: MaterialApp(
-            theme: theme?ThemeData(
-                iconTheme: IconThemeData(color: Color(0xffA7AAB9)),
-                primaryColorLight: Color(0xff484D64),
-                primaryColorDark: Color(0xff323647),
-                scaffoldBackgroundColor: Color(0xff20222D),
-                accentColor: Color(0xff6A7AC7),
-                colorScheme: ThemeData().colorScheme.copyWith(
-                  primary: Color(0xff6A7AC7),
-                  secondary: Color(0xff6A7AC7),
-                ),
-                primaryColor: Color(0xff808080),
-                textSelectionTheme:
-                    TextSelectionThemeData(selectionColor: Color(0xffA7AAB9)),
-                textTheme: TextTheme(
-                    bodyText1: TextStyle(color: Color(0xffA7AAB9)),
-                    bodyText2: TextStyle(color: Color(0xff20222D)))):ThemeData(
-                iconTheme: IconThemeData(color: Color(0xff20222D)),
-                primaryColorLight: Color(0xff323647),
-                primaryColorDark: Color(0xff20222D),
-                scaffoldBackgroundColor: Color(0xff484D64),
-                accentColor: Color(0xff6A7AC7),
-                colorScheme: ThemeData().colorScheme.copyWith(
-                  primary: Color(0xff6A7AC7),
-                  secondary: Color(0xff6A7AC7),
-                ),
-                primaryColor: Color(0xffA7AAB9),
-                textSelectionTheme:
-                TextSelectionThemeData(selectionColor: Color(0xff20222D)),
-                textTheme: TextTheme(
-                    bodyText2: TextStyle(color: Color(0xffA7AAB9)),
-                    bodyText1: TextStyle(color: Color(0xffA7AAB9)))),
-            home: LoginCaller()));
+        //Provider<UserModel> (create: (context) => UserModel(context)),
+      //],
+        child: MaterialAppWithTheme(),
+    );
+  }
+}
+
+class MaterialAppWithTheme extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ThemeProvider(
+      defaultThemeId: 'dark_theme',
+      loadThemeOnInit: true,
+      themes: [
+        AppTheme(id: 'light_theme', description: 'Adventure-IT_Light',
+        data: lightTheme),
+        AppTheme(id: 'dark_theme', description: 'Adventure-IT_Dark',
+            data: darkTheme)
+      ],
+        child: ThemeConsumer(
+          child: Builder(
+            builder: (themeContext) => MaterialApp(
+            home: LoginCaller(),
+            theme: ThemeProvider.themeOf(themeContext).data,
+            )
+          )
+        ),
+    );
   }
 }

@@ -448,6 +448,11 @@ public class UserServiceImplementation  {
         return "User Emergency contact has been set";
     }
 
+    public String getEmergencyContact(UUID userId){
+        Users user = repo.getUserByUserID(userId);
+        return user.getEmergencyContact();
+    }
+
     public Boolean getUserTheme(UUID userId){
         Users user = repo.getUserByUserID(userId);
         return user.getTheme();

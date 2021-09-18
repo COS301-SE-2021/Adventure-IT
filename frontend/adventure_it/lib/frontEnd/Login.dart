@@ -4,6 +4,7 @@ import 'package:adventure_it/frontEnd/ForgotPassword.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:theme_provider/theme_provider.dart';
 import 'ForgotPassword.dart';
 import 'HomepageStartup.dart';
 import 'Register.dart';
@@ -104,6 +105,14 @@ class Login extends State<LoginCaller> {
                   final password = passwordController.text;
 
                   final success = await api.logIn(username, password);
+
+                  print(UserApi.getInstance().theme!);
+                  if(UserApi.getInstance().theme!) {
+                    ThemeProvider.controllerOf(context).setTheme('light_theme');
+                  }
+                  else {
+                    ThemeProvider.controllerOf(context).setTheme('dark_theme');
+                  }
 
                   if (success == true) {
                     bool serviceEnabled;

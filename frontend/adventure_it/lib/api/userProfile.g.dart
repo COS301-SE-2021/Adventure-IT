@@ -24,5 +24,5 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) =>
       'firstname': instance.firstname,
       'lastname': instance.lastname,
       'email': instance.email,
-      'pictureId':instance.profileID
+      'pictureId': instance.profileID,
     };

@@ -2,6 +2,8 @@ package com.adventureit.userservice.controller;
 
 import com.adventureit.shareddtos.user.requests.EditUserProfileRequest;
 import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
+import com.adventureit.shareddtos.user.requests.SetUserEmergencyContactRequest;
+import com.adventureit.shareddtos.user.requests.SetUserThemeRequest;
 import com.adventureit.shareddtos.user.responses.FriendDTO;
 import com.adventureit.shareddtos.user.responses.GetFriendRequestsResponse;
 import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
@@ -139,9 +141,14 @@ public class UserController {
         return service.editUserProfile(req);
     }
 
-    @GetMapping("setEmergencyContact/{userId}/{email}")
-    public String setEmergencyContact( @PathVariable UUID userId,@PathVariable String email){
-        return service.setEmergencyContact(userId,email);
+    @PostMapping("setEmergencyContact")
+    public String setEmergencyContact(@RequestBody SetUserEmergencyContactRequest req){
+        return service.setEmergencyContact(req.getUserId(), req.getEmail());
+    }
+
+    @GetMapping("getEmergencyContact/{userId}")
+    public String setEmergencyContact( @PathVariable UUID userId){
+        return service.getEmergencyContact(userId);
     }
 
     @GetMapping("getUserTheme/{userId}")
@@ -149,9 +156,9 @@ public class UserController {
         return service.getUserTheme(userId);
     }
 
-    @GetMapping("setUserTheme/{userId}/{bool}")
-    public String setUserTheme( @PathVariable UUID userId,@PathVariable Boolean bool){
-        return service.setUserTheme(userId,bool);
+    @PostMapping("setUserTheme")
+    public String setUserTheme(@RequestBody SetUserThemeRequest req){
+        return service.setUserTheme(req.getUserId(),req.getTheme());
     }
 
     @GetMapping("getNotificationSettings/{userId}")
