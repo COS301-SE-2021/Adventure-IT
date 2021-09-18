@@ -47,6 +47,7 @@ dependencies:
   google_maps_flutter_web: ^0.3.0+4
   downloads_path_provider: ^0.1.0
   filesystem_picker: ^2.0.0-nullsafety.0
+  theme_provider: ^0.5.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
