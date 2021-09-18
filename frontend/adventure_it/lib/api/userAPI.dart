@@ -498,39 +498,40 @@ class UserApi {
 
   Future<http.Response> setEmergencyContact(String email) async {
     String userID = UserApi.getInstance().getUserProfile()!.userID;
-    /*RegExp emailReg = RegExp(
-      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+    RegExp emailReg = RegExp(
+      r'^(.+)@(.+)$',
       caseSensitive: false,
       multiLine: false,
-    );*/
-    //if(emailReg.hasMatch(email)) {
-    final response = await http.post(
-      Uri.parse('http://localhost:9999/user/setEmergencyContact/'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'userId': userID,
-        'email': email
-      }),
     );
+    if(emailReg.hasMatch(email)) {
+      final response = await http.post(
+        Uri.parse('http://localhost:9999/user/setEmergencyContact/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'userId': userID,
+          'email': email
+        }),
+      );
 
-    if (response.statusCode == 200) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
-      print('Status code: ${response.statusCode}');
-      print('Body: ${response.body}');
-      this.em = email;
-      return response;
-    } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      print('Status code: ${response.statusCode}');
-      print('Body: ${response.body}');
-      throw Exception('Failed to set the emergency contact.');
+      if (response.statusCode == 200) {
+        // If the server did return a 201 CREATED response,
+        // then parse the JSON.
+        print('Status code: ${response.statusCode}');
+        print('Body: ${response.body}');
+        this.em = email;
+        return response;
+      } else {
+        // If the server did not return a 201 CREATED response,
+        // then throw an exception.
+        print('Status code: ${response.statusCode}');
+        print('Body: ${response.body}');
+        throw Exception('Failed to set the emergency contact.');
+      }
     }
-  //}
-    //this.message = "Email must have"
+    this.message = "Email must have an @.";
+    throw Exception(message);
   }
   Future setNotificationSettings(context) async {
     http.Response response = await _setNotificationSettings();
