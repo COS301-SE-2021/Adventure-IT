@@ -18,7 +18,12 @@
 		<sonar.organization>cos301-se-2021</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
-
+	<repositories>
+		<repository>
+			<id>Adventure IT</id>
+			<url>https://github.com/COS301-SE-2021/Adventure-IT</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
