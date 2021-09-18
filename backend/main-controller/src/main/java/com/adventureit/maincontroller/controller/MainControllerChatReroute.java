@@ -54,19 +54,23 @@ public class MainControllerChatReroute {
     public List<GroupMessageResponseDTO> getGroupMessages(@PathVariable UUID id) throws Exception {
         GroupChatResponseDTO chat = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getGroupChat/" + id, GroupChatResponseDTO.class);
         List<UUID> usersIds=new ArrayList<>();
+        List<GetUserByUUIDDTO>users=new ArrayList<>();
         List <GroupMessageResponseDTO> list=new ArrayList<>();
         assert chat != null;
 
         for(MessageDTO message: chat.getMessages())
         {
-            usersIds.add(message.getSender());
+           int index=usersIds.indexOf(message.getSender());
+           if(index==-1) {
+               usersIds.add(message.getSender());
+               GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + message.getSender(), GetUserByUUIDDTO.class);
+               users.add(user);
+           }
         }
-        List users=restTemplate.postForObject(IP+":"+userPort+"/user/getUsersForAdventure", usersIds , List.class) ;
-        System.out.println(users.getClass().getName());
+
         for (MessageDTO message: chat.getMessages()) {
-            int index=usersIds.indexOf(message.getSender());
-            assert users != null;
-            list.add(new GroupMessageResponseDTO(message.getId(),new GetUserByUUIDDTO(),message.getPayload(), message.getTimestamp()));
+           int index=usersIds.indexOf(message.getSender());
+            list.add(new GroupMessageResponseDTO(message.getId(),users.get(index),message.getPayload(), message.getTimestamp()));
         }
 
         list.sort(new Comparator<>() {
