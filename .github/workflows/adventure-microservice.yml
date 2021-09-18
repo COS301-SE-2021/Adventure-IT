@@ -43,7 +43,7 @@ jobs:
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=COS301-SE-2021_Adventure-IT
           chmod +x ./mvnw
           ./mvnw clean
-          ./mvnw --batch-mode test
+          ./mvnw --batch-mode test -Dspring.config.import=backend-environment.yml
 # jobs:
 #   build:
 #     runs-on: ubuntu-latest
