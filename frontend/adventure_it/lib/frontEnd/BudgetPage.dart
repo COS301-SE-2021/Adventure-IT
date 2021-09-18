@@ -1362,7 +1362,7 @@ class EditAlertBox extends State<_EditAlertBox> {
         for(int i = 0; i < userNamesAndOther!.length; i++) {
           if(userNamesAndOther!.elementAt(i).compareTo(budgetE!.payee) == 0) {
             payee = budgetE!.payee;
-            otherController.text = budgetE!.payee;
+            otherController.text = "";
             break;
           }
           else {
