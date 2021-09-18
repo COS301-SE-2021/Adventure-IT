@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(properties = {"service-registry-client.instance.hostname=localhost","service-registry-client.client.service-url.defaultZone=http://localhost:8761/eureka/","service-registry-client.client.register-with-eureka=true", "service-registry-client.client.fetch-registry=true","timeline-microservice.application-name=TIMELINE-MICROSERVICE", "timeline-microservice.datasource.url=jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5","timeline-microservice.datasource.username=postgres","timeline-microservice.datasource.password=310PB!Gq%f&J","timeline-microservice.datasource.hikari.maximum-pool-size=2","timeline-microservice.jpa.hibernate.ddl-auto=update","timeline-microservice.jpa.show-sql=false","timeline-microservice.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect","timeline-microservice.jpa.properties.hibernate.format_sql=true" })
 class TimelineServiceIntegrationTests {
 
     @Autowired

@@ -12,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(properties = {"service-registry-client.instance.hostname=localhost","service-registry-client.client.service-url.defaultZone=http://localhost:8761/eureka/","service-registry-client.client.register-with-eureka=true", "service-registry-client.client.fetch-registry=true","user-microservice.application-name=USER-MICROSERVICE", "user-microservice.datasource.url=jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5","user-microservice.datasource.username=postgres","user-microservice.datasource.password=310PB!Gq%f&J","user-microservice.datasource.hikari.maximum-pool-size=2","user-microservice.jpa.hibernate.ddl-auto=update","user-microservice.jpa.show-sql=false","user-microservice.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect","user-microservice.jpa.properties.hibernate.format_sql=true" })
 class UserServiceIntegrationTests {
     @Autowired
     private UserController userController;
