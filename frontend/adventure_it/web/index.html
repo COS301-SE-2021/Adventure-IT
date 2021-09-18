@@ -80,6 +80,7 @@
               loadMainDartJs();
             }
           });
+        navigator.serviceWorker.register("/firebase-messaging-sw.js");
 
         // If service worker doesn't succeed in a reasonable amount of time,
         // fallback to plaint <script> tag.
@@ -95,13 +96,6 @@
     } else {
       // Service workers not supported. Just drop the <script> tag.
       loadMainDartJs();
-    }
-  </script>
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker.register("/firebase-messaging-sw.js");
-      });
     }
   </script>
 </body>
