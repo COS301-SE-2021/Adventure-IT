@@ -6,17 +6,13 @@ import 'package:flutter/cupertino.dart';
 class UserModel extends ChangeNotifier {
   UserProfile? _profile;
   String? _em = null;
-  bool? _t = null;
+  //bool? _t = null;
 
-  final UserApi api = UserApi.getInstance();
+  UserApi api = UserApi.getInstance();
   BuildContext? context;
 
   UserModel(context) {
-    getProfile().then((value) {
-      if (value != null) {
-        _profile = value;
-      }
-    });
+    getProfile();
   }
 
   Future getProfile() async {
@@ -28,8 +24,9 @@ class UserModel extends ChangeNotifier {
   }
 
   UserProfile? get profile => _profile;
+  UserApi? get userApi => api;
   String? get em => _em;
-  bool? get t => _t;
+  //bool? get t => _t;
 
   Future editProfile(String a, String b, String c, String d, String e) async {
     await UserApi.editProfile(a, b, c, d, e,context);
@@ -38,7 +35,8 @@ class UserModel extends ChangeNotifier {
   }
 
   Future getEM() async {
-    _em = await UserApi.getEmergencyContact();
+    await UserApi.getInstance().getEmergencyContact();
+    api = UserApi.getInstance();
     if(_em == null) {
       _em = "";
     }
@@ -46,22 +44,25 @@ class UserModel extends ChangeNotifier {
   }
 
   Future setEM(String a) async {
-    await UserApi.setEmergencyContact(a);
-    _em = a;
+    await UserApi.getInstance().setEmergencyContact(a);
+    api = UserApi.getInstance();
+    //_em = a;
     notifyListeners();
   }
 
   Future getT() async {
-    /*_t = await UserApi.getTheme();
-    if(_t == null) {
-      _t = false;
-    }
-    notifyListeners();*/
+    /*UserApi.getInstance().getThemeSettings().then((value){
+      _t = value;
+      if(_t == null) {
+        _t = false;
+      }
+      });
+    return UserApi.getInstance().getThemeSettings();*/
   }
 
   Future setT(bool t) async {
-    await UserApi.setTheme(t);
-    _t = t;
+    await UserApi.getInstance().setTheme(t);
+    api = UserApi.getInstance();
     notifyListeners();
   }
 
