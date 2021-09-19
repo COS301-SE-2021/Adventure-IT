@@ -54,6 +54,7 @@ public class MainControllerAdventureReroute {
         service.pingCheck(ports,restTemplate);
 
         List<UUID> users = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/getAttendees/" + id, List.class);
+
         List<GetUserByUUIDDTO> list = new ArrayList<>();
         GetUserByUUIDDTO user;
         assert users != null;
