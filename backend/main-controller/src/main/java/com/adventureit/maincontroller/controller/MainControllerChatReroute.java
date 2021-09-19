@@ -1,5 +1,6 @@
 package com.adventureit.maincontroller.controller;
 
+import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.adventure.AdventureDTO;
 import com.adventureit.shareddtos.chat.MessageDTO;
@@ -38,6 +39,7 @@ public class MainControllerChatReroute {
     private static final String CHAT_PORT = "9010";
     private static final String ADVENTURE_PORT ="9001";
     private static final String NOTIFICATION_PORT ="9004";
+    private static final String GET_USER = "/user/getUser/";
 
     public MainControllerChatReroute(MainControllerServiceImplementation service) {
         this.service = service;
@@ -49,21 +51,21 @@ public class MainControllerChatReroute {
     }
 
     @PostMapping("/createDirectChat")
-    public String createDirectChat(@RequestBody CreateDirectChatRequest req) throws Exception {
+    public String createDirectChat(@RequestBody CreateDirectChatRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/createDirectChat",req, String.class);
     }
 
     @PostMapping("/createGroupChat")
-    public String createDirectChat(@RequestBody CreateGroupChatRequest req) throws Exception {
+    public String createDirectChat(@RequestBody CreateGroupChatRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/createGroupChat",req, String.class);
     }
 
     @GetMapping("/getGroupMessages/{id}")
-    public List<GroupMessageResponseDTO> getGroupMessages(@PathVariable UUID id) throws Exception {
+    public List<GroupMessageResponseDTO> getGroupMessages(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT, USER_PORT};
         service.pingCheck(ports,restTemplate);
         GroupChatResponseDTO chat = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getGroupChat/" + id, GroupChatResponseDTO.class);
@@ -82,7 +84,7 @@ public class MainControllerChatReroute {
         }
 
         if(usersIds.size() == 1){
-            GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/" + usersIds.get(0), GetUserByUUIDDTO.class);
+            GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + usersIds.get(0), GetUserByUUIDDTO.class);
             users.add(user);
         }
         else {
@@ -91,6 +93,7 @@ public class MainControllerChatReroute {
 
         for (MessageDTO message: chat.getMessages()) {
            int index=usersIds.indexOf(message.getSender());
+            assert users != null;
             list.add(new GroupMessageResponseDTO(message.getId(),users.get(index),message.getPayload(), message.getTimestamp()));
         }
 
@@ -105,7 +108,7 @@ public class MainControllerChatReroute {
     }
 
     @GetMapping("/getGroupChatByAdventureID/{id}")
-    public MainGroupChatResponseDTO getGroupChat(@PathVariable UUID id) throws Exception {
+    public MainGroupChatResponseDTO getGroupChat(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT};
         service.pingCheck(ports,restTemplate);
         GroupChatResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getGroupChatByAdventureID/" + id, GroupChatResponseDTO.class);
@@ -115,7 +118,7 @@ public class MainControllerChatReroute {
     }
 
     @PostMapping("/sendGroupMessage")
-    public String sendGroupMessage(@RequestBody SendGroupMessageRequestDTO request) throws Exception {
+    public String sendGroupMessage(@RequestBody SendGroupMessageRequestDTO request) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT};
         service.pingCheck(ports,restTemplate);
         SendGroupMessageRequestDTO req = new SendGroupMessageRequestDTO(request.getChatID(),request.getSender(),request.getMsg());
@@ -124,6 +127,7 @@ public class MainControllerChatReroute {
         GroupChatResponseDTO chat = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getGroupChat/" + req.getChatID(), GroupChatResponseDTO.class);
 
         // Get associated adventure
+        assert chat != null;
         AdventureDTO adventure = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/getAdventureByUUID/" + chat.getAdventureID(), AdventureDTO.class);
 
         // Get all participants of chat
@@ -131,6 +135,7 @@ public class MainControllerChatReroute {
         users.remove(request.getSender());
 
         // Send notification to all participants
+        assert adventure != null;
         SendFirebaseNotificationsRequest notifReq = new SendFirebaseNotificationsRequest(users, "New Group Message", "Adventure: " + adventure.getName(), null);
         restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/sendFirebaseNotifications",notifReq, String.class);
 
@@ -138,18 +143,19 @@ public class MainControllerChatReroute {
     }
 
     @PostMapping("/sendDirectMessage")
-    public String sendDirectMessage(@RequestBody SendDirectMessageRequestDTO request) throws Exception {
+    public String sendDirectMessage(@RequestBody SendDirectMessageRequestDTO request) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT};
         service.pingCheck(ports,restTemplate);
 
-        GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/" + request.getSender(), GetUserByUUIDDTO.class);
+        GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + request.getSender(), GetUserByUUIDDTO.class);
+        assert user != null;
         SendFirebaseNotificationRequest notifReq = new SendFirebaseNotificationRequest(request.getReceiver(), "New direct message", "From: "+user.getUsername(), null);
         restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/sendFirebaseNotification",notifReq, String.class);
         return restTemplate.postForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/sendDirectMessage", request,String.class);
     }
 
     @GetMapping("/getDirectChat/{id1}/{id2}")
-    public MainDirectChatResponseDTO getDirectChat(@PathVariable UUID id1, @PathVariable UUID id2) throws Exception {
+    public MainDirectChatResponseDTO getDirectChat(@PathVariable UUID id1, @PathVariable UUID id2) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT};
         service.pingCheck(ports,restTemplate);
         DirectChatResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getDirectChat/" + id1 + "/" + id2, DirectChatResponseDTO.class);
@@ -158,15 +164,15 @@ public class MainControllerChatReroute {
     }
 
     @GetMapping("/getDirectMessages/{id}")
-    public List<DirectMessageResponseDTO> getDirectMessages(@PathVariable UUID id) throws Exception {
+    public List<DirectMessageResponseDTO> getDirectMessages(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT, USER_PORT};
         service.pingCheck(ports,restTemplate);
 
         DirectChatResponseDTO chat = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getDirectChat/" + id, DirectChatResponseDTO.class);
+        assert chat != null;
         List<UUID> usersIds=chat.getParticipants();
         List<GetUserByUUIDDTO>users=new ArrayList<>();
         List <DirectMessageResponseDTO> list=new ArrayList<>();
-        assert chat != null;
 
 
         for(MessageDTO message: chat.getMessages())
@@ -179,7 +185,7 @@ public class MainControllerChatReroute {
         }
 
         if(usersIds.size() == 1){
-            GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/" + usersIds.get(0), GetUserByUUIDDTO.class);
+            GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + usersIds.get(0), GetUserByUUIDDTO.class);
             users.add(user);
         }
         else {
@@ -189,6 +195,7 @@ public class MainControllerChatReroute {
 
         for (MessageDTO message: chat.getMessages()) {
             int sender=usersIds.indexOf(message.getSender());
+            assert users != null;
             list.add(new DirectMessageResponseDTO(message.getId(),users.get(sender), message.getTimestamp(),message.getPayload()));
         }
 
