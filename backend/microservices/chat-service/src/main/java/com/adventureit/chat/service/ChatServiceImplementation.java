@@ -84,7 +84,7 @@ public class ChatServiceImplementation implements ChatService {
         FileWriter file = new FileWriter("chat.json");
         file.write(jsonObject.toJSONString());
         file.close();
-        FileInputStream serviceAccount = new FileInputStream("user.json");
+        FileInputStream serviceAccount = new FileInputStream("chat.json");
         this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
         new File("chat.json").delete();
     }
