@@ -52,8 +52,8 @@ class _AppState extends State<InitializeFireFlutter> {
 
           FirebaseMessaging.instance.getToken().then(
               (value) => UserApi.getInstance().setFirebaseID(value!, context));
-          FirebaseMessaging.onMessage.listen(_foregroundHandler);
-          FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
+          FirebaseMessaging.onMessage.listen(foregroundHandler);
+          FirebaseMessaging.onBackgroundMessage(backgroundHandler);
           return this.nextWidget;
         });
   }
@@ -77,6 +77,7 @@ class _AppStateWeb extends State<InitializeFireFlutterWeb> {
     this.nextWidget = nextWidget;
   }
 
+
   @override
   Widget build(BuildContext context) {
     FirebaseMessaging.instance
@@ -91,29 +92,30 @@ class _AppStateWeb extends State<InitializeFireFlutterWeb> {
         print("Handling message title: ${title}");
         print("Handling message body: ${body}");
         print("Handling message data: ${data.toString()}");
+
         Fluttertoast.showToast(
             msg: body!,
-            toastLength: Toast.LENGTH_SHORT,
+            toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
+            backgroundColor: Theme.of(context).accentColor,
+            textColor: Theme.of(context).textTheme.bodyText1!.color,
+            fontSize: 15.0);
 
         FlutterMessagingChangeNotifier.notifyListeners();
       }
     });
 
-    FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
+    FirebaseMessaging.onBackgroundMessage(backgroundHandler);
     return this.nextWidget;
   }
 }
 
-Future<void> _backgroundHandler(RemoteMessage message) async {
+Future<void> backgroundHandler(RemoteMessage message) async {
   print("Handling background message: ${message.toString()}");
 }
 
-void _foregroundHandler(RemoteMessage? message) {
+void foregroundHandler(RemoteMessage? message) {
   if (message != null && message.notification != null) {
     final title = message.notification!.title;
     final body = message.notification!.body;
@@ -125,19 +127,23 @@ void _foregroundHandler(RemoteMessage? message) {
 }
 
 class FlutterMessagingChangeNotifier {
-  static GroupChatModel? _changeNotifier;
+  static GroupChatModel? groupChatChangeNotifier;
+  static DirectChatModel? directChatChangeNotifier;
 
   static void setChangeNotifier(GroupChatModel? x) {
-    _changeNotifier = x;
+    groupChatChangeNotifier = x;
   }
 
   static void getChangeNotifier(GroupChatModel? x) {
-    _changeNotifier = x;
+    groupChatChangeNotifier = x;
   }
 
   static void notifyListeners() {
-    if (_changeNotifier != null) {
-      _changeNotifier!.fetchAllMessages();
+    if (groupChatChangeNotifier != null) {
+      groupChatChangeNotifier!.fetchAllMessages();
+    }
+    if (directChatChangeNotifier != null) {
+      directChatChangeNotifier!.fetchAllMessages();
     }
   }
 }

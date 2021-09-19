@@ -114,7 +114,7 @@ public class MainControllerChatReroute {
 
         // Get all participants of chat
         List<UUID> users = chat.getParticipants();
-        users.remove(request.getSender());
+        //users.remove(request.getSender());
 
         // Send notification to all participants
         SendFirebaseNotificationsRequest notifReq = new SendFirebaseNotificationsRequest(users, "New Group Message", "Adventure: " + adventure.getName(), null);
