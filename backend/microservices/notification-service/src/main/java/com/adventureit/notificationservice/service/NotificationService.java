@@ -122,6 +122,10 @@ public class NotificationService {
 
     public String sendFirebaseNotifications(SendFirebaseNotificationsRequest req) {
         List<UUID> users = new ArrayList<>();
+        if (req.getData() == null){
+            req.setData(Collections.<String,String>emptyMap());
+        }
+
         for(UUID userId : req.getUserIds()){
             NotificationUser user = notificationUserRepository.findNotificationUserByUserId(userId);
             if(user == null){
