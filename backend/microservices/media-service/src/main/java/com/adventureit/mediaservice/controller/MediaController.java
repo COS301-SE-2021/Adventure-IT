@@ -54,7 +54,7 @@ public class MediaController {
     @GetMapping(value = "/getUserMediaList/{id}")
     public List<MediaInfoDTO> getUserMediaList(@PathVariable UUID id){
         List<MediaInfo> response = mediaInfoRepository.findAllByOwner(id);
-        List<MediaInfoDTO> returnList = new ArrayList<MediaInfoDTO>();
+        List<MediaInfoDTO> returnList = new ArrayList<>();
         for(int i = 0;i<response.size();i++){
             returnList.add(new MediaInfoDTO(response.get(i).getId(),response.get(i).getType(),response.get(i).getName(),response.get(i).getDescription(),response.get(i).getAdventureID(),response.get(i).getOwner()));
         }
@@ -64,7 +64,7 @@ public class MediaController {
     @GetMapping(value = "/getUserFileList/{id}")
     public List<FileInfoDTO> getUserFileList(@PathVariable UUID id){
         List<FileInfo> response = fileInfoRepository.findAllByOwner(id);
-        List<FileInfoDTO> returnList = new ArrayList<FileInfoDTO>();
+        List<FileInfoDTO> returnList = new ArrayList<>();
         for(int i = 0;i<response.size();i++){
             returnList.add(new FileInfoDTO(response.get(i).getId(),response.get(i).getType(),response.get(i).getName(),response.get(i).getDescription(),response.get(i).getAdventureID(),response.get(i).getOwner()));
         }
@@ -74,7 +74,7 @@ public class MediaController {
     @GetMapping(value = "/getUserDocumentList/{id}")
     public List<DocumentInfoDTO> getUserDocumentList(@PathVariable UUID id){
         List<DocumentInfo> response =  documentInfoRepository.findAllByOwner(id);
-        List<DocumentInfoDTO> returnList = new ArrayList<DocumentInfoDTO>();
+        List<DocumentInfoDTO> returnList = new ArrayList<>();
         for(int i = 0;i<response.size();i++){
             returnList.add(new DocumentInfoDTO(response.get(i).getId(),response.get(i).getType(),response.get(i).getName(),response.get(i).getDescription(),response.get(i).getOwner()));
         }
@@ -84,7 +84,7 @@ public class MediaController {
     @GetMapping(value = "/getAdventureMediaList/{id}")
     public List<MediaInfoDTO> getAdventureMediaList(@PathVariable UUID id){
         List<MediaInfo> response = mediaInfoRepository.findAllByAdventureID(id);
-        List<MediaInfoDTO> returnList = new ArrayList<MediaInfoDTO>();
+        List<MediaInfoDTO> returnList = new ArrayList<>();
         for(int i = 0;i<response.size();i++){
             returnList.add(new MediaInfoDTO(response.get(i).getId(),response.get(i).getType(),response.get(i).getName(),response.get(i).getDescription(),response.get(i).getAdventureID(),response.get(i).getOwner()));
         }
@@ -94,7 +94,7 @@ public class MediaController {
     @GetMapping(value = "/getAdventureFileList/{id}")
     public List<FileInfoDTO> getAdventureFileList(@PathVariable UUID id){
         List<FileInfo> response = fileInfoRepository.findAllByAdventureID(id);
-        List<FileInfoDTO> returnList = new ArrayList<FileInfoDTO>();
+        List<FileInfoDTO> returnList = new ArrayList<>();
         for(int i = 0;i<response.size();i++){
             returnList.add(new FileInfoDTO(response.get(i).getId(),response.get(i).getType(),response.get(i).getName(),response.get(i).getDescription(),response.get(i).getAdventureID(),response.get(i).getOwner()));
         }
