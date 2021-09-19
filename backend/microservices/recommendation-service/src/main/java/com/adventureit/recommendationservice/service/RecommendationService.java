@@ -75,7 +75,7 @@ public class RecommendationService {
         }
     }
 
-    public String[][] getUserRecommendations(UUID id, String numRec, String location){
+    public String[][] getUserRecommendations(UUID id, String numRec, String locationFilter){
         // Get users
         int numRecommendations=Integer.parseInt(numRec);
         List<RecommendedUser> users = this.recommendedUserRepository.findAll();
@@ -93,6 +93,19 @@ public class RecommendationService {
         }
         // Get locations
         List<RecommendedLocation> locations = this.recommendedLocationRepository.findAll();
+        List<RecommendedLocation> filteredLocations = new ArrayList<>();
+
+        for(RecommendedLocation l : locations){
+            if(locationFilter.contains(l.getLocationString())){
+                filteredLocations.add(l);
+            }
+        }
+        if(filteredLocations.size() == 0){
+            return null;
+        }
+        else{
+            locations = filteredLocations;
+        }
         int numLocations = locations.size();
         if(numUsers == 0){
             String[][] returnMatrix = new String[numLocations][2];
@@ -213,11 +226,22 @@ public class RecommendationService {
 
     public String[][] getMostPopular(UUID id, String numPop, String locationFilter) {
         List<RecommendedLocation> locations = recommendedLocationRepository.findAll();
+        List<RecommendedLocation> filteredLocations = new ArrayList<>();
 
         int numPopular=Integer.parseInt(numPop);
         locations.sort(Comparator.comparing(RecommendedLocation::getVisits));
-        List<RecommendedLocation> filteredLocations = locations.stream().filter(location -> locationFilter.contains(location.getLocationString())).collect(Collectors.toList());
-        locations = filteredLocations;
+        for(RecommendedLocation location : locations){
+            if(locationFilter.contains(location.getLocationString())){
+                filteredLocations.add(location);
+            }
+        }
+        if(filteredLocations.size() == 0){
+            return null;
+        }
+        else{
+            locations = filteredLocations;
+        }
+
         String[][] returnMatrix = new String[locations.size()][2];
         List<RecommendedUser> users = this.recommendedUserRepository.findAll();
 

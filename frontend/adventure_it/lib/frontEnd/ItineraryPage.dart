@@ -41,67 +41,52 @@ class ItineraryPage extends StatelessWidget {
           this.c = context;
           return Scaffold(
               drawer: NavDrawer(),
-              backgroundColor: Theme
-                  .of(context)
-                  .scaffoldBackgroundColor,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               appBar: AppBar(
                   actions: [
                     Center(
-                        child: creator != null ? Text(
-                            "Created by: " + this.creator!.username,
-                            style: new TextStyle(
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .color, fontSize: 10)) : Text(
-                            "Created by: unknown", style: new TextStyle(
-                            color: Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1!
-                                .color, fontSize: 10))
-                    ), SizedBox(width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.02)
+                        child: creator != null
+                            ? Text("Created by: " + this.creator!.username,
+                                style: new TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .color,
+                                    fontSize: 10))
+                            : Text("Created by: unknown",
+                                style: new TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .color,
+                                    fontSize: 10))),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.02)
                   ],
                   title: Center(
                       child: Text(currentItinerary!.title,
                           style: new TextStyle(
-                              color: Theme
-                                  .of(context)
+                              color: Theme.of(context)
                                   .textTheme
                                   .bodyText1!
                                   .color))),
-                  backgroundColor: Theme
-                      .of(context)
-                      .primaryColorDark),
+                  backgroundColor: Theme.of(context).primaryColorDark),
               body: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    SizedBox(height: MediaQuery
-                        .of(context)
-                        .size
-                        .height / 60),
+                    SizedBox(height: MediaQuery.of(context).size.height / 60),
                     Expanded(
                       child: _ListItineraryItems(
                           currentAdventure!, currentItinerary!, c!),
                     ),
-                    SizedBox(height: MediaQuery
-                        .of(context)
-                        .size
-                        .height / 60),
+                    SizedBox(height: MediaQuery.of(context).size.height / 60),
                     Row(children: [
                       Expanded(
                         flex: 1,
                         child: Container(
                             decoration: BoxDecoration(
-                                color: Theme
-                                    .of(context)
-                                    .accentColor,
+                                color: Theme.of(context).accentColor,
                                 shape: BoxShape.circle),
                             child: IconButton(
                                 onPressed: () {
@@ -113,24 +98,21 @@ class ItineraryPage extends StatelessWidget {
                                 },
                                 icon: const Icon(
                                     Icons.arrow_back_ios_new_rounded),
-                                color: Theme
-                                    .of(context)
-                                    .primaryColorDark)),
+                                color: Theme.of(context).primaryColorDark)),
                       ),
                       Expanded(
                         flex: 1,
                         child: Container(
                             decoration: BoxDecoration(
-                                color: Theme
-                                    .of(context)
-                                    .accentColor,
+                                color: Theme.of(context).accentColor,
                                 shape: BoxShape.circle),
                             child: IconButton(
                                 onPressed: () {
                                   {
-                                    var provider = Provider.of<
-                                        ItineraryEntryModel>(
-                                        context, listen: false);
+                                    var provider =
+                                        Provider.of<ItineraryEntryModel>(
+                                            context,
+                                            listen: false);
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
@@ -140,19 +122,14 @@ class ItineraryPage extends StatelessWidget {
                                   }
                                 },
                                 icon: const Icon(Icons.add),
-                                color: Theme
-                                    .of(context)
-                                    .primaryColorDark)),
+                                color: Theme.of(context).primaryColorDark)),
                       ),
                       Expanded(
                         flex: 1,
                         child: Container(), //Your widget here,
                       ),
                     ]),
-                    SizedBox(height: MediaQuery
-                        .of(context)
-                        .size
-                        .height / 60),
+                    SizedBox(height: MediaQuery.of(context).size.height / 60),
                   ]));
         });
   }
@@ -217,400 +194,307 @@ class _AlertBox extends State<AlertBox> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        backgroundColor: Theme
-            .of(context)
-            .primaryColorDark,
+        backgroundColor: Theme.of(context).primaryColorDark,
         content: Container(
           height: getSize(context),
           child: Stack(
-            clipBehavior: Clip.none, children: <Widget>[
-            Positioned(
-              right: -40.0,
-              top: -40.0,
-              child: InkResponse(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: CircleAvatar(
-                  child: Icon(Icons.close,
-                      color: Theme
-                          .of(context)
-                          .primaryColorDark),
-                  backgroundColor: Theme
-                      .of(context)
-                      .accentColor,
+            clipBehavior: Clip.none,
+            children: <Widget>[
+              Positioned(
+                right: -40.0,
+                top: -40.0,
+                child: InkResponse(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: CircleAvatar(
+                    child: Icon(Icons.close,
+                        color: Theme.of(context).primaryColorDark),
+                    backgroundColor: Theme.of(context).accentColor,
+                  ),
                 ),
               ),
-            ),
-            Center(
-              child: Column(
-                // mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text("Add Item To Itinerary",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme
-                            .of(context)
-                            .textTheme
-                            .bodyText1!
-                            .color,
-                        fontSize: 25 * MediaQuery
-                            .of(context)
-                            .textScaleFactor,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  Spacer(),
-                  Container(
-                    width: 300,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.02),
-                    child: TextField(
+              Center(
+                child: Column(
+                  // mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text("Add Item To Itinerary",
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                            color:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1!
-                                .color),
-                        controller: titleController,
-                        decoration: InputDecoration(
-                            hintStyle: TextStyle(
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color),
-                            filled: true,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            fillColor: Theme
-                                .of(context)
-                                .primaryColorLight,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: new BorderSide(
-                                    color: Theme
-                                        .of(context)
-                                        .accentColor)),
-                            hintText: 'Title')),
-                  ),
-                  SizedBox(height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.01),
-                  Container(
-                    width: 300,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.02),
-                    child: TextField(
-                        maxLength: 255,
-                        maxLines: 3,
-                        style: TextStyle(
-                            color:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1!
-                                .color),
-                        controller: descriptionController,
-                        decoration: InputDecoration(
-                            hintStyle: TextStyle(
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color),
-                            filled: true,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            fillColor: Theme
-                                .of(context)
-                                .primaryColorLight,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: new BorderSide(
-                                    color: Theme
-                                        .of(context)
-                                        .accentColor)),
-                            hintText: 'Description')),
-                  ),
-                  SizedBox(height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.02),
-                  Container(
+                          color: Theme.of(context).textTheme.bodyText1!.color,
+                          fontSize: 25 * MediaQuery.of(context).textScaleFactor,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    Spacer(),
+                    Container(
                       width: 300,
-                      padding: EdgeInsets
-                          .symmetric(
-                          horizontal: MediaQuery
-                              .of(context)
-                              .size
-                              .width *
-                              0.02),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
-                        maxLines: 1,
-                        style: TextStyle(
-                            color:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1!
-                                .color),
-                        controller: dateController,
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.calendar_today_rounded),
-                            hintStyle: TextStyle(
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color),
-                            filled: true,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            fillColor: Theme
-                                .of(context)
-                                .primaryColorLight,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: new BorderSide(
-                                    color: Theme
-                                        .of(context)
-                                        .accentColor)),
-                            hintText: 'Pick a date'),
-                        onTap: () async {
-                          DateTime? picked = await showDate();
-                          if (picked != null) {
-                            setState(() {
-                              date = picked;
-                              dateController.text = getTextDate(picked);
-                            });
-                          }
-                        },
-                      )),
-                  SizedBox(height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.02),
-                  Container(
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color),
+                          controller: titleController,
+                          decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Title')),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                    Container(
                       width: 300,
-                      padding: EdgeInsets
-                          .symmetric(
-                          horizontal: MediaQuery
-                              .of(context)
-                              .size
-                              .width *
-                              0.02),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
-                        maxLines: 1,
-                        style: TextStyle(
-                            color:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1!
-                                .color),
-                        controller: timeController,
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.access_time_rounded),
-                            hintStyle: TextStyle(
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color),
-                            filled: true,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            fillColor: Theme
-                                .of(context)
-                                .primaryColorLight,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: new BorderSide(
-                                    color: Theme
-                                        .of(context)
-                                        .accentColor)),
-                            hintText: 'Pick a time'),
-                        onTap: () async {
-                          TimeOfDay? picked = await showTime();
-                          if (picked != null) {
-                            setState(() {
-                              time = picked;
-                              timeController.text = getTextTime(picked);
-                            });
-                          }
-                        },
-                      )),
-                  SizedBox(height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.02),
-                  Container(
-                      width: 300,
-                      padding: EdgeInsets
-                          .symmetric(
-                          horizontal: MediaQuery
-                              .of(context)
-                              .size
-                              .width *
-                              0.02),
-                      child: TextField(
-                        maxLines: 1,
-                        style: TextStyle(
-                            color:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1!
-                                .color),
-                        controller: locationController,
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.location_on_rounded),
-                            hintStyle: TextStyle(
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color),
-                            filled: true,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            fillColor: Theme
-                                .of(context)
-                                .primaryColorLight,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: new BorderSide(
-                                    color: Theme
-                                        .of(context)
-                                        .accentColor)),
-                            hintText: 'Find a location'),
-                        onTap: () async {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                    backgroundColor: Theme
-                                        .of(context)
-                                        .primaryColorDark,
-                                    title: Stack(
-                                        clipBehavior: Clip.none,
-                                        children: <Widget>[
-                                          Positioned(
-                                            right: -40.0,
-                                            top: -40.0,
-                                            child: InkResponse(
-                                              onTap: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: CircleAvatar(
-                                                child: Icon(Icons.close,
-                                                    color: Theme
-                                                        .of(context)
-                                                        .primaryColorDark),
-                                                backgroundColor: Theme
-                                                    .of(context)
-                                                    .accentColor,
+                          maxLength: 255,
+                          maxLines: 3,
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color),
+                          controller: descriptionController,
+                          decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Description')),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Container(
+                        width: 300,
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.02),
+                        child: TextField(
+                          maxLines: 1,
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color),
+                          controller: dateController,
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.calendar_today_rounded),
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Pick a date'),
+                          onTap: () async {
+                            DateTime? picked = await showDate();
+                            if (picked != null) {
+                              setState(() {
+                                date = picked;
+                                dateController.text = getTextDate(picked);
+                              });
+                            }
+                          },
+                        )),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Container(
+                        width: 300,
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.02),
+                        child: TextField(
+                          maxLines: 1,
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color),
+                          controller: timeController,
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.access_time_rounded),
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Pick a time'),
+                          onTap: () async {
+                            TimeOfDay? picked = await showTime();
+                            if (picked != null) {
+                              setState(() {
+                                time = picked;
+                                timeController.text = getTextTime(picked);
+                              });
+                            }
+                          },
+                        )),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Container(
+                        width: 300,
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.02),
+                        child: TextField(
+                          maxLines: 1,
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color),
+                          controller: locationController,
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.location_on_rounded),
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Find a location'),
+                          onTap: () async {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                      backgroundColor:
+                                          Theme.of(context).primaryColorDark,
+                                      title: Stack(
+                                          clipBehavior: Clip.none,
+                                          children: <Widget>[
+                                            Positioned(
+                                              right: -40.0,
+                                              top: -40.0,
+                                              child: InkResponse(
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: CircleAvatar(
+                                                  child: Icon(Icons.close,
+                                                      color: Theme.of(context)
+                                                          .primaryColorDark),
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                          .accentColor,
+                                                ),
                                               ),
                                             ),
-                                          ), Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text("Find Location",
-                                                    textAlign: TextAlign
-                                                        .center,
+                                            Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text("Find Location",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color,
+                                                        fontSize: 25 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .textScaleFactor,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      )),
+                                                  SizedBox(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.01,
+                                                      width: 300),
+                                                  TextField(
                                                     style: TextStyle(
-                                                      color: Theme
-                                                          .of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .color,
-                                                      fontSize: 25 *
-                                                          MediaQuery
-                                                              .of(
-                                                              context)
-                                                              .textScaleFactor,
-                                                      fontWeight: FontWeight
-                                                          .bold,
-                                                    )),
-                                                SizedBox(height: MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .height * 0.01, width: 300),
-                                                TextField(
-                                                  style: TextStyle(
-                                                      color:
-                                                      Theme
-                                                          .of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .color),
-                                                  decoration: InputDecoration(
-                                                      hintStyle: TextStyle(
-                                                          color: Theme
-                                                              .of(
-                                                              context)
-                                                              .textTheme
-                                                              .bodyText2!
-                                                              .color),
-                                                      filled: true,
-                                                      enabledBorder: InputBorder
-                                                          .none,
-                                                      errorBorder: InputBorder
-                                                          .none,
-                                                      disabledBorder: InputBorder
-                                                          .none,
-                                                      fillColor: Theme
-                                                          .of(context)
-                                                          .primaryColorLight,
-                                                      focusedBorder: OutlineInputBorder(
-                                                          borderSide: new BorderSide(
-                                                              color: Theme
-                                                                  .of(
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color),
+                                                    decoration: InputDecoration(
+                                                        hintStyle: TextStyle(
+                                                            color: Theme.of(context)
+                                                                .textTheme
+                                                                .bodyText2!
+                                                                .color),
+                                                        filled: true,
+                                                        enabledBorder:
+                                                            InputBorder.none,
+                                                        errorBorder:
+                                                            InputBorder.none,
+                                                        disabledBorder:
+                                                            InputBorder.none,
+                                                        fillColor:
+                                                            Theme.of(context)
+                                                                .primaryColorLight,
+                                                        focusedBorder: OutlineInputBorder(
+                                                            borderSide: new BorderSide(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .accentColor)),
+                                                        hintText:
+                                                            'Search for a place of interest'),
+                                                    onChanged: (value) {
+                                                      _debouncer.run(() {
+                                                        Provider.of<LocationModel>(
+                                                                context,
+                                                                listen: false)
+                                                            .fetchAllSuggestions(
+                                                                value);
+                                                      });
+                                                    },
+                                                  ),
+                                                ])
+                                          ]),
+                                      content: Container(
+                                          width: 300,
+                                          child: Consumer<LocationModel>(
+                                              builder: (context, locationModel,
+                                                  child) {
+                                            return locationModel.suggestions !=
+                                                        null &&
+                                                    locationModel.suggestions!
+                                                            .length >
+                                                        0
+                                                ? ListView.builder(
+                                                    shrinkWrap: true,
+                                                    itemCount: locationModel
+                                                        .suggestions!.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return InkWell(
+                                                          hoverColor: Theme.of(
                                                                   context)
-                                                                  .accentColor)),
-                                                      hintText: 'Search for a place of interest'),
-                                                  onChanged: (value) {
-                                                    _debouncer.run(() {
-                                                      Provider.of<
-                                                          LocationModel>(
-                                                          context,
-                                                          listen: false)
-                                                          .fetchAllSuggestions(
-                                                          value);
-                                                    });
-                                                  },
-                                                ),
-                                              ])
-                                        ]),
-                                    content:
-                                    Container(
-                                        width: 300,
-                                        child: Consumer<LocationModel>(
-                                            builder: (context, locationModel,
-                                                child) {
-                                              return locationModel
-                                                  .suggestions != null &&
-                                                  locationModel.suggestions!
-                                                      .length > 0 ?
-                                              ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: locationModel
-                                                      .suggestions!.length,
-                                                  itemBuilder: (context,
-                                                      index) {
-                                                    return
-                                                      InkWell(
-                                                          hoverColor:
-                                                          Theme
-                                                              .of(context)
                                                               .primaryColorLight,
                                                           onTap: () {
                                                             setState(() {
@@ -618,98 +502,87 @@ class _AlertBox extends State<AlertBox> {
                                                                   locationModel
                                                                       .suggestions!
                                                                       .elementAt(
-                                                                      index)
+                                                                          index)
                                                                       .description;
                                                               locationController
-                                                                  .text =
-                                                              this.location!;
+                                                                      .text =
+                                                                  this.location!;
                                                             });
                                                             Navigator.of(
-                                                                context).pop();
+                                                                    context)
+                                                                .pop();
                                                           },
                                                           child: Padding(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                  vertical: MediaQuery
-                                                                      .of(
-                                                                      context)
-                                                                      .size
-                                                                      .height *
+                                                              padding: EdgeInsets.symmetric(
+                                                                  vertical: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
                                                                       0.01,
-                                                                  horizontal: MediaQuery
-                                                                      .of(
-                                                                      context)
-                                                                      .size
-                                                                      .width *
+                                                                  horizontal: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
                                                                       0.01),
                                                               child: ListTile(
                                                                   title: Text(
-                                                                    locationModel
-                                                                        .suggestions!
-                                                                        .elementAt(
+                                                                locationModel
+                                                                    .suggestions!
+                                                                    .elementAt(
                                                                         index)
-                                                                        .description,
-                                                                    style: TextStyle(
-                                                                        fontSize: 16 *
-                                                                            MediaQuery
-                                                                                .of(
-                                                                                context)
-                                                                                .textScaleFactor,
-                                                                        fontWeight: FontWeight
+                                                                    .description,
+                                                                style: TextStyle(
+                                                                    fontSize: 16 *
+                                                                        MediaQuery.of(context)
+                                                                            .textScaleFactor,
+                                                                    fontWeight:
+                                                                        FontWeight
                                                                             .bold,
-                                                                        color: Theme
-                                                                            .of(
+                                                                    color: Theme.of(
                                                                             context)
-                                                                            .textTheme
-                                                                            .bodyText1!
-                                                                            .color
-                                                                    ),
-                                                                  )
-                                                              )));
-                                                  })
-                                                  : Container(height: 10);
-                                            })));
-                              });
+                                                                        .textTheme
+                                                                        .bodyText1!
+                                                                        .color),
+                                                              ))));
+                                                    })
+                                                : Container(height: 10);
+                                          })));
+                                });
+                          },
+                        )),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).accentColor),
+                        child: Text("Create",
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color)),
+                        onPressed: () async {
+                          await widget.itineraryEntryModel.addItineraryEntry(
+                              currentItinerary!,
+                              currentItinerary!.id,
+                              titleController.text,
+                              descriptionController.text,
+                              location!,
+                              (date!.toString()).substring(0, 10) +
+                                  "T" +
+                                  (time.toString()).substring(10, 15),
+                              userID);
+                          Navigator.pop(context);
                         },
-
-                      )), Spacer(),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.02),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Theme
-                              .of(context)
-                              .accentColor),
-                      child: Text("Create",
-                          style: TextStyle(
-                              color: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .color)),
-                      onPressed: () async {
-                        await widget.itineraryEntryModel.addItineraryEntry(
-                            currentItinerary!,
-                            currentItinerary!.id,
-                            titleController.text,
-                            descriptionController.text,
-                            location!,
-                            (date!.toString()).substring(0, 10) +
-                                "T" + (time.toString()).substring(10, 15),
-                            userID);
-                        Navigator.pop(context);
-                      },
+                      ),
                     ),
-                  ),
-                  Spacer(),
-                ],
-              ),
-            )
-          ],
+                    Spacer(),
+                  ],
+                ),
+              )
+            ],
           ),
         ));
   }
@@ -729,8 +602,8 @@ class _AlertBox extends State<AlertBox> {
             ),
             textButtonTheme: TextButtonThemeData(
                 style: TextButton.styleFrom(
-                  primary: Color(0xffA7AAB9), // button text color
-                )),
+              primary: Color(0xffA7AAB9), // button text color
+            )),
             accentColor: Color(0xff6A7AC7),
             colorScheme: ColorScheme.light(
                 primary: Color(0xff20222D),
@@ -747,12 +620,8 @@ class _AlertBox extends State<AlertBox> {
         );
       },
       initialDate: date ?? DateTime.now(),
-      firstDate: new DateTime(DateTime
-          .now()
-          .year - 5),
-      lastDate: new DateTime(DateTime
-          .now()
-          .year + 5),
+      firstDate: new DateTime(DateTime.now().year - 5),
+      lastDate: new DateTime(DateTime.now().year + 5),
     );
   }
 
@@ -766,8 +635,8 @@ class _AlertBox extends State<AlertBox> {
             splashColor: Color(0xff20222D),
             timePickerTheme: TimePickerThemeData(
                 helpTextStyle: TextStyle(
-                  color: Color(0xffA7AAB9),
-                )),
+              color: Color(0xffA7AAB9),
+            )),
             textTheme: TextTheme(
               subtitle1: TextStyle(color: Color(0xffA7AAB9)),
               bodyText2: TextStyle(color: Color(0xffA7AAB9)),
@@ -778,8 +647,8 @@ class _AlertBox extends State<AlertBox> {
             ),
             textButtonTheme: TextButtonThemeData(
                 style: TextButton.styleFrom(
-                  primary: Color(0xffA7AAB9), // button text color
-                )),
+              primary: Color(0xffA7AAB9), // button text color
+            )),
             accentColor: Color(0xff6A7AC7),
             colorScheme: ColorScheme.light(
                 primary: Color(0xff6A7AC7),
@@ -809,25 +678,12 @@ class _AlertBox extends State<AlertBox> {
     return x;
   }
 
-
   double getSize(context) {
-    if (MediaQuery
-        .of(context)
-        .size
-        .height >
-        MediaQuery
-            .of(context)
-            .size
-            .width) {
-      return MediaQuery
-          .of(context)
-          .size
-          .height * 0.65;
+    if (MediaQuery.of(context).size.height >
+        MediaQuery.of(context).size.width) {
+      return MediaQuery.of(context).size.height * 0.65;
     } else {
-      return MediaQuery
-          .of(context)
-          .size
-          .height * 0.70;
+      return MediaQuery.of(context).size.height * 0.70;
     }
   }
 
@@ -837,7 +693,6 @@ class _AlertBox extends State<AlertBox> {
     return '$hours:$minutes';
   }
 }
-
 
 class _ListItineraryItems extends StatefulWidget {
   late final Adventure? currentAdventure;
@@ -899,50 +754,30 @@ class ListItineraryItems extends State<_ListItineraryItems> {
   }
 
   double getSize(context) {
-    if (MediaQuery
-        .of(context)
-        .size
-        .height >
-        MediaQuery
-            .of(context)
-            .size
-            .width) {
-      return MediaQuery
-          .of(context)
-          .size
-          .height * 0.65;
+    if (MediaQuery.of(context).size.height >
+        MediaQuery.of(context).size.width) {
+      return MediaQuery.of(context).size.height * 0.65;
     } else {
-      return MediaQuery
-          .of(context)
-          .size
-          .height * 0.70;
+      return MediaQuery.of(context).size.height * 0.70;
     }
   }
 
   String getTime(ItineraryEntry i) {
     String dateTime = "";
 
-    String hour = DateTime
-        .parse(i.timestamp)
-        .hour
-        .toString();
+    String hour = DateTime.parse(i.timestamp).hour.toString();
 
     if (hour.length < 2) {
       dateTime = dateTime + "0" + hour + ":";
-    }
-    else {
+    } else {
       dateTime = dateTime + hour + ":";
     }
 
-    String minute = DateTime
-        .parse(i.timestamp)
-        .minute
-        .toString();
+    String minute = DateTime.parse(i.timestamp).minute.toString();
 
     if (minute.length < 2) {
       dateTime = dateTime + "0" + minute;
-    }
-    else {
+    } else {
       dateTime = dateTime + minute;
     }
 
@@ -959,18 +794,17 @@ class ListItineraryItems extends State<_ListItineraryItems> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ItineraryEntryModel>(
-        builder: (context, entryModel, child) {
-          if (entryModel.entries == null || entryModel.popular == null ||
-              entryModel.recommendations == null) {
-            return Center(
-                child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(
-                        Theme
-                            .of(context)
-                            .accentColor)));
-          } else if (entryModel.entries!.length > 0) {
-            return Column(children: [Expanded(
+    return Consumer<ItineraryEntryModel>(builder: (context, entryModel, child) {
+      if (entryModel.entries == null &&
+          entryModel.popular == null &&
+          entryModel.recommendations == null) {
+        return Center(
+            child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                    Theme.of(context).accentColor)));
+      } else if (entryModel.entries!.length > 0) {
+        return Column(children: [
+          Expanded(
               flex: 4,
               child: Container(
                 width: MediaQuery.of(context).size.width <= 500
@@ -1700,498 +1534,360 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                                                                                 context)
                                                                                                                 .primaryColorLight,
                                                                                                             onTap: () {
-                                                                                                              this
-                                                                                                                  .location =
-                                                                                                                  locationModel
-                                                                                                                      .suggestions!
-                                                                                                                      .elementAt(
-                                                                                                                      index)
-                                                                                                                      .description;
-                                                                                                              locationController
-                                                                                                                  .text =
-                                                                                                              this
-                                                                                                                  .location!;
-                                                                                                              Navigator
-                                                                                                                  .of(
-                                                                                                                  context)
-                                                                                                                  .pop();
+                                                                                                              this.location = locationModel.suggestions!.elementAt(index).description;
+                                                                                                              locationController.text = this.location!;
+                                                                                                              Navigator.of(context).pop();
                                                                                                             },
                                                                                                             child: Padding(
-                                                                                                                padding: EdgeInsets
-                                                                                                                    .symmetric(
-                                                                                                                    vertical: MediaQuery
-                                                                                                                        .of(
-                                                                                                                        context)
-                                                                                                                        .size
-                                                                                                                        .height *
-                                                                                                                        0.01,
-                                                                                                                    horizontal: MediaQuery
-                                                                                                                        .of(
-                                                                                                                        context)
-                                                                                                                        .size
-                                                                                                                        .width *
-                                                                                                                        0.01),
+                                                                                                                padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01, horizontal: MediaQuery.of(context).size.width * 0.01),
                                                                                                                 child: Expanded(
                                                                                                                     child: Text(
-                                                                                                                      locationModel
-                                                                                                                          .suggestions!
-                                                                                                                          .elementAt(
-                                                                                                                          index)
-                                                                                                                          .description,
-                                                                                                                      style: TextStyle(
-                                                                                                                          fontSize: 16 *
-                                                                                                                              MediaQuery
-                                                                                                                                  .of(
-                                                                                                                                  context)
-                                                                                                                                  .textScaleFactor,
-                                                                                                                          fontWeight: FontWeight
-                                                                                                                              .bold,
-                                                                                                                          color: Theme
-                                                                                                                              .of(
-                                                                                                                              context)
-                                                                                                                              .textTheme
-                                                                                                                              .bodyText1!
-                                                                                                                              .color
-                                                                                                                      ),
-                                                                                                                    )
-                                                                                                                )));
-                                                                                                    })
-                                                                                                    : Container(
-                                                                                                    height: 10);
-                                                                                              })));
-                                                                                });
-                                                                          })),
-                                                                  Spacer(),
-                                                                  Padding(
-                                                                      padding: EdgeInsets
-                                                                          .symmetric(
-                                                                          horizontal: MediaQuery
-                                                                              .of(
-                                                                              context)
-                                                                              .size
-                                                                              .width *
-                                                                              0.02),
-                                                                      child: ElevatedButton(
-                                                                          style: ElevatedButton
-                                                                              .styleFrom(
-                                                                              primary: Theme
-                                                                                  .of(
-                                                                                  context)
-                                                                                  .accentColor),
-                                                                          onPressed: () {
-                                                                            Provider
-                                                                                .of<
-                                                                                ItineraryEntryModel>(
-                                                                                c!,
-                                                                                listen: false)
-                                                                                .editItineraryEntry(
-                                                                                entryModel
-                                                                                    .entries!
-                                                                                    .elementAt(
-                                                                                    index),
-                                                                                currentItinerary!,
-                                                                                entryModel
-                                                                                    .entries!
-                                                                                    .elementAt(
-                                                                                    index)
-                                                                                    .id,
-                                                                                userID,
-                                                                                currentItinerary!
-                                                                                    .id,
-                                                                                titleController
-                                                                                    .text,
-                                                                                descriptionController
-                                                                                    .text,
-                                                                                location!,
-                                                                                (date!
-                                                                                    .toString())
-                                                                                    .substring(
-                                                                                    0,
-                                                                                    10) +
-                                                                                    "T" +
-                                                                                    (time
-                                                                                        .toString())
-                                                                                        .substring(
-                                                                                        10,
-                                                                                        15));
-                                                                            Navigator
-                                                                                .of(
-                                                                                context)
-                                                                                .pop();
-                                                                          },
-                                                                          child: Text(
-                                                                              "Edit",
-                                                                              style: TextStyle(
-                                                                                  color: Theme
-                                                                                      .of(
-                                                                                      context)
-                                                                                      .textTheme
-                                                                                      .bodyText1!
-                                                                                      .color))))
-                                                                ])
-                                                          ])));
-                                            });
-                                      }
-                                      if (value == 2) {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              backgroundColor:
-                                              Theme
-                                                  .of(context)
-                                                  .primaryColorDark,
-                                              title: Text("Confirm Removal",
-                                                  style: TextStyle(
-                                                      color: Theme
-                                                          .of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .color)),
-                                              content: Text(
-                                                  "Are you sure you want to remove this itinerary for definite?",
-                                                  style: TextStyle(
-                                                      color: Theme
-                                                          .of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .color)),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                    onPressed: () {
-                                                      Provider.of<
-                                                          ItineraryEntryModel>(
-                                                          c!,
-                                                          listen: false)
-                                                          .deleteItineraryEntry(
-                                                          entryModel.entries!
-                                                              .elementAt(
-                                                              index));
+                                                                                                                  locationModel.suggestions!.elementAt(index).description,
+                                                                                                                  style: TextStyle(fontSize: 16 * MediaQuery.of(context).textScaleFactor, fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyText1!.color),
+                                                                                                                ))));
+                                                                                                      })
+                                                                                                  : Container(height: 10);
+                                                                                            })));
+                                                                                  });
+                                                                            })),
+                                                                    Spacer(),
+                                                                    Padding(
+                                                                        padding:
+                                                                            EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
+                                                                        child: ElevatedButton(
+                                                                            style: ElevatedButton.styleFrom(primary: Theme.of(context).accentColor),
+                                                                            onPressed: () {
+                                                                              Provider.of<ItineraryEntryModel>(c!, listen: false).editItineraryEntry(entryModel.entries!.elementAt(index), currentItinerary!, entryModel.entries!.elementAt(index).id, userID, currentItinerary!.id, titleController.text, descriptionController.text, location!, (date!.toString()).substring(0, 10) + "T" + (time.toString()).substring(10, 15));
+                                                                              Navigator.of(context).pop();
+                                                                            },
+                                                                            child: Text("Edit", style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color))))
+                                                                  ])
+                                                            ])));
+                                              });
+                                        }
+                                        if (value == 2) {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .primaryColorDark,
+                                                title: Text("Confirm Removal",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color)),
+                                                content: Text(
+                                                    "Are you sure you want to remove this itinerary for definite?",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color)),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Provider.of<ItineraryEntryModel>(
+                                                                c!,
+                                                                listen: false)
+                                                            .deleteItineraryEntry(
+                                                                entryModel
+                                                                    .entries!
+                                                                    .elementAt(
+                                                                        index));
 
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                    child: Text("Remove",
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text("Remove",
+                                                          style: TextStyle(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyText1!
+                                                                  .color))),
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.of(context)
+                                                            .pop(false),
+                                                    child: Text("Cancel",
                                                         style: TextStyle(
-                                                            color: Theme
-                                                                .of(context)
+                                                            color: Theme.of(
+                                                                    context)
                                                                 .textTheme
                                                                 .bodyText1!
-                                                                .color))),
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.of(context)
-                                                          .pop(false),
-                                                  child: Text("Cancel",
-                                                      style: TextStyle(
-                                                          color: Theme
-                                                              .of(context)
-                                                              .textTheme
-                                                              .bodyText1!
-                                                              .color)),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      }
-                                      if (value == 5) {
-                                        MapsLauncher.launchQuery(
-                                            entryModel.entries!.elementAt(
-                                                index).location
-                                                .formattedAddress);
-                                      }
-                                      if (value == 3) {
-                                        ItineraryApi.isRegisteredUser(
-                                            entryModel.entries!.elementAt(
-                                                index), context).then((value) {
-                                          if (value) {
-                                            ItineraryApi
-                                                .deregisterForItinerary(
-                                                entryModel.entries!.elementAt(
-                                                    index), context);
-                                          }
-                                          else {
-                                            ItineraryApi.registerForItinerary(
-                                                entryModel.entries!.elementAt(
-                                                    index), context);
-                                          }
-                                        });
-                                      }
-                                      if (value == 4) {
-                                        ItineraryApi.checkUserOff(
-                                            entryModel.entries!.elementAt(
-                                                index), context).then((value) =>
-                                        {
-                                          showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return AlertDialog(
-                                                    backgroundColor: Theme
-                                                        .of(context)
-                                                        .primaryColorDark,
-                                                    title: Text(
-                                                      'Did you like this location?',
-                                                      style: TextStyle(
-                                                          color: Theme
-                                                              .of(
-                                                              context)
-                                                              .textTheme
-                                                              .bodyText1!
-                                                              .color),
+                                                                .color)),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        }
+                                        if (value == 5) {
+                                          MapsLauncher.launchQuery(entryModel
+                                              .entries!
+                                              .elementAt(index)
+                                              .location
+                                              .formattedAddress);
+                                        }
+                                        if (value == 3) {
+                                          ItineraryApi.isRegisteredUser(
+                                                  entryModel.entries!
+                                                      .elementAt(index),
+                                                  context)
+                                              .then((value) {
+                                            if (value) {
+                                              ItineraryApi
+                                                  .deregisterForItinerary(
+                                                      entryModel.entries!
+                                                          .elementAt(index),
+                                                      context);
+                                            } else {
+                                              ItineraryApi.registerForItinerary(
+                                                  entryModel.entries!
+                                                      .elementAt(index),
+                                                  context);
+                                            }
+                                          });
+                                        }
+                                        if (value == 4) {
+                                          ItineraryApi.checkUserOff(
+                                                  entryModel.entries!
+                                                      .elementAt(index),
+                                                  context)
+                                              .then((value) => {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return AlertDialog(
+                                                              backgroundColor:
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .primaryColorDark,
+                                                              title: Text(
+                                                                'Did you like this location?',
+                                                                style: TextStyle(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .bodyText1!
+                                                                        .color),
+                                                              ),
+                                                              actions: <Widget>[
+                                                                TextButton(
+                                                                  child: Text(
+                                                                      'Yes',
+                                                                      style: TextStyle(
+                                                                          color: Theme.of(context)
+                                                                              .textTheme
+                                                                              .bodyText1!
+                                                                              .color)),
+                                                                  onPressed:
+                                                                      () {
+                                                                    LocationApi.likeLocation(
+                                                                        entryModel
+                                                                            .entries!
+                                                                            .elementAt(index)
+                                                                            .id,
+                                                                        context);
+                                                                  },
+                                                                ),
+                                                                TextButton(
+                                                                  child: Text(
+                                                                      'No',
+                                                                      style: TextStyle(
+                                                                          color: Theme.of(context)
+                                                                              .textTheme
+                                                                              .bodyText1!
+                                                                              .color)),
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.of(
+                                                                            context)
+                                                                        .pop();
+                                                                  },
+                                                                ),
+                                                              ]);
+                                                        })
+                                                  });
+                                        }
+                                      },
+                                      itemBuilder: (context) => [
+                                            PopupMenuItem(
+                                                value: 1,
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5),
+                                                      child: Icon(
+                                                          Icons.edit_rounded,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText2!
+                                                                  .color),
                                                     ),
-                                                    actions: <Widget>[
-                                                      TextButton(
-                                                        child: Text(
-                                                            'Yes',
-                                                            style: TextStyle(
-                                                                color: Theme
-                                                                    .of(
+                                                    Text("Edit",
+                                                        style: TextStyle(
+                                                            color: Theme.of(
                                                                     context)
-                                                                    .textTheme
-                                                                    .bodyText1!
-                                                                    .color)),
-                                                        onPressed: () {
-                                                          LocationApi
-                                                              .likeLocation(
-                                                              entryModel
-                                                                  .entries!
-                                                                  .elementAt(
-                                                                  index).id,
-                                                              context);
-                                                        },
-                                                      ),
-                                                      TextButton(
-                                                        child: Text(
-                                                            'No',
-                                                            style: TextStyle(
-                                                                color: Theme
-                                                                    .of(
+                                                                .textTheme
+                                                                .bodyText2!
+                                                                .color))
+                                                  ],
+                                                )),
+                                            PopupMenuItem(
+                                                value: 3,
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5),
+                                                      child: Icon(Icons.person,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText2!
+                                                                  .color),
+                                                    ),
+                                                    Text("Sign up/Opt out",
+                                                        style: TextStyle(
+                                                            color: Theme.of(
                                                                     context)
-                                                                    .textTheme
-                                                                    .bodyText1!
-                                                                    .color)),
-                                                        onPressed: () {
-                                                          Navigator.of(
-                                                              context)
-                                                              .pop();
-                                                        },
-                                                      ),
-                                                    ]);
-                                              })
-                                        });
-                                      }
-                                    },
-                                    itemBuilder: (context) =>
-                                    [
-                                      PopupMenuItem(
-                                          value: 1,
-                                          child: Row(
-                                            children: <
-                                                Widget>[
-                                              Padding(
-                                                padding:
-                                                const EdgeInsets
-                                                    .all(5),
-                                                child: Icon(
-                                                    Icons
-                                                        .edit_rounded,
-                                                    color: Theme
-                                                        .of(
-                                                        context)
-                                                        .textTheme
-                                                        .bodyText2!
-                                                        .color),
-                                              ),
-                                              Text("Edit",
-                                                  style: TextStyle(
-                                                      color: Theme
-                                                          .of(
-                                                          context)
-                                                          .textTheme
-                                                          .bodyText2!
-                                                          .color))
-                                            ],
-                                          )),
-                                      PopupMenuItem(
-                                          value: 3,
-                                          child: Row(
-                                            children: <
-                                                Widget>[
-                                              Padding(
-                                                padding:
-                                                const EdgeInsets
-                                                    .all(5),
-                                                child: Icon(
-                                                    Icons
-                                                        .person,
-                                                    color: Theme
-                                                        .of(
-                                                        context)
-                                                        .textTheme
-                                                        .bodyText2!
-                                                        .color),
-                                              ),
-                                              Text("Sign up/Opt out",
-                                                  style: TextStyle(
-                                                      color: Theme
-                                                          .of(
-                                                          context)
-                                                          .textTheme
-                                                          .bodyText2!
-                                                          .color))
-                                            ],
-                                          )),
-                                      PopupMenuItem(
-                                          value: 5,
-                                          child: Row(
-                                            children: <
-                                                Widget>[
-                                              Padding(
-                                                padding:
-                                                const EdgeInsets
-                                                    .all(5),
-                                                child: Icon(
-                                                    Icons
-                                                        .map_outlined,
-                                                    color: Theme
-                                                        .of(
-                                                        context)
-                                                        .textTheme
-                                                        .bodyText2!
-                                                        .color),
-                                              ),
-                                              Text("Open Map",
-                                                  style: TextStyle(
-                                                      color: Theme
-                                                          .of(
-                                                          context)
-                                                          .textTheme
-                                                          .bodyText2!
-                                                          .color))
-                                            ],
-                                          )),
-                                      PopupMenuItem(
-                                          value: 4,
-                                          child: Row(
-                                            children: <
-                                                Widget>[
-                                              Padding(
-                                                padding:
-                                                const EdgeInsets
-                                                    .all(5),
-                                                child: Icon(
-                                                    Icons
-                                                        .location_history,
-                                                    color: Theme
-                                                        .of(
-                                                        context)
-                                                        .textTheme
-                                                        .bodyText2!
-                                                        .color),
-                                              ),
-                                              Text("Check in",
-                                                  style: TextStyle(
-                                                      color: Theme
-                                                          .of(
-                                                          context)
-                                                          .textTheme
-                                                          .bodyText2!
-                                                          .color))
-                                            ],
-                                          )),
-
-                                      PopupMenuItem(
-                                          value: 2,
-                                          child: Row(
-                                            children: <
-                                                Widget>[
-                                              Padding(
-                                                padding:
-                                                const EdgeInsets
-                                                    .all(5),
-                                                child: Icon(
-                                                    Icons
-                                                        .delete,
-                                                    color: Theme
-                                                        .of(
-                                                        context)
-                                                        .textTheme
-                                                        .bodyText2!
-                                                        .color),
-                                              ),
-                                              Text("Delete",
-                                                  style: TextStyle(
-                                                      color: Theme
-                                                          .of(
-                                                          context)
-                                                          .textTheme
-                                                          .bodyText2!
-                                                          .color))
-                                            ],
-                                          ))
-                                    ]),
-                              ]),
-
-
-                            ))
-                    );
-                  }),)),
-              SizedBox(height: 10),
-              SizedBox(child: Text("Recommendations",
+                                                                .textTheme
+                                                                .bodyText2!
+                                                                .color))
+                                                  ],
+                                                )),
+                                            PopupMenuItem(
+                                                value: 5,
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5),
+                                                      child: Icon(
+                                                          Icons.map_outlined,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText2!
+                                                                  .color),
+                                                    ),
+                                                    Text("Open Map",
+                                                        style: TextStyle(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyText2!
+                                                                .color))
+                                                  ],
+                                                )),
+                                            PopupMenuItem(
+                                                value: 4,
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5),
+                                                      child: Icon(
+                                                          Icons
+                                                              .location_history,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText2!
+                                                                  .color),
+                                                    ),
+                                                    Text("Check in",
+                                                        style: TextStyle(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyText2!
+                                                                .color))
+                                                  ],
+                                                )),
+                                            PopupMenuItem(
+                                                value: 2,
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5),
+                                                      child: Icon(Icons.delete,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText2!
+                                                                  .color),
+                                                    ),
+                                                    Text("Delete",
+                                                        style: TextStyle(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyText2!
+                                                                .color))
+                                                  ],
+                                                ))
+                                          ]),
+                                ]),
+                              )));
+                    }),
+              )),
+          SizedBox(height: 10),
+          SizedBox(
+              child: Text("Recommendations",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 20 * MediaQuery
-                          .of(context)
-                          .textScaleFactor,
+                      fontSize: 20 * MediaQuery.of(context).textScaleFactor,
                       fontWeight: FontWeight.bold,
-                      color: Theme
-                          .of(context)
-                          .textTheme
-                          .bodyText1!
-                          .color))),
-              SizedBox(height: 10),
-              Expanded(
-                flex: 3,
-                child: _RecommendedItems(
-                    currentAdventure!, currentItinerary!, c!, entryModel),
-              ),
-            ]);
-          } else {
-            return Column(children: [
-              Expanded(flex: 4,
-                  child: Center(
-                      child: Text("Seems like you've got nowhere to go!",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 30 * MediaQuery
-                                  .of(context)
-                                  .textScaleFactor,
-                              color: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .color)))),
-              SizedBox(height: 10),
-              SizedBox(child: Text("Recommendations",
+                      color: Theme.of(context).textTheme.bodyText1!.color))),
+          SizedBox(height: 10),
+          Expanded(
+            flex: 3,
+            child: _RecommendedItems(
+                currentAdventure!, currentItinerary!, c!, entryModel),
+          ),
+        ]);
+      } else {
+        return Column(children: [
+          Expanded(
+              flex: 4,
+              child: Center(
+                  child: Text("Seems like you've got nowhere to go!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                          color:
+                              Theme.of(context).textTheme.bodyText1!.color)))),
+          SizedBox(height: 10),
+          SizedBox(
+              child: Text("Recommendations",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 20 * MediaQuery
-                          .of(context)
-                          .textScaleFactor,
+                      fontSize: 20 * MediaQuery.of(context).textScaleFactor,
                       fontWeight: FontWeight.bold,
-                      color: Theme
-                          .of(context)
-                          .textTheme
-                          .bodyText1!
-                          .color))),
-              SizedBox(height: 10),
-              Expanded(flex: 2,
-                child: _RecommendedItems(
-                    currentAdventure!, currentItinerary!, c!, entryModel),)
-            ]);
-          }
-        });
+                      color: Theme.of(context).textTheme.bodyText1!.color))),
+          SizedBox(height: 10),
+          Expanded(
+            flex: 2,
+            child: _RecommendedItems(
+                currentAdventure!, currentItinerary!, c!, entryModel),
+          )
+        ]);
+      }
+    });
   }
 
   Future<DateTime?> showDate() {
@@ -2209,8 +1905,8 @@ class ListItineraryItems extends State<_ListItineraryItems> {
             ),
             textButtonTheme: TextButtonThemeData(
                 style: TextButton.styleFrom(
-                  primary: Color(0xffA7AAB9), // button text color
-                )),
+              primary: Color(0xffA7AAB9), // button text color
+            )),
             accentColor: Color(0xff6A7AC7),
             colorScheme: ColorScheme.light(
                 primary: Color(0xff20222D),
@@ -2227,12 +1923,8 @@ class ListItineraryItems extends State<_ListItineraryItems> {
         );
       },
       initialDate: date ?? DateTime.now(),
-      firstDate: new DateTime(DateTime
-          .now()
-          .year - 5),
-      lastDate: new DateTime(DateTime
-          .now()
-          .year + 5),
+      firstDate: new DateTime(DateTime.now().year - 5),
+      lastDate: new DateTime(DateTime.now().year + 5),
     );
   }
 
@@ -2246,8 +1938,8 @@ class ListItineraryItems extends State<_ListItineraryItems> {
             splashColor: Color(0xff20222D),
             timePickerTheme: TimePickerThemeData(
                 helpTextStyle: TextStyle(
-                  color: Color(0xffA7AAB9),
-                )),
+              color: Color(0xffA7AAB9),
+            )),
             textTheme: TextTheme(
               subtitle1: TextStyle(color: Color(0xffA7AAB9)),
               bodyText2: TextStyle(color: Color(0xffA7AAB9)),
@@ -2258,8 +1950,8 @@ class ListItineraryItems extends State<_ListItineraryItems> {
             ),
             textButtonTheme: TextButtonThemeData(
                 style: TextButton.styleFrom(
-                  primary: Color(0xffA7AAB9), // button text color
-                )),
+              primary: Color(0xffA7AAB9), // button text color
+            )),
             accentColor: Color(0xff6A7AC7),
             colorScheme: ColorScheme.light(
                 primary: Color(0xff6A7AC7),
@@ -2296,7 +1988,6 @@ class ListItineraryItems extends State<_ListItineraryItems> {
   }
 }
 
-
 class Debouncer {
   final int milliseconds;
   VoidCallback? action;
@@ -2325,164 +2016,113 @@ class RegisteredUsers extends StatelessWidget {
         create: (context) => RegisteredUserModel(this.currentEntry!, context),
         builder: (context, widget) {
           return Consumer<RegisteredUserModel>(
-              builder: (context, registeredModel,
-                  child) {
-                if (registeredModel.users == null) {
-                  return Column(children: [
-                    SizedBox(height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.01), Center(
-                        child: CircularProgressIndicator(
-                            valueColor: new AlwaysStoppedAnimation<Color>(
-                                Theme
-                                    .of(context)
-                                    .accentColor))), SizedBox(height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.01)
-                  ]);
-                } else if (registeredModel.users!.length > 0) {
-                  return
-                    Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.01), Center(
-                              child: Text("Participating Adventurers",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 20 * MediaQuery
-                                          .of(context)
-                                          .textScaleFactor,
-                                      color: Theme
-                                          .of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .color))), SizedBox(height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.01),
-                          ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: registeredModel
-                                  .users!.length,
-                              itemBuilder: (context,
-                                  index) {
-                                return ListTile(
-                                    leading: CachedNetworkImage(
-                                        useOldImageOnUrlChange: true,
-                                        imageUrl:
-                                        userApi + "/user/viewPicture/" +
-                                            registeredModel.users!.elementAt(
-                                                index)
-                                                .user.profileID,
-                                        imageBuilder: (context,
-                                            imageProvider) =>
-                                            Container(
-                                                width: 70,
-                                                height: 70,
-                                                decoration: new BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Theme
-                                                          .of(context)
-                                                          .accentColor,
-                                                      width: 3,
-                                                    ),
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        fit: BoxFit.cover,
-                                                        image: imageProvider
-                                                    ))),
-
-                                        placeholder: (context, url) =>
-                                            Container(
-                                                width: 70,
-                                                height: 70,
-                                                decoration: new BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Theme
-                                                          .of(context)
-                                                          .accentColor,
-                                                      width: 3,
-                                                    ),
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        fit: BoxFit.cover,
-                                                        image: AssetImage(
-                                                            "pfp.png")
-                                                    ))),
-
-                                        errorWidget: (context, url, error) =>
-                                            Container(
-                                                width: 70,
-                                                height: 70,
-                                                decoration: new BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Theme
-                                                          .of(context)
-                                                          .accentColor,
-                                                      width: 3,
-                                                    ),
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        fit: BoxFit.cover,
-                                                        image: AssetImage(
-                                                            "pfp.png")
-                                                    )))),
-
-                                    title: Text(
-                                        registeredModel.users!.elementAt(index)
-                                            .user.username,
-                                        style: TextStyle(
-                                            decoration: registeredModel.users!
-                                                .elementAt(index).checkIn
-                                                ? TextDecoration
-                                                .lineThrough
-                                                : null,
-                                            fontSize: 15,
-                                            color: Theme
-                                                .of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color))
-                                );
-                              }),
-                          SizedBox(height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.01),
-                        ]);
-                }
-                else {
-                  return Column(children: [
-                    SizedBox(height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.01),
-                    Center(
-                        child: Text("Be the first to join in on this activity!",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20 * MediaQuery
-                                    .of(context)
-                                    .textScaleFactor,
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .color))),
-                    SizedBox(height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.01)
-                  ]);
-                }
-              }
-
-          );
+              builder: (context, registeredModel, child) {
+            if (registeredModel.users == null) {
+              return Column(children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                Center(
+                    child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            Theme.of(context).accentColor))),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01)
+              ]);
+            } else if (registeredModel.users!.length > 0) {
+              return Column(mainAxisSize: MainAxisSize.min, children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                Center(
+                    child: Text("Participating Adventurers",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize:
+                                20 * MediaQuery.of(context).textScaleFactor,
+                            color:
+                                Theme.of(context).textTheme.bodyText1!.color))),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: registeredModel.users!.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                          leading: CachedNetworkImage(
+                              useOldImageOnUrlChange: true,
+                              imageUrl: userApi +
+                                  "/user/viewPicture/" +
+                                  registeredModel.users!
+                                      .elementAt(index)
+                                      .user
+                                      .profileID,
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                      width: 70,
+                                      height: 70,
+                                      decoration: new BoxDecoration(
+                                          border: Border.all(
+                                            color:
+                                                Theme.of(context).accentColor,
+                                            width: 3,
+                                          ),
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: imageProvider))),
+                              placeholder: (context, url) => Container(
+                                  width: 70,
+                                  height: 70,
+                                  decoration: new BoxDecoration(
+                                      border: Border.all(
+                                        color: Theme.of(context).accentColor,
+                                        width: 3,
+                                      ),
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage("pfp.png")))),
+                              errorWidget: (context, url, error) => Container(
+                                  width: 70,
+                                  height: 70,
+                                  decoration: new BoxDecoration(
+                                      border: Border.all(
+                                        color: Theme.of(context).accentColor,
+                                        width: 3,
+                                      ),
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage("pfp.png"))))),
+                          title: Text(
+                              registeredModel.users!
+                                  .elementAt(index)
+                                  .user
+                                  .username,
+                              style: TextStyle(
+                                  decoration: registeredModel.users!
+                                          .elementAt(index)
+                                          .checkIn
+                                      ? TextDecoration.lineThrough
+                                      : null,
+                                  fontSize: 15,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color)));
+                    }),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+              ]);
+            } else {
+              return Column(children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                Center(
+                    child: Text("Be the first to join in on this activity!",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize:
+                                20 * MediaQuery.of(context).textScaleFactor,
+                            color:
+                                Theme.of(context).textTheme.bodyText1!.color))),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01)
+              ]);
+            }
+          });
         });
   }
 }
@@ -2494,9 +2134,8 @@ class _RecommendedItems extends StatelessWidget {
   ItineraryEntryModel? entryModel;
   final ScrollController _controller = ScrollController();
 
-
-  _RecommendedItems(Adventure a, Itinerary i, BuildContext c,
-      ItineraryEntryModel iEM) {
+  _RecommendedItems(
+      Adventure a, Itinerary i, BuildContext c, ItineraryEntryModel iEM) {
     this.currentAdventure = a;
     this.currentItinerary = i;
     this.context = c;
@@ -2504,438 +2143,441 @@ class _RecommendedItems extends StatelessWidget {
   }
 
   double getSize(BuildContext context) {
-    if (MediaQuery
-        .of(context)
-        .size
-        .width > MediaQuery
-        .of(context)
-        .size
-        .height) {
-      return (MediaQuery
-          .of(context)
-          .size
-          .width / 3);
-    }
-    else {
-      return (MediaQuery
-          .of(context)
-          .size
-          .width / 2);
+    if (MediaQuery.of(context).size.width >
+        MediaQuery.of(context).size.height) {
+      return (MediaQuery.of(context).size.width / 3);
+    } else {
+      return (MediaQuery.of(context).size.width / 2);
     }
   }
 
-
   @override
   Widget build(context) {
-    if (entryModel!.popular != null && entryModel!.recommendations != null &&
+    if (entryModel!.popular != null &&
+        entryModel!.recommendations != null &&
         entryModel!.popular!.length > 0) {
-      return
-        Container(width: MediaQuery
-            .of(context)
-            .size
-            .width, child:
-        Stack(children: [
-          ListView.builder(
-              scrollDirection: Axis.horizontal,
-              controller: _controller,
-              shrinkWrap: true,
-              itemCount: entryModel!
-                  .popular!.length + entryModel!
-                  .recommendations!.length,
-              itemBuilder: (context,
-                  index) {
-                if (index < entryModel!.popular!.length) {
-                  return Container(
-                      width: getSize(context), child: ClipRect(child: Card(
-                      color: Theme
-                          .of(context)
-                          .primaryColorDark,
-                      child: Banner(
-                          location: BannerLocation.topEnd,
-                          message: "Popular",
-                          color: Theme
-                              .of(context)
-                              .accentColor,
-                          textStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 10 *
-                                  MediaQuery
-                                      .of(context)
-                                      .textScaleFactor,
-                              color: Theme
-                                  .of(context)
-                                  .scaffoldBackgroundColor),
-                          child: InkWell(
-                              onTap: () {
-                                var provider = Provider.of<
-                                    ItineraryEntryModel>(
-                                    context, listen: false);
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertBoxRecommendation(
-                                          currentItinerary!, provider,
-                                          entryModel!.popular!.elementAt(
-                                              index));
-                                    });
-                              },
-                              hoverColor: Theme
-                                  .of(context)
-                                  .primaryColorLight,
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Expanded(flex: 5, child: Container(
-                                        decoration: new BoxDecoration(
-                                            image: new DecorationImage(
-                                              //TODO: operand can't be null (always false)
-                                              image: entryModel!.popular!
-                                                  .elementAt(
-                                                  index).photoReference == ""
-                                                  ? NetworkImage(
-                                                  "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                                      currentAdventure!.location
-                                                          .photoReference +
-                                                      "&maxwidth=700&key=" +
-                                                      googleMapsKey)
-                                                  : NetworkImage(
-                                                  "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                                      entryModel!.popular!
-                                                          .elementAt(
-                                                          index)
-                                                          .photoReference +
-                                                      "&maxwidth=500&key=" +
-                                                      googleMapsKey),
-                                              fit: BoxFit.cover,
-                                            )
-                                        ))),
-                                    Expanded(flex: 3, child:
-                                    ListTile(
-                                      title: Text(
-                                          entryModel!.popular!
-                                              .elementAt(index).name,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 20 *
-                                                  MediaQuery
-                                                      .of(context)
-                                                      .textScaleFactor,
-                                              fontWeight: FontWeight.bold,
-                                              color: Theme
-                                                  .of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color)),
-                                      // subtitle:Text(adventures.elementAt(index).description),
-                                      subtitle: RichText(
-                                        textAlign: TextAlign.center,
-                                        text: TextSpan(children: [
-                                          WidgetSpan(
-                                              child: Icon(
-                                                Icons.location_on,
-                                                size: 15,
-                                                color: Theme
-                                                    .of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color,
-                                              )),
-                                          TextSpan(
-                                              text: " " +
-                                                  entryModel!.popular!
-                                                      .elementAt(index)
-                                                      .name,
-                                              style: TextStyle(
-                                                  fontSize: 12 *
-                                                      MediaQuery
-                                                          .of(
-                                                          context)
-                                                          .textScaleFactor,
-                                                  color: Theme
-                                                      .of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color)),
-
-                                        ]),
-                                      ),
-                                    )),
-                                    Expanded(
-                                      child: Center(
-                                          child: entryModel!.popular!.elementAt(
-                                              index)
-                                              .liked
-                                              ? IconButton(
-                                              splashRadius: 21,
-                                              onPressed: () {
-                                                Provider.of<
-                                                    ItineraryEntryModel>(
-                                                    context, listen: false)
-                                                    .likeLocation(
+      return Container(
+          width: MediaQuery.of(context).size.width,
+          child: Stack(children: [
+            ListView.builder(
+                scrollDirection: Axis.horizontal,
+                controller: _controller,
+                shrinkWrap: true,
+                itemCount: entryModel!.popular!.length +
+                    entryModel!.recommendations!.length,
+                itemBuilder: (context, index) {
+                  if (index < entryModel!.popular!.length) {
+                    return Container(
+                        width: getSize(context),
+                        child: ClipRect(
+                            child: Card(
+                                color: Theme.of(context).primaryColorDark,
+                                child: Banner(
+                                    location: BannerLocation.topEnd,
+                                    message: "Popular",
+                                    color: Theme.of(context).accentColor,
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 10 *
+                                            MediaQuery.of(context)
+                                                .textScaleFactor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor),
+                                    child: InkWell(
+                                        onTap: () {
+                                          var provider =
+                                              Provider.of<ItineraryEntryModel>(
+                                                  context,
+                                                  listen: false);
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertBoxRecommendation(
+                                                    currentItinerary!,
+                                                    provider,
                                                     entryModel!.popular!
-                                                        .elementAt(
-                                                        index).id, context);
-                                              },
-                                              iconSize: 20,
-                                              color: Color(0xff931621),
-                                              icon: Icon(
-                                                  Icons.favorite_rounded))
-                                              : IconButton(
-                                              onPressed: () {
-                                                Provider.of<
-                                                    ItineraryEntryModel>(
-                                                    context, listen: false)
-                                                    .likeLocation(
-                                                    entryModel!.popular!
-                                                        .elementAt(
-                                                        index).id, context);
-                                              },
-                                              splashRadius: 21,
-                                              iconSize: 20,
-                                              color: Theme
-                                                  .of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color,
-                                              icon: Icon(
-                                                  Icons
-                                                      .favorite_outline_rounded)
-                                          )),
-                                    ),
-                                    Spacer(),
-                                  ])
-                          )))));
-                }
-                else {
-                  return Container(
-                      width: getSize(context), child: ClipRect(child: Card(
-                      color: Theme
-                          .of(context)
-                          .primaryColorDark,
-                      child: Banner(
-                          location: BannerLocation.topEnd,
-                          message: "Recommended",
-                          color: Theme
-                              .of(context)
-                              .textTheme
-                              .bodyText1!
-                              .color!,
-                          textStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 10 *
-                                  MediaQuery
-                                      .of(context)
-                                      .textScaleFactor,
-                              color: Theme
-                                  .of(context)
-                                  .scaffoldBackgroundColor),
-                          child: InkWell(
-                              onTap: () {
-                                var provider = Provider.of<
-                                    ItineraryEntryModel>(
-                                    context, listen: false);
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertBoxRecommendation(
-                                          currentItinerary!, provider,
-                                          entryModel!.recommendations!
-                                              .elementAt(index -
-                                              entryModel!.popular!.length));
-                                    });
-                              },
-                              hoverColor: Theme
-                                  .of(context)
-                                  .primaryColorLight,
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Expanded(flex: 5, child: Container(
-                                        decoration: new BoxDecoration(
-                                            image: new DecorationImage(
-                                              //TODO: operand can't be null (always false)
-                                              image: entryModel!
-                                                  .recommendations!
-                                                  .elementAt(
-                                                  index - entryModel!.popular!
-                                                      .length).photoReference ==
-                                                  ""
-                                                  ? NetworkImage(
-                                                  "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                                      currentAdventure!.location
-                                                          .photoReference +
-                                                      "&maxwidth=700&key=" +
-                                                      googleMapsKey)
-                                                  : NetworkImage(
-                                                  "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                                      entryModel!
-                                                          .recommendations!
-                                                          .elementAt(
-                                                          index - entryModel!
-                                                              .popular!.length)
-                                                          .photoReference +
-                                                      "&maxwidth=500&key=" +
-                                                      googleMapsKey),
-                                              fit: BoxFit.cover,
-                                            )
-                                        ))),
-                                    Expanded(flex: 3, child:
-                                    ListTile(
-                                      title: Text(
-                                          entryModel!.recommendations!
-                                              .elementAt(index -
-                                              entryModel!.popular!.length).name,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 20 *
-                                                  MediaQuery
-                                                      .of(context)
-                                                      .textScaleFactor,
-                                              fontWeight: FontWeight.bold,
-                                              color: Theme
-                                                  .of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color)),
-                                      // subtitle:Text(adventures.elementAt(index).description),
-                                      subtitle: RichText(
-                                        textAlign: TextAlign.center,
-                                        text: TextSpan(children: [
-                                          WidgetSpan(
-                                              child: Icon(
-                                                Icons.location_on,
-                                                size: 15,
-                                                color: Theme
-                                                    .of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color,
-                                              )),
-                                          TextSpan(
-                                              text: " " +
-                                                  entryModel!.recommendations!
-                                                      .elementAt(index -
-                                                      entryModel!.popular!
-                                                          .length)
-                                                      .name,
-                                              style: TextStyle(
-                                                  fontSize: 12 *
-                                                      MediaQuery
-                                                          .of(
-                                                          context)
-                                                          .textScaleFactor,
-                                                  color: Theme
-                                                      .of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color)),
-
-                                        ]),
-                                      ),
-                                    )),
-                                    Expanded(
-                                      child: Center(
-                                          child: entryModel!.recommendations!
-                                              .elementAt(index -
-                                              entryModel!.popular!.length).liked
-                                              ? IconButton(
-                                              splashRadius: 21,
-                                              onPressed: () {
-                                                Provider.of<
-                                                    ItineraryEntryModel>(
-                                                    context, listen: false)
-                                                    .likeLocation(
-                                                    entryModel!.popular!
-                                                        .elementAt(index -
+                                                        .elementAt(index));
+                                              });
+                                        },
+                                        hoverColor:
+                                            Theme.of(context).primaryColorLight,
+                                        child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Expanded(
+                                                  flex: 5,
+                                                  child: Container(
+                                                      decoration:
+                                                          new BoxDecoration(
+                                                              image:
+                                                                  new DecorationImage(
+                                                    //TODO: operand can't be null (always false)
+                                                    image: entryModel!.popular!
+                                                                .elementAt(
+                                                                    index)
+                                                                .photoReference ==
+                                                            ""
+                                                        ? NetworkImage(
+                                                            "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                                                currentAdventure!
+                                                                    .location
+                                                                    .photoReference +
+                                                                "&maxwidth=700&key=" +
+                                                                googleMapsKey)
+                                                        : NetworkImage(
+                                                            "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                                                entryModel!
+                                                                    .popular!
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .photoReference +
+                                                                "&maxwidth=500&key=" +
+                                                                googleMapsKey),
+                                                    fit: BoxFit.cover,
+                                                  )))),
+                                              Expanded(
+                                                  flex: 3,
+                                                  child: ListTile(
+                                                    title: Text(
                                                         entryModel!.popular!
-                                                            .length).id,
-                                                    context);
-                                              },
-                                              iconSize: 20,
-                                              color: Color(0xff931621),
-                                              icon: Icon(
-                                                  Icons.favorite_rounded))
-                                              : IconButton(
-                                              onPressed: () {
-                                                Provider.of<
-                                                    ItineraryEntryModel>(
-                                                    context, listen: false)
-                                                    .likeLocation(
-                                                    entryModel!.popular!
+                                                            .elementAt(index)
+                                                            .name,
+                                                        textAlign: TextAlign
+                                                            .center,
+                                                        style: TextStyle(
+                                                            fontSize: 20 *
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .textScaleFactor,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyText1!
+                                                                .color)),
+                                                    // subtitle:Text(adventures.elementAt(index).description),
+                                                    subtitle: RichText(
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      text: TextSpan(children: [
+                                                        WidgetSpan(
+                                                            child: Icon(
+                                                          Icons.location_on,
+                                                          size: 15,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText1!
+                                                                  .color,
+                                                        )),
+                                                        TextSpan(
+                                                            text: " " +
+                                                                entryModel!
+                                                                    .popular!
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .name,
+                                                            style: TextStyle(
+                                                                fontSize: 12 *
+                                                                    MediaQuery.of(
+                                                                            context)
+                                                                        .textScaleFactor,
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color)),
+                                                      ]),
+                                                    ),
+                                                  )),
+                                              Expanded(
+                                                child: Center(
+                                                    child: entryModel!.popular!
+                                                            .elementAt(index)
+                                                            .liked
+                                                        ? IconButton(
+                                                            splashRadius: 21,
+                                                            onPressed: () {
+                                                              Provider.of<ItineraryEntryModel>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .likeLocation(
+                                                                      entryModel!
+                                                                          .popular!
+                                                                          .elementAt(
+                                                                              index)
+                                                                          .id,
+                                                                      context);
+                                                            },
+                                                            iconSize: 20,
+                                                            color: Color(
+                                                                0xff931621),
+                                                            icon: Icon(Icons
+                                                                .favorite_rounded))
+                                                        : IconButton(
+                                                            onPressed: () {
+                                                              Provider.of<ItineraryEntryModel>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .likeLocation(
+                                                                      entryModel!
+                                                                          .popular!
+                                                                          .elementAt(
+                                                                              index)
+                                                                          .id,
+                                                                      context);
+                                                            },
+                                                            splashRadius: 21,
+                                                            iconSize: 20,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyText1!
+                                                                .color,
+                                                            icon: Icon(Icons
+                                                                .favorite_outline_rounded))),
+                                              ),
+                                              Spacer(),
+                                            ]))))));
+                  } else {
+                    return Container(
+                        width: getSize(context),
+                        child: ClipRect(
+                            child: Card(
+                                color: Theme.of(context).primaryColorDark,
+                                child: Banner(
+                                    location: BannerLocation.topEnd,
+                                    message: "Recommended",
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .color!,
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 10 *
+                                            MediaQuery.of(context)
+                                                .textScaleFactor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor),
+                                    child: InkWell(
+                                        onTap: () {
+                                          var provider =
+                                              Provider.of<ItineraryEntryModel>(
+                                                  context,
+                                                  listen: false);
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertBoxRecommendation(
+                                                    currentItinerary!,
+                                                    provider,
+                                                    entryModel!.recommendations!
                                                         .elementAt(index -
-                                                        entryModel!.popular!
-                                                            .length).id,
-                                                    context);
-                                              },
-                                              splashRadius: 21,
-                                              iconSize: 20,
-                                              color: Theme
-                                                  .of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color,
-                                              icon: Icon(
-                                                  Icons
-                                                      .favorite_outline_rounded)
-                                          )),
-                                    ),
-                                    Spacer(),
-                                  ])
-                          )))));
-                }
-              }
-          ), Positioned(
-              top: 50,
-              left: 0,
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: Theme
-                          .of(context)
-                          .accentColor,
-                      shape: BoxShape.circle), child: IconButton(
-                color: Theme
-                    .of(context)
-                    .primaryColorDark,
-                icon: Icon(Icons.arrow_left_rounded),
-                onPressed: () {
-                  _controller.jumpTo(_controller.offset - getSize(context));
-                },
-              ))
-          ), Positioned(
-              top: 50,
-              right: 0,
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: Theme
-                          .of(context)
-                          .accentColor,
-                      shape: BoxShape.circle), child: IconButton(
-                color: Theme
-                    .of(context)
-                    .primaryColorDark,
-                icon: Icon(Icons.arrow_right_rounded),
-                onPressed: () {
-                  _controller.jumpTo(_controller.offset + getSize(context));
-                },
-              ))
-          ),
-        ]));
-    }
-
-    else {
+                                                            entryModel!.popular!
+                                                                .length));
+                                              });
+                                        },
+                                        hoverColor:
+                                            Theme.of(context).primaryColorLight,
+                                        child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Expanded(
+                                                  flex: 5,
+                                                  child: Container(
+                                                      decoration:
+                                                          new BoxDecoration(
+                                                              image:
+                                                                  new DecorationImage(
+                                                    //TODO: operand can't be null (always false)
+                                                    image: entryModel!
+                                                                .recommendations!
+                                                                .elementAt(index -
+                                                                    entryModel!
+                                                                        .popular!
+                                                                        .length)
+                                                                .photoReference ==
+                                                            ""
+                                                        ? NetworkImage(
+                                                            "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                                                currentAdventure!
+                                                                    .location
+                                                                    .photoReference +
+                                                                "&maxwidth=700&key=" +
+                                                                googleMapsKey)
+                                                        : NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                                            entryModel!
+                                                                .recommendations!
+                                                                .elementAt(index -
+                                                                    entryModel!
+                                                                        .popular!
+                                                                        .length)
+                                                                .photoReference +
+                                                            "&maxwidth=500&key=" +
+                                                            googleMapsKey),
+                                                    fit: BoxFit.cover,
+                                                  )))),
+                                              Expanded(
+                                                  flex: 3,
+                                                  child: ListTile(
+                                                    title: Text(
+                                                        entryModel!
+                                                            .recommendations!
+                                                            .elementAt(index -
+                                                                entryModel!
+                                                                    .popular!
+                                                                    .length)
+                                                            .name,
+                                                        textAlign: TextAlign
+                                                            .center,
+                                                        style: TextStyle(
+                                                            fontSize: 20 *
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .textScaleFactor,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyText1!
+                                                                .color)),
+                                                    // subtitle:Text(adventures.elementAt(index).description),
+                                                    subtitle: RichText(
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      text: TextSpan(children: [
+                                                        WidgetSpan(
+                                                            child: Icon(
+                                                          Icons.location_on,
+                                                          size: 15,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText1!
+                                                                  .color,
+                                                        )),
+                                                        TextSpan(
+                                                            text: " " +
+                                                                entryModel!
+                                                                    .recommendations!
+                                                                    .elementAt(index -
+                                                                        entryModel!
+                                                                            .popular!
+                                                                            .length)
+                                                                    .name,
+                                                            style: TextStyle(
+                                                                fontSize: 12 *
+                                                                    MediaQuery.of(
+                                                                            context)
+                                                                        .textScaleFactor,
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color)),
+                                                      ]),
+                                                    ),
+                                                  )),
+                                              Expanded(
+                                                child: Center(
+                                                    child: entryModel!
+                                                            .recommendations!
+                                                            .elementAt(index -
+                                                                entryModel!
+                                                                    .popular!
+                                                                    .length)
+                                                            .liked
+                                                        ? IconButton(
+                                                            splashRadius: 21,
+                                                            onPressed: () {
+                                                              Provider.of<ItineraryEntryModel>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .likeLocation(
+                                                                      entryModel!
+                                                                          .popular!
+                                                                          .elementAt(index -
+                                                                              entryModel!.popular!.length)
+                                                                          .id,
+                                                                      context);
+                                                            },
+                                                            iconSize: 20,
+                                                            color: Color(
+                                                                0xff931621),
+                                                            icon: Icon(Icons
+                                                                .favorite_rounded))
+                                                        : IconButton(
+                                                            onPressed: () {
+                                                              Provider.of<ItineraryEntryModel>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .likeLocation(
+                                                                      entryModel!
+                                                                          .popular!
+                                                                          .elementAt(index -
+                                                                              entryModel!.popular!.length)
+                                                                          .id,
+                                                                      context);
+                                                            },
+                                                            splashRadius: 21,
+                                                            iconSize: 20,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyText1!
+                                                                .color,
+                                                            icon: Icon(Icons
+                                                                .favorite_outline_rounded))),
+                                              ),
+                                              Spacer(),
+                                            ]))))));
+                  }
+                }),
+            Positioned(
+                top: 50,
+                left: 0,
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).accentColor,
+                        shape: BoxShape.circle),
+                    child: IconButton(
+                      color: Theme.of(context).primaryColorDark,
+                      icon: Icon(Icons.arrow_left_rounded),
+                      onPressed: () {
+                        _controller
+                            .jumpTo(_controller.offset - getSize(context));
+                      },
+                    ))),
+            Positioned(
+                top: 50,
+                right: 0,
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).accentColor,
+                        shape: BoxShape.circle),
+                    child: IconButton(
+                      color: Theme.of(context).primaryColorDark,
+                      icon: Icon(Icons.arrow_right_rounded),
+                      onPressed: () {
+                        _controller
+                            .jumpTo(_controller.offset + getSize(context));
+                      },
+                    ))),
+          ]));
+    } else {
       return Center(
           child: Text(
               "What an adventurer! You're the first one to ever go here!",
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 30 * MediaQuery
-                      .of(context)
-                      .textScaleFactor,
-                  color: Theme
-                      .of(context)
-                      .textTheme
-                      .bodyText1!
-                      .color)));
+                  fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+                  color: Theme.of(context).textTheme.bodyText1!.color)));
     }
   }
 }
@@ -2990,30 +2632,17 @@ class _AlertBoxRecommended extends State<AlertBoxRecommendation> {
   ];
 
   double getSize(context) {
-    if (MediaQuery
-        .of(context)
-        .size
-        .height >
-        MediaQuery
-            .of(context)
-            .size
-            .width) {
-      return MediaQuery
-          .of(context)
-          .size
-          .height * 0.65;
+    if (MediaQuery.of(context).size.height >
+        MediaQuery.of(context).size.width) {
+      return MediaQuery.of(context).size.height * 0.65;
     } else {
-      return MediaQuery
-          .of(context)
-          .size
-          .height * 0.70;
+      return MediaQuery.of(context).size.height * 0.70;
     }
   }
 
   _AlertBoxRecommended(this.currentItinerary, this.recommendedLocation) {
     locationController.text = recommendedLocation!.name;
   }
-
 
   String userID = UserApi.getInstance().getUserProfile()!.userID;
 
@@ -3038,8 +2667,8 @@ class _AlertBoxRecommended extends State<AlertBoxRecommendation> {
             ),
             textButtonTheme: TextButtonThemeData(
                 style: TextButton.styleFrom(
-                  primary: Color(0xffA7AAB9), // button text color
-                )),
+              primary: Color(0xffA7AAB9), // button text color
+            )),
             accentColor: Color(0xff6A7AC7),
             colorScheme: ColorScheme.light(
                 primary: Color(0xff20222D),
@@ -3056,12 +2685,8 @@ class _AlertBoxRecommended extends State<AlertBoxRecommendation> {
         );
       },
       initialDate: date ?? DateTime.now(),
-      firstDate: new DateTime(DateTime
-          .now()
-          .year - 5),
-      lastDate: new DateTime(DateTime
-          .now()
-          .year + 5),
+      firstDate: new DateTime(DateTime.now().year - 5),
+      lastDate: new DateTime(DateTime.now().year + 5),
     );
   }
 
@@ -3075,8 +2700,8 @@ class _AlertBoxRecommended extends State<AlertBoxRecommendation> {
             splashColor: Color(0xff20222D),
             timePickerTheme: TimePickerThemeData(
                 helpTextStyle: TextStyle(
-                  color: Color(0xffA7AAB9),
-                )),
+              color: Color(0xffA7AAB9),
+            )),
             textTheme: TextTheme(
               subtitle1: TextStyle(color: Color(0xffA7AAB9)),
               bodyText2: TextStyle(color: Color(0xffA7AAB9)),
@@ -3087,8 +2712,8 @@ class _AlertBoxRecommended extends State<AlertBoxRecommendation> {
             ),
             textButtonTheme: TextButtonThemeData(
                 style: TextButton.styleFrom(
-                  primary: Color(0xffA7AAB9), // button text color
-                )),
+              primary: Color(0xffA7AAB9), // button text color
+            )),
             accentColor: Color(0xff6A7AC7),
             colorScheme: ColorScheme.light(
                 primary: Color(0xff6A7AC7),
@@ -3127,400 +2752,307 @@ class _AlertBoxRecommended extends State<AlertBoxRecommendation> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        backgroundColor: Theme
-            .of(context)
-            .primaryColorDark,
+        backgroundColor: Theme.of(context).primaryColorDark,
         content: Container(
           height: getSize(context),
           child: Stack(
-            clipBehavior: Clip.none, children: <Widget>[
-            Positioned(
-              right: -40.0,
-              top: -40.0,
-              child: InkResponse(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: CircleAvatar(
-                  child: Icon(Icons.close,
-                      color: Theme
-                          .of(context)
-                          .primaryColorDark),
-                  backgroundColor: Theme
-                      .of(context)
-                      .accentColor,
+            clipBehavior: Clip.none,
+            children: <Widget>[
+              Positioned(
+                right: -40.0,
+                top: -40.0,
+                child: InkResponse(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: CircleAvatar(
+                    child: Icon(Icons.close,
+                        color: Theme.of(context).primaryColorDark),
+                    backgroundColor: Theme.of(context).accentColor,
+                  ),
                 ),
               ),
-            ),
-            Center(
-              child: Column(
-                // mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text("Add Item To Itinerary",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme
-                            .of(context)
-                            .textTheme
-                            .bodyText1!
-                            .color,
-                        fontSize: 25 * MediaQuery
-                            .of(context)
-                            .textScaleFactor,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  Spacer(),
-                  Container(
-                    width: 300,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.02),
-                    child: TextField(
+              Center(
+                child: Column(
+                  // mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text("Add Item To Itinerary",
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                            color:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1!
-                                .color),
-                        controller: titleController,
-                        decoration: InputDecoration(
-                            hintStyle: TextStyle(
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color),
-                            filled: true,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            fillColor: Theme
-                                .of(context)
-                                .primaryColorLight,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: new BorderSide(
-                                    color: Theme
-                                        .of(context)
-                                        .accentColor)),
-                            hintText: 'Title')),
-                  ),
-                  SizedBox(height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.01),
-                  Container(
-                    width: 300,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.02),
-                    child: TextField(
-                        maxLength: 255,
-                        maxLines: 3,
-                        style: TextStyle(
-                            color:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1!
-                                .color),
-                        controller: descriptionController,
-                        decoration: InputDecoration(
-                            hintStyle: TextStyle(
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color),
-                            filled: true,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            fillColor: Theme
-                                .of(context)
-                                .primaryColorLight,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: new BorderSide(
-                                    color: Theme
-                                        .of(context)
-                                        .accentColor)),
-                            hintText: 'Description')),
-                  ),
-                  SizedBox(height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.02),
-                  Container(
+                          color: Theme.of(context).textTheme.bodyText1!.color,
+                          fontSize: 25 * MediaQuery.of(context).textScaleFactor,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    Spacer(),
+                    Container(
                       width: 300,
-                      padding: EdgeInsets
-                          .symmetric(
-                          horizontal: MediaQuery
-                              .of(context)
-                              .size
-                              .width *
-                              0.02),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
-                        maxLines: 1,
-                        style: TextStyle(
-                            color:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1!
-                                .color),
-                        controller: dateController,
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.calendar_today_rounded),
-                            hintStyle: TextStyle(
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color),
-                            filled: true,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            fillColor: Theme
-                                .of(context)
-                                .primaryColorLight,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: new BorderSide(
-                                    color: Theme
-                                        .of(context)
-                                        .accentColor)),
-                            hintText: 'Pick a date'),
-                        onTap: () async {
-                          DateTime? picked = await showDate();
-                          if (picked != null) {
-                            setState(() {
-                              date = picked;
-                              dateController.text = getTextDate(picked);
-                            });
-                          }
-                        },
-                      )),
-                  SizedBox(height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.02),
-                  Container(
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color),
+                          controller: titleController,
+                          decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Title')),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                    Container(
                       width: 300,
-                      padding: EdgeInsets
-                          .symmetric(
-                          horizontal: MediaQuery
-                              .of(context)
-                              .size
-                              .width *
-                              0.02),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
                       child: TextField(
-                        maxLines: 1,
-                        style: TextStyle(
-                            color:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1!
-                                .color),
-                        controller: timeController,
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.access_time_rounded),
-                            hintStyle: TextStyle(
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color),
-                            filled: true,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            fillColor: Theme
-                                .of(context)
-                                .primaryColorLight,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: new BorderSide(
-                                    color: Theme
-                                        .of(context)
-                                        .accentColor)),
-                            hintText: 'Pick a time'),
-                        onTap: () async {
-                          TimeOfDay? picked = await showTime();
-                          if (picked != null) {
-                            setState(() {
-                              time = picked;
-                              timeController.text = getTextTime(picked);
-                            });
-                          }
-                        },
-                      )),
-                  SizedBox(height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.02),
-                  Container(
-                      width: 300,
-                      padding: EdgeInsets
-                          .symmetric(
-                          horizontal: MediaQuery
-                              .of(context)
-                              .size
-                              .width *
-                              0.02),
-                      child: TextField(
-                        maxLines: 1,
-                        style: TextStyle(
-                            color:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1!
-                                .color),
-                        controller: locationController,
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.location_on_rounded),
-                            hintStyle: TextStyle(
-                                color: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color),
-                            filled: true,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            fillColor: Theme
-                                .of(context)
-                                .primaryColorLight,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: new BorderSide(
-                                    color: Theme
-                                        .of(context)
-                                        .accentColor)),
-                            hintText: 'Find a location'),
-                        onTap: () async {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                    backgroundColor: Theme
-                                        .of(context)
-                                        .primaryColorDark,
-                                    title: Stack(
-                                        clipBehavior: Clip.none,
-                                        children: <Widget>[
-                                          Positioned(
-                                            right: -40.0,
-                                            top: -40.0,
-                                            child: InkResponse(
-                                              onTap: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: CircleAvatar(
-                                                child: Icon(Icons.close,
-                                                    color: Theme
-                                                        .of(context)
-                                                        .primaryColorDark),
-                                                backgroundColor: Theme
-                                                    .of(context)
-                                                    .accentColor,
+                          maxLength: 255,
+                          maxLines: 3,
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color),
+                          controller: descriptionController,
+                          decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Description')),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Container(
+                        width: 300,
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.02),
+                        child: TextField(
+                          maxLines: 1,
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color),
+                          controller: dateController,
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.calendar_today_rounded),
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Pick a date'),
+                          onTap: () async {
+                            DateTime? picked = await showDate();
+                            if (picked != null) {
+                              setState(() {
+                                date = picked;
+                                dateController.text = getTextDate(picked);
+                              });
+                            }
+                          },
+                        )),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Container(
+                        width: 300,
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.02),
+                        child: TextField(
+                          maxLines: 1,
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color),
+                          controller: timeController,
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.access_time_rounded),
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Pick a time'),
+                          onTap: () async {
+                            TimeOfDay? picked = await showTime();
+                            if (picked != null) {
+                              setState(() {
+                                time = picked;
+                                timeController.text = getTextTime(picked);
+                              });
+                            }
+                          },
+                        )),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Container(
+                        width: 300,
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.02),
+                        child: TextField(
+                          maxLines: 1,
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color),
+                          controller: locationController,
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.location_on_rounded),
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                              filled: true,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              fillColor: Theme.of(context).primaryColorLight,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Theme.of(context).accentColor)),
+                              hintText: 'Find a location'),
+                          onTap: () async {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                      backgroundColor:
+                                          Theme.of(context).primaryColorDark,
+                                      title: Stack(
+                                          clipBehavior: Clip.none,
+                                          children: <Widget>[
+                                            Positioned(
+                                              right: -40.0,
+                                              top: -40.0,
+                                              child: InkResponse(
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: CircleAvatar(
+                                                  child: Icon(Icons.close,
+                                                      color: Theme.of(context)
+                                                          .primaryColorDark),
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                          .accentColor,
+                                                ),
                                               ),
                                             ),
-                                          ), Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text("Find Location",
-                                                    textAlign: TextAlign
-                                                        .center,
+                                            Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text("Find Location",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color,
+                                                        fontSize: 25 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .textScaleFactor,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      )),
+                                                  SizedBox(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.01,
+                                                      width: 300),
+                                                  TextField(
                                                     style: TextStyle(
-                                                      color: Theme
-                                                          .of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .color,
-                                                      fontSize: 25 *
-                                                          MediaQuery
-                                                              .of(
-                                                              context)
-                                                              .textScaleFactor,
-                                                      fontWeight: FontWeight
-                                                          .bold,
-                                                    )),
-                                                SizedBox(height: MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .height * 0.01, width: 300),
-                                                TextField(
-                                                  style: TextStyle(
-                                                      color:
-                                                      Theme
-                                                          .of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .color),
-                                                  decoration: InputDecoration(
-                                                      hintStyle: TextStyle(
-                                                          color: Theme
-                                                              .of(
-                                                              context)
-                                                              .textTheme
-                                                              .bodyText2!
-                                                              .color),
-                                                      filled: true,
-                                                      enabledBorder: InputBorder
-                                                          .none,
-                                                      errorBorder: InputBorder
-                                                          .none,
-                                                      disabledBorder: InputBorder
-                                                          .none,
-                                                      fillColor: Theme
-                                                          .of(context)
-                                                          .primaryColorLight,
-                                                      focusedBorder: OutlineInputBorder(
-                                                          borderSide: new BorderSide(
-                                                              color: Theme
-                                                                  .of(
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color),
+                                                    decoration: InputDecoration(
+                                                        hintStyle: TextStyle(
+                                                            color: Theme.of(context)
+                                                                .textTheme
+                                                                .bodyText2!
+                                                                .color),
+                                                        filled: true,
+                                                        enabledBorder:
+                                                            InputBorder.none,
+                                                        errorBorder:
+                                                            InputBorder.none,
+                                                        disabledBorder:
+                                                            InputBorder.none,
+                                                        fillColor:
+                                                            Theme.of(context)
+                                                                .primaryColorLight,
+                                                        focusedBorder: OutlineInputBorder(
+                                                            borderSide: new BorderSide(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .accentColor)),
+                                                        hintText:
+                                                            'Search for a place of interest'),
+                                                    onChanged: (value) {
+                                                      _debouncer.run(() {
+                                                        Provider.of<LocationModel>(
+                                                                context,
+                                                                listen: false)
+                                                            .fetchAllSuggestions(
+                                                                value);
+                                                      });
+                                                    },
+                                                  ),
+                                                ])
+                                          ]),
+                                      content: Container(
+                                          width: 300,
+                                          child: Consumer<LocationModel>(
+                                              builder: (context, locationModel,
+                                                  child) {
+                                            return locationModel.suggestions !=
+                                                        null &&
+                                                    locationModel.suggestions!
+                                                            .length >
+                                                        0
+                                                ? ListView.builder(
+                                                    shrinkWrap: true,
+                                                    itemCount: locationModel
+                                                        .suggestions!.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return InkWell(
+                                                          hoverColor: Theme.of(
                                                                   context)
-                                                                  .accentColor)),
-                                                      hintText: 'Search for a place of interest'),
-                                                  onChanged: (value) {
-                                                    _debouncer.run(() {
-                                                      Provider.of<
-                                                          LocationModel>(
-                                                          context,
-                                                          listen: false)
-                                                          .fetchAllSuggestions(
-                                                          value);
-                                                    });
-                                                  },
-                                                ),
-                                              ])
-                                        ]),
-                                    content:
-                                    Container(
-                                        width: 300,
-                                        child: Consumer<LocationModel>(
-                                            builder: (context, locationModel,
-                                                child) {
-                                              return locationModel
-                                                  .suggestions != null &&
-                                                  locationModel.suggestions!
-                                                      .length > 0 ?
-                                              ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: locationModel
-                                                      .suggestions!.length,
-                                                  itemBuilder: (context,
-                                                      index) {
-                                                    return
-                                                      InkWell(
-                                                          hoverColor:
-                                                          Theme
-                                                              .of(context)
                                                               .primaryColorLight,
                                                           onTap: () {
                                                             setState(() {
@@ -3528,98 +3060,87 @@ class _AlertBoxRecommended extends State<AlertBoxRecommendation> {
                                                                   locationModel
                                                                       .suggestions!
                                                                       .elementAt(
-                                                                      index)
+                                                                          index)
                                                                       .description;
                                                               locationController
-                                                                  .text =
-                                                              this.location!;
+                                                                      .text =
+                                                                  this.location!;
                                                             });
                                                             Navigator.of(
-                                                                context).pop();
+                                                                    context)
+                                                                .pop();
                                                           },
                                                           child: Padding(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                  vertical: MediaQuery
-                                                                      .of(
-                                                                      context)
-                                                                      .size
-                                                                      .height *
+                                                              padding: EdgeInsets.symmetric(
+                                                                  vertical: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
                                                                       0.01,
-                                                                  horizontal: MediaQuery
-                                                                      .of(
-                                                                      context)
-                                                                      .size
-                                                                      .width *
+                                                                  horizontal: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
                                                                       0.01),
                                                               child: ListTile(
                                                                   title: Text(
-                                                                    locationModel
-                                                                        .suggestions!
-                                                                        .elementAt(
+                                                                locationModel
+                                                                    .suggestions!
+                                                                    .elementAt(
                                                                         index)
-                                                                        .description,
-                                                                    style: TextStyle(
-                                                                        fontSize: 16 *
-                                                                            MediaQuery
-                                                                                .of(
-                                                                                context)
-                                                                                .textScaleFactor,
-                                                                        fontWeight: FontWeight
+                                                                    .description,
+                                                                style: TextStyle(
+                                                                    fontSize: 16 *
+                                                                        MediaQuery.of(context)
+                                                                            .textScaleFactor,
+                                                                    fontWeight:
+                                                                        FontWeight
                                                                             .bold,
-                                                                        color: Theme
-                                                                            .of(
+                                                                    color: Theme.of(
                                                                             context)
-                                                                            .textTheme
-                                                                            .bodyText1!
-                                                                            .color
-                                                                    ),
-                                                                  )
-                                                              )));
-                                                  })
-                                                  : Container(height: 10);
-                                            })));
-                              });
+                                                                        .textTheme
+                                                                        .bodyText1!
+                                                                        .color),
+                                                              ))));
+                                                    })
+                                                : Container(height: 10);
+                                          })));
+                                });
+                          },
+                        )),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).accentColor),
+                        child: Text("Create",
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color)),
+                        onPressed: () async {
+                          await widget.itineraryEntryModel.addItineraryEntry(
+                              currentItinerary!,
+                              currentItinerary!.id,
+                              titleController.text,
+                              descriptionController.text,
+                              location!,
+                              (date!.toString()).substring(0, 10) +
+                                  "T" +
+                                  (time.toString()).substring(10, 15),
+                              userID);
+                          Navigator.pop(context);
                         },
-
-                      )), Spacer(),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.02),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Theme
-                              .of(context)
-                              .accentColor),
-                      child: Text("Create",
-                          style: TextStyle(
-                              color: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .color)),
-                      onPressed: () async {
-                        await widget.itineraryEntryModel.addItineraryEntry(
-                            currentItinerary!,
-                            currentItinerary!.id,
-                            titleController.text,
-                            descriptionController.text,
-                            location!,
-                            (date!.toString()).substring(0, 10) +
-                                "T" + (time.toString()).substring(10, 15),
-                            userID);
-                        Navigator.pop(context);
-                      },
+                      ),
                     ),
-                  ),
-                  Spacer(),
-                ],
-              ),
-            )
-          ],
+                    Spacer(),
+                  ],
+                ),
+              )
+            ],
           ),
         ));
   }

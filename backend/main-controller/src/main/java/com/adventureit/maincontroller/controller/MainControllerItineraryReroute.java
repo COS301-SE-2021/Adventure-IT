@@ -16,13 +16,18 @@ import com.adventureit.shareddtos.itinerary.responses.ItineraryEntryResponseDTO;
 import com.adventureit.shareddtos.itinerary.responses.ItineraryResponseDTO;
 import com.adventureit.shareddtos.itinerary.responses.StartDateEndDateResponseDTO;
 import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
+import com.adventureit.maincontroller.exceptions.CurrentLocationException;
+import com.adventureit.maincontroller.exceptions.InvalidItineraryEntryException;
 import com.adventureit.maincontroller.responses.MainItineraryEntryResponseDTO;
+import com.adventureit.shareddtos.notification.requests.SendEmailNotificationRequest;
 import com.adventureit.shareddtos.notification.requests.SendEmailRequest;
 import com.adventureit.shareddtos.recommendation.request.CreateLocationRequest;
 import com.adventureit.shareddtos.timeline.TimelineType;
 import com.adventureit.shareddtos.timeline.requests.CreateTimelineRequest;
 import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
