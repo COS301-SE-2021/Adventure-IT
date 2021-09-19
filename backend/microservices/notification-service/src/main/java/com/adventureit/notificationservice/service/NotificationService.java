@@ -13,7 +13,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
@@ -112,8 +111,8 @@ public class NotificationService {
     }
 
     public String sendFirebaseNotification(SendFirebaseNotificationRequest req){
-        NotificationUser user = notificationUserRepository.findNotificationUserByUserId(req.getUserId());
-        if(user == null){
+        NotificationUser user1 = notificationUserRepository.findNotificationUserByUserId(req.getUserId());
+        if(user1 == null){
             return "User not found";
         }
 
@@ -125,7 +124,7 @@ public class NotificationService {
 
         Message message = Message
                 .builder()
-                .setToken(user.getFirebaseToken())
+                .setToken(user1.getFirebaseToken())
                 .setNotification(notification)
                 .putAllData(req.getData())
                 .build();

@@ -27,9 +27,9 @@ public class MediaServiceImplementation implements MediaService{
     @Autowired
     private  DocumentInfoRepository documentInfoRepository;
     @Autowired
-    private  FileInfoRepository fileInfoRepository;
+    private FileInfoRepository fileInfoRepository;
 
-    private final String description = "DESCRIPTION";
+    private static final String description = "DESCRIPTION";
 
     @Value("${firebase-type}")
     String type;
