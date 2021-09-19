@@ -1,6 +1,7 @@
 package com.adventureit.maincontroller.controller;
 
 
+import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.checklist.requests.AddChecklistEntryRequest;
 import com.adventureit.shareddtos.checklist.requests.ChecklistDTO;
@@ -42,42 +43,42 @@ public class MainControllerChecklistReroute {
     }
 
     @GetMapping("/viewChecklistsByAdventure/{id}")
-    public List<ChecklistResponseDTO> viewChecklistsByAdventure(@PathVariable UUID id) throws Exception {
+    public List<ChecklistResponseDTO> viewChecklistsByAdventure(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHECKLIST_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/viewChecklistsByAdventure/"+id, List.class);
     }
 
     @GetMapping("/viewChecklist/{id}")
-    public List<ChecklistEntryResponseDTO> viewCheckist(@PathVariable UUID id) throws Exception {
+    public List<ChecklistEntryResponseDTO> viewCheckist(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHECKLIST_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/viewChecklist/"+id, List.class);
     }
 
     @GetMapping("/softDelete/{id}/{userID}")
-    public String softDelete(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+    public String softDelete(@PathVariable UUID id, @PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHECKLIST_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/softDelete/"+id+"/"+userID, String.class);
     }
 
     @GetMapping("/viewTrash/{id}")
-    public List<ChecklistResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
+    public List<ChecklistResponseDTO> viewTrash(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHECKLIST_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/viewTrash/"+id, List.class);
     }
 
     @GetMapping("/restoreChecklist/{id}/{userID}")
-    public String restoreChecklist(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+    public String restoreChecklist(@PathVariable UUID id,@PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHECKLIST_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/restoreChecklist/"+id+"/"+userID, String.class);
     }
 
     @GetMapping("/hardDelete/{id}/{userID}")
-    public String hardDelete(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+    public String hardDelete(@PathVariable UUID id,@PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT, CHECKLIST_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
@@ -88,7 +89,7 @@ public class MainControllerChecklistReroute {
     }
 
     @PostMapping("/create")
-    public String createChecklist(@RequestBody CreateChecklistRequest req) throws Exception {
+    public String createChecklist(@RequestBody CreateChecklistRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT, CHECKLIST_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+req.getCreatorID(), GetUserByUUIDDTO.class);
@@ -115,7 +116,7 @@ public class MainControllerChecklistReroute {
     }
 
     @GetMapping("/removeEntry/{id}/{userId}")
-    public String removeEntry(@PathVariable UUID id,@PathVariable UUID userId) throws Exception {
+    public String removeEntry(@PathVariable UUID id,@PathVariable UUID userId) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT, CHECKLIST_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+userId, GetUserByUUIDDTO.class);
@@ -128,7 +129,7 @@ public class MainControllerChecklistReroute {
     }
 
     @PostMapping("/editEntry")
-    public String editEntry(@RequestBody EditChecklistEntryRequest req) throws Exception {
+    public String editEntry(@RequestBody EditChecklistEntryRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHECKLIST_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.postForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/editEntry/", req, String.class);
@@ -142,7 +143,7 @@ public class MainControllerChecklistReroute {
     }
 
     @GetMapping("/markEntry/{id}")
-    public void markEntry(@PathVariable UUID id) throws Exception {
+    public void markEntry(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHECKLIST_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/markEntry/"+id, String.class);
