@@ -153,7 +153,7 @@ class MediaList extends StatelessWidget {
                                   .contains("mp4")
                               ? Image.asset("playbutton.png").image
                               : NetworkImage("http://" +
-                                  mediaApi +
+                                  mainApi +
                                   "/media/mediaUploaded/" +
                                   mediaModel.media!.elementAt(index).id),
                           fit: BoxFit.cover),

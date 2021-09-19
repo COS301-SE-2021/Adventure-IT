@@ -39,7 +39,7 @@ class MediaApi {
 
   static Future<http.Response> _getAllMedia(String adventureID) async {
     return http
-        .get(Uri.http(mediaApi, "/media/getAdventureMediaList/" + adventureID));
+        .get(Uri.http(mainApi, "/media/getAdventureMediaList/" + adventureID));
   }
 
   static Future removeMedia(String id,context) async {
@@ -54,7 +54,7 @@ class MediaApi {
 
   static Future<http.Response> _removeMedia(String id) async {
     return http.get(Uri.http(
-        mediaApi,
+        mainApi,
         "/media/deleteMedia/" +
             id +
             "/" +
@@ -76,7 +76,7 @@ class MediaApi {
   static Future<http.Response> _addMedia(PlatformFile file, Adventure a) async {
     final mimeType = lookupMimeType(file.name); // 'image/jpeg'
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://' + mediaApi + '/media/uploadMedia'));
+        'POST', Uri.parse('http://' + mainApi + '/media/uploadMedia'));
     request.fields['userid'] = UserApi.getInstance().getUserProfile()!.userID;
     request.fields['adventureid'] = a.adventureId;
     request.files.add(http.MultipartFile.fromBytes(
@@ -97,7 +97,7 @@ class MediaApi {
         pickText: 'Save file to this folder');
     if (filepath != null) {
       String? _taskid = await FlutterDownloader.enqueue(
-        url: 'http://' + mediaApi + "/media/mediaUploaded/" + currentMedia.id,
+        url: 'http://' + mainApi + "/media/mediaUploaded/" + currentMedia.id,
         fileName: currentMedia.name,
         savedDir: filepath,
         showNotification: true,
@@ -109,7 +109,7 @@ class MediaApi {
 
   static void web_requestMediaDownload(Media currentMedia) {
     html.window.open(
-        'http://' + mediaApi + "/media/mediaUploaded/" + currentMedia.id,
+        'http://' + mainApi + "/media/mediaUploaded/" + currentMedia.id,
         currentMedia.name);
   }
 
@@ -140,7 +140,7 @@ class FileApi {
 
   static Future<http.Response> _getAllFiles(String adventureID) async {
     return http
-        .get(Uri.http(mediaApi, "/media/getAdventureFileList/" + adventureID));
+        .get(Uri.http(mainApi, "/media/getAdventureFileList/" + adventureID));
   }
 
   static Future removeFile(String id,context) async {
@@ -155,7 +155,7 @@ class FileApi {
 
   static Future<http.Response> _removeFile(String id) async {
     return http.get(Uri.http(
-        mediaApi,
+        mainApi,
         "/media/deleteFile/" +
             id +
             "/" +
@@ -177,7 +177,7 @@ class FileApi {
   static Future<http.Response> _addFile(PlatformFile file, Adventure a) async {
     final mimeType = lookupMimeType(file.name); // 'image/jpeg'
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://' + mediaApi + '/media/uploadFile'));
+        'POST', Uri.parse('http://' + mainApi + '/media/uploadFile'));
     request.fields['userid'] = UserApi.getInstance().getUserProfile()!.userID;
     request.fields['adventureid'] = a.adventureId;
     request.files.add(http.MultipartFile.fromBytes(
@@ -198,7 +198,7 @@ class FileApi {
         pickText: 'Save file to this folder');
     if (filepath != null) {
       String? _taskid = await FlutterDownloader.enqueue(
-        url: 'http://' + mediaApi + "/media/fileUploaded/" + currentMedia.id,
+        url: 'http://' + mainApi + "/media/fileUploaded/" + currentMedia.id,
         fileName: currentMedia.name,
         savedDir: filepath,
         showNotification: true,
@@ -210,7 +210,7 @@ class FileApi {
 
   static void web_requestFileDownload(Media currentMedia) {
     html.window.open(
-        'http://' + mediaApi + "/media/fileUploaded/" + currentMedia.id,
+        'http://' + mainApi + "/media/fileUploaded/" + currentMedia.id,
         currentMedia.name);
   }
 
@@ -241,7 +241,7 @@ class DocumentApi {
   }
 
   static Future<http.Response> _getAllDocuments(String userID) async {
-    return http.get(Uri.http(mediaApi, "/media/getUserDocumentList/" + userID));
+    return http.get(Uri.http(mainApi, "/media/getUserDocumentList/" + userID));
   }
 
   static Future removeDocument(String id,context) async {
@@ -256,7 +256,7 @@ class DocumentApi {
 
   static Future<http.Response> _removeDocument(String id) async {
     return http.get(Uri.http(
-        mediaApi,
+        mainApi,
         "/media/deleteDocument/" +
             id +
             "/" +
@@ -280,7 +280,7 @@ class DocumentApi {
       PlatformFile file, String userID) async {
     final mimeType = lookupMimeType(file.name); // 'image/jpeg'
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://' + mediaApi + '/media/uploadDocument'));
+        'POST', Uri.parse('http://' + mainApi + '/media/uploadDocument'));
     request.fields['userid'] = userID;
     request.files.add(http.MultipartFile.fromBytes(
         'file', file.bytes!.cast<int>(),
@@ -302,7 +302,7 @@ class DocumentApi {
     if (filepath != null) {
       String? _taskid = await FlutterDownloader.enqueue(
         url:
-            'http://' + mediaApi + "/media/documentUploaded/" + currentMedia.id,
+            'http://' + mainApi + "/media/documentUploaded/" + currentMedia.id,
         fileName: currentMedia.name,
         savedDir: filepath,
         showNotification: true,
@@ -314,7 +314,7 @@ class DocumentApi {
 
   static void web_requestDocumentDownload(Documents currentMedia) {
     html.window.open(
-        'http://' + mediaApi + "/media/documentUploaded/" + currentMedia.id,
+        'http://' + mainApi + "/media/documentUploaded/" + currentMedia.id,
         currentMedia.name);
   }
 

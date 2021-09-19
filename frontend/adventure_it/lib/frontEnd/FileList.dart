@@ -151,7 +151,7 @@ class MediaList extends StatelessWidget {
                               .contains("pdf")
                               ? Image.asset("pdfbutton.png").image
                               : NetworkImage("http://" +
-                              mediaApi +
+                              mainApi +
                               "/media/fileUploaded/" +
                               fileModel.files!.elementAt(index).id),
                           fit: BoxFit.cover),

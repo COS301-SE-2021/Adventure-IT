@@ -43,6 +43,8 @@ class ItineraryPage extends StatelessWidget {
               drawer: NavDrawer(),
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               appBar: AppBar(
+                  iconTheme: IconThemeData(
+                      color: Theme.of(context).textTheme.bodyText1!.color),
                   actions: [
                     Center(
                         child: creator != null
@@ -799,9 +801,10 @@ class ListItineraryItems extends State<_ListItineraryItems> {
           entryModel.popular == null &&
           entryModel.recommendations == null) {
         return Center(
-            child: CircularProgressIndicator(
+            child: Container(
+                height: MediaQuery.of(context).size.height*0.5,child: CircularProgressIndicator(
                 valueColor: new AlwaysStoppedAnimation<Color>(
-                    Theme.of(context).accentColor)));
+                    Theme.of(context).accentColor))));
       } else if (entryModel.entries!.length > 0) {
         return Column(children: [
           Expanded(
