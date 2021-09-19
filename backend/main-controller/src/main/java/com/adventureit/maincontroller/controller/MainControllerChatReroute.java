@@ -93,6 +93,7 @@ public class MainControllerChatReroute {
 
         for (MessageDTO message: chat.getMessages()) {
            int index=usersIds.indexOf(message.getSender());
+            assert users != null;
             list.add(new GroupMessageResponseDTO(message.getId(),users.get(index),message.getPayload(), message.getTimestamp()));
         }
 
@@ -126,6 +127,7 @@ public class MainControllerChatReroute {
         GroupChatResponseDTO chat = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getGroupChat/" + req.getChatID(), GroupChatResponseDTO.class);
 
         // Get associated adventure
+        assert chat != null;
         AdventureDTO adventure = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/getAdventureByUUID/" + chat.getAdventureID(), AdventureDTO.class);
 
         // Get all participants of chat
@@ -133,6 +135,7 @@ public class MainControllerChatReroute {
         users.remove(request.getSender());
 
         // Send notification to all participants
+        assert adventure != null;
         SendFirebaseNotificationsRequest notifReq = new SendFirebaseNotificationsRequest(users, "New Group Message", "Adventure: " + adventure.getName(), null);
         restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/sendFirebaseNotifications",notifReq, String.class);
 
@@ -145,6 +148,7 @@ public class MainControllerChatReroute {
         service.pingCheck(ports,restTemplate);
 
         GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + request.getSender(), GetUserByUUIDDTO.class);
+        assert user != null;
         SendFirebaseNotificationRequest notifReq = new SendFirebaseNotificationRequest(request.getReceiver(), "New direct message", "From: "+user.getUsername(), null);
         restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/sendFirebaseNotification",notifReq, String.class);
         return restTemplate.postForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/sendDirectMessage", request,String.class);
@@ -165,10 +169,10 @@ public class MainControllerChatReroute {
         service.pingCheck(ports,restTemplate);
 
         DirectChatResponseDTO chat = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getDirectChat/" + id, DirectChatResponseDTO.class);
+        assert chat != null;
         List<UUID> usersIds=chat.getParticipants();
         List<GetUserByUUIDDTO>users=new ArrayList<>();
         List <DirectMessageResponseDTO> list=new ArrayList<>();
-        assert chat != null;
 
 
         for(MessageDTO message: chat.getMessages())
@@ -191,6 +195,7 @@ public class MainControllerChatReroute {
 
         for (MessageDTO message: chat.getMessages()) {
             int sender=usersIds.indexOf(message.getSender());
+            assert users != null;
             list.add(new DirectMessageResponseDTO(message.getId(),users.get(sender), message.getTimestamp(),message.getPayload()));
         }
 
