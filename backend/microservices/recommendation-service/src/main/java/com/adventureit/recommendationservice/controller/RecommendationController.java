@@ -8,8 +8,6 @@ import com.adventureit.shareddtos.recommendation.request.CreateLocationRequest;
 import com.adventureit.shareddtos.recommendation.request.CreateUserRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -19,7 +17,8 @@ import java.util.UUID;
 public class RecommendationController {
 
 
-    private RecommendationService recommendationService;
+    private final RecommendationService recommendationService;
+    private final String badRequest = "Bad request";
 
     @Autowired
     public RecommendationController(RecommendationService recommendationService) {
@@ -44,7 +43,7 @@ public class RecommendationController {
             return "Location not found";
         }
         catch(Exception e){
-            return "Bad request";
+            return badRequest;
         }
         return "Location successfully liked";
     }
@@ -62,7 +61,7 @@ public class RecommendationController {
             return "Location not found";
         }
         catch(Exception e){
-            return "Bad request";
+            return badRequest;
         }
         return "Location successfully visited";
 
@@ -75,7 +74,7 @@ public class RecommendationController {
             this.recommendationService.addUser(req.userId);
         }
         catch(UserExistsException e){
-            return "Bad request";
+            return badRequest;
         }
 
         return "User added successfully";
