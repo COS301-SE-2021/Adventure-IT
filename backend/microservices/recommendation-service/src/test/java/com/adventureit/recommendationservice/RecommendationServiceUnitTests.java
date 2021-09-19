@@ -14,7 +14,6 @@ import java.util.Random;
 import java.util.UUID;
 
 public class RecommendationServiceUnitTests {
-
     RecommendedUserRepository recommendedUserRepository = Mockito.mock(RecommendedUserRepository.class);
     RecommendedLocationRepository recommendedLocationRepository = Mockito.mock(RecommendedLocationRepository.class);;
 
