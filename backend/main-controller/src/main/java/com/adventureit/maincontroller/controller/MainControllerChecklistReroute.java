@@ -88,6 +88,7 @@ public class MainControllerChecklistReroute {
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER+userID, GetUserByUUIDDTO.class);
         ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + GET_CHECKLIST+id, ChecklistDTO.class);
         restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/hardDelete/"+id+"/"+userID, String.class);
+        assert user != null;
         CreateTimelineRequest req2 = new CreateTimelineRequest(id, TimelineType.BUDGET,user.getUsername()+" deleted the "+checklist+CHECKLIST_M );
         return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
     }
@@ -98,6 +99,7 @@ public class MainControllerChecklistReroute {
         service.pingCheck(ports,restTemplate);
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER+req.getCreatorID(), GetUserByUUIDDTO.class);
         restTemplate.postForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/create/", req, String.class);
+        assert user != null;
         CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(), TimelineType.CHECKLIST,user.getUsername()+" created a new checklist for "+req.getTitle()+"." );
         return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
     }
@@ -113,6 +115,7 @@ public class MainControllerChecklistReroute {
         ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + GET_CHECKLIST+checklistID, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
+        assert user != null;
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,user.getUsername()+" added an entry to the "+checklist.getTitle()+CHECKLIST_M );
         restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return returnString;
@@ -127,6 +130,7 @@ public class MainControllerChecklistReroute {
         ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/getChecklistByEntry/"+id, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
+        assert user != null;
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,user.getUsername()+" deleted an entry from the "+checklist.getTitle()+CHECKLIST_M );
         restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/removeEntry/"+id, String.class);
@@ -142,6 +146,7 @@ public class MainControllerChecklistReroute {
         ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + GET_CHECKLIST+checklistID, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
+        assert user != null;
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" edited the "+checklist.getTitle()+CHECKLIST_M);
         return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
     }
