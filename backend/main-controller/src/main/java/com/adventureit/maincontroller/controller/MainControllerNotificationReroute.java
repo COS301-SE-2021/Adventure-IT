@@ -3,9 +3,7 @@ package com.adventureit.maincontroller.controller;
 
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.notification.NotificationDTO;
-import com.adventureit.shareddtos.notification.requests.CreateNotificationRequest;
-import com.adventureit.shareddtos.notification.requests.RetrieveNotificationRequest;
-import com.adventureit.shareddtos.notification.requests.SendEmailRequest;
+import com.adventureit.shareddtos.notification.requests.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;

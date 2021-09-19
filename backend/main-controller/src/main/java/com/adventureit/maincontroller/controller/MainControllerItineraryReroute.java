@@ -35,6 +35,7 @@ import java.util.*;
 public class MainControllerItineraryReroute {
 
     private final RestTemplate restTemplate = new RestTemplate();
+    private MainControllerServiceImplementation service;
 
     private final String IP = "http://localhost";
     private final String locationPort = "9006";

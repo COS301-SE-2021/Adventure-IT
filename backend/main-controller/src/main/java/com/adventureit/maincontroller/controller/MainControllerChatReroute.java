@@ -140,7 +140,7 @@ public class MainControllerChatReroute {
     }
 
     @PostMapping("/sendDirectMessage")
-    public String sendDirectMessage(@RequestBody SendDirectMessageRequestDTO request){
+    public String sendDirectMessage(@RequestBody SendDirectMessageRequestDTO request) throws Exception {
         String[] ports = {chatPort};
         service.pingCheck(ports,restTemplate);
 
