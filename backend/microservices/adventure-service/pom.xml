@@ -95,7 +95,10 @@
 			<groupId>com.adventure-it</groupId>
 			<artifactId>sharedDTOs</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
 		</dependency>
+
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -110,6 +113,7 @@
 	</dependencyManagement>
 
 	<build>
+		<defaultGoal>install</defaultGoal>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

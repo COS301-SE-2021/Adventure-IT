@@ -5,7 +5,7 @@ server:
 
 spring:
   application:
-    name: ${adventure-microservice.application-name}
+    name: ADVENTURE-MICROSERVICE
   datasource:
     url: ${adventure-microservice.datasource.url}
     username: ${adventure-microservice.datasource.username}

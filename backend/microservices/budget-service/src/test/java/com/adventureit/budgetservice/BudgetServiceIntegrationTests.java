@@ -12,14 +12,19 @@ import com.adventureit.shareddtos.budget.requests.EditBudgetRequest;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.UUID;
-
+@ExtendWith(SpringExtension.class)
+@TestPropertySource(properties = {"service-registry-client.instance.hostname=localhost","service-registry-client.client.service-url.defaultZone=http://localhost:8761/eureka/","service-registry-client.client.register-with-eureka=true", "service-registry-client.client.fetch-registry=true","budget-microservice.application-name=BUDGET-MICROSERVICE", "budget-microservice.datasource.url=jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5","budget-microservice.datasource.username=postgres","budget-microservice.datasource.password=310PB!Gq%f&J","budget-microservice.datasource.hikari.maximum-pool-size=2","budget-microservice.jpa.hibernate.ddl-auto=update","budget-microservice.jpa.show-sql=false","budget-microservice.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect","budget-microservice.jpa.properties.hibernate.format_sql=true" })
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BudgetServiceIntegrationTests {
     @Autowired

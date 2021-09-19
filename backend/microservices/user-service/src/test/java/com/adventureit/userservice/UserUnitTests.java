@@ -22,13 +22,11 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-class UserUnitTests {
 
+class UserUnitTests {
 
     UserRepository repo = Mockito.mock(UserRepository.class);
     FriendRepository friendRepository = Mockito.mock(FriendRepository.class);
-
 
     private final UserServiceImplementation user =
             new UserServiceImplementation(repo,friendRepository);
@@ -236,21 +234,4 @@ class UserUnitTests {
         assertTrue(response.isSuccess());
         assertEquals("User "+userName1+" "+userlName1+" successfully Registered",response.getMessage());
     }
-
-    @Test
-    @Description("This test tests whether the response object returned carries the correct information")
-    void getUserByUUIDTest(){
-
-        Mockito.when(repo.getUserByUserID(uuid1)).thenReturn(mockUser);
-
-        GetUserByUUIDDTO response = user.getUserByUUID(uuid1);
-
-        assertEquals(mockUser.getUserID(),response.getUserID());
-        assertEquals(mockUser.getUsername(),response.getUsername());
-        assertEquals(mockUser.getFirstname(),response.getFirstname());
-        assertEquals(mockUser.getLastname(),response.getLastname());
-        assertEquals(mockUser.getEmail(),response.getEmail());
-    }
-
-
 }

@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-@SpringBootTest
+
 public class ChatServiceUnitTests{
 
     DirectChatRepository directChatRepository = Mockito.mock(DirectChatRepository.class);
@@ -246,7 +246,6 @@ public class ChatServiceUnitTests{
         Assertions.assertEquals(mockGroupChatID, response.getId());
         Assertions.assertEquals(mockAdventureId, response.getAdventureID());
         Assertions.assertEquals(participants, response.getParticipants());
-        Assertions.assertEquals(colors, response.getColors());
         Assertions.assertEquals(name, response.getName());
 
 
@@ -288,7 +287,6 @@ public class ChatServiceUnitTests{
         Assertions.assertEquals(mockGroupChatID, response.getId());
         Assertions.assertEquals(mockAdventureId, response.getAdventureID());
         Assertions.assertEquals(participants, response.getParticipants());
-        Assertions.assertEquals(colors, response.getColors());
         Assertions.assertEquals(name, response.getName());
 
 

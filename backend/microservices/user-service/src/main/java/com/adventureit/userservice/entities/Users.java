@@ -32,6 +32,7 @@ public class Users  {
     private String fireBaseId;
     // true is dark(default) false is light
     private Boolean theme;
+    private long storageUsed = 0;
 
     public Boolean getNotificationSettings() {
         return notificationSettings;
@@ -192,4 +193,11 @@ public class Users  {
         return visitedLocations;
     }
 
+    public long getStorageUsed() {
+        return storageUsed;
+    }
+
+    public void setStorageUsed(long storageUsed) {
+        this.storageUsed = storageUsed;
+    }
 }

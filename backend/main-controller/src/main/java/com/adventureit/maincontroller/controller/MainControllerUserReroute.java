@@ -1,13 +1,9 @@
 package com.adventureit.maincontroller.controller;
 
 
-import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
 import com.adventureit.shareddtos.recommendation.request.CreateUserRequest;
-import com.adventureit.shareddtos.user.requests.EditUserProfileRequest;
-import com.adventureit.shareddtos.user.requests.LoginUserRequest;
-import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
-import com.adventureit.shareddtos.user.requests.UpdatePictureRequest;
+import com.adventureit.shareddtos.user.requests.*;
 import com.adventureit.shareddtos.user.responses.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -141,7 +137,6 @@ public class MainControllerUserReroute {
         String[] ports = {userPort};
         service.pingCheck(ports,restTemplate);
         restTemplate.getForObject(IP + ":" + userPort + "/user/createFriendRequest/"+ id1+"/"+id2, UUID.class);
-
     }
 
     @GetMapping("getFriendRequest/{id}")
@@ -158,11 +153,16 @@ public class MainControllerUserReroute {
         return restTemplate.postForObject(IP + ":" + userPort + "/user/editUserProfile", req,String.class);
     }
 
-    @GetMapping("setEmergencyContact/{userId}/{email}")
-    public String setEmergencyContact(@PathVariable UUID userId, @PathVariable String email) throws Exception {
+    @PostMapping("setEmergencyContact")
+    public String setEmergencyContact(@RequestBody SetUserEmergencyContactRequest req){
         String[] ports = {userPort};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + userPort + "/user/setEmergencyContact/"+ userId+"/"+email, String.class);
+        return restTemplate.postForObject(IP + ":" + userPort + "/user/setEmergencyContact/",req, String.class);
+    }
+
+    @GetMapping("getEmergencyContact/{userId}")
+    public String setEmergencyContact(@PathVariable UUID userId){
+        return restTemplate.getForObject(IP + ":" + userPort + "/user/getEmergencyContact/"+ userId, String.class);
     }
 
     @GetMapping("getUserTheme/{userId}")
@@ -172,11 +172,11 @@ public class MainControllerUserReroute {
         return restTemplate.getForObject(IP + ":" + userPort + "/user/getUserTheme/"+ userId, Boolean.class);
     }
 
-    @GetMapping("setUserTheme/{userId}/{bool}")
+    @PostMapping("setUserTheme")
     public String setUserTheme( @PathVariable UUID userId,@PathVariable Boolean bool) throws Exception {
         String[] ports = {userPort};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + userPort + "/user/setUserTheme/"+ userId+"/"+bool, String.class);
+        return restTemplate.postForObject(IP + ":" + userPort + "/user/setUserTheme/",req, String.class);
     }
 
     @GetMapping("likeLocation/{userID}/{locationID}")

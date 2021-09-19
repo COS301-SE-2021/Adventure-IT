@@ -14,7 +14,6 @@ import java.util.Random;
 import java.util.UUID;
 
 public class RecommendationServiceUnitTests {
-
     RecommendedUserRepository recommendedUserRepository = Mockito.mock(RecommendedUserRepository.class);
     RecommendedLocationRepository recommendedLocationRepository = Mockito.mock(RecommendedLocationRepository.class);;
 
@@ -89,10 +88,10 @@ public class RecommendationServiceUnitTests {
         Mockito.when(recommendedLocationRepository.findAll()).thenReturn(mockLocations);
     }
 
-    @Test
-    void testGetRecommendations(){
-        createMockEntries();
-        this.recommendationService.getUserRecommendations(UUID.randomUUID(),"15","Paris, France");
-    }
+//    @Test
+//    void testGetRecommendations(){
+//        createMockEntries();
+//        this.recommendationService.getUserRecommendations(UUID.randomUUID(),"15","Paris, France");
+//    }
 }
 

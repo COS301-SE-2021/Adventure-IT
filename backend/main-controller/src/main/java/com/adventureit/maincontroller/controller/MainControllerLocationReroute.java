@@ -2,6 +2,7 @@ package com.adventureit.maincontroller.controller;
 
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.location.responses.CurrentLocationResponseDTO;
+import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
 import com.adventureit.shareddtos.recommendation.request.CreateLocationRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,8 @@ public class MainControllerLocationReroute {
         service.pingCheck(ports,restTemplate);
         UUID createdLocationUUID = restTemplate.getForObject(IP + ":" + locationPort + "/location/create/" + location, UUID.class);
         try {
-            CreateLocationRequest req = new CreateLocationRequest(createdLocationUUID);
+            LocationResponseDTO locationDTO = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/createdLocationUUID"+createdLocationUUID,LocationResponseDTO.class);
+            CreateLocationRequest req = new CreateLocationRequest(createdLocationUUID, locationDTO.getName());
             restTemplate.postForObject(IP + ":" + recommendationPort + "/recommendation/add/location", req, ResponseEntity.class);
         }
         catch(Exception e){

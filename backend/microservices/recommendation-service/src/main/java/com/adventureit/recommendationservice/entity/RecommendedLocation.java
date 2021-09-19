@@ -15,13 +15,15 @@ public class RecommendedLocation {
     private List<String> types;
     private long likes=0;
     private long visits=0;
+    private String locationString = "default";
 
     public RecommendedLocation(){
         this.locationId = UUID.randomUUID();
     }
 
-    public RecommendedLocation(UUID id){
+    public RecommendedLocation(UUID id, String locationString){
         this.locationId = id;
+        this.locationString = locationString;
     }
 
     public void like(){
@@ -43,5 +45,21 @@ public class RecommendedLocation {
 
     public UUID getLocationId(){
         return this.locationId;
+    }
+
+    public List<String> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<String> types) {
+        this.types = types;
+    }
+
+    public String getLocationString() {
+        return locationString;
+    }
+
+    public void setLocationString(String locationString) {
+        this.locationString = locationString;
     }
 }
