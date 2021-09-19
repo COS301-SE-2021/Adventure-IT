@@ -46,7 +46,4 @@ public class DirectMessage extends Message{
         return receiver;
     }
 
-    public void setReceiver(UUID receiver) {
-        this.receiver = receiver;
-    }
 }

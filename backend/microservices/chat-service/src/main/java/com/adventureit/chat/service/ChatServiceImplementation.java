@@ -152,7 +152,6 @@ public class ChatServiceImplementation implements ChatService {
         if(chats == null){
             throw new ChatNotFoundException(id);
         }
-        List<UUID> messageIds = new ArrayList<>();
         List<Message> messages = messageRepository.findAllByChatId(chats.getGroupChatId());
         List<MessageDTO> messageDTOs = new ArrayList<>();
         for (Message message : messages) {
@@ -173,7 +172,6 @@ public class ChatServiceImplementation implements ChatService {
         if(chat == null){
             throw new ChatNotFoundException(id);
         }
-        List<UUID> messageIds = new ArrayList<>();
         List<Message> messages = messageRepository.findAllByChatId(chat.getGroupChatId());
         List<MessageDTO> messageDTOs = new ArrayList<>();
         for (Message message : messages) {
