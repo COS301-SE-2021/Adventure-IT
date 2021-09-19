@@ -73,7 +73,7 @@ public class BudgetServiceImplementation implements BudgetService {
     }
 
     @Override
-//  @Transactional
+    @Transactional
     public AddUTUExpenseEntryResponse addUTUExpenseEntry(UUID entryContainerID, double amount, String title, String description, Category category, String payer, String payeeID) {
         verifyBudgetRequestForm(entryContainerID, amount, title, description, category);
 
