@@ -583,8 +583,9 @@ class UserApi {
   }
 
   Future setFirebaseID(String value, context) async {
-    print(value);
+    print("Setting Firebase ID");
     http.Response response = await _setFirebaseID(value);
+    print(response.toString());
     if (response.statusCode != 200) {
       SnackBar snackBar = SnackBar(
           content: Text('Failed to set Firebase ID!',
@@ -598,10 +599,17 @@ class UserApi {
   }
 
   Future<http.Response> _setFirebaseID(String id) async {
-    return http.get(Uri.parse(userApi +
-        '/user/setFirebaseId/' +
-        UserApi.getInstance().getUserProfile()!.userID +
-        "/" +
-        id));
+    return http.post(
+        Uri.parse(notificationApi + '/notification/addFirebaseUser/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'userId': UserApi.getInstance().getUserProfile()!.userID,
+          'firebaseToken': id
+        }));
   }
 }
+
+    // private UUID userId;
+    // private String firebaseToken;

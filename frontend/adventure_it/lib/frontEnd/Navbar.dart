@@ -2,6 +2,7 @@ import 'package:adventure_it/frontEnd/Settings.dart';
 import 'package:flutter/material.dart';
 
 import 'HomepageStartup.dart';
+import 'InitializeFireFlutter.dart';
 import 'Login.dart';
 import 'Profile.dart';
 import 'FriendsPage.dart';
@@ -33,53 +34,59 @@ class NavDrawer extends StatelessWidget {
                 title: Text('Adventures',
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color)),
-                onTap: () => {
+                onTap: () {
+                  FlutterMessagingChangeNotifier.setChangeNotifier(null);
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (context) => HomepageStartupCaller()),
-                  )
+                  );
                 },
               ),
               ListTile(
                 leading: Icon(Icons.person_outline_outlined,
                     color: Theme.of(context).accentColor),
                 title: Text('Profile'),
-                onTap: () => {
+                onTap: () {
+                  FlutterMessagingChangeNotifier.setChangeNotifier(null);
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => ProfileCaller()),
-                  )
+                  );
                 },
               ),
               ListTile(
                 leading: Icon(Icons.people_outline_outlined,
                     color: Theme.of(context).accentColor),
                 title: Text('Friend List'),
-                onTap: () => {
+                onTap: () {
+                  FlutterMessagingChangeNotifier.setChangeNotifier(null);
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Friends())),
+                      MaterialPageRoute(builder: (context) => Friends()));
                 },
               ),
               ListTile(
                 leading:
                     Icon(Icons.settings, color: Theme.of(context).accentColor),
                 title: Text('Settings'),
-                onTap: () => {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => SettingsCaller())),
+                onTap: () {
+                  FlutterMessagingChangeNotifier.setChangeNotifier(null);
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SettingsCaller()));
                 },
               ),
               ListTile(
-                tileColor: Colors.red,
                 leading: Icon(Icons.power_settings_new,
                     color: Theme.of(context).accentColor),
                 title: Text('Logout'),
-                onTap: () => {
+                onTap: () {
+                  FlutterMessagingChangeNotifier.setChangeNotifier(null);
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => LoginCaller()),
-                  )
+                  );
                 },
               )
             ],

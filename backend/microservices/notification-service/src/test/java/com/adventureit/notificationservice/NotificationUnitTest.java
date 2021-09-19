@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
 
     private final JavaMailSender mail = Mockito.mock(JavaMailSender.class);
 
-    private final NotificationService notificationSUT = new NotificationService(mail, mockNotificationRepository);
+    private final NotificationService notificationSUT = new NotificationService(mail,mockNotificationRepository, null, null);
 
     Date date1 = new Date();
 

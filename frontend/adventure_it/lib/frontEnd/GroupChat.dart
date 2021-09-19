@@ -1,5 +1,6 @@
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,7 @@ import 'package:adventure_it/Providers/chat_model.dart';
 import 'package:adventure_it/api/adventure.dart';
 import '../constants.dart';
 import 'AdventurePage.dart';
+import 'InitializeFireFlutter.dart';
 import 'Navbar.dart';
 
 class GroupChat extends StatelessWidget {
@@ -19,8 +21,10 @@ class GroupChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GroupChatModel x = new GroupChatModel(adventure!, context);
+    FlutterMessagingChangeNotifier.setChangeNotifier(x);
     return ChangeNotifierProvider(
-        create: (context) => GroupChatModel(adventure!,context),
+        create: (context) => x,
         builder: (context, widget) => Scaffold(
             drawer: NavDrawer(),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -30,7 +34,8 @@ class GroupChat extends StatelessWidget {
                         style: new TextStyle(
                             color:
                                 Theme.of(context).textTheme.bodyText1!.color))),
-                iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
+                iconTheme: IconThemeData(
+                    color: Theme.of(context).textTheme.bodyText1!.color),
                 backgroundColor: Theme.of(context).primaryColorDark),
             body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -49,6 +54,8 @@ class GroupChat extends StatelessWidget {
                               shape: BoxShape.circle),
                           child: IconButton(
                               onPressed: () {
+                                FlutterMessagingChangeNotifier
+                                    .setChangeNotifier(null);
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
@@ -190,111 +197,134 @@ class _MessageList extends State<MessageList> {
                           color: Theme.of(context).textTheme.bodyText1!.color),
                     )),
                 indexedItemBuilder: (context, element, index) {
-                  return Row( children: [
-                    chatModel.messages!.elementAt(index).sender.userID==UserApi.getInstance().getUserProfile()!.userID?Spacer():Container(),
-                    Expanded(flex: 2,child: Card(
-                      color: Theme.of(context).primaryColorDark,
-                      child: ListTile(
-                        leading:CachedNetworkImage(  useOldImageOnUrlChange: true,imageUrl:
-                        userApi+"/user/viewPicture/" +
-                            chatModel.messages!.elementAt(index).sender.profileID,
-                            imageBuilder: (context, imageProvider) => Container(
-                                width:70,
-                                height: 70,
-                                decoration: new BoxDecoration(
-                                    border: Border.all(
-                                      color: Theme.of(context).accentColor,
-                                      width: 3,
-                                    ),
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: imageProvider
-                                    ))),
-
-                            placeholder: (context, url) => Container(
-                                width: 70,
-                                height: 70,
-                                decoration: new BoxDecoration(
-                                    border: Border.all(
-                                      color: Theme.of(context).accentColor,
-                                      width: 3,
-                                    ),
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: AssetImage("pfp.png")
-                                    ))),
-
-                            errorWidget: (context, url, error) => Container(
-                                width: 70,
-                                height: 70,
-                                decoration: new BoxDecoration(
-                                    border: Border.all(
-                                      color: Theme.of(context).accentColor,
-                                      width: 3,
-                                    ),
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: AssetImage("pfp.png")
-                                    )))),
-                        title: Row(children: [
-                          Expanded(
-                              child: Text(
-                                  chatModel.messages!
-                                      .elementAt(index)
-                                      .sender
-                                      .username,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontSize: 15 *
-                                        MediaQuery.of(context).textScaleFactor,
-                                    fontWeight: FontWeight.bold,
-                                    color: HSLColor.fromAHSL(
-                                            1,
-                                            chatModel.chat!.colors
-                                                    .elementAt(chatModel
-                                                        .chat!.colors
-                                                        .indexWhere((element) {
-                                                      return element.userID ==
-                                                          chatModel.messages!
-                                                              .elementAt(index)
-                                                              .sender
-                                                              .userID;
-                                                    }))
-                                                    .color *
-                                                1.0,
-                                            1,
-                                            0.7)
-                                        .toColor(),
-                                  ))),
-                          Expanded(
-                              child: Text(
-                                  getTime(DateTime.parse(chatModel.messages!
-                                      .elementAt(index)
-                                      .timestamp)),
-                                  textAlign: TextAlign.right,
+                  return Row(children: [
+                    chatModel.messages!.elementAt(index).sender.userID ==
+                            UserApi.getInstance().getUserProfile()!.userID
+                        ? Spacer()
+                        : Container(),
+                    Expanded(
+                        flex: 2,
+                        child: Card(
+                            color: Theme.of(context).primaryColorDark,
+                            child: ListTile(
+                              leading: CachedNetworkImage(
+                                  useOldImageOnUrlChange: true,
+                                  imageUrl: userApi +
+                                      "/user/viewPicture/" +
+                                      chatModel.messages!
+                                          .elementAt(index)
+                                          .sender
+                                          .profileID,
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                          width: 70,
+                                          height: 70,
+                                          decoration: new BoxDecoration(
+                                              border: Border.all(
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                                width: 3,
+                                              ),
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  fit: BoxFit.fill,
+                                                  image: imageProvider))),
+                                  placeholder: (context, url) => Container(
+                                      width: 70,
+                                      height: 70,
+                                      decoration: new BoxDecoration(
+                                          border: Border.all(
+                                            color:
+                                                Theme.of(context).accentColor,
+                                            width: 3,
+                                          ),
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              fit: BoxFit.fill,
+                                              image: AssetImage("pfp.png")))),
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                          width: 70,
+                                          height: 70,
+                                          decoration: new BoxDecoration(
+                                              border: Border.all(
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                                width: 3,
+                                              ),
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  fit: BoxFit.fill,
+                                                  image:
+                                                      AssetImage("pfp.png"))))),
+                              title: Row(children: [
+                                Expanded(
+                                    child: Text(
+                                        chatModel.messages!
+                                            .elementAt(index)
+                                            .sender
+                                            .username,
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontSize: 15 *
+                                              MediaQuery.of(context)
+                                                  .textScaleFactor,
+                                          fontWeight: FontWeight.bold,
+                                          color: HSLColor.fromAHSL(
+                                                  1,
+                                                  chatModel.chat!.colors
+                                                          .elementAt(chatModel
+                                                              .chat!.colors
+                                                              .indexWhere(
+                                                                  (element) {
+                                                            return element
+                                                                    .userID ==
+                                                                chatModel
+                                                                    .messages!
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .sender
+                                                                    .userID;
+                                                          }))
+                                                          .color *
+                                                      1.0,
+                                                  1,
+                                                  0.7)
+                                              .toColor(),
+                                        ))),
+                                Expanded(
+                                    child: Text(
+                                        getTime(DateTime.parse(chatModel
+                                            .messages!
+                                            .elementAt(index)
+                                            .timestamp)),
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontSize: 15 *
+                                                MediaQuery.of(context)
+                                                    .textScaleFactor,
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color)))
+                              ]),
+                              subtitle: Text(
+                                  chatModel.messages!.elementAt(index).message,
                                   style: TextStyle(
                                       fontSize: 15 *
                                           MediaQuery.of(context)
                                               .textScaleFactor,
-                                      fontWeight: FontWeight.bold,
                                       color: Theme.of(context)
                                           .textTheme
                                           .bodyText1!
-                                          .color)))
-                        ]),
-                        subtitle: Text(
-                            chatModel.messages!.elementAt(index).message,
-                            style: TextStyle(
-                                fontSize:
-                                    15 * MediaQuery.of(context).textScaleFactor,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .color)),
-                      ))),chatModel.messages!.elementAt(index).sender.userID!=UserApi.getInstance().getUserProfile()!.userID?Spacer():Container(),]);
+                                          .color)),
+                            ))),
+                    chatModel.messages!.elementAt(index).sender.userID !=
+                            UserApi.getInstance().getUserProfile()!.userID
+                        ? Spacer()
+                        : Container(),
+                  ]);
                 }));
       } else {
         return Center(

@@ -1,8 +1,11 @@
+import 'package:adventure_it/Providers/chat_model.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class InitializeFireFlutter extends StatefulWidget {
   late final Widget nextWidget;
@@ -74,21 +77,67 @@ class _AppStateWeb extends State<InitializeFireFlutterWeb> {
     this.nextWidget = nextWidget;
   }
 
-
   @override
   Widget build(BuildContext context) {
-    FirebaseMessaging.instance.getToken().then(
-            (value) => UserApi.getInstance().setFirebaseID(value!, context));
-    FirebaseMessaging.onMessage.listen(_foregroundHandler);
+    FirebaseMessaging.instance
+        .getToken()
+        .then((value) => UserApi.getInstance().setFirebaseID(value!, context));
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
+      if (message != null && message.notification != null) {
+        final title = message.notification!.title;
+        final body = message.notification!.body;
+        final data = message.data;
+        print("Handling message title: ${title}");
+        print("Handling message body: ${body}");
+        print("Handling message data: ${data.toString()}");
+        Fluttertoast.showToast(
+            msg: body!,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+
+        FlutterMessagingChangeNotifier.notifyListeners();
+      }
+    });
+
     FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
     return this.nextWidget;
   }
 }
 
 Future<void> _backgroundHandler(RemoteMessage message) async {
-  print("Handling background message: ${message}");
+  print("Handling background message: ${message.toString()}");
 }
 
-void _foregroundHandler(RemoteMessage message) {
-  print("Handling foreground message: ${message}");
+void _foregroundHandler(RemoteMessage? message) {
+  if (message != null && message.notification != null) {
+    final title = message.notification!.title;
+    final body = message.notification!.body;
+    final data = message.data;
+    print("Handling foreground message title: ${title}");
+    print("Handling foreground message body: ${body}");
+    print("Handling foreground message data: ${data.toString()}");
+  }
+}
+
+class FlutterMessagingChangeNotifier {
+  static GroupChatModel? _changeNotifier;
+
+  static void setChangeNotifier(GroupChatModel? x) {
+    _changeNotifier = x;
+  }
+
+  static void getChangeNotifier(GroupChatModel? x) {
+    _changeNotifier = x;
+  }
+
+  static void notifyListeners() {
+    if (_changeNotifier != null) {
+      _changeNotifier!.fetchAllMessages();
+    }
+  }
 }

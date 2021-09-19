@@ -13,8 +13,3 @@ firebase.initializeApp({
 });
 // Necessary to receive background messages:
 const messaging = firebase.messaging();
-
-// Optional:
-messaging.onBackgroundMessage((m) => {
-  console.log("onBackgroundMessage", m);
-});
