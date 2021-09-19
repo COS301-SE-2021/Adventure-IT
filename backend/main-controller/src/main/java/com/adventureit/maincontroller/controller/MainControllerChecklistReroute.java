@@ -24,12 +24,12 @@ import java.util.UUID;
 public class MainControllerChecklistReroute {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private MainControllerServiceImplementation service;
+    private final MainControllerServiceImplementation service;
 
-    private final String IP = "http://localhost";
-    private final String timelinePort = "9012";
-    private final String checklistPort = "9008";
-    private final String userPort = "9002";
+    private static final String INTERNET_PORT = "http://localhost";
+    private static final String TIMELINE_PORT = "9012";
+    private static final String CHECKLIST_PORT = "9008";
+    private static final String USER_PORT = "9002";
 
     @Autowired
     public MainControllerChecklistReroute(MainControllerServiceImplementation service) {
@@ -43,108 +43,108 @@ public class MainControllerChecklistReroute {
 
     @GetMapping("/viewChecklistsByAdventure/{id}")
     public List<ChecklistResponseDTO> viewChecklistsByAdventure(@PathVariable UUID id) throws Exception {
-        String[] ports = {checklistPort};
+        String[] ports = {CHECKLIST_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/viewChecklistsByAdventure/"+id, List.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/viewChecklistsByAdventure/"+id, List.class);
     }
 
     @GetMapping("/viewChecklist/{id}")
     public List<ChecklistEntryResponseDTO> viewCheckist(@PathVariable UUID id) throws Exception {
-        String[] ports = {checklistPort};
+        String[] ports = {CHECKLIST_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/viewChecklist/"+id, List.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/viewChecklist/"+id, List.class);
     }
 
     @GetMapping("/softDelete/{id}/{userID}")
     public String softDelete(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
-        String[] ports = {checklistPort};
+        String[] ports = {CHECKLIST_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/softDelete/"+id+"/"+userID, String.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/softDelete/"+id+"/"+userID, String.class);
     }
 
     @GetMapping("/viewTrash/{id}")
     public List<ChecklistResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
-        String[] ports = {checklistPort};
+        String[] ports = {CHECKLIST_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/viewTrash/"+id, List.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/viewTrash/"+id, List.class);
     }
 
     @GetMapping("/restoreChecklist/{id}/{userID}")
     public String restoreChecklist(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
-        String[] ports = {checklistPort};
+        String[] ports = {CHECKLIST_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/restoreChecklist/"+id+"/"+userID, String.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/restoreChecklist/"+id+"/"+userID, String.class);
     }
 
     @GetMapping("/hardDelete/{id}/{userID}")
     public String hardDelete(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
-        String[] ports = {userPort,checklistPort,timelinePort};
+        String[] ports = {USER_PORT, CHECKLIST_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
-        ChecklistDTO checklist = restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/getChecklist/"+id, ChecklistDTO.class);
-        restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/hardDelete/"+id+"/"+userID, String.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
+        ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/getChecklist/"+id, ChecklistDTO.class);
+        restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/hardDelete/"+id+"/"+userID, String.class);
         CreateTimelineRequest req2 = new CreateTimelineRequest(id, TimelineType.BUDGET,user.getUsername()+" deleted the "+checklist+" checklist." );
-        return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/createTimeline", req2, String.class);
     }
 
     @PostMapping("/create")
     public String createChecklist(@RequestBody CreateChecklistRequest req) throws Exception {
-        String[] ports = {userPort,checklistPort,timelinePort};
+        String[] ports = {USER_PORT, CHECKLIST_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+req.getCreatorID(), GetUserByUUIDDTO.class);
-        restTemplate.postForObject(IP + ":" + checklistPort + "/checklist/create/", req, String.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+req.getCreatorID(), GetUserByUUIDDTO.class);
+        restTemplate.postForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/create/", req, String.class);
         CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(), TimelineType.CHECKLIST,user.getUsername()+" created a new checklist for "+req.getTitle()+"." );
-        return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/createTimeline", req2, String.class);
     }
 
     @SneakyThrows
     @PostMapping("/addEntry")
     public String addEntry(@RequestBody AddChecklistEntryRequest req){
-        String[] ports = {userPort,checklistPort,timelinePort};
+        String[] ports = {USER_PORT, CHECKLIST_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+req.getUserId(), GetUserByUUIDDTO.class);
-        String returnString = restTemplate.postForObject(IP + ":" + checklistPort + "/checklist/addEntry/", req, String.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+req.getUserId(), GetUserByUUIDDTO.class);
+        String returnString = restTemplate.postForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/addEntry/", req, String.class);
         UUID checklistID = req.getEntryContainerID();
-        ChecklistDTO checklist = restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class);
+        ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,user.getUsername()+" added an entry to the "+checklist.getTitle()+" checklist." );
-        restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/createTimeline", req2, String.class);
         return returnString;
 
     }
 
     @GetMapping("/removeEntry/{id}/{userId}")
     public String removeEntry(@PathVariable UUID id,@PathVariable UUID userId) throws Exception {
-        String[] ports = {userPort,checklistPort,timelinePort};
+        String[] ports = {USER_PORT, CHECKLIST_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+userId, GetUserByUUIDDTO.class);
-        ChecklistDTO checklist = restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/getChecklistByEntry/"+id, ChecklistDTO.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+userId, GetUserByUUIDDTO.class);
+        ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/getChecklistByEntry/"+id, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,user.getUsername()+" deleted an entry from the "+checklist.getTitle()+" checklist." );
-        restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
-        return restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/removeEntry/"+id, String.class);
+        restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/createTimeline", req2, String.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/removeEntry/"+id, String.class);
     }
 
     @PostMapping("/editEntry")
     public String editEntry(@RequestBody EditChecklistEntryRequest req) throws Exception {
-        String[] ports = {checklistPort,userPort,timelinePort};
+        String[] ports = {CHECKLIST_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        restTemplate.postForObject(IP + ":" + checklistPort + "/checklist/editEntry/", req, String.class);
-        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+req.getUserId(), GetUserByUUIDDTO.class);
+        restTemplate.postForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/editEntry/", req, String.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+req.getUserId(), GetUserByUUIDDTO.class);
         UUID checklistID = req.getEntryContainerID();
-        ChecklistDTO checklist = restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class);
+        ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" edited the "+checklist.getTitle()+" checklist.");
-        return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/createTimeline", req2, String.class);
     }
 
     @GetMapping("/markEntry/{id}")
     public void markEntry(@PathVariable UUID id) throws Exception {
-        String[] ports = {checklistPort};
+        String[] ports = {CHECKLIST_PORT};
         service.pingCheck(ports,restTemplate);
-        restTemplate.getForObject(IP + ":" + checklistPort + "/checklist/markEntry/"+id, String.class);
+        restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/markEntry/"+id, String.class);
     }
 }
