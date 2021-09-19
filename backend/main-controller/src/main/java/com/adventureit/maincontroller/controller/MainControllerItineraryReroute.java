@@ -72,9 +72,9 @@ public class MainControllerItineraryReroute {
         }
 
         UUID locationId = restTemplate.getForObject(IP + ":" + locationPort + "/location/create/" + req.getLocation(), UUID.class);
-        LocationResponseDTO locationDTO = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/createdLocationUUID"+locationId,LocationResponseDTO.class);
+        LocationResponseDTO locationDTO = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/"+locationId,LocationResponseDTO.class);
 
-        CreateLocationRequest req3 = new CreateLocationRequest(locationId, locationDTO.getName());
+        CreateLocationRequest req3 = new CreateLocationRequest(locationId, locationDTO.getFormattedAddress());
         String code=restTemplate.postForObject(IP + ":" + recommendationPort + "/recommendation/add/location", req3, String.class);
 
         UUID itineraryID = restTemplate.postForObject(IP + ":" + itineraryPort + "/itinerary/addEntry", req, UUID.class);

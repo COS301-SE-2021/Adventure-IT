@@ -213,11 +213,22 @@ public class RecommendationService {
 
     public String[][] getMostPopular(UUID id, String numPop, String locationFilter) {
         List<RecommendedLocation> locations = recommendedLocationRepository.findAll();
+        List<RecommendedLocation> filteredLocations = new ArrayList<>();
 
         int numPopular=Integer.parseInt(numPop);
         locations.sort(Comparator.comparing(RecommendedLocation::getVisits));
-        List<RecommendedLocation> filteredLocations = locations.stream().filter(location -> locationFilter.contains(location.getLocationString())).collect(Collectors.toList());
-        locations = filteredLocations;
+        for(RecommendedLocation location : locations){
+            if(locationFilter.contains(location.getLocationString())){
+                filteredLocations.add(location);
+            }
+        }
+        if(filteredLocations.size() == 0){
+            return null;
+        }
+        else{
+            locations = filteredLocations;
+        }
+
         String[][] returnMatrix = new String[locations.size()][2];
         List<RecommendedUser> users = this.recommendedUserRepository.findAll();
 
