@@ -1,5 +1,6 @@
 package com.adventureit.maincontroller.controller;
 
+import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.adventure.AdventureDTO;
 import com.adventureit.shareddtos.chat.MessageDTO;
@@ -49,21 +50,21 @@ public class MainControllerChatReroute {
     }
 
     @PostMapping("/createDirectChat")
-    public String createDirectChat(@RequestBody CreateDirectChatRequest req) throws Exception {
+    public String createDirectChat(@RequestBody CreateDirectChatRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/createDirectChat",req, String.class);
     }
 
     @PostMapping("/createGroupChat")
-    public String createDirectChat(@RequestBody CreateGroupChatRequest req) throws Exception {
+    public String createDirectChat(@RequestBody CreateGroupChatRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/createGroupChat",req, String.class);
     }
 
     @GetMapping("/getGroupMessages/{id}")
-    public List<GroupMessageResponseDTO> getGroupMessages(@PathVariable UUID id) throws Exception {
+    public List<GroupMessageResponseDTO> getGroupMessages(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT, USER_PORT};
         service.pingCheck(ports,restTemplate);
         GroupChatResponseDTO chat = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getGroupChat/" + id, GroupChatResponseDTO.class);
@@ -105,7 +106,7 @@ public class MainControllerChatReroute {
     }
 
     @GetMapping("/getGroupChatByAdventureID/{id}")
-    public MainGroupChatResponseDTO getGroupChat(@PathVariable UUID id) throws Exception {
+    public MainGroupChatResponseDTO getGroupChat(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT};
         service.pingCheck(ports,restTemplate);
         GroupChatResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getGroupChatByAdventureID/" + id, GroupChatResponseDTO.class);
@@ -115,7 +116,7 @@ public class MainControllerChatReroute {
     }
 
     @PostMapping("/sendGroupMessage")
-    public String sendGroupMessage(@RequestBody SendGroupMessageRequestDTO request) throws Exception {
+    public String sendGroupMessage(@RequestBody SendGroupMessageRequestDTO request) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT};
         service.pingCheck(ports,restTemplate);
         SendGroupMessageRequestDTO req = new SendGroupMessageRequestDTO(request.getChatID(),request.getSender(),request.getMsg());
@@ -138,7 +139,7 @@ public class MainControllerChatReroute {
     }
 
     @PostMapping("/sendDirectMessage")
-    public String sendDirectMessage(@RequestBody SendDirectMessageRequestDTO request) throws Exception {
+    public String sendDirectMessage(@RequestBody SendDirectMessageRequestDTO request) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT};
         service.pingCheck(ports,restTemplate);
 
@@ -149,7 +150,7 @@ public class MainControllerChatReroute {
     }
 
     @GetMapping("/getDirectChat/{id1}/{id2}")
-    public MainDirectChatResponseDTO getDirectChat(@PathVariable UUID id1, @PathVariable UUID id2) throws Exception {
+    public MainDirectChatResponseDTO getDirectChat(@PathVariable UUID id1, @PathVariable UUID id2) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT};
         service.pingCheck(ports,restTemplate);
         DirectChatResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getDirectChat/" + id1 + "/" + id2, DirectChatResponseDTO.class);
@@ -158,7 +159,7 @@ public class MainControllerChatReroute {
     }
 
     @GetMapping("/getDirectMessages/{id}")
-    public List<DirectMessageResponseDTO> getDirectMessages(@PathVariable UUID id) throws Exception {
+    public List<DirectMessageResponseDTO> getDirectMessages(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT, USER_PORT};
         service.pingCheck(ports,restTemplate);
 
