@@ -22,12 +22,11 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserUnitTests {
 
+class UserUnitTests {
 
     UserRepository repo = Mockito.mock(UserRepository.class);
     FriendRepository friendRepository = Mockito.mock(FriendRepository.class);
-
 
     private final UserServiceImplementation user =
             new UserServiceImplementation(repo,friendRepository);
