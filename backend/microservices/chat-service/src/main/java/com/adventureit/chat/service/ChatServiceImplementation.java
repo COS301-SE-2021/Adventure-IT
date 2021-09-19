@@ -53,7 +53,6 @@ public class ChatServiceImplementation implements ChatService {
     @Value("${firebase-client_x509_cert_url}")
     String clientx509;
 
-
     private StorageOptions storageOptions;
     private String bucketName;
 
@@ -82,12 +81,12 @@ public class ChatServiceImplementation implements ChatService {
         jsonObject.put("auth_provider_x509_cert_url",authProvider);
         jsonObject.put("client_x509_cert_url",clientx509);
 
-        FileWriter file = new FileWriter("user.json");
+        FileWriter file = new FileWriter("chat.json");
         file.write(jsonObject.toJSONString());
         file.close();
         FileInputStream serviceAccount = new FileInputStream("user.json");
         this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
-        new File("user.json").delete();
+        new File("chat.json").delete();
     }
 
     @Override
