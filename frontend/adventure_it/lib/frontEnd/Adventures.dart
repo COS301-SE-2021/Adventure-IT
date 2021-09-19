@@ -16,11 +16,11 @@ class HomePage_Pages extends StatelessWidget {
   Widget build(BuildContext context) {
     final PageController controller = PageController(initialPage: 0);
     return PageView(
-            scrollDirection: Axis.horizontal,
-            controller: controller,
-            children: <Widget>[
-              HomePage_Pages_Adventures(),
-            ]);
+        scrollDirection: Axis.horizontal,
+        controller: controller,
+        children: <Widget>[
+          HomePage_Pages_Adventures(),
+        ]);
   }
 }
 
@@ -32,46 +32,48 @@ class HomePage_Pages_Adventures extends StatelessWidget {
     return ChangeNotifierProvider.value(
         value: AdventuresModel(context),
         builder: (context, widget) => Column(children: <Widget>[
-        Container(
-          alignment: Alignment.center,
-          height: MediaQuery.of(context).size.height / 6,
-          child: Text("Adventures",
-              style: TextStyle(
-                  fontSize: 35 * MediaQuery.of(context).textScaleFactor,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).textTheme.bodyText1!.color))),
-      Container(
-        alignment: Alignment.centerLeft,
-        padding: EdgeInsets.only(
-          left: MediaQuery.of(context).size.width / 50,
-        ),
-      ),
-      AdventureList(),
-      SizedBox(height: MediaQuery.of(context).size.height / 60),
-      Expanded(
-          flex: 1,
-          child: Align(
-            alignment: FractionalOffset.bottomCenter,
-            child: Container(
-                decoration: BoxDecoration(
-                    color: Theme.of(context).accentColor,
-                    shape: BoxShape.circle),
-                child: IconButton(
-                    onPressed: () {
-                      {
-                        var provider = Provider.of<AdventuresModel>(context, listen: false);
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CreateAdventureCaller(provider)));
-                      }
-                    },
-                    icon: const Icon(Icons.add),
-                    color: Theme.of(context).primaryColorDark)),
-          ) //Your widget here,
-          ),
-      SizedBox(height: MediaQuery.of(context).size.height / 60),
-    ]));
+          SizedBox(height: MediaQuery.of(context).size.height / 50),
+              Container(
+                  alignment: Alignment.center,
+                  child: Text("Adventures",
+                      style: TextStyle(
+                          fontSize: 35 * MediaQuery.of(context).textScaleFactor,
+                          fontWeight: FontWeight.bold,
+                          color:
+                              Theme.of(context).textTheme.bodyText1!.color))),
+          SizedBox(height: MediaQuery.of(context).size.height / 50),
+              Expanded(
+                flex: 3,
+              child: AdventureList()
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
+              Expanded(
+                  flex: 1,
+                  child: Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).accentColor,
+                            shape: BoxShape.circle),
+                        child: IconButton(
+                            onPressed: () {
+                              {
+                                var provider = Provider.of<AdventuresModel>(
+                                    context,
+                                    listen: false);
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CreateAdventureCaller(provider)));
+                              }
+                            },
+                            icon: const Icon(Icons.add),
+                            color: Theme.of(context).primaryColorDark)),
+                  ) //Your widget here,
+                  ),
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
+            ]));
   }
 }
 
@@ -103,31 +105,36 @@ class AdventureList extends StatelessWidget {
                 valueColor: new AlwaysStoppedAnimation<Color>(
                     Theme.of(context).accentColor)));
       } else if (adventureModel.adventures!.length > 0) {
-        return Expanded(
-            flex: 2,
-            child: ListView(children: [
-              ...List.generate(
-                  adventureModel.adventures!.length,
-                  (index) => Dismissible(
-                      background: Container(
-                        // color: Theme.of(context).primaryColor,
-                        //   margin: const EdgeInsets.all(5),
-                        padding: EdgeInsets.all(
-                            MediaQuery.of(context).size.height / 60),
-                        child: Row(
-                          children: [
-                            new Spacer(),
-                            Icon(Icons.delete,
-                                color: Theme.of(context).accentColor,
-                                size: 35 *
-                                    MediaQuery.of(context).textScaleFactor),
-                          ],
-                        ),
-                      ),
-                      direction: DismissDirection.endToStart,
-                      key: Key(adventureModel.adventures!
-                          .elementAt(index)
-                          .adventureId),
+      return ListView(shrinkWrap: true,
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width <= 500
+                        ? 0
+                        : MediaQuery.of(context).size.width * 0.1),
+                    children: [
+          ...List.generate(
+              adventureModel.adventures!.length,
+              (index) => Dismissible(
+                  background: Container(
+                    width: MediaQuery.of(context).size.width <= 500
+                        ? MediaQuery.of(context).size.width
+                        : MediaQuery.of(context).size.width * 0.8,
+                    padding:
+                        EdgeInsets.all(MediaQuery.of(context).size.height / 60),
+                    child: Row(
+                      children: [
+                        new Spacer(),
+                        Icon(Icons.delete,
+                            color: Theme.of(context).accentColor,
+                            size: 35 * MediaQuery.of(context).textScaleFactor),
+                      ],
+                    ),
+                  ),
+                  direction: DismissDirection.endToStart,
+                  key: Key(
+                      adventureModel.adventures!.elementAt(index).adventureId),
+                  child: Container(
+                      width: MediaQuery.of(context).size.width <= 500
+                          ? MediaQuery.of(context).size.width
+                          : MediaQuery.of(context).size.width * 0.8,
                       child: Card(
                           color: Theme.of(context).primaryColorDark,
                           child: InkWell(
@@ -252,58 +259,56 @@ class AdventureList extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                              ))),
-                      confirmDismiss: (DismissDirection direction) async {
-                        return await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor:
-                                  Theme.of(context).primaryColorDark,
-                              title: Text("Confirmation",
+                              )))),
+                  confirmDismiss: (DismissDirection direction) async {
+                    return await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: Theme.of(context).primaryColorDark,
+                          title: Text("Confirmation",
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color)),
+                          content: Text(
+                              "Are you sure you want to remove this adventure?",
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color)),
+                          actions: <Widget>[
+                            TextButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(true),
+                                child: Text("Remove",
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .color))),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(false),
+                              child: Text("Cancel",
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .textTheme
                                           .bodyText1!
                                           .color)),
-                              content: Text(
-                                  "Are you sure you want to remove this adventure?",
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .color)),
-                              actions: <Widget>[
-                                TextButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(true),
-                                    child: Text("Remove",
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color))),
-                                TextButton(
-                                  onPressed: () =>
-                                      Navigator.of(context).pop(false),
-                                  child: Text("Cancel",
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color)),
-                                ),
-                              ],
-                            );
-                          },
+                            ),
+                          ],
                         );
                       },
-                      onDismissed: (direction) {
-                        Provider.of<AdventuresModel>(context, listen: false)
-                            .deleteAdventure(
-                                adventureModel.adventures!.elementAt(index));
-                      }))
-            ]));
+                    );
+                  },
+                  onDismissed: (direction) {
+                    Provider.of<AdventuresModel>(context, listen: false)
+                        .deleteAdventure(
+                            adventureModel.adventures!.elementAt(index));
+                  }))
+        ]);
       } else {
         return Center(
             child: Text("It seems you're not very adventurous...",

@@ -15,6 +15,8 @@ import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
 import com.adventureit.maincontroller.exceptions.CurrentLocationException;
 import com.adventureit.maincontroller.exceptions.InvalidItineraryEntryException;
 import com.adventureit.maincontroller.responses.MainItineraryEntryResponseDTO;
+import com.adventureit.shareddtos.notification.requests.SendEmailNotificationRequest;
+import com.adventureit.shareddtos.notification.requests.SendEmailRequest;
 import com.adventureit.shareddtos.recommendation.request.CreateLocationRequest;
 import com.adventureit.shareddtos.timeline.TimelineType;
 import com.adventureit.shareddtos.timeline.requests.CreateTimelineRequest;
@@ -33,7 +35,6 @@ import java.util.*;
 public class MainControllerItineraryReroute {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private MainControllerServiceImplementation service;
 
     private final String IP = "http://localhost";
     private final String locationPort = "9006";
@@ -42,6 +43,7 @@ public class MainControllerItineraryReroute {
     private final String adventurePort = "9001";
     private final String userPort = "9002";
     private final String recommendationPort = "9013";
+    private final String notificationPort = "9004";
 
     @Autowired
     public MainControllerItineraryReroute(MainControllerServiceImplementation service) {
@@ -230,6 +232,12 @@ public class MainControllerItineraryReroute {
         }
         else{
             throw new CurrentLocationException("Check User Off: User is in the incorrect location");
+        }
+        LocationResponseDTO location = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/" + entry.getLocation() , LocationResponseDTO.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + userID, GetUserByUUIDDTO.class);
+        if (user.getSettings()){
+            SendEmailRequest req = new SendEmailRequest(user.getEmergencyEmail(),"Check-in confirmed",user.getFirstname()+" has checked into: "+location.getName()+".\n Use the link to see their location:\n http://maps.google.com/maps?q="+location.getFormattedAddress()+"&z=17\n \n \n \n From Adventure IT team");
+            restTemplate.postForObject(IP + ":" + notificationPort + "/notification/sendemail/" ,req, String.class);
         }
     }
 

@@ -37,10 +37,9 @@ class Checklists extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-              Container(
-                  height: MediaQuery.of(context).size.height * 0.75,
+             Expanded(
                   child: ChecklistList(adventure)),
-              Spacer(),
+              SizedBox(height:MediaQuery.of(context).size.height/60),
               Row(children: [
                 Expanded(
                   flex: 1,
@@ -124,7 +123,14 @@ class ChecklistList extends StatelessWidget {
                     valueColor: new AlwaysStoppedAnimation<Color>(
                         Theme.of(context).accentColor)));
           } else if (checklistModel.checklists!.length > 0) {
-            return ListView.builder(
+            return Container(
+                width: MediaQuery.of(context).size.width <= 500
+                ? MediaQuery.of(context).size.width
+                : MediaQuery.of(context).size.width * 0.9,
+      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width <= 500
+      ? 0
+          : MediaQuery.of(context).size.width * 0.05),
+                child:ListView.builder(
                     itemCount:                      checklistModel.checklists!.length,
                       itemBuilder: (context, index) =>  Card(
                               color: Theme.of(context).primaryColorDark,
@@ -204,7 +210,7 @@ class ChecklistList extends StatelessWidget {
                                       ],
                                     ),
                                   ))),
-            );
+            ));
           } else {
             return Center(
                 child: Text("Let's get you organised!",

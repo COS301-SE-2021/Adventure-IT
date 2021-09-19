@@ -49,6 +49,16 @@ public class MainControllerNotificationReroute {
         return restTemplate.postForObject(IP + ":" + notificationPort + "/notification/retrieveNotification/", req, List.class);
     }
 
+    @PostMapping("/sendFirebaseNotification")
+    public String sendFirebaseNotification(@RequestBody SendFirebaseNotificationRequest req){
+        return restTemplate.postForObject(IP + ":" + notificationPort + "/notification/sendFirebaseNotification/", req, String.class);
+    }
+
+    @PostMapping("/addFirebaseUser")
+    public String addFirebaseUser(@RequestBody FirebaseUserRequest req){
+        return restTemplate.postForObject(IP + ":" + notificationPort + "/notification/addFirebaseUser/", req, String.class);
+    }
+
 }
 
 

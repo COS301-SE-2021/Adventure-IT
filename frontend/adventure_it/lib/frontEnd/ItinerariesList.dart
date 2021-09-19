@@ -41,10 +41,9 @@ class Itineraries extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
-                  Container(
-                      height: MediaQuery.of(context).size.height * 0.80,
+                  Expanded(
                       child: ItinerariesList(adventure!,context)),
-                  Spacer(),
+        SizedBox(height: MediaQuery.of(context).size.height / 60),
                   Row(children: [
                     Expanded(
                       flex: 1,
@@ -202,7 +201,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                     MapsLauncher.launchQuery(next!.location.formattedAddress);
                   },
                   child:Container(
-                  width: MediaQuery.of(context).size.width * 0.8 < 500? 500: MediaQuery.of(context).size.width * 0.8,
+                  width: MediaQuery.of(context).size.width <= 500? MediaQuery.of(context).size.width: MediaQuery.of(context).size.width * 0.8,
                   decoration: new BoxDecoration(
                       image: new DecorationImage(
                           image: next != null
@@ -306,6 +305,13 @@ class _ItinerariesList extends State<ItinerariesList> {
           SizedBox(height: MediaQuery.of(context).size.height / 60),
           Expanded(
               flex: 8,
+              child: Container(
+              width: MediaQuery.of(context).size.width <= 500
+      ? MediaQuery.of(context).size.width
+          : MediaQuery.of(context).size.width * 0.9,
+      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width <= 500
+      ? 0
+          : MediaQuery.of(context).size.width * 0.05),
               child: ListView.builder(
                 itemCount: itineraryModel.itineraries!.length,
                 itemBuilder: (context, index) => Card(
@@ -406,7 +412,7 @@ class _ItinerariesList extends State<ItinerariesList> {
                             ],
                           ),
                         ))),
-              ))
+              )))
           ]);
       } else {
         return Center(

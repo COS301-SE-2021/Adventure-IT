@@ -174,7 +174,7 @@ public class UserServiceImplementation  {
         }
 
 
-        GetUserByUUIDDTO response = new GetUserByUUIDDTO(newUser.getUserID(),newUser.getUsername(),newUser.getFirstname(), newUser.getLastname(), newUser.getEmail());
+        GetUserByUUIDDTO response = new GetUserByUUIDDTO(newUser.getUserID(),newUser.getUsername(),newUser.getFirstname(), newUser.getLastname(), newUser.getEmail(),newUser.getNotificationSettings(),newUser.getEmergencyContact());
         if(pictureInfo!=null) {
             response.setPictureId(pictureInfo.getId().toString());
         }
@@ -529,5 +529,36 @@ public class UserServiceImplementation  {
 
         newUser.setStorageUsed(newUser.getStorageUsed()+size);
         repo.save(newUser);
+    }
+
+    public void setFirebaseId(UUID userId, String id)
+    {
+        Users user=repo.getUserByUserID(userId);
+        user.setFireBaseId(id);
+        repo.save(user);
+    }
+
+    public String getFirebaseId(UUID userId)
+    {
+        Users user=repo.getUserByUserID(userId);
+        return user.getFireBaseId();
+    }
+
+    public List<GetUserByUUIDDTO> getUsersForAdventure(List<UUID> list)
+    {
+        List<GetUserByUUIDDTO> returnList=new ArrayList<>();
+        for(UUID i:list)
+        {
+            returnList.add(getUserByUUID(i));
+        }
+        return returnList;
+    }
+
+    public List<GetUserByUUIDDTO> getUserByUUIDs(List<UUID> ids) {
+        List<GetUserByUUIDDTO> returnList = new ArrayList<>();
+        for(UUID id : ids){
+            returnList.add(this.getUserByUUID(id));
+        }
+        return returnList;
     }
 }

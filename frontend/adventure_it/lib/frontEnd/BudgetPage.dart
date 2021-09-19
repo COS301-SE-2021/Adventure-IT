@@ -226,10 +226,11 @@ class AlertBox extends State<_AlertBox> {
   List<String>? userNames;
   List<String>? userNamesAndOther;
 
-  AlertBox(Budget budget, Adventure a,context) {
+  AlertBox(Budget budget, Adventure a, BuildContext context) {
     this.b = budget;
     this.currentAdventure = a;
-    AdventureApi.getAttendeesOfAdventure(a.adventureId,context).then((value) {
+
+    AdventureApi.getAttendeesOfAdventure(a.adventureId, context).then((value) {
       setState(() {
         users = value;
       });

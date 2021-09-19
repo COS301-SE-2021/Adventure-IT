@@ -5,7 +5,11 @@ import 'package:adventure_it/api/directChatMessage.dart';
 import 'package:adventure_it/api/groupChat.dart';
 import 'package:adventure_it/api/groupChatMessage.dart';
 import 'package:adventure_it/api/userAPI.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class GroupChatModel extends ChangeNotifier {
   List<GroupChatMessage>? _messages;
@@ -13,9 +17,9 @@ class GroupChatModel extends ChangeNotifier {
   Adventure? currentAdventure;
   BuildContext? context;
 
-  GroupChatModel(Adventure a,context) {
+  GroupChatModel(Adventure a, context) {
     this.currentAdventure = a;
-    this.context=context;
+    this.context = context;
     fetchAllMessages().then(
         (messages) => messages != null ? _messages = messages : List.empty());
   }
@@ -25,18 +29,18 @@ class GroupChatModel extends ChangeNotifier {
   GroupChat? get chat => _chat;
 
   Future fetchAllMessages() async {
-    _chat = await ChatApi.getGroupChat(currentAdventure,context);
+    _chat = await ChatApi.getGroupChat(currentAdventure, context);
     if (_chat == null) {
       _messages = List.empty();
     } else {
-      _messages = await ChatApi.getGroupChatMessage(_chat!.id,context);
+      _messages = await ChatApi.getGroupChatMessage(_chat!.id, context);
     }
     notifyListeners();
   }
 
   Future sendMessage(String message) async {
-    await ChatApi.sendGroupMessage(
-        _chat!.id, UserApi.getInstance().getUserProfile()!.userID, message,context);
+    await ChatApi.sendGroupMessage(_chat!.id,
+        UserApi.getInstance().getUserProfile()!.userID, message, context);
 
     fetchAllMessages();
 
@@ -51,11 +55,11 @@ class DirectChatModel extends ChangeNotifier {
   String? user2ID;
   BuildContext? context;
 
-  DirectChatModel(String user1, String user2,context) {
+  DirectChatModel(String user1, String user2, context) {
     user1ID = user1;
     user2ID = user2;
-    this.context=context;
-    fetchAllMessages(user1, user2).then(
+    this.context = context;
+    fetchAllMessages().then(
         (messages) => messages != null ? _messages = messages : List.empty());
   }
 
@@ -63,19 +67,20 @@ class DirectChatModel extends ChangeNotifier {
 
   DirectChat? get chat => _chat;
 
-  Future fetchAllMessages(String user1, String user2) async {
-    _chat = await ChatApi.getDirectChat(user1, user2,context);
+  Future fetchAllMessages() async {
+    _chat = await ChatApi.getDirectChat(user1ID!, user2ID!, context);
     if (_chat == null) {
       _messages = List.empty();
     } else
-      _messages = await ChatApi.getDirectChatMessage(_chat!.id,context);
+      _messages = await ChatApi.getDirectChatMessage(_chat!.id, context);
     notifyListeners();
   }
 
   Future sendMessage(String message) async {
-    await ChatApi.sendDirectMessage(_chat!.id, user1ID!, user2ID!, message,context);
+    await ChatApi.sendDirectMessage(
+        _chat!.id, user1ID!, user2ID!, message, context);
 
-    fetchAllMessages(user1ID!, user2ID!);
+    fetchAllMessages();
 
     notifyListeners();
   }

@@ -18,6 +18,14 @@ public class MessageDTO {
         this.timestamp = LocalDateTime.now();
     }
 
+    public MessageDTO(UUID id, UUID sender, UUID chatId, String message,LocalDateTime date){
+        this.id = id;
+        this.sender = sender;
+        this.payload = message;
+        this.chatId= chatId;
+        this.timestamp = date;
+    }
+
     public MessageDTO() {
     }
 

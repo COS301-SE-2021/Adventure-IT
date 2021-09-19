@@ -54,11 +54,10 @@ class ChecklistPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.75,
+              Expanded(
                 child: GetChecklistEntries(currentChecklist!)
               ),
-              Spacer(),
+              SizedBox(height:MediaQuery.of(context).size.height/60),
               Row(children: [
                 Expanded(
                   flex: 1,
@@ -258,7 +257,14 @@ class GetChecklistEntries extends StatelessWidget {
                 valueColor: new AlwaysStoppedAnimation<Color>(
                     Theme.of(context).accentColor)));
       } else if (checklistEntry.entries!.length > 0) {
-        return ListView.builder(
+        return Container(
+            width: MediaQuery.of(context).size.width <= 500
+            ? MediaQuery.of(context).size.width
+            : MediaQuery.of(context).size.width * 0.9,
+          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width <= 500
+          ? 0
+              : MediaQuery.of(context).size.width * 0.05),
+            child: ListView.builder(
             itemCount: checklistEntry.entries!.length,
             itemBuilder: (context, index) => Card(
                     color: Theme.of(context).primaryColorDark,
@@ -491,7 +497,7 @@ class GetChecklistEntries extends StatelessWidget {
                                             Text("Delete", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color))
                                           ],
                                         ))
-                                  ]),])))));
+                                  ]),]))))));
 
       } else {
         return Center(
