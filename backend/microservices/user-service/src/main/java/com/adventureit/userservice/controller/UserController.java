@@ -93,7 +93,7 @@ public class UserController {
     public List<GetFriendRequestsResponse> getFriendRequests(@PathVariable UUID id) {
         return service.getFriendRequests(id);
     }
-    
+
     @GetMapping(value = "deleteFriendRequest/{id}")
     public void deleteRequest(@PathVariable UUID id){
         service.deleteFriendRequest(id);

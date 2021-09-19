@@ -9,7 +9,6 @@ import org.ejml.simple.SimpleMatrix;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class RecommendationService {
@@ -100,7 +99,7 @@ public class RecommendationService {
                 filteredLocations.add(l);
             }
         }
-        if(filteredLocations.size() == 0){
+        if(filteredLocations.isEmpty()){
             return null;
         }
         else{
@@ -233,7 +232,7 @@ public class RecommendationService {
                 filteredLocations.add(location);
             }
         }
-        if(filteredLocations.size() == 0){
+        if(filteredLocations.isEmpty()){
             return null;
         }
         else{
