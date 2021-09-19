@@ -154,8 +154,8 @@ class ItineraryModel extends ChangeNotifier {
 
 class ItineraryEntryModel extends ChangeNotifier {
   List<ItineraryEntry>? _entries;
-  List<RecommendedLocation>? _recommendations;
-  List<RecommendedLocation>? _popular;
+  List<RecommendedLocation>? _recommendations=List.empty();
+  List<RecommendedLocation>? _popular=List.empty();
   Adventure? currentAdventure;
   BuildContext? context;
 

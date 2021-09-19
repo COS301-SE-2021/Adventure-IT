@@ -24,6 +24,7 @@ public class AdventureServiceImplementation implements AdventureService {
 
     private final AdventureRepository adventureRepository;
 
+    private static final String ADVENTURE_ERROR = "Adventure does not exist";
     public AdventureServiceImplementation(AdventureRepository adventureRepository){
         this.adventureRepository = adventureRepository;
     }
@@ -95,9 +96,8 @@ public class AdventureServiceImplementation implements AdventureService {
     @Override
     public List<GetAllAdventuresResponse> getAllAdventures(){
         List<Adventure> allAdventures = adventureRepository.findAll();
-        if(allAdventures.size() == 0){
-            List<GetAllAdventuresResponse> list = new ArrayList<>();
-            return list;
+        if(allAdventures.isEmpty()){
+            return new ArrayList<>();
         }
 
         allAdventures.sort(Comparator.comparing(Adventure::getStartDate));
@@ -153,7 +153,7 @@ public class AdventureServiceImplementation implements AdventureService {
     public List<UUID> getAttendees(UUID id) {
         Adventure adventure  = adventureRepository.findAdventureByAdventureId(id);
         if(adventure == null){
-            throw new AdventureNotFoundException("Adventure does not exist");
+            throw new AdventureNotFoundException(ADVENTURE_ERROR);
         }
 
         return adventure.getAttendees();
@@ -170,7 +170,7 @@ public class AdventureServiceImplementation implements AdventureService {
     public void addAttendees(UUID adventureID, UUID userID) {
         Adventure adventure = adventureRepository.findAdventureByAdventureId(adventureID);
         if(adventure == null){
-            throw new AdventureNotFoundException("Adventure does not exist");
+            throw new AdventureNotFoundException(ADVENTURE_ERROR);
         }
 
         if(adventure.getAttendees().contains(userID)){
@@ -185,7 +185,7 @@ public class AdventureServiceImplementation implements AdventureService {
     public String removeAttendees(UUID adventureID, UUID userID) {
         Adventure adventure = adventureRepository.findAdventureByAdventureId(adventureID);
         if(adventure == null){
-            throw new AdventureNotFoundException("Adventure does not exist");
+            throw new AdventureNotFoundException(ADVENTURE_ERROR);
         }
 
         adventure.getAttendees().remove(userID);
@@ -195,9 +195,8 @@ public class AdventureServiceImplementation implements AdventureService {
 
     // Helper function for sorting adventures, throws an exception if there are no adventures
     private List<GetAdventuresByUserUUIDResponse> sortAdventures(List<Adventure> userAdventures) {
-        if(userAdventures.size() == 0){
-            List<GetAdventuresByUserUUIDResponse> list = new ArrayList<>();
-            return list;
+        if(userAdventures.isEmpty()){
+            return new ArrayList<>();
         }
 
         userAdventures.sort(Comparator.comparing(Adventure::getStartDate));
@@ -214,6 +213,7 @@ public class AdventureServiceImplementation implements AdventureService {
     public String editAdventure(EditAdventureRequest req) {
         Adventure adventure = adventureRepository.findAdventureByAdventureId(req.getAdventureId());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy");
+
         if(req.getDescription().equals("")){
 
         }else{
@@ -226,7 +226,7 @@ public class AdventureServiceImplementation implements AdventureService {
             adventure.setName(req.getName());
         }
 
-        if(req.getStartDate().equals(null)||req.getStartDate().equals("")){
+        if(req.getStartDate() == null ||req.getStartDate().equals("")){
 
         }else{
             LocalDate sd = LocalDate.parse(req.getStartDate(),formatter);

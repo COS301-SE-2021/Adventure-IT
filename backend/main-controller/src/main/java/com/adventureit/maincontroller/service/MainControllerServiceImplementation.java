@@ -1,5 +1,6 @@
 package com.adventureit.maincontroller.service;
 
+import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -139,11 +140,11 @@ public class MainControllerServiceImplementation {
         return value;
     }
 
-    public String pingCheck(String[] ports, RestTemplate temp) throws Exception {
+    public String pingCheck(String[] ports, RestTemplate temp) throws ControllerNotAvailable, InterruptedException {
         int runs = 0;
         while(pingControllers(ports,temp).equals("Not OK")){
             if(runs ==4){
-                throw new Exception("Controller is out of service");
+                throw new ControllerNotAvailable("Controller is out of service");
             }
             TimeUnit.SECONDS.sleep(5);
             runs++;

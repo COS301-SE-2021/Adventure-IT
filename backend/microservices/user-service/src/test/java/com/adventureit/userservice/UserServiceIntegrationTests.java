@@ -59,7 +59,7 @@ class UserServiceIntegrationTests {
     @Order(2)
     @Description("Ensure that the controller is accepting traffic and responding")
     void httpTest_returnResponse(){
-        Assertions.assertEquals("User controller is working",this.restTemplate.getForObject("http://localhost:" + port + "/user/test", String.class));
+        Assertions.assertEquals("User Controller is functional",this.restTemplate.getForObject("http://localhost:" + port + "/user/test", String.class));
     }
 
     @Test

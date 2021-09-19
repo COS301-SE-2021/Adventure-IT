@@ -267,6 +267,7 @@ public class MainControllerItineraryReroute {
     public List<RegisteredUsersDTO> getRegisteredUsers(@PathVariable UUID id) throws Exception {
         String[] ports = {itineraryPort,userPort};
         service.pingCheck(ports,restTemplate);
+
         Map<UUID, Boolean> list = restTemplate.getForObject(IP + ":" + itineraryPort + "/itinerary/getRegisteredUsers/" + id, Map.class);
         assert list != null;
         List<RegisteredUsersDTO> users = new ArrayList<>();
@@ -279,6 +280,9 @@ public class MainControllerItineraryReroute {
         for (Map.Entry<UUID, Boolean> entry : list.entrySet()) {
             user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + entry.getKey(), GetUserByUUIDDTO.class);
             assert user != null;
+            if(entry.getValue() == null){
+                throw new Exception("Get Registered Users: Boolean is null");
+            }
             users.add(new RegisteredUsersDTO(user, entry.getValue()));
         }
 

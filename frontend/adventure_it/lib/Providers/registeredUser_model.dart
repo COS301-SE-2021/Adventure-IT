@@ -21,7 +21,6 @@ class RegisteredUserModel extends ChangeNotifier {
 
   Future fetchUsers(ItineraryEntry i) async {
     _users = await ItineraryApi.getRegisteredUsers(i,context);
-
     notifyListeners();
   }
 

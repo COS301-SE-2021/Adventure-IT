@@ -1,6 +1,7 @@
 package com.adventureit.maincontroller.controller;
 
 
+import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.budget.requests.AddUTOExpenseEntryRequest;
 import com.adventureit.shareddtos.budget.requests.AddUTUExpenseEntryRequest;
@@ -24,13 +25,16 @@ import java.util.UUID;
 public class MainControllerBudgetReroute {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private MainControllerServiceImplementation service;
+    private final MainControllerServiceImplementation service;
 
-    private final String IP = "http://localhost";
-    private final String timelinePort = "9012";
-    private final String budgetPort = "9007";
-    private final String createBudget ="/budget/getBudgetByBudgetId/";
-    private final String userPort = "9002";
+    private static final String INTERNET_PORT = "http://localhost";
+    private static final String TIMELINE_PORT = "9012";
+    private static final String BUDGET_PORT = "9007";
+    private static final String CREATE_BUDGET ="/budget/getBudgetByBudgetId/";
+    private static final String GET_USER = "/user/getUser/";
+    private static final String CREATE_TIMELINE = "/timeline/createTimeline";
+    private static final String USER_PORT = "9002";
+    private static final String BUDGET_M = " budget.";
 
     @Autowired
     public MainControllerBudgetReroute(MainControllerServiceImplementation service) {
@@ -38,155 +42,159 @@ public class MainControllerBudgetReroute {
     }
 
     @PostMapping(value ="/create")
-    public String createBudget(@RequestBody CreateBudgetRequest req) throws Exception {
-        String[] ports = {budgetPort,userPort,timelinePort};
+    public String createBudget(@RequestBody CreateBudgetRequest req) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        restTemplate.postForObject(IP + ":" + budgetPort + "/budget/create/", req, String.class);
-        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+req.getCreatorID(), GetUserByUUIDDTO.class);
+        restTemplate.postForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/create/", req, String.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + req.getCreatorID(), GetUserByUUIDDTO.class);
+        assert user != null;
         CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(), TimelineType.BUDGET,user.getUsername()+" created a new budget for "+req.getName());
-        return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
     }
 
     @GetMapping("/hardDelete/{id}/{userID}")
-    public String hardDelete(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
-        String[] ports = {budgetPort,userPort,timelinePort};
+    public String hardDelete(@PathVariable UUID id, @PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        BudgetResponseDTO response = restTemplate.getForObject(IP + ":" + budgetPort + createBudget+id, BudgetResponseDTO.class);
-        restTemplate.getForObject(IP + ":" + budgetPort + "/budget/hardDelete/"+id+"/"+userID, String.class);
-        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
+        BudgetResponseDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + CREATE_BUDGET +id, BudgetResponseDTO.class);
+        restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/hardDelete/"+id+"/"+userID, String.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + userID, GetUserByUUIDDTO.class);
         assert response != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.BUDGET,user.getUsername()+" deleted the "+response.getName()+" budget.");
-        return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        assert user != null;
+        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.BUDGET,user.getUsername()+" deleted the "+response.getName()+BUDGET_M);
+        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
  }
 
     @PostMapping("/editBudget")
-    public String editBudget(@RequestBody EditBudgetRequest req) throws Exception {
-        String[] ports = {budgetPort,userPort,timelinePort};
+    public String editBudget(@RequestBody EditBudgetRequest req) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        restTemplate.postForObject(IP + ":" + budgetPort + "/budget/editBudget/", req, String.class);
-        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+req.getUserId(), GetUserByUUIDDTO.class);
+        restTemplate.postForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/editBudget/", req, String.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + req.getUserId(), GetUserByUUIDDTO.class);
         UUID budgetID = req.getBudgetID();
         assert budgetID != null;
-        BudgetResponseDTO response = restTemplate.getForObject(IP + ":" + budgetPort + createBudget+budgetID, BudgetResponseDTO.class);
+        BudgetResponseDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + CREATE_BUDGET +budgetID, BudgetResponseDTO.class);
         assert response != null;
         UUID adventureId = response.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" edited the "+response.getName()+" budget." );
-        return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        assert user != null;
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" edited the "+response.getName()+BUDGET_M );
+        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
     }
 
     @GetMapping("/removeEntry/{id}/{userId}")
-    public String removeEntry(@PathVariable UUID id,@PathVariable UUID userId) throws Exception {
-        String[] ports = {budgetPort,userPort,timelinePort};
+    public String removeEntry(@PathVariable UUID id,@PathVariable UUID userId) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        BudgetResponseDTO response = restTemplate.getForObject(IP + ":" + budgetPort + "/budget/getBudgetByBudgetEntryId/"+id, BudgetResponseDTO.class);
-        GetUserByUUIDDTO user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/"+userId, GetUserByUUIDDTO.class);
-        restTemplate.getForObject(IP + ":" + budgetPort + "/budget/removeEntry/"+id, String.class);
+        BudgetResponseDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/getBudgetByBudgetEntryId/"+id, BudgetResponseDTO.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + userId, GetUserByUUIDDTO.class);
+        restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/removeEntry/"+id, String.class);
         assert response != null;
         UUID adventureId =response.getAdventureID();
         String name = response.getName();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" deleted an entry from the "+name+" budget." );
-        return restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        assert user != null;
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" deleted an entry from the "+name+BUDGET_M );
+        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
     }
 
     @GetMapping("/viewBudgetsByAdventure/{id}")
-    public List<BudgetResponseDTO> viewBudgetsByAdventure(@PathVariable UUID id) throws Exception {
-        String[] ports = {budgetPort};
+    public List<BudgetResponseDTO> viewBudgetsByAdventure(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + budgetPort + "/budget/viewBudgetsByAdventure/"+id, List.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/viewBudgetsByAdventure/"+id, List.class);
     }
 
     @GetMapping("/viewBudget/{id}")
-    public List<ViewBudgetResponse> viewBudget(@PathVariable UUID id) throws Exception {
-        String[] ports = {budgetPort};
+    public List<ViewBudgetResponse> viewBudget(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + budgetPort + "/budget/viewBudget/"+id, List.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/viewBudget/"+id, List.class);
     }
 
     @GetMapping("/softDelete/{id}/{userID}")
-    public String softDelete(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
-        String[] ports = {budgetPort};
+    public String softDelete(@PathVariable UUID id, @PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + budgetPort + "/budget/softDelete/"+id+"/"+userID, String.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/softDelete/"+id+"/"+userID, String.class);
     }
 
     @GetMapping("/viewTrash/{id}")
-    public List<BudgetResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
-        String[] ports = {budgetPort};
+    public List<BudgetResponseDTO> viewTrash(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + budgetPort + "/budget/viewTrash/"+id, List.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/viewTrash/"+id, List.class);
 
     }
 
     @GetMapping("/restoreBudget/{id}/{userID}")
-    public String restoreBudget(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
-        String[] ports = {budgetPort};
+    public String restoreBudget(@PathVariable UUID id, @PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + budgetPort + "/budget/restoreBudget/"+id+"/"+userID, String.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/restoreBudget/"+id+"/"+userID, String.class);
     }
 
 
     @PostMapping("/addUTOExpense")
-    public String addUTOExpense(@RequestBody AddUTOExpenseEntryRequest req) throws Exception {
-        String[] ports = {budgetPort,timelinePort};
+    public String addUTOExpense(@RequestBody AddUTOExpenseEntryRequest req) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        String returnString = restTemplate.postForObject(IP + ":" + budgetPort + "/budget/addUTOExpense/", req, String.class);
-        BudgetResponseDTO response = restTemplate.getForObject(IP + ":" + budgetPort + createBudget +req.getEntryContainerID(), BudgetResponseDTO.class);
+        String returnString = restTemplate.postForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/addUTOExpense/", req, String.class);
+        BudgetResponseDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + CREATE_BUDGET +req.getEntryContainerID(), BudgetResponseDTO.class);
         assert response != null;
         UUID adventureId =response.getAdventureID();
         String name = response.getName();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,req.getPayer()+" added a new entry to the "+name+" budget." );
-        restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,req.getPayer()+" added a new entry to the "+name+BUDGET_M );
+        restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return returnString;
     }
 
     @PostMapping("/addUTUExpense")
-    public String addUTUExpense(@RequestBody AddUTUExpenseEntryRequest req) throws Exception {
-        String[] ports = {budgetPort,timelinePort};
+    public String addUTUExpense(@RequestBody AddUTUExpenseEntryRequest req) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        String returnString = restTemplate.postForObject(IP + ":" + budgetPort + "/budget/addUTUExpense/", req, String.class);
-        BudgetResponseDTO response = restTemplate.getForObject(IP + ":" + budgetPort + createBudget+req.getEntryContainerID(), BudgetResponseDTO.class);
+        String returnString = restTemplate.postForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/addUTUExpense/", req, String.class);
+        BudgetResponseDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + CREATE_BUDGET +req.getEntryContainerID(), BudgetResponseDTO.class);
         assert response != null;
         UUID adventureId =response.getAdventureID();
         String name = response.getName();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,req.getPayer()+" added a new entry to the "+name+" budget." );
-        restTemplate.postForObject(IP + ":" + timelinePort + "/timeline/createTimeline", req2, String.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,req.getPayer()+" added a new entry to the "+name+BUDGET_M );
+        restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return returnString;
     }
 
 
     @GetMapping("/calculateExpense/{budgetID}/{userName}")
-    public double calculateExpense(@PathVariable UUID budgetID, @PathVariable String userName) throws Exception {
-        String[] ports = {budgetPort};
+    public double calculateExpense(@PathVariable UUID budgetID, @PathVariable String userName) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + budgetPort + "/budget/calculateExpense/"+budgetID+"/"+userName, double.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/calculateExpense/"+budgetID+"/"+userName, double.class);
     }
 
     @GetMapping("/getEntriesPerCategory/{id}")
-    public List<Integer> getEntriesPerCategory(@PathVariable UUID id) throws Exception {
-        String[] ports = {budgetPort};
+    public List<Integer> getEntriesPerCategory(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + budgetPort + "/budget/getEntriesPerCategory/"+id, List.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/getEntriesPerCategory/"+id, List.class);
     }
 
     @GetMapping("/getReportList/{id}")
-    public List<String> getReportList(@PathVariable UUID id) throws Exception {
-        String[] ports = {budgetPort};
+    public List<String> getReportList(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + budgetPort + "/budget/getReportList/"+id, List.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/getReportList/"+id, List.class);
     }
 
     @GetMapping("/generateIndividualReport/{id}/{userName}")
-    public List<ReportResponseDTO> generateIndividualReport(@PathVariable UUID id, @PathVariable String userName) throws Exception {
-        String[] ports = {budgetPort};
+    public List<ReportResponseDTO> generateIndividualReport(@PathVariable UUID id, @PathVariable String userName) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + budgetPort + "/budget/generateIndividualReport/"+id+"/"+userName, List.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/generateIndividualReport/"+id+"/"+userName, List.class);
     }
 
     @GetMapping("/getBudgetByBudgetId/{id}")
-    public BudgetResponseDTO generateIndividualReport(@PathVariable UUID id) throws Exception {
-        String[] ports = {budgetPort};
+    public BudgetResponseDTO generateIndividualReport(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {BUDGET_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + budgetPort + createBudget +id, BudgetResponseDTO.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + CREATE_BUDGET +id, BudgetResponseDTO.class);
     }
 
 

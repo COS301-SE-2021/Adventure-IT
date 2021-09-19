@@ -155,14 +155,7 @@ class NotificationUnitTest {
         assertTrue(testResponse.isSuccess());
     }
 
-    @Test
-     void testSendEmailNotificationService(){
-        SendEmailNotificationRequest testRequest = new SendEmailNotificationRequest(userId1U,mockSubject1,mockMessage1,"testemail@mail.com");
-        SendEmailNotificationResponse testResponse = notificationSUT.sendEmailNotification(testRequest);
-        assertNotNull(testResponse);
-        assertEquals("Email sent to user no. "+userId1U,testResponse.getReturnMessage());
-        assertTrue(testResponse.isSuccess());
-    }
+
 
 
 
