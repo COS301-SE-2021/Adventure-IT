@@ -53,17 +53,18 @@ public class NotificationService {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         Properties props = mailSender.getJavaMailProperties();
 
+        Properties props2 = new Properties();
         mailSender.setPort(Integer.parseInt(port));
         mailSender.setUsername(user);
         mailSender.setPassword(password);
         mailSender.setHost(host);
-
         props.put("mail.smtp.ssl.trust", "*");
+        props2.put("mail.smtp.ssl.trust", "*");
         props.put("mail.smtp.auth", auth);
-        props.put("mail.smtp.connectionTimeout", cT);
+        props.put("mail.smtp.connectionTimeout", Integer.parseInt(cT));
         props.put("mail.smtp.timeout", t);
         props.put("mail.smtp.writetimeout", wt);
-        props.put("mail.smtp.startttls.enable", ttls);
+        props.put("mail.smtp.starttls.enable", ttls);
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(email);
         mailMessage.setSubject(subject);
