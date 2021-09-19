@@ -335,7 +335,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
         if (list.size() != 0) {
             for (Map.Entry<UUID, Boolean> item : list.entrySet()){
-                if(item.getValue() == false){
+                if(!item.getValue()){
                     entry.setCompleted(false);
                     break;
                 }
@@ -399,8 +399,6 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new NotFoundException("Get Start And End Date: Not Itinerary entries");
 
         }
-
-
     }
 
     @Override
