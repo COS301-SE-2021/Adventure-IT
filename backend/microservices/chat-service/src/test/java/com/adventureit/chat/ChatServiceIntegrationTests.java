@@ -3,7 +3,6 @@ package com.adventureit.chat;
 
 import com.adventureit.chat.controller.ChatController;
 import com.adventureit.chat.entity.GroupChat;
-import com.adventureit.chat.entity.GroupMessage;
 import com.adventureit.chat.repository.ColorPairRepository;
 import com.adventureit.chat.repository.DirectChatRepository;
 import com.adventureit.chat.repository.GroupChatRepository;
@@ -84,16 +83,4 @@ public class ChatServiceIntegrationTests {
         groupChatRepository.saveAndFlush(chat);
         Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/chat/addParticipant/" + adventureID + "/" + userID1, String.class),userID1 +" successfully added to chat "+adventureID);
     }
-
-//    @Test
-//    @Description("Ensure that the get group message by id is working")
-//    public void httpGetGroupMessageByID_returnResponse(){
-//        UUID id = UUID.randomUUID();
-//        UUID userID = UUID.randomUUID();
-//        UUID chatID = UUID.randomUUID();
-//        GroupMessage groupMessage = new GroupMessage(id,userID,chatID,"Mock");
-//
-//        GroupMessage responseDTO = this.restTemplate.getForObject("http://localhost:" + port + "/chat/getGroupMessageByID/" + id, GroupMessage.class);
-//        Assertions.assertTrue(responseDTO != null);
-//    }
 }
