@@ -11,7 +11,6 @@ import com.adventureit.shareddtos.chat.responses.GroupChatResponseDTO;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.ReadChannel;
 import com.google.cloud.storage.*;
-import javassist.NotFoundException;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
