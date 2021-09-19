@@ -34,6 +34,7 @@ public class MainControllerBudgetReroute {
     private static final String GET_USER = "/user/getUser/";
     private static final String CREATE_TIMELINE = "/timeline/createTimeline";
     private static final String USER_PORT = "9002";
+    private static final String BUDGET_M = " budget.";
 
     @Autowired
     public MainControllerBudgetReroute(MainControllerServiceImplementation service) {
@@ -59,7 +60,8 @@ public class MainControllerBudgetReroute {
         restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/hardDelete/"+id+"/"+userID, String.class);
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + userID, GetUserByUUIDDTO.class);
         assert response != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.BUDGET,user.getUsername()+" deleted the "+response.getName()+" budget.");
+        assert user != null;
+        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.BUDGET,user.getUsername()+" deleted the "+response.getName()+BUDGET_M);
         return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
  }
 
@@ -74,7 +76,8 @@ public class MainControllerBudgetReroute {
         BudgetResponseDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + CREATE_BUDGET +budgetID, BudgetResponseDTO.class);
         assert response != null;
         UUID adventureId = response.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" edited the "+response.getName()+" budget." );
+        assert user != null;
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" edited the "+response.getName()+BUDGET_M );
         return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
     }
 
@@ -88,7 +91,8 @@ public class MainControllerBudgetReroute {
         assert response != null;
         UUID adventureId =response.getAdventureID();
         String name = response.getName();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" deleted an entry from the "+name+" budget." );
+        assert user != null;
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" deleted an entry from the "+name+BUDGET_M );
         return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
     }
 
@@ -138,7 +142,7 @@ public class MainControllerBudgetReroute {
         assert response != null;
         UUID adventureId =response.getAdventureID();
         String name = response.getName();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,req.getPayer()+" added a new entry to the "+name+" budget." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,req.getPayer()+" added a new entry to the "+name+BUDGET_M );
         restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return returnString;
     }
@@ -152,7 +156,7 @@ public class MainControllerBudgetReroute {
         assert response != null;
         UUID adventureId =response.getAdventureID();
         String name = response.getName();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,req.getPayer()+" added a new entry to the "+name+" budget." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,req.getPayer()+" added a new entry to the "+name+BUDGET_M );
         restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return returnString;
     }
