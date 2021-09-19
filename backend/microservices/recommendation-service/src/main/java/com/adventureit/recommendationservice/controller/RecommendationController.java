@@ -18,7 +18,7 @@ public class RecommendationController {
 
 
     private final RecommendationService recommendationService;
-    private final String badRequest = "Bad request";
+    private static final String badRequest = "Bad request";
 
     @Autowired
     public RecommendationController(RecommendationService recommendationService) {
