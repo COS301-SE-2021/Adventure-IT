@@ -1,11 +1,9 @@
 package com.adventureit.chat.entity;
 
-import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
