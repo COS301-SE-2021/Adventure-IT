@@ -25,23 +25,12 @@ class SettingsPage extends State<SettingsCaller> {
             iconTheme: IconThemeData(
                 color: Theme.of(context).textTheme.bodyText1!.color),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: Column(children: [
-          _SettingsBuilder(),
-          Container(
-              padding: const EdgeInsets.only(left: 100.0, top: 0.0),
-              child:
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Center(
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.height * 0.2,
-                          ))
-                    ])
-                //_buildList()
-              ])),
+        body: Column(
+            mainAxisSize:MainAxisSize.max,
+            children: [
+          Expanded(
+          child:_SettingsBuilder()
+          ),
         ]));
   }
 }
@@ -68,8 +57,10 @@ class SettingsBuilder extends State<_SettingsBuilder> {
         }
         else {
       return Column(
+        mainAxisSize:MainAxisSize.max,
         children: [
-          Container(
+          Spacer(),
+          Center(child: Container(
             margin: EdgeInsets.symmetric(
             vertical: MediaQuery.of(context).size.height * 0.01),
             width: MediaQuery.of(context).size.width * 0.8,
@@ -151,8 +142,8 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                 ],
               ),
             )
-          ),
-          Container(
+          )),
+          Center(child: Container(
             margin: EdgeInsets.symmetric(
                 vertical: MediaQuery.of(context).size.height * 0.01),
             width: MediaQuery.of(context).size.width * 0.8,
@@ -296,7 +287,8 @@ class SettingsBuilder extends State<_SettingsBuilder> {
                     ]
                 )
             ),
-          )
+          )),
+          Spacer()
         ],
       );}}),
     );
