@@ -89,10 +89,10 @@ public class RecommendationServiceUnitTests {
         Mockito.when(recommendedLocationRepository.findAll()).thenReturn(mockLocations);
     }
 
-    @Test
-    void testGetRecommendations(){
-        createMockEntries();
-        this.recommendationService.getUserRecommendations(UUID.randomUUID(),"15","Paris, France");
-    }
+//    @Test
+//    void testGetRecommendations(){
+//        createMockEntries();
+//        this.recommendationService.getUserRecommendations(UUID.randomUUID(),"15","Paris, France");
+//    }
 }
 
