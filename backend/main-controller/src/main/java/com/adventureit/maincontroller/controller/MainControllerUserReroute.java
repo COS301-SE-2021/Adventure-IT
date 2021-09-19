@@ -37,7 +37,7 @@ public class MainControllerUserReroute {
         String[] ports = {userPort,recommendationPort};
         service.pingCheck(ports,restTemplate);
         CreateUserRequest req2 = new CreateUserRequest(req.getUserID());
-        restTemplate.postForObject(IP + ":" + recommendationPort + "/recommendation/add/user", req2, ResponseEntity.class);
+        restTemplate.postForObject(IP + ":" + recommendationPort + "/recommendation/add/user", req2, String.class);
         return restTemplate.postForObject(IP + ":" + userPort + "/user/registerUser/",req, RegisterUserResponse.class);
     }
 

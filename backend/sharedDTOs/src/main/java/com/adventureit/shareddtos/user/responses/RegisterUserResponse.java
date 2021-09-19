@@ -1,8 +1,11 @@
 package com.adventureit.shareddtos.user.responses;
 
 public class RegisterUserResponse {
-    private final boolean success;
+    private boolean success;
     private String message;
+
+    public RegisterUserResponse() {
+    }
 
     /**
      * RegisterUserResponse constructor which takes the following parameters:
