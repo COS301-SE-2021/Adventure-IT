@@ -2,6 +2,7 @@ package com.adventureit.notificationservice;
 
 import com.adventureit.notificationservice.entity.Notification;
 import com.adventureit.notificationservice.repos.NotificationRepository;
+import com.adventureit.notificationservice.repos.NotificationUserRepository;
 import com.adventureit.shareddtos.notification.requests.CreateNotificationRequest;
 import com.adventureit.shareddtos.notification.requests.RetrieveNotificationRequest;
 import com.adventureit.shareddtos.notification.requests.SendEmailNotificationRequest;
@@ -9,6 +10,7 @@ import com.adventureit.shareddtos.notification.requests.SendEmailRequest;
 import com.adventureit.notificationservice.responses.CreateNotificationResponse;
 import com.adventureit.notificationservice.responses.SendEmailNotificationResponse;
 import com.adventureit.notificationservice.service.NotificationService;
+import com.google.firebase.messaging.FirebaseMessaging;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,8 +28,13 @@ class NotificationUnitTest {
 
 
     private final NotificationRepository mockNotificationRepository = Mockito.mock(NotificationRepository.class);
+    private final NotificationUserRepository mockNotificationUserRepository = Mockito.mock(NotificationUserRepository.class);
+    private final FirebaseMessaging firebaseMessaging = Mockito.mock(FirebaseMessaging.class);
 
-    private final NotificationService notificationSUT = new NotificationService( mockNotificationRepository);
+
+    private final NotificationService notificationSUT = new NotificationService( mockNotificationRepository, mockNotificationUserRepository, firebaseMessaging);
+
+
 
     Date date1 = new Date();
 
