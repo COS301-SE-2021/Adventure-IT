@@ -24,8 +24,6 @@ public interface BudgetService {
     String restoreBudget(UUID id,UUID userID);
     List<ReportResponseDTO> generateIndividualReport(String userName, UUID id) throws JSONException;
     List<String> getReportList(UUID id);
-    void mockPopulate();
-    void mockPopulateTrash();
     double calculateExpensesPerUser(UUID budgetID, String userName );
     List<Integer> getEntriesPerCategory(UUID adventureID);
     BudgetResponseDTO getBudgetByBudgetEntryId(UUID budgetId);

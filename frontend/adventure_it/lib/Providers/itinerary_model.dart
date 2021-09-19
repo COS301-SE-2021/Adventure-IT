@@ -2,7 +2,6 @@ import 'package:adventure_it/api/itinerary.dart';
 import 'package:adventure_it/api/adventure.dart';
 import 'package:adventure_it/api/itineraryAPI.dart';
 import 'package:adventure_it/api/itineraryEntry.dart';
-import 'package:adventure_it/api/location.dart';
 import 'package:adventure_it/api/locationAPI.dart';
 import 'package:adventure_it/api/recommendedLocation.dart';
 import 'package:adventure_it/api/userAPI.dart';
@@ -154,8 +153,8 @@ class ItineraryModel extends ChangeNotifier {
 
 class ItineraryEntryModel extends ChangeNotifier {
   List<ItineraryEntry>? _entries;
-  List<RecommendedLocation>? _recommendations=List.empty();
-  List<RecommendedLocation>? _popular=List.empty();
+  List<RecommendedLocation>? _recommendations;
+  List<RecommendedLocation>? _popular;
   Adventure? currentAdventure;
   BuildContext? context;
 

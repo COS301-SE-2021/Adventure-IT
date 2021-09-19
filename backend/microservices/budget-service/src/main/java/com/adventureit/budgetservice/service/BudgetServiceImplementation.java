@@ -5,7 +5,6 @@ import com.adventureit.budgetservice.entity.*;
 import com.adventureit.budgetservice.exception.*;
 import com.adventureit.budgetservice.graph.BudgetGraph;
 import com.adventureit.budgetservice.graph.Edge;
-import com.adventureit.budgetservice.graph.Node;
 import com.adventureit.budgetservice.repository.BudgetEntryRepository;
 import com.adventureit.budgetservice.repository.BudgetRepository;
 import com.adventureit.shareddtos.budget.Category;
@@ -75,7 +74,7 @@ public class BudgetServiceImplementation implements BudgetService {
     @Override
     @Transactional
     public AddUTUExpenseEntryResponse addUTUExpenseEntry(UUID entryContainerID, double amount, String title, String description, Category category, String payer, String payeeID) {
-        verifyBudgetRequestForm(entryContainerID, amount, title, description, category);
+        verifyBudgetRequestForm(entryContainerID, amount, title, description);
 
         Budget budget = budgetRepository.findBudgetByBudgetID(entryContainerID);
 
@@ -131,7 +130,7 @@ public class BudgetServiceImplementation implements BudgetService {
     @Override
     @Transactional
     public AddUTOExpenseEntryResponse addUTOExpenseEntry(UUID entryContainerID, double amount, String title, String description,Category category,String payer, String payee) {
-        verifyBudgetRequestForm(entryContainerID, amount, title, description, category);
+        verifyBudgetRequestForm(entryContainerID, amount, title, description);
 
         Budget budget = budgetRepository.findBudgetByBudgetID(entryContainerID);
 
@@ -282,7 +281,7 @@ public class BudgetServiceImplementation implements BudgetService {
     public List<BudgetResponseDTO> viewTrash(UUID id) {
 
         List<Budget> budgets = budgetRepository.findAllByAdventureID(id);
-        if(budgets.size() == 0){
+        if(budgets.isEmpty()){
             throw new BudgetNotFoundException(getBudgetNotFoundExceptionString(id.toString()));
         }
         List<BudgetResponseDTO> list = new ArrayList<>();
@@ -357,7 +356,7 @@ public class BudgetServiceImplementation implements BudgetService {
             }
         }
 
-        if(budgetEntries.size() != 0){
+        if(budgetEntries.isEmpty()){
             for (BudgetEntry entry:budgetEntries) {
                 if(entry.getCategory() == Category.ACCOMMODATION){
                     integers.set(0,integers.get(0) + 1);
@@ -439,7 +438,7 @@ public class BudgetServiceImplementation implements BudgetService {
 
         List<ReportResponseDTO> list = new ArrayList<>();
 
-        for (Iterator it = jsonObject.keys(); it.hasNext(); ) {
+        for (Iterator<Object> it = jsonObject.keys(); it.hasNext(); ) {
             Object key = it.next();
             Object value = jsonObject.get(key.toString());
             list.add(new ReportResponseDTO(key.toString(),Double.parseDouble(value.toString())));
@@ -448,72 +447,13 @@ public class BudgetServiceImplementation implements BudgetService {
         return list;
     }
 
-    @Override
-    public void mockPopulate() {
-        final String adventureID = "948f3e05-4bca-49ba-8955-fb936992fe02";
-        final String entryName = "Mock Entry";
 
-        final UUID mockBudgetID1 = UUID.fromString("d53a7090-45f1-4eb2-953a-2258841949f8");
-        final UUID mockBudgetID2 = UUID.fromString("26356837-f076-41ec-85fa-f578df7e3717");
-        final UUID mockBudgetID3 = UUID.fromString("2bb5e28c-90de-4830-ae83-f4f459898e6a");
-
-        final UUID mockEntryID1 = UUID.fromString("4c31ac61-832e-454c-8efb-a3fc16ef97a0");
-        final UUID mockEntryID2 = UUID.fromString("200959c2-7bd9-4c43-ae1c-c3e6776e3b33");
-        final UUID mockEntryID3 = UUID.fromString("0c4dfedd-9a07-42ed-a178-b4e7656a956c");
-
-        final UUID mockAdventureID1 = UUID.fromString(adventureID);
-        final UUID mockAdventureID2 = UUID.fromString(adventureID);
-        final UUID mockAdventureID3 = UUID.fromString(adventureID);
-
-        final UUID mockCreatorID1 = UUID.fromString("b99521e3-a7e9-45b8-a18e-421af8bbca15");
-        final UUID mockCreatorID2 = UUID.fromString("5de93a3f-3deb-443b-823e-cacb2600ac71");
-        final UUID mockCreatorID3 = UUID.fromString("eccc917a-091c-496e-9936-15f8f3889959");
-
-
-        BudgetEntry mockEntry1 = new UTUExpense(mockEntryID1,mockBudgetID1,200.0,"Mock Entry 1",entryName, Category.ACCOMMODATION,"User Name 1","User Name 2");
-        BudgetEntry mockEntry2 = new UTOExpense(mockEntryID2,mockBudgetID1,300.0,"Mock Entry 2",entryName,Category.TRANSPORT,"User Name 3","Shuttle Service");
-        BudgetEntry mockEntry3 = new UTOExpense(mockEntryID3,mockBudgetID1,600.0,"Mock Entry 3",entryName,Category.ACTIVITIES,"User Name 4","Paintball course");
-
-        Budget budget1 = new Budget(mockBudgetID1, "Mock Budget 1", "Description for mock budget 1",mockCreatorID1,mockAdventureID1);
-        Budget budget2 = new Budget(mockBudgetID2, "Mock Budget 2", "Description for mock budget 2",mockCreatorID2,mockAdventureID2);
-        Budget budget3 = new Budget(mockBudgetID3, "Mock Budget 3", "Description for mock budget 3", mockCreatorID3,mockAdventureID3);
-
-
-        this.budgetRepository.save(budget1);
-        this.budgetRepository.save(budget2);
-        this.budgetRepository.save(budget3);
-
-        budgetEntryRepository.save(mockEntry1);
-        budgetEntryRepository.save(mockEntry2);
-        budgetEntryRepository.save(mockEntry3);
-    }
-
-    @Override
-    public void mockPopulateTrash() {
-        final UUID mockBudgetID1 = UUID.fromString("86224c30-fb96-4b02-9aca-ca7b61c6bede");
-        final UUID mockBudgetID2 = UUID.fromString("83a2bb60-69c9-486f-bb55-8a3e55cb891d");
-        final UUID mockBudgetID3 = UUID.fromString("ab500ee3-a069-4a89-a5b3-3aa9e10330e6");
-
-
-        Budget budget1 = new Budget(mockBudgetID1,"Mock Deleted Budget 1",  "Description for mock budget 1",UUID.randomUUID(),UUID.fromString("ad8e9b74-b4be-464e-a538-0cb78e9c2f8b"));
-        Budget budget2 = new Budget(mockBudgetID2,"Mock Deleted Budget 2", "Description for mock budget 2",UUID.randomUUID(),UUID.fromString("7166264c-0874-42b6-8c82-d0df91e66375"));
-        Budget budget3 = new Budget(mockBudgetID3,"Mock Deleted Budget 3", "Description for mock budget 3",UUID.randomUUID(),UUID.fromString("fe944b32-0102-499f-bbb6-1af673e8d6c3"));
-
-
-        budget1.setDeleted(true);
-        budget2.setDeleted(true);
-        budget3.setDeleted(true);
-
-        this.budgetRepository.save(budget1);
-        this.budgetRepository.save(budget2);
-        this.budgetRepository.save(budget3);
-    }
 
     private String getBudgetNotFoundExceptionString(String id){
         return "Budget with ID " + id + NOT_FOUND;
     }
 
-    private void verifyBudgetRequestForm(UUID entryContainerID, double amount, String title, String description, Category category){
+    private void verifyBudgetRequestForm(UUID entryContainerID, double amount, String title, String description){
         if(budgetRepository.findBudgetByBudgetID(entryContainerID) == null){
 
             throw new BudgetNotFoundException(getBudgetNotFoundExceptionString(entryContainerID.toString()));
@@ -532,12 +472,4 @@ public class BudgetServiceImplementation implements BudgetService {
         }
     }
 
-
-    public List<Edge> kevTest(){
-        UUID id = UUID.fromString("cacdc6e0-a8a5-4367-a513-f06d467495e1");
-        List <BudgetEntry> list = budgetEntryRepository.findBudgetEntryByEntryContainerID(id);
-        BudgetGraph graph = new BudgetGraph();
-        graph.generateGraph(list);
-        return graph.summarizeGraph();
-    }
 }
