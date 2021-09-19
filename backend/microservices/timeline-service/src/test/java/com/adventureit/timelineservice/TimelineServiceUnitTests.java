@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@SpringBootTest
+
 class TimelineServiceUnitTests {
 
     TimelineRepository timelineRepo = Mockito.mock(TimelineRepository.class);
