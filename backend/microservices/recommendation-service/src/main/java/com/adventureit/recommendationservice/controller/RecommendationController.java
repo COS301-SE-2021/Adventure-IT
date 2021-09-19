@@ -76,7 +76,7 @@ public class RecommendationController {
     public String addLocation(@RequestBody CreateLocationRequest req){
 
         try {
-            this.recommendationService.addLocation(req.locationId);
+            this.recommendationService.addLocation(req.locationId, req.getLocationString());
         }
         catch(LocationExistsException e){
             return "Not successful";

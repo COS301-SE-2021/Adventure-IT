@@ -9,6 +9,7 @@ import org.ejml.simple.SimpleMatrix;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RecommendationService {
@@ -65,9 +66,9 @@ public class RecommendationService {
     }
 
 
-    public void addLocation(UUID locationId) {
+    public void addLocation(UUID locationId, String locationString) {
         if(this.recommendedLocationRepository.findLocationByLocationId(locationId) == null){
-            this.recommendedLocationRepository.save(new RecommendedLocation(locationId));
+            this.recommendedLocationRepository.save(new RecommendedLocation(locationId, locationString));
         }
         else {
             throw new LocationExistsException(locationId);
@@ -210,10 +211,13 @@ public class RecommendationService {
         return returnMatrix;
     }
 
-    public String[][] getMostPopular(UUID id, String numPop, String location) {
+    public String[][] getMostPopular(UUID id, String numPop, String locationFilter) {
         List<RecommendedLocation> locations = recommendedLocationRepository.findAll();
+
         int numPopular=Integer.parseInt(numPop);
         locations.sort(Comparator.comparing(RecommendedLocation::getVisits));
+        List<RecommendedLocation> filteredLocations = locations.stream().filter(location -> locationFilter.contains(location.getLocationString())).collect(Collectors.toList());
+        locations = filteredLocations;
         String[][] returnMatrix = new String[locations.size()][2];
         List<RecommendedUser> users = this.recommendedUserRepository.findAll();
 
