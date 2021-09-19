@@ -34,6 +34,8 @@ public class MainControllerAdventureReroute {
     private static final String CHAT_PORT = "9010";
     private static final String TIMELINE_PORT = "9012";
     private static final String LOCATION_PORT = "9006";
+    private static final String GET_USER = "/user/getUser/";
+    private static final String CREATE_TIMELINE = "/timeline/createTimeline";
 
     @Autowired
     public MainControllerAdventureReroute(MainControllerServiceImplementation service) {
@@ -55,7 +57,7 @@ public class MainControllerAdventureReroute {
         GetUserByUUIDDTO user;
         assert users != null;
         for (int i = 0; i<users.size();i++) {
-            user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/" + users.get(i), GetUserByUUIDDTO.class);
+            user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + users.get(i), GetUserByUUIDDTO.class);
             assert user != null;
            list.add(user);
         }
@@ -140,11 +142,11 @@ public class MainControllerAdventureReroute {
         String[] ports = {ADVENTURE_PORT, LOCATION_PORT, CHAT_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/addAttendees/"+adventureID+"/"+userID, String.class);
-        GetUserByUUIDDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
+        GetUserByUUIDDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + userID, GetUserByUUIDDTO.class);
         assert response != null;
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureID, TimelineType.ADVENTURE,response.getUsername()+" has joined this adventure!" );
         restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/addParticipant/"+adventureID+"/"+userID, String.class);
-        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/createTimeline", req2, String.class);
+        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
     }
 
     @GetMapping("/removeAttendees/{adventureID}/{userID}")
@@ -152,19 +154,19 @@ public class MainControllerAdventureReroute {
         String[] ports = {ADVENTURE_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/removeAttendees/"+adventureID+"/"+userID, String.class);
-        GetUserByUUIDDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
+        GetUserByUUIDDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + userID, GetUserByUUIDDTO.class);
         assert response != null;
         CreateTimelineRequest req2 = new CreateTimelineRequest(adventureID, TimelineType.ADVENTURE,response.getUsername()+" left this adventure" );
-        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/createTimeline", req2, String.class);
+        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
     }
 
     @PostMapping("/editAdventure")
     public String editAdventure(@RequestBody EditAdventureRequest req) throws Exception {
         String[] ports = {ADVENTURE_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+req.getUserId(), GetUserByUUIDDTO.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + req.getUserId(), GetUserByUUIDDTO.class);
         CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureId(), TimelineType.ADVENTURE,user.getUsername()+" edited this adventure." );
-        restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/createTimeline", req2, String.class);
+        restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return restTemplate.postForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/editAdventure", req, String.class);
     }
 
