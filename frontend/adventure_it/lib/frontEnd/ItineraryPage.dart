@@ -6,7 +6,6 @@ import 'package:adventure_it/api/locationAPI.dart';
 import 'package:adventure_it/api/recommendedLocation.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
@@ -801,10 +800,9 @@ class ListItineraryItems extends State<_ListItineraryItems> {
           entryModel.popular == null &&
           entryModel.recommendations == null) {
         return Center(
-            child: Container(
-                height: MediaQuery.of(context).size.height*0.5,child: CircularProgressIndicator(
+            child: CircularProgressIndicator(
                 valueColor: new AlwaysStoppedAnimation<Color>(
-                    Theme.of(context).accentColor))));
+                    Theme.of(context).accentColor)));
       } else if (entryModel.entries!.length > 0) {
         return Column(children: [
           Expanded(
