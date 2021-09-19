@@ -1,6 +1,7 @@
 package com.adventureit.maincontroller.controller;
 
 
+import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
 import com.adventureit.shareddtos.recommendation.request.CreateUserRequest;
 import com.adventureit.shareddtos.user.requests.*;
@@ -154,7 +155,7 @@ public class MainControllerUserReroute {
     }
 
     @PostMapping("setEmergencyContact")
-    public String setEmergencyContact(@RequestBody SetUserEmergencyContactRequest req){
+    public String setEmergencyContact(@RequestBody SetUserEmergencyContactRequest req) throws Exception {
         String[] ports = {userPort};
         service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(IP + ":" + userPort + "/user/setEmergencyContact/",req, String.class);
@@ -173,7 +174,7 @@ public class MainControllerUserReroute {
     }
 
     @PostMapping("setUserTheme")
-    public String setUserTheme( @PathVariable UUID userId,@PathVariable Boolean bool) throws Exception {
+    public String setUserTheme( @RequestBody SetUserThemeRequest req) throws Exception {
         String[] ports = {userPort};
         service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(IP + ":" + userPort + "/user/setUserTheme/",req, String.class);
