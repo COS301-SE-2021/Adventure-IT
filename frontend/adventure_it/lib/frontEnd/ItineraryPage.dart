@@ -1057,13 +1057,6 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                 .elementAt(index)
                                                 .title,
                                             style: TextStyle(
-                                                decoration: entryModel
-                                                    .entries!
-                                                    .elementAt(index)
-                                                    .completed
-                                                    ? TextDecoration
-                                                    .lineThrough
-                                                    : null,
                                                 fontSize: 25 *
                                                     MediaQuery
                                                         .of(context)
@@ -1083,13 +1076,6 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                     .description +
                                                     "\n",
                                                 style: TextStyle(
-                                                    decoration: entryModel
-                                                        .entries!
-                                                        .elementAt(index)
-                                                        .completed
-                                                        ? TextDecoration
-                                                        .lineThrough
-                                                        : null,
                                                     fontSize: 15 *
                                                         MediaQuery
                                                             .of(
@@ -1117,13 +1103,6 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                         .location
                                                         .name,
                                                 style: TextStyle(
-                                                    decoration: entryModel
-                                                        .entries!
-                                                        .elementAt(index)
-                                                        .completed
-                                                        ? TextDecoration
-                                                        .lineThrough
-                                                        : null,
                                                     fontSize: 15 *
                                                         MediaQuery
                                                             .of(
@@ -1140,13 +1119,6 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                             getTime(entryModel.entries!
                                                 .elementAt(index)),
                                             style: TextStyle(
-                                                decoration: entryModel
-                                                    .entries!
-                                                    .elementAt(index)
-                                                    .completed
-                                                    ? TextDecoration
-                                                    .lineThrough
-                                                    : null,
                                                 fontSize: 25 *
                                                     MediaQuery
                                                         .of(context)

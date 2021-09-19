@@ -9,12 +9,12 @@ part of 'participatingUser.dart';
 ParticipatingUser _$ParticipatingUserFromJson(Map<String, dynamic> json) {
   return ParticipatingUser(
     user: UserProfile.fromJson(json['user'] as Map<String, dynamic>),
-    checkIn: json['checkIn'] as bool,
+    checkIn: json['checkedIn'] as bool,
   );
 }
 
 Map<String, dynamic> _$ParticipatingUserToJson(ParticipatingUser instance) =>
     <String, dynamic>{
       'user': instance.user.toJson(),
-      'checkIn': instance.checkIn,
+      'checkedIn': instance.checkIn,
     };
