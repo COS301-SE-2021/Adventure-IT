@@ -17,6 +17,7 @@ import com.adventureit.shareddtos.user.responses.RegisterUserResponse;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.ReadChannel;
 import com.google.cloud.storage.*;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -25,9 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +38,27 @@ public class UserServiceImplementation  {
 
     private final UserRepository repo;
     private final FriendRepository friendRepository;
-    @Value("${firebase-path}")
-    private String path;
+
+    @Value("${firebase-type}")
+    String type;
+    @Value("${firebase-project_id}")
+    String projectId;
+    @Value("${firebase-private_key_id}")
+    String privateKeyId;
+    @Value("${firebase-private_key}")
+    String privateKey;
+    @Value("${firebase-client_email}")
+    String clientEmail;
+    @Value("${firebase-client_id}")
+    String clientId;
+    @Value("${firebase-auth_uri}")
+    String authUri;
+    @Value("${firebase-token_uri}")
+    String tokenUri;
+    @Value("${firebase-auth_provider_x509_cert_url}")
+    String authProvider;
+    @Value("${firebase-client_x509_cert_url}")
+    String clientx509;
 
     @Autowired
     PictureInfoRepository pictureInfoRepository;
@@ -59,8 +77,24 @@ public class UserServiceImplementation  {
         bucketName = "adventure-it-bc0b6.appspot.com";
         String projectId = "Adventure-IT";
 
-        FileInputStream serviceAccount = new FileInputStream(this.path);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("type",type);
+        jsonObject.put("project_id",projectId);
+        jsonObject.put("private_key_id",privateKeyId);
+        jsonObject.put("private_key",privateKey);
+        jsonObject.put("client_email",clientEmail);
+        jsonObject.put("client_id",clientId);
+        jsonObject.put("auth_uri",authUri);
+        jsonObject.put("token_uri",tokenUri);
+        jsonObject.put("auth_provider_x509_cert_url",authProvider);
+        jsonObject.put("client_x509_cert_url",clientx509);
+
+        FileWriter file = new FileWriter("user.json");
+        file.write(jsonObject.toJSONString());
+        file.close();
+        FileInputStream serviceAccount = new FileInputStream("user.json");
         this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
+        new File("user.json").delete();
     }
 
     /**
