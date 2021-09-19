@@ -1,5 +1,6 @@
 package com.adventureit.maincontroller.controller;
 
+import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.adventure.requests.CreateAdventureRequest;
 import com.adventureit.shareddtos.adventure.requests.EditAdventureRequest;
@@ -48,7 +49,7 @@ public class MainControllerAdventureReroute {
     }
 
     @GetMapping("/getAttendees/{id}")
-    public List<GetUserByUUIDDTO> getAttendees(@PathVariable UUID id) throws Exception {
+    public List<GetUserByUUIDDTO> getAttendees(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT, USER_PORT};
         service.pingCheck(ports,restTemplate);
 
@@ -65,7 +66,7 @@ public class MainControllerAdventureReroute {
     }
 
     @PostMapping(value = "/create")
-    public CreateAdventureResponse createAdventure(@RequestBody CreateAdventureRequest req) throws Exception {
+    public CreateAdventureResponse createAdventure(@RequestBody CreateAdventureRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT, LOCATION_PORT, CHAT_PORT};
         service.pingCheck(ports,restTemplate);
 
@@ -81,64 +82,59 @@ public class MainControllerAdventureReroute {
     }
 
     @GetMapping("/all")
-    public List<GetAllAdventuresResponse> getAllAdventures() throws Exception {
+    public List<GetAllAdventuresResponse> getAllAdventures() throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/all", List.class);
     }
 
     @GetMapping("/setLocation/{adventureId}/{locationId}")
-    public String setLocationAdventures(@PathVariable UUID adventureId,@PathVariable UUID locationId) throws Exception {
+    public String setLocationAdventures(@PathVariable UUID adventureId,@PathVariable UUID locationId) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/setLocation/"+adventureId+"/"+locationId, String.class);
     }
 
     @GetMapping("/all/{id}")
-    public List<AdventureResponseDTO> getAllAdventuresByUserUUID(@PathVariable UUID id) throws Exception {
+    public List<AdventureResponseDTO> getAllAdventuresByUserUUID(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT, LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
         List<LinkedHashMap<String,String>> adventures = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/all/"+id, List.class);
-        List<AdventureResponseDTO> returnList = new ArrayList<AdventureResponseDTO>();
+        List<AdventureResponseDTO> returnList = new ArrayList<>();
         assert adventures != null;
         for (LinkedHashMap<String,String> adventure : adventures) {
-            try {
-                AdventureResponseDTO responseObject = new AdventureResponseDTO(adventure.get("name"), adventure.get("description"), UUID.fromString(adventure.get("adventureId")), UUID.fromString(adventure.get("ownerId")), LocalDate.parse(adventure.get("startDate")), LocalDate.parse(adventure.get("endDate")));
-                LocationResponseDTO adventureLocation = restTemplate.getForObject(INTERNET_PORT +":"+ LOCATION_PORT +"/location/getLocation/"+adventure.get("location"), LocationResponseDTO.class);
-                responseObject.setLocation(adventureLocation);
-                returnList.add(responseObject);
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
+            AdventureResponseDTO responseObject = new AdventureResponseDTO(adventure.get("name"), adventure.get("description"), UUID.fromString(adventure.get("adventureId")), UUID.fromString(adventure.get("ownerId")), LocalDate.parse(adventure.get("startDate")), LocalDate.parse(adventure.get("endDate")));
+            LocationResponseDTO adventureLocation = restTemplate.getForObject(INTERNET_PORT +":"+ LOCATION_PORT +"/location/getLocation/"+adventure.get("location"), LocationResponseDTO.class);
+            responseObject.setLocation(adventureLocation);
+            returnList.add(responseObject);
 
         }
         return returnList;
     }
 
     @GetMapping("/owner/{id}")
-    public List<GetAdventuresByUserUUIDResponse> getAdventuresByOwnerUUID(@PathVariable UUID id) throws Exception {
+    public List<GetAdventuresByUserUUIDResponse> getAdventuresByOwnerUUID(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/owner/"+id, List.class);
     }
 
     @GetMapping("/attendee/{id}")
-    public List<GetAdventuresByUserUUIDResponse> getAdventuresByAttendeeUUID(@PathVariable UUID id) throws Exception {
+    public List<GetAdventuresByUserUUIDResponse> getAdventuresByAttendeeUUID(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/attendee/"+id, List.class);
     }
 
     @GetMapping("/remove/{id}/{userID}")
-    public void removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+    public void removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.delete(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/remove/"+id+"/"+userID, RemoveAdventureResponse.class);
     }
 
     @GetMapping("/addAttendees/{adventureID}/{userID}")
-    public String addAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID) throws Exception {
+    public String addAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT, LOCATION_PORT, CHAT_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/addAttendees/"+adventureID+"/"+userID, String.class);
@@ -150,7 +146,7 @@ public class MainControllerAdventureReroute {
     }
 
     @GetMapping("/removeAttendees/{adventureID}/{userID}")
-    public String removeAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID) throws Exception {
+    public String removeAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/removeAttendees/"+adventureID+"/"+userID, String.class);
@@ -161,10 +157,11 @@ public class MainControllerAdventureReroute {
     }
 
     @PostMapping("/editAdventure")
-    public String editAdventure(@RequestBody EditAdventureRequest req) throws Exception {
+    public String editAdventure(@RequestBody EditAdventureRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + req.getUserId(), GetUserByUUIDDTO.class);
+        assert user != null;
         CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureId(), TimelineType.ADVENTURE,user.getUsername()+" edited this adventure." );
         restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return restTemplate.postForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/editAdventure", req, String.class);
