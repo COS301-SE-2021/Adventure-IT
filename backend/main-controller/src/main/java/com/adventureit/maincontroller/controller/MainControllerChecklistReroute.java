@@ -31,6 +31,10 @@ public class MainControllerChecklistReroute {
     private static final String TIMELINE_PORT = "9012";
     private static final String CHECKLIST_PORT = "9008";
     private static final String USER_PORT = "9002";
+    private static final String GET_USER = "/user/getUser/";
+    private static final String GET_CHECKLIST = "/checklist/getChecklist/";
+    private static final String CREATE_TIMELINE = "/timeline/createTimeline";
+    private static final String CHECKLIST_M = " checklist.";
 
     @Autowired
     public MainControllerChecklistReroute(MainControllerServiceImplementation service) {
@@ -81,21 +85,21 @@ public class MainControllerChecklistReroute {
     public String hardDelete(@PathVariable UUID id,@PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT, CHECKLIST_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
-        ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/getChecklist/"+id, ChecklistDTO.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER+userID, GetUserByUUIDDTO.class);
+        ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + GET_CHECKLIST+id, ChecklistDTO.class);
         restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/hardDelete/"+id+"/"+userID, String.class);
-        CreateTimelineRequest req2 = new CreateTimelineRequest(id, TimelineType.BUDGET,user.getUsername()+" deleted the "+checklist+" checklist." );
-        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/createTimeline", req2, String.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(id, TimelineType.BUDGET,user.getUsername()+" deleted the "+checklist+CHECKLIST_M );
+        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
     }
 
     @PostMapping("/create")
     public String createChecklist(@RequestBody CreateChecklistRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT, CHECKLIST_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+req.getCreatorID(), GetUserByUUIDDTO.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER+req.getCreatorID(), GetUserByUUIDDTO.class);
         restTemplate.postForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/create/", req, String.class);
         CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(), TimelineType.CHECKLIST,user.getUsername()+" created a new checklist for "+req.getTitle()+"." );
-        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/createTimeline", req2, String.class);
+        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
     }
 
     @SneakyThrows
@@ -103,14 +107,14 @@ public class MainControllerChecklistReroute {
     public String addEntry(@RequestBody AddChecklistEntryRequest req){
         String[] ports = {USER_PORT, CHECKLIST_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+req.getUserId(), GetUserByUUIDDTO.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER+req.getUserId(), GetUserByUUIDDTO.class);
         String returnString = restTemplate.postForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/addEntry/", req, String.class);
         UUID checklistID = req.getEntryContainerID();
-        ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class);
+        ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + GET_CHECKLIST+checklistID, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,user.getUsername()+" added an entry to the "+checklist.getTitle()+" checklist." );
-        restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/createTimeline", req2, String.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,user.getUsername()+" added an entry to the "+checklist.getTitle()+CHECKLIST_M );
+        restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return returnString;
 
     }
@@ -119,12 +123,12 @@ public class MainControllerChecklistReroute {
     public String removeEntry(@PathVariable UUID id,@PathVariable UUID userId) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT, CHECKLIST_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+userId, GetUserByUUIDDTO.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER+userId, GetUserByUUIDDTO.class);
         ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/getChecklistByEntry/"+id, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,user.getUsername()+" deleted an entry from the "+checklist.getTitle()+" checklist." );
-        restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/createTimeline", req2, String.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.CHECKLIST,user.getUsername()+" deleted an entry from the "+checklist.getTitle()+CHECKLIST_M );
+        restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/removeEntry/"+id, String.class);
     }
 
@@ -133,13 +137,13 @@ public class MainControllerChecklistReroute {
         String[] ports = {CHECKLIST_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.postForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/editEntry/", req, String.class);
-        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+req.getUserId(), GetUserByUUIDDTO.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER+req.getUserId(), GetUserByUUIDDTO.class);
         UUID checklistID = req.getEntryContainerID();
-        ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/getChecklist/"+checklistID, ChecklistDTO.class);
+        ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + GET_CHECKLIST+checklistID, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" edited the "+checklist.getTitle()+" checklist.");
-        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/createTimeline", req2, String.class);
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,user.getUsername()+" edited the "+checklist.getTitle()+CHECKLIST_M);
+        return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
     }
 
     @GetMapping("/markEntry/{id}")
