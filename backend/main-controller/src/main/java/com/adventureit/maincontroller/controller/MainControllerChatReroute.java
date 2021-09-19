@@ -110,7 +110,7 @@ public class MainControllerChatReroute {
         GroupChatResponseDTO chat = restTemplate.getForObject(IP + ":" + chatPort + "/chat/getGroupChat/" + req.getChatID(), GroupChatResponseDTO.class);
 
         // Get associated adventure
-        AdventureDTO adventure = restTemplate.getForObject(IP + ":" + adventurePort + "/getAdventureByUUID/" + chat.getAdventureID(), AdventureDTO.class);
+        AdventureDTO adventure = restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/getAdventureByUUID/" + chat.getAdventureID(), AdventureDTO.class);
 
         // Get all participants of chat
         List<UUID> users = chat.getParticipants();

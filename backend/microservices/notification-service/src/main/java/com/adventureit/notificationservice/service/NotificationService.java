@@ -122,10 +122,10 @@ public class NotificationService {
 
     public String sendFirebaseNotifications(SendFirebaseNotificationsRequest req) {
         List<UUID> users = new ArrayList<>();
-        for(UUID userId : users){
+        for(UUID userId : req.getUserIds()){
             NotificationUser user = notificationUserRepository.findNotificationUserByUserId(userId);
             if(user == null){
-                return "User not found";
+               break;
             }
 
             com.google.firebase.messaging.Notification notification = com.google.firebase.messaging.Notification
