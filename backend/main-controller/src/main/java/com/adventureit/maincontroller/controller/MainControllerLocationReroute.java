@@ -46,7 +46,7 @@ public class MainControllerLocationReroute {
         UUID createdLocationUUID = restTemplate.getForObject(IP + ":" + locationPort + "/location/create/" + location, UUID.class);
         try {
             LocationResponseDTO locationDTO = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/createdLocationUUID"+createdLocationUUID,LocationResponseDTO.class);
-            CreateLocationRequest req = new CreateLocationRequest(createdLocationUUID, locationDTO.getName());
+            CreateLocationRequest req = new CreateLocationRequest(createdLocationUUID, locationDTO.getFormattedAddress());
             restTemplate.postForObject(IP + ":" + recommendationPort + "/recommendation/add/location", req, ResponseEntity.class);
         }
         catch(Exception e){

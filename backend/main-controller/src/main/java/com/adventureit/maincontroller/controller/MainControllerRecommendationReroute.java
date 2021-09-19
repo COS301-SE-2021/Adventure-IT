@@ -71,11 +71,18 @@ public class MainControllerRecommendationReroute {
         String[] ports = {recommendationPort};
         service.pingCheck(ports,restTemplate);
         String[][] locationUUIDs = restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/get/popular/"+ userId+"/" +numPopular+"/"+location, String[][].class);
-        List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
-        for(int i = 0; i < Objects.requireNonNull(locationUUIDs).length; i++){
-            LocationResponseDTO locationObject = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/"+locationUUIDs[i][0], LocationResponseDTO.class);
-            returnList.add(new RecommendedLocationResponseDTO(locationObject.getId(),locationObject.getPhotoReference(),locationObject.getFormattedAddress(),locationObject.getPlaceId(),locationObject.getName(),Boolean.parseBoolean(locationUUIDs[i][1])));
+        if(locationUUIDs[0].length == 0){
+            return null;
         }
-        return returnList;
+        else {
+            List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
+            for(int i = 0; i < Objects.requireNonNull(locationUUIDs).length; i++){
+                LocationResponseDTO locationObject = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/"+locationUUIDs[i][0], LocationResponseDTO.class);
+                returnList.add(new RecommendedLocationResponseDTO(locationObject.getId(),locationObject.getPhotoReference(),locationObject.getFormattedAddress(),locationObject.getPlaceId(),locationObject.getName(),Boolean.parseBoolean(locationUUIDs[i][1])));
+            }
+            return returnList;
+
+        }
+
     }
 }
