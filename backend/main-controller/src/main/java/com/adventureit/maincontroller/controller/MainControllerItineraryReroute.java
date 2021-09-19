@@ -1,6 +1,10 @@
 package com.adventureit.maincontroller.controller;
 
 
+import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
+import com.adventureit.maincontroller.exceptions.CurrentLocationException;
+import com.adventureit.maincontroller.exceptions.InvalidItineraryEntryException;
+import com.adventureit.maincontroller.exceptions.NullException;
 import com.adventureit.maincontroller.responses.RegisteredUsersDTO;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.adventure.AdventureDTO;
@@ -12,8 +16,6 @@ import com.adventureit.shareddtos.itinerary.responses.ItineraryEntryResponseDTO;
 import com.adventureit.shareddtos.itinerary.responses.ItineraryResponseDTO;
 import com.adventureit.shareddtos.itinerary.responses.StartDateEndDateResponseDTO;
 import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
-import com.adventureit.maincontroller.exceptions.CurrentLocationException;
-import com.adventureit.maincontroller.exceptions.InvalidItineraryEntryException;
 import com.adventureit.maincontroller.responses.MainItineraryEntryResponseDTO;
 import com.adventureit.shareddtos.notification.requests.SendEmailRequest;
 import com.adventureit.shareddtos.recommendation.request.CreateLocationRequest;
@@ -54,7 +56,7 @@ public class MainControllerItineraryReroute {
     }
 
     @PostMapping(value = "/addEntry")
-    public UUID addItineraryEntry(@RequestBody AddItineraryEntryRequest req) throws Exception {
+    public UUID addItineraryEntry(@RequestBody AddItineraryEntryRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT, USER_PORT, ADVENTURE_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
 
@@ -83,14 +85,14 @@ public class MainControllerItineraryReroute {
     }
 
     @GetMapping("/viewItinerariesByAdventure/{id}")
-    public List<ItineraryResponseDTO> viewItinerariesByAdventure(@PathVariable UUID id) throws Exception {
+    public List<ItineraryResponseDTO> viewItinerariesByAdventure(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/viewItinerariesByAdventure/"+id, List.class);
     }
 
     @GetMapping("/viewItinerary/{id}")
-    public List<MainItineraryEntryResponseDTO> viewItinerary(@PathVariable UUID id) throws Exception {
+    public List<MainItineraryEntryResponseDTO> viewItinerary(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT, LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
         List<LinkedHashMap<String,String>> entries = restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/viewItinerary/"+id, List.class);
@@ -114,28 +116,28 @@ public class MainControllerItineraryReroute {
     }
 
     @GetMapping("/softDelete/{id}/{userID}")
-    public String softDelete(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+    public String softDelete(@PathVariable UUID id,@PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/softDelete/"+id+"/"+userID, String.class);
     }
 
     @GetMapping("/viewTrash/{id}")
-    public List<ItineraryResponseDTO> viewTrash(@PathVariable UUID id) throws Exception {
+    public List<ItineraryResponseDTO> viewTrash(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject( INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/viewTrash/"+id, List.class);
     }
 
     @GetMapping("/restoreItinerary/{id}/{userID}")
-    public String restoreItinerary(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+    public String restoreItinerary(@PathVariable UUID id,@PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/restoreItinerary/"+id+"/"+userID, String.class);
     }
 
     @GetMapping("/hardDelete/{id}/{userID}")
-    public String hardDelete(@PathVariable UUID id, @PathVariable UUID userID) throws Exception {
+    public String hardDelete(@PathVariable UUID id, @PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+userID, GetUserByUUIDDTO.class);
@@ -149,7 +151,7 @@ public class MainControllerItineraryReroute {
     }
 
     @PostMapping("/create")
-    public String createItinerary(@RequestBody CreateItineraryRequest req) throws Exception {
+    public String createItinerary(@RequestBody CreateItineraryRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+req.getUserID(), GetUserByUUIDDTO.class);
@@ -162,7 +164,7 @@ public class MainControllerItineraryReroute {
 
 
     @PostMapping("/editEntry")
-    public String editItineraryEntry(@RequestBody EditItineraryEntryRequest req) throws Exception {
+    public String editItineraryEntry(@RequestBody EditItineraryEntryRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT, USER_PORT, TIMELINE_PORT, LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
         UUID locationId = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/"+req.getLocation(),UUID.class);
@@ -178,7 +180,7 @@ public class MainControllerItineraryReroute {
     }
 
     @GetMapping("/removeEntry/{id}/{userId}")
-    public String removeItineraryEntry(@PathVariable UUID id,@PathVariable UUID userId) throws Exception {
+    public String removeItineraryEntry(@PathVariable UUID id,@PathVariable UUID userId) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+userId, GetUserByUUIDDTO.class);
@@ -190,14 +192,14 @@ public class MainControllerItineraryReroute {
     }
 
     @GetMapping("/markEntry/{id}")
-    public void markItineraryEntry(@PathVariable UUID id) throws Exception {
+    public void markItineraryEntry(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/markEntry/"+id, String.class);
     }
 
     @GetMapping("/getNextEntry/{id}//{userID}")
-    public MainItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id,@PathVariable UUID userID) throws Exception {
+    public MainItineraryEntryResponseDTO getNextEntry(@PathVariable UUID id,@PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT, LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
         ItineraryEntryResponseDTO entry = restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/getNextEntry/"+id+"/"+userID, ItineraryEntryResponseDTO.class);
@@ -207,14 +209,14 @@ public class MainControllerItineraryReroute {
     }
 
     @GetMapping("/setLocation/{itineraryId}/{locationID}")
-    public void setLocation(@PathVariable UUID itineraryId,@PathVariable UUID locationID) throws Exception {
+    public void setLocation(@PathVariable UUID itineraryId,@PathVariable UUID locationID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/setLocation/"+itineraryId+"/"+locationID, String.class);
     }
 
     @GetMapping("/checkUserOff/{userID}/{entryID}")
-    public void checkUserOff(@PathVariable UUID userID,@PathVariable UUID entryID) throws Exception {
+    public void checkUserOff(@PathVariable UUID userID,@PathVariable UUID entryID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT, LOCATION_PORT, RECOMMENDATION_PORT};
         service.pingCheck(ports,restTemplate);
         ItineraryEntryResponseDTO entry = restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/getItineraryEntry/"+ entryID, ItineraryEntryResponseDTO.class);
@@ -240,28 +242,28 @@ public class MainControllerItineraryReroute {
     }
 
     @GetMapping("/getStartDateEndDate/{id}")
-    public StartDateEndDateResponseDTO getStartDateEndDate(@PathVariable UUID id) throws Exception {
+    public StartDateEndDateResponseDTO getStartDateEndDate(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/getStartDateEndDate/"+id, StartDateEndDateResponseDTO.class);
     }
 
     @GetMapping("/registerUser/{userID}/{entryID}")
-    public String registerUser(@PathVariable UUID userID,@PathVariable UUID entryID) throws Exception {
+    public String registerUser(@PathVariable UUID userID,@PathVariable UUID entryID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT};
         service.pingCheck(ports,restTemplate);
        return restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/registerUser/"+ entryID + "/" + userID, String.class);
     }
 
     @GetMapping("/deregisterUser/{userID}/{entryID}")
-    public String deregisterUser(@PathVariable UUID userID,@PathVariable UUID entryID) throws Exception {
+    public String deregisterUser(@PathVariable UUID userID,@PathVariable UUID entryID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/deregisterUser/"+ entryID + "/" + userID, String.class);
     }
 
     @GetMapping("/getRegisteredUsers/{id}")
-    public List<RegisteredUsersDTO> getRegisteredUsers(@PathVariable UUID id) throws Exception {
+    public List<RegisteredUsersDTO> getRegisteredUsers(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException, NullException {
         String[] ports = {ITINERARY_PORT, USER_PORT};
         service.pingCheck(ports,restTemplate);
 
@@ -278,7 +280,7 @@ public class MainControllerItineraryReroute {
             user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/" + entry.getKey(), GetUserByUUIDDTO.class);
             assert user != null;
             if(entry.getValue() == null){
-                throw new Exception("Get Registered Users: Boolean is null");
+                throw new NullException("Get Registered Users: Boolean is null");
             }
             users.add(new RegisteredUsersDTO(user, entry.getValue()));
         }
@@ -287,7 +289,7 @@ public class MainControllerItineraryReroute {
     }
 
     @GetMapping("/isRegisteredUser/{id}/{userId}")
-    public boolean isRegisteredUser(@PathVariable UUID id, @PathVariable UUID userId) throws Exception {
+    public boolean isRegisteredUser(@PathVariable UUID id, @PathVariable UUID userId) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT};
         service.pingCheck(ports,restTemplate);
         Map<String, Boolean> list = restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/getRegisteredUsers/" + id, Map.class);
