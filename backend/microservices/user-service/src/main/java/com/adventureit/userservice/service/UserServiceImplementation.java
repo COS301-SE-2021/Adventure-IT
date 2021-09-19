@@ -65,6 +65,7 @@ public class UserServiceImplementation  {
 
     private StorageOptions storageOptions;
     private String bucketName;
+    private final String userDoesNotExist = "User does not exist - user is not registered as an Adventure-IT member";
 
     @Autowired
     public UserServiceImplementation(UserRepository repo, FriendRepository friendRepository) {
@@ -94,7 +95,10 @@ public class UserServiceImplementation  {
         file.close();
         FileInputStream serviceAccount = new FileInputStream("user.json");
         this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
-        new File("user.json").delete();
+        boolean flag = new File("user.json").delete();
+        if(!flag){
+            throw new NotFoundException("Initialize Firebase: File not found");
+        }
     }
 
     /**
@@ -134,10 +138,7 @@ public class UserServiceImplementation  {
         String username = req.getUsername();
         /*generate Regex for email, password and phone number*/
         String emailRegex = "^(.+)@(.+)$";
-        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–{}:;',?/*~$^+=<>]).{8,20}$";
-        String phoneNumRegex = "^(\\+27|0)[6-8][0-9]{8}$";
 
-        Pattern emailPattern = Pattern.compile(emailRegex);
         //Matcher emailMatcher = emailPattern.matcher(email);
 
 //        /*Exception handling for invalid email,password or phone number*/
@@ -170,7 +171,7 @@ public class UserServiceImplementation  {
         Users newUser = repo.getUserByUserID(req);
         PictureInfo pictureInfo = pictureInfoRepository.findPictureInfoByOwner(req);
         if(newUser == null) {
-            throw new UserDoesNotExistException("User does not exist - user is not registered as an Adventure-IT member");
+            throw new UserDoesNotExistException(userDoesNotExist);
         }
 
 
@@ -515,7 +516,7 @@ public class UserServiceImplementation  {
     public long getStorageUsed(UUID id){
         Users newUser = repo.getUserByUserID(id);
         if(newUser == null) {
-            throw new UserDoesNotExistException("User does not exist - user is not registered as an Adventure-IT member");
+            throw new UserDoesNotExistException(userDoesNotExist);
         }
 
         return newUser.getStorageUsed();
@@ -524,7 +525,7 @@ public class UserServiceImplementation  {
     public void setStorageUsed(UUID id, long size){
         Users newUser = repo.getUserByUserID(id);
         if(newUser == null) {
-            throw new UserDoesNotExistException("User does not exist - user is not registered as an Adventure-IT member");
+            throw new UserDoesNotExistException(userDoesNotExist);
         }
 
         newUser.setStorageUsed(newUser.getStorageUsed()+size);
