@@ -280,9 +280,6 @@ public class MainControllerItineraryReroute {
         for (Map.Entry<UUID, Boolean> entry : list.entrySet()) {
             user = restTemplate.getForObject(IP + ":" + userPort + "/user/getUser/" + entry.getKey(), GetUserByUUIDDTO.class);
             assert user != null;
-            if(entry.getValue() == null){
-                throw new Exception("Get Registered Users: Boolean is null");
-            }
             users.add(new RegisteredUsersDTO(user, entry.getValue()));
         }
 

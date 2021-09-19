@@ -95,12 +95,10 @@ public class RecommendationService {
         List<RecommendedLocation> locations = this.recommendedLocationRepository.findAll();
         int numLocations = locations.size();
         if(numUsers == 0){
-            String[][] returnMatrix = new String[numLocations][2];
-            return returnMatrix;
+            return new String[numLocations][2];
         }
         if(numLocations == 0){
-            String[][] returnMatrix = new String[numLocations][2];
-            return returnMatrix;
+            return new String[numLocations][2];
         }
 
         // For each user (row) add an entry with their "rating" of the corresponding location (col)
@@ -221,7 +219,7 @@ public class RecommendationService {
         String[][] returnMatrix = new String[locations.size()][2];
         List<RecommendedUser> users = this.recommendedUserRepository.findAll();
 
-        if(locations.size()==0)
+        if(locations.isEmpty())
         {
             return returnMatrix;
         } else if(locations.size()<numPopular)
