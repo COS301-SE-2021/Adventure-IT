@@ -25,7 +25,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,7 +49,6 @@ public class LocationServiceImplementation implements LocationService {
         Location location1 = new Location();
 
         String placeID = json.getJSONArray("candidates").getJSONObject(0).getString("place_id");
-        String name = json.getJSONArray("candidates").getJSONObject(0).getString("name");
 
         Location location2 = locationRepository.findLocationByPlaceID(placeID);
         if(location2 != null){
