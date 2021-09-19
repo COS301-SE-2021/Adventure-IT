@@ -410,6 +410,10 @@ public class ItineraryServiceImplementation implements ItineraryService {
             throw new NotFoundException("Get Registered Users: Entry does not exist");
         }
 
+        if(entry.getRegisteredUsers() == null ){
+            throw new NotFoundException("Get Registered Users: Registered users list is null");
+        }
+
         return entry.getRegisteredUsers();
     }
 
