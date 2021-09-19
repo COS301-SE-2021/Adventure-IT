@@ -72,6 +72,11 @@ public class UserController {
         return service.getUserByUUID(id);
     }
 
+    @GetMapping(value = "getUsers/{ids}")
+    public List<GetUserByUUIDDTO> getUsersByUUID(@PathVariable List<UUID> ids) {
+        return service.getUserByUUIDs(ids);
+    }
+
     @GetMapping(value = "acceptFriendRequest/{id}")
     public String acceptFriend(@PathVariable UUID id){
         return service.acceptFriendRequest(id);

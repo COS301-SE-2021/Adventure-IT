@@ -15,10 +15,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service
@@ -121,5 +118,35 @@ public class NotificationService {
             notificationUserRepository.save(foundUser);
             return "Updated";
         }
+    }
+
+    public String sendFirebaseNotifications(SendFirebaseNotificationsRequest req) {
+        List<UUID> users = new ArrayList<>();
+        for(UUID userId : users){
+            NotificationUser user = notificationUserRepository.findNotificationUserByUserId(userId);
+            if(user == null){
+                return "User not found";
+            }
+
+            com.google.firebase.messaging.Notification notification = com.google.firebase.messaging.Notification
+                    .builder()
+                    .setTitle(req.getTitle())
+                    .setBody(req.getBody())
+                    .build();
+
+            Message message = Message
+                    .builder()
+                    .setToken(user.getFirebaseToken())
+                    .setNotification(notification)
+                    .putAllData(req.getData())
+                    .build();
+            try {
+                firebaseMessaging.send(message);
+            }
+            catch(FirebaseMessagingException e){
+                return e.toString();
+            }
+        }
+        return "All notifications sent";
     }
 }

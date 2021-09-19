@@ -49,6 +49,12 @@ public class NotificationController {
     return notification.sendFirebaseNotification(req);
     }
 
+    @PostMapping("/sendFirebaseNotifications")
+    @Consumes("application/json")
+    public String sendFirebaseNotifications(@RequestBody SendFirebaseNotificationsRequest req){
+        return notification.sendFirebaseNotifications(req);
+    }
+
     @PostMapping("/addFirebaseUser")
     @Consumes("application/json")
     public String addFirebaseUser(@RequestBody FirebaseUserRequest req){

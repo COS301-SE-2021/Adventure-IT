@@ -495,4 +495,12 @@ public class UserServiceImplementation  {
         }
         return returnList;
     }
+
+    public List<GetUserByUUIDDTO> getUserByUUIDs(List<UUID> ids) {
+        List<GetUserByUUIDDTO> returnList = new ArrayList<>();
+        for(UUID id : ids){
+            returnList.add(this.getUserByUUID(id));
+        }
+        return returnList;
+    }
 }
