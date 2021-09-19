@@ -95,7 +95,14 @@ class DeletedChecklistList extends StatelessWidget {
             return Column(children: [
               Expanded(
                   flex: 2,
-                  child: ListView(children: [
+                  child: Container(
+                      width: MediaQuery.of(context).size.width <= 500
+                          ? MediaQuery.of(context).size.width
+                          : MediaQuery.of(context).size.width * 0.9,
+                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width <= 500
+                          ? 0
+                          : MediaQuery.of(context).size.width * 0.05),
+                      child:ListView(children: [
                     ...List.generate(
                         deletedChecklistModel.deletedChecklists!.length,
                         (index) => Card(
@@ -353,7 +360,7 @@ class DeletedChecklistList extends StatelessWidget {
                                   ),
                                 ))))
                   ]))
-            ]);
+              )]);
           } else {
             return Center(
                 child: Text("It seems you're not one for recycling...",

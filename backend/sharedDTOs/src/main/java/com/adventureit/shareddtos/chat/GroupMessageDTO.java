@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public class GroupMessageDTO extends MessageDTO{
-    Map<UUID, Boolean> read = new HashMap<>();
 
     public GroupMessageDTO(){}
 
@@ -33,17 +32,7 @@ public class GroupMessageDTO extends MessageDTO{
         this.payload = message;
         this.timestamp = LocalDateTime.now();
 
-        for (UUID ID: receivers) {
-            read.put(ID,false);
-        }
     }
 
-    public Map<UUID, Boolean> getRead() {
-        return read;
-    }
-
-    public void setRead(Map<UUID, Boolean> read) {
-        this.read = read;
-    }
 
 }

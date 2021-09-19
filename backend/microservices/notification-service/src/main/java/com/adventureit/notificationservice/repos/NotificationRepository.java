@@ -14,6 +14,4 @@ public interface NotificationRepository extends JpaRepository<Notification, UUID
      List<Notification> getNotificationByUserID(UUID userId);
      void removeAllByUserIDAndReadDateTime(UUID userId,Date date);
 
-
-
 }

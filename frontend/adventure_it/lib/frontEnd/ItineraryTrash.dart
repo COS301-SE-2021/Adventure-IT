@@ -91,7 +91,14 @@ class DeletedItineraryList extends StatelessWidget {
             return Column(children: [
               Expanded(
                   flex: 2,
-                  child: ListView(children: [
+                  child: Container(
+                      width: MediaQuery.of(context).size.width <= 500
+                          ? MediaQuery.of(context).size.width
+                          : MediaQuery.of(context).size.width * 0.9,
+                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width <= 500
+                          ? 0
+                          : MediaQuery.of(context).size.width * 0.05),
+                      child: ListView(children: [
                     ...List.generate(
                       deletedItineraryModel.deletedItineraries!.length,
                       (index) => Center(
@@ -350,7 +357,7 @@ class DeletedItineraryList extends StatelessWidget {
                         ),
                       ),
                     )
-                  ]))
+                  ])))
             ]);
           } else {
             return Center(

@@ -1,13 +1,12 @@
 package com.adventureit.notificationservice.controllers;
 
 import com.adventureit.notificationservice.entity.Notification;
-import com.adventureit.shareddtos.notification.requests.CreateNotificationRequest;
-import com.adventureit.shareddtos.notification.requests.RetrieveNotificationRequest;
-import com.adventureit.shareddtos.notification.requests.SendEmailRequest;
+import com.adventureit.shareddtos.notification.requests.*;
 import com.adventureit.notificationservice.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Consumes;
 import java.util.List;
 
 @RestController
@@ -44,6 +43,22 @@ public class NotificationController {
         return notification.retrieveNotifications(req);
     }
 
+    @PostMapping("/sendFirebaseNotification")
+    @Consumes("application/json")
+    public String sendFirebaseNotification(@RequestBody SendFirebaseNotificationRequest req){
+    return notification.sendFirebaseNotification(req);
+    }
 
+    @PostMapping("/sendFirebaseNotifications")
+    @Consumes("application/json")
+    public String sendFirebaseNotifications(@RequestBody SendFirebaseNotificationsRequest req){
+        return notification.sendFirebaseNotifications(req);
+    }
+
+    @PostMapping("/addFirebaseUser")
+    @Consumes("application/json")
+    public String addFirebaseUser(@RequestBody FirebaseUserRequest req){
+        return notification.addFirebaseUser(req);
+    }
 
 }

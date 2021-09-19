@@ -2,9 +2,7 @@ package com.adventureit.maincontroller.controller;
 
 
 import com.adventureit.shareddtos.notification.NotificationDTO;
-import com.adventureit.shareddtos.notification.requests.CreateNotificationRequest;
-import com.adventureit.shareddtos.notification.requests.RetrieveNotificationRequest;
-import com.adventureit.shareddtos.notification.requests.SendEmailRequest;
+import com.adventureit.shareddtos.notification.requests.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -35,6 +33,16 @@ public class MainControllerNotificationReroute {
     @PostMapping("/retrieveNotification")
     public List<NotificationDTO> test3(@RequestBody RetrieveNotificationRequest req){
         return restTemplate.postForObject(IP + ":" + notificationPort + "/notification/retrieveNotification/", req, List.class);
+    }
+
+    @PostMapping("/sendFirebaseNotification")
+    public String sendFirebaseNotification(@RequestBody SendFirebaseNotificationRequest req){
+        return restTemplate.postForObject(IP + ":" + notificationPort + "/notification/sendFirebaseNotification/", req, String.class);
+    }
+
+    @PostMapping("/addFirebaseUser")
+    public String addFirebaseUser(@RequestBody FirebaseUserRequest req){
+        return restTemplate.postForObject(IP + ":" + notificationPort + "/notification/addFirebaseUser/", req, String.class);
     }
 
 }

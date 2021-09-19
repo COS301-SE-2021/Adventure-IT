@@ -74,6 +74,11 @@ public class UserController {
         return service.getUserByUUID(id);
     }
 
+    @GetMapping(value = "getUsers/{ids}")
+    public List<GetUserByUUIDDTO> getUsersByUUID(@PathVariable List<UUID> ids) {
+        return service.getUserByUUIDs(ids);
+    }
+
     @GetMapping(value = "acceptFriendRequest/{id}")
     public String acceptFriend(@PathVariable UUID id){
         return service.acceptFriendRequest(id);
@@ -180,10 +185,25 @@ public class UserController {
     {
         return service.getStorageUsed(userId);
     }
+    @GetMapping("setFirebaseId/{userId}/{id}")
+    public void setFirebaseId(@PathVariable UUID userId, @PathVariable String id)
+    {
+        service.setFirebaseId(userId,id);
+    }
 
     @GetMapping("setStorageUsed/{userId}/{size}")
     public void setStorageUsed(@PathVariable UUID userId, @PathVariable long size)
     {
         service.setStorageUsed(userId,size);
+    }
+    @GetMapping("getFirebaseId/{userId}")
+    public String getFirebaseId(@PathVariable UUID userId)
+    {
+        return service.getFirebaseId(userId);
+    }
+
+    @PostMapping("getUsersForAdventure")
+    public List<GetUserByUUIDDTO> getUsersForAdventure(@RequestBody List<UUID> req) {
+        return service.getUsersForAdventure(req);
     }
 }

@@ -8,17 +8,13 @@ import java.util.UUID;
 public class DirectMessageResponseDTO {
     java.util.UUID id;
     GetUserByUUIDDTO sender;
-    GetUserByUUIDDTO receiver;
     String message;
-    Boolean read;
     LocalDateTime timestamp;
 
-    public DirectMessageResponseDTO(UUID id, GetUserByUUIDDTO sender, GetUserByUUIDDTO receiver, LocalDateTime timestamp, String message, Boolean read) {
+    public DirectMessageResponseDTO(UUID id, GetUserByUUIDDTO sender, LocalDateTime timestamp, String message) {
         this.id = id;
         this.sender = sender;
-        this.receiver = receiver;
         this.message = message;
-        this.read = read;
         this.timestamp = timestamp;
     }
 
@@ -38,15 +34,10 @@ public class DirectMessageResponseDTO {
         return sender;
     }
 
-    public GetUserByUUIDDTO getReceiver() {
-        return receiver;
-    }
 
     public String getMessage() {
         return message;
     }
 
-    public Boolean getRead() {
-        return read;
-    }
+
 }
