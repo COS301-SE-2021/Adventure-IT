@@ -1,8 +1,6 @@
 package com.adventureit.shareddtos.media.responses;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 
 import java.io.Serializable;
 

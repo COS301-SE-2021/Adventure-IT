@@ -3,7 +3,6 @@ package com.adventureit.shareddtos.notification;
 import java.util.Date;
 import java.util.UUID;
 
-
 public class NotificationDTO {
 
     private UUID notificationID;

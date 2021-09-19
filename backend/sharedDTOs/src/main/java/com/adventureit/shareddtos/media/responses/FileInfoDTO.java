@@ -1,8 +1,6 @@
 package com.adventureit.shareddtos.media.responses;
 
-
 import java.util.UUID;
-
 
 public class FileInfoDTO {
 

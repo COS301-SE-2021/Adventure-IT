@@ -93,9 +93,7 @@ public class UserController {
     public List<GetFriendRequestsResponse> getFriendRequests(@PathVariable UUID id) {
         return service.getFriendRequests(id);
     }
-
-
-
+    
     @GetMapping(value = "deleteFriendRequest/{id}")
     public void deleteRequest(@PathVariable UUID id){
         service.deleteFriendRequest(id);
@@ -169,9 +167,7 @@ public class UserController {
     @GetMapping("getNotificationSettings/{userId}")
     public boolean getSettings(@PathVariable UUID userId)
     {
-        boolean second=service.getNotificationSetting(userId);
-
-        return second;
+        return service.getNotificationSetting(userId);
     }
 
     @GetMapping("setNotificationSettings/{userId}")
@@ -185,6 +181,7 @@ public class UserController {
     {
         return service.getStorageUsed(userId);
     }
+
     @GetMapping("setFirebaseId/{userId}/{id}")
     public void setFirebaseId(@PathVariable UUID userId, @PathVariable String id)
     {
@@ -196,6 +193,7 @@ public class UserController {
     {
         service.setStorageUsed(userId,size);
     }
+
     @GetMapping("getFirebaseId/{userId}")
     public String getFirebaseId(@PathVariable UUID userId)
     {

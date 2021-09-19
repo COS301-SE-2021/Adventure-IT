@@ -31,7 +31,6 @@ import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 @Service("UserServiceImplementation")
 public class UserServiceImplementation  {
@@ -65,7 +64,7 @@ public class UserServiceImplementation  {
 
     private StorageOptions storageOptions;
     private String bucketName;
-    private final String userDoesNotExist = "User does not exist - user is not registered as an Adventure-IT member";
+    private static final String userDoesNotExist = "User does not exist - user is not registered as an Adventure-IT member";
 
     @Autowired
     public UserServiceImplementation(UserRepository repo, FriendRepository friendRepository) {
@@ -136,18 +135,6 @@ public class UserServiceImplementation  {
         String lastName = req.getlName();
         String email = req.getEmail();
         String username = req.getUsername();
-        /*generate Regex for email, password and phone number*/
-        String emailRegex = "^(.+)@(.+)$";
-
-        //Matcher emailMatcher = emailPattern.matcher(email);
-
-//        /*Exception handling for invalid email,password or phone number*/
-//        if(!emailMatcher.matches()){
-//            throw new InvalidUserEmailException("User email is incorrect - Unable to process registration");
-//        }
-//        if(repo.getUserByEmail(email)!=null){
-//            throw new InvalidRequestException("User already exists");
-//        }
 
         /*New User has been created*/
         Users newUser = new Users(userId,username,firstName,lastName,email);

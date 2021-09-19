@@ -1,6 +1,5 @@
 package com.adventureit.userservice.entities;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,14 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-
 @Getter
 @Setter
 @Entity
 @Table(name="users", schema = "public")
 public class Users  {
-
-
 
     @Id
     private UUID userID;
@@ -39,7 +35,7 @@ public class Users  {
     }
 
     public void setNotificationSettings() {
-        if(this.notificationSettings==false)
+        if(!this.notificationSettings)
         {
             this.notificationSettings=true;
         }

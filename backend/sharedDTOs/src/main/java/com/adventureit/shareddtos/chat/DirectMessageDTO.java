@@ -19,7 +19,6 @@ public class DirectMessageDTO extends MessageDTO{
 
     }
 
-
     public DirectMessageDTO(UUID sender, String message){
         this.id = UUID.randomUUID();
         this.sender = sender;
