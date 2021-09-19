@@ -29,6 +29,8 @@ public class MediaServiceImplementation implements MediaService{
     @Autowired
     private  FileInfoRepository fileInfoRepository;
 
+    private final String description = "DESCRIPTION";
+
     @Value("${firebase-type}")
     String type;
     @Value("${firebase-project_id}")
@@ -56,7 +58,7 @@ public class MediaServiceImplementation implements MediaService{
     @PostConstruct
     private void initializeFirebase() throws IOException {
         bucketName = "adventure-it-bc0b6.appspot.com";
-        String projectId = "Adventure-IT";
+        String projectId1 = "Adventure-IT";
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("type",type);
@@ -74,8 +76,11 @@ public class MediaServiceImplementation implements MediaService{
         file.write(jsonObject.toJSONString());
         file.close();
         FileInputStream serviceAccount = new FileInputStream("media.json");
-        this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
-        new File("media.json").delete();
+        this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId1).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
+        boolean flag = new File("media.json").delete();
+        if(!flag){
+            throw new NotFoundException("Initialize Firebase: File not found");
+        }
     }
 
     @Override
@@ -144,7 +149,7 @@ public class MediaServiceImplementation implements MediaService{
             UUID id = UUID.randomUUID();
             String fileName = file.getOriginalFilename();
 
-            MediaInfo uploadedMedia = new MediaInfo(id, file.getContentType(), fileName, "DESCRIPTION", adventureId , userId);
+            MediaInfo uploadedMedia = new MediaInfo(id, file.getContentType(), fileName, description, adventureId , userId);
             mediaInfoRepository.save(uploadedMedia);
 
             Storage storage = storageOptions.getService();
@@ -165,7 +170,7 @@ public class MediaServiceImplementation implements MediaService{
             UUID id = UUID.randomUUID();
             String fileName = file.getOriginalFilename();
 
-            FileInfo uploadedFile = new FileInfo(id, file.getContentType(), fileName, "DESCRIPTION", adventureId , userId);
+            FileInfo uploadedFile = new FileInfo(id, file.getContentType(), fileName, description, adventureId , userId);
             fileInfoRepository.save(uploadedFile);
 
             Storage storage = storageOptions.getService();
@@ -186,7 +191,7 @@ public class MediaServiceImplementation implements MediaService{
             UUID id = UUID.randomUUID();
             String fileName = file.getOriginalFilename();
 
-            DocumentInfo uploadedDoc = new DocumentInfo(id, file.getContentType(), fileName, "DESCRIPTION" , userId);
+            DocumentInfo uploadedDoc = new DocumentInfo(id, file.getContentType(), fileName, description, userId);
             documentInfoRepository.save(uploadedDoc);
 
             Storage storage = storageOptions.getService();
