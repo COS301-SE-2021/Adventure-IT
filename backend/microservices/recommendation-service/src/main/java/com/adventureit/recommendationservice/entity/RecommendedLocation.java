@@ -3,7 +3,6 @@ package com.adventureit.recommendationservice.entity;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.List;
 import java.util.UUID;
 
