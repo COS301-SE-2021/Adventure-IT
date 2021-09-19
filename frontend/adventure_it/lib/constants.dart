@@ -50,5 +50,5 @@ final lightTheme = ThemeData(
     textSelectionTheme:
     TextSelectionThemeData(selectionColor: Color(0xff20222D)),
     textTheme: TextTheme(
-        bodyText2: TextStyle(color: Color(0xffA7AAB9)),
+        bodyText2: TextStyle(color: Color(0xff20222D)),
         bodyText1: TextStyle(color: Color(0xffA7AAB9))));
