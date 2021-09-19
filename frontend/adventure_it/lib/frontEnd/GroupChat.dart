@@ -22,7 +22,7 @@ class GroupChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GroupChatModel x = new GroupChatModel(adventure!, context);
-    FlutterMessagingChangeNotifier.setChangeNotifier(x);
+    FlutterMessagingChangeNotifier.setGroupChatChangeNotifier(x);
     return ChangeNotifierProvider(
         create: (context) => x,
         builder: (context, widget) => Scaffold(
@@ -55,7 +55,7 @@ class GroupChat extends StatelessWidget {
                           child: IconButton(
                               onPressed: () {
                                 FlutterMessagingChangeNotifier
-                                    .setChangeNotifier(null);
+                                    .setGroupChatChangeNotifier(null);
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
@@ -174,6 +174,12 @@ class _MessageList extends State<MessageList> {
               curve: Curves.fastOutSlowIn);
         });
         return Container(
+            width: MediaQuery.of(context).size.width <= 500
+                ? MediaQuery.of(context).size.width
+                : MediaQuery.of(context).size.width * 0.9,
+            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width <= 500
+                ? 0
+                : MediaQuery.of(context).size.width * 0.05),
             height: double.infinity,
             child: GroupedListView<dynamic, String>(
                 controller: _scrollController,

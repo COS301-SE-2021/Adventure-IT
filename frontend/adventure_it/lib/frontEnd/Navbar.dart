@@ -35,7 +35,10 @@ class NavDrawer extends StatelessWidget {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color)),
                 onTap: () {
-                  FlutterMessagingChangeNotifier.setChangeNotifier(null);
+                  FlutterMessagingChangeNotifier
+                      .setGroupChatChangeNotifier(null);
+                  FlutterMessagingChangeNotifier
+                      .setDirectChatChangeNotifier(null);
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
@@ -48,7 +51,10 @@ class NavDrawer extends StatelessWidget {
                     color: Theme.of(context).accentColor),
                 title: Text('Profile'),
                 onTap: () {
-                  FlutterMessagingChangeNotifier.setChangeNotifier(null);
+                  FlutterMessagingChangeNotifier
+                      .setGroupChatChangeNotifier(null);
+                  FlutterMessagingChangeNotifier
+                      .setDirectChatChangeNotifier(null);
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => ProfileCaller()),
@@ -60,7 +66,10 @@ class NavDrawer extends StatelessWidget {
                     color: Theme.of(context).accentColor),
                 title: Text('Friend List'),
                 onTap: () {
-                  FlutterMessagingChangeNotifier.setChangeNotifier(null);
+                  FlutterMessagingChangeNotifier
+                      .setGroupChatChangeNotifier(null);
+                  FlutterMessagingChangeNotifier
+                      .setDirectChatChangeNotifier(null);
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => Friends()));
                 },
@@ -70,7 +79,10 @@ class NavDrawer extends StatelessWidget {
                     Icon(Icons.settings, color: Theme.of(context).accentColor),
                 title: Text('Settings'),
                 onTap: () {
-                  FlutterMessagingChangeNotifier.setChangeNotifier(null);
+                  FlutterMessagingChangeNotifier
+                      .setGroupChatChangeNotifier(null);
+                  FlutterMessagingChangeNotifier
+                      .setDirectChatChangeNotifier(null);
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -82,7 +94,10 @@ class NavDrawer extends StatelessWidget {
                     color: Theme.of(context).accentColor),
                 title: Text('Logout'),
                 onTap: () {
-                  FlutterMessagingChangeNotifier.setChangeNotifier(null);
+                  FlutterMessagingChangeNotifier
+                      .setGroupChatChangeNotifier(null);
+                  FlutterMessagingChangeNotifier
+                      .setDirectChatChangeNotifier(null);
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => LoginCaller()),

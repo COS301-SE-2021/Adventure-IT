@@ -1,10 +1,11 @@
+import 'dart:ui';
+
 import 'package:adventure_it/Providers/chat_model.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class InitializeFireFlutter extends StatefulWidget {
@@ -95,12 +96,14 @@ class _AppStateWeb extends State<InitializeFireFlutterWeb> {
 
         Fluttertoast.showToast(
             msg: body!,
+            webBgColor: "linear-gradient(to right, #6A7AC7, #484D64)",
+            webPosition: "center",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
             backgroundColor: Theme.of(context).accentColor,
             textColor: Theme.of(context).textTheme.bodyText1!.color,
-            fontSize: 15.0);
+            fontSize: 15.0,);
 
         FlutterMessagingChangeNotifier.notifyListeners();
       }
@@ -130,8 +133,12 @@ class FlutterMessagingChangeNotifier {
   static GroupChatModel? groupChatChangeNotifier;
   static DirectChatModel? directChatChangeNotifier;
 
-  static void setChangeNotifier(GroupChatModel? x) {
+  static void setGroupChatChangeNotifier(GroupChatModel? x) {
     groupChatChangeNotifier = x;
+  }
+
+  static void setDirectChatChangeNotifier(DirectChatModel? x) {
+    directChatChangeNotifier = x;
   }
 
   static void getChangeNotifier(GroupChatModel? x) {

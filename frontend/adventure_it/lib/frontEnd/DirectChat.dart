@@ -10,6 +10,7 @@ import 'package:adventure_it/frontEnd/FriendsPage.dart';
 
 import '../constants.dart';
 import 'FriendsPage.dart';
+import 'InitializeFireFlutter.dart';
 import 'Navbar.dart';
 
 //When you click on a friend in friend list - it opens the direct chat
@@ -23,9 +24,11 @@ class DirectChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DirectChatModel x=DirectChatModel(
+        UserApi.getInstance().getUserProfile()!.userID,user2!.userID,context);
+        FlutterMessagingChangeNotifier.setDirectChatChangeNotifier(x);
     return ChangeNotifierProvider(
-        create: (context) => DirectChatModel(
-          UserApi.getInstance().getUserProfile()!.userID,user2!.userID,context),
+        create: (context) => x,
         builder: (context, widget) => Scaffold(
             drawer: NavDrawer(),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -163,7 +166,14 @@ class _MessageList extends State<MessageList> {
               duration: Duration(seconds: 3),
               curve: Curves.fastOutSlowIn);
         });
-        return Expanded(
+        return Container(
+            width: MediaQuery.of(context).size.width <= 500
+                ? MediaQuery.of(context).size.width
+                : MediaQuery.of(context).size.width * 0.9,
+            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width <= 500
+                ? 0
+                : MediaQuery.of(context).size.width * 0.05),
+            height: double.infinity,
             child: GroupedListView<dynamic, String>(
                 controller: _scrollController,
                 physics: const AlwaysScrollableScrollPhysics(),
