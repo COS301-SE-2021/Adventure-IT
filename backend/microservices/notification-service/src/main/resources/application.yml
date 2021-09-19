@@ -3,10 +3,9 @@ server:
   error:
     include-message: always
 
-
 spring:
   application:
-    name: ${notification-microservice.application-name}
+    name: NOTIFICATIOIN-MICROSERVICE
   datasource:
     url: ${notification-microservice.datasource.url}
     username: ${notification-microservice.datasource.username}
@@ -21,20 +20,20 @@ spring:
       hibernate:
         dialect: ${notification-microservice.jpa.hibernate.properties.hibernate.dialect}
         format_sql: ${notification-microservice.jpa.hibernate.properties.hibernate.format_sql}
-  mail:
-    host: ${notification-microservice.mail.host}
-    port: ${notification-microservice.mail.port}
-    user: ${notification-microservice.mail.user}
-    password: ${notification-microservice.mail.password}
-    smtp:
-      auth: ${notification-microservice.mail.smtp.auth}
-      connectionTimeout: ${notification-microservice.mail.smtp.connectionTimeout}
-      timeout: ${notification-microservice.mail.smtp.timeout}
-      writetimeout: ${notification-microservice.mail.smtp.writetimeout}
-      startttls:
-        enable: ${notification-microservice.mail.smtp.startttls.enable}
-
-
+#  mail:
+#    username: ${notification-microservice.mail.user}
+#    host: ${notification-microservice.mail.host}
+#    port: ${notification-microservice.mail.port}
+#    password: ${notification-microservice.mail.password}
+##    smtp:
+##      auth: ${notification-microservice.mail.smtp.auth}
+##      connectionTimeout: ${notification-microservice.mail.smtp.connectionTimeout}
+##      timeout: ${notification-microservice.mail.smtp.timeout}
+##      writetimeout: ${notification-microservice.mail.smtp.writetimeout}
+##      startttls:
+##        enable: ${notification-microservice.mail.smtp.startttls.enable}
+##
+#
 
 eureka:
   client:
