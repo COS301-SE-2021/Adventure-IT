@@ -39,6 +39,7 @@ public class MainControllerChatReroute {
     private static final String CHAT_PORT = "9010";
     private static final String ADVENTURE_PORT ="9001";
     private static final String NOTIFICATION_PORT ="9004";
+    private static final String GET_USER = "/user/getUser/";
 
     public MainControllerChatReroute(MainControllerServiceImplementation service) {
         this.service = service;
@@ -83,7 +84,7 @@ public class MainControllerChatReroute {
         }
 
         if(usersIds.size() == 1){
-            GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/" + usersIds.get(0), GetUserByUUIDDTO.class);
+            GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + usersIds.get(0), GetUserByUUIDDTO.class);
             users.add(user);
         }
         else {
@@ -143,7 +144,7 @@ public class MainControllerChatReroute {
         String[] ports = {CHAT_PORT};
         service.pingCheck(ports,restTemplate);
 
-        GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/" + request.getSender(), GetUserByUUIDDTO.class);
+        GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + request.getSender(), GetUserByUUIDDTO.class);
         SendFirebaseNotificationRequest notifReq = new SendFirebaseNotificationRequest(request.getReceiver(), "New direct message", "From: "+user.getUsername(), null);
         restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/sendFirebaseNotification",notifReq, String.class);
         return restTemplate.postForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/sendDirectMessage", request,String.class);
@@ -180,7 +181,7 @@ public class MainControllerChatReroute {
         }
 
         if(usersIds.size() == 1){
-            GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/" + usersIds.get(0), GetUserByUUIDDTO.class);
+            GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + usersIds.get(0), GetUserByUUIDDTO.class);
             users.add(user);
         }
         else {
