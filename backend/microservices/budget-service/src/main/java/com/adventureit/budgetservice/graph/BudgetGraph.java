@@ -16,50 +16,46 @@ public class BudgetGraph{
 
     public List<Node> generateGraph(List<BudgetEntry> budgets){
         this.i = 0;
-        List<Node> nodes = new ArrayList<Node>();
+        List<Node> nodeArrayList = new ArrayList<>();
         if(budgets.isEmpty()){
-            return nodes;
+            return nodeArrayList;
         }
-        budgets.sort(new Comparator<BudgetEntry>() {
-            @Override
-            public int compare(BudgetEntry o1, BudgetEntry o2) {
-                return o1.getPayer().compareTo(o2.getPayer());
-            }
-        });
+
+        budgets.sort(Comparator.comparing(BudgetEntry::getPayer));
         String name = budgets.get(0).getPayer();
 
-        for(int i = 0; i<budgets.size();i++){
-            if(nodes.isEmpty()){
-                nodes.add(new Node(name));
+        for(int j = 0; j<budgets.size();j++){
+            if(nodeArrayList.isEmpty()){
+                nodeArrayList.add(new Node(name));
 
                 if(budgets.get(0).getClass().equals(UTUExpense.class)){
                     UTUExpense entry = (UTUExpense)budgets.get(0);
-                    if(!checkList(entry.getPayee(),nodes)){
-                        nodes.add(new Node(entry.getPayee()));
+                    if(!checkList(entry.getPayee(),nodeArrayList)){
+                        nodeArrayList.add(new Node(entry.getPayee()));
                     }
                 }else if(budgets.get(0).getClass().equals(UTOExpense.class)){
                     UTOExpense entry = (UTOExpense)budgets.get(0);
-                    if(!checkList(entry.getPayee(),nodes)){
-                        nodes.add(new Node(entry.getPayee()));
+                    if(!checkList(entry.getPayee(),nodeArrayList)){
+                        nodeArrayList.add(new Node(entry.getPayee()));
                     }
                 }
             }
             else{
 
-                if(budgets.get(i).getClass().equals(UTUExpense.class)){
-                    UTUExpense entry = (UTUExpense)budgets.get(i);
-                    if(!checkList(entry.getPayee(),nodes)){
-                        nodes.add(new Node(entry.getPayee()));
+                if(budgets.get(j).getClass().equals(UTUExpense.class)){
+                    UTUExpense entry = (UTUExpense)budgets.get(j);
+                    if(!checkList(entry.getPayee(),nodeArrayList)){
+                        nodeArrayList.add(new Node(entry.getPayee()));
                     }
-                }else if(budgets.get(i).getClass().equals(UTOExpense.class)){
-                    UTOExpense entry = (UTOExpense)budgets.get(i);
-                    if(!checkList(entry.getPayee(),nodes)){
-                        nodes.add(new Node(entry.getPayee()));
+                }else if(budgets.get(j).getClass().equals(UTOExpense.class)){
+                    UTOExpense entry = (UTOExpense)budgets.get(j);
+                    if(!checkList(entry.getPayee(),nodeArrayList)){
+                        nodeArrayList.add(new Node(entry.getPayee()));
                     }
                 }
 
-                if(!checkList(budgets.get(i).getPayer(),nodes)){
-                    nodes.add(new Node(budgets.get(i).getPayer()));
+                if(!checkList(budgets.get(j).getPayer(),nodeArrayList)){
+                    nodeArrayList.add(new Node(budgets.get(j).getPayer()));
                 }
             }
 
@@ -67,29 +63,29 @@ public class BudgetGraph{
 
 
 
-        for( int i = 0 ; i< budgets.size();i++){
+        for( int j = 0 ; j< budgets.size();j++){
             Node payer = null;
             Node payee = null;
-            if (budgets.get(i).getClass().equals(UTUExpense.class)){
-                UTUExpense entry = (UTUExpense) budgets.get(i);
-                payee = findNode(nodes, entry.getPayee());
-                payer = findNode(nodes,entry.getPayer());
+            if (budgets.get(j).getClass().equals(UTUExpense.class)){
+                UTUExpense entry = (UTUExpense) budgets.get(j);
+                payee = findNode(nodeArrayList, entry.getPayee());
+                payer = findNode(nodeArrayList,entry.getPayer());
                 payer.addEdge(new Edge(payer,payee,entry.getAmount(),entry.getId()));
             }
-            else if (budgets.get(i).getClass().equals(UTOExpense.class)){
-                UTOExpense entry = (UTOExpense) budgets.get(i);
-                payee = findNode(nodes, entry.getPayee());
-                payer = findNode(nodes,entry.getPayer());
+            else if (budgets.get(j).getClass().equals(UTOExpense.class)){
+                UTOExpense entry = (UTOExpense) budgets.get(j);
+                payee = findNode(nodeArrayList, entry.getPayee());
+                payer = findNode(nodeArrayList,entry.getPayer());
                 payer.addEdge(new Edge(payer,payee,entry.getAmount(),entry.getId()));
             }
         }
-        this.nodes = nodes;
-        return nodes;
+        this.nodes = nodeArrayList;
+        return nodeArrayList;
     }
 
     public boolean checkList(String name, List<Node> list){
-        for(int i = 0;i< list.size();i++){
-            if(list.get(i).getName().equals(name)){
+        for(int j = 0;j< list.size();j++){
+            if(list.get(j).getName().equals(name)){
                 return true;
             }
         }
@@ -97,9 +93,9 @@ public class BudgetGraph{
     }
 
     public Node findNode(List<Node> nodes,String name){
-        for (int i = 0; i <nodes.size();i++){
-            if (nodes.get(i).getName().equals(name)){
-                return nodes.get(i);
+        for (int j = 0; j <nodes.size(); j++){
+            if (nodes.get(j).getName().equals(name)){
+                return nodes.get(j);
             }
         }
         return null;
@@ -121,7 +117,6 @@ public class BudgetGraph{
         if(cycleNode == null){
             return cycleEdges;
         }else{
-            System.out.println("Cycle detected");
             String start = cycleNode.getName();
             Node ptr = cycleNode.getPred();
             for (int j = 0;j<ptr.getEdges().size();j++){
@@ -152,8 +147,8 @@ public class BudgetGraph{
 
     public Node checkNode(Node node){
         node.setNum(this.i++);
-        for (int i = 0 ;i< node.getEdges().size();i++){
-            Edge edge = (Edge)node.getEdges().get(i);
+        for (int j = 0 ;j< node.getEdges().size();j++){
+            Edge edge = (Edge)node.getEdges().get(j);
             if(edge.getPayee().getNum()==0){
                 edge.getPayee().setPred(node);
                 return checkNode(edge.getPayee());
@@ -169,9 +164,9 @@ public class BudgetGraph{
 
     public List<Edge> summarizeEdges(List<Edge> edges){
         double smallest = Double.MAX_VALUE;
-        for (int i =0;i<edges.size();i++){
-            if(edges.get(i).getAmount()<smallest){
-                smallest= edges.get(i).getAmount();
+        for (int j =0;j<edges.size();j++){
+            if(edges.get(j).getAmount()<smallest){
+                smallest= edges.get(j).getAmount();
             }
         }
 

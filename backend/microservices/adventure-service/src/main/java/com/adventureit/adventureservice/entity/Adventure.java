@@ -77,17 +77,6 @@ public class Adventure{
         return ownerId;
     }
 
-    /**
-     * Adventure service to set adventure's owner
-     * @param  ownerId - The UUID of the user to be set as the owner of the adventure
-     */
-    public void setOwnerId(UUID ownerId){
-        this.ownerId = ownerId;
-    }
-
-    public void addAttendee(UUID attendeeID){
-        this.attendees.add(attendeeID);
-    }
 
     public List<UUID> getAttendees(){
         return this.attendees;
@@ -103,21 +92,11 @@ public class Adventure{
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setAdventureId(UUID adventureId) {
-        this.adventureId = adventureId;
-    }
 
     public void setLocation(UUID location) {
         this.location = location;
     }
 
-    public void setAttendees(List<UUID> attendees) {
-        this.attendees = attendees;
-    }
 
     public void setDescription(String description) {
         this.description = description;
