@@ -52,7 +52,7 @@ public class ChatServiceIntegrationTests {
     @Test
     @Description("Ensure that the controller is accepting traffic and responding")
     public void httpTest_returnResponse(){
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/chat/test", String.class),"Chat Controller is functioning");
+        Assertions.assertEquals("Chat Controller is functional",this.restTemplate.getForObject("http://localhost:" + port + "/chat/test", String.class));
     }
 
     @Test
