@@ -120,7 +120,7 @@ public class MainControllerItineraryReroute {
 
                 list.add(responseObject);
             } catch (Exception e) {
-                e.printStackTrace();
+                return list;
             }
 
         }
