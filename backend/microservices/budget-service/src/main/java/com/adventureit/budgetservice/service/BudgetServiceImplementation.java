@@ -6,6 +6,7 @@ import com.adventureit.budgetservice.exception.*;
 import com.adventureit.budgetservice.graph.BudgetGraph;
 import com.adventureit.budgetservice.graph.Edge;
 import com.adventureit.budgetservice.repository.BudgetEntryRepository;
+import com.adventureit.budgetservice.repository.BudgetReportRepository;
 import com.adventureit.budgetservice.repository.BudgetRepository;
 import com.adventureit.shareddtos.budget.Category;
 import com.adventureit.shareddtos.budget.requests.EditBudgetRequest;
@@ -13,6 +14,7 @@ import com.adventureit.shareddtos.budget.requests.SoftDeleteRequest;
 import com.adventureit.shareddtos.budget.responses.*;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
