@@ -188,7 +188,7 @@ class _Carousel extends State<Carousel> {
             itemCount: attendeeModel!.attendees!.length,
             itemBuilder: (BuildContext context, int index, int pageViewIndex) =>
                 CachedNetworkImage(  useOldImageOnUrlChange: true,
-                    imageUrl: userApi+"/user/viewPicture/"+attendeeModel!.attendees!.elementAt(index).profileID,
+                    imageUrl: "http://"+mainApi+"/user/viewPicture/"+attendeeModel!.attendees!.elementAt(index).profileID,
                     imageBuilder: (context, imageProvider) => Container(
                         width: 100,
                         height: 100,
