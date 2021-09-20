@@ -547,6 +547,7 @@ public class UserServiceImplementation  {
         for(UUID id : ids){
             returnList.add(this.getUserByUUID(id));
         }
+
         return returnList;
     }
 }

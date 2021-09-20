@@ -4,10 +4,7 @@ import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.adventure.AdventureDTO;
 import com.adventureit.shareddtos.chat.MessageDTO;
-import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
-import com.adventureit.shareddtos.chat.requests.CreateGroupChatRequest;
-import com.adventureit.shareddtos.chat.requests.SendDirectMessageRequestDTO;
-import com.adventureit.shareddtos.chat.requests.SendGroupMessageRequestDTO;
+import com.adventureit.shareddtos.chat.requests.*;
 import com.adventureit.shareddtos.chat.responses.DirectChatResponseDTO;
 import com.adventureit.shareddtos.chat.responses.GroupChatResponseDTO;
 
@@ -70,8 +67,8 @@ public class MainControllerChatReroute {
         service.pingCheck(ports,restTemplate);
         GroupChatResponseDTO chat = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getGroupChat/" + id, GroupChatResponseDTO.class);
         List<UUID> usersIds=new ArrayList<>();
-        List<GetUserByUUIDDTO> users=new ArrayList<>();
-        List <GroupMessageResponseDTO> list=new ArrayList<>();
+        List<GetUserByUUIDDTO> users = new ArrayList<>();
+        List <GroupMessageResponseDTO> list = new ArrayList<>();
         assert chat != null;
 
         for(MessageDTO message: chat.getMessages())
@@ -88,7 +85,8 @@ public class MainControllerChatReroute {
             users.add(user);
         }
         else {
-            users = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUsers/" + usersIds, List.class);
+            GetUsersRequestDTO requestDTO = new GetUsersRequestDTO(usersIds);
+            users = restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUsers", requestDTO, List.class);
         }
 
         for (MessageDTO message: chat.getMessages()) {

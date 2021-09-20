@@ -1,12 +1,13 @@
 package com.adventureit.userservice.controller;
 
+import com.adventureit.shareddtos.chat.requests.GetUsersRequestDTO;
+import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 import com.adventureit.shareddtos.user.requests.EditUserProfileRequest;
 import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
 import com.adventureit.shareddtos.user.requests.SetUserEmergencyContactRequest;
 import com.adventureit.shareddtos.user.requests.SetUserThemeRequest;
 import com.adventureit.shareddtos.user.responses.FriendDTO;
 import com.adventureit.shareddtos.user.responses.GetFriendRequestsResponse;
-import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 import com.adventureit.shareddtos.user.responses.RegisterUserResponse;
 import com.adventureit.userservice.exceptions.InvalidRequestException;
 import com.adventureit.userservice.exceptions.InvalidUserEmailException;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -74,9 +77,9 @@ public class UserController {
         return service.getUserByUUID(id);
     }
 
-    @GetMapping(value = "getUsers/{ids}")
-    public List<GetUserByUUIDDTO> getUsersByUUID(@PathVariable List<UUID> ids) {
-        return service.getUserByUUIDs(ids);
+    @PostMapping(value = "getUsers")
+    public List<GetUserByUUIDDTO> getUsersByUUID(@RequestBody GetUsersRequestDTO ids) {
+        return service.getUserByUUIDs(ids.getUsers());
     }
 
     @GetMapping(value = "acceptFriendRequest/{id}")
