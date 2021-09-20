@@ -50,7 +50,7 @@ public class MainControllerBudgetReroute {
             throw new ControllerNotAvailable("Empty Error");
         }
         restTemplate.postForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/create/", req, String.class);
-        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + req.getCreatorID(), GetUserByUUIDDTO.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + id, GetUserByUUIDDTO.class);
         assert user != null;
         CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(), TimelineType.BUDGET,user.getUsername()+" created a new budget for "+req.getName());
         return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
