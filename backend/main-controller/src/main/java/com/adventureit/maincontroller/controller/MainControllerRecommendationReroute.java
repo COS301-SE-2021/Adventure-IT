@@ -32,9 +32,6 @@ public class MainControllerRecommendationReroute {
         this.service = service;
     }
 
-
-
-
     // User requests arbitrary number of recommendations
     @GetMapping("get/{userId}/{numRecommendations}/{location}")
     public List<RecommendedLocationResponseDTO> getUserRecommendations(@PathVariable UUID userId, @PathVariable String numRecommendations, @PathVariable String location) throws Exception {
@@ -44,6 +41,7 @@ public class MainControllerRecommendationReroute {
         List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
         for (int i = 0; i < Objects.requireNonNull(locationUUIDs).length; i++) {
             LocationResponseDTO locationObject = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getLocation/" + locationUUIDs[i][0], LocationResponseDTO.class);
+            assert locationObject != null;
             returnList.add(new RecommendedLocationResponseDTO(locationObject.getId(), locationObject.getPhotoReference(), locationObject.getFormattedAddress(), locationObject.getPlaceId(), locationObject.getName(), Boolean.parseBoolean(locationUUIDs[i][1])));
         }
         return returnList;
@@ -69,6 +67,7 @@ public class MainControllerRecommendationReroute {
         String[] ports = {RECOMMENDATION_PORT};
         service.pingCheck(ports,restTemplate);
         String[][] locationUUIDs = restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/get/popular/"+ userId+"/" +numPopular+"/"+location, String[][].class);
+        assert locationUUIDs != null;
         if(locationUUIDs[0].length == 0){
             return null;
         }
@@ -76,6 +75,7 @@ public class MainControllerRecommendationReroute {
             List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
             for(int i = 0; i < Objects.requireNonNull(locationUUIDs).length; i++){
                 LocationResponseDTO locationObject = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getLocation/"+locationUUIDs[i][0], LocationResponseDTO.class);
+                assert locationObject != null;
                 returnList.add(new RecommendedLocationResponseDTO(locationObject.getId(),locationObject.getPhotoReference(),locationObject.getFormattedAddress(),locationObject.getPlaceId(),locationObject.getName(),Boolean.parseBoolean(locationUUIDs[i][1])));
             }
             return returnList;
