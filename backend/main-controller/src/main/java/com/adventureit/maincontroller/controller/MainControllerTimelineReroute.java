@@ -1,6 +1,7 @@
 package com.adventureit.maincontroller.controller;
 
 
+import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.timeline.responses.TimelineDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class MainControllerTimelineReroute {
     }
 
     @GetMapping("/getTimelineByAdventure/{id}")
-    public List<TimelineDTO> getTimelineByAdventureID(@PathVariable UUID id) throws Exception {
+    public List<TimelineDTO> getTimelineByAdventureID(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/getTimelineByAdventure/"+id, List.class);
@@ -37,7 +38,7 @@ public class MainControllerTimelineReroute {
     }
 
     @GetMapping("/deleteTimelineByAdventureID/{id}")
-    public String deleteTimelineByAdventureID(@PathVariable UUID id) throws Exception {
+    public String deleteTimelineByAdventureID(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/deleteTimelineByAdventureID/"+id, String.class);
