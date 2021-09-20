@@ -71,14 +71,10 @@ public class MediaServiceImplementation implements MediaService{
         jsonObject.put("token_uri",tokenUri);
         jsonObject.put("auth_provider_x509_cert_url",authProvider);
         jsonObject.put("client_x509_cert_url",clientx509);
-
-        try{
-            FileWriter file = new FileWriter("media.json");
+        try (FileWriter file = new FileWriter("media.json")) {
             file.write(jsonObject.toJSONString());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            file.close();
         }
 
 
@@ -105,13 +101,10 @@ public class MediaServiceImplementation implements MediaService{
         Blob blob = storage.get(BlobId.of(bucketName, file.toString()));
         ReadChannel reader = blob.reader();
         byte[] content = null;
-        try {
-            InputStream inputStream = Channels.newInputStream(reader);
+        try (InputStream inputStream = Channels.newInputStream(reader)) {
             content = inputStream.readAllBytes();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            inputStream.close();
         }
 
         return new MediaResponseDTO(content,headers);
@@ -132,13 +125,10 @@ public class MediaServiceImplementation implements MediaService{
         Blob blob = storage.get(BlobId.of(bucketName, file.toString()));
         ReadChannel reader = blob.reader();
         byte[] content = null;
-        try {
-            InputStream inputStream = Channels.newInputStream(reader);
+        try (InputStream inputStream = Channels.newInputStream(reader)) {
             content = inputStream.readAllBytes();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            inputStream.close();
         }
 
 
@@ -160,13 +150,10 @@ public class MediaServiceImplementation implements MediaService{
         Blob blob = storage.get(BlobId.of(bucketName, file.toString()));
         ReadChannel reader = blob.reader();
         byte[] content = null;
-        try {
-            InputStream inputStream = Channels.newInputStream(reader);
+        try (InputStream inputStream = Channels.newInputStream(reader)) {
             content = inputStream.readAllBytes();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            inputStream.close();
         }
 
         return new MediaResponseDTO(content,headers);
