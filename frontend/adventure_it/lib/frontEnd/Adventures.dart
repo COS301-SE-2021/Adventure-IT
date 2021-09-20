@@ -47,8 +47,7 @@ class HomePage_Pages_Adventures extends StatelessWidget {
               child: AdventureList()
               ),
               SizedBox(height: MediaQuery.of(context).size.height / 60),
-              Expanded(
-                  flex: 1,
+              Container(
                   child: Align(
                     alignment: FractionalOffset.bottomCenter,
                     child: Container(
