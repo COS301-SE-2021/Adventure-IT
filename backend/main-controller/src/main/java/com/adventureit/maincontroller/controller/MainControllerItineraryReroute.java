@@ -70,6 +70,9 @@ public class MainControllerItineraryReroute {
         UUID adventureId = itinerary.getAdventureID();
         try {
             AdventureDTO adventureResponse = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/getAdventureByUUID/" + adventureId, GetAdventureByUUIDResponse.class).getAdventure();
+            if(adventureResponse == null){
+                throw new NullPointerException("Adventure is null");
+            }
             LocalDateTime timestamp = LocalDateTime.parse(req.getTimestamp());
             if((timestamp.toLocalDate().compareTo(adventureResponse.getEndDate()) > 0) || (timestamp.toLocalDate().compareTo(adventureResponse.getStartDate()) < 0)){
                 throw new InvalidItineraryEntryException("Itinerary Entry does not fit within Adventure");
