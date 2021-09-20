@@ -5,11 +5,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class MainControllerServiceImplementation {
     private static final String FUNCTIONAL_CONTROLLER = "Controller is functional";
     private static final String NOT_OK = "Not OK";
+
+    Logger logger;
 
     public String pingControllers(String[] ports, RestTemplate temp){
         String internetPort = "http://localhost";
@@ -26,7 +30,7 @@ public class MainControllerServiceImplementation {
                         return NOT_OK;
                     }
                 }catch(Exception e){
-                    System.out.println("Adventure Service is not running");
+                    logger.log(Level.WARNING, "Adventure Service is not running");
                     return NOT_OK;
                 }
 
@@ -40,7 +44,7 @@ public class MainControllerServiceImplementation {
                         return NOT_OK;
                     }
                 }catch(Exception e){
-                    System.out.println("User Service is not running");
+                    logger.log(Level.WARNING,"User Service is not running");
                     return NOT_OK;
                 }
             } else if (port.equals("9004")) {
@@ -53,7 +57,7 @@ public class MainControllerServiceImplementation {
                         return NOT_OK;
                     }
                 }catch(Exception e){
-                    System.out.println("Notification Service is not running");
+                    logger.log(Level.WARNING, "Notification Service is not running");
                     return NOT_OK;
                 }
             } else if (port.equals("9005")) {
@@ -66,7 +70,7 @@ public class MainControllerServiceImplementation {
                         return NOT_OK;
                     }
                 }catch(Exception e){
-                    System.out.println("Media Service is not running");
+                    logger.log(Level.WARNING, "Media Service is not running");
                     return NOT_OK;
                 }
             } else if (port.equals("9006")) {
@@ -79,7 +83,7 @@ public class MainControllerServiceImplementation {
                         return NOT_OK;
                     }
                 }catch(Exception e){
-                    System.out.println("Location Service is not running");
+                    logger.log(Level.WARNING, "Location Service is not running");
                     return NOT_OK;
                 }
             } else if (port.equals("9007")) {
@@ -92,7 +96,7 @@ public class MainControllerServiceImplementation {
                         return NOT_OK;
                     }
                 }catch(Exception e){
-                    System.out.println("Budget Service is not running");
+                    logger.log(Level.WARNING, "Budget Service is not running");
                     return NOT_OK;
                 }
             } else if (port.equals("9008")) {
@@ -105,7 +109,7 @@ public class MainControllerServiceImplementation {
                         return NOT_OK;
                     }
                 }catch(Exception e){
-                    System.out.println("Checklist Service is not running");
+                    logger.log(Level.WARNING, "Checklist Service is not running");
                     return NOT_OK;
                 }
             } else if (port.equals("9009")) {
@@ -118,7 +122,7 @@ public class MainControllerServiceImplementation {
                         return NOT_OK;
                     }
                 }catch(Exception e){
-                    System.out.println("Itinerary Service is not running");
+                    logger.log(Level.WARNING, "Itinerary Service is not running");
                     return NOT_OK;
                 }
             } else if (port.equals("9010")) {
@@ -131,7 +135,7 @@ public class MainControllerServiceImplementation {
                         return NOT_OK;
                     }
                 }catch(Exception e){
-                    System.out.println("Chat Service is not running");
+                    logger.log(Level.WARNING, "Chat Service is not running");
                     return NOT_OK;
                 }
             } else if (port.equals("9012")) {
@@ -144,7 +148,7 @@ public class MainControllerServiceImplementation {
                         return NOT_OK;
                     }
                 }catch(Exception e){
-                    System.out.println("Timeline Service is not running");
+                    logger.log(Level.WARNING, "Timeline Service is not running");
                     return NOT_OK;
                 }
             }
