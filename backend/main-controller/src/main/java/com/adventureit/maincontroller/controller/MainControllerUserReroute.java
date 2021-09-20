@@ -56,6 +56,13 @@ public class MainControllerUserReroute {
        return restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/updatePicture/",req, String.class);
     }
 
+    @GetMapping(value = "viewPicture/{id}")
+    public String updatePicture(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {USER_PORT};
+        service.pingCheck(ports,restTemplate);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/viewPicture/" + id, String.class);
+    }
+
     @GetMapping(value="/confirmToken/{token}")
     public String confirmToken(@RequestParam("token") String token) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
@@ -191,6 +198,22 @@ public class MainControllerUserReroute {
         restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/addLikedLocation/"+ userID + "/" + locationID, String.class);
         restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/addLike/" + locationID, String.class);
     }
+
+    @GetMapping("getNotificationSettings/{userId}")
+    public boolean getNotificationSettings(@PathVariable UUID userId) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {USER_PORT, LOCATION_PORT};
+        service.pingCheck(ports,restTemplate);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getNotificationSettings/"+ userId, boolean.class);
+    }
+
+    @GetMapping("setNotificationSettings/{userId}")
+    public void setNotificationSettings(@PathVariable UUID userId) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {USER_PORT, LOCATION_PORT};
+        service.pingCheck(ports,restTemplate);
+        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/setNotificationSettings/"+ userId, String.class);
+    }
+
+
 
 }
 
