@@ -146,6 +146,7 @@ class GetFriends extends StatelessWidget {
         create: (context) =>
             FriendModel(UserApi.getInstance().getUserProfile()!.userID,context),
         child: Consumer<FriendModel>(builder: (context, friendModel, child) {
+          BuildContext c=context;
           if (friendModel.friends == null) {
             return Center(
                 child: CircularProgressIndicator(
@@ -268,7 +269,7 @@ class GetFriends extends StatelessWidget {
                                                     actions: <Widget>[
                                                       TextButton(
                                                           onPressed: (){
-                                                            Provider.of<FriendModel>(context, listen: false)
+                                                            Provider.of<FriendModel>(c, listen: false)
                                                                 .deleteFriend(
                                                                 UserApi.getInstance()
                                                                     .getUserProfile()!

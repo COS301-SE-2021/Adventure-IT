@@ -91,6 +91,8 @@ class BudgetApi {
     List<dynamic> categories = (jsonDecode(response.body) as List);
     List<int> intList = categories.map((s) => s as int).toList();
 
+    print(intList.elementAt(0).toString()+" "+intList.elementAt(1).toString()+" "+intList.elementAt(2).toString()+" ");
+
     return intList;
   }
 
@@ -142,7 +144,7 @@ class BudgetApi {
 
   static Future<http.Response> _getTotalOfExpenses(budgetID, userID) async {
     return http.get(Uri.http(
-        budgetApi, '/budget/calculateExpense/' + budgetID + "/" + userID));
+        mainApi, '/budget/calculateExpense/' + budgetID + "/" + userID));
   }
 
   static Future<List<BudgetEntry>> getEntries(Budget b,context) async {
