@@ -255,7 +255,9 @@ public class MainControllerItineraryReroute {
         assert user != null;
         if (user.getSettings().equals(true)){
             assert location != null;
-            SendEmailRequest req = new SendEmailRequest(user.getEmergencyEmail(),"Check-in confirmed",user.getFirstname()+" has checked into: "+location.getName()+".\n Use the link to see their location:\n http://maps.google.com/maps?q="+location.getFormattedAddress()+"&z=17\n \n \n \n From Adventure IT team");
+            String link = location.getFormattedAddress();
+            String refactoredLink = link.replace(" ","%20");
+            SendEmailRequest req = new SendEmailRequest(user.getEmergencyEmail(),"Check-in confirmed",user.getFirstname()+" has checked into: "+location.getName()+".\n Use the link to see their location:\n http://maps.google.com/maps?q="+refactoredLink+"&z=17\n \n \n \n From Adventure IT team");
             restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/sendemail/" ,req, String.class);
         }
     }
