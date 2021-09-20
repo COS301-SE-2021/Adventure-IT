@@ -27,6 +27,7 @@ public class MainControllerRecommendationReroute {
     private static final String INTERNET_PORT = "http://localhost";
     private static final String RECOMMENDATION_PORT = "9013";
     private static final String LOCATION_PORT = "9006";
+    private static final String ERROR = "Empty Error";
 
     @Autowired
     public MainControllerRecommendationReroute(MainControllerServiceImplementation service) {
@@ -38,7 +39,19 @@ public class MainControllerRecommendationReroute {
     public List<RecommendedLocationResponseDTO> getUserRecommendations(@PathVariable UUID userId, @PathVariable String numRecommendations, @PathVariable String location) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {RECOMMENDATION_PORT,LOCATION_PORT};
         service.pingCheck(ports, restTemplate);
-        String[][] locationUUIDs = restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/get/" + userId + "/" + numRecommendations + "/" + location, String[][].class);
+        String id = userId.toString();
+        if(id.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        String num = numRecommendations;
+        if(num.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        String loc = location;
+        if(loc.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        String[][] locationUUIDs = restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/get/" + UUID.fromString(id) + "/" + num + "/" + loc, String[][].class);
         List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
         for (int i = 0; i < Objects.requireNonNull(locationUUIDs).length; i++) {
             LocationResponseDTO locationObject = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getLocation/" + locationUUIDs[i][0], LocationResponseDTO.class);
@@ -67,7 +80,19 @@ public class MainControllerRecommendationReroute {
     public List<RecommendedLocationResponseDTO> getMostPopular(@PathVariable UUID userId, @PathVariable String numPopular,@PathVariable String location) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {RECOMMENDATION_PORT,LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
-        String[][] locationUUIDs = restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/get/popular/"+ userId+"/" +numPopular+"/"+location, String[][].class);
+        String id = userId.toString();
+        if(id.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        String num = numPopular;
+        if(num.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        String loc = location;
+        if(loc.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        String[][] locationUUIDs = restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/get/popular/"+ UUID.fromString(id)+"/" + num +"/"+loc, String[][].class);
         assert locationUUIDs != null;
         if(locationUUIDs[0].length == 0){
             return new ArrayList<>();
