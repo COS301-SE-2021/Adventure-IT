@@ -79,12 +79,12 @@ public class LocationServiceImplementation implements LocationService {
     @Transactional
     public ShortestPathResponseDTO shortestPath(UUID id, List<UUID> locations) throws IOException, JSONException {
         String string1 = "https://maps.googleapis.com/maps/api/directions/json?units=metric&origin=place_id:"  + locationRepository.findLocationById(id).getPlaceID() + "&destination=place_id:" + locationRepository.findLocationById(id).getPlaceID() + "&waypoints=optimize:true|place_id:";
-
+        StringBuilder bld = new StringBuilder();
         for (int i = 0; i < (locations.size() -1) ; i++){
-            string1 = string1 + locationRepository.findLocationById(locations.get(i)).getPlaceID() + "|place_id:";
+            bld.append(locationRepository.findLocationById(locations.get(i)).getPlaceID() + "|place_id:");
         }
 
-        string1 = string1 + locationRepository.findLocationById(locations.get(locations.size()-1)).getPlaceID() + "&key=" + apiKey;
+        string1 = bld + locationRepository.findLocationById(locations.get(locations.size()-1)).getPlaceID() + "&key=" + apiKey;
 
         JSONObject json = new JSONObject(makeConnection(string1));
 
@@ -274,12 +274,13 @@ public class LocationServiceImplementation implements LocationService {
                 jsonObject = array.getJSONObject(i);
                 if(location.getCountry().equals(jsonObject.get("long_name").toString())){
                     if(flags.getPlacesVisited().contains(jsonObject.get("short_name").toString())){
-                        break;
+
                     }
                     else{
                         flags.getPlacesVisited().add(jsonObject.get("short_name").toString());
-                        break;
+
                     }
+                    break;
                 }
             }
         }

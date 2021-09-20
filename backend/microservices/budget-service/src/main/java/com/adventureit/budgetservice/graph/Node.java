@@ -13,7 +13,7 @@ public class Node {
 
     public Node( String name) {
         this.name = name;
-        this.edges = new ArrayList<Edge>();
+        this.edges = new ArrayList<>();
     }
 
     public void addEdge(Edge e){
@@ -44,11 +44,11 @@ public class Node {
         this.name = name;
     }
 
-    public List getEdges() {
+    public List<Edge> getEdges() {
         return edges;
     }
 
-    public void setEdges(List edges) {
+    public void setEdges(List<Edge> edges) {
         this.edges = edges;
     }
 

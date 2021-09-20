@@ -5,57 +5,47 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e2d70d01-3ff2-4cc2-a958-68c42de5285f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/adventure-backend.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/adventure-backend.iws" beforeDir="false" afterPath="$PROJECT_DIR$/adventure-backend.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/adventure_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/adventure_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/budget_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/budget_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/chat_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/chat_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/checklist_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/checklist_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/friends_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/friends_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/itinerary_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/itinerary_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/location_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/location_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/media_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/media_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/registeredUser_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/registeredUser_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/timeline_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/timeline_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/user_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/Providers/user_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/adventureAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/adventureAPI.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/budgetAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/budgetAPI.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/chatAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/chatAPI.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/checklistAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/checklistAPI.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/itineraryAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/itineraryAPI.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/locationAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/locationAPI.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/mediaAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/mediaAPI.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/timelineAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/timelineAPI.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/userAPI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/api/userAPI.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/AdventureAttendees.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/AdventureAttendees.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/AdventurePage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/AdventurePage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/Adventures.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/Adventures.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/BudgetList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/BudgetList.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/BudgetPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/BudgetPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/BudgetTrash.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/BudgetTrash.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ChecklistPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ChecklistPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ChecklistsList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ChecklistsList.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ChecklistsTrash.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ChecklistsTrash.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/CreateAdventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/CreateAdventure.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/DirectChat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/DirectChat.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/DocumentList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/DocumentList.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/FileList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/FileList.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/FriendsPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/FriendsPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/GroupChat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/GroupChat.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItinerariesList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItinerariesList.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryTrash.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/ItineraryTrash.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/Login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/Login.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/MediaList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/MediaList.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/Profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/Profile.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/TimelinePage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/frontEnd/TimelinePage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/adventure_it/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/adventure_it/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerAdventureReroute.java" beforeDir="false" afterPath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerAdventureReroute.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerMediaReroute.java" beforeDir="false" afterPath="$PROJECT_DIR$/main-controller/src/main/java/com/adventureit/maincontroller/controller/MainControllerMediaReroute.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sharedDTOs/src/main/java/com/adventureit/shareddtos/adventure/requests/CreateAdventureRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sharedDTOs/src/main/java/com/adventureit/shareddtos/adventure/requests/CreateAdventureRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sharedDTOs/src/main/java/com/adventureit/shareddtos/adventure/requests/EditAdventureRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sharedDTOs/src/main/java/com/adventureit/shareddtos/adventure/requests/EditAdventureRequest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DebuggerManager">
+    <line_breakpoints converted="true" />
+    <exception_breakpoints converted="true">
+      <breakpoint_any>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="SUSPEND_VM" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CONDITION" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="LOG_MESSAGE" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INVERSE_CLASS_FILLTERS" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+      </breakpoint_any>
+    </exception_breakpoints>
+    <field_breakpoints converted="true" />
+    <method_breakpoints converted="true" />
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="Sprint_Seven" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1y6NbNhtbIFEPjfddPTu1cruFzu" />
@@ -73,6 +63,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
@@ -83,9 +74,26 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.UserServiceApplication">
-    <configuration name="AdventureServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <component name="RunManager" selected="Spring Boot.AdventureServiceApplication">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AdventureServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="adventure-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.adventureservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.adventureservice.AdventureServiceApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="SHORTEN_COMMAND_LINE" value="NONE" />
@@ -93,15 +101,21 @@
         <param>
           <option name="enabled" value="true" />
           <option name="name" value="spring.config.import" />
-          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\environment_files\backend-environment-production.yml" />
+          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\backendtest-environment\backend&amp;test-environment.yml" />
         </param>
       </additionalParameters>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BudgetServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="BudgetServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="budget-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.budgetservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.budgetservice.BudgetServiceApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="SHORTEN_COMMAND_LINE" value="NONE" />
@@ -109,15 +123,21 @@
         <param>
           <option name="enabled" value="true" />
           <option name="name" value="spring.config.import" />
-          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\environment_files\backend-environment-production.yml" />
+          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\backendtest-environment\backend&amp;test-environment.yml" />
         </param>
       </additionalParameters>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ChatServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="ChatServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="chat-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.chat.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.chat.ChatServiceApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="SHORTEN_COMMAND_LINE" value="NONE" />
@@ -125,15 +145,21 @@
         <param>
           <option name="enabled" value="true" />
           <option name="name" value="spring.config.import" />
-          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\environment_files\backend-environment-production.yml" />
+          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\backendtest-environment\backend&amp;test-environment.yml" />
         </param>
       </additionalParameters>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ChecklistServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="ChecklistServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="checklist-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.checklist.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.checklist.ChecklistServiceApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="SHORTEN_COMMAND_LINE" value="NONE" />
@@ -141,15 +167,21 @@
         <param>
           <option name="enabled" value="true" />
           <option name="name" value="spring.config.import" />
-          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\environment_files\backend-environment-production.yml" />
+          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\backendtest-environment\backend&amp;test-environment.yml" />
         </param>
       </additionalParameters>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ItineraryServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="ItineraryServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="itinerary-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.itinerary.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.itinerary.ItineraryServiceApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="SHORTEN_COMMAND_LINE" value="NONE" />
@@ -157,15 +189,21 @@
         <param>
           <option name="enabled" value="true" />
           <option name="name" value="spring.config.import" />
-          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\environment_files\backend-environment-production.yml" />
+          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\backendtest-environment\backend&amp;test-environment.yml" />
         </param>
       </additionalParameters>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LocationServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="LocationServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="location-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.locationservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.locationservice.LocationServiceApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="SHORTEN_COMMAND_LINE" value="NONE" />
@@ -173,15 +211,21 @@
         <param>
           <option name="enabled" value="true" />
           <option name="name" value="spring.config.import" />
-          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\environment_files\backend-environment-production.yml" />
+          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\backendtest-environment\backend&amp;test-environment.yml" />
         </param>
       </additionalParameters>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MainControllerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="MainControllerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="main-controller" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.maincontroller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.maincontroller.MainControllerApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="SHORTEN_COMMAND_LINE" value="NONE" />
@@ -189,15 +233,21 @@
         <param>
           <option name="enabled" value="true" />
           <option name="name" value="spring.config.import" />
-          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\environment_files\backend-environment-production.yml" />
+          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\backendtest-environment\backend&amp;test-environment.yml" />
         </param>
       </additionalParameters>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MediaServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="MediaServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="media-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.mediaservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.mediaservice.MediaServiceApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="SHORTEN_COMMAND_LINE" value="NONE" />
@@ -205,15 +255,21 @@
         <param>
           <option name="enabled" value="true" />
           <option name="name" value="spring.config.import" />
-          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\environment_files\backend-environment-production.yml" />
+          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\backendtest-environment\backend&amp;test-environment.yml" />
         </param>
       </additionalParameters>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NotificationServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="NotificationServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="notification-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.notificationservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.notificationservice.NotificationServiceApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="SHORTEN_COMMAND_LINE" value="NONE" />
@@ -221,15 +277,21 @@
         <param>
           <option name="enabled" value="true" />
           <option name="name" value="spring.config.import" />
-          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\environment_files\backend-environment-production.yml" />
+          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\backendtest-environment\backend&amp;test-environment.yml" />
         </param>
       </additionalParameters>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RecommendationServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="RecommendationServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="recommendation-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.recommendationservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.recommendationservice.RecommendationServiceApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="SHORTEN_COMMAND_LINE" value="NONE" />
@@ -237,47 +299,21 @@
         <param>
           <option name="enabled" value="true" />
           <option name="name" value="spring.config.import" />
-          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\environment_files\backend-environment-production.yml" />
+          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\backendtest-environment\backend&amp;test-environment.yml" />
         </param>
       </additionalParameters>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServiceRegistryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="service-registry" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.serviceregistry.ServiceRegistryApplication" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="SHORTEN_COMMAND_LINE" value="NONE" />
-      <additionalParameters>
-        <param>
-          <option name="enabled" value="true" />
-          <option name="name" value="spring.config.import" />
-          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\environment_files\backend-environment-production.yml" />
-        </param>
-      </additionalParameters>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SharedDtOsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="sharedDTOs" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.shareddtos.SharedDtOsApplication" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="SHORTEN_COMMAND_LINE" value="NONE" />
-      <additionalParameters>
-        <param>
-          <option name="enabled" value="true" />
-          <option name="name" value="spring.config.import" />
-          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\environment_files\backend-environment-production.yml" />
-        </param>
-      </additionalParameters>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TimelineServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="TimelineServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="timeline-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.timelineservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.timelineservice.TimelineServiceApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="SHORTEN_COMMAND_LINE" value="NONE" />
@@ -285,15 +321,21 @@
         <param>
           <option name="enabled" value="true" />
           <option name="name" value="spring.config.import" />
-          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\environment_files\backend-environment-production.yml" />
+          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\backendtest-environment\backend&amp;test-environment.yml" />
         </param>
       </additionalParameters>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="UserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="user-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adventureit.userservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.adventureit.userservice.UserServiceApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="SHORTEN_COMMAND_LINE" value="NONE" />
@@ -301,7 +343,7 @@
         <param>
           <option name="enabled" value="true" />
           <option name="name" value="spring.config.import" />
-          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\environment_files\backend-environment-production.yml" />
+          <option name="value" value="C:\Users\Ashton\Documents\School\Year3\COS301\backendtest-environment\backend&amp;test-environment.yml" />
         </param>
       </additionalParameters>
       <method v="2">
@@ -309,21 +351,28 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Spring Boot.MainControllerApplication" />
       <item itemvalue="Spring Boot.AdventureServiceApplication" />
       <item itemvalue="Spring Boot.BudgetServiceApplication" />
       <item itemvalue="Spring Boot.ChatServiceApplication" />
       <item itemvalue="Spring Boot.ChecklistServiceApplication" />
       <item itemvalue="Spring Boot.ItineraryServiceApplication" />
       <item itemvalue="Spring Boot.LocationServiceApplication" />
-      <item itemvalue="Spring Boot.MainControllerApplication" />
       <item itemvalue="Spring Boot.MediaServiceApplication" />
       <item itemvalue="Spring Boot.NotificationServiceApplication" />
       <item itemvalue="Spring Boot.RecommendationServiceApplication" />
-      <item itemvalue="Spring Boot.ServiceRegistryApplication" />
-      <item itemvalue="Spring Boot.SharedDtOsApplication" />
       <item itemvalue="Spring Boot.TimelineServiceApplication" />
       <item itemvalue="Spring Boot.UserServiceApplication" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.ChecklistServiceApplication" />
+        <item itemvalue="Spring Boot.ChatServiceApplication" />
+        <item itemvalue="Spring Boot.BudgetServiceApplication" />
+        <item itemvalue="Spring Boot.LocationServiceApplication" />
+        <item itemvalue="Spring Boot.ItineraryServiceApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -336,10 +385,78 @@
       <workItem from="1631556730637" duration="2122000" />
       <workItem from="1631568214173" duration="8167000" />
       <workItem from="1631614308696" duration="624000" />
+      <workItem from="1632046561583" duration="21442000" />
+      <workItem from="1632128518714" duration="869000" />
+      <workItem from="1632129458371" duration="1333000" />
+      <workItem from="1632130836242" duration="10167000" />
+      <workItem from="1632143403303" duration="1001000" />
+      <workItem from="1632145925571" duration="162000" />
+      <workItem from="1632146129666" duration="8760000" />
     </task>
+    <task id="LOCAL-00001" summary="Optimisation of groupchat message getting">
+      <created>1631987604534</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1631987604534</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Group chat optimisation to the best of my knowledge">
+      <created>1631988549844</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1631988549844</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Group chat optimisation to the best of my knowledge">
+      <created>1631990327606</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1631990327606</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Chat model recieves notifications when message sent">
+      <created>1632066480660</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1632066480660</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Settings spacing completed">
+      <created>1632088435427</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1632088435427</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Main controller itinerary location creation works">
+      <created>1632099485040</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1632099485040</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Optimisation of groupchat message getting" />
+    <MESSAGE value="Group chat optimisation to the best of my knowledge" />
+    <MESSAGE value="Chat model recieves notifications when message sent" />
+    <MESSAGE value="Settings spacing completed" />
+    <MESSAGE value="Main controller itinerary location creation works" />
+    <option name="LAST_COMMIT_MESSAGE" value="Main controller itinerary location creation works" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="org.springframework.web.client.HttpClientErrorException$NotFound" package="org.springframework.web.client" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
