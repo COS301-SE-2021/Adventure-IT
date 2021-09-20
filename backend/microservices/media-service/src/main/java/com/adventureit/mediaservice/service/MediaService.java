@@ -17,4 +17,7 @@ public interface MediaService {
     public void deleteMedia(UUID id,UUID userID);
     public void deleteFile(UUID id,UUID userID);
     public void deleteDocument(UUID id,UUID userID);
+//    public long getMediaSize(UUID id);
+//    public long getFileSize(UUID id);
+//    public long getDocumentSize(UUID id)
 }

@@ -256,4 +256,26 @@ public class MediaServiceImplementation implements MediaService{
         storage.get(BlobId.of(bucketName, id.toString())).delete();
         documentInfoRepository.delete(documentInfo);
     }
+
+//    @Override
+//    public long getMediaSize(UUID id) {
+//        return 0;
+//    }
+//
+//    @Override
+//    public long getFileSize(UUID id) {
+//
+//    }
+//
+//    @Override
+//    public long getDocumentSize(UUID id) {
+//        DocumentInfo documentInfo = documentInfoRepository.findDocumentInfoById(id);
+//        Storage storage = storageOptions.getService();
+//
+//        if(documentInfo == null){
+//            throw new NotFoundException("Get Document Size: Document does not exist");
+//        }
+//
+//
+//    }
 }

@@ -515,7 +515,7 @@ public class UserServiceImplementation  {
             throw new UserDoesNotExistException(userDoesNotExist);
         }
 
-        newUser.setStorageUsed(newUser.getStorageUsed()+size);
+        newUser.setStorageUsed(size);
         repo.save(newUser);
     }
 

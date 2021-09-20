@@ -92,7 +92,7 @@ public class MainControllerMediaReroute {
         if((storageUsed + file.getSize()) > limit){
             throw new StorageException(STORAGE_EXCEEDED);
         }
-        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + SET_STORAGE + userId + "/" + file.getSize(), String.class);
+        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + SET_STORAGE + userId + "/" + (file.getSize() + storageUsed), String.class);
 
         File convFile = convertFile(file);
         MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
@@ -117,7 +117,7 @@ public class MainControllerMediaReroute {
         if((storageUsed + file.getSize()) > limit){
             throw new StorageException(STORAGE_EXCEEDED);
         }
-        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + SET_STORAGE + userId + "/" + file.getSize(), String.class);
+        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + SET_STORAGE + userId + "/" + (file.getSize() + storageUsed), String.class);
 
         File convFile = convertFile(file);
         MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
@@ -142,7 +142,7 @@ public class MainControllerMediaReroute {
         if((storageUsed + file.getSize()) > limit){
             throw new StorageException(STORAGE_EXCEEDED);
         }
-        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + SET_STORAGE + userId + "/" + file.getSize(), String.class);
+        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + SET_STORAGE + userId + "/" + (file.getSize() + storageUsed), String.class);
 
         File convFile = convertFile(file);
         MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
@@ -154,13 +154,15 @@ public class MainControllerMediaReroute {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(bodyMap, headers);
         restTemplate = new RestTemplate();
 
-        HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/uploadDocument/",requestEntity,HttpStatus.class);
+        HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/uploadDocument/",requestEntity,HttpStatus.class);
         convFile.delete();
         return status;
     }
 
     @GetMapping("/deleteMedia/{id}/{userID}")
     public void deleteMedia(@PathVariable UUID id,@PathVariable UUID userID){
+        long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userID, long.class);
+
         restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/deleteMedia/"+id+"/"+userID,String.class);
     }
 

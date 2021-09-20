@@ -19,10 +19,7 @@ import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/chat")
@@ -86,7 +83,7 @@ public class MainControllerChatReroute {
         }
         else {
             GetUsersRequestDTO requestDTO = new GetUsersRequestDTO(usersIds);
-            users = restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUsers", requestDTO, List.class);
+            users = Arrays.asList(restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUsers", requestDTO, GetUserByUUIDDTO[].class));
         }
 
         for (MessageDTO message: chat.getMessages()) {
