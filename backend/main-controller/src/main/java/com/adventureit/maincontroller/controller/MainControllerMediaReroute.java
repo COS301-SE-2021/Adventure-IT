@@ -41,18 +41,21 @@ public class MainControllerMediaReroute {
     @GetMapping(value = "/mediaUploaded/{file}")
     public ResponseEntity<byte[]> testMediaUploaded(@PathVariable UUID file) {
         MediaResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/mediaUploaded/" +file, MediaResponseDTO.class);
+        assert responseDTO != null;
         return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/fileUploaded/{file}")
     public ResponseEntity<byte[]> testFileUploaded(@PathVariable UUID file) {
         MediaResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/fileUploaded/"+file, MediaResponseDTO.class);
+        assert responseDTO != null;
         return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/documentUploaded/{file}")
     public ResponseEntity<byte[]> testDocumentUploaded(@PathVariable UUID file) {
         MediaResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/documentUploaded/"+file, MediaResponseDTO.class);
+        assert responseDTO != null;
         return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
     }
 
