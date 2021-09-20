@@ -8,7 +8,6 @@ import com.adventureit.shareddtos.media.responses.DocumentInfoDTO;
 import com.adventureit.shareddtos.media.responses.FileInfoDTO;
 import com.adventureit.shareddtos.media.responses.MediaInfoDTO;
 import com.adventureit.shareddtos.media.responses.MediaResponseDTO;
-import lombok.SneakyThrows;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;

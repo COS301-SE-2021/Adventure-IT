@@ -234,7 +234,7 @@ public class MainControllerItineraryReroute {
 
     @GetMapping("/checkUserOff/{userID}/{entryID}")
     public void checkUserOff(@PathVariable UUID userID,@PathVariable UUID entryID) throws ControllerNotAvailable, InterruptedException {
-        String[] ports = {ITINERARY_PORT, LOCATION_PORT, RECOMMENDATION_PORT};
+        String[] ports = {ITINERARY_PORT, LOCATION_PORT, RECOMMENDATION_PORT,NOTIFICATION_PORT};
         service.pingCheck(ports,restTemplate);
         ItineraryEntryResponseDTO entry = restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/getItineraryEntry/"+ entryID, ItineraryEntryResponseDTO.class);
         assert entry != null;
