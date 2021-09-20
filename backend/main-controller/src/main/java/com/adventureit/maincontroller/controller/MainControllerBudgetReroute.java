@@ -74,9 +74,16 @@ public class MainControllerBudgetReroute {
         String[] ports = {BUDGET_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.postForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/editBudget/", req, String.class);
-        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + req.getUserId(), GetUserByUUIDDTO.class);
-        UUID budgetID = req.getBudgetID();
-        assert budgetID != null;
+        String uid = req.getUserId().toString();
+        if(uid.equals("")) {
+            throw new ControllerNotAvailable("Empty Error");
+        }
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + UUID.fromString(uid), GetUserByUUIDDTO.class);
+        String bid = req.getBudgetID().toString();
+        if(bid.equals("")) {
+            throw new ControllerNotAvailable("Empty Error");
+        }
+        UUID budgetID = UUID.fromString(bid);
         BudgetResponseDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + CREATE_BUDGET +budgetID, BudgetResponseDTO.class);
         assert response != null;
         UUID adventureId = response.getAdventureID();
@@ -141,12 +148,20 @@ public class MainControllerBudgetReroute {
     public String addUTOExpense(@RequestBody AddUTOExpenseEntryRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {BUDGET_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
+        String ecid = req.getEntryContainerID().toString();
+        if(ecid.equals("")) {
+            throw new ControllerNotAvailable("Empty Error");
+        }
         String returnString = restTemplate.postForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/addUTOExpense/", req, String.class);
-        BudgetResponseDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + CREATE_BUDGET +req.getEntryContainerID(), BudgetResponseDTO.class);
+        BudgetResponseDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + CREATE_BUDGET + UUID.fromString(ecid), BudgetResponseDTO.class);
         assert response != null;
         UUID adventureId =response.getAdventureID();
         String name = response.getName();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,req.getPayer()+" added a new entry to the "+name+BUDGET_M );
+        String pay = req.getPayer();
+        if(pay.equals("")) {
+            throw new ControllerNotAvailable("Empty Error");
+        }
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,pay +" added a new entry to the "+name+BUDGET_M );
         restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return returnString;
     }
@@ -155,12 +170,20 @@ public class MainControllerBudgetReroute {
     public String addUTUExpense(@RequestBody AddUTUExpenseEntryRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {BUDGET_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
+        String ecid = req.getEntryContainerID().toString();
+        if(ecid.equals("")) {
+            throw new ControllerNotAvailable("Empty Error");
+        }
         String returnString = restTemplate.postForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/addUTUExpense/", req, String.class);
-        BudgetResponseDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + CREATE_BUDGET +req.getEntryContainerID(), BudgetResponseDTO.class);
+        BudgetResponseDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + CREATE_BUDGET + UUID.fromString(ecid), BudgetResponseDTO.class);
         assert response != null;
         UUID adventureId =response.getAdventureID();
         String name = response.getName();
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,req.getPayer()+" added a new entry to the "+name+BUDGET_M );
+        String pay = req.getPayer();
+        if(pay.equals("")) {
+            throw new ControllerNotAvailable("Empty Error");
+        }
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.BUDGET,pay +" added a new entry to the "+name+BUDGET_M );
         restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return returnString;
     }
@@ -170,7 +193,15 @@ public class MainControllerBudgetReroute {
     public double calculateExpense(@PathVariable UUID budgetID, @PathVariable String userName) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {BUDGET_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/calculateExpense/"+budgetID+"/"+userName, double.class);
+        String bid = budgetID.toString();
+        if(bid.equals("")) {
+            throw new ControllerNotAvailable("Empty Error");
+        }
+        String uName = userName;
+        if(uName.equals("")) {
+            throw new ControllerNotAvailable("Empty Error");
+        }
+        return restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/calculateExpense/"+ UUID.fromString(bid) +"/"+uName, double.class);
     }
 
     @GetMapping("/getEntriesPerCategory/{id}")
@@ -191,7 +222,15 @@ public class MainControllerBudgetReroute {
     public List<ReportResponseDTO> generateIndividualReport(@PathVariable UUID id, @PathVariable String userName) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {BUDGET_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/generateIndividualReport/"+id+"/"+userName, List.class);
+        String iD = id.toString();
+        if(iD.equals("")) {
+            throw new ControllerNotAvailable("Empty Error");
+        }
+        String uName = userName;
+        if(uName.equals("")) {
+            throw new ControllerNotAvailable("Empty Error");
+        }
+        return restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/generateIndividualReport/"+ UUID.fromString(iD) +"/"+ uName, List.class);
     }
 
     @GetMapping("/getBudgetByBudgetId/{id}")
