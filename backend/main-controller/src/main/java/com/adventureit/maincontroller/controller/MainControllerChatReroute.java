@@ -34,6 +34,7 @@ public class MainControllerChatReroute {
     private static final String ADVENTURE_PORT ="9001";
     private static final String NOTIFICATION_PORT ="9004";
     private static final String GET_USER = "/user/getUser/";
+    private static final String ERROR = "Empty Error";
 
     public MainControllerChatReroute(MainControllerServiceImplementation service) {
         this.service = service;
@@ -116,7 +117,19 @@ public class MainControllerChatReroute {
     public String sendGroupMessage(@RequestBody SendGroupMessageRequestDTO request) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT};
         service.pingCheck(ports,restTemplate);
-        SendGroupMessageRequestDTO req = new SendGroupMessageRequestDTO(request.getChatID(),request.getSender(),request.getMsg());
+        String cid = request.getChatID().toString();
+        if(cid.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        String send = request.getSender().toString();
+        if(send.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        String msg = request.getMsg();
+        if(msg.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        SendGroupMessageRequestDTO req = new SendGroupMessageRequestDTO(UUID.fromString(cid),UUID.fromString(send), msg);
 
         // Get associated chat
         GroupChatResponseDTO chat = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getGroupChat/" + req.getChatID(), GroupChatResponseDTO.class);
@@ -141,10 +154,17 @@ public class MainControllerChatReroute {
     public String sendDirectMessage(@RequestBody SendDirectMessageRequestDTO request) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {CHAT_PORT};
         service.pingCheck(ports,restTemplate);
-
-        GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + request.getSender(), GetUserByUUIDDTO.class);
+        String send = request.getSender().toString();
+        if(send.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        String rec = request.getReceiver().toString();
+        if(rec.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + UUID.fromString(send), GetUserByUUIDDTO.class);
         assert user != null;
-        SendFirebaseNotificationRequest notifReq = new SendFirebaseNotificationRequest(request.getReceiver(), "New direct message", "From: "+user.getUsername(), null);
+        SendFirebaseNotificationRequest notifReq = new SendFirebaseNotificationRequest(UUID.fromString(rec), "New direct message", "From: "+user.getUsername(), null);
         restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/sendFirebaseNotification",notifReq, String.class);
         return restTemplate.postForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/sendDirectMessage", request,String.class);
     }

@@ -37,6 +37,7 @@ public class MainControllerAdventureReroute {
     private static final String LOCATION_PORT = "9006";
     private static final String GET_USER = "/user/getUser/";
     private static final String CREATE_TIMELINE = "/timeline/createTimeline";
+    private static final String ERROR = "Empty Error";
 
     @Autowired
     public MainControllerAdventureReroute(MainControllerServiceImplementation service) {
@@ -72,7 +73,7 @@ public class MainControllerAdventureReroute {
         service.pingCheck(ports,restTemplate);
         String location = req.getLocation();
         if(location.equals("")) {
-            throw new ControllerNotAvailable("Empty Error");
+            throw new ControllerNotAvailable(ERROR);
         }
         UUID locationId = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/"+location,UUID.class);
         CreateAdventureResponse response = restTemplate.postForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/create/",req, CreateAdventureResponse.class);
@@ -166,11 +167,11 @@ public class MainControllerAdventureReroute {
         service.pingCheck(ports,restTemplate);
         String uid = req.getUserId().toString();
         if(uid.equals("")) {
-            throw new ControllerNotAvailable("Empty Error");
+            throw new ControllerNotAvailable(ERROR);
         }
         String aid = req.getAdventureId().toString();
         if(aid.equals("")) {
-            throw new ControllerNotAvailable("Empty Error");
+            throw new ControllerNotAvailable(ERROR);
         }
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + UUID.fromString(uid), GetUserByUUIDDTO.class);
         assert user != null;
