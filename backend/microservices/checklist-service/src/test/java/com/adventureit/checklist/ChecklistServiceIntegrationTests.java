@@ -51,6 +51,8 @@ class ChecklistServiceIntegrationTests {
     void httpViewByAdventure_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
+        Assertions.assertNotNull(id);
+        Assertions.assertNotNull(adventureID);
         Checklist checklist = new Checklist("Test Checklist","Mock",id,UUID.randomUUID(),adventureID);
         checklistRepository.saveAndFlush(checklist);
         this.restTemplate.getForObject("http://localhost:" + port + "/checklist/viewChecklistsByAdventure/{id}", List.class, id);
@@ -85,6 +87,9 @@ class ChecklistServiceIntegrationTests {
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
+        Assertions.assertNotNull(id);
+        Assertions.assertNotNull(adventureID);
+        Assertions.assertNotNull(ownerID);
         Checklist checklist = new Checklist("Test Checklist","Mock",id,ownerID,adventureID);
         checklist.setDeleted(true);
         checklistRepository.saveAndFlush(checklist);
@@ -118,6 +123,8 @@ class ChecklistServiceIntegrationTests {
     void httpMarkEntry_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID checklistID = UUID.randomUUID();
+        Assertions.assertNotNull(id);
+        Assertions.assertNotNull(checklistID);
         ChecklistEntry entry = new ChecklistEntry("Mock",id,checklistID);
         checklistEntryRepository.saveAndFlush(entry);
         this.restTemplate.getForObject("http://localhost:" + port + "/checklist/markEntry/{id}", String.class, id);
@@ -129,6 +136,9 @@ class ChecklistServiceIntegrationTests {
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
+        Assertions.assertNotNull(id);
+        Assertions.assertNotNull(adventureID);
+        Assertions.assertNotNull(ownerID);
         Checklist checklist = new Checklist("Test Checklist","Mock",id,ownerID,adventureID);
         checklistRepository.saveAndFlush(checklist);
         this.restTemplate.getForObject("http://localhost:" + port + "/checklist/getChecklist/{id}", String.class, id);
