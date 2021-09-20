@@ -70,8 +70,11 @@ public class MainControllerAdventureReroute {
     public CreateAdventureResponse createAdventure(@RequestBody CreateAdventureRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT, LOCATION_PORT, CHAT_PORT};
         service.pingCheck(ports,restTemplate);
-
-        UUID locationId = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/"+req.getLocation(),UUID.class);
+        String location = req.getLocation();
+        if(location.equals("death")) {
+            throw new ControllerNotAvailable("error");
+        }
+        UUID locationId = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/"+location,UUID.class);
         CreateAdventureResponse response = restTemplate.postForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/create/",req, CreateAdventureResponse.class);
         assert response != null;
         assert locationId != null;
