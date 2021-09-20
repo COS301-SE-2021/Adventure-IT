@@ -1,11 +1,14 @@
 package com.adventureit.maincontroller.controller;
 
 
+import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.exceptions.StorageException;
+import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.media.responses.DocumentInfoDTO;
 import com.adventureit.shareddtos.media.responses.FileInfoDTO;
 import com.adventureit.shareddtos.media.responses.MediaInfoDTO;
 import com.adventureit.shareddtos.media.responses.MediaResponseDTO;
+import lombok.SneakyThrows;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -30,7 +33,7 @@ import java.util.logging.Logger;
 public class MainControllerMediaReroute {
 
     private RestTemplate restTemplate = new RestTemplate();
-
+    private MainControllerServiceImplementation service;
     private static final String INTERNET_PORT = "http://localhost";
     private static final String MEDIA_PORT = "9005";
     private static final String USER_PORT = "9002";
@@ -45,54 +48,76 @@ public class MainControllerMediaReroute {
         return "Media Controller is functional";
     }
 
+    public MainControllerMediaReroute(MainControllerServiceImplementation service) {
+        this.service = service;
+    }
+
     @GetMapping(value = "/mediaUploaded/{file}")
-    public ResponseEntity<byte[]> testMediaUploaded(@PathVariable UUID file) {
+    public ResponseEntity<byte[]> testMediaUploaded(@PathVariable UUID file) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {MEDIA_PORT};
+        service.pingCheck(ports,restTemplate);
         MediaResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/mediaUploaded/" +file, MediaResponseDTO.class);
         assert responseDTO != null;
         return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/fileUploaded/{file}")
-    public ResponseEntity<byte[]> testFileUploaded(@PathVariable UUID file) {
+    public ResponseEntity<byte[]> testFileUploaded(@PathVariable UUID file) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {MEDIA_PORT};
+        service.pingCheck(ports,restTemplate);
         MediaResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/fileUploaded/"+file, MediaResponseDTO.class);
         assert responseDTO != null;
         return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/documentUploaded/{file}")
-    public ResponseEntity<byte[]> testDocumentUploaded(@PathVariable UUID file) {
+    public ResponseEntity<byte[]> testDocumentUploaded(@PathVariable UUID file) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {MEDIA_PORT};
+        service.pingCheck(ports,restTemplate);
         MediaResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/documentUploaded/"+file, MediaResponseDTO.class);
         assert responseDTO != null;
         return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/getUserMediaList/{id}")
-    public List<MediaInfoDTO> getUserMediaList(@PathVariable UUID id){
+    public List<MediaInfoDTO> getUserMediaList(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {MEDIA_PORT};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/getUserMediaList/"+id, List.class);
     }
 
     @GetMapping(value = "/getUserFileList/{id}")
-    public List<FileInfoDTO> getUserFileList(@PathVariable UUID id){
+    public List<FileInfoDTO> getUserFileList(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {MEDIA_PORT};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/getUserFileList/"+id, List.class);
     }
 
     @GetMapping(value = "/getUserDocumentList/{id}")
-    public List<DocumentInfoDTO> getUserDocumentList(@PathVariable UUID id){
+    public List<DocumentInfoDTO> getUserDocumentList(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {MEDIA_PORT};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/getUserDocumentList/"+id, List.class);
     }
 
     @GetMapping(value = "/getAdventureMediaList/{id}")
-    public List<MediaInfoDTO> getAdventureMediaList(@PathVariable UUID id){
+    public List<MediaInfoDTO> getAdventureMediaList(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {MEDIA_PORT};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/getAdventureMediaList/"+id, List.class);
     }
 
     @GetMapping(value = "/getAdventureFileList/{id}")
-    public List<FileInfoDTO> getAdventureFileList(@PathVariable UUID id){
+    public List<FileInfoDTO> getAdventureFileList(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {MEDIA_PORT};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/getAdventureFileList/"+id, List.class);
     }
 
     @PostMapping("/uploadMedia")
-    public HttpStatus uploadMedia(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId, @RequestParam("adventureid") UUID adventureId) throws IOException {
+    public HttpStatus uploadMedia(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId, @RequestParam("adventureid") UUID adventureId) throws IOException, ControllerNotAvailable, InterruptedException {
+        String[] ports = {MEDIA_PORT,USER_PORT};
+        service.pingCheck(ports,restTemplate);
         long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userId, long.class);
         long limit = 5000000000L;
         if((storageUsed + file.getSize()) > limit){
@@ -118,7 +143,9 @@ public class MainControllerMediaReroute {
     }
 
     @PostMapping("/uploadFile")
-    public HttpStatus uploadFile(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId, @RequestParam("adventureid") UUID adventureId) throws IOException {
+    public HttpStatus uploadFile(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId, @RequestParam("adventureid") UUID adventureId) throws IOException, ControllerNotAvailable, InterruptedException {
+        String[] ports = {MEDIA_PORT,USER_PORT};
+        service.pingCheck(ports,restTemplate);
         long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userId, long.class);
         long limit = 5000000000L;
         if((storageUsed + file.getSize()) > limit){
@@ -143,7 +170,9 @@ public class MainControllerMediaReroute {
     }
 
     @PostMapping("/uploadDocument")
-    public HttpStatus uploadDocument(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId) throws IOException {
+    public HttpStatus uploadDocument(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId) throws IOException, ControllerNotAvailable, InterruptedException {
+        String[] ports = {MEDIA_PORT,USER_PORT};
+        service.pingCheck(ports,restTemplate);
         long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userId, long.class);
         long limit = 5000000000L;
         if((storageUsed + file.getSize()) > limit){
@@ -167,7 +196,9 @@ public class MainControllerMediaReroute {
     }
 
     @GetMapping("/deleteMedia/{id}/{userID}")
-    public void deleteMedia(@PathVariable UUID id,@PathVariable UUID userID){
+    public void deleteMedia(@PathVariable UUID id,@PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {MEDIA_PORT,USER_PORT};
+        service.pingCheck(ports,restTemplate);
         long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userID, long.class);
         long mediaSize = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/getMediaSize/" + id, long.class);
         restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/deleteMedia/"+id+"/"+userID,String.class);
@@ -175,7 +206,9 @@ public class MainControllerMediaReroute {
     }
 
     @GetMapping("/deleteFile/{id}/{userID}")
-    public void deleteFile(@PathVariable UUID id,@PathVariable UUID userID){
+    public void deleteFile(@PathVariable UUID id,@PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {MEDIA_PORT,USER_PORT};
+        service.pingCheck(ports,restTemplate);
         long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userID, long.class);
         long mediaSize = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/getFileSize/" + id, long.class);
         restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/deleteFile/"+id+"/"+userID,String.class);
@@ -183,7 +216,9 @@ public class MainControllerMediaReroute {
     }
 
     @GetMapping("/deleteDocument/{id}/{userID}")
-    public void deleteDocument(@PathVariable UUID id,@PathVariable UUID userID){
+    public void deleteDocument(@PathVariable UUID id,@PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {MEDIA_PORT,USER_PORT};
+        service.pingCheck(ports,restTemplate);
         long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userID, long.class);
         long mediaSize = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/getDocumentSize/" + id, long.class);
         restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/deleteDocument/"+id+"/"+userID,String.class);

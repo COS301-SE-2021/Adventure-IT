@@ -49,12 +49,16 @@ public class MainControllerNotificationReroute {
     }
 
     @PostMapping("/sendFirebaseNotification")
-    public String sendFirebaseNotification(@RequestBody SendFirebaseNotificationRequest req){
+    public String sendFirebaseNotification(@RequestBody SendFirebaseNotificationRequest req) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {NOTIFICATION_PORT};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/sendFirebaseNotification/", req, String.class);
     }
 
     @PostMapping("/addFirebaseUser")
-    public String addFirebaseUser(@RequestBody FirebaseUserRequest req){
+    public String addFirebaseUser(@RequestBody FirebaseUserRequest req) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {NOTIFICATION_PORT};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/addFirebaseUser/", req, String.class);
     }
 

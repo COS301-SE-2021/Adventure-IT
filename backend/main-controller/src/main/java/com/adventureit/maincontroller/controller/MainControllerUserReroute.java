@@ -210,14 +210,18 @@ public class MainControllerUserReroute {
     }
 
     @GetMapping("viewPicture/{id}")
-    public ResponseEntity<byte[]> viewPicture(@PathVariable UUID id){
+    public ResponseEntity<byte[]> viewPicture(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {USER_PORT};
+        service.pingCheck(ports,restTemplate);
         MediaResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/viewPicture/" + id, MediaResponseDTO.class);
         assert responseDTO != null;
         return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(value = "getFriendProfiles/{id}")
-    public List<GetUserByUUIDDTO> getFriendProfiles(@PathVariable UUID id){
+    public List<GetUserByUUIDDTO> getFriendProfiles(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {USER_PORT};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getFriendProfiles/"+ id, List.class);
     }
 }
