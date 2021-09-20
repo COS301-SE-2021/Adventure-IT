@@ -19,7 +19,8 @@ class BudgetServiceUnitTests {
 
         private final BudgetRepository mockBudgetRepository = Mockito.mock(BudgetRepository.class);
         private final BudgetEntryRepository mockBudgetEntryRepository = Mockito.mock(BudgetEntryRepository.class);
-        private final BudgetServiceImplementation sut = new BudgetServiceImplementation(mockBudgetRepository,mockBudgetEntryRepository);
+        private final BudgetReportRepository reportRepo = Mockito.mock(BudgetReportRepository.class);
+        private final BudgetServiceImplementation sut = new BudgetServiceImplementation(mockBudgetRepository,mockBudgetEntryRepository, reportRepo);
 
         final UUID validBudgetID1 = UUID.randomUUID();
         final UUID validBudgetID2 = UUID.randomUUID();

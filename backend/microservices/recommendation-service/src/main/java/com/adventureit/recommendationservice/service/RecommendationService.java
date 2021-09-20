@@ -249,10 +249,7 @@ public class RecommendationService {
         {
             numPopular=locations.size();
         }
-        else if(locations.size()<numPopular)
-        {
-            numPopular=locations.size();
-        }
+
 
         // Find index of current user:
         int userIndex = -1;

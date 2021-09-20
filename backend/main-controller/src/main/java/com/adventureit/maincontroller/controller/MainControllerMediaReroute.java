@@ -33,6 +33,8 @@ public class MainControllerMediaReroute {
     private static final String SET_STORAGE = "/user/setStorageUsed/";
     private static final String USERID = "userid";
     private static final String GET_STORAGE = "/user/getStorageUsed/";
+    private static final String FILE_DELETED = "File has been deleted";
+    private static final Logger logger;
 
     @GetMapping("/test")
     public String test(){
@@ -106,7 +108,10 @@ public class MainControllerMediaReroute {
         restTemplate = new RestTemplate();
 
         HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/uploadMedia/",requestEntity, HttpStatus.class);
-        convFile.delete();
+        Boolean bool = convFile.delete();
+        if(bool){
+            logger.log(Level.WARNING, FILE_DELETED);
+        }
         return status;
     }
 
@@ -131,7 +136,10 @@ public class MainControllerMediaReroute {
         restTemplate = new RestTemplate();
 
         HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/uploadFile/",requestEntity, HttpStatus.class);
-        convFile.delete();
+        Boolean bool = convFile.delete();
+        if(bool){
+            logger.log(Level.WARNING, FILE_DELETED);
+        }
         return status;
     }
 
@@ -155,7 +163,10 @@ public class MainControllerMediaReroute {
         restTemplate = new RestTemplate();
 
         HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/uploadDocument/",requestEntity,HttpStatus.class);
-        convFile.delete();
+        Boolean bool = convFile.delete();
+        if(bool){
+            logger.log(Level.WARNING, FILE_DELETED);
+        }
         return status;
     }
 
@@ -179,12 +190,18 @@ public class MainControllerMediaReroute {
     public File convertFile(MultipartFile file){
         File convFile = new File(file.getOriginalFilename());
         try {
-            convFile.createNewFile();
+            Boolean bool =convFile.createNewFile();
+            if(bool){
+                logger.log(Level.WARNING, "File successfuly created");
+            }
+
             FileOutputStream fos = new FileOutputStream(convFile);
             fos.write(file.getBytes());
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            fos.close();
         }
 
         return convFile;
