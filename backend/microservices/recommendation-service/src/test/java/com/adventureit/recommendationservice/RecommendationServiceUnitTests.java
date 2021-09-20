@@ -5,6 +5,7 @@ import com.adventureit.recommendationservice.entity.RecommendedUser;
 import com.adventureit.recommendationservice.repository.RecommendedLocationRepository;
 import com.adventureit.recommendationservice.repository.RecommendedUserRepository;
 import com.adventureit.recommendationservice.service.RecommendationService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -88,10 +89,47 @@ public class RecommendationServiceUnitTests {
         Mockito.when(recommendedLocationRepository.findAll()).thenReturn(mockLocations);
     }
 
-//    @Test
-//    void testGetRecommendations(){
-//        createMockEntries();
-//        this.recommendationService.getUserRecommendations(UUID.randomUUID(),"15","Paris, France");
-//    }
+    @Test
+    void testGetRecommendations(){
+        createMockEntries();
+        Assertions.assertNotNull(mockUsers.get(0));
+        this.recommendationService.getUserRecommendations(mockUsers.get(0).getUserId(),"15","Paris, France");
+    }
+
+    @Test
+    void likeLocation(){
+        createMockEntries();
+        Mockito.when(recommendedUserRepository.findUserByUserId(mockUsers.get(0).getUserId())).thenReturn(mockUsers.get(0));
+        Mockito.when(recommendedLocationRepository.findLocationByLocationId(mockLocations.get(0).getLocationId())).thenReturn(mockLocations.get(0));
+        Assertions.assertNotNull(mockUsers.get(0));
+        Assertions.assertNotNull(mockLocations.get(0));
+        recommendationService.likeLocation(mockUsers.get(0).getUserId(),mockLocations.get(0).getLocationId());
+    }
+
+    @Test
+    void visitLocation(){
+        createMockEntries();
+        Mockito.when(recommendedUserRepository.findUserByUserId(mockUsers.get(0).getUserId())).thenReturn(mockUsers.get(0));
+        Mockito.when(recommendedLocationRepository.findLocationByLocationId(mockLocations.get(0).getLocationId())).thenReturn(mockLocations.get(0));
+        Assertions.assertNotNull(mockUsers.get(0));
+        Assertions.assertNotNull(mockLocations.get(0));
+        recommendationService.visitLocation(mockUsers.get(0).getUserId(),mockLocations.get(0).getLocationId());
+    }
+
+    @Test
+    void addUser(){
+        createMockEntries();
+        Mockito.when(recommendedUserRepository.findUserByUserId(mockUsers.get(0).getUserId())).thenReturn(mockUsers.get(0));
+        Assertions.assertNotNull(mockUsers);
+        recommendationService.addUser(UUID.randomUUID());
+    }
+
+    @Test
+    void addLocation(){
+        createMockEntries();
+        Mockito.when(recommendedLocationRepository.findLocationByLocationId(mockLocations.get(0).getLocationId())).thenReturn(mockLocations.get(0));
+        Assertions.assertNotNull(mockLocations);
+        recommendationService.addLocation(UUID.randomUUID(), "Mock Loaction");
+    }
 }
 
