@@ -4,7 +4,6 @@ import com.adventureit.maincontroller.service.MainControllerServiceImplementatio
 import com.adventureit.shareddtos.location.responses.CurrentLocationResponseDTO;
 import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
 import com.adventureit.shareddtos.recommendation.request.CreateLocationRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +21,12 @@ import java.util.UUID;
 public class MainControllerLocationReroute {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private MainControllerServiceImplementation service;
+    private final MainControllerServiceImplementation service;
 
-    private final String IP = "http://localhost";
-    private final String locationPort = "9006";
-    private final String adventurePort = "9001";
-    private final String recommendationPort = "9013";
+    private static final String INTERNET_PORT = "http://localhost";
+    private static final String LOCATION_PORT = "9006";
+    private static final String ADVENTURE_PORT = "9001";
+    private static final String RECOMMENDATION_PORT = "9013";
 
     @Autowired
     public MainControllerLocationReroute(MainControllerServiceImplementation service) {
@@ -36,18 +35,18 @@ public class MainControllerLocationReroute {
 
     @GetMapping("/test")
     public String locationTest(){
-        return restTemplate.getForObject(IP + ":" + locationPort + "/location/test", String.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/test", String.class);
     }
 
     @GetMapping(value="/create/{location}")
     public String createLocation(@PathVariable String location) throws Exception {
-        String[] ports = {locationPort,recommendationPort};
+        String[] ports = {LOCATION_PORT, RECOMMENDATION_PORT};
         service.pingCheck(ports,restTemplate);
-        UUID createdLocationUUID = restTemplate.getForObject(IP + ":" + locationPort + "/location/create/" + location, UUID.class);
+        UUID createdLocationUUID = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/" + location, UUID.class);
         try {
-            LocationResponseDTO locationDTO = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/createdLocationUUID"+createdLocationUUID,LocationResponseDTO.class);
+            LocationResponseDTO locationDTO = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getLocation/createdLocationUUID"+createdLocationUUID,LocationResponseDTO.class);
             CreateLocationRequest req = new CreateLocationRequest(createdLocationUUID, locationDTO.getFormattedAddress());
-            restTemplate.postForObject(IP + ":" + recommendationPort + "/recommendation/add/location", req, ResponseEntity.class);
+            restTemplate.postForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/add/location", req, ResponseEntity.class);
         }
         catch(Exception e){
             return "Error: Malformed create location request";
@@ -57,28 +56,28 @@ public class MainControllerLocationReroute {
 
     @GetMapping("/storeCurrentLocation/{userID}/{latitude}/{longitude}")
     public void storeCurrentLocation(@PathVariable UUID userID, @PathVariable String latitude, @PathVariable String longitude) throws Exception {
-        String[] ports = {locationPort};
+        String[] ports = {LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
-        restTemplate.getForObject(IP + ":" + locationPort + "/location/storeCurrentLocation/" + userID + "/" + latitude + "/" + longitude, String.class);
+        restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/storeCurrentLocation/" + userID + "/" + latitude + "/" + longitude, String.class);
     }
 
     @GetMapping("/getCurrentLocation/{userID}")
     public CurrentLocationResponseDTO getCurrentLocation(@PathVariable UUID userID) throws Exception {
-        String[] ports = {locationPort};
+        String[] ports = {LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + locationPort + "/location/getCurrentLocation/" + userID, CurrentLocationResponseDTO.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getCurrentLocation/" + userID, CurrentLocationResponseDTO.class);
     }
 
     @GetMapping("/getAllCurrentLocations/{adventureID}")
     public List<CurrentLocationResponseDTO> getAllCurrentLocations(@PathVariable UUID adventureID) throws Exception {
-        String[] ports = {locationPort,adventurePort};
+        String[] ports = {LOCATION_PORT, ADVENTURE_PORT};
         service.pingCheck(ports,restTemplate);
-        List<UUID> users = restTemplate.getForObject(IP + ":" + adventurePort + "/adventure/getAttendees/" + adventureID, List.class);
+        List<UUID> users = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/getAttendees/" + adventureID, List.class);
         assert users != null;
         List<CurrentLocationResponseDTO> list = new ArrayList<>();
 
         for (int i = 0; i<users.size();i++) {
-            list.add(restTemplate.getForObject(IP + ":" + locationPort + "/location/getCurrentLocation/" + users.get(i), CurrentLocationResponseDTO.class));
+            list.add(restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getCurrentLocation/" + users.get(i), CurrentLocationResponseDTO.class));
         }
 
         return list;
@@ -86,8 +85,8 @@ public class MainControllerLocationReroute {
 
     @GetMapping(value = "/getFlagList/{userID}")
     public List<String> getFlagList(@PathVariable UUID userID) throws Exception {
-        String[] ports = {locationPort};
+        String[] ports = {LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + locationPort + "/location/getFlagList/" + userID, List.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getFlagList/" + userID, List.class);
     }
 }
