@@ -1,5 +1,6 @@
 package com.adventureit.maincontroller.controller;
 
+import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.location.responses.CurrentLocationResponseDTO;
 import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
@@ -39,7 +40,7 @@ public class MainControllerLocationReroute {
     }
 
     @GetMapping(value="/create/{location}")
-    public String createLocation(@PathVariable String location) throws Exception {
+    public String createLocation(@PathVariable String location) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {LOCATION_PORT, RECOMMENDATION_PORT};
         service.pingCheck(ports,restTemplate);
         UUID createdLocationUUID = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/" + location, UUID.class);
@@ -55,21 +56,21 @@ public class MainControllerLocationReroute {
     }
 
     @GetMapping("/storeCurrentLocation/{userID}/{latitude}/{longitude}")
-    public void storeCurrentLocation(@PathVariable UUID userID, @PathVariable String latitude, @PathVariable String longitude) throws Exception {
+    public void storeCurrentLocation(@PathVariable UUID userID, @PathVariable String latitude, @PathVariable String longitude) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/storeCurrentLocation/" + userID + "/" + latitude + "/" + longitude, String.class);
     }
 
     @GetMapping("/getCurrentLocation/{userID}")
-    public CurrentLocationResponseDTO getCurrentLocation(@PathVariable UUID userID) throws Exception {
+    public CurrentLocationResponseDTO getCurrentLocation(@PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getCurrentLocation/" + userID, CurrentLocationResponseDTO.class);
     }
 
     @GetMapping("/getAllCurrentLocations/{adventureID}")
-    public List<CurrentLocationResponseDTO> getAllCurrentLocations(@PathVariable UUID adventureID) throws Exception {
+    public List<CurrentLocationResponseDTO> getAllCurrentLocations(@PathVariable UUID adventureID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {LOCATION_PORT, ADVENTURE_PORT};
         service.pingCheck(ports,restTemplate);
         List<UUID> users = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/getAttendees/" + adventureID, List.class);
@@ -84,7 +85,7 @@ public class MainControllerLocationReroute {
     }
 
     @GetMapping(value = "/getFlagList/{userID}")
-    public List<String> getFlagList(@PathVariable UUID userID) throws Exception {
+    public List<String> getFlagList(@PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getFlagList/" + userID, List.class);
