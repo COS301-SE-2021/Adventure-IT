@@ -215,6 +215,11 @@ public class MainControllerUserReroute {
         assert responseDTO != null;
         return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
     }
+
+    @GetMapping(value = "getFriendProfiles/{id}")
+    public List<GetUserByUUIDDTO> getFriendProfiles(@PathVariable UUID id){
+        return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getFriendProfiles/"+ id, List.class);
+    }
 }
 
 
