@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class MainControllerServiceImplementation {
+    private static final String FUNCTIONAL_CONTROLLER = "Controller is functional";
+    private static final String NOT_OK = "Not OK";
 
     public String pingControllers(String[] ports, RestTemplate temp){
         String IP = "http://localhost";
@@ -17,123 +19,123 @@ public class MainControllerServiceImplementation {
             if (port.equals("9001")) {
                 try {
                     result = temp.getForObject(IP + ":" + port + "/adventure/test", String.class);
-                    if (result.contains("Controller is functional")) {
+                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
-                        return "Not OK";
+                        return NOT_OK;
                     }
                 }catch(Exception e){
                     System.out.println("Adventure Service is not running");
-                    return "Not OK";
+                    return NOT_OK;
                 }
 
             } else if (port.equals("9002")) {
                 try{
                     result = temp.getForObject(IP + ":" + port + "/user/test", String.class);
-                    if (result.contains("Controller is functional")) {
+                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
-                        return "Not OK";
+                        return NOT_OK;
                     }
                 }catch(Exception e){
                     System.out.println("User Service is not running");
-                    return "Not OK";
+                    return NOT_OK;
                 }
             } else if (port.equals("9004")) {
                 try {
                     result = temp.getForObject(IP + ":" + port + "/notification/test", String.class);
-                    if (result.contains("Controller is functional")) {
+                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
-                        return "Not OK";
+                        return NOT_OK;
                     }
                 }catch(Exception e){
                     System.out.println("Notification Service is not running");
-                    return "Not OK";
+                    return NOT_OK;
                 }
             } else if (port.equals("9005")) {
                 try {
                     result = temp.getForObject(IP + ":" + port + "/media/test", String.class);
-                    if (result.contains("Controller is functional")) {
+                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
-                        return "Not OK";
+                        return NOT_OK;
                     }
                 }catch(Exception e){
                     System.out.println("Media Service is not running");
-                    return "Not OK";
+                    return NOT_OK;
                 }
             } else if (port.equals("9006")) {
                 try {
                     result = temp.getForObject(IP + ":" + port + "/location/test", String.class);
-                    if (result.contains("Controller is functional")) {
+                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
-                        return "Not OK";
+                        return NOT_OK;
                     }
                 }catch(Exception e){
                     System.out.println("Location Service is not running");
-                    return "Not OK";
+                    return NOT_OK;
                 }
             } else if (port.equals("9007")) {
                 try {
                     result = temp.getForObject(IP + ":" + port + "/budget/test", String.class);
-                    if (result.contains("Controller is functional")) {
+                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
-                        return "Not OK";
+                        return NOT_OK;
                     }
                 }catch(Exception e){
                     System.out.println("Budget Service is not running");
-                    return "Not OK";
+                    return NOT_OK;
                 }
             } else if (port.equals("9008")) {
                 try {
                     result = temp.getForObject(IP + ":" + port + "/checklist/test", String.class);
-                    if (result.contains("Controller is functional")) {
+                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
-                        return "Not OK";
+                        return NOT_OK;
                     }
                 }catch(Exception e){
                     System.out.println("Checklist Service is not running");
-                    return "Not OK";
+                    return NOT_OK;
                 }
             } else if (port.equals("9009")) {
                 try {
                     result = temp.getForObject(IP + ":" + port + "/itinerary/test", String.class);
-                    if (result.contains("Controller is functional")) {
+                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
-                        return "Not OK";
+                        return NOT_OK;
                     }
                 }catch(Exception e){
                     System.out.println("Itinerary Service is not running");
-                    return "Not OK";
+                    return NOT_OK;
                 }
             } else if (port.equals("9010")) {
                 try {
                     result = temp.getForObject(IP + ":" + port + "/chat/test", String.class);
-                    if (result.contains("Controller is functional")) {
+                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
-                        return "Not OK";
+                        return NOT_OK;
                     }
                 }catch(Exception e){
                     System.out.println("Chat Service is not running");
-                    return "Not OK";
+                    return NOT_OK;
                 }
             } else if (port.equals("9012")) {
                 try {
                     result = temp.getForObject(IP + ":" + port + "/timeline/test", String.class);
-                    if (result.contains("Controller is functional")) {
+                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
-                        return "Not OK";
+                        return NOT_OK;
                     }
                 }catch(Exception e){
                     System.out.println("Timeline Service is not running");
-                    return "Not OK";
+                    return NOT_OK;
                 }
             }
         }
@@ -142,7 +144,7 @@ public class MainControllerServiceImplementation {
 
     public String pingCheck(String[] ports, RestTemplate temp) throws ControllerNotAvailable, InterruptedException {
         int runs = 0;
-        while(pingControllers(ports,temp).equals("Not OK")){
+        while(pingControllers(ports,temp).equals(NOT_OK)){
             if(runs ==4){
                 throw new ControllerNotAvailable("Controller is out of service");
             }
