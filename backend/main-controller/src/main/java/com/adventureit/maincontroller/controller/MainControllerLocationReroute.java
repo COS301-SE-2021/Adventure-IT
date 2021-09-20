@@ -66,11 +66,19 @@ public class MainControllerLocationReroute {
     public void storeCurrentLocation(@PathVariable UUID userID, @PathVariable String latitude, @PathVariable String longitude) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
+        String id = userID.toString();
+        if(id.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
         String lat = latitude;
         if(lat.equals("")) {
             throw new ControllerNotAvailable(ERROR);
         }
-        restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/storeCurrentLocation/" + userID + "/" + lat + "/" + longitude, String.class);
+        String lon = longitude;
+        if(lon.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/storeCurrentLocation/" + UUID.fromString(id) + "/" + lat + "/" + lon, String.class);
     }
 
     @GetMapping("/getCurrentLocation/{userID}")
