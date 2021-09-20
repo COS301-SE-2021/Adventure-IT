@@ -24,7 +24,7 @@ import java.util.UUID;
 @RequestMapping("/media")
 public class MainControllerMediaReroute {
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate = new RestTemplate();
 
     private static final String INTERNET_PORT = "http://localhost";
     private static final String MEDIA_PORT = "9005";
@@ -40,22 +40,19 @@ public class MainControllerMediaReroute {
 
     @GetMapping(value = "/mediaUploaded/{file}")
     public ResponseEntity<byte[]> testMediaUploaded(@PathVariable UUID file) {
-        MediaResponseDTO responseDTO = new MediaResponseDTO();
-        responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/mediaUploaded/" +file, MediaResponseDTO.class);
+        MediaResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/mediaUploaded/" +file, MediaResponseDTO.class);
         return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/fileUploaded/{file}")
     public ResponseEntity<byte[]> testFileUploaded(@PathVariable UUID file) {
-        MediaResponseDTO responseDTO = new MediaResponseDTO();
-        responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/fileUploaded/"+file, MediaResponseDTO.class);
+        MediaResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/fileUploaded/"+file, MediaResponseDTO.class);
         return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/documentUploaded/{file}")
     public ResponseEntity<byte[]> testDocumentUploaded(@PathVariable UUID file) {
-        MediaResponseDTO responseDTO = new MediaResponseDTO();
-        responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/documentUploaded/"+file, MediaResponseDTO.class);
+        MediaResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/documentUploaded/"+file, MediaResponseDTO.class);
         return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
     }
 
@@ -102,7 +99,7 @@ public class MainControllerMediaReroute {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(bodyMap, headers);
-        RestTemplate restTemplate = new RestTemplate();
+        restTemplate = new RestTemplate();
 
         HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/uploadMedia/",requestEntity, HttpStatus.class);
         convFile.delete();
@@ -127,7 +124,7 @@ public class MainControllerMediaReroute {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(bodyMap, headers);
-        RestTemplate restTemplate = new RestTemplate();
+        restTemplate = new RestTemplate();
 
         HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/uploadFile/",requestEntity, HttpStatus.class);
         convFile.delete();
@@ -151,7 +148,7 @@ public class MainControllerMediaReroute {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(bodyMap, headers);
-        RestTemplate restTemplate = new RestTemplate();
+        restTemplate = new RestTemplate();
 
         HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/uploadDocument/",requestEntity,HttpStatus.class);
         convFile.delete();
