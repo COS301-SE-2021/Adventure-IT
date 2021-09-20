@@ -70,14 +70,13 @@ public class MainControllerItineraryReroute {
         UUID adventureId = itinerary.getAdventureID();
         try {
             AdventureDTO adventureResponse = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/getAdventureByUUID/" + adventureId, GetAdventureByUUIDResponse.class).getAdventure();
+            LocalDateTime timestamp = LocalDateTime.parse(req.getTimestamp());
+            if((timestamp.toLocalDate().compareTo(adventureResponse.getEndDate()) > 0) || (timestamp.toLocalDate().compareTo(adventureResponse.getStartDate()) < 0)){
+                throw new InvalidItineraryEntryException("Itinerary Entry does not fit within Adventure");
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
-        LocalDateTime timestamp = LocalDateTime.parse(req.getTimestamp());
-        if((timestamp.toLocalDate().compareTo(adventureResponse.getEndDate()) > 0) || (timestamp.toLocalDate().compareTo(adventureResponse.getStartDate()) < 0)){
-            throw new InvalidItineraryEntryException("Itinerary Entry does not fit within Adventure");
-        }
-
         UUID locationId = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/" + req.getLocation(), UUID.class);
         LocationResponseDTO locationDTO = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + GET_LOCATION +locationId,LocationResponseDTO.class);
 

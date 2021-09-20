@@ -19,6 +19,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/media")
@@ -34,7 +36,7 @@ public class MainControllerMediaReroute {
     private static final String USERID = "userid";
     private static final String GET_STORAGE = "/user/getStorageUsed/";
     private static final String FILE_DELETED = "File has been deleted";
-    private static final Logger logger;
+    private Logger logger;
 
     @GetMapping("/test")
     public String test(){
@@ -189,19 +191,16 @@ public class MainControllerMediaReroute {
 
     public File convertFile(MultipartFile file){
         File convFile = new File(file.getOriginalFilename());
-        try {
-            Boolean bool =convFile.createNewFile();
-            if(bool){
+        try (FileOutputStream fos = new FileOutputStream(convFile)) {
+            Boolean bool = convFile.createNewFile();
+            if (bool) {
                 logger.log(Level.WARNING, "File successfuly created");
             }
 
-            FileOutputStream fos = new FileOutputStream(convFile);
             fos.write(file.getBytes());
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            fos.close();
         }
 
         return convFile;

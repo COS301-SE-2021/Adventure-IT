@@ -88,11 +88,8 @@ public class UserServiceImplementation  {
         jsonObject.put("token_uri",tokenUri);
         jsonObject.put("auth_provider_x509_cert_url",authProvider);
         jsonObject.put("client_x509_cert_url",clientx509);
-        try {
-            FileWriter file = new FileWriter("user.json");
+        try (FileWriter file = new FileWriter("user.json")) {
             file.write(jsonObject.toJSONString());
-        }finally {
-            file.close();
         }
         FileInputStream serviceAccount = new FileInputStream("user.json");
         this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
@@ -212,11 +209,8 @@ public class UserServiceImplementation  {
         Blob blob = storage.get(BlobId.of(bucketName, info.getId().toString()));
         ReadChannel reader = blob.reader();
         byte[] content = null;
-        try {
-            InputStream inputStream = Channels.newInputStream(reader);
+        try (InputStream inputStream = Channels.newInputStream(reader)) {
             inputStream.readAllBytes();
-        }finally {
-            inputStream.close();
         }
         return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
