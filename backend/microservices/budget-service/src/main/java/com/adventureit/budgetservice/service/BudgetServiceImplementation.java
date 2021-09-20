@@ -147,6 +147,7 @@ public class BudgetServiceImplementation implements BudgetService {
         ReportBudgetEntity reportBudgetEntry = new ReportUTOExpense(entryContainerID,amount,title,description,category,payer,payee);
 
         reportRepository.save(reportBudgetEntry);
+
         budgetEntryRepository.save(budgetEntry);
         budgetRepository.save(budget);
         List <ReportBudgetEntity> list = reportRepository.findReportBudgetEntityByEntryContainerID(entryContainerID);

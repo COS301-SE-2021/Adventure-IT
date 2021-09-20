@@ -39,8 +39,6 @@ public class MainControllerUserReroute {
     public RegisterUserResponse registerUser(@RequestBody RegisterUserRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT, RECOMMENDATION_PORT,LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
-        System.out.println(req.getFirstName()+" in main controller");
-        System.out.println(req.getLastName()+" in main controller");
         CreateUserRequest req2 = new CreateUserRequest(req.getUserID());
         restTemplate.postForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/add/user", req2, String.class);
         restTemplate.getForObject(INTERNET_PORT+":"+LOCATION_PORT+"/location/storeCurrentLocation/"+req.getUserID()+"/0/0", String.class);
@@ -197,27 +195,31 @@ public class MainControllerUserReroute {
 
     @GetMapping("getNotificationSettings/{userId}")
     public boolean getNotificationSettings(@PathVariable UUID userId) throws ControllerNotAvailable, InterruptedException {
-        String[] ports = {USER_PORT, LOCATION_PORT};
+        String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getNotificationSettings/"+ userId, boolean.class);
     }
 
     @GetMapping("setNotificationSettings/{userId}")
     public void setNotificationSettings(@PathVariable UUID userId) throws ControllerNotAvailable, InterruptedException {
-        String[] ports = {USER_PORT, LOCATION_PORT};
+        String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/setNotificationSettings/"+ userId, String.class);
     }
 
     @GetMapping("viewPicture/{id}")
-    public ResponseEntity<byte[]> viewPicture(@PathVariable UUID id){
+    public ResponseEntity<byte[]> viewPicture(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {USER_PORT};
+        service.pingCheck(ports,restTemplate);
         MediaResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/viewPicture/" + id, MediaResponseDTO.class);
         assert responseDTO != null;
         return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(value = "getFriendProfiles/{id}")
-    public List<GetUserByUUIDDTO> getFriendProfiles(@PathVariable UUID id){
+    public List<GetUserByUUIDDTO> getFriendProfiles(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {USER_PORT};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getFriendProfiles/"+ id, List.class);
     }
 }

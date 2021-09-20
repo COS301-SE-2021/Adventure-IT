@@ -36,7 +36,7 @@ public class MainControllerRecommendationReroute {
     // User requests arbitrary number of recommendations
     @GetMapping("get/{userId}/{numRecommendations}/{location}")
     public List<RecommendedLocationResponseDTO> getUserRecommendations(@PathVariable UUID userId, @PathVariable String numRecommendations, @PathVariable String location) throws ControllerNotAvailable, InterruptedException {
-        String[] ports = {RECOMMENDATION_PORT};
+        String[] ports = {RECOMMENDATION_PORT,LOCATION_PORT};
         service.pingCheck(ports, restTemplate);
         String[][] locationUUIDs = restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/get/" + userId + "/" + numRecommendations + "/" + location, String[][].class);
         List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
@@ -65,7 +65,7 @@ public class MainControllerRecommendationReroute {
     // User requests arbitrary number of popular locations
     @GetMapping("get/popular/{userId}/{numPopular}/{location}")
     public List<RecommendedLocationResponseDTO> getMostPopular(@PathVariable UUID userId, @PathVariable String numPopular,@PathVariable String location) throws ControllerNotAvailable, InterruptedException {
-        String[] ports = {RECOMMENDATION_PORT};
+        String[] ports = {RECOMMENDATION_PORT,LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
         String[][] locationUUIDs = restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/get/popular/"+ userId+"/" +numPopular+"/"+location, String[][].class);
         assert locationUUIDs != null;
