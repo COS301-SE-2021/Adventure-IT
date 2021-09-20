@@ -29,6 +29,9 @@ public class MainControllerMediaReroute {
     private static final String INTERNET_PORT = "http://localhost";
     private static final String MEDIA_PORT = "9005";
     private static final String USER_PORT = "9002";
+    private static final String STORAGE_EXCEEDED = "Upload Media: User has exceeded storage available";
+    private static final String SET_STORAGE = "/user/setStorageUsed/";
+    private static final String USERID = "userid";
 
     @GetMapping("/test")
     public String test(){
@@ -82,18 +85,18 @@ public class MainControllerMediaReroute {
     }
 
     @PostMapping("/uploadMedia")
-    public HttpStatus uploadMedia(@RequestPart MultipartFile file, @RequestParam("userid") UUID userId, @RequestParam("adventureid") UUID adventureId){
+    public HttpStatus uploadMedia(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId, @RequestParam("adventureid") UUID adventureId){
         long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getStorageUsed/" + userId, long.class);
         long limit = 5000000000L;
         if((storageUsed + file.getSize()) > limit){
-            throw new StorageException("Upload Media: User has exceeded storage available");
+            throw new StorageException(STORAGE_EXCEEDED);
         }
-        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/setStorageUsed/" + userId + "/" + file.getSize(), String.class);
+        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + SET_STORAGE + userId + "/" + file.getSize(), String.class);
 
         File convFile = convertFile(file);
         MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
         bodyMap.add("file", new FileSystemResource(convFile));
-        bodyMap.add("userid", userId.toString());
+        bodyMap.add(USERID, userId.toString());
         bodyMap.add("adventureid", adventureId.toString());
 
         HttpHeaders headers = new HttpHeaders();
@@ -107,18 +110,18 @@ public class MainControllerMediaReroute {
     }
 
     @PostMapping("/uploadFile")
-    public HttpStatus uploadFile(@RequestPart MultipartFile file, @RequestParam("userid") UUID userId, @RequestParam("adventureid") UUID adventureId){
+    public HttpStatus uploadFile(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId, @RequestParam("adventureid") UUID adventureId){
         long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getStorageUsed/" + userId, long.class);
         long limit = 5000000000L;
         if((storageUsed + file.getSize()) > limit){
-            throw new StorageException("Upload Media: User has exceeded storage available");
+            throw new StorageException(STORAGE_EXCEEDED);
         }
-        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/setStorageUsed/" + userId + "/" + file.getSize(), String.class);
+        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + SET_STORAGE + userId + "/" + file.getSize(), String.class);
 
         File convFile = convertFile(file);
         MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
         bodyMap.add("file", new FileSystemResource(convFile));
-        bodyMap.add("userid", userId.toString());
+        bodyMap.add(USERID, userId.toString());
         bodyMap.add("adventureid", adventureId.toString());
 
         HttpHeaders headers = new HttpHeaders();
@@ -132,18 +135,18 @@ public class MainControllerMediaReroute {
     }
 
     @PostMapping("/uploadDocument")
-    public HttpStatus uploadDocument(@RequestPart MultipartFile file, @RequestParam("userid") UUID userId){
+    public HttpStatus uploadDocument(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId){
         long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getStorageUsed/" + userId, long.class);
         long limit = 5000000000L;
         if((storageUsed + file.getSize()) > limit){
-            throw new StorageException("Upload Media: User has exceeded storage available");
+            throw new StorageException(STORAGE_EXCEEDED);
         }
-        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/setStorageUsed/" + userId + "/" + file.getSize(), String.class);
+        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + SET_STORAGE + userId + "/" + file.getSize(), String.class);
 
         File convFile = convertFile(file);
         MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
         bodyMap.add("file", new FileSystemResource(convFile));
-        bodyMap.add("userid", userId.toString());
+        bodyMap.add(USERID, userId.toString());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
