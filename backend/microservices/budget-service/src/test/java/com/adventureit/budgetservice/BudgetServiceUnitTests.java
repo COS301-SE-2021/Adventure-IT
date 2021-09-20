@@ -2,6 +2,7 @@ package com.adventureit.budgetservice;
 
 import com.adventureit.budgetservice.entity.*;
 import com.adventureit.budgetservice.repository.BudgetEntryRepository;
+import com.adventureit.budgetservice.repository.BudgetReportRepository;
 import com.adventureit.budgetservice.repository.BudgetRepository;
 import com.adventureit.shareddtos.budget.Category;
 import com.adventureit.shareddtos.budget.requests.EditBudgetRequest;
@@ -19,7 +20,8 @@ class BudgetServiceUnitTests {
 
         private final BudgetRepository mockBudgetRepository = Mockito.mock(BudgetRepository.class);
         private final BudgetEntryRepository mockBudgetEntryRepository = Mockito.mock(BudgetEntryRepository.class);
-        private final BudgetServiceImplementation sut = new BudgetServiceImplementation(mockBudgetRepository,mockBudgetEntryRepository);
+        private final BudgetReportRepository reportRepo = Mockito.mock(BudgetReportRepository.class);
+        private final BudgetServiceImplementation sut = new BudgetServiceImplementation(mockBudgetRepository,mockBudgetEntryRepository, reportRepo);
 
         final UUID validBudgetID1 = UUID.randomUUID();
         final UUID validBudgetID2 = UUID.randomUUID();

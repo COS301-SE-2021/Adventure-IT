@@ -19,6 +19,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/media")
@@ -33,6 +35,8 @@ public class MainControllerMediaReroute {
     private static final String SET_STORAGE = "/user/setStorageUsed/";
     private static final String USERID = "userid";
     private static final String GET_STORAGE = "/user/getStorageUsed/";
+    private static final String FILE_DELETED = "File has been deleted";
+    private Logger logger;
 
     @GetMapping("/test")
     public String test(){
@@ -106,7 +110,10 @@ public class MainControllerMediaReroute {
         restTemplate = new RestTemplate();
 
         HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/uploadMedia/",requestEntity, HttpStatus.class);
-        convFile.delete();
+        Boolean bool = convFile.delete();
+        if(bool){
+            logger.log(Level.WARNING, FILE_DELETED);
+        }
         return status;
     }
 
@@ -131,7 +138,10 @@ public class MainControllerMediaReroute {
         restTemplate = new RestTemplate();
 
         HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/uploadFile/",requestEntity, HttpStatus.class);
-        convFile.delete();
+        Boolean bool = convFile.delete();
+        if(bool){
+            logger.log(Level.WARNING, FILE_DELETED);
+        }
         return status;
     }
 
@@ -155,7 +165,10 @@ public class MainControllerMediaReroute {
         restTemplate = new RestTemplate();
 
         HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/uploadDocument/",requestEntity,HttpStatus.class);
-        convFile.delete();
+        Boolean bool = convFile.delete();
+        if(bool){
+            logger.log(Level.WARNING, FILE_DELETED);
+        }
         return status;
     }
 
@@ -185,9 +198,12 @@ public class MainControllerMediaReroute {
 
     public File convertFile(MultipartFile file){
         File convFile = new File(file.getOriginalFilename());
-        try {
-            convFile.createNewFile();
-            FileOutputStream fos = new FileOutputStream(convFile);
+        try (FileOutputStream fos = new FileOutputStream(convFile)) {
+            Boolean bool = convFile.createNewFile();
+            if (bool) {
+                logger.log(Level.WARNING, "File successfuly created");
+            }
+
             fos.write(file.getBytes());
             fos.close();
         } catch (IOException e) {

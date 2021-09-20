@@ -71,10 +71,13 @@ public class MediaServiceImplementation implements MediaService{
         jsonObject.put("token_uri",tokenUri);
         jsonObject.put("auth_provider_x509_cert_url",authProvider);
         jsonObject.put("client_x509_cert_url",clientx509);
+        try (FileWriter file = new FileWriter("media.json")) {
+            file.write(jsonObject.toJSONString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        FileWriter file = new FileWriter("media.json");
-        file.write(jsonObject.toJSONString());
-        file.close();
+
         FileInputStream serviceAccount = new FileInputStream("media.json");
         this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId1).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
         boolean flag = new File("media.json").delete();
@@ -97,8 +100,12 @@ public class MediaServiceImplementation implements MediaService{
         Storage storage = storageOptions.getService();
         Blob blob = storage.get(BlobId.of(bucketName, file.toString()));
         ReadChannel reader = blob.reader();
-        InputStream inputStream = Channels.newInputStream(reader);
-        byte[] content = inputStream.readAllBytes();
+        byte[] content = null;
+        try (InputStream inputStream = Channels.newInputStream(reader)) {
+            content = inputStream.readAllBytes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return new MediaResponseDTO(content,headers);
     }
@@ -117,8 +124,13 @@ public class MediaServiceImplementation implements MediaService{
         Storage storage = storageOptions.getService();
         Blob blob = storage.get(BlobId.of(bucketName, file.toString()));
         ReadChannel reader = blob.reader();
-        InputStream inputStream = Channels.newInputStream(reader);
-        byte[] content = inputStream.readAllBytes();
+        byte[] content = null;
+        try (InputStream inputStream = Channels.newInputStream(reader)) {
+            content = inputStream.readAllBytes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         return new MediaResponseDTO(content,headers);
     }
@@ -137,8 +149,12 @@ public class MediaServiceImplementation implements MediaService{
         Storage storage = storageOptions.getService();
         Blob blob = storage.get(BlobId.of(bucketName, file.toString()));
         ReadChannel reader = blob.reader();
-        InputStream inputStream = Channels.newInputStream(reader);
-        byte[] content = inputStream.readAllBytes();
+        byte[] content = null;
+        try (InputStream inputStream = Channels.newInputStream(reader)) {
+            content = inputStream.readAllBytes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return new MediaResponseDTO(content,headers);
     }
