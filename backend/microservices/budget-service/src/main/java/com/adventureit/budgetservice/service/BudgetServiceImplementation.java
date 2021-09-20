@@ -453,8 +453,6 @@ public class BudgetServiceImplementation implements BudgetService {
         return list;
     }
 
-
-
     private String getBudgetNotFoundExceptionString(String id){
         return "Budget with ID " + id + NOT_FOUND;
     }
