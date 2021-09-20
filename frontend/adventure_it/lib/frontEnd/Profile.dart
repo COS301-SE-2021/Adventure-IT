@@ -447,7 +447,12 @@ class AlertBox extends StatefulWidget {
 class _AlertBox extends State<AlertBox> {
   UserProfile? user;
 
-  _AlertBox(this.user);
+  _AlertBox(this.user) {
+    usernameController.text = user!.username;
+    firstNameController.text = user!.firstname;
+    lastNameController.text = user!.lastname;
+    emailController.text = user!.email;
+  }
 
   double getSize(context) {
     if (MediaQuery.of(context).size.height >
