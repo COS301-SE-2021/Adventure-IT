@@ -20,137 +20,148 @@ public class MainControllerServiceImplementation {
         String result;
         String value = "";
         for (String port : ports) {
-            if (port.equals("9001")) {
-                try {
-                    result = temp.getForObject(internetPort + ":" + port + "/adventure/test", String.class);
-                    assert result != null;
-                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
-                        value = "OK";
-                    } else {
+            switch (port) {
+                case "9001":
+                    try {
+                        result = temp.getForObject(internetPort + ":" + port + "/adventure/test", String.class);
+                        assert result != null;
+                        if (result.contains(FUNCTIONAL_CONTROLLER)) {
+                            value = "OK";
+                        } else {
+                            return NOT_OK;
+                        }
+                    } catch (Exception e) {
+                        logger.log(Level.WARNING, "Adventure Service is not running");
                         return NOT_OK;
                     }
-                }catch(Exception e){
-                    logger.log(Level.WARNING, "Adventure Service is not running");
-                    return NOT_OK;
-                }
 
-            } else if (port.equals("9002")) {
-                try{
-                    result = temp.getForObject(internetPort + ":" + port + "/user/test", String.class);
-                    assert result != null;
-                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
-                        value = "OK";
-                    } else {
+                    break;
+                case "9002":
+                    try {
+                        result = temp.getForObject(internetPort + ":" + port + "/user/test", String.class);
+                        assert result != null;
+                        if (result.contains(FUNCTIONAL_CONTROLLER)) {
+                            value = "OK";
+                        } else {
+                            return NOT_OK;
+                        }
+                    } catch (Exception e) {
+                        logger.log(Level.WARNING, "User Service is not running");
                         return NOT_OK;
                     }
-                }catch(Exception e){
-                    logger.log(Level.WARNING,"User Service is not running");
-                    return NOT_OK;
-                }
-            } else if (port.equals("9004")) {
-                try {
-                    result = temp.getForObject(internetPort + ":" + port + "/notification/test", String.class);
-                    assert result != null;
-                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
-                        value = "OK";
-                    } else {
+                    break;
+                case "9004":
+                    try {
+                        result = temp.getForObject(internetPort + ":" + port + "/notification/test", String.class);
+                        assert result != null;
+                        if (result.contains(FUNCTIONAL_CONTROLLER)) {
+                            value = "OK";
+                        } else {
+                            return NOT_OK;
+                        }
+                    } catch (Exception e) {
+                        logger.log(Level.WARNING, "Notification Service is not running");
                         return NOT_OK;
                     }
-                }catch(Exception e){
-                    logger.log(Level.WARNING, "Notification Service is not running");
-                    return NOT_OK;
-                }
-            } else if (port.equals("9005")) {
-                try {
-                    result = temp.getForObject(internetPort + ":" + port + "/media/test", String.class);
-                    assert result != null;
-                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
-                        value = "OK";
-                    } else {
+                    break;
+                case "9005":
+                    try {
+                        result = temp.getForObject(internetPort + ":" + port + "/media/test", String.class);
+                        assert result != null;
+                        if (result.contains(FUNCTIONAL_CONTROLLER)) {
+                            value = "OK";
+                        } else {
+                            return NOT_OK;
+                        }
+                    } catch (Exception e) {
+                        logger.log(Level.WARNING, "Media Service is not running");
                         return NOT_OK;
                     }
-                }catch(Exception e){
-                    logger.log(Level.WARNING, "Media Service is not running");
-                    return NOT_OK;
-                }
-            } else if (port.equals("9006")) {
-                try {
-                    result = temp.getForObject(internetPort + ":" + port + "/location/test", String.class);
-                    assert result != null;
-                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
-                        value = "OK";
-                    } else {
+                    break;
+                case "9006":
+                    try {
+                        result = temp.getForObject(internetPort + ":" + port + "/location/test", String.class);
+                        assert result != null;
+                        if (result.contains(FUNCTIONAL_CONTROLLER)) {
+                            value = "OK";
+                        } else {
+                            return NOT_OK;
+                        }
+                    } catch (Exception e) {
+                        logger.log(Level.WARNING, "Location Service is not running");
                         return NOT_OK;
                     }
-                }catch(Exception e){
-                    logger.log(Level.WARNING, "Location Service is not running");
-                    return NOT_OK;
-                }
-            } else if (port.equals("9007")) {
-                try {
-                    result = temp.getForObject(internetPort + ":" + port + "/budget/test", String.class);
-                    assert result != null;
-                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
-                        value = "OK";
-                    } else {
+                    break;
+                case "9007":
+                    try {
+                        result = temp.getForObject(internetPort + ":" + port + "/budget/test", String.class);
+                        assert result != null;
+                        if (result.contains(FUNCTIONAL_CONTROLLER)) {
+                            value = "OK";
+                        } else {
+                            return NOT_OK;
+                        }
+                    } catch (Exception e) {
+                        logger.log(Level.WARNING, "Budget Service is not running");
                         return NOT_OK;
                     }
-                }catch(Exception e){
-                    logger.log(Level.WARNING, "Budget Service is not running");
-                    return NOT_OK;
-                }
-            } else if (port.equals("9008")) {
-                try {
-                    result = temp.getForObject(internetPort + ":" + port + "/checklist/test", String.class);
-                    assert result != null;
-                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
-                        value = "OK";
-                    } else {
+                    break;
+                case "9008":
+                    try {
+                        result = temp.getForObject(internetPort + ":" + port + "/checklist/test", String.class);
+                        assert result != null;
+                        if (result.contains(FUNCTIONAL_CONTROLLER)) {
+                            value = "OK";
+                        } else {
+                            return NOT_OK;
+                        }
+                    } catch (Exception e) {
+                        logger.log(Level.WARNING, "Checklist Service is not running");
                         return NOT_OK;
                     }
-                }catch(Exception e){
-                    logger.log(Level.WARNING, "Checklist Service is not running");
-                    return NOT_OK;
-                }
-            } else if (port.equals("9009")) {
-                try {
-                    result = temp.getForObject(internetPort + ":" + port + "/itinerary/test", String.class);
-                    assert result != null;
-                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
-                        value = "OK";
-                    } else {
+                    break;
+                case "9009":
+                    try {
+                        result = temp.getForObject(internetPort + ":" + port + "/itinerary/test", String.class);
+                        assert result != null;
+                        if (result.contains(FUNCTIONAL_CONTROLLER)) {
+                            value = "OK";
+                        } else {
+                            return NOT_OK;
+                        }
+                    } catch (Exception e) {
+                        logger.log(Level.WARNING, "Itinerary Service is not running");
                         return NOT_OK;
                     }
-                }catch(Exception e){
-                    logger.log(Level.WARNING, "Itinerary Service is not running");
-                    return NOT_OK;
-                }
-            } else if (port.equals("9010")) {
-                try {
-                    result = temp.getForObject(internetPort + ":" + port + "/chat/test", String.class);
-                    assert result != null;
-                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
-                        value = "OK";
-                    } else {
+                    break;
+                case "9010":
+                    try {
+                        result = temp.getForObject(internetPort + ":" + port + "/chat/test", String.class);
+                        assert result != null;
+                        if (result.contains(FUNCTIONAL_CONTROLLER)) {
+                            value = "OK";
+                        } else {
+                            return NOT_OK;
+                        }
+                    } catch (Exception e) {
+                        logger.log(Level.WARNING, "Chat Service is not running");
                         return NOT_OK;
                     }
-                }catch(Exception e){
-                    logger.log(Level.WARNING, "Chat Service is not running");
-                    return NOT_OK;
-                }
-            } else if (port.equals("9012")) {
-                try {
-                    result = temp.getForObject(internetPort + ":" + port + "/timeline/test", String.class);
-                    assert result != null;
-                    if (result.contains(FUNCTIONAL_CONTROLLER)) {
-                        value = "OK";
-                    } else {
+                    break;
+                case "9012":
+                    try {
+                        result = temp.getForObject(internetPort + ":" + port + "/timeline/test", String.class);
+                        assert result != null;
+                        if (result.contains(FUNCTIONAL_CONTROLLER)) {
+                            value = "OK";
+                        } else {
+                            return NOT_OK;
+                        }
+                    } catch (Exception e) {
+                        logger.log(Level.WARNING, "Timeline Service is not running");
                         return NOT_OK;
                     }
-                }catch(Exception e){
-                    logger.log(Level.WARNING, "Timeline Service is not running");
-                    return NOT_OK;
-                }
+                    break;
             }
         }
         return value;
