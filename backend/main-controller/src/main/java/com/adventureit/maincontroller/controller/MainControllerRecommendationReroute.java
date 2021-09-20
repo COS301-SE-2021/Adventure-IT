@@ -70,7 +70,7 @@ public class MainControllerRecommendationReroute {
         String[][] locationUUIDs = restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/get/popular/"+ userId+"/" +numPopular+"/"+location, String[][].class);
         assert locationUUIDs != null;
         if(locationUUIDs[0].length == 0){
-            return null;
+            return new ArrayList<>();
         }
         else {
             List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
