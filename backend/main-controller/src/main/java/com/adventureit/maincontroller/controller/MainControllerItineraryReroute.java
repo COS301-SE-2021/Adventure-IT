@@ -4,7 +4,6 @@ package com.adventureit.maincontroller.controller;
 import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.exceptions.CurrentLocationException;
 import com.adventureit.maincontroller.exceptions.InvalidItineraryEntryException;
-import com.adventureit.maincontroller.exceptions.NullException;
 import com.adventureit.maincontroller.responses.RegisteredUsersDTO;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.adventure.AdventureDTO;
