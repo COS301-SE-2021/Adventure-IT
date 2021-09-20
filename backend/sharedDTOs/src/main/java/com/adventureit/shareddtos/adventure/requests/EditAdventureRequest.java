@@ -47,15 +47,4 @@ public class EditAdventureRequest {
         return userId;
     }
 
-    public boolean test()
-    {
-        if(name.equals("") || description.equals("") ||userId==null||adventureId==null|| startDate.equals("") || endDate.equals(""))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 }
