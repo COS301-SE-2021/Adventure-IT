@@ -18,10 +18,10 @@ import java.util.UUID;
 public class MainControllerTimelineReroute {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private MainControllerServiceImplementation service;
+    private final MainControllerServiceImplementation service;
 
-    private final String IP = "http://localhost";
-    private final String timelinePort = "9012";
+    private static final String INTERNET_PORT = "http://localhost";
+    private static final String TIMELINE_PORT = "9012";
 
     @Autowired
     public MainControllerTimelineReroute(MainControllerServiceImplementation service) {
@@ -30,17 +30,17 @@ public class MainControllerTimelineReroute {
 
     @GetMapping("/getTimelineByAdventure/{id}")
     public List<TimelineDTO> getTimelineByAdventureID(@PathVariable UUID id) throws Exception {
-        String[] ports = {timelinePort};
+        String[] ports = {TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + timelinePort + "/timeline/getTimelineByAdventure/"+id, List.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/getTimelineByAdventure/"+id, List.class);
 
     }
 
     @GetMapping("/deleteTimelineByAdventureID/{id}")
     public String deleteTimelineByAdventureID(@PathVariable UUID id) throws Exception {
-        String[] ports = {timelinePort};
+        String[] ports = {TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + timelinePort + "/timeline/deleteTimelineByAdventureID/"+id, String.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/deleteTimelineByAdventureID/"+id, String.class);
 
     }
 
