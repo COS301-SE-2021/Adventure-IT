@@ -164,17 +164,17 @@ public class MainControllerAdventureReroute {
     public String editAdventure(@RequestBody EditAdventureRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        UUID uid = req.getUserId();
-        if(uid.toString().equals("")) {
+        String uid = req.getUserId().toString();
+        if(uid.equals("")) {
             throw new ControllerNotAvailable("Empty Error");
         }
-        UUID aid = req.getAdventureId();
-        if(aid.toString().equals("")) {
+        String aid = req.getAdventureId().toString();
+        if(aid.equals("")) {
             throw new ControllerNotAvailable("Empty Error");
         }
-        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + uid, GetUserByUUIDDTO.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + UUID.fromString(uid), GetUserByUUIDDTO.class);
         assert user != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(aid, TimelineType.ADVENTURE,user.getUsername()+" edited this adventure." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(UUID.fromString(aid), TimelineType.ADVENTURE,user.getUsername()+" edited this adventure." );
         restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return restTemplate.postForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/editAdventure", req, String.class);
     }
