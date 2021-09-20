@@ -46,12 +46,14 @@ public class MainControllerLocationReroute {
         UUID createdLocationUUID = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/" + location, UUID.class);
         try {
             LocationResponseDTO locationDTO = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getLocation/createdLocationUUID"+createdLocationUUID,LocationResponseDTO.class);
+            assert locationDTO != null;
             CreateLocationRequest req = new CreateLocationRequest(createdLocationUUID, locationDTO.getFormattedAddress());
             restTemplate.postForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/add/location", req, ResponseEntity.class);
         }
         catch(Exception e){
             return "Error: Malformed create location request";
         }
+        assert createdLocationUUID != null;
         return createdLocationUUID.toString();
     }
 
