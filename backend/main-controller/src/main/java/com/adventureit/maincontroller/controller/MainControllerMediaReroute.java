@@ -32,6 +32,7 @@ public class MainControllerMediaReroute {
     private static final String STORAGE_EXCEEDED = "Upload Media: User has exceeded storage available";
     private static final String SET_STORAGE = "/user/setStorageUsed/";
     private static final String USERID = "userid";
+    private static final String GET_STORAGE = "/user/getStorageUsed/";
 
     @GetMapping("/test")
     public String test(){
@@ -86,7 +87,7 @@ public class MainControllerMediaReroute {
 
     @PostMapping("/uploadMedia")
     public HttpStatus uploadMedia(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId, @RequestParam("adventureid") UUID adventureId){
-        long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getStorageUsed/" + userId, long.class);
+        long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userId, long.class);
         long limit = 5000000000L;
         if((storageUsed + file.getSize()) > limit){
             throw new StorageException(STORAGE_EXCEEDED);
@@ -111,7 +112,7 @@ public class MainControllerMediaReroute {
 
     @PostMapping("/uploadFile")
     public HttpStatus uploadFile(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId, @RequestParam("adventureid") UUID adventureId){
-        long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getStorageUsed/" + userId, long.class);
+        long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userId, long.class);
         long limit = 5000000000L;
         if((storageUsed + file.getSize()) > limit){
             throw new StorageException(STORAGE_EXCEEDED);
@@ -136,7 +137,7 @@ public class MainControllerMediaReroute {
 
     @PostMapping("/uploadDocument")
     public HttpStatus uploadDocument(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId){
-        long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getStorageUsed/" + userId, long.class);
+        long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userId, long.class);
         long limit = 5000000000L;
         if((storageUsed + file.getSize()) > limit){
             throw new StorageException(STORAGE_EXCEEDED);
