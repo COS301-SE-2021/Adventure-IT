@@ -1,6 +1,7 @@
 package com.adventureit.maincontroller.controller;
 
 
+import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
 import com.adventureit.shareddtos.recommendation.request.CreateUserRequest;
@@ -32,7 +33,7 @@ public class MainControllerUserReroute {
     }
 
     @PostMapping(value = "registerUser", consumes = "application/json", produces = "application/json")
-    public RegisterUserResponse registerUser(@RequestBody RegisterUserRequest req) throws Exception {
+    public RegisterUserResponse registerUser(@RequestBody RegisterUserRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT, RECOMMENDATION_PORT};
         service.pingCheck(ports,restTemplate);
         CreateUserRequest req2 = new CreateUserRequest(req.getUserID());
@@ -45,14 +46,14 @@ public class MainControllerUserReroute {
         return "User controller is working";
     }
     @PostMapping(value = "updatePicture", consumes = "application/json", produces = "application/json")
-    public String updatePicture(@RequestBody UpdatePictureRequest req) throws Exception {
+    public String updatePicture(@RequestBody UpdatePictureRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
        return restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/updatePicture/",req, String.class);
     }
 
     @GetMapping(value="/confirmToken/{token}")
-    public String confirmToken(@RequestParam("token") String token) throws Exception {
+    public String confirmToken(@RequestParam("token") String token) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/confirmToken/"+token, String.class);
@@ -60,14 +61,14 @@ public class MainControllerUserReroute {
     }
 
     @PostMapping(value = "loginUser", consumes = "application/json", produces = "application/json")
-    public LoginUserDTO login(@RequestBody LoginUserRequest req) throws Exception {
+    public LoginUserDTO login(@RequestBody LoginUserRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/loginUser/",req, LoginUserDTO.class);
     }
 
     @GetMapping(value="/getUser/{id}")
-    public GetUserByUUIDDTO getUserByUUID(@PathVariable UUID id) throws Exception {
+    public GetUserByUUIDDTO getUserByUUID(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUser/"+id, GetUserByUUIDDTO.class);
@@ -75,7 +76,7 @@ public class MainControllerUserReroute {
     }
 
     @GetMapping(value = "acceptFriendRequest/{id}")
-    public String acceptFriend(@PathVariable UUID id) throws Exception {
+    public String acceptFriend(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT, CHAT_PORT};
         service.pingCheck(ports,restTemplate);
         FriendDTO friend = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getFriendRequest/"+id, FriendDTO.class);
@@ -87,14 +88,14 @@ public class MainControllerUserReroute {
     }
 
     @GetMapping(value="getFriends/{id}")
-    public List<UUID> getFriends(@PathVariable UUID id) throws Exception {
+    public List<UUID> getFriends(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getFriends/"+id, List.class);
     }
 
     @GetMapping(value="getFriendRequests/{id}")
-    public List<GetFriendRequestsResponse> getFriendRequests(@PathVariable UUID id) throws Exception {
+    public List<GetFriendRequestsResponse> getFriendRequests(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getFriendRequests/"+id, List.class);
@@ -102,14 +103,14 @@ public class MainControllerUserReroute {
     }
 
     @GetMapping(value="populateFriends")
-    public void mockFriends() throws Exception {
+    public void mockFriends() throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.getForObject( INTERNET_PORT + ":" + USER_PORT + "/user/populateFriends", String.class);
     }
 
     @GetMapping(value="deleteFriendRequest/{id}")
-    public void deleteRequest(@PathVariable UUID id) throws Exception {
+    public void deleteRequest(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/deleteFriendRequest/"+id, List.class);
@@ -117,7 +118,7 @@ public class MainControllerUserReroute {
     }
 
     @GetMapping(value="removeFriend/{id}/{friendID}")
-    public void deleteRequest(@PathVariable UUID id, @PathVariable UUID friendID) throws Exception {
+    public void deleteRequest(@PathVariable UUID id, @PathVariable UUID friendID) throws ControllerNotAvailable, InterruptedException {
         //add in delete direct chat here
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
@@ -126,35 +127,35 @@ public class MainControllerUserReroute {
 
 
     @GetMapping(value = "getByUserName/{userName}")
-    public UUID getUserIDByUserName(@PathVariable String userName) throws Exception {
+    public UUID getUserIDByUserName(@PathVariable String userName) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getByUserName/"+ userName, UUID.class);
     }
 
     @GetMapping(value = "createFriendRequest/{id1}/{id2}")
-    public void createFriendRequest(@PathVariable String id1, @PathVariable String id2) throws Exception {
+    public void createFriendRequest(@PathVariable String id1, @PathVariable String id2) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/createFriendRequest/"+ id1+"/"+id2, UUID.class);
     }
 
     @GetMapping("getFriendRequest/{id}")
-    public FriendDTO getFriendRequest(@PathVariable UUID id) throws Exception {
+    public FriendDTO getFriendRequest(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getFriendRequest/"+ id, FriendDTO.class);
     }
 
     @PostMapping("editUserProfile")
-    public String editUseProfile(@RequestBody EditUserProfileRequest req) throws Exception {
+    public String editUseProfile(@RequestBody EditUserProfileRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/editUserProfile", req,String.class);
     }
 
     @PostMapping("setEmergencyContact")
-    public String setEmergencyContact(@RequestBody SetUserEmergencyContactRequest req) throws Exception {
+    public String setEmergencyContact(@RequestBody SetUserEmergencyContactRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/setEmergencyContact/",req, String.class);
@@ -166,21 +167,21 @@ public class MainControllerUserReroute {
     }
 
     @GetMapping("getUserTheme/{userId}")
-    public Boolean getUserTheme( @PathVariable UUID userId) throws Exception {
+    public Boolean getUserTheme( @PathVariable UUID userId) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUserTheme/"+ userId, Boolean.class);
     }
 
     @PostMapping("setUserTheme")
-    public String setUserTheme( @RequestBody SetUserThemeRequest req) throws Exception {
+    public String setUserTheme( @RequestBody SetUserThemeRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/setUserTheme/",req, String.class);
     }
 
     @GetMapping("likeLocation/{userID}/{locationID}")
-    public void likeLocation(@PathVariable UUID userID, @PathVariable UUID locationID) throws Exception {
+    public void likeLocation(@PathVariable UUID userID, @PathVariable UUID locationID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT, LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/addLikedLocation/"+ userID + "/" + locationID, String.class);
