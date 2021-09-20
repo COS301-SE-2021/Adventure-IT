@@ -8,13 +8,13 @@ import java.util.UUID;
 
 public class MainItineraryEntryResponseDTO {
     private UUID id;
-    private UUID entryContainerID;
-    private String title;
+    private final UUID entryContainerID;
+    private final String title;
     private String description;
-    private boolean completed;
+    private final boolean completed;
     private LocationResponseDTO location;
     LocalDateTime timestamp;
-    private Map<UUID,Boolean> registeredUsers;
+    private final Map<UUID,Boolean> registeredUsers;
 
     public MainItineraryEntryResponseDTO(String title, String description, UUID id, UUID entryContainerID, boolean completed, LocationResponseDTO location, LocalDateTime timestamp, Map<UUID,Boolean> registeredUsers){
         this.title = title;
