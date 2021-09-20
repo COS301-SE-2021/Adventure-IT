@@ -15,10 +15,10 @@ import java.util.List;
 public class MainControllerNotificationReroute {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private MainControllerServiceImplementation service;
+    private final MainControllerServiceImplementation service;
 
-    private final String IP = "http://localhost";
-    private final String notificationPort = "9004";
+    private static final String INTERNET_PORT = "http://localhost";
+    private static final String NOTIFICATION_PORT = "9004";
 
     @Autowired
     public MainControllerNotificationReroute(MainControllerServiceImplementation service) {
@@ -27,34 +27,34 @@ public class MainControllerNotificationReroute {
 
     @PostMapping("/sendemail")
     public String sendEmail(@RequestBody SendEmailRequest req) throws Exception {
-        String[] ports = {notificationPort};
+        String[] ports = {NOTIFICATION_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.postForObject(IP + ":" + notificationPort + "/notification/sendemail/", req, String.class);
+        return restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/sendemail/", req, String.class);
 
     }
 
     @PostMapping("/createNotification")
     public String createNotification(@RequestBody CreateNotificationRequest req) throws Exception {
-        String[] ports = {notificationPort};
+        String[] ports = {NOTIFICATION_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.postForObject(IP + ":" + notificationPort + "/notification/createNotification/", req, String.class);
+        return restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/createNotification/", req, String.class);
     }
 
     @PostMapping("/retrieveNotification")
     public List<NotificationDTO> test3(@RequestBody RetrieveNotificationRequest req) throws Exception {
-        String[] ports = {notificationPort};
+        String[] ports = {NOTIFICATION_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.postForObject(IP + ":" + notificationPort + "/notification/retrieveNotification/", req, List.class);
+        return restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/retrieveNotification/", req, List.class);
     }
 
     @PostMapping("/sendFirebaseNotification")
     public String sendFirebaseNotification(@RequestBody SendFirebaseNotificationRequest req){
-        return restTemplate.postForObject(IP + ":" + notificationPort + "/notification/sendFirebaseNotification/", req, String.class);
+        return restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/sendFirebaseNotification/", req, String.class);
     }
 
     @PostMapping("/addFirebaseUser")
     public String addFirebaseUser(@RequestBody FirebaseUserRequest req){
-        return restTemplate.postForObject(IP + ":" + notificationPort + "/notification/addFirebaseUser/", req, String.class);
+        return restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/addFirebaseUser/", req, String.class);
     }
 
 }
