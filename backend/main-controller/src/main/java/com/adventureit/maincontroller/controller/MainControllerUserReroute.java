@@ -4,10 +4,13 @@ package com.adventureit.maincontroller.controller;
 import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
+import com.adventureit.shareddtos.media.responses.MediaResponseDTO;
 import com.adventureit.shareddtos.recommendation.request.CreateUserRequest;
 import com.adventureit.shareddtos.user.requests.*;
 import com.adventureit.shareddtos.user.responses.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -54,13 +57,6 @@ public class MainControllerUserReroute {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
        return restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/updatePicture/",req, String.class);
-    }
-
-    @GetMapping(value = "viewPicture/{id}")
-    public String updatePicture(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
-        String[] ports = {USER_PORT};
-        service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/viewPicture/" + id, String.class);
     }
 
     @GetMapping(value="/confirmToken/{token}")
@@ -213,8 +209,12 @@ public class MainControllerUserReroute {
         restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/setNotificationSettings/"+ userId, String.class);
     }
 
-
-
+    @GetMapping("viewPicture/{id}")
+    public ResponseEntity<byte[]> viewPicture(@PathVariable UUID id){
+        MediaResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/viewPicture/" + id, MediaResponseDTO.class);
+        assert responseDTO != null;
+        return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
+    }
 }
 
 

@@ -1,6 +1,7 @@
 package com.adventureit.userservice.service;
 
 
+import com.adventureit.shareddtos.media.responses.MediaResponseDTO;
 import com.adventureit.userservice.entities.Friend;
 import com.adventureit.userservice.entities.PictureInfo;
 import com.adventureit.userservice.entities.Users;
@@ -188,9 +189,7 @@ public class UserServiceImplementation  {
             BlobId blobId = BlobId.of(bucketName, id.toString());
             BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
             storage.create(blobInfo, file.getBytes());
-
-
-
+            
             return HttpStatus.OK;
         } catch (Exception e) {
             e.printStackTrace();
@@ -201,7 +200,7 @@ public class UserServiceImplementation  {
 
 
     @Transactional
-    public ResponseEntity<byte[]> viewImage(UUID id) throws IOException {
+    public MediaResponseDTO viewImage(UUID id) throws IOException {
         PictureInfo info = pictureInfoRepository.findPictureInfoById(id);
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
@@ -210,11 +209,16 @@ public class UserServiceImplementation  {
         Storage storage = storageOptions.getService();
         Blob blob = storage.get(BlobId.of(bucketName, info.getId().toString()));
         ReadChannel reader = blob.reader();
-        byte[] content = null;
+        byte[] content = new byte[0];
+        
         try (InputStream inputStream = Channels.newInputStream(reader)) {
-            inputStream.readAllBytes();
+           content = inputStream.readAllBytes();
         }
-        return new ResponseEntity<>(content, headers, HttpStatus.OK);
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return new MediaResponseDTO(content, headers);
     }
 
     public void removeImage(UUID id){

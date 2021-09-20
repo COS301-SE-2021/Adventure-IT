@@ -1,6 +1,7 @@
 package com.adventureit.userservice.controller;
 
 import com.adventureit.shareddtos.chat.requests.GetUsersRequestDTO;
+import com.adventureit.shareddtos.media.responses.MediaResponseDTO;
 import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 import com.adventureit.shareddtos.user.requests.EditUserProfileRequest;
 import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
@@ -63,7 +64,7 @@ public class UserController {
     }
 
     @GetMapping(value = "viewPicture/{id}")
-    public ResponseEntity<byte[]> viewImage(@PathVariable UUID id) throws IOException {
+    public MediaResponseDTO viewImage(@PathVariable UUID id) throws IOException {
         return service.viewImage(id);
     }
 
