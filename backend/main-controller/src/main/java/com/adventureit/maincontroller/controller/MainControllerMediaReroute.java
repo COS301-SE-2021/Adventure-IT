@@ -162,18 +162,25 @@ public class MainControllerMediaReroute {
     @GetMapping("/deleteMedia/{id}/{userID}")
     public void deleteMedia(@PathVariable UUID id,@PathVariable UUID userID){
         long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userID, long.class);
-
+        long mediaSize = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/getMediaSize/" + id, long.class);
         restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/deleteMedia/"+id+"/"+userID,String.class);
+        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + SET_STORAGE + userID + "/" + (storageUsed - mediaSize), String.class);
     }
 
     @GetMapping("/deleteFile/{id}/{userID}")
     public void deleteFile(@PathVariable UUID id,@PathVariable UUID userID){
+        long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userID, long.class);
+        long mediaSize = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/getFileSize/" + id, long.class);
         restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/deleteFile/"+id+"/"+userID,String.class);
+        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + SET_STORAGE + userID + "/" + (storageUsed - mediaSize), String.class);
     }
 
     @GetMapping("/deleteDocument/{id}/{userID}")
     public void deleteDocument(@PathVariable UUID id,@PathVariable UUID userID){
+        long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userID, long.class);
+        long mediaSize = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/getDocumentSize/" + id, long.class);
         restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/deleteDocument/"+id+"/"+userID,String.class);
+        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + SET_STORAGE + userID + "/" + (storageUsed - mediaSize), String.class);
     }
 
     public File convertFile(MultipartFile file){

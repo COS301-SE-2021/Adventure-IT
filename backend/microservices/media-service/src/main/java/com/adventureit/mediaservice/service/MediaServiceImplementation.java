@@ -257,25 +257,87 @@ public class MediaServiceImplementation implements MediaService{
         documentInfoRepository.delete(documentInfo);
     }
 
-//    @Override
-//    public long getMediaSize(UUID id) {
-//        return 0;
-//    }
-//
-//    @Override
-//    public long getFileSize(UUID id) {
-//
-//    }
-//
-//    @Override
-//    public long getDocumentSize(UUID id) {
-//        DocumentInfo documentInfo = documentInfoRepository.findDocumentInfoById(id);
-//        Storage storage = storageOptions.getService();
-//
-//        if(documentInfo == null){
-//            throw new NotFoundException("Get Document Size: Document does not exist");
-//        }
-//
-//
-//    }
+    @Override
+    public long getMediaSize(UUID id) throws IOException {
+        MediaInfo mediaInfo = mediaInfoRepository.findMediaById(id);
+        if(mediaInfo == null){
+            throw new NotFoundException("Get Media Size: Media does not exist");
+        }
+
+        Storage storage = storageOptions.getService();
+        Blob blob = storage.get(BlobId.of(bucketName, id.toString()));
+        ReadChannel reader = blob.reader();
+        InputStream inputStream = Channels.newInputStream(reader);
+        byte[] content = inputStream.readAllBytes();
+
+        File convFile = new File("output");
+        try {
+            convFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(convFile);
+            fos.write(content);
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        long size = convFile.length();
+        convFile.delete();
+        return size;
+    }
+
+    @Override
+    public long getFileSize(UUID id) throws IOException {
+        FileInfo fileInfo = fileInfoRepository.findFileInfoById(id);
+        if(fileInfo == null){
+            throw new NotFoundException("Get File Size: File does not exist");
+        }
+
+        Storage storage = storageOptions.getService();
+        Blob blob = storage.get(BlobId.of(bucketName, id.toString()));
+        ReadChannel reader = blob.reader();
+        InputStream inputStream = Channels.newInputStream(reader);
+        byte[] content = inputStream.readAllBytes();
+
+        File convFile = new File("output");
+        try {
+            convFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(convFile);
+            fos.write(content);
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        long size = convFile.length();
+        convFile.delete();
+        return size;
+    }
+
+    @Override
+    public long getDocumentSize(UUID id) throws IOException {
+        DocumentInfo documentInfo = documentInfoRepository.findDocumentInfoById(id);
+        if(documentInfo == null){
+            throw new NotFoundException("Get Document Size: Document does not exist");
+        }
+
+        Storage storage = storageOptions.getService();
+        Blob blob = storage.get(BlobId.of(bucketName, id.toString()));
+        ReadChannel reader = blob.reader();
+        InputStream inputStream = Channels.newInputStream(reader);
+        byte[] content = inputStream.readAllBytes();
+
+        File convFile = new File("output");
+        try {
+            convFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(convFile);
+            fos.write(content);
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        long size = convFile.length();
+        convFile.delete();
+        return size;
+    }
 }
