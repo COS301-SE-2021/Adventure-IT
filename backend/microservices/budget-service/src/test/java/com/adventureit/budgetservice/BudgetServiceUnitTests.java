@@ -2,6 +2,7 @@ package com.adventureit.budgetservice;
 
 import com.adventureit.budgetservice.entity.*;
 import com.adventureit.budgetservice.repository.BudgetEntryRepository;
+import com.adventureit.budgetservice.repository.BudgetReportRepository;
 import com.adventureit.budgetservice.repository.BudgetRepository;
 import com.adventureit.shareddtos.budget.Category;
 import com.adventureit.shareddtos.budget.requests.EditBudgetRequest;
