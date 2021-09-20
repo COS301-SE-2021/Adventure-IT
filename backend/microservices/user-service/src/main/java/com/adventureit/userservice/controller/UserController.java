@@ -40,13 +40,15 @@ public class UserController {
     /**
      * Register User that is mapped from our mock controller for testing purposes
      *
-     * @param req will take in a RegisterUserRequest object
      * @return a RegisterUserResponse object in json format to front end
      * @throws InvalidUserEmailException if the user email is invalid
      * @throws InvalidRequestException if the request body is null
      */
     @PostMapping(value = "registerUser", consumes = "application/json", produces = "application/json")
     public RegisterUserResponse registerUser(@RequestBody RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
+
+        System.out.println(req.getFirstName()+" in user controller");
+        System.out.println(req.getLastName()+" in user controller");
         return service.registerUser(req);
     }
 

@@ -34,17 +34,21 @@ public class MainControllerUserReroute {
 
     @PostMapping(value = "registerUser", consumes = "application/json", produces = "application/json")
     public RegisterUserResponse registerUser(@RequestBody RegisterUserRequest req) throws ControllerNotAvailable, InterruptedException {
-        String[] ports = {USER_PORT, RECOMMENDATION_PORT};
+        String[] ports = {USER_PORT, RECOMMENDATION_PORT,LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
+        System.out.println(req.getFirstName()+" in main controller");
+        System.out.println(req.getLastName()+" in main controller");
         CreateUserRequest req2 = new CreateUserRequest(req.getUserID());
         restTemplate.postForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/add/user", req2, String.class);
-        return restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/registerUser/",req, RegisterUserResponse.class);
+        restTemplate.getForObject(INTERNET_PORT+":"+LOCATION_PORT+"/location/storeCurrentLocation/"+req.getUserID()+"/0/0", String.class);
+        return restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/registerUser",req, RegisterUserResponse.class);
     }
 
     @GetMapping(value="test")
     public String test(){
         return "User controller is working";
     }
+
     @PostMapping(value = "updatePicture", consumes = "application/json", produces = "application/json")
     public String updatePicture(@RequestBody UpdatePictureRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};

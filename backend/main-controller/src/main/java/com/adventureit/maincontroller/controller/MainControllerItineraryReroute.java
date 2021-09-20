@@ -60,7 +60,7 @@ public class MainControllerItineraryReroute {
     }
 
     @PostMapping(value = "/addEntry")
-    public UUID addItineraryEntry(@RequestBody AddItineraryEntryRequest req) throws ControllerNotAvailable, InterruptedException {
+    public UUID addItineraryEntry(@RequestBody AddItineraryEntryRequest req) throws ControllerNotAvailable, InterruptedException , NullPointerException {
         String[] ports = {ITINERARY_PORT, USER_PORT, ADVENTURE_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
 
@@ -69,7 +69,11 @@ public class MainControllerItineraryReroute {
         assert itinerary != null;
         UUID adventureId = itinerary.getAdventureID();
         try {
-            AdventureDTO adventureResponse = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/getAdventureByUUID/" + adventureId, GetAdventureByUUIDResponse.class).getAdventure();
+            GetAdventureByUUIDResponse response = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/getAdventureByUUID/" + adventureId, GetAdventureByUUIDResponse.class);
+            if(response == null){
+                throw new NullPointerException("Adventure is null");
+            }
+            AdventureDTO adventureResponse = response.getAdventure();
             LocalDateTime timestamp = LocalDateTime.parse(req.getTimestamp());
             if((timestamp.toLocalDate().compareTo(adventureResponse.getEndDate()) > 0) || (timestamp.toLocalDate().compareTo(adventureResponse.getStartDate()) < 0)){
                 throw new InvalidItineraryEntryException("Itinerary Entry does not fit within Adventure");
@@ -82,7 +86,7 @@ public class MainControllerItineraryReroute {
 
         assert locationDTO != null;
         CreateLocationRequest req3 = new CreateLocationRequest(locationId, locationDTO.getName());
-        String code=restTemplate.postForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/add/location", req3, String.class);
+        restTemplate.postForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/add/location", req3, String.class);
 
         UUID itineraryID = restTemplate.postForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/addEntry", req, UUID.class);
         restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/setLocation/" + itineraryID + "/" + locationId, String.class);
@@ -249,7 +253,7 @@ public class MainControllerItineraryReroute {
         LocationResponseDTO location = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + GET_LOCATION + entry.getLocation() , LocationResponseDTO.class);
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + userID, GetUserByUUIDDTO.class);
         assert user != null;
-        if (user.getSettings()){
+        if (user.getSettings().equals(true)){
             assert location != null;
             SendEmailRequest req = new SendEmailRequest(user.getEmergencyEmail(),"Check-in confirmed",user.getFirstname()+" has checked into: "+location.getName()+".\n Use the link to see their location:\n http://maps.google.com/maps?q="+location.getFormattedAddress()+"&z=17\n \n \n \n From Adventure IT team");
             restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/sendemail/" ,req, String.class);

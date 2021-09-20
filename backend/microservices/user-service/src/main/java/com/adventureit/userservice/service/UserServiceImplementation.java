@@ -130,8 +130,10 @@ public class UserServiceImplementation  {
             throw new InvalidRequestException("404 Bad Request");
         }
         UUID userId = req.getUserID();
-        String firstName = req.getfName();
-        String lastName = req.getlName();
+        String firstName = req.getFirstName();
+        System.out.println(firstName+" in implementation");
+        String lastName = req.getLastName();
+        System.out.println(lastName+" in implementation");
         String email = req.getEmail();
         String username = req.getUsername();
 
