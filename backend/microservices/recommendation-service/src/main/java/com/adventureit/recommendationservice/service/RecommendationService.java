@@ -126,11 +126,11 @@ public class RecommendationService {
                     datasetMatrix.set(i, j, 4);
                 }
                 // If user has liked the location, insert rating 2
-                else if(currentUser.hasLiked(currentLocation)){
+                else if(currentUser.hasLiked(currentLocation).equals(true)){
                     datasetMatrix.set(i, j, 2);
                 }
                 // If user has visited the location, insert rating 1
-                else if (currentUser.hasVisited(currentLocation)){
+                else if (currentUser.hasVisited(currentLocation).equals(true)){
                     datasetMatrix.set(i, j, 1);
                 }
                 // If user has neither liked nor visited the location, don't insert anything

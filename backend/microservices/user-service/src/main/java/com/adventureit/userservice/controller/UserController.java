@@ -17,7 +17,6 @@ import com.adventureit.userservice.exceptions.InvalidUserPhoneNumberException;
 import com.adventureit.userservice.service.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

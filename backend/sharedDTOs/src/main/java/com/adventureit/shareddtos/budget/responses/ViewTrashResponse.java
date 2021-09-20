@@ -2,14 +2,14 @@ package com.adventureit.shareddtos.budget.responses;
 
 import com.adventureit.shareddtos.budget.BudgetDTO;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class ViewTrashResponse {
     boolean success;
     List<BudgetDTO> budgets;
 
-    public ViewTrashResponse(boolean success, ArrayList<BudgetDTO> budgets){
+    public ViewTrashResponse(boolean success, List<BudgetDTO> budgets){
         this.budgets = budgets;
         this.success = success;
     }
@@ -22,7 +22,7 @@ public class ViewTrashResponse {
         return success;
     }
 
-    public void setBudgets(ArrayList<BudgetDTO> budgets) {
+    public void setBudgets(List<BudgetDTO> budgets) {
         this.budgets = budgets;
     }
 

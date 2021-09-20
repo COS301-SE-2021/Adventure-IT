@@ -118,7 +118,7 @@ public class BudgetGraph{
             String start = cycleNode.getName();
             Node ptr = cycleNode.getPred();
             for (int j = 0;j<ptr.getEdges().size();j++){
-                Edge tempEdge = (Edge)ptr.getEdges().get(j);
+                Edge tempEdge = ptr.getEdges().get(j);
                 if(tempEdge.getPayee().getName().equals(cycleNode.getName())){
                     cycleEdges.add(tempEdge);
                 }
@@ -130,7 +130,7 @@ public class BudgetGraph{
                 String tempName = ptr.getName();
                 ptr = ptr.getPred();
                 for (int k = 0;k<ptr.getEdges().size();k++){
-                    Edge tempEdge = (Edge)ptr.getEdges().get(k);
+                    Edge tempEdge = ptr.getEdges().get(k);
                     if(tempEdge.getPayee().getName().equals(tempName)){
                         cycleEdges.add(tempEdge);
                     }
@@ -146,7 +146,7 @@ public class BudgetGraph{
     public Node checkNode(Node node){
         node.setNum(this.i++);
         for (int j = 0 ;j< node.getEdges().size();j++){
-            Edge edge = (Edge)node.getEdges().get(j);
+            Edge edge = node.getEdges().get(j);
             if(edge.getPayee().getNum()==0){
                 edge.getPayee().setPred(node);
                 return checkNode(edge.getPayee());
@@ -154,7 +154,6 @@ public class BudgetGraph{
                 edge.getPayee().setPred(node);
                 return edge.getPayee();
             }
-
         }
         node.setNum(Integer.MAX_VALUE);
         return null;

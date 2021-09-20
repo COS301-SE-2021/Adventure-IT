@@ -8,6 +8,7 @@ public class CreateLocationRequest {
 
     public CreateLocationRequest(){};
 
+
     public CreateLocationRequest(UUID locationId, String locationString){
         this.locationId = locationId;
         this.locationString = locationString;
@@ -15,11 +16,6 @@ public class CreateLocationRequest {
 
     public UUID getLocationId() {
         return locationId;
-    }
-
-    public void setLocationId(UUID locationId)
-    {
-        this.locationId=locationId;
     }
 
     public String getLocationString() {

@@ -153,7 +153,6 @@ public class NotificationService {
     }
 
     public String sendFirebaseNotifications(SendFirebaseNotificationsRequest req) {
-        List<UUID> users = new ArrayList<>();
         if (req.getData() == null){
             req.setData(Collections.<String,String>emptyMap());
         }
