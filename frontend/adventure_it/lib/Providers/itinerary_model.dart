@@ -7,6 +7,7 @@ import 'package:adventure_it/api/recommendedLocation.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class DeletedItineraryModel extends ChangeNotifier {
   List<Itinerary>? _deletedItineraries;
@@ -189,8 +190,8 @@ class ItineraryEntryModel extends ChangeNotifier {
   }
 
   Future addItineraryEntry(Itinerary i, String a, String b, String c, String d,
-      String e, String f) async {
-    await ItineraryApi.createItineraryEntry(a, b, c, d, e, f, context);
+      DateTime e, TimeOfDay f, String g) async {
+    await ItineraryApi.createItineraryEntry(a, b, c, d, e, f, g, context);
 
     await fetchAllEntries(i);
   }
