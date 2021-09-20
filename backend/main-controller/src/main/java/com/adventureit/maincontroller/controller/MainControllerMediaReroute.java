@@ -39,21 +39,21 @@ public class MainControllerMediaReroute {
     }
 
     @GetMapping(value = "/mediaUploaded/{file}")
-    public ResponseEntity<byte[]> testMediaUploaded(@PathVariable UUID file) throws IOException {
+    public ResponseEntity<byte[]> testMediaUploaded(@PathVariable UUID file) {
         MediaResponseDTO responseDTO = new MediaResponseDTO();
         responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/mediaUploaded/" +file, MediaResponseDTO.class);
         return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/fileUploaded/{file}")
-    public ResponseEntity<byte[]> testFileUploaded(@PathVariable UUID file) throws IOException {
+    public ResponseEntity<byte[]> testFileUploaded(@PathVariable UUID file) {
         MediaResponseDTO responseDTO = new MediaResponseDTO();
         responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/fileUploaded/"+file, MediaResponseDTO.class);
         return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/documentUploaded/{file}")
-    public ResponseEntity<byte[]> testDocumentUploaded(@PathVariable UUID file) throws IOException {
+    public ResponseEntity<byte[]> testDocumentUploaded(@PathVariable UUID file) {
         MediaResponseDTO responseDTO = new MediaResponseDTO();
         responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/documentUploaded/"+file, MediaResponseDTO.class);
         return new ResponseEntity<>(responseDTO.getContent(), responseDTO.getHeaders(), HttpStatus.OK);
