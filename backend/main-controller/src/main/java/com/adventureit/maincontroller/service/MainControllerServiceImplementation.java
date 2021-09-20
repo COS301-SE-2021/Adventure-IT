@@ -162,6 +162,8 @@ public class MainControllerServiceImplementation {
                         return NOT_OK;
                     }
                     break;
+
+                default: return "OK";
             }
         }
         return value;
