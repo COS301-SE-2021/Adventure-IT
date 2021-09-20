@@ -12,13 +12,14 @@ public class MainControllerServiceImplementation {
     private static final String NOT_OK = "Not OK";
 
     public String pingControllers(String[] ports, RestTemplate temp){
-        String IP = "http://localhost";
+        String internetPort = "http://localhost";
         String result;
         String value = "";
         for (String port : ports) {
             if (port.equals("9001")) {
                 try {
-                    result = temp.getForObject(IP + ":" + port + "/adventure/test", String.class);
+                    result = temp.getForObject(internetPort + ":" + port + "/adventure/test", String.class);
+                    assert result != null;
                     if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
@@ -31,7 +32,8 @@ public class MainControllerServiceImplementation {
 
             } else if (port.equals("9002")) {
                 try{
-                    result = temp.getForObject(IP + ":" + port + "/user/test", String.class);
+                    result = temp.getForObject(internetPort + ":" + port + "/user/test", String.class);
+                    assert result != null;
                     if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
@@ -43,7 +45,8 @@ public class MainControllerServiceImplementation {
                 }
             } else if (port.equals("9004")) {
                 try {
-                    result = temp.getForObject(IP + ":" + port + "/notification/test", String.class);
+                    result = temp.getForObject(internetPort + ":" + port + "/notification/test", String.class);
+                    assert result != null;
                     if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
@@ -55,7 +58,8 @@ public class MainControllerServiceImplementation {
                 }
             } else if (port.equals("9005")) {
                 try {
-                    result = temp.getForObject(IP + ":" + port + "/media/test", String.class);
+                    result = temp.getForObject(internetPort + ":" + port + "/media/test", String.class);
+                    assert result != null;
                     if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
@@ -67,7 +71,8 @@ public class MainControllerServiceImplementation {
                 }
             } else if (port.equals("9006")) {
                 try {
-                    result = temp.getForObject(IP + ":" + port + "/location/test", String.class);
+                    result = temp.getForObject(internetPort + ":" + port + "/location/test", String.class);
+                    assert result != null;
                     if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
@@ -79,7 +84,8 @@ public class MainControllerServiceImplementation {
                 }
             } else if (port.equals("9007")) {
                 try {
-                    result = temp.getForObject(IP + ":" + port + "/budget/test", String.class);
+                    result = temp.getForObject(internetPort + ":" + port + "/budget/test", String.class);
+                    assert result != null;
                     if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
@@ -91,7 +97,8 @@ public class MainControllerServiceImplementation {
                 }
             } else if (port.equals("9008")) {
                 try {
-                    result = temp.getForObject(IP + ":" + port + "/checklist/test", String.class);
+                    result = temp.getForObject(internetPort + ":" + port + "/checklist/test", String.class);
+                    assert result != null;
                     if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
@@ -103,7 +110,8 @@ public class MainControllerServiceImplementation {
                 }
             } else if (port.equals("9009")) {
                 try {
-                    result = temp.getForObject(IP + ":" + port + "/itinerary/test", String.class);
+                    result = temp.getForObject(internetPort + ":" + port + "/itinerary/test", String.class);
+                    assert result != null;
                     if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
@@ -115,7 +123,8 @@ public class MainControllerServiceImplementation {
                 }
             } else if (port.equals("9010")) {
                 try {
-                    result = temp.getForObject(IP + ":" + port + "/chat/test", String.class);
+                    result = temp.getForObject(internetPort + ":" + port + "/chat/test", String.class);
+                    assert result != null;
                     if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
@@ -127,7 +136,8 @@ public class MainControllerServiceImplementation {
                 }
             } else if (port.equals("9012")) {
                 try {
-                    result = temp.getForObject(IP + ":" + port + "/timeline/test", String.class);
+                    result = temp.getForObject(internetPort + ":" + port + "/timeline/test", String.class);
+                    assert result != null;
                     if (result.contains(FUNCTIONAL_CONTROLLER)) {
                         value = "OK";
                     } else {
