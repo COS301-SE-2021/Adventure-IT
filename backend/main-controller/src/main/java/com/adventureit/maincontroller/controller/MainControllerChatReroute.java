@@ -187,6 +187,7 @@ public class MainControllerChatReroute {
             users.add(user);
         }
         else {
+
             users = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUsers/" + usersIds, List.class);
         }
 

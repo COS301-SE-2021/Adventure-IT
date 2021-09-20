@@ -71,6 +71,7 @@ public class MainControllerAdventureReroute {
         String[] ports = {ADVENTURE_PORT, LOCATION_PORT, CHAT_PORT};
         service.pingCheck(ports,restTemplate);
 
+
         UUID locationId = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/"+req.getLocation(),UUID.class);
         CreateAdventureResponse response = restTemplate.postForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/create/",req, CreateAdventureResponse.class);
         assert response != null;
