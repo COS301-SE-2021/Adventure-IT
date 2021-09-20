@@ -127,7 +127,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                           Widget>[
                                         CachedNetworkImage(
                                             useOldImageOnUrlChange: true,
-                                            imageUrl: userApi +
+                                            imageUrl: "http://" +mainApi +
                                                 "/user/viewPicture/" +
                                                 userModel.profile!.profileID,
                                             imageBuilder: (context,

@@ -215,7 +215,7 @@ class _MessageList extends State<MessageList> {
                             child: ListTile(
                               leading: CachedNetworkImage(
                                   useOldImageOnUrlChange: true,
-                                  imageUrl: userApi +
+                                  imageUrl: "http://"+mainApi +
                                       "/user/viewPicture/" +
                                       chatModel.messages!
                                           .elementAt(index)
