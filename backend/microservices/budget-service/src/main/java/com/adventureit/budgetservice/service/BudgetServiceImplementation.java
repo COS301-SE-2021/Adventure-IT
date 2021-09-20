@@ -84,12 +84,12 @@ public class BudgetServiceImplementation implements BudgetService {
         Budget budget = budgetRepository.findBudgetByBudgetID(entryContainerID);
 
         BudgetEntry budgetEntry = new UTUExpense(entryContainerID,amount,title,description,category, payer, payeeID);
-        BudgetEntry reportBudgetEntry = new UTUExpense(entryContainerID,amount,title,description,category, payer, payeeID);
+        ReportBudgetEntity reportBudgetEntry = new ReportUTUExpense(entryContainerID,amount,title,description,category, payer, payeeID);
 
         reportRepository.save(reportBudgetEntry);
         budgetEntryRepository.save(budgetEntry);
         budgetRepository.save(budget);
-        List <BudgetEntry> list = reportRepository.findBudgetEntryByEntryContainerID(entryContainerID);
+        List <ReportBudgetEntity> list = reportRepository.findBudgetEntryByEntryContainerID(entryContainerID);
         BudgetGraph graph = new BudgetGraph();
         graph.generateGraph(list);
         List<Edge> list2 = graph.summarizeGraph();
@@ -97,7 +97,7 @@ public class BudgetServiceImplementation implements BudgetService {
             if(list2.get(i).getAmount()==0){
                 reportRepository.removeBudgetEntryByBudgetEntryID(list2.get(i).getEntryId());
             }else{
-                BudgetEntry entry = reportRepository.findBudgetEntryByBudgetEntryID(list2.get(i).getEntryId());
+                ReportBudgetEntity entry = reportRepository.findBudgetEntryByBudgetEntryID(list2.get(i).getEntryId());
                 entry.setAmount(list2.get(i).getAmount());
                 reportRepository.save(entry);
             }
@@ -142,12 +142,12 @@ public class BudgetServiceImplementation implements BudgetService {
         Budget budget = budgetRepository.findBudgetByBudgetID(entryContainerID);
 
         BudgetEntry budgetEntry = new UTOExpense(entryContainerID,amount,title,description,category,payer,payee);
-        BudgetEntry reportBudgetEntry = new UTOExpense(entryContainerID,amount,title,description,category,payer,payee);
+        ReportBudgetEntity reportBudgetEntry = new ReportUTOExpense(entryContainerID,amount,title,description,category,payer,payee);
 
         reportRepository.save(reportBudgetEntry);
         budgetEntryRepository.save(budgetEntry);
         budgetRepository.save(budget);
-        List <BudgetEntry> list = reportRepository.findBudgetEntryByEntryContainerID(entryContainerID);
+        List <ReportBudgetEntity> list = reportRepository.findBudgetEntryByEntryContainerID(entryContainerID);
         BudgetGraph graph = new BudgetGraph();
         graph.generateGraph(list);
         List<Edge> list2 = graph.summarizeGraph();
@@ -155,7 +155,7 @@ public class BudgetServiceImplementation implements BudgetService {
             if(list2.get(i).getAmount()==0){
                 reportRepository.removeBudgetEntryByBudgetEntryID(list2.get(i).getEntryId());
             }else{
-                BudgetEntry entry = reportRepository.findBudgetEntryByBudgetEntryID(list2.get(i).getEntryId());
+                ReportBudgetEntity entry = reportRepository.findBudgetEntryByBudgetEntryID(list2.get(i).getEntryId());
                 entry.setAmount(list2.get(i).getAmount());
                 reportRepository.save(entry);
             }
@@ -391,10 +391,10 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
     public List<String> getReportList(UUID id) {
-        List<BudgetEntry> entries = reportRepository.findBudgetEntryByEntryContainerID(id);
+        List<ReportBudgetEntity> entries = reportRepository.findBudgetEntryByEntryContainerID(id);
         List<String> list = new ArrayList<>();
 
-        for (BudgetEntry entry:entries) {
+        for (ReportBudgetEntity entry:entries) {
             if(!list.contains(entry.getPayer())) {
                 list.add(entry.getPayer());
             }
@@ -405,14 +405,14 @@ public class BudgetServiceImplementation implements BudgetService {
 
     @Override
     public List<ReportResponseDTO> generateIndividualReport(String userName, UUID id) throws JSONException {
-        List<BudgetEntry> entries = reportRepository.findBudgetEntryByEntryContainerID(id);
+        List<ReportBudgetEntity> entries = reportRepository.findBudgetEntryByEntryContainerID(id);
         JSONObject jsonObject = new JSONObject();
 
-        for (BudgetEntry entry:entries) {
+        for (ReportBudgetEntity entry:entries) {
 
-            if(entry instanceof UTOExpense){
+            if(entry instanceof ReportUTOExpense){
                 if(entry.getPayer().equals(userName)){
-                    String payee = ((UTOExpense) entry).getPayee();
+                    String payee = ((ReportUTOExpense) entry).getPayee();
                     if(!jsonObject.has(payee)){
                         jsonObject.put(payee,entry.getAmount());
                     }
@@ -424,7 +424,7 @@ public class BudgetServiceImplementation implements BudgetService {
             }
             else{
                 if(entry.getPayer().equals(userName)){
-                    String payee = ((UTUExpense) entry).getPayee();
+                    String payee = ((ReportUTUExpense) entry).getPayee();
                     if(!jsonObject.has(payee)){
                         jsonObject.put(payee,entry.getAmount());
                     }
@@ -433,7 +433,7 @@ public class BudgetServiceImplementation implements BudgetService {
                         jsonObject.put(payee, (temp + entry.getAmount()));
                     }
                 }
-                else if(((UTUExpense) entry).getPayee().equals(userName)){
+                else if(((ReportUTUExpense) entry).getPayee().equals(userName)){
                     if(!jsonObject.has(entry.getPayer())){
                         jsonObject.put(entry.getPayer(),(-entry.getAmount()));
                     }

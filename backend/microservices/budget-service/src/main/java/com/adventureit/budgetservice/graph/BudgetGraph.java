@@ -1,8 +1,6 @@
 package com.adventureit.budgetservice.graph;
 
-import com.adventureit.budgetservice.entity.BudgetEntry;
-import com.adventureit.budgetservice.entity.UTOExpense;
-import com.adventureit.budgetservice.entity.UTUExpense;
+import com.adventureit.budgetservice.entity.*;
 
 import java.util.*;
 
@@ -14,14 +12,14 @@ public class BudgetGraph{
         this.nodes = new ArrayList<>();
     }
 
-    public List<Node> generateGraph(List<BudgetEntry> budgets){
+    public List<Node> generateGraph(List<ReportBudgetEntity> budgets){
         this.i = 0;
         List<Node> nodeArrayList = new ArrayList<>();
         if(budgets.isEmpty()){
             return nodeArrayList;
         }
 
-        budgets.sort(Comparator.comparing(BudgetEntry::getPayer));
+        budgets.sort(Comparator.comparing(ReportBudgetEntity::getPayer));
         String name = budgets.get(0).getPayer();
 
         for(int j = 0; j<budgets.size();j++){
@@ -29,12 +27,12 @@ public class BudgetGraph{
                 nodeArrayList.add(new Node(name));
 
                 if(budgets.get(0).getClass().equals(UTUExpense.class)){
-                    UTUExpense entry = (UTUExpense)budgets.get(0);
+                    ReportUTUExpense entry = (ReportUTUExpense)budgets.get(0);
                     if(!checkList(entry.getPayee(),nodeArrayList)){
                         nodeArrayList.add(new Node(entry.getPayee()));
                     }
                 }else if(budgets.get(0).getClass().equals(UTOExpense.class)){
-                    UTOExpense entry = (UTOExpense)budgets.get(0);
+                    ReportUTOExpense entry = (ReportUTOExpense)budgets.get(0);
                     if(!checkList(entry.getPayee(),nodeArrayList)){
                         nodeArrayList.add(new Node(entry.getPayee()));
                     }
@@ -43,12 +41,12 @@ public class BudgetGraph{
             else{
 
                 if(budgets.get(j).getClass().equals(UTUExpense.class)){
-                    UTUExpense entry = (UTUExpense)budgets.get(j);
+                    ReportUTUExpense entry = (ReportUTUExpense)budgets.get(j);
                     if(!checkList(entry.getPayee(),nodeArrayList)){
                         nodeArrayList.add(new Node(entry.getPayee()));
                     }
                 }else if(budgets.get(j).getClass().equals(UTOExpense.class)){
-                    UTOExpense entry = (UTOExpense)budgets.get(j);
+                    ReportUTOExpense entry = (ReportUTOExpense)budgets.get(j);
                     if(!checkList(entry.getPayee(),nodeArrayList)){
                         nodeArrayList.add(new Node(entry.getPayee()));
                     }
@@ -67,13 +65,13 @@ public class BudgetGraph{
             Node payer = null;
             Node payee = null;
             if (budgets.get(j).getClass().equals(UTUExpense.class)){
-                UTUExpense entry = (UTUExpense) budgets.get(j);
+                ReportUTUExpense entry = (ReportUTUExpense) budgets.get(j);
                 payee = findNode(nodeArrayList, entry.getPayee());
                 payer = findNode(nodeArrayList,entry.getPayer());
                 payer.addEdge(new Edge(payer,payee,entry.getAmount(),entry.getId()));
             }
             else if (budgets.get(j).getClass().equals(UTOExpense.class)){
-                UTOExpense entry = (UTOExpense) budgets.get(j);
+                ReportUTOExpense entry = (ReportUTOExpense) budgets.get(j);
                 payee = findNode(nodeArrayList, entry.getPayee());
                 payer = findNode(nodeArrayList,entry.getPayer());
                 payer.addEdge(new Edge(payer,payee,entry.getAmount(),entry.getId()));
