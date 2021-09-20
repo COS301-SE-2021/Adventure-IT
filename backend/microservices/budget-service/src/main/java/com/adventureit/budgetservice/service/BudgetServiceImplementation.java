@@ -362,7 +362,7 @@ public class BudgetServiceImplementation implements BudgetService {
             }
         }
 
-        if(budgetEntries.isEmpty()){
+        if(!budgetEntries.isEmpty()){
             for (BudgetEntry entry:budgetEntries) {
                 if(entry.getCategory() == Category.ACCOMMODATION){
                     integers.set(0,integers.get(0) + 1);
