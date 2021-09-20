@@ -75,7 +75,7 @@ public class MainControllerItineraryReroute {
         }
 
         UUID locationId = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/" + req.getLocation(), UUID.class);
-        LocationResponseDTO locationDTO = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getLocation/createdLocationUUID"+locationId,LocationResponseDTO.class);
+        LocationResponseDTO locationDTO = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getLocation/"+locationId,LocationResponseDTO.class);
 
         assert locationDTO != null;
         CreateLocationRequest req3 = new CreateLocationRequest(locationId, locationDTO.getName());
