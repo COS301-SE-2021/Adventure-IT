@@ -189,7 +189,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
         List<ItineraryResponseDTO> list = new ArrayList<>();
 
         for (Itinerary b : itinerary) {
-            if (b.getDeleted()) {
+            if (b.getDeleted().equals(true)) {
                 list.add(new ItineraryResponseDTO(b.getTitle(), b.getDescription(), b.getId(), b.getCreatorID(), b.getAdventureID(), b.getDeleted()));
             }
         }
@@ -252,7 +252,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
         List<Itinerary> itineraries = itineraryRepository.findAllByAdventureID(id);
 
         for (Itinerary i : itineraries) {
-            if (!i.getDeleted()) {
+            if (i.getDeleted().equals(false)) {
                 temp = itineraryEntryRepository.findAllByEntryContainerID(i.getId());
                 entries.addAll(temp);
             }
@@ -261,11 +261,9 @@ public class ItineraryServiceImplementation implements ItineraryService {
         entries.sort(Comparator.comparing(ItineraryEntry::getTimestamp));
 
         for (ItineraryEntry entry : entries) {
-            if (entry.getRegisteredUsers().containsKey(userID)) {
-                if (entry.getTimestamp().compareTo(LocalDateTime.now()) > 0) {
-                    next = entry;
-                    break;
-                }
+            if (entry.getRegisteredUsers().containsKey(userID)&&entry.getTimestamp().compareTo(LocalDateTime.now()) > 0) {
+                next = entry;
+                break;
             }
         }
 
@@ -302,7 +300,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
         List<ItineraryResponseDTO> list = new ArrayList<>();
 
         for (Itinerary c : itineraries) {
-            if (!c.getDeleted()) {
+            if (c.getDeleted().equals(false)) {
                 list.add(new ItineraryResponseDTO(c.getTitle(), c.getDescription(), c.getId(), c.getCreatorID(), c.getAdventureID(), c.getDeleted()));
             }
         }
@@ -335,7 +333,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
         if (list.size() != 0) {
             for (Map.Entry<UUID, Boolean> item : list.entrySet()){
-                if(!item.getValue()){
+                if(item.getValue().equals(false)){
                     entry.setCompleted(false);
                     break;
                 }
