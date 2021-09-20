@@ -283,15 +283,19 @@ public class MediaServiceImplementation implements MediaService{
         Storage storage = storageOptions.getService();
         Blob blob = storage.get(BlobId.of(bucketName, id.toString()));
         ReadChannel reader = blob.reader();
-        InputStream inputStream = Channels.newInputStream(reader);
-        byte[] content = inputStream.readAllBytes();
+
+
 
         File convFile = new File("output");
-        try {
+        try(InputStream inputStream = Channels.newInputStream(reader)){
+            byte[] content = inputStream.readAllBytes();
             convFile.createNewFile();
             FileOutputStream fos = new FileOutputStream(convFile);
-            fos.write(content);
-            fos.close();
+            try{
+                fos.write(content);
+            }finally{
+                fos.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

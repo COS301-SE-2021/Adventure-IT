@@ -17,7 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,8 +38,7 @@ public class MainControllerMediaReroute {
     private static final String SET_STORAGE = "/user/setStorageUsed/";
     private static final String USERID = "userid";
     private static final String GET_STORAGE = "/user/getStorageUsed/";
-    private static final String FILE_DELETED = "File has been deleted";
-    private Logger logger;
+    private static final Logger logger = Logger.getLogger( MainControllerMediaReroute.class.getName() );
 
     @GetMapping("/test")
     public String test(){
@@ -90,7 +92,7 @@ public class MainControllerMediaReroute {
     }
 
     @PostMapping("/uploadMedia")
-    public HttpStatus uploadMedia(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId, @RequestParam("adventureid") UUID adventureId){
+    public HttpStatus uploadMedia(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId, @RequestParam("adventureid") UUID adventureId) throws IOException {
         long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userId, long.class);
         long limit = 5000000000L;
         if((storageUsed + file.getSize()) > limit){
@@ -110,15 +112,13 @@ public class MainControllerMediaReroute {
         restTemplate = new RestTemplate();
 
         HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/uploadMedia/",requestEntity, HttpStatus.class);
-        Boolean bool = convFile.delete();
-        if(bool){
-            logger.log(Level.WARNING, FILE_DELETED);
-        }
+
+        Files.delete(Path.of(convFile.getPath()));
         return status;
     }
 
     @PostMapping("/uploadFile")
-    public HttpStatus uploadFile(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId, @RequestParam("adventureid") UUID adventureId){
+    public HttpStatus uploadFile(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId, @RequestParam("adventureid") UUID adventureId) throws IOException {
         long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userId, long.class);
         long limit = 5000000000L;
         if((storageUsed + file.getSize()) > limit){
@@ -138,15 +138,12 @@ public class MainControllerMediaReroute {
         restTemplate = new RestTemplate();
 
         HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/uploadFile/",requestEntity, HttpStatus.class);
-        Boolean bool = convFile.delete();
-        if(bool){
-            logger.log(Level.WARNING, FILE_DELETED);
-        }
+        Files.delete(Path.of(convFile.getPath()));
         return status;
     }
 
     @PostMapping("/uploadDocument")
-    public HttpStatus uploadDocument(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId){
+    public HttpStatus uploadDocument(@RequestPart MultipartFile file, @RequestParam(USERID) UUID userId) throws IOException {
         long storageUsed = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_STORAGE + userId, long.class);
         long limit = 5000000000L;
         if((storageUsed + file.getSize()) > limit){
@@ -165,10 +162,7 @@ public class MainControllerMediaReroute {
         restTemplate = new RestTemplate();
 
         HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/uploadDocument/",requestEntity,HttpStatus.class);
-        Boolean bool = convFile.delete();
-        if(bool){
-            logger.log(Level.WARNING, FILE_DELETED);
-        }
+        Files.delete(Path.of(convFile.getPath()));
         return status;
     }
 
@@ -197,15 +191,14 @@ public class MainControllerMediaReroute {
     }
 
     public File convertFile(MultipartFile file){
-        File convFile = new File(file.getOriginalFilename());
+        File convFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
         try (FileOutputStream fos = new FileOutputStream(convFile)) {
             Boolean bool = convFile.createNewFile();
-            if (bool) {
-                logger.log(Level.WARNING, "File successfuly created");
+            if (bool.equals(true)) {
+                logger.log(Level.WARNING, "File successfully created");
             }
-
             fos.write(file.getBytes());
-            fos.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
