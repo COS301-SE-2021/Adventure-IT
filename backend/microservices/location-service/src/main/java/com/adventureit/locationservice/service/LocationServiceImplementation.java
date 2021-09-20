@@ -38,7 +38,12 @@ public class LocationServiceImplementation implements LocationService {
     FlagRepository flagRepository;
     @Autowired
     private static HttpURLConnection connection;
-    private final String APIKey = System.getenv("Google Maps API Key");
+    private final String apiKey = System.getenv("Google Maps API Key");
+    private static final String PLACE_ID = "place_id";
+    private static final String CANDIDATES = "candidates";
+    private static final String ROUTES = "routes";
+    private static final String GOOGLE_MAPS = "https://maps.googleapis.com/maps/api/place/details/json?place_id=";
+    private static final String RESULTS = "result";
 
     @Override
     public UUID createLocation(String location) throws IOException, JSONException {
@@ -48,23 +53,23 @@ public class LocationServiceImplementation implements LocationService {
         JSONObject json = new JSONObject(makeConnection(string2));
         Location location1 = new Location();
 
-        String placeID = json.getJSONArray("candidates").getJSONObject(0).getString("place_id");
+        String placeID = json.getJSONArray(CANDIDATES).getJSONObject(0).getString(PLACE_ID);
 
         Location location2 = locationRepository.findLocationByPlaceID(placeID);
         if(location2 != null){
             return location2.getId();
         }
 
-        String address = json.getJSONArray("candidates").getJSONObject(0).getString("formatted_address");
+        String address = json.getJSONArray(CANDIDATES).getJSONObject(0).getString("formatted_address");
         String[] array = address.split(",");
         String country = array[array.length -1].trim();
         List<String> types = getTypes(placeID);
 
-        if(json.getJSONArray("candidates").getJSONObject(0).has("photos")) {
-            location1 = locationRepository.save(new Location(json.getJSONArray("candidates").getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country,types,json.getJSONArray("candidates").getJSONObject(0).getString("name")));
+        if(json.getJSONArray(CANDIDATES).getJSONObject(0).has("photos")) {
+            location1 = locationRepository.save(new Location(json.getJSONArray(CANDIDATES).getJSONObject(0).getJSONArray("photos").getJSONObject(0).getString("photo_reference"),address,json.getJSONArray(CANDIDATES).getJSONObject(0).getString(PLACE_ID),country,types,json.getJSONArray(CANDIDATES).getJSONObject(0).getString("name")));
         }
         else {
-            location1 = locationRepository.save(new Location("",address,json.getJSONArray("candidates").getJSONObject(0).getString("place_id"),country,types,json.getJSONArray("candidates").getJSONObject(0).getString("name")));
+            location1 = locationRepository.save(new Location("",address,json.getJSONArray(CANDIDATES).getJSONObject(0).getString(PLACE_ID),country,types,json.getJSONArray(CANDIDATES).getJSONObject(0).getString("name")));
         }
 
         return location1.getId();
@@ -79,7 +84,7 @@ public class LocationServiceImplementation implements LocationService {
             string1 = string1 + locationRepository.findLocationById(locations.get(i)).getPlaceID() + "|place_id:";
         }
 
-        string1 = string1 + locationRepository.findLocationById(locations.get(locations.size()-1)).getPlaceID() + "&key=" + APIKey;
+        string1 = string1 + locationRepository.findLocationById(locations.get(locations.size()-1)).getPlaceID() + "&key=" + apiKey;
 
         JSONObject json = new JSONObject(makeConnection(string1));
 
@@ -88,7 +93,7 @@ public class LocationServiceImplementation implements LocationService {
 
     @Override
     public List<String> getOrder(UUID id,List<UUID> locations ,JSONObject json) throws JSONException {
-        JSONArray array = json.getJSONArray("routes").getJSONObject(0).getJSONArray("waypoint_order");
+        JSONArray array = json.getJSONArray(ROUTES).getJSONObject(0).getJSONArray("waypoint_order");
 
         int[] numbers = new int[array.length()];
         for (int i = 0; i < array.length(); ++i) {
@@ -110,7 +115,7 @@ public class LocationServiceImplementation implements LocationService {
     @Override
     public String getTotalDistance(JSONObject json) throws JSONException {
         int sum = 0;
-        JSONArray array = json.getJSONArray("routes").getJSONObject(0).getJSONArray("legs");
+        JSONArray array = json.getJSONArray(ROUTES).getJSONObject(0).getJSONArray("legs");
 
         for (int i = 0; i < array.length(); ++i) {
             sum += Integer. parseInt(array.getJSONObject(i).getJSONObject("distance").getString("value"));
@@ -122,7 +127,7 @@ public class LocationServiceImplementation implements LocationService {
     @Override
     public String getTotalDuration(JSONObject json) throws JSONException {
         int sum = 0;
-        JSONArray array = json.getJSONArray("routes").getJSONObject(0).getJSONArray("legs");
+        JSONArray array = json.getJSONArray(ROUTES).getJSONObject(0).getJSONArray("legs");
 
         for (int i = 0; i < array.length(); ++i) {
             sum += Integer. parseInt(array.getJSONObject(i).getJSONObject("duration").getString("value"));
@@ -215,11 +220,11 @@ public class LocationServiceImplementation implements LocationService {
         String lat;
         String lng;
 
-        String string1 = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + location.getPlaceID() + "&fields=geometry&key=AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
+        String string1 = GOOGLE_MAPS + location.getPlaceID() + "&fields=geometry&key=AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
         JSONObject json = new JSONObject(makeConnection(string1));
 
-       lat = json.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getString("lat");
-       lng = json.getJSONObject("result").getJSONObject("geometry").getJSONObject("location").getString("lng");
+       lat = json.getJSONObject(RESULTS).getJSONObject("geometry").getJSONObject("location").getString("lat");
+       lng = json.getJSONObject(RESULTS).getJSONObject("geometry").getJSONObject("location").getString("lng");
 
        double lat1 = Double.parseDouble(lat);
        double lng1 = Double.parseDouble(lng);
@@ -234,10 +239,10 @@ public class LocationServiceImplementation implements LocationService {
 
     @Override
     public List<String> getTypes(String placeID) throws IOException, JSONException {
-        String string1 = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + placeID + "&fields=type&key=AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
+        String string1 = GOOGLE_MAPS + placeID + "&fields=type&key=AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
 
         JSONObject json = new JSONObject(makeConnection(string1));
-        JSONArray array = json.getJSONObject("result").getJSONArray("types");
+        JSONArray array = json.getJSONObject(RESULTS).getJSONArray("types");
 
         List<String> list = new ArrayList<>();
         for (int i = 0; i < array.length(); ++i) {
@@ -258,11 +263,11 @@ public class LocationServiceImplementation implements LocationService {
             flags = flagRepository.save(new Flags(userID,new ArrayList<>()));
         }
 
-        String string1 = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + location.getPlaceID() + "&fields=address_components&key=AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
+        String string1 = GOOGLE_MAPS + location.getPlaceID() + "&fields=address_components&key=AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
         JSONObject json = new JSONObject(makeConnection(string1));
         JSONObject jsonObject;
 
-        JSONArray array = json.getJSONObject("result").getJSONArray("address_components");
+        JSONArray array = json.getJSONObject(RESULTS).getJSONArray("address_components");
 
         if(!flags.getPlacesVisited().contains(location.getCountry())){
             for (int i = 0; i < array.length(); ++i) {
