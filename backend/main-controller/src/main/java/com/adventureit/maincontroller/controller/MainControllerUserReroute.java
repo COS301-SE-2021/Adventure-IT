@@ -29,6 +29,7 @@ public class MainControllerUserReroute {
     private static final String LOCATION_PORT = "9006";
     private static final String RECOMMENDATION_PORT = "9013";
     private static final String CHAT_PORT = "9010";
+    private static final String ERROR = "Empty Error";
 
     @Autowired
     public MainControllerUserReroute(MainControllerServiceImplementation service) {
@@ -39,9 +40,13 @@ public class MainControllerUserReroute {
     public RegisterUserResponse registerUser(@RequestBody RegisterUserRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT, RECOMMENDATION_PORT,LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
-        CreateUserRequest req2 = new CreateUserRequest(req.getUserID());
+        String id = req.getUserID().toString();
+        if(id.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        CreateUserRequest req2 = new CreateUserRequest(UUID.fromString(id));
         restTemplate.postForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/add/user", req2, String.class);
-        restTemplate.getForObject(INTERNET_PORT+":"+LOCATION_PORT+"/location/storeCurrentLocation/"+req.getUserID()+"/0/0", String.class);
+        restTemplate.getForObject(INTERNET_PORT+":"+LOCATION_PORT+"/location/storeCurrentLocation/" + UUID.fromString(id) + "/0/0", String.class);
         return restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/registerUser",req, RegisterUserResponse.class);
     }
 
@@ -61,7 +66,11 @@ public class MainControllerUserReroute {
     public String confirmToken(@RequestParam("token") String token) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/confirmToken/"+token, String.class);
+        String tok = token;
+        if(tok.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/confirmToken/" + tok, String.class);
 
     }
 
@@ -135,14 +144,26 @@ public class MainControllerUserReroute {
     public UUID getUserIDByUserName(@PathVariable String userName) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getByUserName/"+ userName, UUID.class);
+        String uName = userName;
+        if(uName.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getByUserName/"+ uName, UUID.class);
     }
 
     @GetMapping(value = "createFriendRequest/{id1}/{id2}")
     public void createFriendRequest(@PathVariable String id1, @PathVariable String id2) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
-        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/createFriendRequest/"+ id1+"/"+id2, UUID.class);
+        String fid = id1;
+        if(fid.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        String sid = id2;
+        if(sid.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/createFriendRequest/"+ fid + "/" + sid, UUID.class);
     }
 
     @GetMapping("getFriendRequest/{id}")
