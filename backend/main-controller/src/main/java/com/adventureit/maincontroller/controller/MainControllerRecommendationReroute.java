@@ -3,10 +3,8 @@ package com.adventureit.maincontroller.controller;
 
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.location.responses.LocationResponseDTO;
-import com.adventureit.shareddtos.location.responses.LocationsResponseDTO;
 import com.adventureit.shareddtos.location.responses.RecommendedLocationResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +21,11 @@ import java.util.UUID;
 public class MainControllerRecommendationReroute {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private MainControllerServiceImplementation service;
+    private final MainControllerServiceImplementation service;
 
-    private final String IP = "http://localhost";
-    private final String recommendationPort = "9013";
-    private final String locationPort = "9006";
+    private static final String INTERNET_PORT = "http://localhost";
+    private static final String RECOMMENDATION_PORT = "9013";
+    private static final String LOCATION_PORT = "9006";
 
     @Autowired
     public MainControllerRecommendationReroute(MainControllerServiceImplementation service) {
@@ -40,12 +38,12 @@ public class MainControllerRecommendationReroute {
     // User requests arbitrary number of recommendations
     @GetMapping("get/{userId}/{numRecommendations}/{location}")
     public List<RecommendedLocationResponseDTO> getUserRecommendations(@PathVariable UUID userId, @PathVariable String numRecommendations, @PathVariable String location) throws Exception {
-        String[] ports = {recommendationPort};
+        String[] ports = {RECOMMENDATION_PORT};
         service.pingCheck(ports, restTemplate);
-        String[][] locationUUIDs = restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/get/" + userId + "/" + numRecommendations + "/" + location, String[][].class);
+        String[][] locationUUIDs = restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/get/" + userId + "/" + numRecommendations + "/" + location, String[][].class);
         List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
         for (int i = 0; i < Objects.requireNonNull(locationUUIDs).length; i++) {
-            LocationResponseDTO locationObject = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/" + locationUUIDs[i][0], LocationResponseDTO.class);
+            LocationResponseDTO locationObject = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getLocation/" + locationUUIDs[i][0], LocationResponseDTO.class);
             returnList.add(new RecommendedLocationResponseDTO(locationObject.getId(), locationObject.getPhotoReference(), locationObject.getFormattedAddress(), locationObject.getPlaceId(), locationObject.getName(), Boolean.parseBoolean(locationUUIDs[i][1])));
         }
         return returnList;
@@ -53,31 +51,31 @@ public class MainControllerRecommendationReroute {
 
     @GetMapping("like/{userId}/{locationId}")
     public String likeLocation(@PathVariable UUID userId, @PathVariable UUID locationId) throws Exception {
-        String[] ports = {recommendationPort};
+        String[] ports = {RECOMMENDATION_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/like/" + userId + "/" + locationId, String.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/like/" + userId + "/" + locationId, String.class);
    }
 
     @GetMapping("visit/{userId}/{locationId}")
     public String visitLocation(@PathVariable UUID userId, @PathVariable UUID locationId) throws Exception {
-        String[] ports = {recommendationPort};
+        String[] ports = {RECOMMENDATION_PORT};
         service.pingCheck(ports,restTemplate);
-        return restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/visit/" + userId + "/" + locationId, String.class);
+        return restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/visit/" + userId + "/" + locationId, String.class);
     }
 
     // User requests arbitrary number of popular locations
     @GetMapping("get/popular/{userId}/{numPopular}/{location}")
     public List<RecommendedLocationResponseDTO> getMostPopular(@PathVariable UUID userId, @PathVariable String numPopular,@PathVariable String location) throws Exception {
-        String[] ports = {recommendationPort};
+        String[] ports = {RECOMMENDATION_PORT};
         service.pingCheck(ports,restTemplate);
-        String[][] locationUUIDs = restTemplate.getForObject(IP + ":" + recommendationPort + "/recommendation/get/popular/"+ userId+"/" +numPopular+"/"+location, String[][].class);
+        String[][] locationUUIDs = restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/get/popular/"+ userId+"/" +numPopular+"/"+location, String[][].class);
         if(locationUUIDs[0].length == 0){
             return null;
         }
         else {
             List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
             for(int i = 0; i < Objects.requireNonNull(locationUUIDs).length; i++){
-                LocationResponseDTO locationObject = restTemplate.getForObject(IP + ":" + locationPort + "/location/getLocation/"+locationUUIDs[i][0], LocationResponseDTO.class);
+                LocationResponseDTO locationObject = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getLocation/"+locationUUIDs[i][0], LocationResponseDTO.class);
                 returnList.add(new RecommendedLocationResponseDTO(locationObject.getId(),locationObject.getPhotoReference(),locationObject.getFormattedAddress(),locationObject.getPlaceId(),locationObject.getName(),Boolean.parseBoolean(locationUUIDs[i][1])));
             }
             return returnList;
