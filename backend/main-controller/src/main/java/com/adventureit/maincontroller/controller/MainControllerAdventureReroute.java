@@ -71,8 +71,8 @@ public class MainControllerAdventureReroute {
         String[] ports = {ADVENTURE_PORT, LOCATION_PORT, CHAT_PORT};
         service.pingCheck(ports,restTemplate);
         String location = req.getLocation();
-        if(location.equals("death")) {
-            throw new ControllerNotAvailable("error");
+        if(location.equals("")) {
+            throw new ControllerNotAvailable("Empty Error");
         }
         UUID locationId = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/"+location,UUID.class);
         CreateAdventureResponse response = restTemplate.postForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/create/",req, CreateAdventureResponse.class);

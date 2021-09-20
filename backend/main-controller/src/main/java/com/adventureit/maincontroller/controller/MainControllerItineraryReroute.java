@@ -253,7 +253,7 @@ public class MainControllerItineraryReroute {
         LocationResponseDTO location = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + GET_LOCATION + entry.getLocation() , LocationResponseDTO.class);
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + userID, GetUserByUUIDDTO.class);
         assert user != null;
-        if (user.getSettings().equals(true)){
+        if (user.getSettings().equals(false)){
             assert location != null;
             String link = location.getFormattedAddress();
             String refactoredLink = link.replace(" ","%20");

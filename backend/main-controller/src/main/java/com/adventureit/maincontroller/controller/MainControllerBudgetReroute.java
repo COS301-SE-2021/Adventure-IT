@@ -45,6 +45,10 @@ public class MainControllerBudgetReroute {
     public String createBudget(@RequestBody CreateBudgetRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {BUDGET_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
+        String id = req.getCreatorID().toString();
+        if(id.equals("")) {
+            throw new ControllerNotAvailable("Empty Error");
+        }
         restTemplate.postForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/create/", req, String.class);
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + req.getCreatorID(), GetUserByUUIDDTO.class);
         assert user != null;
