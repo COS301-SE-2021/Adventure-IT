@@ -84,8 +84,9 @@ public class BudgetServiceImplementation implements BudgetService {
         Budget budget = budgetRepository.findBudgetByBudgetID(entryContainerID);
 
         BudgetEntry budgetEntry = new UTUExpense(entryContainerID,amount,title,description,category, payer, payeeID);
+        BudgetEntry reportBudgetEntry = new UTUExpense(entryContainerID,amount,title,description,category, payer, payeeID);
 
-        reportRepository.save(budgetEntry);
+        reportRepository.save(reportBudgetEntry);
         budgetEntryRepository.save(budgetEntry);
         budgetRepository.save(budget);
         List <BudgetEntry> list = reportRepository.findBudgetEntryByEntryContainerID(entryContainerID);
@@ -141,7 +142,9 @@ public class BudgetServiceImplementation implements BudgetService {
         Budget budget = budgetRepository.findBudgetByBudgetID(entryContainerID);
 
         BudgetEntry budgetEntry = new UTOExpense(entryContainerID,amount,title,description,category,payer,payee);
-        reportRepository.save(budgetEntry);
+        BudgetEntry reportBudgetEntry = new UTOExpense(entryContainerID,amount,title,description,category,payer,payee);
+
+        reportRepository.save(reportBudgetEntry);
         budgetEntryRepository.save(budgetEntry);
         budgetRepository.save(budget);
         List <BudgetEntry> list = reportRepository.findBudgetEntryByEntryContainerID(entryContainerID);

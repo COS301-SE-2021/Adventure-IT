@@ -18,7 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
 import java.io.*;
 import java.nio.channels.Channels;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class MediaServiceImplementation implements MediaService{
@@ -29,7 +33,7 @@ public class MediaServiceImplementation implements MediaService{
     @Autowired
     private FileInfoRepository fileInfoRepository;
 
-    private static final String description = "DESCRIPTION";
+    private static final String DESCRIPTION = "DESCRIPTION";
 
     @Value("${firebase-type}")
     String type;
@@ -54,6 +58,10 @@ public class MediaServiceImplementation implements MediaService{
 
     private StorageOptions storageOptions;
     private String bucketName;
+    private static final Logger logger = Logger.getLogger( MediaServiceImplementation.class.getName() );
+    private static final String CREATED_CONST = "File created successfully";
+    private static final String MEDIA_CONST = "media.json";
+    private static final String OUTPUT_CONST = "output";
 
     @PostConstruct
     private void initializeFirebase() throws IOException {
@@ -71,16 +79,16 @@ public class MediaServiceImplementation implements MediaService{
         jsonObject.put("token_uri",tokenUri);
         jsonObject.put("auth_provider_x509_cert_url",authProvider);
         jsonObject.put("client_x509_cert_url",clientx509);
-        try (FileWriter file = new FileWriter("media.json")) {
+        try (FileWriter file = new FileWriter(MEDIA_CONST)) {
             file.write(jsonObject.toJSONString());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-        FileInputStream serviceAccount = new FileInputStream("media.json");
+        FileInputStream serviceAccount = new FileInputStream(MEDIA_CONST);
         this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId1).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
-        boolean flag = new File("media.json").delete();
+        boolean flag = new File(MEDIA_CONST).delete();
         if(!flag){
             throw new NotFoundException("Initialize Firebase: File not found");
         }
@@ -165,7 +173,7 @@ public class MediaServiceImplementation implements MediaService{
             UUID id = UUID.randomUUID();
             String fileName = file.getOriginalFilename();
 
-            MediaInfo uploadedMedia = new MediaInfo(id, file.getContentType(), fileName, description, adventureId , userId);
+            MediaInfo uploadedMedia = new MediaInfo(id, file.getContentType(), fileName, DESCRIPTION, adventureId , userId);
             mediaInfoRepository.save(uploadedMedia);
 
             Storage storage = storageOptions.getService();
@@ -186,7 +194,7 @@ public class MediaServiceImplementation implements MediaService{
             UUID id = UUID.randomUUID();
             String fileName = file.getOriginalFilename();
 
-            FileInfo uploadedFile = new FileInfo(id, file.getContentType(), fileName, description, adventureId , userId);
+            FileInfo uploadedFile = new FileInfo(id, file.getContentType(), fileName, DESCRIPTION, adventureId , userId);
             fileInfoRepository.save(uploadedFile);
 
             Storage storage = storageOptions.getService();
@@ -207,7 +215,7 @@ public class MediaServiceImplementation implements MediaService{
             UUID id = UUID.randomUUID();
             String fileName = file.getOriginalFilename();
 
-            DocumentInfo uploadedDoc = new DocumentInfo(id, file.getContentType(), fileName, description, userId);
+            DocumentInfo uploadedDoc = new DocumentInfo(id, file.getContentType(), fileName, DESCRIPTION, userId);
             documentInfoRepository.save(uploadedDoc);
 
             Storage storage = storageOptions.getService();
@@ -286,10 +294,14 @@ public class MediaServiceImplementation implements MediaService{
 
 
 
-        File convFile = new File("output");
+        File convFile = new File(OUTPUT_CONST);
         try(InputStream inputStream = Channels.newInputStream(reader)){
             byte[] content = inputStream.readAllBytes();
-            convFile.createNewFile();
+            Boolean check =convFile.createNewFile();
+            if(check.equals(true)){
+                logger.log(Level.WARNING, CREATED_CONST);
+            }
+
             FileOutputStream fos = new FileOutputStream(convFile);
             try{
                 fos.write(content);
@@ -301,7 +313,7 @@ public class MediaServiceImplementation implements MediaService{
         }
 
         long size = convFile.length();
-        convFile.delete();
+        Files.delete(Path.of(convFile.getPath()));
         return size;
     }
 
@@ -316,21 +328,32 @@ public class MediaServiceImplementation implements MediaService{
         Blob blob = storage.get(BlobId.of(bucketName, id.toString()));
         ReadChannel reader = blob.reader();
         InputStream inputStream = Channels.newInputStream(reader);
-        byte[] content = inputStream.readAllBytes();
-
-        File convFile = new File("output");
         try {
-            convFile.createNewFile();
-            FileOutputStream fos = new FileOutputStream(convFile);
-            fos.write(content);
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            byte[] content = inputStream.readAllBytes();
+
+            File convFile = new File(OUTPUT_CONST);
+            try {
+                Boolean check = convFile.createNewFile();
+                if(check.equals(true)){
+                    logger.log(Level.WARNING, CREATED_CONST);
+                }
+                FileOutputStream fos = new FileOutputStream(convFile);
+                try {
+                    fos.write(content);
+                }finally{
+                    fos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
 
         long size = convFile.length();
-        convFile.delete();
+            Files.delete(Path.of(convFile.getPath()));
         return size;
+        }finally {
+            inputStream.close();
+        }
     }
 
     @Override
@@ -344,20 +367,31 @@ public class MediaServiceImplementation implements MediaService{
         Blob blob = storage.get(BlobId.of(bucketName, id.toString()));
         ReadChannel reader = blob.reader();
         InputStream inputStream = Channels.newInputStream(reader);
-        byte[] content = inputStream.readAllBytes();
-
-        File convFile = new File("output");
         try {
-            convFile.createNewFile();
-            FileOutputStream fos = new FileOutputStream(convFile);
-            fos.write(content);
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            byte[] content = inputStream.readAllBytes();
 
-        long size = convFile.length();
-        convFile.delete();
-        return size;
+            File convFile = new File(OUTPUT_CONST);
+            try {
+                Boolean check = convFile.createNewFile();
+                if(check.equals(true)){
+                    logger.log(Level.WARNING, CREATED_CONST);
+                }
+                FileOutputStream fos = new FileOutputStream(convFile);
+                try {
+                    fos.write(content);
+                }finally {
+                    fos.close();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            long size = convFile.length();
+            Files.delete(Path.of(convFile.getPath()));
+            return size;
+        }finally {
+            inputStream.close();
+        }
     }
 }
