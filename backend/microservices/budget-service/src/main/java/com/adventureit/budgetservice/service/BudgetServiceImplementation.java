@@ -84,9 +84,11 @@ public class BudgetServiceImplementation implements BudgetService {
         Budget budget = budgetRepository.findBudgetByBudgetID(entryContainerID);
 
         BudgetEntry budgetEntry = new UTUExpense(entryContainerID,amount,title,description,category, payer, payeeID);
+        System.out.println("BEFORE ENTRY");
         ReportBudgetEntity reportBudgetEntry = new ReportUTUExpense(entryContainerID,amount,title,description,category, payer, payeeID);
-
+        System.out.println("AFTER ENTRY");
         reportRepository.save(reportBudgetEntry);
+        System.out.println("AFTER SAVE");
         budgetEntryRepository.save(budgetEntry);
         budgetRepository.save(budget);
         List <ReportBudgetEntity> list = reportRepository.findReportBudgetEntityByEntryContainerID(entryContainerID);
