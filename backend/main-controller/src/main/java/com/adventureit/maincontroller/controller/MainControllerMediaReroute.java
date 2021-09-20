@@ -189,7 +189,7 @@ public class MainControllerMediaReroute {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(bodyMap, headers);
         restTemplate = new RestTemplate();
 
-        HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/uploadDocument/",requestEntity,HttpStatus.class);
+        HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/uploadDocument",requestEntity,HttpStatus.class);
         Files.delete(Path.of(convFile.getPath()));
         return status;
     }

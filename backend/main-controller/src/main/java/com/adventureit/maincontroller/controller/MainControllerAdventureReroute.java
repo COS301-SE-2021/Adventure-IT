@@ -164,7 +164,10 @@ public class MainControllerAdventureReroute {
     public String editAdventure(@RequestBody EditAdventureRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        UUID userId = req.getUserId();
+        if(req.test())
+        {
+            throw ('Error!');
+        }
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + userId, GetUserByUUIDDTO.class);
         assert user != null;
         CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureId(), TimelineType.ADVENTURE,user.getUsername()+" edited this adventure." );
