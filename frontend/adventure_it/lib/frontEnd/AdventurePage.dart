@@ -779,7 +779,7 @@ class AlertBox extends StatelessWidget {
                                         leading:CachedNetworkImage(
                                             useOldImageOnUrlChange: true,
                                             imageUrl:
-                                        userApi+"/user/viewPicture/" +
+                                            "http://"+mainApi+"/user/viewPicture/" +
                                             friendModel.friends!.elementAt(index).userID,
                                             imageBuilder: (context, imageProvider) => Container(
                                                 width:70,
@@ -858,8 +858,25 @@ class EditAlert extends State<_EditAlert> {
   EditAlert(this.adventure) {
     nameController.text = adventure!.name;
     descriptionController.text = adventure!.description;
-    dateController.text =
-        adventure!.startDate.toString() + " - " + adventure!.endDate.toString();
+    dateController.text = getInitialText(DateTime.parse(adventure!.startDate),DateTime.parse(adventure!.endDate));
+  }
+
+  String getInitialText(DateTime start, DateTime end) {
+    if (start == end) {
+      String x = start.day.toString() + " " +
+          months.elementAt(start.month - 1) + " " +
+          start.year.toString();
+      return x;
+    }
+    else {
+      String x = start.day.toString() + " " +
+          months.elementAt(start.month - 1) + " " +
+          start.year.toString() + " to " +
+          end.day.toString() +
+          " " + months.elementAt(end.month - 1) + " " +
+          end.year.toString();
+      return x;
+    }
   }
 
   double getSize(context) {

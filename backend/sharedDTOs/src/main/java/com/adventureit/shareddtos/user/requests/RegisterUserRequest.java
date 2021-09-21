@@ -6,8 +6,8 @@ import java.util.UUID;
 
 public class RegisterUserRequest {
     private final UUID userID;
-    private final String fName;
-    private final String lName;
+    private final String firstName;
+    private final String lastName;
     private final String email;
     private final String username;
 
@@ -20,8 +20,8 @@ public class RegisterUserRequest {
 
     public RegisterUserRequest(@JsonProperty("userID") UUID userID, @JsonProperty("firstName") String fName,@JsonProperty("lastName") String lName, @JsonProperty("username") String uName,@JsonProperty("email") String email){
         this.userID = userID;
-        this.fName = fName;
-        this.lName = lName;
+        this.firstName = fName;
+        this.lastName = lName;
         this.email = email;
         this.username = uName;
     }
@@ -34,16 +34,16 @@ public class RegisterUserRequest {
      * RegisterUserRequest service to retrieve request first name
      * @return fName
      */
-    public String getfName() {
-        return fName;
+    public String getFirstName() {
+        return firstName;
     }
 
     /**
      * RegisterUserRequest service to retrieve request last name
      * @return lName
      */
-    public String getlName() {
-        return lName;
+    public String getLastName() {
+        return lastName;
     }
 
     /**

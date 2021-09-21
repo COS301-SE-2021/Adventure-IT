@@ -66,8 +66,8 @@ class UserUnitTests {
         RegisterUserRequest req = new RegisterUserRequest(uuid1, userName1,userlName1,username1,validEmail);
         assertNotNull(req);
         assertEquals(uuid1,req.getUserID());
-        assertEquals(userName1,req.getfName());
-        assertEquals(userlName1,req.getlName());
+        assertEquals(userName1,req.getFirstName());
+        assertEquals(userlName1,req.getLastName());
         assertEquals(validEmail,req.getEmail());
     }
 

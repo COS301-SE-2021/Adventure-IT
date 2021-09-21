@@ -124,9 +124,6 @@ class ChecklistEntryModel extends ChangeNotifier {
   Future editChecklistEntry(ChecklistEntry e, Checklist c, String s, String u) async {
     await ChecklistApi.checklistEdit(e, s, u,context);
 
-    var index = _entries!.indexWhere((element) => element.id == e.id);
-    _entries!.removeAt(index);
-
     fetchAllEntries(c);
 
     notifyListeners();

@@ -4,7 +4,6 @@ package com.adventureit.maincontroller.controller;
 import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.exceptions.CurrentLocationException;
 import com.adventureit.maincontroller.exceptions.InvalidItineraryEntryException;
-import com.adventureit.maincontroller.exceptions.NullException;
 import com.adventureit.maincontroller.responses.RegisteredUsersDTO;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.adventure.AdventureDTO;
@@ -36,7 +35,7 @@ public class MainControllerItineraryReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "http://localhost";
+    private static final String INTERNET_PORT = "internal-microservices-473352023.us-east-2.elb.amazonaws.com";
     private static final String LOCATION_PORT = "9006";
     private static final String ITINERARY_PORT = "9009";
     private static final String TIMELINE_PORT = "9012";
@@ -48,6 +47,8 @@ public class MainControllerItineraryReroute {
     private static final String GET_ITIN_BY_ID = "/itinerary/getItineraryById/";
     private static final String CREATE_TIMELINE = "/timeline/createTimeline";
     private static final String GET_LOCATION = "/location/getLocation/";
+    private static final String ITINERARY_M = " itinerary.";
+    private static final String ERROR = "Empty Error";
 
     @Autowired
     public MainControllerItineraryReroute(MainControllerServiceImplementation service) {
@@ -60,32 +61,52 @@ public class MainControllerItineraryReroute {
     }
 
     @PostMapping(value = "/addEntry")
-    public UUID addItineraryEntry(@RequestBody AddItineraryEntryRequest req) throws ControllerNotAvailable, InterruptedException {
+    public UUID addItineraryEntry(@RequestBody AddItineraryEntryRequest req) throws ControllerNotAvailable, InterruptedException , NullPointerException {
         String[] ports = {ITINERARY_PORT, USER_PORT, ADVENTURE_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
 
-        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER+req.getUserId(), GetUserByUUIDDTO.class);
-        ItineraryResponseDTO itinerary = restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + GET_ITIN_BY_ID+req.getEntryContainerID(), ItineraryResponseDTO.class);
-        assert itinerary != null;
-        UUID adventureId = itinerary.getAdventureID();
-        AdventureDTO adventureResponse = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/getAdventureByUUID/" + adventureId, GetAdventureByUUIDResponse.class).getAdventure();
-        LocalDateTime timestamp = LocalDateTime.parse(req.getTimestamp());
-        if((timestamp.toLocalDate().compareTo(adventureResponse.getEndDate()) > 0) || (timestamp.toLocalDate().compareTo(adventureResponse.getStartDate()) < 0)){
-            throw new InvalidItineraryEntryException("Itinerary Entry does not fit within Adventure");
+        String id = req.getUserId().toString();
+        if(id.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        String ecid = req.getEntryContainerID().toString();
+        if(ecid.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
         }
 
-        UUID locationId = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/" + req.getLocation(), UUID.class);
-        LocationResponseDTO locationDTO = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getLocation/"+locationId,LocationResponseDTO.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + UUID.fromString(id), GetUserByUUIDDTO.class);
+        ItineraryResponseDTO itinerary = restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + GET_ITIN_BY_ID + UUID.fromString(ecid), ItineraryResponseDTO.class);
+        assert itinerary != null;
+        UUID adventureId = itinerary.getAdventureID();
+        try {
+            GetAdventureByUUIDResponse response = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/getAdventureByUUID/" + adventureId, GetAdventureByUUIDResponse.class);
+            if(response == null){
+                throw new NullPointerException("Adventure is null");
+            }
+            AdventureDTO adventureResponse = response.getAdventure();
+            LocalDateTime timestamp = LocalDateTime.parse(req.getTimestamp());
+            if((timestamp.toLocalDate().compareTo(adventureResponse.getEndDate()) > 0) || (timestamp.toLocalDate().compareTo(adventureResponse.getStartDate()) < 0)){
+                throw new InvalidItineraryEntryException("Itinerary Entry does not fit within Adventure");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        String lid = req.getLocation();
+        if(lid.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        UUID locationId = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/" + lid, UUID.class);
+        LocationResponseDTO locationDTO = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + GET_LOCATION +locationId,LocationResponseDTO.class);
 
         assert locationDTO != null;
         CreateLocationRequest req3 = new CreateLocationRequest(locationId, locationDTO.getName());
-        String code=restTemplate.postForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/add/location", req3, String.class);
+        restTemplate.postForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/add/location", req3, String.class);
 
         UUID itineraryID = restTemplate.postForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/addEntry", req, UUID.class);
         restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/setLocation/" + itineraryID + "/" + locationId, String.class);
 
         assert user != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY, user.getUsername() + " added an entry to the " + req.getTitle() + " itinerary.");
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY, user.getUsername() + " added an entry to the " + req.getTitle() + ITINERARY_M);
         restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return itineraryID;
     }
@@ -113,7 +134,7 @@ public class MainControllerItineraryReroute {
 
                 list.add(responseObject);
             } catch (Exception e) {
-                e.printStackTrace();
+                return list;
             }
 
         }
@@ -152,7 +173,7 @@ public class MainControllerItineraryReroute {
         String returnString = restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/hardDelete/" + id + "/" + userID, String.class);
         assert response != null;
         assert user != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.ITINERARY, user.getUsername() + " deleted the " + response.getTitle() + " itinerary.");
+        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.ITINERARY, user.getUsername() + " deleted the " + response.getTitle() + ITINERARY_M);
         restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return returnString;
     }
@@ -161,10 +182,18 @@ public class MainControllerItineraryReroute {
     public String createItinerary(@RequestBody CreateItineraryRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER+req.getUserID(), GetUserByUUIDDTO.class);
+        String id = req.getUserID().toString();
+        if(id.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + UUID.fromString(id), GetUserByUUIDDTO.class);
         String returnString = restTemplate.postForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/create/", req, String.class);
         assert user != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdvID(), TimelineType.ITINERARY, user.getUsername() + " created a new Itinerary for " + req.getTitle() + ".");
+        String aid = req.getAdvID().toString();
+        if(aid.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        CreateTimelineRequest req2 = new CreateTimelineRequest(UUID.fromString(aid), TimelineType.ITINERARY, user.getUsername() + " created a new Itinerary for " + req.getTitle() + ".");
         restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return returnString;
 
@@ -175,15 +204,27 @@ public class MainControllerItineraryReroute {
     public String editItineraryEntry(@RequestBody EditItineraryEntryRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT, USER_PORT, TIMELINE_PORT, LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
-        UUID locationId = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/"+req.getLocation(),UUID.class);
-        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER+req.getUserId(), GetUserByUUIDDTO.class);
+        String lid = req.getLocation().toString();
+        if(lid.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        String id = req.getUserId().toString();
+        if(id.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        UUID locationId = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/"+ lid,UUID.class);
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + UUID.fromString(id), GetUserByUUIDDTO.class);
         req.setLocationId(locationId);
+        String ecid = req.getEntryContainerID().toString();
+        if(ecid.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
         String returnString = restTemplate.postForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/editEntry/", req, String.class);
-        ItineraryResponseDTO itinerary = restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + GET_ITIN_BY_ID + req.getEntryContainerID(), ItineraryResponseDTO.class);
+        ItineraryResponseDTO itinerary = restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + GET_ITIN_BY_ID + UUID.fromString(ecid), ItineraryResponseDTO.class);
         assert itinerary != null;
         UUID adventureId = itinerary.getAdventureID();
         assert user != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY, user.getUsername() + " edited the " + itinerary.getTitle() + " itinerary.");
+        CreateTimelineRequest req2 = new CreateTimelineRequest(adventureId, TimelineType.ITINERARY, user.getUsername() + " edited the " + itinerary.getTitle() + ITINERARY_M);
         restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return returnString;
     }
@@ -196,7 +237,7 @@ public class MainControllerItineraryReroute {
         ItineraryResponseDTO response = restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/getItineraryByEntryId/"+id, ItineraryResponseDTO.class);
         assert response != null;
         assert user != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.ITINERARY,user.getUsername()+" deleted an entry from the "+response.getTitle()+" itinerary." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(response.getAdventureID(), TimelineType.ITINERARY,user.getUsername()+" deleted an entry from the "+response.getTitle()+ITINERARY_M );
         restTemplate.postForObject( INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
         return restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/removeEntry/"+id, String.class);
     }
@@ -227,7 +268,7 @@ public class MainControllerItineraryReroute {
 
     @GetMapping("/checkUserOff/{userID}/{entryID}")
     public void checkUserOff(@PathVariable UUID userID,@PathVariable UUID entryID) throws ControllerNotAvailable, InterruptedException {
-        String[] ports = {ITINERARY_PORT, LOCATION_PORT, RECOMMENDATION_PORT};
+        String[] ports = {ITINERARY_PORT, LOCATION_PORT, RECOMMENDATION_PORT,NOTIFICATION_PORT};
         service.pingCheck(ports,restTemplate);
         ItineraryEntryResponseDTO entry = restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/getItineraryEntry/"+ entryID, ItineraryEntryResponseDTO.class);
         assert entry != null;
@@ -246,9 +287,11 @@ public class MainControllerItineraryReroute {
         LocationResponseDTO location = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + GET_LOCATION + entry.getLocation() , LocationResponseDTO.class);
         GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + userID, GetUserByUUIDDTO.class);
         assert user != null;
-        if (user.getSettings()){
+        if (user.getSettings().equals(false)){
             assert location != null;
-            SendEmailRequest req = new SendEmailRequest(user.getEmergencyEmail(),"Check-in confirmed",user.getFirstname()+" has checked into: "+location.getName()+".\n Use the link to see their location:\n http://maps.google.com/maps?q="+location.getFormattedAddress()+"&z=17\n \n \n \n From Adventure IT team");
+            String link = location.getFormattedAddress();
+            String refactoredLink = link.replace(" ","%20");
+            SendEmailRequest req = new SendEmailRequest(user.getEmergencyEmail(),"Check-in confirmed",user.getFirstname()+" has checked into: "+location.getName()+".\n Use the link to see their location:\n http://maps.google.com/maps?q="+refactoredLink+"&z=17\n \n \n \n From Adventure IT team");
             restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/sendemail/" ,req, String.class);
         }
     }
@@ -275,7 +318,7 @@ public class MainControllerItineraryReroute {
     }
 
     @GetMapping("/getRegisteredUsers/{id}")
-    public List<RegisteredUsersDTO> getRegisteredUsers(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException, NullException {
+    public List<RegisteredUsersDTO> getRegisteredUsers(@PathVariable UUID id) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ITINERARY_PORT, USER_PORT};
         service.pingCheck(ports,restTemplate);
 

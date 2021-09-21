@@ -18,7 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
 import java.io.*;
 import java.nio.channels.Channels;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class MediaServiceImplementation implements MediaService{
@@ -29,7 +33,7 @@ public class MediaServiceImplementation implements MediaService{
     @Autowired
     private FileInfoRepository fileInfoRepository;
 
-    private static final String description = "DESCRIPTION";
+    private static final String DESCRIPTION = "DESCRIPTION";
 
     @Value("${firebase-type}")
     String type;
@@ -54,6 +58,10 @@ public class MediaServiceImplementation implements MediaService{
 
     private StorageOptions storageOptions;
     private String bucketName;
+    private static final Logger logger = Logger.getLogger( MediaServiceImplementation.class.getName() );
+    private static final String CREATED_CONST = "File created successfully";
+    private static final String MEDIA_CONST = "media.json";
+    private static final String OUTPUT_CONST = "output";
 
     @PostConstruct
     private void initializeFirebase() throws IOException {
@@ -71,13 +79,16 @@ public class MediaServiceImplementation implements MediaService{
         jsonObject.put("token_uri",tokenUri);
         jsonObject.put("auth_provider_x509_cert_url",authProvider);
         jsonObject.put("client_x509_cert_url",clientx509);
+        try (FileWriter file = new FileWriter(MEDIA_CONST)) {
+            file.write(jsonObject.toJSONString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        FileWriter file = new FileWriter("media.json");
-        file.write(jsonObject.toJSONString());
-        file.close();
-        FileInputStream serviceAccount = new FileInputStream("media.json");
+
+        FileInputStream serviceAccount = new FileInputStream(MEDIA_CONST);
         this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId1).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
-        boolean flag = new File("media.json").delete();
+        boolean flag = new File(MEDIA_CONST).delete();
         if(!flag){
             throw new NotFoundException("Initialize Firebase: File not found");
         }
@@ -97,8 +108,12 @@ public class MediaServiceImplementation implements MediaService{
         Storage storage = storageOptions.getService();
         Blob blob = storage.get(BlobId.of(bucketName, file.toString()));
         ReadChannel reader = blob.reader();
-        InputStream inputStream = Channels.newInputStream(reader);
-        byte[] content = inputStream.readAllBytes();
+        byte[] content = null;
+        try (InputStream inputStream = Channels.newInputStream(reader)) {
+            content = inputStream.readAllBytes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return new MediaResponseDTO(content,headers);
     }
@@ -117,8 +132,13 @@ public class MediaServiceImplementation implements MediaService{
         Storage storage = storageOptions.getService();
         Blob blob = storage.get(BlobId.of(bucketName, file.toString()));
         ReadChannel reader = blob.reader();
-        InputStream inputStream = Channels.newInputStream(reader);
-        byte[] content = inputStream.readAllBytes();
+        byte[] content = null;
+        try (InputStream inputStream = Channels.newInputStream(reader)) {
+            content = inputStream.readAllBytes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         return new MediaResponseDTO(content,headers);
     }
@@ -137,8 +157,12 @@ public class MediaServiceImplementation implements MediaService{
         Storage storage = storageOptions.getService();
         Blob blob = storage.get(BlobId.of(bucketName, file.toString()));
         ReadChannel reader = blob.reader();
-        InputStream inputStream = Channels.newInputStream(reader);
-        byte[] content = inputStream.readAllBytes();
+        byte[] content = null;
+        try (InputStream inputStream = Channels.newInputStream(reader)) {
+            content = inputStream.readAllBytes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return new MediaResponseDTO(content,headers);
     }
@@ -149,7 +173,7 @@ public class MediaServiceImplementation implements MediaService{
             UUID id = UUID.randomUUID();
             String fileName = file.getOriginalFilename();
 
-            MediaInfo uploadedMedia = new MediaInfo(id, file.getContentType(), fileName, description, adventureId , userId);
+            MediaInfo uploadedMedia = new MediaInfo(id, file.getContentType(), fileName, DESCRIPTION, adventureId , userId);
             mediaInfoRepository.save(uploadedMedia);
 
             Storage storage = storageOptions.getService();
@@ -170,7 +194,7 @@ public class MediaServiceImplementation implements MediaService{
             UUID id = UUID.randomUUID();
             String fileName = file.getOriginalFilename();
 
-            FileInfo uploadedFile = new FileInfo(id, file.getContentType(), fileName, description, adventureId , userId);
+            FileInfo uploadedFile = new FileInfo(id, file.getContentType(), fileName, DESCRIPTION, adventureId , userId);
             fileInfoRepository.save(uploadedFile);
 
             Storage storage = storageOptions.getService();
@@ -191,7 +215,7 @@ public class MediaServiceImplementation implements MediaService{
             UUID id = UUID.randomUUID();
             String fileName = file.getOriginalFilename();
 
-            DocumentInfo uploadedDoc = new DocumentInfo(id, file.getContentType(), fileName, description, userId);
+            DocumentInfo uploadedDoc = new DocumentInfo(id, file.getContentType(), fileName, DESCRIPTION, userId);
             documentInfoRepository.save(uploadedDoc);
 
             Storage storage = storageOptions.getService();
@@ -255,5 +279,119 @@ public class MediaServiceImplementation implements MediaService{
 
         storage.get(BlobId.of(bucketName, id.toString())).delete();
         documentInfoRepository.delete(documentInfo);
+    }
+
+    @Override
+    public long getMediaSize(UUID id) throws IOException {
+        MediaInfo mediaInfo = mediaInfoRepository.findMediaById(id);
+        if(mediaInfo == null){
+            throw new NotFoundException("Get Media Size: Media does not exist");
+        }
+
+        Storage storage = storageOptions.getService();
+        Blob blob = storage.get(BlobId.of(bucketName, id.toString()));
+        ReadChannel reader = blob.reader();
+
+
+
+        File convFile = new File(OUTPUT_CONST);
+        try(InputStream inputStream = Channels.newInputStream(reader)){
+            byte[] content = inputStream.readAllBytes();
+            Boolean check =convFile.createNewFile();
+            if(check.equals(true)){
+                logger.log(Level.WARNING, CREATED_CONST);
+            }
+
+            FileOutputStream fos = new FileOutputStream(convFile);
+            try{
+                fos.write(content);
+            }finally{
+                fos.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        long size = convFile.length();
+        Files.delete(Path.of(convFile.getPath()));
+        return size;
+    }
+
+    @Override
+    public long getFileSize(UUID id) throws IOException {
+        FileInfo fileInfo = fileInfoRepository.findFileInfoById(id);
+        if(fileInfo == null){
+            throw new NotFoundException("Get File Size: File does not exist");
+        }
+
+        Storage storage = storageOptions.getService();
+        Blob blob = storage.get(BlobId.of(bucketName, id.toString()));
+        ReadChannel reader = blob.reader();
+        InputStream inputStream = Channels.newInputStream(reader);
+        try {
+            byte[] content = inputStream.readAllBytes();
+
+            File convFile = new File(OUTPUT_CONST);
+            try {
+                Boolean check = convFile.createNewFile();
+                if(check.equals(true)){
+                    logger.log(Level.WARNING, CREATED_CONST);
+                }
+                FileOutputStream fos = new FileOutputStream(convFile);
+                try {
+                    fos.write(content);
+                }finally{
+                    fos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        long size = convFile.length();
+            Files.delete(Path.of(convFile.getPath()));
+        return size;
+        }finally {
+            inputStream.close();
+        }
+    }
+
+    @Override
+    public long getDocumentSize(UUID id) throws IOException {
+        DocumentInfo documentInfo = documentInfoRepository.findDocumentInfoById(id);
+        if(documentInfo == null){
+            throw new NotFoundException("Get Document Size: Document does not exist");
+        }
+
+        Storage storage = storageOptions.getService();
+        Blob blob = storage.get(BlobId.of(bucketName, id.toString()));
+        ReadChannel reader = blob.reader();
+        InputStream inputStream = Channels.newInputStream(reader);
+        try {
+            byte[] content = inputStream.readAllBytes();
+
+            File convFile = new File(OUTPUT_CONST);
+            try {
+                Boolean check = convFile.createNewFile();
+                if(check.equals(true)){
+                    logger.log(Level.WARNING, CREATED_CONST);
+                }
+                FileOutputStream fos = new FileOutputStream(convFile);
+                try {
+                    fos.write(content);
+                }finally {
+                    fos.close();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            long size = convFile.length();
+            Files.delete(Path.of(convFile.getPath()));
+            return size;
+        }finally {
+            inputStream.close();
+        }
     }
 }

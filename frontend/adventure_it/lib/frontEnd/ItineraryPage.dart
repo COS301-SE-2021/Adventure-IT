@@ -571,9 +571,7 @@ class _AlertBox extends State<AlertBox> {
                               titleController.text,
                               descriptionController.text,
                               location!,
-                              (date!.toString()).substring(0, 10) +
-                                  "T" +
-                                  (time.toString()).substring(10, 15),
+                             date!, time!,
                               userID);
                           Navigator.pop(context);
                         },
@@ -2046,7 +2044,7 @@ class RegisteredUsers extends StatelessWidget {
                       return ListTile(
                           leading: CachedNetworkImage(
                               useOldImageOnUrlChange: true,
-                              imageUrl: userApi +
+                              imageUrl: "http://"+mainApi +
                                   "/user/viewPicture/" +
                                   registeredModel.users!
                                       .elementAt(index)
@@ -3129,9 +3127,7 @@ class _AlertBoxRecommended extends State<AlertBoxRecommendation> {
                               titleController.text,
                               descriptionController.text,
                               location!,
-                              (date!.toString()).substring(0, 10) +
-                                  "T" +
-                                  (time.toString()).substring(10, 15),
+                              date!,time!,
                               userID);
                           Navigator.pop(context);
                         },

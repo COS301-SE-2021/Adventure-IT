@@ -189,7 +189,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
         List<ItineraryResponseDTO> list = new ArrayList<>();
 
         for (Itinerary b : itinerary) {
-            if (b.getDeleted()) {
+            if (b.getDeleted().equals(true)) {
                 list.add(new ItineraryResponseDTO(b.getTitle(), b.getDescription(), b.getId(), b.getCreatorID(), b.getAdventureID(), b.getDeleted()));
             }
         }
@@ -252,7 +252,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
         List<Itinerary> itineraries = itineraryRepository.findAllByAdventureID(id);
 
         for (Itinerary i : itineraries) {
-            if (!i.getDeleted()) {
+            if (i.getDeleted().equals(false)) {
                 temp = itineraryEntryRepository.findAllByEntryContainerID(i.getId());
                 entries.addAll(temp);
             }
@@ -261,11 +261,9 @@ public class ItineraryServiceImplementation implements ItineraryService {
         entries.sort(Comparator.comparing(ItineraryEntry::getTimestamp));
 
         for (ItineraryEntry entry : entries) {
-            if (entry.getRegisteredUsers().containsKey(userID)) {
-                if (entry.getTimestamp().compareTo(LocalDateTime.now()) > 0) {
-                    next = entry;
-                    break;
-                }
+            if (entry.getRegisteredUsers().containsKey(userID)&&entry.getTimestamp().compareTo(LocalDateTime.now()) > 0) {
+                next = entry;
+                break;
             }
         }
 
@@ -302,7 +300,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
         List<ItineraryResponseDTO> list = new ArrayList<>();
 
         for (Itinerary c : itineraries) {
-            if (!c.getDeleted()) {
+            if (c.getDeleted().equals(false)) {
                 list.add(new ItineraryResponseDTO(c.getTitle(), c.getDescription(), c.getId(), c.getCreatorID(), c.getAdventureID(), c.getDeleted()));
             }
         }
@@ -335,7 +333,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
         if (list.size() != 0) {
             for (Map.Entry<UUID, Boolean> item : list.entrySet()){
-                if(!item.getValue()){
+                if(item.getValue().equals(false)){
                     entry.setCompleted(false);
                     break;
                 }
@@ -417,6 +415,7 @@ public class ItineraryServiceImplementation implements ItineraryService {
 
     @Override
     public String mockPopulate() {
+        final String MOCK_ADV_ID = "948f3e05-4bca-49ba-8955-fb936992fe02";
         final UUID mockItineraryID1 = UUID.fromString("d99dde68-664a-4618-9bb6-4b5dca7d40a8");
         final UUID mockItineraryID2 = UUID.fromString("d99dde68-664a-4618-9bb6-4b4dca7d40a8");
         final UUID mockItineraryID3 = UUID.fromString("d99dde68-664a-4618-9bb6-4b5dca7d30a8");
@@ -425,9 +424,9 @@ public class ItineraryServiceImplementation implements ItineraryService {
         final UUID mockEntryID2 = UUID.fromString("b4ef54cc-7418-4ab7-bbde-4850dd4778a0");
         final UUID mockEntryID3 = UUID.fromString("2d5fc8a8-68d8-4616-8c0f-084376e4566c");
 
-        final UUID mockAdventureID1 = UUID.fromString("948f3e05-4bca-49ba-8955-fb936992fe02");
-        final UUID mockAdventureID2 = UUID.fromString("948f3e05-4bca-49ba-8955-fb936992fe02");
-        final UUID mockAdventureID3 = UUID.fromString("948f3e05-4bca-49ba-8955-fb936992fe02");
+        final UUID mockAdventureID1 = UUID.fromString(MOCK_ADV_ID);
+        final UUID mockAdventureID2 = UUID.fromString(MOCK_ADV_ID);
+        final UUID mockAdventureID3 = UUID.fromString(MOCK_ADV_ID);
 
         final UUID mockCreatorID1 = UUID.fromString("cbebcd3a-d15a-4e62-ac49-060e744f8896");
         final UUID mockCreatorID2 = UUID.fromString("0bb497d1-fb67-4cfa-bac1-0f1ac7a64fb2");

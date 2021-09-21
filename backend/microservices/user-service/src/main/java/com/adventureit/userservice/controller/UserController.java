@@ -1,6 +1,7 @@
 package com.adventureit.userservice.controller;
 
 import com.adventureit.shareddtos.chat.requests.GetUsersRequestDTO;
+import com.adventureit.shareddtos.media.responses.MediaResponseDTO;
 import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 import com.adventureit.shareddtos.user.requests.EditUserProfileRequest;
 import com.adventureit.shareddtos.user.requests.RegisterUserRequest;
@@ -16,13 +17,10 @@ import com.adventureit.userservice.exceptions.InvalidUserPhoneNumberException;
 import com.adventureit.userservice.service.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,13 +40,15 @@ public class UserController {
     /**
      * Register User that is mapped from our mock controller for testing purposes
      *
-     * @param req will take in a RegisterUserRequest object
      * @return a RegisterUserResponse object in json format to front end
      * @throws InvalidUserEmailException if the user email is invalid
      * @throws InvalidRequestException if the request body is null
      */
     @PostMapping(value = "registerUser", consumes = "application/json", produces = "application/json")
     public RegisterUserResponse registerUser(@RequestBody RegisterUserRequest req) throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
+
+        System.out.println(req.getFirstName()+" in user controller");
+        System.out.println(req.getLastName()+" in user controller");
         return service.registerUser(req);
     }
 
@@ -63,7 +63,7 @@ public class UserController {
     }
 
     @GetMapping(value = "viewPicture/{id}")
-    public ResponseEntity<byte[]> viewImage(@PathVariable UUID id) throws IOException {
+    public MediaResponseDTO viewImage(@PathVariable UUID id) throws IOException {
         return service.viewImage(id);
     }
 

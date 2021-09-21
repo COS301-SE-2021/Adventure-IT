@@ -35,7 +35,7 @@ public class Users  {
     }
 
     public void setNotificationSettings() {
-        if(!this.notificationSettings)
+        if(this.notificationSettings.equals(false))
         {
             this.notificationSettings=true;
         }

@@ -17,4 +17,7 @@ public interface MediaService {
     public void deleteMedia(UUID id,UUID userID);
     public void deleteFile(UUID id,UUID userID);
     public void deleteDocument(UUID id,UUID userID);
+    public long getMediaSize(UUID id) throws IOException;
+    public long getFileSize(UUID id) throws IOException;
+    public long getDocumentSize(UUID id) throws IOException;
 }

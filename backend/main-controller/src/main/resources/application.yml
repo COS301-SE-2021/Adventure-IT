@@ -2,6 +2,10 @@ server:
   port: ${main-controller.port}
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
   application:
     name: ${main-controller.application-name}
   security:
