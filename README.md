@@ -15,6 +15,14 @@ itinerary planning, check lists, expense tracking, media sharing and more.
 ![GitHub Commits](https://img.shields.io/github/commit-activity/m/COS301-SE-2021/Adventure-IT?style=for-the-badge)
 ![GitHub Tests](https://img.shields.io/github/workflow/status/COS301-SE-2021/Adventure-IT/Backend%20-%20Java%20CI%20with%20Maven/master?label=tests%20on%20master&style=for-the-badge)
 [![GitHub stars](https://img.shields.io/github/stars/COS301-SE-2021/Adventure-IT?style=for-the-badge)](https://github.com/COS301-SE-2021/Adventure-IT/stargazers)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2021_Adventure-IT&metric=alert_status)](https://sonarcloud.io/dashboard?id=COS301-SE-2021_Adventure-IT)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2021_Adventure-IT&metric=bugs)](https://sonarcloud.io/dashboard?id=COS301-SE-2021_Adventure-IT)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2021_Adventure-IT&metric=code_smells)](https://sonarcloud.io/dashboard?id=COS301-SE-2021_Adventure-IT)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2021_Adventure-IT&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=COS301-SE-2021_Adventure-IT)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2021_Adventure-IT&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=COS301-SE-2021_Adventure-IT)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2021_Adventure-IT&metric=security_rating)](https://sonarcloud.io/dashboard?id=COS301-SE-2021_Adventure-IT)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2021_Adventure-IT&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=COS301-SE-2021_Adventure-IT)
+
 
 ---
 
