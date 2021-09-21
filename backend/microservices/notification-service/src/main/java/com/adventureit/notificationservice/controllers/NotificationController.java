@@ -13,6 +13,7 @@ import java.util.List;
 @RequestMapping("/notification")
 public class NotificationController {
 
+    @Autowired
     private NotificationService notification;
 
     @GetMapping("/test")
