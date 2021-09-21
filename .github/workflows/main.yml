@@ -45,6 +45,17 @@ jobs:
         working-directory: backend
         run: |
           docker-compose build
+      - name: Running dart tests
+        working-directory: frontend
+      
+      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+      - name: Install dependencies
+        run: dart pub get
+      - name: Analyze project source
+        run: dart analyze
+      - name: Run tests
+        run: dart test
+
 # jobs:
 #   build:
 #     runs-on: ubuntu-latest
