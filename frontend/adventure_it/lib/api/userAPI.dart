@@ -667,7 +667,7 @@ class UserApi {
   }
 
   Future<http.Response> _setFirebaseID(String id) async {
-    return http.post(Uri.parse(mainApi + '/notification/addFirebaseUser/'),
+    return http.post(Uri.parse(mainApi + '/notification/addFirebaseUser'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

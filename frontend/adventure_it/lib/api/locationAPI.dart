@@ -230,7 +230,7 @@ class LocationApi {
 
   static Future<http.Response> _getFlagList() async {
     return http.get(Uri.parse(mainApi +
-        'location/getFlagList/' +
+        '/location/getFlagList/' +
         UserApi.getInstance().getUserProfile()!.userID));
   }
 }

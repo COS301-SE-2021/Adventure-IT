@@ -96,6 +96,9 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
       return ChangeNotifierProvider(
           create: (context) => UserModel(context),
           child: Consumer<UserModel>(builder: (context, userModel, child) {
+            Provider.of<LocationModel>(
+                context,
+                listen: false).getFlags();
             if (userModel.profile == null) {
               return Center(
                   child: CircularProgressIndicator(
