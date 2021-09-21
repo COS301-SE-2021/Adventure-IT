@@ -524,7 +524,7 @@ class UserApi {
   Future getEmergencyContact() async {
     String userID = UserApi.getInstance().getUserProfile()!.userID;
     final response = await http
-        .get(Uri.parse(mainApi + 'user/getEmergencyContact/' + userID));
+        .get(Uri.parse(mainApi + '/user/getEmergencyContact/' + userID));
     if (response.statusCode != 200) {
       throw Exception('Failed to retrieve emergency contact: ${response.body}');
     }
