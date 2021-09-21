@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -22,14 +23,33 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="adventure_it">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE"></script>
 
   <title>adventure_it</title>
   <link rel="manifest" href="manifest.json">
 </head>
+
 <body>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-messaging.js"></script>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBp5H4h4BUsbYuyCdlMKhlArTjHCXD1phU",
+      authDomain: "adventureit.firebaseapp.com",
+      databaseURL: "https://adventureit.firebaseio.com",
+      projectId: "adventureit",
+      storageBucket: "adventureit.appspot.com",
+      messagingSenderId: "747889907400",
+      appId: "1:747889907400:android:cbfd91781ec27c67daf7fd",
+      measurementId: "G-...",
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
   <script>
     var serviceWorkerVersion = null;
     var scriptLoaded = false;
@@ -50,6 +70,7 @@
         // Wait for registration to finish before dropping the <script> tag.
         // Otherwise, the browser will load the script multiple times,
         // potentially different versions.
+        navigator.serviceWorker.register("/firebase-messaging-sw.js");
         var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
         navigator.serviceWorker.register(serviceWorkerUrl)
           .then((reg) => {
@@ -95,4 +116,5 @@
     }
   </script>
 </body>
+
 </html>

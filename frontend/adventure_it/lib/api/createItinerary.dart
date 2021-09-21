@@ -1,6 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import '/api/adventure.dart';
-import '/api/report.dart';
 
 part 'createItinerary.g.dart';
 
@@ -18,7 +16,8 @@ class CreateItinerary {
     required this.adventureID,
   });
 
-  factory CreateItinerary.fromJson(Map<String, dynamic> json) => _$CreateItineraryFromJson(json);
+  factory CreateItinerary.fromJson(Map<String, dynamic> json) =>
+      _$CreateItineraryFromJson(json);
 
   Map<String, dynamic> toJson() => _$CreateItineraryToJson(this);
 }

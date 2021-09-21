@@ -1,33 +1,29 @@
 server:
-  port: 9002
+  port: ${user-microservice.port}
   error:
     include-message: always
 
 spring:
   application:
-    name: USER-SERVICE
+    name: ${user-microservice.application-name}
   datasource:
-    url: jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5
-    username: postgres
-    password: 310PB!Gq%f&J
+    url: ${user-microservice.datasource.url}
+    username: ${user-microservice.datasource.username}
+    password: ${user-microservice.datasource.password}
     hikari:
-      maximum-pool-size: 2
+      maximum-pool-size: ${user-microservice.datasource.hikari.maximum-pool-size}
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: false
+      ddl-auto: ${user-microservice.jpa.hibernate.ddl-auto}
+    show-sql: ${user-microservice.jpa.show-sql}
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
+        dialect: ${user-microservice.jpa.hibernate.properties.hibernate.dialect}
+        format_sql: ${user-microservice.jpa.hibernate.properties.hibernate.format_sql}
+
 eureka:
   client:
-    register-with-eureka: true
-    fetch-registry: true
+    register-with-eureka: ${service-registry-client.client.register-with-eureka}
+    fetch-registry: ${service-registry-client.client.fetch-registry}
     service-url:
-      defaultZone: http://localhost:8761/eureka/
-    instance:
-      hostname: localhost
-
-
-
+      defaultZone: ${service-registry-client.client.service-url.defaultZone}

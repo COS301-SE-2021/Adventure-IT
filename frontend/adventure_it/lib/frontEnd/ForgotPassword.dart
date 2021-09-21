@@ -1,11 +1,5 @@
-import 'package:adventure_it/api/user_api.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:flutter/gestures.dart';
-
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:flutter/material.dart';
-import 'HomepageStartup.dart';
-
-import '../api/budget.dart';
 import 'Login.dart';
 import 'Register.dart';
 
@@ -35,84 +29,110 @@ class ForgotPassword extends State<ForgotPasswordCaller> {
                     style: new TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color))),
             backgroundColor: Theme.of(context).primaryColorDark),
-        body: SingleChildScrollView(
-            child: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-              SizedBox(height: MediaQuery.of(context).size.height * 0.25),
-              SizedBox(
-                width: 350,
-                child: TextField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Theme.of(context).primaryColorLight,
-                        border: OutlineInputBorder(),
-                        hintText: 'Email')),
+        body: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+              Spacer(),
+              Container(
+                child: Center(
+                  child: Text(
+                    "Enter an email address to reset your password",
+                    textAlign: TextAlign.center,
+                    style: new TextStyle(
+                      color: Theme.of(context).textTheme.bodyText1!.color,
+                      fontSize: MediaQuery.of(context).size.height * 0.03)
+                  ),
+                ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-              ElevatedButton(
-                  child: Text("Send Password Reset Link",
-                      style: new TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1!.color)),
-                  style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).accentColor,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.05,
-                        vertical: MediaQuery.of(context).size.width * 0.01),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+              Container(
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    SizedBox(
+                    width: 250,
+                    child: TextField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Theme.of(context).primaryColorLight,
+                            border: OutlineInputBorder(),
+                            hintText: 'Email')),
                   ),
-                  onPressed: () async {
-                    bool success = await this.api.registerKeycloakUser(
-                        firstNameController.text,
-                        lastNameController.text,
-                        usernameController.text,
-                        emailController.text,
-                        passwordController.text);
-                    if (success) {
-                      this
-                          .api
-                          .displayDialog(context, "Success!",
-                              "Please check your email inbox for a verification link")
-                          .then((val) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginCaller()),
-                        );
-                      });
-                    } else {
-                      this
-                          .api
-                          .displayDialog(context, "Error!", this.api.message)
-                          .then((val) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterCaller()),
-                        );
-                      });
-                    }
-                  }),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-              ElevatedButton(
-                  child: Text("Cancel",
-                      style: new TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1!.color)),
-                  style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).accentColor,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.05,
-                        vertical: MediaQuery.of(context).size.width * 0.01),
+                  SizedBox(width: 10),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).accentColor,
+                        shape: BoxShape.circle),
+                    child: IconButton(
+                        onPressed: () async {
+                          bool success = await this.api.registerKeycloakUser(
+                              firstNameController.text,
+                              lastNameController.text,
+                              usernameController.text,
+                              emailController.text,
+                              passwordController.text,
+                              passwordCheckController.text);
+                          if (success) {
+                            this
+                                .api
+                                .displayDialog(context, "Success!",
+                                    "Please check your email inbox for a verification link")
+                                .then((val) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginCaller()),
+                              );
+                            });
+                          } else {
+                            this
+                                .api
+                                .displayDialog(
+                                    context, "Error!", this.api.message)
+                                .then((val) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RegisterCaller()),
+                              );
+                            });
+                          }
+                        },
+                        icon: const Icon(Icons.send_rounded),
+                        iconSize: 30,
+                        color: Theme.of(context).primaryColorDark),
+                  )
+                ])),
+              ),
+              Spacer(),
+              Row(children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).accentColor,
+                        shape: BoxShape.circle),
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginCaller()),
+                          );
+                        },
+                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                        iconSize: 30,
+                        color: Theme.of(context).primaryColorDark),
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginCaller()),
-                    );
-                  }),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-            ]))));
+                ),
+                Expanded(child: Container()),
+                Expanded(flex: 1, child: Container()),
+              ]),
+              SizedBox(height: MediaQuery.of(context).size.height / 60),
+            ])));
   }
 }

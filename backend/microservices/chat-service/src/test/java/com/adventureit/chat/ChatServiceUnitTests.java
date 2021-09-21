@@ -1,20 +1,19 @@
 package com.adventureit.chat;
 
 
-import com.adventureit.chat.Entity.ColorPair;
-import com.adventureit.chat.Entity.DirectChat;
-import com.adventureit.chat.Entity.GroupChat;
-import com.adventureit.chat.Repository.ColorPairRepository;
-import com.adventureit.chat.Repository.DirectChatRepository;
-import com.adventureit.chat.Repository.GroupChatRepository;
-import com.adventureit.chat.Repository.MessageRepository;
-import com.adventureit.chat.Requests.CreateDirectChatRequest;
-import com.adventureit.chat.Requests.CreateGroupChatRequest;
-import com.adventureit.chat.Requests.SendDirectMessageRequestDTO;
-import com.adventureit.chat.Requests.SendGroupMessageRequestDTO;
-import com.adventureit.chat.Responses.DirectChatResponseDTO;
-import com.adventureit.chat.Responses.GroupChatResponseDTO;
-import com.adventureit.chat.Service.ChatServiceImplementation;
+import com.adventureit.chat.entity.ColorPair;
+import com.adventureit.chat.entity.DirectChat;
+import com.adventureit.chat.entity.GroupChat;
+import com.adventureit.chat.repository.ColorPairRepository;
+import com.adventureit.chat.repository.DirectChatRepository;
+import com.adventureit.chat.repository.GroupChatRepository;
+import com.adventureit.chat.repository.MessageRepository;
+import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
+import com.adventureit.shareddtos.chat.requests.CreateGroupChatRequest;
+import com.adventureit.shareddtos.chat.requests.SendDirectMessageRequestDTO;
+import com.adventureit.shareddtos.chat.requests.SendGroupMessageRequestDTO;
+import com.adventureit.shareddtos.chat.responses.GroupChatResponseDTO;
+import com.adventureit.chat.service.ChatServiceImplementation;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -26,7 +25,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-@SpringBootTest
+
 public class ChatServiceUnitTests{
 
     DirectChatRepository directChatRepository = Mockito.mock(DirectChatRepository.class);
@@ -247,7 +246,6 @@ public class ChatServiceUnitTests{
         Assertions.assertEquals(mockGroupChatID, response.getId());
         Assertions.assertEquals(mockAdventureId, response.getAdventureID());
         Assertions.assertEquals(participants, response.getParticipants());
-        Assertions.assertEquals(colors, response.getColors());
         Assertions.assertEquals(name, response.getName());
 
 
@@ -289,7 +287,6 @@ public class ChatServiceUnitTests{
         Assertions.assertEquals(mockGroupChatID, response.getId());
         Assertions.assertEquals(mockAdventureId, response.getAdventureID());
         Assertions.assertEquals(participants, response.getParticipants());
-        Assertions.assertEquals(colors, response.getColors());
         Assertions.assertEquals(name, response.getName());
 
 

@@ -3,10 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.adventure-it</groupId>
-		<artifactId>adventure-backend</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../../pom.xml</relativePath> <!-- lookup parent locally -->
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.5.0</version>
 	</parent>
 	<artifactId>timeline-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -41,12 +40,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.adventure-it</groupId>
-			<artifactId>adventure-service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 			<scope>test</scope>
@@ -55,7 +48,13 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <artifactId>sharedDTOs</artifactId>
+            <groupId>com.adventure-it</groupId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 	<dependencyManagement>
 		<dependencies>

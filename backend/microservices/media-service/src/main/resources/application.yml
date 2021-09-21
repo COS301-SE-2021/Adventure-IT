@@ -1,32 +1,33 @@
 server:
-  port: 9005
+  port: ${media-microservice.port}
   error:
     include-message: always
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
   application:
-    name: BUDGET-SERVICE
+    name: ${media-microservice.application-name}
   datasource:
-    url: jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5
-    username: postgres
-    password: 310PB!Gq%f&J
+    url: ${media-microservice.datasource.url}
+    username: ${media-microservice.datasource.username}
+    password: ${media-microservice.datasource.password}
     hikari:
-      auto-commit: false
-      maximum-pool-size: 2
+      maximum-pool-size: ${media-microservice.datasource.hikari.maximum-pool-size}
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: false
+      ddl-auto: ${media-microservice.jpa.hibernate.ddl-auto}
+    show-sql: ${media-microservice.jpa.show-sql}
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
+        dialect: ${media-microservice.jpa.hibernate.properties.hibernate.dialect}
+        format_sql: ${media-microservice.jpa.hibernate.properties.hibernate.format_sql}
 
 eureka:
   client:
-    register-with-eureka: true
-    fetch-registry: true
+    register-with-eureka: ${service-registry-client.client.register-with-eureka}
+    fetch-registry: ${service-registry-client.client.fetch-registry}
     service-url:
-      defaultZone: http://localhost:8761/eureka/
-    instance:
-      hostname: localhost
+      defaultZone: ${service-registry-client.client.service-url.defaultZone}

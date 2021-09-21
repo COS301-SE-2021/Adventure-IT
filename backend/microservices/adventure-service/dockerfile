@@ -1,0 +1,6 @@
+FROM openjdk:11-jre
+COPY --from=backend_resolve-and-build:latest /dependencies/microservices/adventure-service/target/adventure-service-0.0.1-SNAPSHOT.jar .
+COPY --from=backend_resolve-and-build:latest /env/backend-environment.yml /env/backend-environment.yml
+ENTRYPOINT ["java", "-Dspring.config.import=file:/env/backend-environment.yml", "-jar", "./adventure-service-0.0.1-SNAPSHOT.jar"]
+
+

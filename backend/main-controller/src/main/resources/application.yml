@@ -1,22 +1,22 @@
 server:
-  port: 9999
+  port: ${main-controller.port}
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
   application:
-    name: MAIN-CONTROLLER
+    name: ${main-controller.application-name}
   security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8080/auth/realms/adventure-it
-
-
+      oauth2:
+        resourceserver:
+          jwt:
+            issuer-uri: ${keycloak.oauth2.resourceserver.jwt.issuer-uri}
 
 eureka:
   client:
-    register-with-eureka: true
-    fetch-registry: true
+    register-with-eureka: ${service-registry-client.client.register-with-eureka}
+    fetch-registry: ${service-registry-client.client.fetch-registry}
     service-url:
-      defaultZone: http://localhost:8761/eureka/
-    instance:
-      hostname: localhost
+      defaultZone: ${service-registry-client.client.service-url.defaultZone}

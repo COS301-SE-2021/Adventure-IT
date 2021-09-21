@@ -1,60 +1,43 @@
-#  server.port = 9004
-#    spring.application.name = notification-microservice
-#
-#    spring.datasource.url=jdbc:postgresql://localhost:5000/postgres
-#    spring.datasource.username=postgres
-#    spring.datasource.password=password
-#
-#    spring.mail.host = smtp.gmail.com
-#    spring.mail.port = 587
-#    spring.mail.username = thesmartpointers@gmail.com
-#    spring.mail.password = TSPAAKSS21
-#    spring.mail.properties.mail.smtp.auth=true
-#    spring.mail.properties.mail.smtp.connectiontimeout=5000
-#    spring.mail.properties.mail.smtp.timeout=5000
-#    spring.mail.properties.mail.smtp.writetimeout=5000
-#    spring.mail.properties.mail.smtp.starttls.enable=true
-#
-#    spring.jpa.hibernate.ddl-auto=update
-#    spring.jpa.show-sql=false
-#    spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-#    spring.jpa.properties.hibernate.format_sql=true
-
-
-
 server:
-  port: 9004
+  port: ${notification-microservice.port}
   error:
     include-message: always
 
 spring:
   application:
-    name: NOTIFICATION-SERVICE
+    name: NOTIFICATIOIN-MICROSERVICE
   datasource:
-    url: jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5
-    username: postgres
-    password: 310PB!Gq%f&J
+    url: ${notification-microservice.datasource.url}
+    username: ${notification-microservice.datasource.username}
+    password: ${notification-microservice.datasource.password}
     hikari:
-      maximum-pool-size: 2
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    user: thesmartpointers@gmail.com
-    password: TSPAAKSS21
-    stmp:
-      auth: true
-      connectionTimeout: 5000
-      timeout: 5000
-      writetimeout: 5000
-      startttls:
-        enable: true
-
+      maximum-pool-size: ${notification-microservice.datasource.hikari.maximum-pool-size}
+  jpa:
+    hibernate:
+      ddl-auto: ${notification-microservice.jpa.hibernate.ddl-auto}
+    show-sql: ${notification-microservice.jpa.show-sql}
+    properties:
+      hibernate:
+        dialect: ${notification-microservice.jpa.hibernate.properties.hibernate.dialect}
+        format_sql: ${notification-microservice.jpa.hibernate.properties.hibernate.format_sql}
+#  mail:
+#    username: ${notification-microservice.mail.user}
+#    host: ${notification-microservice.mail.host}
+#    port: ${notification-microservice.mail.port}
+#    password: ${notification-microservice.mail.password}
+##    smtp:
+##      auth: ${notification-microservice.mail.smtp.auth}
+##      connectionTimeout: ${notification-microservice.mail.smtp.connectionTimeout}
+##      timeout: ${notification-microservice.mail.smtp.timeout}
+##      writetimeout: ${notification-microservice.mail.smtp.writetimeout}
+##      startttls:
+##        enable: ${notification-microservice.mail.smtp.startttls.enable}
+##
+#
 
 eureka:
   client:
-    register-with-eureka: true
-    fetch-registry: true
+    register-with-eureka: ${service-registry-client.client.register-with-eureka}
+    fetch-registry: ${service-registry-client.client.fetch-registry}
     service-url:
-      defaultZone: http://localhost:8761/eureka/
-    instance:
-      hostname: localhost
+      defaultZone: ${service-registry-client.client.service-url.defaultZone}

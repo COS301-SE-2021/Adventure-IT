@@ -1,13 +1,6 @@
-import 'package:adventure_it/api/registerUser.dart';
-import 'package:adventure_it/api/user_api.dart';
-import 'package:adventure_it/constants.dart';
-import 'package:adventure_it/api/budgetAPI.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:flutter/gestures.dart';
-
 import 'package:flutter/material.dart';
-import 'HomepageStartup.dart';
-
-import '../api/budget.dart';
 import 'Login.dart';
 
 class RegisterCaller extends StatefulWidget {
@@ -16,7 +9,6 @@ class RegisterCaller extends StatefulWidget {
 }
 
 class Register extends State<RegisterCaller> {
-  Future<RegisterUser>? _futureUser;
   final UserApi api = UserApi.getInstance();
 
   final firstNameController = TextEditingController();
@@ -43,10 +35,15 @@ class Register extends State<RegisterCaller> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-              SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.15),
               SizedBox(
                 width: 350,
                 child: TextField(
+                  style: TextStyle(color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color),
                     controller: firstNameController,
                     decoration: InputDecoration(
                         filled: true,
@@ -58,6 +55,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: lastNameController,
                     decoration: InputDecoration(
                         filled: true,
@@ -69,6 +71,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: usernameController,
                     decoration: InputDecoration(
                         filled: true,
@@ -80,6 +87,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: emailController,
                     decoration: InputDecoration(
                         filled: true,
@@ -91,17 +103,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
-                    controller: phoneNumberController,
-                    decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Theme.of(context).primaryColorLight,
-                        border: OutlineInputBorder(),
-                        hintText: 'Phone number')),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-              SizedBox(
-                width: 350,
-                child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
@@ -117,6 +123,11 @@ class Register extends State<RegisterCaller> {
               SizedBox(
                 width: 350,
                 child: TextField(
+                    style: TextStyle(color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color),
                     controller: passwordCheckController,
                     obscureText: true,
                     decoration: InputDecoration(
@@ -128,7 +139,7 @@ class Register extends State<RegisterCaller> {
                         border: OutlineInputBorder(),
                         hintText: 'Confirm Password')),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               ElevatedButton(
                   child: Text("Register",
                       style: new TextStyle(
@@ -145,7 +156,7 @@ class Register extends State<RegisterCaller> {
                         lastNameController.text,
                         usernameController.text,
                         emailController.text,
-                        passwordController.text);
+                        passwordController.text, passwordCheckController.text);
                     if (success) {
                       this
                           .api
@@ -171,7 +182,7 @@ class Register extends State<RegisterCaller> {
                       });
                     }
                   }),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               RichText(
                   text: new TextSpan(children: [
                 new TextSpan(
@@ -190,7 +201,32 @@ class Register extends State<RegisterCaller> {
                               builder: (context) => LoginCaller()),
                         );
                       })
-              ]))
+              ])),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                /*Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 50, right: 0, top: 0, bottom: 0),
+                      child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).accentColor,
+                              shape: BoxShape.circle),
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            LoginCaller()));
+                              },
+                              icon:
+                              const Icon(Icons.arrow_back_ios_new_rounded),
+                              color: Theme.of(context).primaryColorDark))),
+                    ),
+                  ],
+                )*/
             ]))));
   }
 }

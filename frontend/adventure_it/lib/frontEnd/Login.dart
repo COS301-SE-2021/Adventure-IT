@@ -1,17 +1,16 @@
-import 'package:adventure_it/api/loginUser.dart';
-import 'package:adventure_it/api/user_api.dart';
+import 'package:adventure_it/api/locationAPI.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/frontEnd/ForgotPassword.dart';
+import 'package:adventure_it/frontEnd/InitializeFireFlutter.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'dart:developer';
-import 'package:flutter/foundation.dart';
-
-import 'package:flutter/material.dart';
+import 'package:theme_provider/theme_provider.dart';
+import 'ForgotPassword.dart';
 import 'HomepageStartup.dart';
-
-import '../api/budget.dart';
-import 'Profile.dart';
 import 'Register.dart';
+import 'package:location/location.dart';
 
 class LoginCaller extends StatefulWidget {
   @override
@@ -19,8 +18,8 @@ class LoginCaller extends StatefulWidget {
 }
 
 class Login extends State<LoginCaller> {
-  Future<LoginUser>? _futureUser;
   final UserApi api = UserApi.getInstance();
+
   // TODO: Check if an auth token is present, if not display login screen, else just go to homepage
   var storage = FlutterSecureStorage();
   final usernameController = TextEditingController();
@@ -45,13 +44,12 @@ class Login extends State<LoginCaller> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.10),
             Container(
               width: 250,
-              height: MediaQuery.of(context).size.height /3,
+              height: MediaQuery.of(context).size.height / 3,
               decoration: new BoxDecoration(
                 shape: BoxShape.circle,
                 image: new DecorationImage(
                     fit: BoxFit.contain,
-                    image: new AssetImage(
-                        "assets/logo.png")),
+                    image: new AssetImage("assets/logo.png")),
                 // border: new Border.all(
                 //   color: Theme.of(context).accentColor,
                 //   width: 3.0,
@@ -110,12 +108,50 @@ class Login extends State<LoginCaller> {
 
                   final success = await api.logIn(username, password);
 
+                  print(UserApi.getInstance().theme!);
+                  if(UserApi.getInstance().theme!) {
+                    ThemeProvider.controllerOf(context).setTheme('light_theme');
+                  }
+                  else {
+                    ThemeProvider.controllerOf(context).setTheme('dark_theme');
+                  }
+
                   if (success == true) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomepageStartupCaller()),
-                    );
+                    bool serviceEnabled;
+                    PermissionStatus permissionGranted;
+                    Location location = Location();
+                    serviceEnabled = await location.serviceEnabled();
+                    if (!serviceEnabled) {
+                      serviceEnabled = await location.requestService();
+                    }
+                    permissionGranted = await location.hasPermission();
+                    if (permissionGranted == PermissionStatus.denied) {
+                      permissionGranted = await location.requestPermission();
+                    }
+                    LocationData? currentLocation;
+                    if (permissionGranted == PermissionStatus.granted &&
+                        serviceEnabled) {
+                      location.changeSettings(accuracy: LocationAccuracy.high);
+                      location.getLocation().then((value) {
+                        currentLocation = value;
+                        LocationApi.setCurrentLocation(
+                            currentLocation!, context);
+                      });
+                    }
+                    if (kIsWeb) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => InitializeFireFlutterWeb(
+                                HomepageStartupCaller())),
+                      );
+                    } else {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => InitializeFireFlutter(
+                                  HomepageStartupCaller())));
+                    }
                   } else {
                     api.displayDialog(context, "Oops!", api.message);
                   }

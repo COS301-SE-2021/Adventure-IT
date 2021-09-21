@@ -1,20 +1,18 @@
 package com.adventureit.adventureservice;
 
-import com.adventureit.adventureservice.Entity.Adventure;
-import com.adventureit.adventureservice.Repository.AdventureRepository;
-import com.adventureit.adventureservice.Requests.CreateAdventureRequest;
-import com.adventureit.adventureservice.Requests.GetAdventureByUUIDRequest;
-import com.adventureit.adventureservice.Responses.*;
-import com.adventureit.adventureservice.Service.AdventureServiceImplementation;
-import com.adventureit.adventureservice.Exceptions.AdventureNotFoundException;
+import com.adventureit.adventureservice.entity.Adventure;
+import com.adventureit.adventureservice.repository.AdventureRepository;
+import com.adventureit.shareddtos.adventure.requests.GetAdventureByUUIDRequest;
+import com.adventureit.adventureservice.service.AdventureServiceImplementation;
+import com.adventureit.adventureservice.exceptions.AdventureNotFoundException;
+import com.adventureit.shareddtos.adventure.requests.CreateAdventureRequest;
+import com.adventureit.shareddtos.adventure.responses.*;
 import jdk.jfr.Description;
-import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -89,12 +87,12 @@ public class AdventureServiceUnitTests {
         Adventure mockAdventure = new Adventure("Mock Adventure 1","Mock Description 1", adventureId1, validUserID1, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 1),UUID.randomUUID());
 
         //When
-        CreateAdventureResponse response = new CreateAdventureResponse(success,message,mockAdventure);
+        CreateAdventureResponse response = new CreateAdventureResponse(success,message,adventureService.createAdventureDTO(mockAdventure));
 
         //Then
         Assertions.assertEquals(success, response.isSuccess());
         Assertions.assertEquals(message, response.getMessage());
-        Assertions.assertEquals(mockAdventure, response.getAdventure());
+        Assertions.assertEquals(mockAdventure.getAdventureId(), response.getAdventure().getAdventureId());
     }
 
     @Test
@@ -105,11 +103,11 @@ public class AdventureServiceUnitTests {
         Adventure mockAdventure = new Adventure("Mock Adventure 1","Mock Description 1", adventureId1, validUserID1, LocalDate.of(2021, 1, 1),LocalDate.of(2021, 1, 1),UUID.randomUUID());
 
         //When
-        GetAdventureByUUIDResponse response = new GetAdventureByUUIDResponse(success,mockAdventure);
+        GetAdventureByUUIDResponse response = new GetAdventureByUUIDResponse(success,adventureService.createAdventureDTO(mockAdventure));
 
         //Then
         Assertions.assertEquals(success, response.isSuccess());
-        Assertions.assertEquals(mockAdventure, response.getAdventure());
+        Assertions.assertEquals(mockAdventure.getAdventureId(), response.getAdventure().getAdventureId());
     }
 
     @Test
@@ -223,15 +221,15 @@ public class AdventureServiceUnitTests {
     @Test
     @Description("Ensuring that a user who has not created any adventures cannot view any adventures")
     public void creatorNoAdventures_ReturnNoAdventureFound(){
-            Assertions.assertThrows(AdventureNotFoundException.class, ()->{
                 List<GetAdventuresByUserUUIDResponse> res = adventureService.getAdventureByOwnerUUID(validUserID2);
-            });
+                Assertions.assertEquals(0,res.size());
     }
 
     @Test
     @Description("Ensuring that an attendee of multiple adventures can view these adventures")
     public void attendeeExistingAdventures_ReturnNoAdventureFound(){
-        Assertions.assertThrows(AdventureNotFoundException.class, ()-> adventureService.getAdventureByAttendeeUUID(validUserID2));
+       List <GetAdventuresByUserUUIDResponse> list=adventureService.getAdventureByAttendeeUUID(validUserID2);
+       Assertions.assertEquals(0,list.size());
     }
 
 
@@ -239,7 +237,8 @@ public class AdventureServiceUnitTests {
     @Test
     @Description("Ensuring that the appropriate exception is thrown when getAllAdventures is called without any adventures stored")
     public void getAllAdventuresNoAdventures_ThrowNoAdventureFound(){
-        Assertions.assertThrows(AdventureNotFoundException.class, ()-> adventureService.getAllAdventures());
+        List <GetAllAdventuresResponse> list=adventureService.getAllAdventures();
+        Assertions.assertEquals(0,list.size());
     }
 
     @Test
@@ -268,7 +267,7 @@ public class AdventureServiceUnitTests {
         Mockito.when(adventureRepository.findByAdventureId(mockId)).thenReturn(mockAdventure1);
         GetAdventureByUUIDRequest req = new GetAdventureByUUIDRequest(mockId);
         GetAdventureByUUIDResponse res = adventureService.getAdventureByUUID(req);
-        Assertions.assertEquals(res.getAdventure(), mockAdventure1);
+        Assertions.assertEquals(res.getAdventure().getAdventureId(), mockAdventure1.getAdventureId());
     }
 
     @Test

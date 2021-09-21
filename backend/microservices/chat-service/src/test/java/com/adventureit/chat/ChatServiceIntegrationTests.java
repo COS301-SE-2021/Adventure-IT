@@ -1,15 +1,14 @@
 package com.adventureit.chat;
 
 
-import com.adventureit.chat.Controller.ChatController;
-import com.adventureit.chat.Entity.ColorPair;
-import com.adventureit.chat.Entity.GroupChat;
-import com.adventureit.chat.Entity.GroupMessage;
-import com.adventureit.chat.Repository.ColorPairRepository;
-import com.adventureit.chat.Repository.DirectChatRepository;
-import com.adventureit.chat.Repository.GroupChatRepository;
-import com.adventureit.chat.Repository.MessageRepository;
-import com.adventureit.chat.Responses.GroupChatResponseDTO;
+import com.adventureit.chat.controller.ChatController;
+import com.adventureit.chat.entity.GroupChat;
+import com.adventureit.chat.entity.GroupMessage;
+import com.adventureit.chat.repository.ColorPairRepository;
+import com.adventureit.chat.repository.DirectChatRepository;
+import com.adventureit.chat.repository.GroupChatRepository;
+import com.adventureit.chat.repository.MessageRepository;
+import com.adventureit.shareddtos.chat.responses.GroupChatResponseDTO;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,12 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(properties = {"firebase-path=C:\\\\Users\\\\kevin\\\\Documents\\\\Enviroment variables\\\\adventure-it-bc0b6-firebase-adminsdk-o2fq8-ad3a51fb5e.json","service-registry-client.instance.hostname=localhost","service-registry-client.client.service-url.defaultZone=http://localhost:8761/eureka/","service-registry-client.client.register-with-eureka=true", "service-registry-client.client.fetch-registry=true","chat-microservice.application-name=CHAT-MICROSERVICE", "chat-microservice.datasource.url=jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5","chat-microservice.datasource.username=postgres","chat-microservice.datasource.password=310PB!Gq%f&J","chat-microservice.datasource.hikari.maximum-pool-size=2","chat-microservice.jpa.hibernate.ddl-auto=update","chat-microservice.jpa.show-sql=false","chat-microservice.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect","chat-microservice.jpa.properties.hibernate.format_sql=true" })
 public class ChatServiceIntegrationTests {
     @Autowired
     private ChatController chatController;
@@ -51,7 +52,7 @@ public class ChatServiceIntegrationTests {
     @Test
     @Description("Ensure that the controller is accepting traffic and responding")
     public void httpTest_returnResponse(){
-        Assertions.assertEquals(this.restTemplate.getForObject("http://localhost:" + port + "/chat/test", String.class),"Chat Controller is functioning");
+        Assertions.assertEquals("Chat Controller is functional",this.restTemplate.getForObject("http://localhost:" + port + "/chat/test", String.class));
     }
 
     @Test

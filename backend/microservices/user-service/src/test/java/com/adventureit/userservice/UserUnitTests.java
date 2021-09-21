@@ -1,41 +1,34 @@
 package com.adventureit.userservice;
 
 
-import com.adventureit.userservice.Entities.Users;
-import com.adventureit.userservice.Exceptions.InvalidRequestException;
-import com.adventureit.userservice.Exceptions.InvalidUserEmailException;
-import com.adventureit.userservice.Exceptions.InvalidUserPasswordException;
-import com.adventureit.userservice.Exceptions.InvalidUserPhoneNumberException;
-import com.adventureit.userservice.Repository.FriendRepository;
-import com.adventureit.userservice.Repository.RegistrationTokenRepository;
-import com.adventureit.userservice.Repository.UserRepository;
-import com.adventureit.userservice.Requests.*;
-import com.adventureit.userservice.Responses.*;
-import com.adventureit.userservice.Service.UserServiceImplementation;
+import com.adventureit.userservice.entities.Users;
+import com.adventureit.userservice.exceptions.InvalidRequestException;
+import com.adventureit.userservice.exceptions.InvalidUserEmailException;
+import com.adventureit.userservice.exceptions.InvalidUserPasswordException;
+import com.adventureit.userservice.exceptions.InvalidUserPhoneNumberException;
+import com.adventureit.userservice.repository.FriendRepository;
+import com.adventureit.userservice.repository.UserRepository;
+import com.adventureit.shareddtos.user.requests.*;
+import com.adventureit.shareddtos.user.responses.*;
+import com.adventureit.userservice.service.UserServiceImplementation;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Description;
 
 
-import javax.persistence.Id;
-import javax.persistence.Lob;
 import java.util.Date;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-public class UserUnitTests {
 
+class UserUnitTests {
 
     UserRepository repo = Mockito.mock(UserRepository.class);
-    RegistrationTokenRepository tokenRepo = Mockito.mock(RegistrationTokenRepository.class);
     FriendRepository friendRepository = Mockito.mock(FriendRepository.class);
 
-
-    private UserServiceImplementation user =
+    private final UserServiceImplementation user =
             new UserServiceImplementation(repo,friendRepository);
     /**
      * Generate mock data to handle Junit testing with
@@ -60,7 +53,7 @@ public class UserUnitTests {
     String firstName1 = "John";
     String lastName1 = "Doe";
     String validEmail = "u19024143@tuks.co.za";
-    String invalidEmail = "InvalidEmail.com";
+
 
 
     final UUID uuid1 = UUID.randomUUID();
@@ -73,8 +66,8 @@ public class UserUnitTests {
         RegisterUserRequest req = new RegisterUserRequest(uuid1, userName1,userlName1,username1,validEmail);
         assertNotNull(req);
         assertEquals(uuid1,req.getUserID());
-        assertEquals(userName1,req.getfName());
-        assertEquals(userlName1,req.getlName());
+        assertEquals(userName1,req.getFirstName());
+        assertEquals(userlName1,req.getLastName());
         assertEquals(validEmail,req.getEmail());
     }
 
@@ -90,8 +83,8 @@ public class UserUnitTests {
         AcceptFriendRequest mockRequest = new AcceptFriendRequest(freiendId,user1,user2);
 
         //Then
-        assertEquals(user1,mockRequest.getID1());
-        assertEquals(user2,mockRequest.getID2());
+        assertEquals(user1,mockRequest.getUserId1());
+        assertEquals(user2,mockRequest.getUserId2());
         assertEquals(freiendId,mockRequest.getId());
     }
 
@@ -145,7 +138,7 @@ public class UserUnitTests {
         UUID mockFirstUser = UUID.randomUUID();
         UUID mockSecondUser = UUID.randomUUID();
         Date mockCreatedDate = new Date(Long.MIN_VALUE);
-        Boolean accepted = true;
+        boolean accepted = true;
 
         //When
         FriendDTO mockRequest = new FriendDTO(mockId,mockFirstUser,mockSecondUser,mockCreatedDate,accepted);
@@ -165,7 +158,7 @@ public class UserUnitTests {
         UUID mockFirstUser = UUID.randomUUID();
         UUID mockSecondUser = UUID.randomUUID();
         Date mockCreatedDate = new Date(Long.MIN_VALUE);
-        Boolean accepted = true;
+        boolean accepted = true;
         String mockRequestername = "Username";
 
         UUID mockUserID = UUID.randomUUID();
@@ -227,7 +220,7 @@ public class UserUnitTests {
     @Description("This test tests whether the request object is null and throws correct exception")
      void TestInvalidRequest() throws InvalidUserEmailException {
         RegisterUserRequest req = null;
-        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> user.RegisterUser(req));
+        Throwable thrown = assertThrows(InvalidRequestException.class , ()-> user.registerUser(req));
         assertNull(req);
         assertEquals("404 Bad Request", thrown.getMessage());
     }
@@ -237,25 +230,8 @@ public class UserUnitTests {
     void TestRegisterUserResponse() throws InvalidUserEmailException, InvalidUserPhoneNumberException, InvalidUserPasswordException, InvalidRequestException {
         RegisterUserRequest req = new RegisterUserRequest(uuid1, userName1,userlName1,username1,validEmail);
         assertNotNull(req);
-        RegisterUserResponse response = user.RegisterUser(req);
-        assertEquals(true,response.isSuccess());
+        RegisterUserResponse response = user.registerUser(req);
+        assertTrue(response.isSuccess());
         assertEquals("User "+userName1+" "+userlName1+" successfully Registered",response.getMessage());
     }
-
-    @Test
-    @Description("This test tests whether the response object returned carries the correct information")
-    void getUserByUUIDTest(){
-
-        Mockito.when(repo.getUserByUserID(uuid1)).thenReturn(mockUser);
-
-        GetUserByUUIDDTO response = user.GetUserByUUID(uuid1);
-
-        assertEquals(mockUser.getUserID(),response.getUserID());
-        assertEquals(mockUser.getUsername(),response.getUsername());
-        assertEquals(mockUser.getFirstname(),response.getFirstname());
-        assertEquals(mockUser.getLastname(),response.getLastname());
-        assertEquals(mockUser.getEmail(),response.getEmail());
-    }
-
-
 }

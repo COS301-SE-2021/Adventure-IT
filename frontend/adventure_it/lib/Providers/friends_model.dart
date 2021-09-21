@@ -1,35 +1,30 @@
-import 'package:adventure_it/api/adventure.dart';
-import 'package:adventure_it/api/adventure_api.dart';
 import 'package:adventure_it/api/friendRequest.dart';
-import 'package:adventure_it/api/locationAPI.dart';
-import 'package:adventure_it/api/placeSearch.dart';
+import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/api/userProfile.dart';
-import 'package:adventure_it/api/user_api.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 class FriendModel extends ChangeNotifier {
-  List<UserProfile>? _friends = null;
-  UserApi _user=UserApi.getInstance();
+  List<UserProfile>? _friends;
+  UserApi _user = UserApi.getInstance();
+  BuildContext? context;
 
-  FriendModel(String userID) {
+  FriendModel(String userID,context) {
+    this.context=context;
     fetchAllFriendProfiles(userID).then((friends) {
       friends != null ? _friends = friends : List.empty();
     });
-
   }
 
   List<UserProfile>? get friends => _friends?.toList();
 
-
   Future fetchAllFriendProfiles(String userID) async {
-    _friends = await _user.getFriendProfiles(userID);
+    _friends = await _user.getFriendProfiles(userID,context);
 
     notifyListeners();
   }
 
   Future deleteFriend(String user, String friend) async {
-    await _user.deleteFriend(user, friend);
+    await _user.deleteFriend(user, friend,context);
 
     var index = _friends!.indexWhere((element) => element.userID == friend);
     _friends!.removeAt(index);
@@ -39,28 +34,27 @@ class FriendModel extends ChangeNotifier {
 }
 
 class FriendRequestModel extends ChangeNotifier {
-  List<FriendRequest>? _friends = null;
-  UserApi _user=UserApi.getInstance();
+  List<FriendRequest>? _friends;
+  BuildContext? context;
+  UserApi _user = UserApi.getInstance();
 
-  FriendRequestModel(String userID) {
+  FriendRequestModel(String userID,context) {
+    this.context=context;
     fetchAllFriends(userID).then((friends) {
       friends != null ? _friends = friends : List.empty();
     });
-
   }
 
   List<FriendRequest>? get friends => _friends?.toList();
 
-
   Future fetchAllFriends(String value) async {
-    _friends = await _user.getFriendRequests(value);
+    _friends = await _user.getFriendRequests(value,context);
 
     notifyListeners();
   }
 
-
   Future deleteFriendRequest(String id) async {
-    await _user.deleteFriendRequest(id);
+    await _user.deleteFriendRequest(id,context);
 
     var index = _friends!.indexWhere((element) => element.id == id);
     _friends!.removeAt(index);
@@ -69,7 +63,7 @@ class FriendRequestModel extends ChangeNotifier {
   }
 
   Future acceptFriendRequest(String id) async {
-    await _user.acceptFriendRequest(id);
+    await _user.acceptFriendRequest(id,context);
 
     var index = _friends!.indexWhere((element) => element.id == id);
     _friends!.removeAt(index);

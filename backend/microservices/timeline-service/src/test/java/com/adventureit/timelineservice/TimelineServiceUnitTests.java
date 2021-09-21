@@ -1,12 +1,12 @@
 package com.adventureit.timelineservice;
 
-import com.adventureit.timelineservice.Entity.Timeline;
-import com.adventureit.timelineservice.Entity.TimelineType;
-import com.adventureit.timelineservice.Exceptions.TimelineDoesNotExistException;
-import com.adventureit.timelineservice.Repository.TimelineRepository;
-import com.adventureit.timelineservice.Requests.CreateTimelineRequest;
-import com.adventureit.timelineservice.Responses.TimelineDTO;
-import com.adventureit.timelineservice.Service.TimelineServiceImplementation;
+import com.adventureit.timelineservice.entity.Timeline;
+import com.adventureit.shareddtos.timeline.TimelineType;
+import com.adventureit.timelineservice.exceptions.TimelineDoesNotExistException;
+import com.adventureit.timelineservice.repository.TimelineRepository;
+import com.adventureit.shareddtos.timeline.requests.CreateTimelineRequest;
+import com.adventureit.shareddtos.timeline.responses.TimelineDTO;
+import com.adventureit.timelineservice.service.TimelineServiceImplementation;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@SpringBootTest
-public class TimelineServiceUnitTests {
+
+class TimelineServiceUnitTests {
 
     TimelineRepository timelineRepo = Mockito.mock(TimelineRepository.class);
 
@@ -39,7 +39,7 @@ public class TimelineServiceUnitTests {
 
     @Test
     @Description("Testing to make sure that the CreateTimelineRequest returns the correct parameters that were passed in")
-    public void createTimelineRequest(){
+    void createTimelineRequest(){
         //Given
         UUID mockAdventureId = UUID.randomUUID();
         TimelineType mockType = TimelineType.ADVENTURE;
@@ -61,7 +61,7 @@ public class TimelineServiceUnitTests {
 
     @Test
     @Description("Testing to make sure that the TimelineDTO returns the correct parameters that were passed in")
-    public void timelineDtoTest(){
+    void timelineDtoTest(){
         //Given
         UUID mockTimelineId = UUID.randomUUID();
         UUID mockAdventureId = UUID.randomUUID();
@@ -83,7 +83,7 @@ public class TimelineServiceUnitTests {
 
     @Test
     @Description("Testing the CreateTimeline service")
-    public void createTimelineTest(){
+    void createTimelineTest(){
 
         //Given
         UUID mockAdventureId = UUID.randomUUID();
@@ -99,7 +99,7 @@ public class TimelineServiceUnitTests {
 
     @Test
     @Description("Testing the getTimelineByAdventureId service")
-    public void getTimelineByAdventureIdTest(){
+    void getTimelineByAdventureIdTest(){
 
         //Given
         UUID mockAdventureId = UUID.randomUUID();
@@ -115,20 +115,20 @@ public class TimelineServiceUnitTests {
 
     @Test
     @Description("Testing the getTimelineByAdventureId service")
-    public void getTimelineByAdventureIdFailureTest(){
+    void getTimelineByAdventureIdFailureTest(){
         //Given
         UUID incorrectAdventureId = UUID.randomUUID();
 
         //When
         Mockito.when(timelineRepo.findAllByAdventureId(incorrectAdventureId)).thenReturn(null);
         Assertions.assertThrows(TimelineDoesNotExistException.class, ()->
-                service.GetTimelineByAdventureID(incorrectAdventureId));
+                service.getTimelineByAdventureID(incorrectAdventureId));
 
     }
 
     @Test
     @Description("Testing the deletem,koTimelineByAdventureId service")
-    public void deleteTimelineByAdventureID(){
+    void deleteTimelineByAdventureID(){
         //Given
         UUID correctAdventureId = UUID.randomUUID();
 
@@ -141,7 +141,7 @@ public class TimelineServiceUnitTests {
 
     @Test
     @Description("Testing the getTimelineByAdventureId service")
-    public void deleteTimelineByAdventureIdFailureTest(){
+    void deleteTimelineByAdventureIdFailureTest(){
         //Given
         UUID incorrectAdventureId = UUID.randomUUID();
 
