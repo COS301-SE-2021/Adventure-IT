@@ -16,8 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
-    - name: Set up flutter
-      working-directory: frontend/adventure_it
+    
     # Setup Java environment in order to build the Android app.
     - uses: actions/checkout@v1
       
@@ -32,7 +31,9 @@ jobs:
         # flutter-version: '1.12.x' # you can also specify exact version of flutter
         
     # Get flutter dependencies.
-    - run: flutter pub get
+    - name: Set up flutter
+      working-directory: frontend/adventure_it
+      run: flutter pub get
     
     # Check for any formatting issues in the code.
     - run: flutter format --set-exit-if-changed .
