@@ -36,8 +36,9 @@ Flutter
 
 Java<br>
 Keycloak<br>
-Google<br>
+Docker<br>
 Postgresql<br>
+Firebase Cloud<br>
 
 ## Branching Strategy
 
@@ -54,8 +55,9 @@ master(build)<br>
 
 ### Project Boards:
 
-Here you can access all the sprints which we have created through out the development of Adventure it.<br>
+Here you can access all the sprints which we have created throughout the development of Adventure-IT.<br>
 
+- [Documentation](https://github.com/COS301-SE-2021/Adventure-IT/projects/10)
 - [Sprint #7](https://github.com/COS301-SE-2021/Adventure-IT/projects/9)
 - [Sprint #6](https://github.com/COS301-SE-2021/Adventure-IT/projects/8)
 - [Sprint #5](https://github.com/COS301-SE-2021/Adventure-IT/projects/7)
@@ -89,11 +91,11 @@ Here you can see all the information regarding our github insights.<br>
 [User Manual v1](https://drive.google.com/file/d/1Emq7qZ7IsgRWLM5CVBmfHSHNnznoFgae/view?usp=sharing)<br>
 [User Manual v2](https://drive.google.com/file/d/1miKMDGy3EVlUr7ltEVeujfw6y_3UUZq5/view?usp=sharing)<br>
 [Coding Standards v1](https://drive.google.com/file/d/1ClujSTTNhTaBaEZyX3D06QsrvCr_glH_/view?usp=sharing)
-[Coding Standards v2] <br>
+[Coding Standards v2](https://drive.google.com/file/d/15sJW8ySaGS2ZljuWC6Mq2d5uhyhyLTBq/view?usp=sharing)<br>
 [Demo Video v1](https://drive.google.com/file/d/1xA5vm6o-PZxjv8IV9Esl6hzKomYmctHx/view?usp=sharing)
 [Demo Video v2](https://drive.google.com/file/d/10PP2_JCQ90dlmak3jAMOfE-B60tDR8E-/view?usp=sharing)
 [Demo Video v3](https://drive.google.com/file/d/12lckbmYwm47iZtwvPRzNUy0j83XWS4Yc/view?usp=sharing)
-[Demo Video v4]
+[Demo Video v4](https://drive.google.com/file/d/1VnNIiXIVprIyONKrbPAFLwNltiNpigDT/view?usp=sharing)
 
 ## Team Members
 
