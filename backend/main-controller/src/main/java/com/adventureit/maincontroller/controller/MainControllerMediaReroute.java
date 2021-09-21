@@ -33,7 +33,7 @@ public class MainControllerMediaReroute {
 
     private RestTemplate restTemplate = new RestTemplate();
     private MainControllerServiceImplementation service;
-    private static final String INTERNET_PORT = "http://localhost";
+    private static final String INTERNET_PORT = "internal-microservices-473352023.us-east-2.elb.amazonaws.com";
     private static final String MEDIA_PORT = "9005";
     private static final String USER_PORT = "9002";
     private static final String STORAGE_EXCEEDED = "Upload Media: User has exceeded storage available";

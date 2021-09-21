@@ -27,7 +27,7 @@ public class MainControllerChecklistReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "http://localhost";
+    private static final String INTERNET_PORT = "internal-microservices-473352023.us-east-2.elb.amazonaws.com";
     private static final String TIMELINE_PORT = "9012";
     private static final String CHECKLIST_PORT = "9008";
     private static final String USER_PORT = "9002";

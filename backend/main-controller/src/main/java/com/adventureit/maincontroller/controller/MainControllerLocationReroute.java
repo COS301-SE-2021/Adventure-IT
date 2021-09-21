@@ -24,7 +24,7 @@ public class MainControllerLocationReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "http://localhost";
+    private static final String INTERNET_PORT = "internal-microservices-473352023.us-east-2.elb.amazonaws.com";
     private static final String LOCATION_PORT = "9006";
     private static final String ADVENTURE_PORT = "9001";
     private static final String RECOMMENDATION_PORT = "9013";
