@@ -115,18 +115,20 @@ Here you can see all the information regarding our github insights.<br>
 
 ## Hai-muo Cui (20%)
 
-I was nominated as team lead for TheSmartPointers and thus my main priority was ensuring that the team worked in harmony and mainaining a bridge of communication between the team and our lecturer mentor as well as our industy mentor. This includes scheduling weekly meetings with our industy mentor as well as chairing daily meeting with the team. In terms of work on the project my primary focus is on backend development. This includes developing and working the following:<br><br>
+I was nominated as team lead for TheSmartPointers and thus my main priority was ensuring that the team worked in harmony and mainaining a bridge of communication between the team and our lecturer mentor as well as our industy mentor. This includes scheduling weekly meetings with our industy mentor as well as chairing daily meeting with the team. In terms of work on the project my primary focus is on backend development. This includes developing and working on the following:<br><br>
 - Developing backend services (Chat, Timeline, Notification, Main controller).<br>
 - Integrating micro-services together in the main controller.<br>
 - Creating unit as well as Integration tests for a portion of the micro-services.<br>
 - Debugging possible errors which have occured throughout development.<br>
+- Budget algorithm for the budget microservice
 
 ## Shivek Goodoon (20%)
 
-In terms of work on the project my primary focus is on backend development. This includes developing and working the following:<br><br>
+In terms of work on the project my primary focus is on backend development. This includes developing and working on the following:<br><br>
 - Developing backend services (Budget, Checklist, Itinerary, Location).<br>
 - Creating unit as well as Integration tests for a portion of the micro-services.<br>
 - Debugging possible errors which have occured throughout development.<br>
+- Firebase Cloud for media and documents
 
 ## Ashton Flowerday (20%)
 
@@ -139,6 +141,7 @@ As a front-end developer, I mostly implemented the pages that the user will inte
 - The forms for the creation of itinerary, checklist and budget <br>
 - Group chat and direct chat <br>
 - Media/files/documents <br>
+- Recommendations frontend
 
 
 ## Simran Rathilal (20%)
@@ -149,6 +152,8 @@ I took more of an admin role in the group. I made sure everyone knew when group 
 - Created dart files in the API for each function required on the front-end.<br>
 - I worked on the navigation bar.<br>
 - I worked on certain front-end pages including Login, Register, Timeline and Profile.<br>
+- Implemented user flags
+- App themes
 
 ## Alex Human (20%)
 I was involved in the overall architectural design & implementation of the Adventure-It system, fulfilling a full-stack development role.
@@ -158,3 +163,4 @@ Namely, I was involved in the following:
 - Front-end implementation of functionality.
 - Front-end integration of back-end functionality.
 - Integration of Keycloak for user verification.
+- Recommendation Algorithm
