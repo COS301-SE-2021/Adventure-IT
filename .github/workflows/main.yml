@@ -1,4 +1,4 @@
-name: Adventure Microservice - Tests
+name: Adventure-IT - Tests
 
 on:
   push:
@@ -41,6 +41,10 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: 
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=COS301-SE-2021_Adventure-IT
+      - name: Building docker images
+        working-directory: backend
+        run: |
+          docker-compose build
 # jobs:
 #   build:
 #     runs-on: ubuntu-latest
