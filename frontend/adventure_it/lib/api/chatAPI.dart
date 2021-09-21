@@ -12,12 +12,17 @@ import 'directChatMessage.dart';
 import 'groupChat.dart';
 
 class ChatApi {
-  static Future<GroupChat> getGroupChat(Adventure? a,context) async {
+  static Future<GroupChat> getGroupChat(Adventure? a, context) async {
     http.Response response = await _getGroupChat(a!.adventureId);
     print(response.body);
 
     if (response.statusCode != 200) {
-      SnackBar snackBar=SnackBar(content: Text('Failed to get group chat!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      SnackBar snackBar = SnackBar(
+          content: Text('Failed to get group chat!',
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontWeight: FontWeight.bold)),
+          backgroundColor: Theme.of(context).primaryColorDark);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to find group chat: ${response.body}');
     }
@@ -27,13 +32,19 @@ class ChatApi {
     return gc;
   }
 
-  static Future<List<GroupChatMessage>> getGroupChatMessage(chatID,context) async {
+  static Future<List<GroupChatMessage>> getGroupChatMessage(
+      chatID, context) async {
     http.Response response = await _getGroupChatMessages(chatID);
 
     print(response.body);
 
     if (response.statusCode != 200) {
-      SnackBar snackBar=SnackBar(content: Text('Failed to get messages for group chat!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      SnackBar snackBar = SnackBar(
+          content: Text('Failed to get messages for group chat!',
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontWeight: FontWeight.bold)),
+          backgroundColor: Theme.of(context).primaryColorDark);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception(
           'Failed to load list of messages for group chat: ${response.body}');
@@ -47,19 +58,25 @@ class ChatApi {
   }
 
   static Future<http.Response> _getGroupChatMessages(chatID) async {
-    return http.get(Uri.http(mainApi, '/chat/getGroupMessages/' + chatID));
+    return http.get(Uri.parse(mainApi + '/chat/getGroupMessages/' + chatID));
   }
 
   static Future<http.Response> _getGroupChat(adventureID) async {
     return http.get(
-        Uri.http(mainApi, '/chat/getGroupChatByAdventureID/' + adventureID));
+        Uri.parse(mainApi + '/chat/getGroupChatByAdventureID/' + adventureID));
   }
 
-  static Future<DirectChat> getDirectChat(String user1, String user2,context) async {
+  static Future<DirectChat> getDirectChat(
+      String user1, String user2, context) async {
     http.Response response = await _getDirectChat(user1, user2);
 
     if (response.statusCode != 200) {
-      SnackBar snackBar=SnackBar(content: Text('Failed to get chat!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      SnackBar snackBar = SnackBar(
+          content: Text('Failed to get chat!',
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontWeight: FontWeight.bold)),
+          backgroundColor: Theme.of(context).primaryColorDark);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to find direct chat: ${response.body}');
     }
@@ -72,16 +89,22 @@ class ChatApi {
   static Future<http.Response> _getDirectChat(
       String user1, String user2) async {
     return http
-        .get(Uri.http(mainApi, '/chat/getDirectChat/' + user1 + '/' + user2));
+        .get(Uri.parse(mainApi + '/chat/getDirectChat/' + user1 + '/' + user2));
   }
 
-  static Future<List<DirectChatMessage>> getDirectChatMessage(chatID,context) async {
+  static Future<List<DirectChatMessage>> getDirectChatMessage(
+      chatID, context) async {
     http.Response response = await _getDirectChatMessages(chatID);
 
     print(response.body);
 
     if (response.statusCode != 200) {
-      SnackBar snackBar=SnackBar(content: Text('Failed to get messages!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      SnackBar snackBar = SnackBar(
+          content: Text('Failed to get messages!',
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontWeight: FontWeight.bold)),
+          backgroundColor: Theme.of(context).primaryColorDark);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception(
           'Failed to load list of messages for direct chat: ${response.body}');
@@ -95,13 +118,13 @@ class ChatApi {
   }
 
   static Future<http.Response> _getDirectChatMessages(chatID) async {
-    return http.get(Uri.http(mainApi, '/chat/getDirectMessages/' + chatID));
+    return http.get(Uri.parse(mainApi + '/chat/getDirectMessages/' + chatID));
   }
 
-  static Future<SendDirectMessage> sendDirectMessage(
-      String chatID, String sender, String receiver, String msg,context) async {
+  static Future<SendDirectMessage> sendDirectMessage(String chatID,
+      String sender, String receiver, String msg, context) async {
     final response = await http.post(
-        Uri.parse('http://localhost:9999/chat/sendDirectMessage'),
+        Uri.parse(mainApi + '/chat/sendDirectMessage'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -120,7 +143,12 @@ class ChatApi {
       return SendDirectMessage(
           chatID: chatID, sender: sender, receiver: receiver, msg: msg);
     } else {
-      SnackBar snackBar=SnackBar(content: Text('Failed to send message!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      SnackBar snackBar = SnackBar(
+          content: Text('Failed to send message!',
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontWeight: FontWeight.bold)),
+          backgroundColor: Theme.of(context).primaryColorDark);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
@@ -131,9 +159,9 @@ class ChatApi {
   }
 
   static Future<SendGroupMessage> sendGroupMessage(
-      String chatID, String sender, String msg,context) async {
+      String chatID, String sender, String msg, context) async {
     final response = await http.post(
-        Uri.parse('http://localhost:9999/chat/sendGroupMessage'),
+        Uri.parse(mainApi + '/chat/sendGroupMessage'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -147,7 +175,12 @@ class ChatApi {
       print('Body: ${response.body}');
       return SendGroupMessage(chatID: chatID, sender: sender, msg: msg);
     } else {
-      SnackBar snackBar=SnackBar(content: Text('Failed to send message!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      SnackBar snackBar = SnackBar(
+          content: Text('Failed to send message!',
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontWeight: FontWeight.bold)),
+          backgroundColor: Theme.of(context).primaryColorDark);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       // If the server did not return a 201 CREATED response,
       // then throw an exception.

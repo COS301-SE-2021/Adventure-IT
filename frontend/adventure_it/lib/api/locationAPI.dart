@@ -66,10 +66,8 @@ class LocationApi {
 
   static Future<http.Response> _getAllCurrentLocations(
       String adventureID) async {
-    return http.get(Uri.parse("http://" +
-        mainApi +
-        "/location/getAllCurrentLocations/" +
-        adventureID));
+    return http.get(
+        Uri.parse(mainApi + "/location/getAllCurrentLocations/" + adventureID));
   }
 
   static Future<CurrentLocation> getCurrentLocation(context) async {
@@ -93,8 +91,7 @@ class LocationApi {
   }
 
   static Future<http.Response> _getCurrentLocation() async {
-    return http.get(Uri.parse("http://" +
-        mainApi +
+    return http.get(Uri.parse(mainApi +
         "/location/getCurrentLocation/" +
         UserApi.getInstance().getUserProfile()!.userID));
   }
@@ -118,8 +115,7 @@ class LocationApi {
 
   static Future<http.Response> _setCurrentLocation(
       String latitude, String longitude) async {
-    return http.get(Uri.parse("http://" +
-        mainApi +
+    return http.get(Uri.parse(mainApi +
         "/location/storeCurrentLocation/" +
         UserApi.getInstance().getUserProfile()!.userID +
         "/" +
@@ -155,8 +151,7 @@ class LocationApi {
   }
 
   static Future<http.Response> _getRecommendations(Adventure a) async {
-    return http.get(Uri.parse("http://" +
-        mainApi +
+    return http.get(Uri.parse(mainApi +
         "/recommendation/get/" +
         UserApi.getInstance().getUserProfile()!.userID +
         "/5/" +
@@ -193,8 +188,7 @@ class LocationApi {
   }
 
   static Future<http.Response> _getPopular(Adventure a) async {
-    return http.get(Uri.parse("http://" +
-        mainApi +
+    return http.get(Uri.parse(mainApi +
         "/recommendation/get/popular/" +
         UserApi.getInstance().getUserProfile()!.userID +
         "/5/" +
@@ -217,8 +211,7 @@ class LocationApi {
   }
 
   static Future<http.Response> _likeLocation(String locationId) async {
-    return http.get(Uri.parse("http://" +
-        mainApi +
+    return http.get(Uri.parse(mainApi +
         "/recommendation/like/" +
         UserApi.getInstance().getUserProfile()!.userID +
         "/" +
@@ -236,9 +229,8 @@ class LocationApi {
   }
 
   static Future<http.Response> _getFlagList() async {
-    return http.get(Uri.http(
-        mainApi,
+    return http.get(Uri.parse(mainApi +
         'location/getFlagList/' +
-            UserApi.getInstance().getUserProfile()!.userID));
+        UserApi.getInstance().getUserProfile()!.userID));
   }
 }

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
 
-import 'mockHTML.dart' if(dart.library.html) 'dart:html'as html;
+import 'mockHTML.dart' if (dart.library.html) 'dart:html' as html;
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
@@ -21,11 +21,16 @@ import 'media.dart';
 import 'document.dart';
 
 class MediaApi {
-  static Future<List<Media>> getAllMedia(Adventure a,context) async {
+  static Future<List<Media>> getAllMedia(Adventure a, context) async {
     http.Response response = await _getAllMedia(a.adventureId);
 
     if (response.statusCode != 200) {
-      SnackBar snackBar=SnackBar(content: Text('Failed to get media!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      SnackBar snackBar = SnackBar(
+          content: Text('Failed to get media!',
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontWeight: FontWeight.bold)),
+          backgroundColor: Theme.of(context).primaryColorDark);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to load media: ${response.body}');
     }
@@ -38,35 +43,44 @@ class MediaApi {
   }
 
   static Future<http.Response> _getAllMedia(String adventureID) async {
-    return http
-        .get(Uri.http(mainApi, "/media/getAdventureMediaList/" + adventureID));
+    return http.get(
+        Uri.parse(mainApi + "/media/getAdventureMediaList/" + adventureID));
   }
 
-  static Future removeMedia(String id,context) async {
+  static Future removeMedia(String id, context) async {
     http.Response response = await _removeMedia(id);
 
     if (response.statusCode != 200) {
-      SnackBar snackBar=SnackBar(content: Text('Failed to remove media from adventure!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      SnackBar snackBar = SnackBar(
+          content: Text('Failed to remove media from adventure!',
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontWeight: FontWeight.bold)),
+          backgroundColor: Theme.of(context).primaryColorDark);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to remove media: ${response.body}');
     }
   }
 
   static Future<http.Response> _removeMedia(String id) async {
-    return http.get(Uri.http(
-        mainApi,
+    return http.get(Uri.parse(mainApi +
         "/media/deleteMedia/" +
-            id +
-            "/" +
-            UserApi.getInstance().getUserProfile()!.userID));
+        id +
+        "/" +
+        UserApi.getInstance().getUserProfile()!.userID));
   }
 
-  static Future addMedia(List<PlatformFile> files, Adventure a,context) async {
+  static Future addMedia(List<PlatformFile> files, Adventure a, context) async {
     for (int i = 0; i < files.length; i++) {
       http.Response response = await _addMedia(files.elementAt(i), a);
 
       if (response.statusCode != 200) {
-        SnackBar snackBar=SnackBar(content: Text('Failed to upload media to adventure!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+        SnackBar snackBar = SnackBar(
+            content: Text('Failed to upload media to adventure!',
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1!.color,
+                    fontWeight: FontWeight.bold)),
+            backgroundColor: Theme.of(context).primaryColorDark);
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         throw Exception('Failed to upload media: ${response.body}');
       }
@@ -76,7 +90,7 @@ class MediaApi {
   static Future<http.Response> _addMedia(PlatformFile file, Adventure a) async {
     final mimeType = lookupMimeType(file.name); // 'image/jpeg'
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://' + mainApi + '/media/uploadMedia'));
+        'POST', Uri.parse(mainApi + '/media/uploadMedia'));
     request.fields['userid'] = UserApi.getInstance().getUserProfile()!.userID;
     request.fields['adventureid'] = a.adventureId;
     request.files.add(http.MultipartFile.fromBytes(
@@ -97,7 +111,7 @@ class MediaApi {
         pickText: 'Save file to this folder');
     if (filepath != null) {
       String? _taskid = await FlutterDownloader.enqueue(
-        url: 'http://' + mainApi + "/media/mediaUploaded/" + currentMedia.id,
+        url: mainApi + "/media/mediaUploaded/" + currentMedia.id,
         fileName: currentMedia.name,
         savedDir: filepath,
         showNotification: true,
@@ -109,8 +123,7 @@ class MediaApi {
 
   static void web_requestMediaDownload(Media currentMedia) {
     html.window.open(
-        'http://' + mainApi + "/media/mediaUploaded/" + currentMedia.id,
-        currentMedia.name);
+        mainApi + "/media/mediaUploaded/" + currentMedia.id, currentMedia.name);
   }
 
   static void downloadCallback(
@@ -122,11 +135,16 @@ class MediaApi {
 }
 
 class FileApi {
-  static Future<List<Media>> getAllFiles(Adventure a,context) async {
+  static Future<List<Media>> getAllFiles(Adventure a, context) async {
     http.Response response = await _getAllFiles(a.adventureId);
 
     if (response.statusCode != 200) {
-      SnackBar snackBar=SnackBar(content: Text('Failed to get files!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      SnackBar snackBar = SnackBar(
+          content: Text('Failed to get files!',
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontWeight: FontWeight.bold)),
+          backgroundColor: Theme.of(context).primaryColorDark);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to load media: ${response.body}');
     }
@@ -140,34 +158,43 @@ class FileApi {
 
   static Future<http.Response> _getAllFiles(String adventureID) async {
     return http
-        .get(Uri.http(mainApi, "/media/getAdventureFileList/" + adventureID));
+        .get(Uri.parse(mainApi + "/media/getAdventureFileList/" + adventureID));
   }
 
-  static Future removeFile(String id,context) async {
+  static Future removeFile(String id, context) async {
     http.Response response = await _removeFile(id);
 
     if (response.statusCode != 200) {
-      SnackBar snackBar=SnackBar(content: Text('Failed to remove file from adventure!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      SnackBar snackBar = SnackBar(
+          content: Text('Failed to remove file from adventure!',
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontWeight: FontWeight.bold)),
+          backgroundColor: Theme.of(context).primaryColorDark);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to remove media: ${response.body}');
     }
   }
 
   static Future<http.Response> _removeFile(String id) async {
-    return http.get(Uri.http(
-        mainApi,
+    return http.get(Uri.parse(mainApi +
         "/media/deleteFile/" +
-            id +
-            "/" +
-            UserApi.getInstance().getUserProfile()!.userID));
+        id +
+        "/" +
+        UserApi.getInstance().getUserProfile()!.userID));
   }
 
-  static Future addFile(List<PlatformFile> files, Adventure a,context) async {
+  static Future addFile(List<PlatformFile> files, Adventure a, context) async {
     for (int i = 0; i < files.length; i++) {
       http.Response response = await _addFile(files.elementAt(i), a);
 
       if (response.statusCode != 200) {
-        SnackBar snackBar=SnackBar(content: Text('Failed to upload file to adventure!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+        SnackBar snackBar = SnackBar(
+            content: Text('Failed to upload file to adventure!',
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1!.color,
+                    fontWeight: FontWeight.bold)),
+            backgroundColor: Theme.of(context).primaryColorDark);
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         throw Exception('Failed to upload failed: ${response.body}');
       }
@@ -176,8 +203,8 @@ class FileApi {
 
   static Future<http.Response> _addFile(PlatformFile file, Adventure a) async {
     final mimeType = lookupMimeType(file.name); // 'image/jpeg'
-    var request = http.MultipartRequest(
-        'POST', Uri.parse('http://' + mainApi + '/media/uploadFile'));
+    var request =
+        http.MultipartRequest('POST', Uri.parse(mainApi + '/media/uploadFile'));
     request.fields['userid'] = UserApi.getInstance().getUserProfile()!.userID;
     request.fields['adventureid'] = a.adventureId;
     request.files.add(http.MultipartFile.fromBytes(
@@ -198,7 +225,7 @@ class FileApi {
         pickText: 'Save file to this folder');
     if (filepath != null) {
       String? _taskid = await FlutterDownloader.enqueue(
-        url: 'http://' + mainApi + "/media/fileUploaded/" + currentMedia.id,
+        url: mainApi + "/media/fileUploaded/" + currentMedia.id,
         fileName: currentMedia.name,
         savedDir: filepath,
         showNotification: true,
@@ -210,8 +237,7 @@ class FileApi {
 
   static void web_requestFileDownload(Media currentMedia) {
     html.window.open(
-        'http://' + mainApi + "/media/fileUploaded/" + currentMedia.id,
-        currentMedia.name);
+        mainApi + "/media/fileUploaded/" + currentMedia.id, currentMedia.name);
   }
 
   static void downloadCallback(
@@ -228,7 +254,12 @@ class DocumentApi {
         await _getAllDocuments(UserApi.getInstance().getUserProfile()!.userID);
 
     if (response.statusCode != 200) {
-      SnackBar snackBar=SnackBar(content: Text('Failed to get documents!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      SnackBar snackBar = SnackBar(
+          content: Text('Failed to get documents!',
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontWeight: FontWeight.bold)),
+          backgroundColor: Theme.of(context).primaryColorDark);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to load documents: ${response.body}');
     }
@@ -241,35 +272,45 @@ class DocumentApi {
   }
 
   static Future<http.Response> _getAllDocuments(String userID) async {
-    return http.get(Uri.http(mainApi, "/media/getUserDocumentList/" + userID));
+    return http
+        .get(Uri.parse(mainApi + "/media/getUserDocumentList/" + userID));
   }
 
-  static Future removeDocument(String id,context) async {
+  static Future removeDocument(String id, context) async {
     http.Response response = await _removeDocument(id);
 
     if (response.statusCode != 200) {
-      SnackBar snackBar=SnackBar(content: Text('Failed to remove document from profile!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      SnackBar snackBar = SnackBar(
+          content: Text('Failed to remove document from profile!',
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontWeight: FontWeight.bold)),
+          backgroundColor: Theme.of(context).primaryColorDark);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to remove document: ${response.body}');
     }
   }
 
   static Future<http.Response> _removeDocument(String id) async {
-    return http.get(Uri.http(
-        mainApi,
+    return http.get(Uri.parse(mainApi +
         "/media/deleteDocument/" +
-            id +
-            "/" +
-            UserApi.getInstance().getUserProfile()!.userID));
+        id +
+        "/" +
+        UserApi.getInstance().getUserProfile()!.userID));
   }
 
-  static Future addDocument(List<PlatformFile> documents,context) async {
+  static Future addDocument(List<PlatformFile> documents, context) async {
     for (int i = 0; i < documents.length; i++) {
       http.Response response = await _addDocument(documents.elementAt(i),
           UserApi.getInstance().getUserProfile()!.userID);
 
       if (response.statusCode != 200) {
-        SnackBar snackBar=SnackBar(content: Text('Failed to upload document to profile!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+        SnackBar snackBar = SnackBar(
+            content: Text('Failed to upload document to profile!',
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1!.color,
+                    fontWeight: FontWeight.bold)),
+            backgroundColor: Theme.of(context).primaryColorDark);
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         throw Exception('Failed to upload document: ${response.body}');
       }
@@ -280,7 +321,7 @@ class DocumentApi {
       PlatformFile file, String userID) async {
     final mimeType = lookupMimeType(file.name); // 'image/jpeg'
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://' + mainApi + '/media/uploadDocument'));
+        'POST', Uri.parse(mainApi + '/media/uploadDocument'));
     request.fields['userid'] = userID;
     request.files.add(http.MultipartFile.fromBytes(
         'file', file.bytes!.cast<int>(),
@@ -301,8 +342,7 @@ class DocumentApi {
         pickText: 'Save file to this folder');
     if (filepath != null) {
       String? _taskid = await FlutterDownloader.enqueue(
-        url:
-            'http://' + mainApi + "/media/documentUploaded/" + currentMedia.id,
+        url: mainApi + "/media/documentUploaded/" + currentMedia.id,
         fileName: currentMedia.name,
         savedDir: filepath,
         showNotification: true,
@@ -313,8 +353,7 @@ class DocumentApi {
   }
 
   static void web_requestDocumentDownload(Documents currentMedia) {
-    html.window.open(
-        'http://' + mainApi + "/media/documentUploaded/" + currentMedia.id,
+    html.window.open(mainApi + "/media/documentUploaded/" + currentMedia.id,
         currentMedia.name);
   }
 
@@ -324,18 +363,20 @@ class DocumentApi {
         IsolateNameServer.lookupPortByName('downloader_send_port');
     send!.send([id, status, progress]);
   }
-
-
 }
 
-class ProfileApi
-{
-  static Future addProfilePicture(List<PlatformFile> documents,context) async {
-    http.Response response = await _addProfilePicture(documents.elementAt(0),
-        UserApi.getInstance().getUserProfile()!.userID);
+class ProfileApi {
+  static Future addProfilePicture(List<PlatformFile> documents, context) async {
+    http.Response response = await _addProfilePicture(
+        documents.elementAt(0), UserApi.getInstance().getUserProfile()!.userID);
 
     if (response.statusCode != 200) {
-      SnackBar snackBar=SnackBar(content: Text('Failed to upload picture for profile!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      SnackBar snackBar = SnackBar(
+          content: Text('Failed to upload picture for profile!',
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontWeight: FontWeight.bold)),
+          backgroundColor: Theme.of(context).primaryColorDark);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to upload profilePicture: ${response.body}');
     }
@@ -346,7 +387,7 @@ class ProfileApi
       PlatformFile file, String userID) async {
     final mimeType = lookupMimeType(file.name); // 'image/jpeg'
     var request = http.MultipartRequest(
-        'POST', Uri.parse(userApi + '/user/updatePicture'));
+        'POST', Uri.parse(mainApi + '/user/updatePicture'));
     request.fields['userid'] = userID;
     request.files.add(http.MultipartFile.fromBytes(
         'file', file.bytes!.cast<int>(),

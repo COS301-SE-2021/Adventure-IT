@@ -21,12 +21,17 @@ public class MainControllerTimelineReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "internal-microservices-473352023.us-east-2.elb.amazonaws.com";
+    private static final String INTERNET_PORT = "http://internal-microservices-473352023.us-east-2.elb.amazonaws.com";
     private static final String TIMELINE_PORT = "9012";
 
     @Autowired
     public MainControllerTimelineReroute(MainControllerServiceImplementation service) {
         this.service = service;
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return restTemplate.getForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/test", String.class);
     }
 
     @GetMapping("/getTimelineByAdventure/{id}")

@@ -29,7 +29,7 @@ public class MainControllerAdventureReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "http://localhost";
+    private static final String INTERNET_PORT = "http://internal-microservices-473352023.us-east-2.elb.amazonaws.com";
     private static final String ADVENTURE_PORT = "9001";
     private static final String USER_PORT = "9002";
     private static final String CHAT_PORT = "9010";

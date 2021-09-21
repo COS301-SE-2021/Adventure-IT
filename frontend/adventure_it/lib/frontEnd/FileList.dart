@@ -38,7 +38,7 @@ class Files extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => FileModel(adventure!,context),
+        create: (context) => FileModel(adventure!, context),
         builder: (context, widget) => Scaffold(
               drawer: NavDrawer(),
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -50,7 +50,8 @@ class Files extends StatelessWidget {
                                   .textTheme
                                   .bodyText1!
                                   .color))),
-                  iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
+                  iconTheme: IconThemeData(
+                      color: Theme.of(context).textTheme.bodyText1!.color),
                   backgroundColor: Theme.of(context).primaryColorDark),
               body: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -146,14 +147,13 @@ class MediaList extends StatelessWidget {
                       flex: 8,
                       child: Ink.image(
                           image: fileModel.files!
-                              .elementAt(index)
-                              .type
-                              .contains("pdf")
+                                  .elementAt(index)
+                                  .type
+                                  .contains("pdf")
                               ? Image.asset("pdfbutton.png").image
-                              : NetworkImage("http://" +
-                              mainApi +
-                              "/media/fileUploaded/" +
-                              fileModel.files!.elementAt(index).id),
+                              : NetworkImage(mainApi +
+                                  "/media/fileUploaded/" +
+                                  fileModel.files!.elementAt(index).id),
                           fit: BoxFit.cover),
                     ),
                     Expanded(
@@ -169,51 +169,54 @@ class MediaList extends StatelessWidget {
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                       style: TextStyle(
-                                        fontSize: 10,
+                                          fontSize: 10,
                                           color: Theme.of(context)
                                               .textTheme
                                               .bodyText1!
                                               .color)),
                                   Spacer(),
                                   Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Spacer(),
                                         Expanded(
                                             flex: 6,
                                             child: ElevatedButton(
-                                                child:  Icon(
-                                              Icons.download,
-                                              color: Theme.of(context).textTheme.bodyText1!.color,),
+                                                child: Icon(
+                                                  Icons.download,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color,
+                                                ),
                                                 style: ElevatedButton.styleFrom(
                                                   primary: Theme.of(context)
                                                       .accentColor,
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal:
-                                                      MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                          0.02,
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.02,
                                                       vertical:
-                                                      MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                          0.005),
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.005),
                                                 ),
                                                 onPressed: () {
                                                   if (kIsWeb) {
                                                     FileApi
                                                         .web_requestFileDownload(
-                                                        fileModel.files!
-                                                            .elementAt(
-                                                            index));
+                                                            fileModel.files!
+                                                                .elementAt(
+                                                                    index));
                                                   } else {
-                                                    FileApi
-                                                        .requestFileDownload(
+                                                    FileApi.requestFileDownload(
                                                         context,
                                                         fileModel.files!
-                                                            .elementAt(
-                                                            index));
+                                                            .elementAt(index));
                                                   }
                                                 })),
                                         Spacer(),
@@ -222,38 +225,47 @@ class MediaList extends StatelessWidget {
                                             child: ElevatedButton(
                                               child: Icon(
                                                 Icons.delete,
-                                                color: Theme.of(context).textTheme.bodyText1!.color,),
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color,
+                                              ),
                                               style: ElevatedButton.styleFrom(
-                                                side: BorderSide(width: 1.0, color: Theme.of(context)
-                                                    .accentColor),
-                                                primary:
-                                                Theme.of(context).primaryColorDark,
+                                                side: BorderSide(
+                                                    width: 1.0,
+                                                    color: Theme.of(context)
+                                                        .accentColor),
+                                                primary: Theme.of(context)
+                                                    .primaryColorDark,
                                                 padding: EdgeInsets.symmetric(
                                                     horizontal:
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                        0.02,
-                                                    vertical: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                        0.005),
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.02,
+                                                    vertical:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.005),
                                               ),
                                               onPressed: () {
                                                 Provider.of<FileModel>(context,
-                                                    listen: false)
-                                                    .removeFiles(fileModel.files!
-                                                    .elementAt(index)
-                                                    .id);
+                                                        listen: false)
+                                                    .removeFiles(fileModel
+                                                        .files!
+                                                        .elementAt(index)
+                                                        .id);
                                               },
                                             )),
                                         Spacer(),
                                       ]),
-                                ]))),Spacer(),
+                                ]))),
+                    Spacer(),
                   ])),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: MediaQuery.of(context).size.height >
-                    MediaQuery.of(context).size.width
+                        MediaQuery.of(context).size.width
                     ? 2
                     : 4,
                 crossAxisSpacing: 4.0,

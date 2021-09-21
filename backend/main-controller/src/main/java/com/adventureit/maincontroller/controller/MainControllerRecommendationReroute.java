@@ -24,7 +24,7 @@ public class MainControllerRecommendationReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "internal-microservices-473352023.us-east-2.elb.amazonaws.com";
+    private static final String INTERNET_PORT = "http://internal-microservices-473352023.us-east-2.elb.amazonaws.com";
     private static final String RECOMMENDATION_PORT = "9013";
     private static final String LOCATION_PORT = "9006";
     private static final String ERROR = "Empty Error";
@@ -32,6 +32,11 @@ public class MainControllerRecommendationReroute {
     @Autowired
     public MainControllerRecommendationReroute(MainControllerServiceImplementation service) {
         this.service = service;
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/test", String.class);
     }
 
     // User requests arbitrary number of recommendations

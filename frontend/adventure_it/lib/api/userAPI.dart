@@ -16,7 +16,7 @@ class UserApi {
   String message = "";
   KeycloakUser? _keycloakUser;
   UserProfile? _userProfile;
-  bool? notify=false;
+  bool? notify = false;
   bool? theme = false;
   String? em = "";
 
@@ -47,7 +47,7 @@ class UserApi {
     this._keycloakUser = await attemptLogIn(username, password);
     if (this._keycloakUser != null) {
       final keycloakUser = this._keycloakUser!;
-      if(keycloakUser.emailVerified&&keycloakUser.enabled) {
+      if (keycloakUser.emailVerified && keycloakUser.enabled) {
         this._userProfile = await this.fetchBackendProfile(keycloakUser.id);
         if (this._userProfile == null) {
           this._userProfile = await this.registerBackendProfile(keycloakUser);
@@ -56,15 +56,13 @@ class UserApi {
         await this.getThemeSettings();
         await this.getEmergencyContact();
         return true;
-      }
-      else {
-        this.message="Your email has not yet been verified.";
+      } else {
+        this.message = "Your email has not yet been verified.";
         return false;
       }
     } else {
       return false;
     }
-
   }
 
   // Attempt Login to Keycloak (PRIVATE)
@@ -132,7 +130,7 @@ class UserApi {
   Future<UserProfile?> fetchBackendProfile(String targetUuid) async {
     debugPrint("Getting backend profile for: " + targetUuid);
     final res =
-        await http.get(Uri.parse("http://"+mainApi + "/user/getUser/" + targetUuid));
+        await http.get(Uri.parse(mainApi + "/user/getUser/" + targetUuid));
     final jsonRes = jsonDecode(res.body);
     print(jsonRes);
     print(res.statusCode);
@@ -153,7 +151,7 @@ class UserApi {
   Future<UserProfile?> registerBackendProfile(KeycloakUser userInfo) async {
     String username = userInfo.username;
     debugPrint("Registering backend profile for $username");
-    final res = await http.post(Uri.parse("http://"+mainApi +  "/user/registerUser/"),
+    final res = await http.post(Uri.parse(mainApi + "/user/registerUser/"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(<String, String>{
           "userID": userInfo.id,
@@ -196,8 +194,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriends(String userID) async {
-    return http
-        .get(Uri.parse("http://" + mainApi + '/user/getFriends/' + userID));
+    return http.get(Uri.parse(mainApi + '/user/getFriends/' + userID));
   }
 
   Future<List<FriendRequest>> getFriendRequests(String userID, context) async {
@@ -222,8 +219,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriendRequests(String userID) async {
-    return http.get(
-        Uri.parse("http://" + mainApi + '/user/getFriendRequests/' + userID));
+    return http.get(Uri.parse(mainApi + '/user/getFriendRequests/' + userID));
   }
 
   Future<List<UserProfile>> getFriendProfiles(String userID, context) async {
@@ -248,7 +244,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriendProfiles(String userID) async {
-    return http.get(Uri.parse("http://"+mainApi + '/user/getFriendProfiles/' + userID));
+    return http.get(Uri.parse(mainApi + '/user/getFriendProfiles/' + userID));
   }
 
   Future deleteFriend(String userID, String friendID, context) async {
@@ -267,7 +263,7 @@ class UserApi {
 
   Future<http.Response> _deleteFriend(String userID, String friendID) async {
     return http.get(
-        Uri.parse("http://"+mainApi + '/user/removeFriend/' + userID + "/" + friendID));
+        Uri.parse(mainApi + '/user/removeFriend/' + userID + "/" + friendID));
   }
 
   Future deleteFriendRequest(String requestID, context) async {
@@ -286,7 +282,7 @@ class UserApi {
 
   Future<http.Response> _deleteFriendRequest(String requestID) async {
     return http
-        .get(Uri.parse("http://"+mainApi +'/user/deleteFriendRequest/' + requestID));
+        .get(Uri.parse(mainApi + '/user/deleteFriendRequest/' + requestID));
   }
 
   Future acceptFriendRequest(String requestID, context) async {
@@ -305,7 +301,7 @@ class UserApi {
 
   Future<http.Response> _acceptFriendRequest(String requestID) async {
     return http
-        .get(Uri.parse("http://"+mainApi +'/user/acceptFriendRequest/' + requestID));
+        .get(Uri.parse(mainApi + '/user/acceptFriendRequest/' + requestID));
   }
 
   Future<String> searchUsername(String value, context) async {
@@ -328,7 +324,7 @@ class UserApi {
   }
 
   Future<http.Response> _searchUsername(String username) async {
-    return http.get(Uri.parse("http://"+mainApi +'/user/getByUserName/' + username));
+    return http.get(Uri.parse(mainApi + '/user/getByUserName/' + username));
   }
 
   Future createFriendRequest(String from, String to, context) async {
@@ -347,7 +343,7 @@ class UserApi {
 
   Future<http.Response> _createFriendRequest(String from, String to) async {
     return http.get(
-        Uri.parse("http://"+mainApi + '/user/createFriendRequest/' + from + "/" + to));
+        Uri.parse(mainApi + '/user/createFriendRequest/' + from + "/" + to));
   }
 
   Future<UserProfile> findUser(String userID, context) async {
@@ -370,7 +366,7 @@ class UserApi {
   }
 
   Future<http.Response> _findUser(String userID) async {
-    return http.get(Uri.parse("http://"+mainApi + "/user/getUser/" + userID));
+    return http.get(Uri.parse(mainApi + "/user/getUser/" + userID));
   }
 
   Future updateUserProfile(context) async {
@@ -394,7 +390,7 @@ class UserApi {
   }
 
   Future<http.Response> _updateUserProfile(String userID) async {
-    return http.get(Uri.parse("http://"+mainApi + "/user/getUser/" + userID));
+    return http.get(Uri.parse(mainApi + "/user/getUser/" + userID));
   }
 
   Future<String?> _retrieve(key) async {
@@ -487,7 +483,7 @@ class UserApi {
   static Future<http.Response> editProfile(String userId, String username,
       String firstName, String lastName, String email, context) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9999/user/editUserProfile'),
+      Uri.parse(mainApi + '/user/editUserProfile'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -527,10 +523,9 @@ class UserApi {
 
   Future getEmergencyContact() async {
     String userID = UserApi.getInstance().getUserProfile()!.userID;
-    final response = await http.get(
-      Uri.http(mainApi, 'user/getEmergencyContact/' + userID)
-    );
-    if(response.statusCode != 200) {
+    final response = await http
+        .get(Uri.parse(mainApi + 'user/getEmergencyContact/' + userID));
+    if (response.statusCode != 200) {
       throw Exception('Failed to retrieve emergency contact: ${response.body}');
     }
 
@@ -545,16 +540,13 @@ class UserApi {
       caseSensitive: false,
       multiLine: false,
     );
-    if(emailReg.hasMatch(email)) {
+    if (emailReg.hasMatch(email)) {
       final response = await http.post(
-        Uri.parse('http://localhost:9999/user/setEmergencyContact/'),
+        Uri.parse(mainApi + '/user/setEmergencyContact/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{
-          'userId': userID,
-          'email': email
-        }),
+        body: jsonEncode(<String, String>{'userId': userID, 'email': email}),
       );
 
       if (response.statusCode == 200) {
@@ -575,6 +567,7 @@ class UserApi {
     this.message = "Email must have an @.";
     throw Exception(message);
   }
+
   Future setNotificationSettings(context) async {
     http.Response response = await _setNotificationSettings();
     if (response.statusCode != 200) {
@@ -591,7 +584,7 @@ class UserApi {
 
   Future<http.Response> _setNotificationSettings() async {
     return http.get(Uri.parse(
-        "http://"+mainApi + "/user/setNotificationSettings/" + _userProfile!.userID));
+        mainApi + "/user/setNotificationSettings/" + _userProfile!.userID));
   }
 
   Future getNotificationSettings() async {
@@ -602,14 +595,13 @@ class UserApi {
 
     bool x = (jsonDecode(response.body));
 
-    this.notify=x;
+    this.notify = x;
     return;
-
   }
 
   Future<http.Response> _getNotificationSettings() async {
     return http.get(Uri.parse(
-        "http://"+mainApi + "/user/getNotificationSettings/" + _userProfile!.userID));
+        mainApi + "/user/getNotificationSettings/" + _userProfile!.userID));
   }
 
   Future getThemeSettings() async {
@@ -618,28 +610,27 @@ class UserApi {
       throw Exception('Failed to getSettings: ${response.body}');
     }
 
-    bool x=(jsonDecode(response.body));
+    bool x = (jsonDecode(response.body));
     print(x);
-    this.theme=x;
+    this.theme = x;
     return;
-
   }
 
   static Future<http.Response> _getThemeSettings() async {
-    return http.get(Uri.parse("http://"+mainApi + "/user/getUserTheme/"+ UserApi.getInstance().getUserProfile()!.userID));
+    return http.get(Uri.parse(mainApi +
+        "/user/getUserTheme/" +
+        UserApi.getInstance().getUserProfile()!.userID));
   }
 
   Future<http.Response> setTheme(bool theme) async {
     String userID = UserApi.getInstance().getUserProfile()!.userID;
     final response = await http.post(
-      Uri.parse('http://localhost:9999/user/setUserTheme'),
+      Uri.parse(mainApi + '/user/setUserTheme'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        'userId': userID,
-        'theme': theme.toString()
-      }),
+      body: jsonEncode(
+          <String, String>{'userId': userID, 'theme': theme.toString()}),
     );
 
     if (response.statusCode == 200) {
@@ -676,8 +667,7 @@ class UserApi {
   }
 
   Future<http.Response> _setFirebaseID(String id) async {
-    return http.post(
-        Uri.parse("http://"+mainApi + '/notification/addFirebaseUser/'),
+    return http.post(Uri.parse(mainApi + '/notification/addFirebaseUser/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

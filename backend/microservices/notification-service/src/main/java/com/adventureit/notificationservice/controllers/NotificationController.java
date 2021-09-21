@@ -12,12 +12,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/notification")
 public class NotificationController {
-    private final NotificationService notification;
 
-    @Autowired
-    public NotificationController(NotificationService notification) {
-        this.notification = notification;
-    }
+    private NotificationService notification;
 
     @GetMapping("/test")
     public String test(){

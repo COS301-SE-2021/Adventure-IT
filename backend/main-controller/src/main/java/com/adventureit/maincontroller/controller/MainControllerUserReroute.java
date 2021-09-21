@@ -24,7 +24,7 @@ public class MainControllerUserReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "internal-microservices-473352023.us-east-2.elb.amazonaws.com";
+    private static final String INTERNET_PORT = "http://internal-microservices-473352023.us-east-2.elb.amazonaws.com";
     private static final String USER_PORT = "9002";
     private static final String LOCATION_PORT = "9006";
     private static final String RECOMMENDATION_PORT = "9013";
@@ -34,6 +34,11 @@ public class MainControllerUserReroute {
     @Autowired
     public MainControllerUserReroute(MainControllerServiceImplementation service) {
         this.service = service;
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/test", String.class);
     }
 
     @PostMapping(value = "registerUser", consumes = "application/json", produces = "application/json")
@@ -48,11 +53,6 @@ public class MainControllerUserReroute {
         restTemplate.postForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/add/user", req2, String.class);
         restTemplate.getForObject(INTERNET_PORT+":"+LOCATION_PORT+"/location/storeCurrentLocation/" + UUID.fromString(id) + "/0/0", String.class);
         return restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/registerUser",req, RegisterUserResponse.class);
-    }
-
-    @GetMapping(value="test")
-    public String test(){
-        return "User controller is working";
     }
 
     @PostMapping(value = "updatePicture", consumes = "application/json", produces = "application/json")
