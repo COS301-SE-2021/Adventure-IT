@@ -21,7 +21,7 @@ class UserApi {
   String? em = "";
 
   // TODO: Use ENV for sensitive information
-  final String keycloakClientSecret = "f0e75041-7324-4949-bb90-bcd3ddda5bc6";
+  final String keycloakClientSecret = "4762f23c-3901-4dd6-858e-6e6e839e168b";
 
   // Start: Singleton Design Pattern
   static UserApi _instance = new UserApi._();
@@ -43,42 +43,34 @@ class UserApi {
 
   // Publically Exposed Login Method
   Future<bool> logIn(String username, String password) async {
-    // print("Attempting login for $username");
-    // this._keycloakUser = await attemptLogIn(username, password);
-    // if (this._keycloakUser != null) {
-    //   final keycloakUser = this._keycloakUser!;
-    //   if(keycloakUser.emailVerified&&keycloakUser.enabled) {
-        this._userProfile = await this.fetchBackendProfile('80e1b64d-fd53-4f3a-84a9-14541caff723');
+    print("Attempting login for $username");
+    this._keycloakUser = await attemptLogIn(username, password);
+    if (this._keycloakUser != null) {
+      final keycloakUser = this._keycloakUser!;
+      if(keycloakUser.emailVerified&&keycloakUser.enabled) {
+        this._userProfile = await this.fetchBackendProfile(keycloakUser.id);
+        if (this._userProfile == null) {
+          this._userProfile = await this.registerBackendProfile(keycloakUser);
+        }
         await this.getNotificationSettings();
         await this.getThemeSettings();
         await this.getEmergencyContact();
-    //     if (this._userProfile == null) {
-    //       this._userProfile = await this.registerBackendProfile(keycloakUser);
-    //     }
-    //     return true;
-    //   }
-    //   else {
-    //     this.message="Your email has not yet been verified.";
-    //     return false;
-    //   }
-    // } else {
-    //   return false;
-    // }
+        return true;
+      }
+      else {
+        this.message="Your email has not yet been verified.";
+        return false;
+      }
+    } else {
+      return false;
+    }
 
-    // this._userProfile = new UserProfile(
-    //     userID: '80e1b64d-fd53-4f3a-84a9-14541caff723',
-    //     username: 'sim',
-    //     firstname: 'Sim',
-    //     lastname: 'Siiiiiiiiiiim',
-    //     email: 'u17015465@gmail.com',
-    //     profileID: "");
-    return true;
   }
 
   // Attempt Login to Keycloak (PRIVATE)
   Future<KeycloakUser?> attemptLogIn(String username, String password) async {
     var res = await http.post(Uri.parse(authApiGetToken), body: {
-      "client_id": "adventure-it-maincontroller",
+      "client_id": "adventure-it-application",
       "grant_type": "password",
       "client_secret": keycloakClientSecret,
       "scope": "openid",
@@ -100,12 +92,12 @@ class UserApi {
   // Get Admin Access Token (PRIVATE)
   Future<String> adminLogIn() async {
     var res = await http.post(Uri.parse(authApiGetToken), body: {
-      "client_id": "adventure-it-maincontroller",
+      "client_id": "adventure-it-application",
       "grant_type": "password",
       "client_secret": keycloakClientSecret,
       "scope": "openid",
       "username": "admin",
-      "password": "admin"
+      "password": "7C8xh&FD2t%auV\$2"
     });
     if (res.statusCode == 200) {
       return jsonDecode(res.body)["access_token"];
