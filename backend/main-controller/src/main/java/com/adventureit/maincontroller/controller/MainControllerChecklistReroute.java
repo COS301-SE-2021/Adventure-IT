@@ -27,7 +27,7 @@ public class MainControllerChecklistReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "http://localhost";
+    private static final String INTERNET_PORT = "internal-microservices-473352023.us-east-2.elb.amazonaws.com";
     private static final String TIMELINE_PORT = "9012";
     private static final String CHECKLIST_PORT = "9008";
     private static final String USER_PORT = "9002";
@@ -35,6 +35,7 @@ public class MainControllerChecklistReroute {
     private static final String GET_CHECKLIST = "/checklist/getChecklist/";
     private static final String CREATE_TIMELINE = "/timeline/createTimeline";
     private static final String CHECKLIST_M = " checklist.";
+    private static final String ERROR = "Empty Error";
 
     @Autowired
     public MainControllerChecklistReroute(MainControllerServiceImplementation service) {
@@ -97,10 +98,18 @@ public class MainControllerChecklistReroute {
     public String createChecklist(@RequestBody CreateChecklistRequest req) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {USER_PORT, CHECKLIST_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER+req.getCreatorID(), GetUserByUUIDDTO.class);
+        String id = req.getCreatorID().toString();
+        if(id.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        String aid = req.getAdventureID().toString();
+        if(aid.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + UUID.fromString(id), GetUserByUUIDDTO.class);
         restTemplate.postForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/create/", req, String.class);
         assert user != null;
-        CreateTimelineRequest req2 = new CreateTimelineRequest(req.getAdventureID(), TimelineType.CHECKLIST,user.getUsername()+" created a new checklist for "+req.getTitle()+"." );
+        CreateTimelineRequest req2 = new CreateTimelineRequest(UUID.fromString(aid), TimelineType.CHECKLIST,user.getUsername()+" created a new checklist for "+req.getTitle()+"." );
         return restTemplate.postForObject(INTERNET_PORT + ":" + TIMELINE_PORT + CREATE_TIMELINE, req2, String.class);
     }
 
@@ -109,9 +118,17 @@ public class MainControllerChecklistReroute {
     public String addEntry(@RequestBody AddChecklistEntryRequest req){
         String[] ports = {USER_PORT, CHECKLIST_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
-        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER+req.getUserId(), GetUserByUUIDDTO.class);
+        String id = req.getUserId().toString();
+        if(id.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + UUID.fromString(id), GetUserByUUIDDTO.class);
         String returnString = restTemplate.postForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/addEntry/", req, String.class);
-        UUID checklistID = req.getEntryContainerID();
+        String cid = req.getEntryContainerID().toString();
+        if(cid.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        UUID checklistID = UUID.fromString(cid);
         ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + GET_CHECKLIST+checklistID, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();
@@ -141,8 +158,16 @@ public class MainControllerChecklistReroute {
         String[] ports = {CHECKLIST_PORT, USER_PORT, TIMELINE_PORT};
         service.pingCheck(ports,restTemplate);
         restTemplate.postForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/editEntry/", req, String.class);
-        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER+req.getUserId(), GetUserByUUIDDTO.class);
-        UUID checklistID = req.getEntryContainerID();
+        String id = req.getUserId().toString();
+        if(id.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        GetUserByUUIDDTO user = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + UUID.fromString(id), GetUserByUUIDDTO.class);
+        String cid = req.getEntryContainerID().toString();
+        if(cid.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        UUID checklistID = UUID.fromString(cid);
         ChecklistDTO checklist = restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + GET_CHECKLIST+checklistID, ChecklistDTO.class);
         assert checklist != null;
         UUID adventureId = checklist.getAdventureID();

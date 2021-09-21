@@ -130,4 +130,19 @@ public class MediaController {
     public void deleteDocument(@PathVariable UUID id,@PathVariable UUID userID){
         mediaServiceImplementation.deleteDocument(id,userID);
     }
+
+    @GetMapping("/getMediaSize/{id}")
+    public long getMediaSize(@PathVariable UUID id) throws IOException {
+        return mediaServiceImplementation.getMediaSize(id);
+    }
+
+    @GetMapping("/getFileSize/{id}")
+    public long getFileSize(@PathVariable UUID id) throws IOException {
+        return mediaServiceImplementation.getFileSize(id);
+    }
+
+    @GetMapping("/getDocumentSize/{id}")
+    public long getDocumentSize(@PathVariable UUID id) throws IOException {
+        return mediaServiceImplementation.getDocumentSize(id);
+    }
 }

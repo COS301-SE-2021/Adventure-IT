@@ -18,7 +18,7 @@ public class MainControllerNotificationReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "http://localhost";
+    private static final String INTERNET_PORT = "internal-microservices-473352023.us-east-2.elb.amazonaws.com";
     private static final String NOTIFICATION_PORT = "9004";
 
     @Autowired
@@ -49,12 +49,16 @@ public class MainControllerNotificationReroute {
     }
 
     @PostMapping("/sendFirebaseNotification")
-    public String sendFirebaseNotification(@RequestBody SendFirebaseNotificationRequest req){
+    public String sendFirebaseNotification(@RequestBody SendFirebaseNotificationRequest req) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {NOTIFICATION_PORT};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/sendFirebaseNotification/", req, String.class);
     }
 
     @PostMapping("/addFirebaseUser")
-    public String addFirebaseUser(@RequestBody FirebaseUserRequest req){
+    public String addFirebaseUser(@RequestBody FirebaseUserRequest req) throws ControllerNotAvailable, InterruptedException {
+        String[] ports = {NOTIFICATION_PORT};
+        service.pingCheck(ports,restTemplate);
         return restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/addFirebaseUser/", req, String.class);
     }
 

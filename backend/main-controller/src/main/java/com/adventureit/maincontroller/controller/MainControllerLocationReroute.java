@@ -24,10 +24,11 @@ public class MainControllerLocationReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "http://localhost";
+    private static final String INTERNET_PORT = "internal-microservices-473352023.us-east-2.elb.amazonaws.com";
     private static final String LOCATION_PORT = "9006";
     private static final String ADVENTURE_PORT = "9001";
     private static final String RECOMMENDATION_PORT = "9013";
+    private static final String ERROR = "Empty Error";
 
     @Autowired
     public MainControllerLocationReroute(MainControllerServiceImplementation service) {
@@ -43,7 +44,11 @@ public class MainControllerLocationReroute {
     public String createLocation(@PathVariable String location) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {LOCATION_PORT, RECOMMENDATION_PORT};
         service.pingCheck(ports,restTemplate);
-        UUID createdLocationUUID = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/" + location, UUID.class);
+        String loc = location;
+        if(loc.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        UUID createdLocationUUID = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/" + loc, UUID.class);
         try {
             LocationResponseDTO locationDTO = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getLocation/createdLocationUUID"+createdLocationUUID,LocationResponseDTO.class);
             assert locationDTO != null;
@@ -61,7 +66,19 @@ public class MainControllerLocationReroute {
     public void storeCurrentLocation(@PathVariable UUID userID, @PathVariable String latitude, @PathVariable String longitude) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {LOCATION_PORT};
         service.pingCheck(ports,restTemplate);
-        restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/storeCurrentLocation/" + userID + "/" + latitude + "/" + longitude, String.class);
+        String id = userID.toString();
+        if(id.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        String lat = latitude;
+        if(lat.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        String lon = longitude;
+        if(lon.equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/storeCurrentLocation/" + UUID.fromString(id) + "/" + lat + "/" + lon, String.class);
     }
 
     @GetMapping("/getCurrentLocation/{userID}")

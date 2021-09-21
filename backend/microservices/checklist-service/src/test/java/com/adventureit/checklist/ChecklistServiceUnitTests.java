@@ -77,6 +77,7 @@ class ChecklistServiceUnitTests {
     @Test
     @Description("Ensuring a user can mark a checklist entry")
     void markChecklistEntryValid(){
+        Assertions.assertNotNull(validEntryID1);
         Mockito.when(mockChecklistEntryRepository.findChecklistEntryById(validEntryID1)).thenReturn(mockEntry1);
         sut.markChecklistEntry(validEntryID1);
     }

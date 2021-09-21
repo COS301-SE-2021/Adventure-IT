@@ -21,7 +21,7 @@ class UserApi {
   String? em = "";
 
   // TODO: Use ENV for sensitive information
-  final String keycloakClientSecret = "f0e75041-7324-4949-bb90-bcd3ddda5bc6";
+  final String keycloakClientSecret = "4762f23c-3901-4dd6-858e-6e6e839e168b";
 
   // Start: Singleton Design Pattern
   static UserApi _instance = new UserApi._();
@@ -43,42 +43,34 @@ class UserApi {
 
   // Publically Exposed Login Method
   Future<bool> logIn(String username, String password) async {
-    // print("Attempting login for $username");
-    // this._keycloakUser = await attemptLogIn(username, password);
-    // if (this._keycloakUser != null) {
-    //   final keycloakUser = this._keycloakUser!;
-    //   if(keycloakUser.emailVerified&&keycloakUser.enabled) {
-        this._userProfile = await this.fetchBackendProfile('f67fcf63-152a-4190-95a5-367f5263ca79');
+    print("Attempting login for $username");
+    this._keycloakUser = await attemptLogIn(username, password);
+    if (this._keycloakUser != null) {
+      final keycloakUser = this._keycloakUser!;
+      if(keycloakUser.emailVerified&&keycloakUser.enabled) {
+        this._userProfile = await this.fetchBackendProfile(keycloakUser.id);
+        if (this._userProfile == null) {
+          this._userProfile = await this.registerBackendProfile(keycloakUser);
+        }
         await this.getNotificationSettings();
         await this.getThemeSettings();
         await this.getEmergencyContact();
-    //     if (this._userProfile == null) {
-    //       this._userProfile = await this.registerBackendProfile(keycloakUser);
-    //     }
-    //     return true;
-    //   }
-    //   else {
-    //     this.message="Your email has not yet been verified.";
-    //     return false;
-    //   }
-    // } else {
-    //   return false;
-    // }
+        return true;
+      }
+      else {
+        this.message="Your email has not yet been verified.";
+        return false;
+      }
+    } else {
+      return false;
+    }
 
-    // this._userProfile = new UserProfile(
-    //     userID: '80e1b64d-fd53-4f3a-84a9-14541caff723',
-    //     username: 'sim',
-    //     firstname: 'Sim',
-    //     lastname: 'Siiiiiiiiiiim',
-    //     email: 'u17015465@gmail.com',
-    //     profileID: "");
-    return true;
   }
 
   // Attempt Login to Keycloak (PRIVATE)
   Future<KeycloakUser?> attemptLogIn(String username, String password) async {
     var res = await http.post(Uri.parse(authApiGetToken), body: {
-      "client_id": "adventure-it-maincontroller",
+      "client_id": "adventure-it-application",
       "grant_type": "password",
       "client_secret": keycloakClientSecret,
       "scope": "openid",
@@ -100,12 +92,12 @@ class UserApi {
   // Get Admin Access Token (PRIVATE)
   Future<String> adminLogIn() async {
     var res = await http.post(Uri.parse(authApiGetToken), body: {
-      "client_id": "adventure-it-maincontroller",
+      "client_id": "adventure-it-application",
       "grant_type": "password",
       "client_secret": keycloakClientSecret,
       "scope": "openid",
       "username": "admin",
-      "password": "admin"
+      "password": "7C8xh&FD2t%auV\$2"
     });
     if (res.statusCode == 200) {
       return jsonDecode(res.body)["access_token"];
@@ -140,7 +132,7 @@ class UserApi {
   Future<UserProfile?> fetchBackendProfile(String targetUuid) async {
     debugPrint("Getting backend profile for: " + targetUuid);
     final res =
-        await http.get(Uri.parse(userApi + "/user/getUser/" + targetUuid));
+        await http.get(Uri.parse("http://"+mainApi + "/user/getUser/" + targetUuid));
     final jsonRes = jsonDecode(res.body);
     print(jsonRes);
     print(res.statusCode);
@@ -161,7 +153,7 @@ class UserApi {
   Future<UserProfile?> registerBackendProfile(KeycloakUser userInfo) async {
     String username = userInfo.username;
     debugPrint("Registering backend profile for $username");
-    final res = await http.post(Uri.parse(userApi + "/user/registerUser/"),
+    final res = await http.post(Uri.parse("http://"+mainApi +  "/user/registerUser/"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(<String, String>{
           "userID": userInfo.id,
@@ -256,7 +248,7 @@ class UserApi {
   }
 
   Future<http.Response> _getFriendProfiles(String userID) async {
-    return http.get(Uri.parse(userApi + '/user/getFriendProfiles/' + userID));
+    return http.get(Uri.parse("http://"+mainApi + '/user/getFriendProfiles/' + userID));
   }
 
   Future deleteFriend(String userID, String friendID, context) async {
@@ -275,7 +267,7 @@ class UserApi {
 
   Future<http.Response> _deleteFriend(String userID, String friendID) async {
     return http.get(
-        Uri.parse(userApi + '/user/removeFriend/' + userID + "/" + friendID));
+        Uri.parse("http://"+mainApi + '/user/removeFriend/' + userID + "/" + friendID));
   }
 
   Future deleteFriendRequest(String requestID, context) async {
@@ -294,7 +286,7 @@ class UserApi {
 
   Future<http.Response> _deleteFriendRequest(String requestID) async {
     return http
-        .get(Uri.parse(userApi + '/user/deleteFriendRequest/' + requestID));
+        .get(Uri.parse("http://"+mainApi +'/user/deleteFriendRequest/' + requestID));
   }
 
   Future acceptFriendRequest(String requestID, context) async {
@@ -313,7 +305,7 @@ class UserApi {
 
   Future<http.Response> _acceptFriendRequest(String requestID) async {
     return http
-        .get(Uri.parse(userApi + '/user/acceptFriendRequest/' + requestID));
+        .get(Uri.parse("http://"+mainApi +'/user/acceptFriendRequest/' + requestID));
   }
 
   Future<String> searchUsername(String value, context) async {
@@ -336,7 +328,7 @@ class UserApi {
   }
 
   Future<http.Response> _searchUsername(String username) async {
-    return http.get(Uri.parse(userApi + '/user/getByUserName/' + username));
+    return http.get(Uri.parse("http://"+mainApi +'/user/getByUserName/' + username));
   }
 
   Future createFriendRequest(String from, String to, context) async {
@@ -355,7 +347,7 @@ class UserApi {
 
   Future<http.Response> _createFriendRequest(String from, String to) async {
     return http.get(
-        Uri.parse(userApi + '/user/createFriendRequest/' + from + "/" + to));
+        Uri.parse("http://"+mainApi + '/user/createFriendRequest/' + from + "/" + to));
   }
 
   Future<UserProfile> findUser(String userID, context) async {
@@ -378,7 +370,7 @@ class UserApi {
   }
 
   Future<http.Response> _findUser(String userID) async {
-    return http.get(Uri.parse(userApi + "/user/getUser/" + userID));
+    return http.get(Uri.parse("http://"+mainApi + "/user/getUser/" + userID));
   }
 
   Future updateUserProfile(context) async {
@@ -402,7 +394,7 @@ class UserApi {
   }
 
   Future<http.Response> _updateUserProfile(String userID) async {
-    return http.get(Uri.parse(userApi + "/user/getUser/" + userID));
+    return http.get(Uri.parse("http://"+mainApi + "/user/getUser/" + userID));
   }
 
   Future<String?> _retrieve(key) async {
@@ -599,7 +591,7 @@ class UserApi {
 
   Future<http.Response> _setNotificationSettings() async {
     return http.get(Uri.parse(
-        userApi + "/user/setNotificationSettings/" + _userProfile!.userID));
+        "http://"+mainApi + "/user/setNotificationSettings/" + _userProfile!.userID));
   }
 
   Future getNotificationSettings() async {
@@ -617,7 +609,7 @@ class UserApi {
 
   Future<http.Response> _getNotificationSettings() async {
     return http.get(Uri.parse(
-        userApi + "/user/getNotificationSettings/" + _userProfile!.userID));
+        "http://"+mainApi + "/user/getNotificationSettings/" + _userProfile!.userID));
   }
 
   Future getThemeSettings() async {
@@ -634,7 +626,7 @@ class UserApi {
   }
 
   static Future<http.Response> _getThemeSettings() async {
-    return http.get(Uri.parse(userApi + "/user/getUserTheme/"+ UserApi.getInstance().getUserProfile()!.userID));
+    return http.get(Uri.parse("http://"+mainApi + "/user/getUserTheme/"+ UserApi.getInstance().getUserProfile()!.userID));
   }
 
   Future<http.Response> setTheme(bool theme) async {
@@ -685,7 +677,7 @@ class UserApi {
 
   Future<http.Response> _setFirebaseID(String id) async {
     return http.post(
-        Uri.parse(notificationApi + '/notification/addFirebaseUser/'),
+        Uri.parse("http://"+mainApi + '/notification/addFirebaseUser/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

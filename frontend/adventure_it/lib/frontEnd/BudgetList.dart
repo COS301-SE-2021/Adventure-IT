@@ -149,7 +149,6 @@ class _PieChart extends State<PieChartCaller> {
     this.total = total;
   }
 
-  //TODO: overrides but doesn't invoke method
   @override
   initState() {
     data = [

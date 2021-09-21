@@ -46,4 +46,5 @@ public class EditAdventureRequest {
     public UUID getUserId() {
         return userId;
     }
+
 }

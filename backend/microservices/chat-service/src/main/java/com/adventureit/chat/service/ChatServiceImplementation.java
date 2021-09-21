@@ -16,9 +16,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -27,7 +27,7 @@ public class ChatServiceImplementation implements ChatService {
     DirectChatRepository directChatRepository;
     MessageRepository messageRepository;
     ColorPairRepository colorPairRepository;
-    Random rand;
+    SecureRandom rand;
     @Value("${firebase-path}")
     private String path;
 
@@ -36,7 +36,7 @@ public class ChatServiceImplementation implements ChatService {
         this.directChatRepository = directChatRepository;
         this.messageRepository = messageRepository;
         this.colorPairRepository = colorPairRepository;
-        this.rand = new Random();
+        this.rand = new SecureRandom();
 
     }
 

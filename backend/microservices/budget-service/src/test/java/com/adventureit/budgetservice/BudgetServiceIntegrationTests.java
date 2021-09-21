@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -119,6 +118,8 @@ class BudgetServiceIntegrationTests {
     void httpViewByAdventure_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
+        Assertions.assertNotNull(id);
+        Assertions.assertNotNull(adventureID);
         Budget budget1 = new Budget(id,"Test Budget 1","Mock",UUID.randomUUID(),adventureID);
         budgetRepository.saveAndFlush(budget1);
         this.restTemplate.getForObject("http://localhost:" + port + "/budget/viewBudgetsByAdventure/{id}", List.class, adventureID);
@@ -153,6 +154,9 @@ class BudgetServiceIntegrationTests {
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
+        Assertions.assertNotNull(id);
+        Assertions.assertNotNull(adventureID);
+        Assertions.assertNotNull(ownerID);
         Budget budget1 = new Budget(id,"Test Budget 1","Mock",ownerID,adventureID);
         budget1.setDeleted(true);
         budgetRepository.saveAndFlush(budget1);
@@ -187,6 +191,9 @@ class BudgetServiceIntegrationTests {
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
+        Assertions.assertNotNull(id);
+        Assertions.assertNotNull(adventureID);
+        Assertions.assertNotNull(ownerID);
         Budget budget1 = new Budget(id,"Test Budget 1","Mock",ownerID,adventureID);
         budgetRepository.saveAndFlush(budget1);
         this.restTemplate.getForObject("http://localhost:" + port + "/budget/getEntriesPerCategory/{id}", String.class, id);
@@ -198,6 +205,9 @@ class BudgetServiceIntegrationTests {
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
+        Assertions.assertNotNull(id);
+        Assertions.assertNotNull(adventureID);
+        Assertions.assertNotNull(ownerID);
         Budget budget1 = new Budget(id,"Test Budget 1","Mock",ownerID,adventureID);
         budgetRepository.saveAndFlush(budget1);
         this.restTemplate.getForObject("http://localhost:" + port + "/budget/getBudgetByBudgetId/{id}", String.class, id);

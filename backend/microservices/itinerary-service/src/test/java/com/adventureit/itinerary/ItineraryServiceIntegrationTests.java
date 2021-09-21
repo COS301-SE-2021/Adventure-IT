@@ -54,6 +54,8 @@ class ItineraryServiceIntegrationTests {
     void httpViewByAdventure_returnResponse(){
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
+        Assertions.assertNotNull(id);
+        Assertions.assertNotNull(adventureID);
         Itinerary Itinerary = new Itinerary("Test Itinerary","Mock",id,UUID.randomUUID(),adventureID);
         itineraryRepository.saveAndFlush(Itinerary);
         this.restTemplate.getForObject("http://localhost:" + port + "/itinerary/viewItinerariesByAdventure/{id}", String.class, id);
@@ -88,6 +90,9 @@ class ItineraryServiceIntegrationTests {
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
+        Assertions.assertNotNull(id);
+        Assertions.assertNotNull(adventureID);
+        Assertions.assertNotNull(ownerID);
         Itinerary itinerary = new Itinerary("Test Itinerary","Mock",id,adventureID,ownerID);
         itinerary.setDeleted(true);
         itineraryRepository.saveAndFlush(itinerary);
@@ -122,6 +127,9 @@ class ItineraryServiceIntegrationTests {
         UUID id = UUID.randomUUID();
         UUID adventureID = UUID.randomUUID();
         UUID ownerID = UUID.randomUUID();
+        Assertions.assertNotNull(id);
+        Assertions.assertNotNull(adventureID);
+        Assertions.assertNotNull(ownerID);
         Itinerary itinerary = new Itinerary("Test Itinerary","Mock",id,adventureID,ownerID);
         itineraryRepository.saveAndFlush(itinerary);
         this.restTemplate.getForObject("http://localhost:" + port + "/itinerary/getItinerary/{id}", String.class, id);

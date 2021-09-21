@@ -2,10 +2,6 @@ package com.adventureit.maincontroller.responses;
 
 import com.adventureit.shareddtos.user.responses.GetUserByUUIDDTO;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.UUID;
-
 public class RegisteredUsersDTO {
     private GetUserByUUIDDTO user;
     private boolean checkedIn;

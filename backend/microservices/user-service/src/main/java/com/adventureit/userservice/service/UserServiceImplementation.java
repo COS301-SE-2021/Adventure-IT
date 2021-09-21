@@ -1,6 +1,7 @@
 package com.adventureit.userservice.service;
 
 
+import com.adventureit.shareddtos.media.responses.MediaResponseDTO;
 import com.adventureit.userservice.entities.Friend;
 import com.adventureit.userservice.entities.PictureInfo;
 import com.adventureit.userservice.entities.Users;
@@ -88,10 +89,9 @@ public class UserServiceImplementation  {
         jsonObject.put("token_uri",tokenUri);
         jsonObject.put("auth_provider_x509_cert_url",authProvider);
         jsonObject.put("client_x509_cert_url",clientx509);
-
-        FileWriter file = new FileWriter("user.json");
-        file.write(jsonObject.toJSONString());
-        file.close();
+        try (FileWriter file = new FileWriter("user.json")) {
+            file.write(jsonObject.toJSONString());
+        }
         FileInputStream serviceAccount = new FileInputStream("user.json");
         this.storageOptions = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
         boolean flag = new File("user.json").delete();
@@ -131,8 +131,10 @@ public class UserServiceImplementation  {
             throw new InvalidRequestException("404 Bad Request");
         }
         UUID userId = req.getUserID();
-        String firstName = req.getfName();
-        String lastName = req.getlName();
+        String firstName = req.getFirstName();
+        System.out.println(firstName+" in implementation");
+        String lastName = req.getLastName();
+        System.out.println(lastName+" in implementation");
         String email = req.getEmail();
         String username = req.getUsername();
 
@@ -187,9 +189,7 @@ public class UserServiceImplementation  {
             BlobId blobId = BlobId.of(bucketName, id.toString());
             BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
             storage.create(blobInfo, file.getBytes());
-
-
-
+            
             return HttpStatus.OK;
         } catch (Exception e) {
             e.printStackTrace();
@@ -200,7 +200,7 @@ public class UserServiceImplementation  {
 
 
     @Transactional
-    public ResponseEntity<byte[]> viewImage(UUID id) throws IOException {
+    public MediaResponseDTO viewImage(UUID id) throws IOException {
         PictureInfo info = pictureInfoRepository.findPictureInfoById(id);
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
@@ -209,10 +209,16 @@ public class UserServiceImplementation  {
         Storage storage = storageOptions.getService();
         Blob blob = storage.get(BlobId.of(bucketName, info.getId().toString()));
         ReadChannel reader = blob.reader();
-        InputStream inputStream = Channels.newInputStream(reader);
-        byte[] content = inputStream.readAllBytes();
-
-        return new ResponseEntity<>(content, headers, HttpStatus.OK);
+        byte[] content = new byte[0];
+        
+        try (InputStream inputStream = Channels.newInputStream(reader)) {
+           content = inputStream.readAllBytes();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return new MediaResponseDTO(content, headers);
     }
 
     public void removeImage(UUID id){
@@ -515,7 +521,7 @@ public class UserServiceImplementation  {
             throw new UserDoesNotExistException(userDoesNotExist);
         }
 
-        newUser.setStorageUsed(newUser.getStorageUsed()+size);
+        newUser.setStorageUsed(size);
         repo.save(newUser);
     }
 

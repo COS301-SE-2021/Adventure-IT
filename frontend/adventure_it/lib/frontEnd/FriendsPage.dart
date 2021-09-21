@@ -146,6 +146,7 @@ class GetFriends extends StatelessWidget {
         create: (context) =>
             FriendModel(UserApi.getInstance().getUserProfile()!.userID,context),
         child: Consumer<FriendModel>(builder: (context, friendModel, child) {
+          BuildContext c=context;
           if (friendModel.friends == null) {
             return Center(
                 child: CircularProgressIndicator(
@@ -176,7 +177,7 @@ class GetFriends extends StatelessWidget {
                                             leading:
 
                                             CachedNetworkImage( useOldImageOnUrlChange: true, imageUrl:
-                                            userApi +
+                                            "http://"+mainApi +
                                                 "/user/viewPicture/" +
                                                 friendModel.friends!.elementAt(index).profileID,
                                                 imageBuilder: (context, imageProvider) => Container(
@@ -268,7 +269,7 @@ class GetFriends extends StatelessWidget {
                                                     actions: <Widget>[
                                                       TextButton(
                                                           onPressed: (){
-                                                            Provider.of<FriendModel>(context, listen: false)
+                                                            Provider.of<FriendModel>(c, listen: false)
                                                                 .deleteFriend(
                                                                 UserApi.getInstance()
                                                                     .getUserProfile()!
@@ -369,7 +370,7 @@ class GetFriendRequests extends StatelessWidget {
   {
     UserApi.getInstance().searchUsername(requester,context).then((value){
       UserApi.getInstance().findUser(value,context).then((user){
-    return  userApi +
+    return  "http://"+mainApi +
         "/user/viewPicture/" +user.profileID;});
     });
     return "";

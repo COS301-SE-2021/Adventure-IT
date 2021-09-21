@@ -106,6 +106,8 @@ class UserServiceIntegrationTests {
     @Order(99)
     @Description("Delete users when testing is complete")
     void deleteTestUser(){
+        Assertions.assertNotNull(this.validUserUUID1);
+        Assertions.assertNotNull(this.validUserUUID2);
         this.restTemplate.getForObject("http://localhost:" + port + "/user/deleteUser/" + this.validUserUUID1, void.class);
         this.restTemplate.getForObject("http://localhost:" + port + "/user/deleteUser/" + this.validUserUUID2, void.class);
     }
