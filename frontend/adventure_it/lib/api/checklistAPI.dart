@@ -34,7 +34,7 @@ class ChecklistApi {
 
   static Future<http.Response> _getChecklists(adventureID) async {
     return http.get(Uri.parse(
-        mainApi + 'checklist/viewChecklistsByAdventure/' + adventureID));
+        mainApi + '/checklist/viewChecklistsByAdventure/' + adventureID));
   }
 
   static Future<List<Checklist>> getDeletedChecklist(
