@@ -87,11 +87,12 @@ Here you can see all the information regarding our github insights.<br>
 [Architectural Document v3](https://drive.google.com/file/d/1fhlVY9FbLXD1lzky4d6gkrmjOH5sTdCf/view?usp=sharing)<br>
 [Architectural Document v4](https://drive.google.com/file/d/1h0xZ_ZTqgbtmnPS8htxlOLU-3hORN4AQ/view?usp=sharing)<br>
 [Installation Manual v1](https://drive.google.com/file/d/1k7nqYo392nESieN9ZB9_9nrLJsucQ3sj/view?usp=sharing)<br>
-[Installation Manual v2] <br>
+[Installation Manual v2](https://drive.google.com/file/d/13Qqfhcmj84xPJqKA6hAaKdTTRjfdoP-j/view?usp=sharing)<br>
 [User Manual v1](https://drive.google.com/file/d/1Emq7qZ7IsgRWLM5CVBmfHSHNnznoFgae/view?usp=sharing)<br>
 [User Manual v2](https://drive.google.com/file/d/1miKMDGy3EVlUr7ltEVeujfw6y_3UUZq5/view?usp=sharing)<br>
-[Coding Standards v1](https://drive.google.com/file/d/1ClujSTTNhTaBaEZyX3D06QsrvCr_glH_/view?usp=sharing)
+[Coding Standards v1](https://drive.google.com/file/d/1ClujSTTNhTaBaEZyX3D06QsrvCr_glH_/view?usp=sharing)<br>
 [Coding Standards v2](https://drive.google.com/file/d/15sJW8ySaGS2ZljuWC6Mq2d5uhyhyLTBq/view?usp=sharing)<br>
+[Testing Policy Document](https://drive.google.com/file/d/1rOf2IZCjyil5tm24A4ERpoVv0VxAEmvV/view?usp=sharing)<br>
 
 ## Demo Videos
 [Demo Video v1](https://drive.google.com/file/d/1xA5vm6o-PZxjv8IV9Esl6hzKomYmctHx/view?usp=sharing)<br>
