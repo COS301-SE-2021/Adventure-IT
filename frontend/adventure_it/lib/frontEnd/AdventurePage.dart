@@ -779,7 +779,7 @@ class AlertBox extends StatelessWidget {
                                         leading:CachedNetworkImage(
                                             useOldImageOnUrlChange: true,
                                             imageUrl:
-                                            "http://"+mainApi+"/user/viewPicture/" +
+                                            mainApi+"/user/viewPicture/" +
                                             friendModel.friends!.elementAt(index).userID,
                                             imageBuilder: (context, imageProvider) => Container(
                                                 width:70,

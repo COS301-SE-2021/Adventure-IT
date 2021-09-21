@@ -202,7 +202,7 @@ class _MessageList extends State<MessageList> {
                       color: Theme.of(context).primaryColorDark,
                       child: ListTile(
                         leading: CachedNetworkImage( useOldImageOnUrlChange: true, imageUrl:
-                        "http://"+mainApi+"/user/viewPicture/" +
+                       mainApi+"/user/viewPicture/" +
                             chatModel.messages!.elementAt(index).sender.profileID,
                             imageBuilder: (context, imageProvider) => Container(
                                 width:70,
