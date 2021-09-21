@@ -1,0 +1,194 @@
+# This is the development environment for Adventure-It
+# Below is the configuration for each of the components of the system
+
+# Keycloak
+keycloak.oauth2.resourceserver.jwt.issuer-uri: "http://localhost:8080/auth/realms/adventure-it"
+
+# Service Registry (clients)
+service-registry-client.client.register-with-eureka: "true"
+service-registry-client.client.fetch-registry: "true"
+service-registry-client.client.service-url.defaultZone: "http://localhost:8761/eureka/"
+service-registry-client.instance.hostname: "localhost"
+
+# Service Registry (server)
+service-registry-server.port: "8761"
+service-registry-server.application-name: "SERVICE-REGISTRY"
+service-registry-server.eureka.client.register-with-eureka: "false"
+service-registry-server.eureka.client.fetch-registry: "false"
+
+# Main-controller
+main-controller.port: "9999"
+main-controller.application-name: "MAIN-CONTROLLER"
+
+# Adventure Microservice
+
+adventure-microservice.port: "9001"
+adventure-microservice.application-name: "ADVENTURE-MICROSERVICE"
+adventure-microservice.datasource.url: "jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5"
+adventure-microservice.datasource.username: "postgres"
+adventure-microservice.datasource.password: "310PB!Gq%f&J"
+adventure-microservice.datasource.hikari.maximum-pool-size: "2"
+adventure-microservice.jpa.hibernate.ddl-auto: "update"
+adventure-microservice.jpa.show-sql: "false"
+adventure-microservice.jpa.properties.hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+adventure-microservice.jpa.properties.hibernate.format_sql: "true"
+
+# Budget Microservice
+budget-microservice.port: "9007"
+budget-microservice.application-name: "BUDGET-MICROSERVICE"
+budget-microservice.datasource.url: "jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5"
+budget-microservice.datasource.username: "postgres"
+budget-microservice.datasource.password: "310PB!Gq%f&J"
+budget-microservice.datasource.hikari.maximum-pool-size: "2"
+budget-microservice.jpa.hibernate.ddl-auto: "update"
+budget-microservice.jpa.show-sql: "false"
+budget-microservice.jpa.properties.hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+budget-microservice.jpa.properties.hibernate.format_sql: "true"
+
+# Chat Microservice
+chat-microservice.port: "9010"
+chat-microservice.application-name: "CHAT-MICROSERVICE"
+chat-microservice.datasource.url: "jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5"
+chat-microservice.datasource.username: "postgres"
+chat-microservice.datasource.password: "310PB!Gq%f&J"
+chat-microservice.datasource.hikari.maximum-pool-size: "2"
+chat-microservice.jpa.hibernate.ddl-auto: "update"
+chat-microservice.jpa.show-sql: "false"
+chat-microservice.jpa.properties.hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+chat-microservice.jpa.properties.hibernate.format_sql: "true"
+
+# Checklist Microservice
+checklist-microservice.port: "9008"
+checklist-microservice.application-name: "CHECKLIST-MICROSERVICE"
+checklist-microservice.datasource.url: "jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5"
+checklist-microservice.datasource.username: "postgres"
+checklist-microservice.datasource.password: "310PB!Gq%f&J"
+checklist-microservice.datasource.hikari.maximum-pool-size: "2"
+checklist-microservice.jpa.hibernate.ddl-auto: "update"
+checklist-microservice.jpa.show-sql: "false"
+checklist-microservice.jpa.properties.hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+checklist-microservice.jpa.properties.hibernate.format_sql: "true"
+
+# Itinerary Microservice
+itinerary-microservice.port: "9009"
+itinerary-microservice.application-name: "ITINERARY-MICROSERVICE"
+itinerary-microservice.datasource.url: "jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5"
+itinerary-microservice.datasource.username: "postgres"
+itinerary-microservice.datasource.password: "310PB!Gq%f&J"
+itinerary-microservice.datasource.hikari.maximum-pool-size: "2"
+itinerary-microservice.jpa.hibernate.ddl-auto: "update"
+itinerary-microservice.jpa.show-sql: "false"
+itinerary-microservice.jpa.properties.hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+itinerary-microservice.jpa.properties.hibernate.format_sql: "true"
+
+# Location Microservice
+location-microservice.port: "9006"
+location-microservice.application-name: "LOCATION-MICROSERVICE"
+location-microservice.datasource.url: "jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5"
+location-microservice.datasource.username: "postgres"
+location-microservice.datasource.password: "310PB!Gq%f&J"
+location-microservice.datasource.hikari.maximum-pool-size: "2"
+location-microservice.jpa.hibernate.ddl-auto: "update"
+location-microservice.jpa.show-sql: "false"
+location-microservice.jpa.properties.hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+location-microservice.jpa.properties.hibernate.format_sql: "true"
+
+# Media Microservice
+media-microservice.port: "9005"
+media-microservice.application-name: "LOCATION-MICROSERVICE"
+media-microservice.datasource.url: "jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5"
+media-microservice.datasource.username: "postgres"
+media-microservice.datasource.password: "310PB!Gq%f&J"
+media-microservice.datasource.hikari.maximum-pool-size: "2"
+media-microservice.jpa.hibernate.ddl-auto: "update"
+media-microservice.jpa.show-sql: "false"
+media-microservice.jpa.properties.hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+media-microservice.jpa.properties.hibernate.format_sql: "true"
+
+# Notification Microservice
+
+notification-microservice.port: "9004"
+notification-microservice.application-name: "NOTIFICATION-MICROSERVICE"
+notification-microservice.datasource.url: "jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5"
+notification-microservice.datasource.username: "postgres"
+notification-microservice.datasource.password: "310PB!Gq%f&J"
+notification-microservice.datasource.hikari.maximum-pool-size: "2"
+notification-microservice.jpa.hibernate.ddl-auto: "update"
+notification-microservice.jpa.show-sql: "false"
+notification-microservice.jpa.properties.hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+notification-microservice.jpa.properties.hibernate.format_sql: "true"
+
+notification-microservice.mail.host: "smtp.gmail.com"
+notification-microservice.mail.port: "587"
+notification-microservice.mail.user: "thesmartpointers@gmail.com"
+notification-microservice.mail.password: "zrtscmtyovuvvbxf"
+notification-microservice.mail.smtp.auth: "true"
+notification-microservice.mail.smtp.connectionTimeout: "5000"
+notification-microservice.mail.smtp.timeout: "5000"
+notification-microservice.mail.smtp.writetimeout: "5000"
+notification-microservice.mail.smtp.startttls.enable: "true"
+
+
+# Timeline Microservice
+
+timeline-microservice.port: "9012"
+timeline-microservice.application-name: "TIMELINE-MICROSERVICE"
+timeline-microservice.datasource.url: "jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5"
+timeline-microservice.datasource.username: "postgres"
+timeline-microservice.datasource.password: "310PB!Gq%f&J"
+timeline-microservice.datasource.hikari.maximum-pool-size: "2"
+timeline-microservice.jpa.hibernate.ddl-auto: "update"
+timeline-microservice.jpa.show-sql: "false"
+timeline-microservice.jpa.properties.hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+timeline-microservice.jpa.properties.hibernate.format_sql: "true"
+
+# User Microservice
+
+user-microservice.port: "9002"
+user-microservice.application-name: "USER-MICROSERVICE"
+user-microservice.datasource.url: "jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5"
+user-microservice.datasource.username: "postgres"
+user-microservice.datasource.password: "310PB!Gq%f&J"
+user-microservice.datasource.hikari.maximum-pool-size: "2"
+user-microservice.jpa.hibernate.ddl-auto: "update"
+user-microservice.jpa.show-sql: "false"
+user-microservice.jpa.properties.hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+user-microservice.jpa.properties.hibernate.format_sql: "true"
+
+#Recommendation Microservice
+
+recommendation-microservice.port: "9013"
+recommendation-microservice.application-name: "RECOMMENDATION-MICROSERVICE"
+recommendation-microservice.datasource.url: "jdbc:postgresql://adventure-it-db.c9gozrkqo8dv.us-east-2.rds.amazonaws.com/adventureit?socketTimeout=5"
+recommendation-microservice.datasource.username: "postgres"
+recommendation-microservice.datasource.password: "310PB!Gq%f&J"
+recommendation-microservice.datasource.hikari.maximum-pool-size: "2"
+recommendation-microservice.jpa.hibernate.ddl-auto: "update"
+recommendation-microservice.jpa.show-sql: "false"
+recommendation-microservice.jpa.properties.hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+recommendation-microservice.jpa.properties.hibernate.format_sql: "true"
+
+# Firebase
+firebase-path: "C:\\Users\\kevin\\Documents\\Enviroment variables\\adventure-it-bc0b6-firebase-adminsdk-o2fq8-ad3a51fb5e.json"
+firebase-messaging-path: "C:\\Users\\kevin\\Documents\\Enviroment variables\\adventureit-firebase-adminsdk-r4bvl-b2c12c9b8c.json"
+firebase-type: "service_account"
+firebase-project_id: "adventure-it-bc0b6"
+firebase-private_key_id: "ad3a51fb5ea33531bf0dae65cb89dc82ea839f0c"
+firebase-private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDScrmjF/vCUU7e\nBef/Vd/oaskhCeSH2o0JqoR5S5eU6JB9YFQeLDhrg1awnSIQbqe29n+XyILYQlHF\nwlVjo1LzZkCkY8qfl0KMZl1q9PMEEK7VSfN7LQjMC+wOjc55HrL2a1NIZ3Dw52Ln\nsfA6Mb1R4aiZeQBsuVSUdKwXZMsydzl17kbLf1d99I4HI7SsaBvnsk3IhiI9Lk7F\nBkD9qLhR6xbRDVBms6QSZiNMeqavrZryinnODsH+kBWecpp5GN1LIsPVeap2S5tM\nX6iY8CKDFKbC3igSn9kVvEFYL8n1/qRrFwkut7kKVynX4thXwnDVfv8IWQx5tVMV\nnHECGsBTAgMBAAECggEAXF3fTY6ewNyIBZnJCEBMPMn1yir544jQo1/0sfo0Jzbm\nCClp8i5Nex7Tw0PMajLvKLZLLTbj+wAsvOQ9LzTFmTAVijGEgwRUQKRDN0kYin26\nBsJk+/i5pjlLW93wtCd9u/tCPAKuxwV/2xq1ygz/v7sQEYBS5+V2Eoyc5c2nA9gV\nc08ShvNaqoavU/NlOE3wke1BKegGrqZqSAlUiriNNSVtZhuz6EH1AzH38qXV8YJj\nX+Dsu8HGCfsY0vZi5PvzaG8PMrqLhELCax1CGW0bbguJB6xd30KrtCSayumIEc7H\nNMVZ2Aaii2OedErGEIDEd8K2ut35ZVijzbbU+77hiQKBgQDx3mEnglnIxBd7jNLE\nx+5UA5ZCQUQMN99dSppiEVwV3xltDF9S+jcdK2jQsRKyrEZqnbo3EChAtXwwFiLr\npESVeEAL7vPZP4MVmO4wqMwZc9YguH01gDMt5thhSkpeitxmZ3eJzlMD2uUBbew2\nWCvnsYtFpfSD2KbibdPW1VZ42wKBgQDevmPZvxj8RWELh756vw4JKe9ZYOFZJFP1\nfhLihcfye7IGFO3EJQa2camxol9EH09h+Ot4lZajtllW6WS8oJai+0qQsIi1H5Hr\nh6HRzYAsJnyM7VtwKUSP0Vhtp8R0Zl6Gexb8bfdC2BwzMUPLvZ+vXXYZKNJ4qPD9\nNS3NAFOT6QKBgBHkUWuKyPmBB/urvyuvXoH4gfUEvvPobi2Ih0MZ5aX4ivj2IVcS\nC2GtBGPrtWZiOBNK96t7Fn8y7azg9lRYInqsGpDHbGJ1wEyos3YGBpMbboudGiYL\nBb4vhXIs/LNhskwg+0bGbH2sg6RHbWHXw+evyo2saRoXvMCjPzh1L6BhAoGAWAjL\nkg3zJBGPr2zxHbZRJ9IJJTwjFIZFIKu5bwoM4ot86uZuqq0voAAAX5KbMGNnjoNB\nHaGRrhat7KnGBL87iiLjb5g2D8/wbjRnAnLEC68SXuiY0RWeYXEOEBjUjmS/S0tu\n5EnaBfNAAgOgle/WIws/V+ZIeSPcS1cvSOyuG7ECgYBLbwb3TfGPIo+Kr2QRg84v\nmrTSkTPeyWEdLYyxldPrfkyZFLAvDwjBhtSxUMTRQOswtXV2jOFa4K/ymo2PcTvC\nOv3PAOjG8sgfjHvCnXLnOt2bngh80TrYjVH7azydOmMOAgc+BGwnV0EK/ZxW9bN0\nksAkgPmSheUkFAP6WHVwHg==\n-----END PRIVATE KEY-----\n"
+firebase-client_email: "firebase-adminsdk-o2fq8@adventure-it-bc0b6.iam.gserviceaccount.com"
+firebase-client_id: "100165871578157035845"
+firebase-auth_uri: "https://accounts.google.com/o/oauth2/auth"
+firebase-token_uri: "https://oauth2.googleapis.com/token"
+firebase-auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
+firebase-client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-o2fq8%40adventure-it-bc0b6.iam.gserviceaccount.com"
+
+firebase-messaging-type: "service_account"
+firebase-messaging-project_id: "adventureit"
+firebase-messaging-private_key_id: "b2c12c9b8cc14d67eee0bf4d2c68cc62e5921fec"
+firebase-messaging-private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCkthninGv7cyzF\nS+DhtAdsNIkqLKg1hJn6m0t2ojtAAFL7kC43TByI9Wx8p23hQigjAB3Id/lvWe0K\n4zo8UTRsnrwRW76CKvgz2jp9Bj3QLgnMQJm9yeBRbLU/LTNweZe6rizsgz7mNIO9\n875wEVBqOSkWRBoLLDpwIZ/3SYf0I4AABxvqjd8j1PDSh07TLNHUZZoNN130/+Hx\nM26pUyyNlN2kmP0yKCWTUZ+w0AvL3mnmlnoR6OBVO6KwmBLRTeq4MY/81S1pIK1N\ng3T4stMZx2xCt5B5jkYz857+31mza/wPHpmoLbBduoxX0FTlO2ldjnV5H/KHwtj8\n3lEi/S4vAgMBAAECggEABHo0wu24m7m6RlS1NL11lDHrZpuXKPlFTEQrbXqkfK1l\nlBQLxZIKloiBXfQZLw3i1Gy84oWsYKQDpw+dNiWI9Mjt2NTzHUu4uoQcoehpBr8x\nof1BkKCrudroJGMAqnaLstXoP7ejnpNf32qAS0CVPIX4QXQxdwtJPWIUnJ7BlNfV\nCBxhdampOP/5v2MF7RA7byRVuDm1inteUiHH2OzmjVr+RobK99GCvTGWchlOAbEI\n+22/luy/z6K6mbS1NQsSdTE2m9iRVWWckKcOxfuGBk0XmZmBk8hx+70kukkvKD30\naZPdFHceEu4ltacNGsDURrrh2vKHJ1hikxWYDjWKpQKBgQDTuZHAHca2P1JbtsWU\ndp7+FYp3RQA+p6VMTIzUI3A+otTm/JS3uGeqjWJ5WZg0zCCbKK8gKXtJT9+UGTaz\nzL3Ywb2Yv+Hzi2o4HtzajXGOD7RqQUx2LONOTBlwSTduc87UlwIJ8WrkMHD0teJt\nDBlA4LBuAoGD3jfCPIszZ3Yb+wKBgQDHJ7grJsnDRjJvQ3Nd81fwuBBAqbCCf7vA\n5YQwzXwdqQBAAwpOumtnBQZos/CfLCNzI4moIJDVi+2XHWhH/WjXFHYmXOXWEnVL\nr+P5LslscCfbwQahscHHPLA6JNHjI90mYwUdpDID2nwngQ59CTXXN6dEfPVbEMkb\nSD1lwQvMXQKBgC7AD/3S1VjSnJXhwrjohGzoRr3VP5uWGvrBAGurM5KxE7+5UAFN\nN57CP1c6QFCQLjb0gc7hOfbTKzQhaSHEeLsO9JVw8Sx8wUSJFA0yJDvRHe5EYuTJ\nPpvAU/GmSRYbfjUU7v9RDmA6jgaKzudzP3RC6NIxvXVnsPozsiz0kHDXAoGAQYd0\nNd6hbLtgRPPwte0n9nDaCCzNg2L8KFBc2qICQNAm4OkfLyBvzon8vd7XQciIMY5z\n8PomLd3I43wtn+Jl6L820RCoH3QbXDgXzxnx9NhChTBSOkn+9MunQLp0xUQ7tDHI\nsSQhwNrXFziDx+iL6rDJPOPQ55HyWiO+8AhBFZECgYEAo1XSnr6pRgQtfP1Jyjiu\nuBkJddMYjUFVK0zuLbIUz8/B70UukuM7I9sepwAEDr6TEE7iUzT0febDRJ6EoxU6\nhqvB59KH06J5uukqQL8MW2JaIkZvtxx82Dp84blPd+rF8tF2+DHFObf7RPCq/evQ\nve5gvTzOldAGtS3pzCS7jDo=\n-----END PRIVATE KEY-----\n"
+firebase-messaging-client_email: "firebase-adminsdk-r4bvl@adventureit.iam.gserviceaccount.com"
+firebase-messaging-client_id: "104604009563291025077"
+firebase-messaging-auth_uri: "https://accounts.google.com/o/oauth2/auth"
+firebase-messaging-token_uri: "https://oauth2.googleapis.com/token"
+firebase-messaging-auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
+firebase-messaging-client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-r4bvl%40adventureit.iam.gserviceaccount.com"
