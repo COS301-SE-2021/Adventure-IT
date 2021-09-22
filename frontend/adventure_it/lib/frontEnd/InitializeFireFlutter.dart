@@ -90,8 +90,8 @@ class _AppStateWeb extends State<InitializeFireFlutterWeb> {
         final title = message.notification!.title;
         final body = message.notification!.body;
         final data = message.data;
-        print("Handling message title: ${title}");
-        print("Handling message body: ${body}");
+        print("Handling message title: $title");
+        print("Handling message body: $body");
         print("Handling message data: ${data.toString()}");
 
         Fluttertoast.showToast(
@@ -123,8 +123,8 @@ void foregroundHandler(RemoteMessage? message) {
     final title = message.notification!.title;
     final body = message.notification!.body;
     final data = message.data;
-    print("Handling foreground message title: ${title}");
-    print("Handling foreground message body: ${body}");
+    print("Handling foreground message title: $title");
+    print("Handling foreground message body: $body");
     print("Handling foreground message data: ${data.toString()}");
   }
 }
