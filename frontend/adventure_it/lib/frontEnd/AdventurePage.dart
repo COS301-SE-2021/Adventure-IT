@@ -203,7 +203,7 @@ class AdventurePage extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: NetworkImage(
-                            "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                            "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                 currentAdventure!.location.photoReference +
                                 "&maxwidth=700&key=" +
                                 googleMapsKey),
@@ -779,7 +779,7 @@ class AlertBox extends StatelessWidget {
                                         leading:CachedNetworkImage(
                                             useOldImageOnUrlChange: true,
                                             imageUrl:
-                                            mainApi+"/user/viewPicture/" +
+                                            mainApi+"user/viewPicture/" +
                                             friendModel.friends!.elementAt(index).userID,
                                             imageBuilder: (context, imageProvider) => Container(
                                                 width:70,
