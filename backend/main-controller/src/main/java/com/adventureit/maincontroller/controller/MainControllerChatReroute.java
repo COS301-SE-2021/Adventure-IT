@@ -183,7 +183,7 @@ public class MainControllerChatReroute {
         String[] ports = {CHAT_PORT, USER_PORT};
         service.pingCheck(ports,restTemplate);
 
-        DirectChatResponseDTO chat = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getDirectChat/" + id, DirectChatResponseDTO.class);
+        DirectChatResponseDTO chat = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getDirectChatByID/" + id, DirectChatResponseDTO.class);
         assert chat != null;
         List<UUID> usersIds=chat.getParticipants();
         List<GetUserByUUIDDTO>users=new ArrayList<>();
@@ -204,10 +204,9 @@ public class MainControllerChatReroute {
             users.add(user);
         }
         else {
-
-            users = restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUsers/" + usersIds, List.class);
+            GetUsersRequestDTO dto = new GetUsersRequestDTO(usersIds);
+            users = Arrays.asList(restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/getUsers",dto, GetUserByUUIDDTO[].class));
         }
-
 
         for (MessageDTO message: chat.getMessages()) {
             int sender=usersIds.indexOf(message.getSender());
