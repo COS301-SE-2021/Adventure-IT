@@ -23,7 +23,7 @@ class Itineraries extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => ItineraryModel(adventure!,context),
+        create: (context) => ItineraryModel(adventure!, context),
         builder: (context, widget) => Scaffold(
             drawer: NavDrawer(),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -41,9 +41,8 @@ class Itineraries extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: MediaQuery.of(context).size.height / 60),
-                  Expanded(
-                      child: ItinerariesList(adventure!,context)),
-        SizedBox(height: MediaQuery.of(context).size.height / 60),
+                  Expanded(child: ItinerariesList(adventure!, context)),
+                  SizedBox(height: MediaQuery.of(context).size.height / 60),
                   Row(children: [
                     Expanded(
                       flex: 1,
@@ -113,13 +112,13 @@ class ItinerariesList extends StatefulWidget {
   late final Adventure? currentAdventure;
   late final BuildContext? context;
 
-  ItinerariesList(Adventure a,context) {
+  ItinerariesList(Adventure a, context) {
     currentAdventure = a;
-    this.context=context;
+    this.context = context;
   }
 
   @override
-  _ItinerariesList createState() => _ItinerariesList(currentAdventure,context);
+  _ItinerariesList createState() => _ItinerariesList(currentAdventure, context);
 }
 
 class _ItinerariesList extends State<ItinerariesList> {
@@ -142,9 +141,9 @@ class _ItinerariesList extends State<ItinerariesList> {
     "December"
   ];
 
-  _ItinerariesList(Adventure? adventure,context) {
+  _ItinerariesList(Adventure? adventure, context) {
     this.a = adventure;
-    ItineraryApi.getNextEntry(a!,context).then((value) {
+    ItineraryApi.getNextEntry(a!, context).then((value) {
       setState(() {
         check = true;
 
@@ -197,89 +196,44 @@ class _ItinerariesList extends State<ItinerariesList> {
           Expanded(
               flex: 3,
               child: InkWell(
-                  onTap:(){
+                  onTap: () {
                     MapsLauncher.launchQuery(next!.location.formattedAddress);
                   },
-                  child:Container(
-                  width: MediaQuery.of(context).size.width <= 500? MediaQuery.of(context).size.width: MediaQuery.of(context).size.width * 0.8,
-                  decoration: new BoxDecoration(
-                      image: new DecorationImage(
-                          image: next != null
-                              ? next!.location.photoReference != ""
-                                  ? NetworkImage(
-                                      "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                          next!.location.photoReference +
-                                          "&maxwidth=500&key=" +
-                                          googleMapsKey)
+                  child: Container(
+                      width: MediaQuery.of(context).size.width <= 500
+                          ? MediaQuery.of(context).size.width
+                          : MediaQuery.of(context).size.width * 0.8,
+                      decoration: new BoxDecoration(
+                          image: new DecorationImage(
+                              image: next != null
+                                  ? next!.location.photoReference != ""
+                                      ? NetworkImage(
+                                          "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
+                                              next!.location.photoReference +
+                                              "&maxwidth=500&key=" +
+                                              googleMapsKey)
+                                      : NetworkImage(
+                                          "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
+                                              a!.location.photoReference +
+                                              "&maxwidth=500&key=" +
+                                              googleMapsKey)
                                   : NetworkImage(
-                                      "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                      "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                           a!.location.photoReference +
                                           "&maxwidth=500&key=" +
-                                          googleMapsKey)
-                              : NetworkImage(
-                                  "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                      a!.location.photoReference +
-                                      "&maxwidth=500&key=" +
-                                      googleMapsKey),
-                          fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                              Theme.of(context)
-                                  .backgroundColor
-                                  .withOpacity(0.25),
-                              BlendMode.dstATop))),
-                  child: next != null
-                      ? Column(children: [
-                          Spacer(),
-                          Text("Next Stop!",
-                              style: TextStyle(
-                                  fontSize: 20 *
-                                      MediaQuery.of(context).textScaleFactor,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color)),
-                          Text(next!.title,
-                              style: TextStyle(
-                                  fontSize: 35 *
-                                      MediaQuery.of(context).textScaleFactor,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color)),
-                          Row(children: [
-                            Expanded(
-                                child: RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(children: [
-                                WidgetSpan(
-                                    child: Icon(
-                                  Icons.location_on,
-                                  size: 12,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color,
-                                )),
-                                TextSpan(
-                                    text: " " + next!.location.name,
-                                    style: TextStyle(
-                                        fontSize: 12 *
-                                            MediaQuery.of(context)
-                                                .textScaleFactor,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color))
-                              ]),
-                            )),
-                            Spacer(),
-                            Expanded(
-                              child: Text(getTime(next!),
-                                  textAlign: TextAlign.center,
+                                          googleMapsKey),
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                  Theme.of(context)
+                                      .backgroundColor
+                                      .withOpacity(0.25),
+                                  BlendMode.dstATop))),
+                      child: next != null
+                          ? Column(children: [
+                              Spacer(),
+                              Text("Next Stop!",
                                   style: TextStyle(
-                                      fontSize: 12 *
+                                      fontSize: 20 *
                                           MediaQuery.of(context)
                                               .textScaleFactor,
                                       fontWeight: FontWeight.bold,
@@ -287,133 +241,189 @@ class _ItinerariesList extends State<ItinerariesList> {
                                           .textTheme
                                           .bodyText1!
                                           .color)),
-                            ),
-                          ]),
-                          Spacer(),
-                        ])
-                      : Center(
-                          child: Text(
-                              "There's nothing coming up next. Is this the end?",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 30 *
-                                      MediaQuery.of(context).textScaleFactor,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color)))))),
+                              Text(next!.title,
+                                  style: TextStyle(
+                                      fontSize: 35 *
+                                          MediaQuery.of(context)
+                                              .textScaleFactor,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color)),
+                              Row(children: [
+                                Expanded(
+                                    child: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(children: [
+                                    WidgetSpan(
+                                        child: Icon(
+                                      Icons.location_on,
+                                      size: 12,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color,
+                                    )),
+                                    TextSpan(
+                                        text: " " + next!.location.name,
+                                        style: TextStyle(
+                                            fontSize: 12 *
+                                                MediaQuery.of(context)
+                                                    .textScaleFactor,
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color))
+                                  ]),
+                                )),
+                                Spacer(),
+                                Expanded(
+                                  child: Text(getTime(next!),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 12 *
+                                              MediaQuery.of(context)
+                                                  .textScaleFactor,
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color)),
+                                ),
+                              ]),
+                              Spacer(),
+                            ])
+                          : Center(
+                              child: Text(
+                                  "There's nothing coming up next. Is this the end?",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 30 *
+                                          MediaQuery.of(context)
+                                              .textScaleFactor,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color)))))),
           SizedBox(height: MediaQuery.of(context).size.height / 60),
           Expanded(
               flex: 8,
               child: Container(
-              width: MediaQuery.of(context).size.width <= 500
-      ? MediaQuery.of(context).size.width
-          : MediaQuery.of(context).size.width * 0.9,
-      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width <= 500
-      ? 0
-          : MediaQuery.of(context).size.width * 0.05),
-              child: ListView.builder(
-                itemCount: itineraryModel.itineraries!.length,
-                itemBuilder: (context, index) => Card(
-                    color: Theme.of(context).primaryColorDark,
-                    child: InkWell(
-                        hoverColor: Theme.of(context).primaryColorLight,
-                        onTap: () {
-                          UserApi.getInstance()
-                              .findUser(itineraryModel.itineraries!
-                                  .elementAt(index)
-                                  .creatorID,context)
-                              .then((c) {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ItineraryPage(
-                                        itineraryModel.itineraries!
-                                            .elementAt(index),
-                                        a,
-                                        c)));
-                          });
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.8 < 500? 500: MediaQuery.of(context).size.width * 0.8,
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 4,
-                                child: ListTile(
-                                    title: Text(itineraryModel.itineraries!.elementAt(index).title,
-                                        style: TextStyle(
-                                            fontSize: 25 *
-                                                MediaQuery.of(context)
-                                                    .textScaleFactor,
-                                            fontWeight: FontWeight.bold,
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color)),
-                                    // subtitle:Text(adventures.elementAt(index).description),
-                                    subtitle: Text(
-                                        itineraryModel.itineraries!
-                                            .elementAt(index)
-                                            .description,
-                                        style: TextStyle(
-                                            fontSize: 15 *
-                                                MediaQuery.of(context)
-                                                    .textScaleFactor,
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color)),
-                                    trailing: Text(
-                                        itineraryModel.dates!.elementAt(index),
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize:
-                                                11 * MediaQuery.of(context).textScaleFactor,
-                                            color: Theme.of(context).textTheme.bodyText1!.color))),
+                  width: MediaQuery.of(context).size.width <= 500
+                      ? MediaQuery.of(context).size.width
+                      : MediaQuery.of(context).size.width * 0.9,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width <= 500
+                          ? 0
+                          : MediaQuery.of(context).size.width * 0.05),
+                  child: ListView.builder(
+                    itemCount: itineraryModel.itineraries!.length,
+                    itemBuilder: (context, index) => Card(
+                        color: Theme.of(context).primaryColorDark,
+                        child: InkWell(
+                            hoverColor: Theme.of(context).primaryColorLight,
+                            onTap: () {
+                              UserApi.getInstance()
+                                  .findUser(
+                                      itineraryModel.itineraries!
+                                          .elementAt(index)
+                                          .creatorID,
+                                      context)
+                                  .then((c) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ItineraryPage(
+                                            itineraryModel.itineraries!
+                                                .elementAt(index),
+                                            a,
+                                            c)));
+                              });
+                            },
+                            child: Container(
+                              width:
+                                  MediaQuery.of(context).size.width * 0.8 < 500
+                                      ? 500
+                                      : MediaQuery.of(context).size.width * 0.8,
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    flex: 4,
+                                    child: ListTile(
+                                        title:
+                                            Text(itineraryModel.itineraries!.elementAt(index).title,
+                                                style: TextStyle(
+                                                    fontSize: 25 *
+                                                        MediaQuery.of(context)
+                                                            .textScaleFactor,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1!
+                                                        .color)),
+                                        // subtitle:Text(adventures.elementAt(index).description),
+                                        subtitle: Text(itineraryModel.itineraries!.elementAt(index).description,
+                                            style: TextStyle(
+                                                fontSize: 15 *
+                                                    MediaQuery.of(context)
+                                                        .textScaleFactor,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color)),
+                                        trailing: Text(itineraryModel.dates!.elementAt(index),
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 11 *
+                                                    MediaQuery.of(context).textScaleFactor,
+                                                color: Theme.of(context).textTheme.bodyText1!.color))),
+                                  ),
+                                  PopupMenuButton(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color,
+                                      onSelected: (value) {
+                                        if (value == 1) {
+                                          Provider.of<ItineraryModel>(context,
+                                                  listen: false)
+                                              .softDeleteItinerary(
+                                                  itineraryModel.itineraries!
+                                                      .elementAt(index));
+                                        }
+                                      },
+                                      itemBuilder: (context) => [
+                                            PopupMenuItem(
+                                                value: 1,
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5),
+                                                      child: Icon(Icons.delete,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText2!
+                                                                  .color),
+                                                    ),
+                                                    Text("Delete",
+                                                        style: TextStyle(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyText2!
+                                                                .color))
+                                                  ],
+                                                ))
+                                          ]),
+                                ],
                               ),
-                              PopupMenuButton(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color,
-                                  onSelected: (value) {
-                                    if (value == 1) {
-                                      Provider.of<ItineraryModel>(context,
-                                              listen: false)
-                                          .softDeleteItinerary(itineraryModel
-                                              .itineraries!
-                                              .elementAt(index));
-                                    }
-                                  },
-                                  itemBuilder: (context) => [
-                                        PopupMenuItem(
-                                            value: 1,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(5),
-                                                  child: Icon(Icons.delete,
-                                                      color: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText2!
-                                                          .color),
-                                                ),
-                                                Text("Delete",
-                                                    style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyText2!
-                                                            .color))
-                                              ],
-                                            ))
-                                      ]),
-                            ],
-                          ),
-                        ))),
-              )))
-          ]);
+                            ))),
+                  )))
+        ]);
       } else {
         return Center(
             child: Text(
