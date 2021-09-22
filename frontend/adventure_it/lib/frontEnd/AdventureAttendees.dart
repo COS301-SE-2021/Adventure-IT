@@ -108,7 +108,7 @@ class _Carousel extends State<Carousel> {
   _Carousel(Adventure a, AdventureAttendeesModel m) {
     this.currentAdventure = a;
     this.attendeeModel = m;
-    this.i = (attendeeModel!.attendees!.length / 2).toInt();
+    this.i = attendeeModel!.attendees!.length ~/ 2;
   }
 
   List<String> months = [
@@ -182,7 +182,7 @@ class _Carousel extends State<Carousel> {
               enlargeCenterPage: true,
               viewportFraction: 0.2,
               aspectRatio: 2.0,
-              initialPage: (attendeeModel!.attendees!.length / 2).toInt(),
+              initialPage: attendeeModel!.attendees!.length ~/ 2,
               enableInfiniteScroll: false,
             ),
             itemCount: attendeeModel!.attendees!.length,
