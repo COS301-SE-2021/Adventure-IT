@@ -2,14 +2,14 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 final authApiGetToken = kIsWeb
-    ? "http://3.142.172.27:5001/auth/realms/adventure-it/protocol/openid-connect/token"
-    : "http://3.142.172.27:5001/auth/realms/adventure-it/protocol/openid-connect/token";
+    ? "http://app.adventure-it.co.za/keycloak/auth/realms/adventure-it/protocol/openid-connect/token"
+    : "http://app.adventure-it.co.za/keycloak/auth/realms/adventure-it/protocol/openid-connect/token";
 final authApiAdmin = kIsWeb
-    ? "http://3.142.172.27:5001/auth/admin/realms/adventure-it/"
-    : "http://3.142.172.27:5001/auth/admin/realms/adventure-it/";
+    ? "http://app.adventure-it.co.za/keycloak/auth/admin/realms/adventure-it/"
+    : "http://app.adventure-it.co.za/keycloak/auth/admin/realms/adventure-it/";
 final mainApi = kIsWeb
-    ? "http://main-controller-235091144.us-east-2.elb.amazonaws.com"
-    : "http://main-controller-235091144.us-east-2.elb.amazonaws.com";
+    ? "http://app.adventure-it.co.za/api/"
+    : "http://app.adventure-it.co.za/api/";
 final googleMapsKey = "AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
 
 final darkTheme = ThemeData(
