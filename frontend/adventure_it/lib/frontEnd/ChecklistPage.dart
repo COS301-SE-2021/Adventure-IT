@@ -14,7 +14,7 @@ import 'Navbar.dart';
 class ChecklistPage extends StatelessWidget {
   late final Checklist? currentChecklist;
   late final Adventure? currentAdventure;
-  UserProfile? creator;
+  late final UserProfile? creator;
 
   ChecklistPage(Checklist? c,Adventure? a, UserProfile create) {
     this.currentChecklist = c;
@@ -244,7 +244,7 @@ class GetChecklistEntries extends StatelessWidget {
     }
   }
 
-  String userID = UserApi.getInstance().getUserProfile()!.userID;
+  final String userID = UserApi.getInstance().getUserProfile()!.userID;
 
   @override
   Widget build(BuildContext context) {

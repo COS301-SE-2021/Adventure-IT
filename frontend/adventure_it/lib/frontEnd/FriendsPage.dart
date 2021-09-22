@@ -134,7 +134,7 @@ class FriendsPage extends State<Friends> with SingleTickerProviderStateMixin {
 }
 
 class GetFriends extends StatelessWidget {
-  BuildContext? c;
+  late final BuildContext? c;
 
   GetFriends(context) {
     this.c = context;
@@ -360,7 +360,7 @@ class GetFriends extends StatelessWidget {
 }
 
 class GetFriendRequests extends StatelessWidget {
-  BuildContext? c;
+  late final BuildContext? c;
 
   GetFriendRequests(context) {
     this.c = context;

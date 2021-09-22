@@ -23,7 +23,7 @@ class ItineraryPage extends StatelessWidget {
   late final Itinerary? currentItinerary;
   late final Adventure? currentAdventure;
   late final UserProfile? creator;
-  BuildContext? c;
+  late final BuildContext? c;
 
   ItineraryPage(Itinerary? i, Adventure? a, UserProfile c) {
     this.currentItinerary = i;
@@ -2003,7 +2003,7 @@ class Debouncer {
 }
 
 class RegisteredUsers extends StatelessWidget {
-  ItineraryEntry? currentEntry;
+  late final ItineraryEntry? currentEntry;
 
   RegisteredUsers(ItineraryEntry i) {
     this.currentEntry = i;
@@ -2127,10 +2127,10 @@ class RegisteredUsers extends StatelessWidget {
 }
 
 class _RecommendedItems extends StatelessWidget {
-  Adventure? currentAdventure;
-  Itinerary? currentItinerary;
-  BuildContext? context;
-  ItineraryEntryModel? entryModel;
+  late final Adventure? currentAdventure;
+  late final Itinerary? currentItinerary;
+  late final BuildContext? context;
+  late final ItineraryEntryModel? entryModel;
   final ScrollController _controller = ScrollController();
 
   _RecommendedItems(

@@ -67,7 +67,7 @@ class ItineraryTrash extends StatelessWidget {
 
 class DeletedItineraryList extends StatelessWidget {
   late final Adventure? a;
-  BuildContext? c;
+  late final BuildContext? c;
 
   DeletedItineraryList(Adventure? adventure) {
     this.a = adventure;

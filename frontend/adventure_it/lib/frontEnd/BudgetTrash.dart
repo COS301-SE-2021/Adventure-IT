@@ -67,7 +67,7 @@ class BudgetTrash extends StatelessWidget {
 
 class DeletedBudgetList extends StatelessWidget {
   late final Adventure? a;
-  BuildContext? c;
+  late final BuildContext? c;
 
   DeletedBudgetList(Adventure? adventure) {
     this.a = adventure;

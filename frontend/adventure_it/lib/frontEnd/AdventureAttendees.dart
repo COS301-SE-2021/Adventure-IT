@@ -17,12 +17,12 @@ import 'package:location/location.dart';
 //Shows list of adventures
 //TODO: upper camel case error
 class AdventureAttendees extends StatelessWidget {
-  Adventure? currentAdventure;
-  List<UserProfile>? attendees;
-  Location location = Location();
-  LocationData? currentLocation;
-  CurrentLocation? current;
-  BuildContext? context;
+  late final Adventure? currentAdventure;
+  late final List<UserProfile>? attendees;
+  final Location location = Location();
+  late final LocationData? currentLocation;
+  late final CurrentLocation? current;
+  late final BuildContext? context;
 
   AdventureAttendees(Adventure a,context) {
     this.currentAdventure = a;
@@ -85,8 +85,8 @@ class AdventureAttendees extends StatelessWidget {
 }
 
 class Carousel extends StatefulWidget {
-  Adventure? currentAdventure;
-  AdventureAttendeesModel? model;
+  late final Adventure? currentAdventure;
+  late final AdventureAttendeesModel? model;
 
   Carousel(Adventure a, AdventureAttendeesModel m) {
     this.currentAdventure = a;

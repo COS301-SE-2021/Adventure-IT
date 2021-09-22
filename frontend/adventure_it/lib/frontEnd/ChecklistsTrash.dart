@@ -71,7 +71,7 @@ class ChecklistsTrash extends StatelessWidget {
 
 class DeletedChecklistList extends StatelessWidget {
   late final Adventure? a;
-  BuildContext? c;
+  late final BuildContext? c;
 
   DeletedChecklistList(Adventure? adventure) {
     this.a = adventure;
