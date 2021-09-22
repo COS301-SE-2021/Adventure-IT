@@ -1,4 +1,3 @@
-import 'package:adventure_it/api/location.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'currentLocation.g.dart';

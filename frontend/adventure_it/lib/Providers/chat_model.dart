@@ -5,9 +5,6 @@ import 'package:adventure_it/api/directChatMessage.dart';
 import 'package:adventure_it/api/groupChat.dart';
 import 'package:adventure_it/api/groupChatMessage.dart';
 import 'package:adventure_it/api/userAPI.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

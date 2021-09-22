@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:adventure_it/api/createItineraryEntry.dart';
 import 'package:adventure_it/api/participatingUser.dart';
 import 'package:adventure_it/api/userAPI.dart';
-import 'package:adventure_it/api/userProfile.dart';
 import 'package:adventure_it/constants.dart';
 import 'package:flutter/material.dart';
 import '/api/itinerary.dart';
