@@ -23,6 +23,6 @@ class HomePage extends State<HomepageStartupCaller> {
                       color: Theme.of(context).textTheme.bodyText1!.color)),
               iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
             ),
-            body: HomePage_Pages()));
+            body: HomePagePages()));
   }
 }

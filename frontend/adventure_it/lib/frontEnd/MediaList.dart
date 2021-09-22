@@ -208,7 +208,7 @@ class MediaList extends StatelessWidget {
                                                 onPressed: () {
                                                   if (kIsWeb) {
                                                     MediaApi
-                                                        .web_requestMediaDownload(
+                                                        .webRequestMediaDownload(
                                                             mediaModel.media!
                                                                 .elementAt(
                                                                     index));

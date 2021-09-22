@@ -220,10 +220,10 @@ class BudgetApi {
     }
   }
 
-  static Future<http.Response> _deleteBudgetEntryRequest(BudgetEntryID) async {
+  static Future<http.Response> _deleteBudgetEntryRequest(budgetEntryID) async {
     String userID = UserApi.getInstance().getUserProfile()!.userID;
     return http.get(Uri.parse(
-        mainApi + '/budget/removeEntry/' + BudgetEntryID + '/' + userID));
+        mainApi + '/budget/removeEntry/' + budgetEntryID + '/' + userID));
   }
 
   static Future<List<Report>?> getReport(

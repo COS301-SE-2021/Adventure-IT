@@ -202,7 +202,7 @@ class DocumentList extends StatelessWidget {
                                                 onPressed: () {
                                                   if (kIsWeb) {
                                                     DocumentApi
-                                                        .web_requestDocumentDownload(
+                                                        .webRequestDocumentDownload(
                                                             documentModel
                                                                 .documents!
                                                                 .elementAt(

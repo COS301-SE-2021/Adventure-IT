@@ -9,8 +9,8 @@ import 'CreateAdventure.dart';
 
 //Shows list of adventures
 //TODO: upper camel case error
-class HomePage_Pages extends StatelessWidget {
-  HomePage_Pages();
+class HomePagePages extends StatelessWidget {
+  HomePagePages();
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +19,13 @@ class HomePage_Pages extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         controller: controller,
         children: <Widget>[
-          HomePage_Pages_Adventures(),
+          HomePagePagesAdventures(),
         ]);
   }
 }
 
-class HomePage_Pages_Adventures extends StatelessWidget {
-  HomePage_Pages_Adventures();
+class HomePagePagesAdventures extends StatelessWidget {
+  HomePagePagesAdventures();
 
   @override
   Widget build(BuildContext context) {

@@ -121,7 +121,7 @@ class MediaApi {
     }
   }
 
-  static void web_requestMediaDownload(Media currentMedia) {
+  static void webRequestMediaDownload(Media currentMedia) {
     html.window.open(
         mainApi + "/media/mediaUploaded/" + currentMedia.id, currentMedia.name);
   }
@@ -235,7 +235,7 @@ class FileApi {
     }
   }
 
-  static void web_requestFileDownload(Media currentMedia) {
+  static void webRequestFileDownload(Media currentMedia) {
     html.window.open(
         mainApi + "/media/fileUploaded/" + currentMedia.id, currentMedia.name);
   }
@@ -352,7 +352,7 @@ class DocumentApi {
     }
   }
 
-  static void web_requestDocumentDownload(Documents currentMedia) {
+  static void webRequestDocumentDownload(Documents currentMedia) {
     html.window.open(mainApi + "/media/documentUploaded/" + currentMedia.id,
         currentMedia.name);
   }
