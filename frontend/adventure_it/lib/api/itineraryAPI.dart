@@ -275,7 +275,6 @@ class ItineraryApi {
         'description': description,
         'location': location,
         'timestamp': timestamp,
-        'userId': userId
       }),
     );
 

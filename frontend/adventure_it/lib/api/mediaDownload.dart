@@ -32,10 +32,10 @@ class MediaDownload {
     String? targetDirectory = await filesystem_picker.FilesystemPicker.open(
         title: 'Save to folder',
         context: context,
-        rootDirectory: rootDirectory!,
+        rootDirectory: rootDirectory,
         pickText: 'Save file to this folder');
     print(targetDirectory);
-    final taskId = await FlutterDownloader.enqueue(
+    await FlutterDownloader.enqueue(
       url: mainApi + '/media/uploaded/1ad40efd-2ea2-4cea-908c-47ee31daa9d1',
       savedDir: targetDirectory!,
       showNotification:
