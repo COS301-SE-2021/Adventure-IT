@@ -151,6 +151,7 @@ class _PieChart extends State<PieChartCaller> {
 
   @override
   initState() {
+    super.initState();
     data = [
       Data('Accommodation', ((categories!.elementAt(0) / total!) * 100).toInt(),
           const Color(0xff3063b4)),

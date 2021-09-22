@@ -860,8 +860,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                   image: new DecorationImage(
                                     //TODO: operand can't be null (always false)
                                       image: entryModel.entries!.elementAt(
-                                          index).location.photoReference ==
-                                          null ? NetworkImage(
+                                          index).location.photoReference.compareTo("") == 0 ? NetworkImage(
                                           "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
                                               currentAdventure!.location
                                                   .photoReference +
