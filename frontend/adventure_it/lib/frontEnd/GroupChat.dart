@@ -216,7 +216,7 @@ class _MessageList extends State<MessageList> {
                               leading: CachedNetworkImage(
                                   useOldImageOnUrlChange: true,
                                   imageUrl: "http://"+mainApi +
-                                      "/user/viewPicture/" +
+                                      "user/viewPicture/" +
                                       chatModel.messages!
                                           .elementAt(index)
                                           .sender
