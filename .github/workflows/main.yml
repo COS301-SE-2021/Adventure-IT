@@ -22,8 +22,9 @@ jobs:
         channel: 'beta' # 'dev', 'alpha', default to: 'stable'
      - name: Set up flutter
        working-directory: frontend/adventure_it
-       run: flutter pub get
-
+       run: |
+        flutter pub get
+        flutter analyze
   
 # jobs:
 #   build:
