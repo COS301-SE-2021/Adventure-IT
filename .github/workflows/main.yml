@@ -19,7 +19,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Install dependencies
-      working-directory: backend/adventure_it/lib/api
+      working-directory: frontend/adventure_it/lib/api
       run: dart pub get
     
       
