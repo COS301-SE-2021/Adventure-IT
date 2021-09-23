@@ -14,13 +14,10 @@ jobs:
     # This job will run on ubuntu virtual machine
     runs-on: ubuntu-latest
     steps:
-    - name: Analyze Dart
-      uses: zgosalvez/github-actions-analyze-dart@v1.5.3
-    - name: Checkout code
-      uses: actions/checkout@v2
     - name: Install dependencies
-      working-directory: frontend/adventure_it/lib/api
-      run: dart pub get
+      run: |
+        dart pub get
+        dart analyze
     
       
     
