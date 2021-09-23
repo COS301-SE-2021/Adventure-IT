@@ -17,9 +17,8 @@ jobs:
     - name: Install dependencies
       working-directory: frontend/adventure_it
       run: |
-        dart pub get
-        dart analyze
-    
+        flutter pub get
+
       
     
 #     # Setup Java environment in order to build the Android app.
