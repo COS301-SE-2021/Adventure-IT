@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The Adventure class
+ * This class defines the attributes of the Adventure entity to set up the table in the database
+ */
+
 @Entity
 public class Adventure{
 
@@ -31,8 +36,12 @@ public class Adventure{
     /**
      * Adventure model Constructor which takes in the following parameters:
      * @param name - The name of the adventure
+     * @param description - The description of the adventure
      * @param adventureId - The UUID of the adventure
      * @param ownerId - The UUID of the creator of the adventure
+     * @param sd - The start date of the adventure
+     * @param ed - The end date of the adventure
+     * @param location - The UUID of the location of the adventure
      */
     public Adventure(String name, String description, UUID adventureId, UUID ownerId, LocalDate sd, LocalDate ed, UUID location){
         this.name=name;
@@ -46,44 +55,32 @@ public class Adventure{
     }
 
     /**
-     * Adventure service to retrieve adventure's name
-     * @return name
+     * Getters and Setters
      */
     public String getName(){
         return name;
     }
 
-    /**
-     * Adventure service to set adventure's name
-     * @param  name - The name of the adventure to be set
-     */
     public void setName(String name){
         this.name = name;
     }
 
-    /**
-     * Adventure service to retrieve adventure's id
-     * @return id
-     */
     public UUID getAdventureId(){
         return adventureId;
     }
 
-    /**
-     * Adventure service to retrieve adventure's owner
-     * @return owner
-     */
     public UUID getOwnerId(){
         return ownerId;
     }
-
 
     public List<UUID> getAttendees(){
         return this.attendees;
     }
 
     public LocalDate getStartDate(){return this.startDate;}
+
     public LocalDate getEndDate(){return this.endDate;}
+
     public String getDescription() {
         return description;
     }
@@ -92,11 +89,9 @@ public class Adventure{
         return id;
     }
 
-
     public void setLocation(UUID location) {
         this.location = location;
     }
-
 
     public void setDescription(String description) {
         this.description = description;

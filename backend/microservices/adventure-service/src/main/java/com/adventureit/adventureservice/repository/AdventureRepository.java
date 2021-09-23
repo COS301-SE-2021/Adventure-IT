@@ -7,6 +7,10 @@ import com.adventureit.adventureservice.entity.Adventure;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The Adventure Repository
+ * This repository is used to make queries to the adventure database
+ */
 @Repository
 public interface AdventureRepository extends JpaRepository<Adventure,Long>{
     Adventure findByAdventureId(UUID adventureId);
