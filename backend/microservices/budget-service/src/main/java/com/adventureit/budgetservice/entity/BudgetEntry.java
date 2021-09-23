@@ -7,6 +7,10 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * The Budget Entry class
+ * This class defines the attributes of the Budget Entry entity to set up the table in the database
+ */
 @Entity
 public class BudgetEntry{
     @Id
@@ -20,9 +24,22 @@ public class BudgetEntry{
     Category category;
     LocalDateTime timestamp;
 
+    /**
+     * Default constructor
+     */
     public BudgetEntry() {
     }
 
+    /**
+     * Budget model Constructor which takes in the following parameters:
+     * @param id - The UUID of the budget entry
+     * @param entryContainerID - The UUID of the budget the entry belongs to
+     * @param amount - The amount of the transaction
+     * @param title - The title of the budget entry
+     * @param description - The description of the budget entry
+     * @param category - The category of the budget entry
+     * @param payer - The payer of the transaction
+     */
     public BudgetEntry(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, String payer){
         this.budgetEntryID = id;
         this.entryContainerID = entryContainerID;
@@ -34,6 +51,15 @@ public class BudgetEntry{
         this.timestamp = LocalDateTime.now();
     }
 
+    /**
+     * Budget model Constructor which takes in the following parameters:
+     * @param entryContainerID - The UUID of the budget the entry belongs to
+     * @param amount - The amount of the transaction
+     * @param title - The title of the budget entry
+     * @param description - The description of the budget entry
+     * @param category - The category of the budget entry
+     * @param payer - The payer of the transaction
+     */
     public BudgetEntry(UUID entryContainerID, double amount, String title, String description, Category category, String payer){
         this.budgetEntryID = UUID.randomUUID();
         this.entryContainerID = entryContainerID;
@@ -45,6 +71,9 @@ public class BudgetEntry{
         this.timestamp = LocalDateTime.now();
     }
 
+    /**
+     * Getters and Setters
+     */
     public UUID getId() {
         return budgetEntryID;
     }

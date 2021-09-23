@@ -9,10 +9,12 @@ import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * The Report Budget Entity class
+ * This class defines the attributes of the Report Budget Entity to set up the table in the database
+ */
 @Entity
 public class ReportBudgetEntity {
-
-
         @Id
         private UUID budgetEntryID;
         private UUID entryContainerID;
@@ -24,9 +26,23 @@ public class ReportBudgetEntity {
         Category category;
         LocalDateTime timestamp;
 
+        /**
+        *
+        * Default constructor
+        */
         public ReportBudgetEntity() {
         }
 
+        /**
+        * Budget model Constructor which takes in the following parameters:
+        * @param id - The UUID of the entry
+        * @param entryContainerID - The UUID of the budget
+        * @param amount - The amount of the transaction
+        * @param title - The title of the budget
+        *  @param description - The description of the budget
+        *  @param category - The category of the budget
+        *  @param payer - The payer of the trasaction
+        */
         public ReportBudgetEntity(UUID id, UUID entryContainerID, double amount, String title, String description, Category category, String payer){
             this.budgetEntryID = id;
             this.entryContainerID = entryContainerID;
@@ -38,6 +54,15 @@ public class ReportBudgetEntity {
             this.timestamp = LocalDateTime.now();
         }
 
+        /**
+        * Budget model Constructor which takes in the following parameters:
+        * @param entryContainerID - The UUID of the budget
+        * @param amount - The amount of the transaction
+        * @param title - The title of the budget
+        *  @param description - The description of the budget
+        *  @param category - The category of the budget
+        *  @param payer - The payer of the trasaction
+        */
         public ReportBudgetEntity(UUID entryContainerID, double amount, String title, String description, Category category, String payer){
             this.budgetEntryID = UUID.randomUUID();
             this.entryContainerID = entryContainerID;
@@ -49,6 +74,9 @@ public class ReportBudgetEntity {
             this.timestamp = LocalDateTime.now();
         }
 
+        /**
+        * Getter and Setters
+        */
         public UUID getId() {
             return budgetEntryID;
         }
