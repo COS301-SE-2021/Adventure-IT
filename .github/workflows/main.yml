@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Install dependencies
-      working-directory: frontend/adventure_it
+      working-directory: frontend
       run: |
         flutter pub get
 
