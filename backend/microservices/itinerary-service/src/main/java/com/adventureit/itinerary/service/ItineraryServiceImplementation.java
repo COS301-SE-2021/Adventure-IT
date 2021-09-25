@@ -414,6 +414,28 @@ public class ItineraryServiceImplementation implements ItineraryService {
     }
 
     @Override
+    public void deleteAllByAdventure(UUID id) {
+        List<Itinerary> itineraries = itineraryRepository.findAllByAdventureID(id);
+        List<ItineraryEntry> entries = new ArrayList<>();
+        if(itineraries == null || itineraries.isEmpty()){
+            return;
+        }
+
+        for (Itinerary itinerary:itineraries) {
+            entries.addAll(itineraryEntryRepository.findAllByEntryContainerID(itinerary.getId()));
+            itineraryRepository.delete(itinerary);
+        }
+
+        if(entries.isEmpty()){
+            return;
+        }
+
+        for (ItineraryEntry entry:entries) {
+            itineraryEntryRepository.delete(entry);
+        }
+    }
+
+    @Override
     public String mockPopulate() {
         final String MOCK_ADV_ID = "948f3e05-4bca-49ba-8955-fb936992fe02";
         final UUID mockItineraryID1 = UUID.fromString("d99dde68-664a-4618-9bb6-4b5dca7d40a8");

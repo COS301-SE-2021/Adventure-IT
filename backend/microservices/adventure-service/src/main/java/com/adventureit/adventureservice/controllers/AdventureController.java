@@ -60,7 +60,7 @@ public class AdventureController {
         return adventureServiceImplementation.createAdventure(req);
     }
 
-    @DeleteMapping("/remove/{id}/{userID}")
+    @GetMapping("/remove/{id}/{userID}")
     public RemoveAdventureResponse removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) {
         return adventureServiceImplementation.removeAdventure(id, userID);
     }

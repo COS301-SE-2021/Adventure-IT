@@ -169,14 +169,16 @@ public class AdventureServiceImplementation implements AdventureService {
         if(!retrievedAdventure.getAttendees().contains(userID)){
             throw new UserNotInAdventureException("User does not belong to Adventure");
         }
+        boolean flag = false;
 
         retrievedAdventure.getAttendees().remove(userID);
 
         if(retrievedAdventure.getAttendees().isEmpty()){
             adventureRepository.deleteAdventureByAdventureId(id);
+            flag = true;
         }
 
-        return new RemoveAdventureResponse(true, "Adventure successfully removed");
+        return new RemoveAdventureResponse(true, "Adventure successfully removed", flag);
     }
 
     /**

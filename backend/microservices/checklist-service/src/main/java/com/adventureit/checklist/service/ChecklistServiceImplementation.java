@@ -246,6 +246,27 @@ public class ChecklistServiceImplementation implements ChecklistService {
     }
 
     @Override
+    public void deleteAllByAdventure(UUID id) {
+        List<Checklist> checklists = checklistRepository.findAllByAdventureID(id);
+        List<ChecklistEntry> entries = new ArrayList<>();
+        if(checklists == null || checklists.isEmpty()){
+            return;
+        }
+
+        for (Checklist checklist:checklists) {
+            entries.addAll(checklistEntryRepository.findAllByEntryContainerID(checklist.getId()));
+            checklistRepository.delete(checklist);
+        }
+
+        if(entries.isEmpty()){
+            return;
+        }
+        for (ChecklistEntry entry:entries) {
+            checklistEntryRepository.delete(entry);
+        }
+    }
+
+    @Override
     public String mockPopulate() {
         final UUID mockChecklistID1 = UUID.fromString("47a905f7-132e-430f-8ddb-9f6df642bdfd");
         final UUID mockChecklistID2 = UUID.fromString("ab98913a-ce6a-4066-be7b-bca303156afc");

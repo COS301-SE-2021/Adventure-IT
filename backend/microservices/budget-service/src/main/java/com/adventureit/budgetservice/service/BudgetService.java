@@ -27,4 +27,5 @@ public interface BudgetService {
     double calculateExpensesPerUser(UUID budgetID, String userName );
     List<Integer> getEntriesPerCategory(UUID adventureID);
     BudgetResponseDTO getBudgetByBudgetEntryId(UUID budgetId);
+    void removeAllByAdventure(UUID id);
 }

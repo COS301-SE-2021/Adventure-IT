@@ -12,6 +12,7 @@ import com.adventureit.shareddtos.budget.Category;
 import com.adventureit.shareddtos.budget.requests.EditBudgetRequest;
 import com.adventureit.shareddtos.budget.requests.SoftDeleteRequest;
 import com.adventureit.shareddtos.budget.responses.*;
+import javassist.NotFoundException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -482,4 +483,24 @@ public class BudgetServiceImplementation implements BudgetService {
         }
     }
 
+    @Override
+    public void removeAllByAdventure(UUID id) {
+        List<Budget> budgets = budgetRepository.findAllByAdventureID(id);
+        List<BudgetEntry> entries = new ArrayList<>();
+        if(budgets == null || budgets.isEmpty()){
+            return;
+        }
+
+        for (Budget b: budgets) {
+            entries.addAll(budgetEntryRepository.findBudgetEntryByEntryContainerID(b.getBudgetId()));
+            budgetRepository.delete(b);
+        }
+
+        if(entries.isEmpty()){
+            return;
+        }
+        for (BudgetEntry entry:entries) {
+            budgetEntryRepository.delete(entry);
+        }
+    }
 }

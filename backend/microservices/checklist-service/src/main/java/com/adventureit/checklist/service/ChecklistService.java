@@ -22,5 +22,6 @@ public interface ChecklistService {
      String mockPopulate();
      ChecklistDTO getChecklistByChecklistId(UUID checklistId);
      List<ChecklistResponseDTO> viewChecklistsByAdventure(UUID id);
-    ChecklistDTO getChecklistByChecklistEntryId(UUID checklistEntryId);
+     ChecklistDTO getChecklistByChecklistEntryId(UUID checklistEntryId);
+     void deleteAllByAdventure(UUID id);
 }

@@ -251,7 +251,12 @@ public class ChatServiceImplementation implements ChatService {
             throw new ChatNotFoundException(id);
         }
 
-       groupChatRepository.delete(chat);
+        List<Message> messages = messageRepository.findAllByChatId(id);
+        groupChatRepository.delete(chat);
+
+        for (Message message:messages) {
+            messageRepository.delete(message);
+        }
     }
 
     public ColorPairDTO convertToColorPairDTO(ColorPair c){
@@ -260,5 +265,15 @@ public class ChatServiceImplementation implements ChatService {
 
     public MessageDTO convertToMessageDTO(Message m){
         return new MessageDTO(m.getId(), m.getSender(), m.getChatId(), m.getPayload(),m.getTimestamp());
+    }
+
+    @Override
+    public void deleteByAdventure(UUID id) {
+        GroupChat chat = groupChatRepository.findAllByAdventureID(id);
+        if(chat == null){
+            throw new ChatNotFoundException();
+        }
+
+        deleteGroupChat(chat.getGroupChatId());
     }
 }

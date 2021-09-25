@@ -35,6 +35,10 @@ public class MainControllerAdventureReroute {
     private static final String CHAT_PORT = "9010";
     private static final String TIMELINE_PORT = "9012";
     private static final String LOCATION_PORT = "9006";
+    private static final String BUDGET_PORT = "9007";
+    private static final String CHECKLIST_PORT = "9008";
+    private static final String ITINERARY_PORT = "9009";
+    private static final String MEDIA_PORT = "9005";
     private static final String GET_USER = "/user/getUser/";
     private static final String CREATE_TIMELINE = "/timeline/createTimeline";
     private static final String ERROR = "Empty Error";
@@ -135,7 +139,17 @@ public class MainControllerAdventureReroute {
     public void removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT};
         service.pingCheck(ports,restTemplate);
-        restTemplate.delete(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/remove/"+id+"/"+userID, RemoveAdventureResponse.class);
+
+        RemoveAdventureResponse response = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/remove/"+id+"/"+userID, RemoveAdventureResponse.class);
+        assert response != null;
+        if(response.isDeleteAdventure()){
+            restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/deleteAllByAdventure/"+id, String.class);
+            restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/deleteAllByAdventure/"+id, String.class);
+            restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/deleteByAdventure/"+id, String.class);
+            restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/deleteAllByAdventure/"+id, String.class);
+            restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/deleteAllByAdventure/"+id, String.class);
+            restTemplate.getForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/deleteTimelineByAdventureID/"+id, String.class);
+        }
     }
 
     @GetMapping("/addAttendees/{adventureID}/{userID}")

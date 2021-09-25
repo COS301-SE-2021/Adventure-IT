@@ -178,7 +178,7 @@ public class AdventureServiceUnitTests {
         String message = "Adventure was successfully removed";
 
         //When
-        RemoveAdventureResponse response = new RemoveAdventureResponse(success,message);
+        RemoveAdventureResponse response = new RemoveAdventureResponse(success,message,false);
 
         //Then
         Assertions.assertEquals(success, response.isSuccess());

@@ -33,4 +33,5 @@ public interface ItineraryService {
      String deregisterUser(UUID entryID, UUID userID);
      StartDateEndDateResponseDTO getStartAndEndDate(UUID id);
      Map<UUID,Boolean> getRegisteredUsers(UUID id);
+     void deleteAllByAdventure(UUID id);
 }

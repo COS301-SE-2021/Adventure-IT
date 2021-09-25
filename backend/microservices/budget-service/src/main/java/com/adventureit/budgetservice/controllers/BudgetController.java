@@ -139,6 +139,8 @@ public class BudgetController {
 		return budgetServiceImplementation.getBudgetByBudgetEntryId(budgetId);
 	}
 
-
-
+	@GetMapping("/deleteAllByAdventure/{id}")
+	public void deleteAllByAdventure(@PathVariable UUID id){
+		budgetServiceImplementation.removeAllByAdventure(id);
+	}
 }

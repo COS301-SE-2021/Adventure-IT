@@ -22,4 +22,5 @@ public interface ChatService {
      DirectChatResponseDTO getDirectChatByID(UUID id);
      void deleteDirectChat(UUID id);
      void deleteGroupChat(UUID id);
+     void deleteByAdventure(UUID id);
 }
