@@ -780,7 +780,7 @@ class AlertBox extends StatelessWidget {
                                             useOldImageOnUrlChange: true,
                                             imageUrl:
                                             mainApi+"/user/viewPicture/" +
-                                            friendModel.friends!.elementAt(index).userID,
+                                            friendModel.friends!.elementAt(index).profileID,
                                             imageBuilder: (context, imageProvider) => Container(
                                                 width:70,
                                                 height: 70,
