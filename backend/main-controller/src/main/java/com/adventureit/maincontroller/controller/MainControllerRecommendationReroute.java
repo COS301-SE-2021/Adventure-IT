@@ -121,7 +121,7 @@ public class MainControllerRecommendationReroute {
     @GetMapping("populate")
     public String Populate() {
         List<String> users = new ArrayList<>(List.of("c74b2567-85e8-465e-a1ff-8ad6e22b8021", "15986343-f1f2-4885-9991-e143fa663af5", "491a9c51-0fe3-46e7-aff7-7f65e7d34b7e", "05bbe608-eb77-4c62-b824-f4a3a0568e7f", "80e1b64d-fd53-4f3a-84a9-14541caff723"));
-        List<String> locations = new ArrayList<>(List.of("Table Mountain", "Lions Head", "Kirstenbosch Botanical Gardens", "Boulders Beach", "Robben Island", "Cape Point", "Kruger National Park", "Madikwe Game Reserve", "V&A Waterfront", "Franschhoek Motor Museum", "Newlands Brewery", "Groot Constantia", "Cango Caves", "The Big Tree at Tsitsikamma", "Ostrich Farm, Oudtshoorn", "Addo Elephant National Park", "Bathurst", "Jeffrey’s Bay", "The Big Hole, Kimberley", "Augrabies Falls", "The Apartheid Museum", "Gold Reef City", "Newtown Cultural Precinct", "Satyagraha House", "Nelson Mandela Square", "Montecasino", "SAB World of Beer", "Voortrekker Monument", "The Union Buildings", "Maropeng", "Sterkfontein Caves", "Hartbeespoort", "The Palace of the Lost City", "Blyde River Canyon", "uShaka Marine World", "Valley of a Thousand Hills", "The Drakensberg", "Howick Falls", "Gateway Theatre of Shopping"));
+        List<String> locations = new ArrayList<>(List.of("Two Oceans Aquarium","Simon's Town Museum","Royal Observatory, Cape of Good Hope","Rhodes Memorial","Ratanga Junction","Monkeyland Primate Sanctuary","Mariner's wharf","Heart of Cape Town Museum","Chapman's peak","District Six Museum","Duiker Island","Cape Town Holocaust Centre","Cape Medical Museum","Castle of Good Hope","Pilansberg","Lion Park","Lesedi Cultural Village","Sudwala Caves","Oribi Gorge","Wonder Cave","Oriental Plaza","Melrose House","Market Theatre","Nelson Mandela House","Kruger House","Hector Pieterson Museum","Cradle of Humankind","Basotho Cultural Village","Vredefort Dome","Grahamstown","Namaqualand","Table Mountain", "Lions Head", "Kirstenbosch Botanical Gardens", "Boulders Beach", "Robben Island", "Cape Point", "Kruger National Park", "Madikwe Game Reserve", "V&A Waterfront", "Franschhoek Motor Museum", "Newlands Brewery", "Groot Constantia", "Cango Caves", "The Big Tree at Tsitsikamma", "Ostrich Farm, Oudtshoorn", "Addo Elephant National Park", "Bathurst", "Jeffrey’s Bay", "The Big Hole, Kimberley", "Augrabies Falls", "The Apartheid Museum", "Gold Reef City", "Newtown Cultural Precinct", "Satyagraha House", "Nelson Mandela Square", "Montecasino", "SAB World of Beer", "Voortrekker Monument", "The Union Buildings", "Maropeng", "Sterkfontein Caves", "Hartbeespoort", "The Palace of the Lost City", "Blyde River Canyon", "uShaka Marine World", "Valley of a Thousand Hills", "The Drakensberg", "Howick Falls", "Gateway Theatre of Shopping"));
         for (int i = 0; i < locations.size(); i++) {
             UUID createdLocationUUID = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/" + locations.get(i)+" South Africa", UUID.class);
             try {
@@ -134,11 +134,14 @@ public class MainControllerRecommendationReroute {
             }
             for(int k=0;k<users.size();k++)
             {
-                int check=(int)Math.random() * (50 - 0);
-                if(check>25) {
+                int check=(int)Math.random() * (30 - 0);
+                if(check>20) {
                     restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/like/" + users.get(k) + "/" + createdLocationUUID, String.class);
                 }
-                restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/visit/" + users.get(k) + "/" + createdLocationUUID, String.class);
+                if(check>10)
+                {
+                    restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/visit/" + users.get(k) + "/" + createdLocationUUID, String.class);
+                }
             }
         }
         return "Completed";
