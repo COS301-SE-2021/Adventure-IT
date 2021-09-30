@@ -177,9 +177,10 @@ class _MessageList extends State<MessageList> {
             width: MediaQuery.of(context).size.width <= 500
                 ? MediaQuery.of(context).size.width
                 : MediaQuery.of(context).size.width * 0.9,
-            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width <= 500
-                ? 0
-                : MediaQuery.of(context).size.width * 0.05),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width <= 500
+                    ? 0
+                    : MediaQuery.of(context).size.width * 0.05),
             height: double.infinity,
             child: GroupedListView<dynamic, String>(
                 controller: _scrollController,
@@ -215,7 +216,8 @@ class _MessageList extends State<MessageList> {
                             child: ListTile(
                               leading: CachedNetworkImage(
                                   useOldImageOnUrlChange: true,
-                                  imageUrl: "http://"+mainApi +
+                                  imageUrl: "http://" +
+                                      mainApi +
                                       "user/viewPicture/" +
                                       chatModel.messages!
                                           .elementAt(index)
@@ -247,7 +249,8 @@ class _MessageList extends State<MessageList> {
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
                                               fit: BoxFit.fill,
-                                              image: AssetImage("pfp.png")))),
+                                              image: AssetImage(
+                                                  "custom_images/pfp.png")))),
                                   errorWidget: (context, url, error) =>
                                       Container(
                                           width: 70,
@@ -261,8 +264,8 @@ class _MessageList extends State<MessageList> {
                                               shape: BoxShape.circle,
                                               image: DecorationImage(
                                                   fit: BoxFit.fill,
-                                                  image:
-                                                      AssetImage("pfp.png"))))),
+                                                  image: AssetImage(
+                                                      "custom_images/pfp.png"))))),
                               title: Row(children: [
                                 Expanded(
                                     child: Text(

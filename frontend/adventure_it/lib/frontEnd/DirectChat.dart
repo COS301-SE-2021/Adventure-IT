@@ -24,9 +24,9 @@ class DirectChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DirectChatModel x=DirectChatModel(
-        UserApi.getInstance().getUserProfile()!.userID,user2!.userID,context);
-        FlutterMessagingChangeNotifier.setDirectChatChangeNotifier(x);
+    DirectChatModel x = DirectChatModel(
+        UserApi.getInstance().getUserProfile()!.userID, user2!.userID, context);
+    FlutterMessagingChangeNotifier.setDirectChatChangeNotifier(x);
     return ChangeNotifierProvider(
         create: (context) => x,
         builder: (context, widget) => Scaffold(
@@ -38,7 +38,8 @@ class DirectChat extends StatelessWidget {
                         style: new TextStyle(
                             color:
                                 Theme.of(context).textTheme.bodyText1!.color))),
-                iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
+                iconTheme: IconThemeData(
+                    color: Theme.of(context).textTheme.bodyText1!.color),
                 backgroundColor: Theme.of(context).primaryColorDark),
             body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -170,9 +171,10 @@ class _MessageList extends State<MessageList> {
             width: MediaQuery.of(context).size.width <= 500
                 ? MediaQuery.of(context).size.width
                 : MediaQuery.of(context).size.width * 0.9,
-            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width <= 500
-                ? 0
-                : MediaQuery.of(context).size.width * 0.05),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width <= 500
+                    ? 0
+                    : MediaQuery.of(context).size.width * 0.05),
             height: double.infinity,
             child: GroupedListView<dynamic, String>(
                 controller: _scrollController,
@@ -196,107 +198,125 @@ class _MessageList extends State<MessageList> {
                           color: Theme.of(context).textTheme.bodyText1!.color),
                     )),
                 indexedItemBuilder: (context, element, index) {
-                  return Row(children:[
-                    chatModel.messages!.elementAt(index).sender.userID==UserApi.getInstance().getUserProfile()!.userID?Spacer():Container(),
-                    Expanded(flex: 2,child:Card(
-                      color: Theme.of(context).primaryColorDark,
-                      child: ListTile(
-                        leading: CachedNetworkImage( useOldImageOnUrlChange: true, imageUrl:
-                       mainApi+"user/viewPicture/" +
-                            chatModel.messages!.elementAt(index).sender.profileID,
-                            imageBuilder: (context, imageProvider) => Container(
-                                width:70,
-                                height: 70,
-                                decoration: new BoxDecoration(
-                                    border: Border.all(
-                                      color: Theme.of(context).accentColor,
-                                      width: 3,
-                                    ),
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: imageProvider
-                                    ))),
-
-                            placeholder: (context, url) => Container(
-                                width: 70,
-                                height: 70,
-                                decoration: new BoxDecoration(
-                                    border: Border.all(
-                                      color: Theme.of(context).accentColor,
-                                      width: 3,
-                                    ),
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: AssetImage("pfp.png")
-                                    ))),
-
-                            errorWidget: (context, url, error) => Container(
-                                width: 70,
-                                height: 70,
-                                decoration: new BoxDecoration(
-                                    border: Border.all(
-                                      color: Theme.of(context).accentColor,
-                                      width: 3,
-                                    ),
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: AssetImage("pfp.png")
-                                    )))),
-                        title: Row(children: [
-                          Expanded(
-                              child: Text(
-                                  chatModel.messages!
-                                      .elementAt(index)
-                                      .sender
-                                      .username,
-                                  textAlign: TextAlign.left,
+                  return Row(children: [
+                    chatModel.messages!.elementAt(index).sender.userID ==
+                            UserApi.getInstance().getUserProfile()!.userID
+                        ? Spacer()
+                        : Container(),
+                    Expanded(
+                        flex: 2,
+                        child: Card(
+                            color: Theme.of(context).primaryColorDark,
+                            child: ListTile(
+                              leading: CachedNetworkImage(
+                                  useOldImageOnUrlChange: true,
+                                  imageUrl: mainApi +
+                                      "user/viewPicture/" +
+                                      chatModel.messages!
+                                          .elementAt(index)
+                                          .sender
+                                          .profileID,
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                          width: 70,
+                                          height: 70,
+                                          decoration: new BoxDecoration(
+                                              border: Border.all(
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                                width: 3,
+                                              ),
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  fit: BoxFit.fill,
+                                                  image: imageProvider))),
+                                  placeholder: (context, url) => Container(
+                                      width: 70,
+                                      height: 70,
+                                      decoration: new BoxDecoration(
+                                          border: Border.all(
+                                            color:
+                                                Theme.of(context).accentColor,
+                                            width: 3,
+                                          ),
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              fit: BoxFit.fill,
+                                              image: AssetImage(
+                                                  "custom_images/pfp.png")))),
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                          width: 70,
+                                          height: 70,
+                                          decoration: new BoxDecoration(
+                                              border: Border.all(
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                                width: 3,
+                                              ),
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  fit: BoxFit.fill,
+                                                  image: AssetImage(
+                                                      "custom_images/pfp.png"))))),
+                              title: Row(children: [
+                                Expanded(
+                                    child: Text(
+                                        chatModel.messages!
+                                            .elementAt(index)
+                                            .sender
+                                            .username,
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            fontSize: 15 *
+                                                MediaQuery.of(context)
+                                                    .textScaleFactor,
+                                            fontWeight: FontWeight.bold,
+                                            color: chatModel.messages!
+                                                        .elementAt(index)
+                                                        .sender
+                                                        .userID ==
+                                                    UserApi.getInstance()
+                                                        .getUserProfile()!
+                                                        .userID
+                                                ? Theme.of(context).accentColor
+                                                : Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color))),
+                                Expanded(
+                                    child: Text(
+                                        getTime(DateTime.parse(chatModel
+                                            .messages!
+                                            .elementAt(index)
+                                            .timestamp)),
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontSize: 15 *
+                                                MediaQuery.of(context)
+                                                    .textScaleFactor,
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color)))
+                              ]),
+                              subtitle: Text(
+                                  chatModel.messages!.elementAt(index).message,
                                   style: TextStyle(
                                       fontSize: 15 *
                                           MediaQuery.of(context)
                                               .textScaleFactor,
-                                      fontWeight: FontWeight.bold,
-                                      color: chatModel.messages!
-                                                  .elementAt(index)
-                                                  .sender
-                                                  .userID ==
-                                              UserApi.getInstance()
-                                                  .getUserProfile()!
-                                                  .userID
-                                          ? Theme.of(context).accentColor
-                                          : Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color))),
-                          Expanded(
-                              child: Text(
-                                  getTime(DateTime.parse(chatModel.messages!
-                                      .elementAt(index)
-                                      .timestamp)),
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                      fontSize: 15 *
-                                          MediaQuery.of(context)
-                                              .textScaleFactor,
-                                      fontWeight: FontWeight.bold,
                                       color: Theme.of(context)
                                           .textTheme
                                           .bodyText1!
-                                          .color)))
-                        ]),
-                        subtitle: Text(
-                            chatModel.messages!.elementAt(index).message,
-                            style: TextStyle(
-                                fontSize:
-                                    15 * MediaQuery.of(context).textScaleFactor,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .color)),
-                      ))),
-                    chatModel.messages!.elementAt(index).sender.userID!=UserApi.getInstance().getUserProfile()!.userID?Spacer():Container(),]);
+                                          .color)),
+                            ))),
+                    chatModel.messages!.elementAt(index).sender.userID !=
+                            UserApi.getInstance().getUserProfile()!.userID
+                        ? Spacer()
+                        : Container(),
+                  ]);
                 }));
       } else {
         return Center(

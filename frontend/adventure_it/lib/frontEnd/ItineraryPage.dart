@@ -1782,7 +1782,8 @@ class RegisteredUsers extends StatelessWidget {
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
-                                          image: AssetImage("pfp.png")))),
+                                          image: AssetImage(
+                                              "custom_images/pfp.png")))),
                               errorWidget: (context, url, error) => Container(
                                   width: 70,
                                   height: 70,
@@ -1794,7 +1795,8 @@ class RegisteredUsers extends StatelessWidget {
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
-                                          image: AssetImage("pfp.png"))))),
+                                          image: AssetImage(
+                                              "custom_images/pfp.png"))))),
                           title: Text(
                               registeredModel.users!
                                   .elementAt(index)

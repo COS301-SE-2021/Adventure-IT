@@ -18,7 +18,7 @@ public class MainControllerNotificationReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "http://internal-microservices-473352023.us-east-2.elb.amazonaws.com";
+    private static final String INTERNET_PORT = "http://notification-service.docker";
     private static final String NOTIFICATION_PORT = "9004";
 
     @Autowired

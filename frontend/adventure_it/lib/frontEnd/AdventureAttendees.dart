@@ -24,9 +24,9 @@ class AdventureAttendees extends StatelessWidget {
   CurrentLocation? current;
   BuildContext? context;
 
-  AdventureAttendees(Adventure a,context) {
+  AdventureAttendees(Adventure a, context) {
     this.currentAdventure = a;
-    this.context=context;
+    this.context = context;
 
     bool serviceEnabled;
     PermissionStatus permissionGranted;
@@ -46,7 +46,7 @@ class AdventureAttendees extends StatelessWidget {
         if (permissionGranted == PermissionStatus.granted && serviceEnabled) {
           location.getLocation().then((value) {
             currentLocation = value;
-            LocationApi.setCurrentLocation(currentLocation!,context);
+            LocationApi.setCurrentLocation(currentLocation!, context);
           });
         }
       });
@@ -56,7 +56,7 @@ class AdventureAttendees extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-        value: AdventureAttendeesModel(this.currentAdventure!,context),
+        value: AdventureAttendeesModel(this.currentAdventure!, context),
         builder: (context, widget) => Scaffold(
             drawer: NavDrawer(),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -187,8 +187,11 @@ class _Carousel extends State<Carousel> {
             ),
             itemCount: attendeeModel!.attendees!.length,
             itemBuilder: (BuildContext context, int index, int pageViewIndex) =>
-                CachedNetworkImage(  useOldImageOnUrlChange: true,
-                    imageUrl: mainApi+"user/viewPicture/"+attendeeModel!.attendees!.elementAt(index).profileID,
+                CachedNetworkImage(
+                    useOldImageOnUrlChange: true,
+                    imageUrl: mainApi +
+                        "user/viewPicture/" +
+                        attendeeModel!.attendees!.elementAt(index).profileID,
                     imageBuilder: (context, imageProvider) => Container(
                         width: 100,
                         height: 100,
@@ -199,10 +202,7 @@ class _Carousel extends State<Carousel> {
                             ),
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: imageProvider
-                            ))),
-
+                                fit: BoxFit.fill, image: imageProvider))),
                     placeholder: (context, url) => Container(
                         width: 100,
                         height: 100,
@@ -214,9 +214,8 @@ class _Carousel extends State<Carousel> {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 fit: BoxFit.fitWidth,
-                                image: AssetImage("pfp.png")
-                            ))),
-
+                                image: AssetImage(
+                                    "custom_images/pfp.png")))),
                     errorWidget: (context, url, error) => Container(
                         width: 100,
                         height: 100,
@@ -228,8 +227,8 @@ class _Carousel extends State<Carousel> {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 fit: BoxFit.fitWidth,
-                                image: AssetImage("pfp.png")
-                            )))),
+                                image: AssetImage(
+                                    "custom_images/pfp.png"))))),
           )),
       Row(children: [
         Spacer(),
@@ -242,9 +241,15 @@ class _Carousel extends State<Carousel> {
                       carouselController.previousPage();
                       _markers.clear();
                       _markers.add(Marker(
-                        onTap:(){
-                          MapsLauncher.launchCoordinates(double.parse(attendeeModel!.locations!.elementAt(i).latitude), double.parse(attendeeModel!.locations!.elementAt(i).longitude));
-                        },
+                          onTap: () {
+                            MapsLauncher.launchCoordinates(
+                                double.parse(attendeeModel!.locations!
+                                    .elementAt(i)
+                                    .latitude),
+                                double.parse(attendeeModel!.locations!
+                                    .elementAt(i)
+                                    .longitude));
+                          },
                           markerId: MarkerId(
                               attendeeModel!.attendees!.elementAt(i).username),
                           infoWindow: InfoWindow(
@@ -263,8 +268,14 @@ class _Carousel extends State<Carousel> {
                       carouselController.previousPage();
                       _markers.clear();
                       _markers.add(Marker(
-                          onTap:(){
-                            MapsLauncher.launchCoordinates(double.parse(attendeeModel!.locations!.elementAt(i).latitude), double.parse(attendeeModel!.locations!.elementAt(i).longitude));
+                          onTap: () {
+                            MapsLauncher.launchCoordinates(
+                                double.parse(attendeeModel!.locations!
+                                    .elementAt(i)
+                                    .latitude),
+                                double.parse(attendeeModel!.locations!
+                                    .elementAt(i)
+                                    .longitude));
                           },
                           markerId: MarkerId(
                               attendeeModel!.attendees!.elementAt(i).username),
@@ -353,8 +364,14 @@ class _Carousel extends State<Carousel> {
                       carouselController.nextPage();
                       _markers.clear();
                       _markers.add(Marker(
-                          onTap:(){
-                            MapsLauncher.launchCoordinates(double.parse(attendeeModel!.locations!.elementAt(i).latitude), double.parse(attendeeModel!.locations!.elementAt(i).longitude));
+                          onTap: () {
+                            MapsLauncher.launchCoordinates(
+                                double.parse(attendeeModel!.locations!
+                                    .elementAt(i)
+                                    .latitude),
+                                double.parse(attendeeModel!.locations!
+                                    .elementAt(i)
+                                    .longitude));
                           },
                           markerId: MarkerId(
                               attendeeModel!.attendees!.elementAt(i).username),
@@ -374,8 +391,14 @@ class _Carousel extends State<Carousel> {
                       carouselController.nextPage();
                       _markers.clear();
                       _markers.add(Marker(
-                          onTap:(){
-                            MapsLauncher.launchCoordinates(double.parse(attendeeModel!.locations!.elementAt(i).latitude), double.parse(attendeeModel!.locations!.elementAt(i).longitude));
+                          onTap: () {
+                            MapsLauncher.launchCoordinates(
+                                double.parse(attendeeModel!.locations!
+                                    .elementAt(i)
+                                    .latitude),
+                                double.parse(attendeeModel!.locations!
+                                    .elementAt(i)
+                                    .longitude));
                           },
                           markerId: MarkerId(
                               attendeeModel!.attendees!.elementAt(i).username),
@@ -414,8 +437,14 @@ class _Carousel extends State<Carousel> {
                       setState(() {
                         _markers.clear();
                         _markers.add(Marker(
-                            onTap:(){
-                              MapsLauncher.launchCoordinates(double.parse(attendeeModel!.locations!.elementAt(i).latitude), double.parse(attendeeModel!.locations!.elementAt(i).longitude));
+                            onTap: () {
+                              MapsLauncher.launchCoordinates(
+                                  double.parse(attendeeModel!.locations!
+                                      .elementAt(i)
+                                      .latitude),
+                                  double.parse(attendeeModel!.locations!
+                                      .elementAt(i)
+                                      .longitude));
                             },
                             markerId: MarkerId(attendeeModel!.attendees!
                                 .elementAt(i)

@@ -196,7 +196,7 @@ class CreateAdventure extends State<CreateAdventureCaller> {
                     decoration: new BoxDecoration(
                         shape: BoxShape.circle,
                         image: new DecorationImage(
-                            image: ExactAssetImage('assets/logo.png'),
+                            image: ExactAssetImage('logo.png'),
                             fit: BoxFit.contain
                         )
                     ),

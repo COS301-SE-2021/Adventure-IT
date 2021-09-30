@@ -227,7 +227,7 @@ class GetFriends extends StatelessWidget {
                                                                   fit: BoxFit
                                                                       .fitWidth,
                                                                   image: AssetImage(
-                                                                      "pfp.png")))),
+                                                                      "custom_images/pfp.png")))),
                                               errorWidget: (context, url, error) =>
                                                   Container(
                                                       width: 70,
@@ -246,7 +246,7 @@ class GetFriends extends StatelessWidget {
                                                               image: DecorationImage(
                                                                   fit: BoxFit
                                                                       .fitWidth,
-                                                                  image: AssetImage("pfp.png"))))),
+                                                                  image: AssetImage("custom_images/pfp.png"))))),
                                           title: Text(
                                               friendModel.friends!
                                                   .elementAt(index)
@@ -528,7 +528,7 @@ class GetFriendRequests extends StatelessWidget {
                                                                     fit: BoxFit
                                                                         .fill,
                                                                     image: AssetImage(
-                                                                        "pfp.png")))),
+                                                                        "custom_images/pfp.png")))),
                                                 errorWidget: (context, url,
                                                         error) =>
                                                     Container(
@@ -542,7 +542,7 @@ class GetFriendRequests extends StatelessWidget {
                                                               width: 3,
                                                             ),
                                                             shape: BoxShape.circle,
-                                                            image: DecorationImage(fit: BoxFit.fill, image: AssetImage("pfp.png"))))),
+                                                            image: DecorationImage(fit: BoxFit.fill, image: AssetImage("custom_images/pfp.png"))))),
                                             title: Text(
                                                 friendModel.friends!
                                                     .elementAt(index)

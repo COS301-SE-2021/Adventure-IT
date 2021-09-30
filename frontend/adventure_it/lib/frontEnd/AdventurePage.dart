@@ -806,7 +806,7 @@ class AlertBox extends StatelessWidget {
                                                     shape: BoxShape.circle,
                                                     image: DecorationImage(
                                                         fit: BoxFit.fill,
-                                                        image: AssetImage("pfp.png")
+                                                        image: AssetImage("custom_images/pfp.png")
                                                     ))),
 
                                             errorWidget: (context, url, error) => Container(
@@ -820,7 +820,7 @@ class AlertBox extends StatelessWidget {
                                                     shape: BoxShape.circle,
                                                     image: DecorationImage(
                                                         fit: BoxFit.fill,
-                                                        image: AssetImage("pfp.png")
+                                                        image: AssetImage("custom_images/pfp.png")
                                                     )))),
                                        title: Text(
                                       friendModel.friends!
