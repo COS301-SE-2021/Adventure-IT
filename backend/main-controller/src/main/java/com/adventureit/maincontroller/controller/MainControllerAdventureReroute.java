@@ -1,5 +1,6 @@
 package com.adventureit.maincontroller.controller;
 
+import com.adventureit.maincontroller.Threads.CascadingDeleteThread;
 import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.adventure.requests.CreateAdventureRequest;
@@ -143,12 +144,12 @@ public class MainControllerAdventureReroute {
         RemoveAdventureResponse response = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/remove/"+id+"/"+userID, RemoveAdventureResponse.class);
         assert response != null;
         if(response.isDeleteAdventure()){
-            restTemplate.getForObject(INTERNET_PORT + ":" + BUDGET_PORT + "/budget/deleteAllByAdventure/"+id, String.class);
-            restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/deleteAllByAdventure/"+id, String.class);
-            restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/deleteByAdventure/"+id, String.class);
-            restTemplate.getForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/deleteAllByAdventure/"+id, String.class);
-            restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/deleteAllByAdventure/"+id, String.class);
-            restTemplate.getForObject(INTERNET_PORT + ":" + TIMELINE_PORT + "/timeline/deleteTimelineByAdventureID/"+id, String.class);
+            new CascadingDeleteThread(INTERNET_PORT, BUDGET_PORT, "/budget/deleteAllByAdventure/" ,id);
+            new CascadingDeleteThread(INTERNET_PORT, CHECKLIST_PORT, "/checklist/deleteAllByAdventure/" ,id);
+            new CascadingDeleteThread(INTERNET_PORT, CHAT_PORT, "/chat/deleteByAdventure/" ,id);
+            new CascadingDeleteThread(INTERNET_PORT, ITINERARY_PORT, "/itinerary/deleteAllByAdventure/" ,id);
+            new CascadingDeleteThread(INTERNET_PORT, MEDIA_PORT, "/media/deleteAllByAdventure/" ,id);
+            new CascadingDeleteThread(INTERNET_PORT, TIMELINE_PORT, "/timeline/deleteTimelineByAdventureID/" ,id);
         }
     }
 
