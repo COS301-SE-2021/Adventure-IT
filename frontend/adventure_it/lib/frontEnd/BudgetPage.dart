@@ -114,7 +114,7 @@ class _BudgetPage extends State<BudgetPage>
                                 .color,
                             indicatorSize: TabBarIndicatorSize.tab,
                             tabs: [
-                              Tab(icon: Icon(Icons.payments), text: "Transactions"),
+                              Tab(icon: Icon(Icons.payments), text: "Expenses"),
                               Tab(icon: Icon(Icons.insert_chart_rounded), text: "Report"),
                             ],
                           )),
