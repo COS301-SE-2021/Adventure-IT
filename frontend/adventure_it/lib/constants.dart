@@ -2,14 +2,14 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 final authApiGetToken = kIsWeb
-    ? "http://app.adventure-it.co.za/keycloak/auth/realms/adventure-it/protocol/openid-connect/token"
-    : "http://app.adventure-it.co.za/keycloak/auth/realms/adventure-it/protocol/openid-connect/token";
+    ? "https://app.adventure-it.co.za/keycloak/auth/realms/adventure-it/protocol/openid-connect/token"
+    : "https://app.adventure-it.co.za/keycloak/auth/realms/adventure-it/protocol/openid-connect/token";
 final authApiAdmin = kIsWeb
-    ? "http://app.adventure-it.co.za/keycloak/auth/admin/realms/adventure-it/"
-    : "http://app.adventure-it.co.za/keycloak/auth/admin/realms/adventure-it/";
+    ? "https://app.adventure-it.co.za/keycloak/auth/admin/realms/adventure-it/"
+    : "https://app.adventure-it.co.za/keycloak/auth/admin/realms/adventure-it/";
 final mainApi = kIsWeb
-    ? "http://app.adventure-it.co.za/api"
-    : "http://app.adventure-it.co.za/api";
+    ? "https://app.adventure-it.co.za/api/"
+    : "https://app.adventure-it.co.za/api/";
 final googleMapsKey = "AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
 
 final darkTheme = ThemeData(

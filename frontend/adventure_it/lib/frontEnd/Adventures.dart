@@ -151,7 +151,7 @@ class AdventureList extends StatelessWidget {
                                     decoration: new BoxDecoration(
                                         image: new DecorationImage(
                                             image: NetworkImage(
-                                                "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
+                                                "https://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                                     adventureModel.adventures!
                                                         .elementAt(index)
                                                         .location

@@ -203,7 +203,7 @@ class AdventurePage extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: NetworkImage(
-                            "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
+                            "https://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                 currentAdventure!.location.photoReference +
                                 "&maxwidth=700&key=" +
                                 googleMapsKey),

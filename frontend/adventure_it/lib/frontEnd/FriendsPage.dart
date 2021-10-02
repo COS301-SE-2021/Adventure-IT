@@ -181,7 +181,7 @@ class GetFriends extends StatelessWidget {
                                         child: ListTile(
                                           leading: CachedNetworkImage(
                                               useOldImageOnUrlChange: true,
-                                              imageUrl: "http://" +
+                                              imageUrl:
                                                   mainApi +
                                                   "user/viewPicture/" +
                                                   friendModel.friends!
@@ -434,12 +434,11 @@ class GetFriendRequests extends StatelessWidget {
     this.c = context;
   }
 
-  String getUserID(String requester,context)
-  {
-    UserApi.getInstance().searchUsername(requester,context).then((value){
-      UserApi.getInstance().findUser(value,context).then((user){
-    return  mainApi +
-        "/user/viewPicture/" +user.profileID;});
+  String getUserID(String requester, context) {
+    UserApi.getInstance().searchUsername(requester, context).then((value) {
+      UserApi.getInstance().findUser(value, context).then((user) {
+        return mainApi + "user/viewPicture/" + user.profileID;
+      });
     });
     return "";
   }
