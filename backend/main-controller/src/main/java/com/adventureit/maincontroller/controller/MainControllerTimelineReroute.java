@@ -21,7 +21,7 @@ public class MainControllerTimelineReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "http://internal-microservices-473352023.us-east-2.elb.amazonaws.com";
+    private static final String INTERNET_PORT = "http://internal-microservice-load-balancer-1572194202.us-east-2.elb.amazonaws.com";
     private static final String TIMELINE_PORT = "9012";
 
     @Autowired

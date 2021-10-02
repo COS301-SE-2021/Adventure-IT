@@ -129,7 +129,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                     CachedNetworkImage(
                                         useOldImageOnUrlChange: true,
                                         imageUrl: mainApi +
-                                            "/user/viewPicture/" +
+                                            "user/viewPicture/" +
                                             userModel.profile!.profileID,
                                         imageBuilder: (context,
                                                 imageProvider) =>
@@ -160,7 +160,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                     image: DecorationImage(
                                                         fit: BoxFit.fitWidth,
                                                         image: AssetImage(
-                                                            "pfp.png")))),
+                                                            "custom_images/pfp.png")))),
                                         errorWidget: (context, url, error) =>
                                             Container(
                                                 width: 100,
@@ -175,7 +175,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                                     image: DecorationImage(
                                                         fit: BoxFit.fitWidth,
                                                         image: AssetImage(
-                                                            "pfp.png"))))),
+                                                            "custom_images/pfp.png"))))),
                                     Positioned(
                                         right: -8,
                                         top: -8,

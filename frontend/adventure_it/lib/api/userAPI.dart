@@ -324,7 +324,7 @@ class UserApi {
   }
 
   Future<http.Response> _searchUsername(String username) async {
-    return http.get(Uri.parse(mainApi + '/user/getByUserName/' + username));
+    return http.get(Uri.parse(mainApi + 'user/getByUserName/' + username));
   }
 
   Future createFriendRequest(String from, String to, context) async {
@@ -651,7 +651,7 @@ class UserApi {
   }
 
   Future setFirebaseID(String value, context) async {
-    print("Setting Firebase ID");
+    print("Setting Firebase ID: " + value);
     http.Response response = await _setFirebaseID(value);
     print(response.toString());
     if (response.statusCode != 200) {

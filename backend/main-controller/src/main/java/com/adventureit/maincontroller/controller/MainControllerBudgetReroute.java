@@ -27,7 +27,7 @@ public class MainControllerBudgetReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "http://internal-microservices-473352023.us-east-2.elb.amazonaws.com";
+    private static final String INTERNET_PORT = "http://internal-microservice-load-balancer-1572194202.us-east-2.elb.amazonaws.com";
     private static final String TIMELINE_PORT = "9012";
     private static final String BUDGET_PORT = "9007";
     private static final String CREATE_BUDGET ="/budget/getBudgetByBudgetId/";
