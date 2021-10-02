@@ -247,7 +247,7 @@ class _MessageList extends State<MessageList> {
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
                                               fit: BoxFit.fill,
-                                              image: AssetImage("pfp.png")))),
+                                              image: AssetImage("assets/pfp.png")))),
                                   errorWidget: (context, url, error) =>
                                       Container(
                                           width: 70,
@@ -262,7 +262,7 @@ class _MessageList extends State<MessageList> {
                                               image: DecorationImage(
                                                   fit: BoxFit.fill,
                                                   image:
-                                                      AssetImage("pfp.png"))))),
+                                                      AssetImage("assets/pfp.png"))))),
                               title: Row(children: [
                                 Expanded(
                                     child: Text(
