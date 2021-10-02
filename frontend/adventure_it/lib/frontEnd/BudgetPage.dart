@@ -483,7 +483,7 @@ class AlertBox extends State<_AlertBox> {
                           dropdownColor: Theme
                               .of(context)
                               .primaryColorDark,
-                          hint: new Text("Select a payer",
+                          hint: new Text("Select a debtor",
                               style: TextStyle(
                                   color: Theme
                                       .of(context)
@@ -652,7 +652,7 @@ class AlertBox extends State<_AlertBox> {
                           dropdownColor: Theme
                               .of(context)
                               .primaryColorDark,
-                          hint: new Text("Select a payee",
+                          hint: new Text("Select a creditor",
                               style: TextStyle(
                                   color: Theme
                                       .of(context)
@@ -1662,7 +1662,7 @@ class EditAlertBox extends State<_EditAlertBox> {
                                           .of(context)
                                           .primaryColorDark,
                                       hint: new Text(
-                                          "Select a payer",
+                                          "Select a debtor",
                                           style: TextStyle(
                                               color: Theme
                                                   .of(
@@ -1839,7 +1839,7 @@ class EditAlertBox extends State<_EditAlertBox> {
                                           .of(context)
                                           .primaryColorDark,
                                       hint: new Text(
-                                          "Select a payee",
+                                          "Select a creditor",
                                           style: TextStyle(
                                               color: Theme
                                                   .of(
