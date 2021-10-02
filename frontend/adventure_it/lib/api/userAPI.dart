@@ -43,35 +43,26 @@ class UserApi {
 
   // Publically Exposed Login Method
   Future<bool> logIn(String username, String password) async {
-    // print("Attempting login for $username");
-    // this._keycloakUser = await attemptLogIn(username, password);
-    // if (this._keycloakUser != null) {
-    //   final keycloakUser = this._keycloakUser!;
-    //   if (keycloakUser.emailVerified && keycloakUser.enabled) {
-    //     this._userProfile = await this.fetchBackendProfile(keycloakUser.id);
-    //     if (this._userProfile == null) {
-    //       this._userProfile = await this.registerBackendProfile(keycloakUser);
-    //     }
-    //     await this.getNotificationSettings();
-    //     await this.getThemeSettings();
-    //     await this.getEmergencyContact();
-    //     return true;
-    //   } else {
-    //     this.message = "Your email has not yet been verified.";
-    //     return false;
-    //   }
-    // } else {
-    //   return false;
-    // }
-    this._keycloakUser = new KeycloakUser(
-        id: "6816dce8-7fe2-40a6-a692-3de9c19da893",
-        username: "mockUser",
-        enabled: true,
-        emailVerified: true,
-        firstName: "First Name",
-        lastName: "Last Name",
-        email: "mock@email.com");
-    return true;
+    print("Attempting login for $username");
+    this._keycloakUser = await attemptLogIn(username, password);
+    if (this._keycloakUser != null) {
+      final keycloakUser = this._keycloakUser!;
+      if (keycloakUser.emailVerified && keycloakUser.enabled) {
+        this._userProfile = await this.fetchBackendProfile(keycloakUser.id);
+        if (this._userProfile == null) {
+          this._userProfile = await this.registerBackendProfile(keycloakUser);
+        }
+        await this.getNotificationSettings();
+        await this.getThemeSettings();
+        await this.getEmergencyContact();
+        return true;
+      } else {
+        this.message = "Your email has not yet been verified.";
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
 
   // Attempt Login to Keycloak (PRIVATE)
