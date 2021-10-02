@@ -1,0 +1,43 @@
+version: "3"
+services:
+  webhost:
+    build: .
+    ports:
+      - "80:80"
+    networks:
+      - adventure-it
+
+  main-controller:
+    image: backend_main-controller:latest
+    ports:
+      - 9999
+    networks:
+      - adventure-it
+    hostname: main-controller.docker
+
+  notification-service:
+    image: backend_notification-microservice:latest
+    ports:
+      - 9004
+    networks:
+      - adventure-it
+    hostname: notification-service.docker
+
+  adventure-service:
+    image: backend_adventure-microservice:latest
+    ports:
+      - 9001
+    networks:
+      - adventure-it
+    hostname: adventure-service.docker
+
+  recommendation-service:
+    image: backend_recommendation-microservice:latest
+    ports:
+      - 9013
+    networks:
+      - adventure-it
+    hostname: recommendation-service.docker
+
+networks:
+  adventure-it:

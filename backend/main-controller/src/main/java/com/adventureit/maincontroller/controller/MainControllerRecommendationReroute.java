@@ -27,7 +27,7 @@ public class MainControllerRecommendationReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "http://internal-microservices-473352023.us-east-2.elb.amazonaws.com";
+    private static final String INTERNET_PORT = "http://internal-microservice-load-balancer-1572194202.us-east-2.elb.amazonaws.com";
     private static final String RECOMMENDATION_PORT = "9013";
     private static final String LOCATION_PORT = "9006";
     private static final String ERROR = "Empty Error";

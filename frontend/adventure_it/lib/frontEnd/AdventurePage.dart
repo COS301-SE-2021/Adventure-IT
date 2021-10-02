@@ -203,7 +203,7 @@ class AdventurePage extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: NetworkImage(
-                            "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                            "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                 currentAdventure!.location.photoReference +
                                 "&maxwidth=700&key=" +
                                 googleMapsKey),
@@ -806,7 +806,7 @@ class AlertBox extends StatelessWidget {
                                                     shape: BoxShape.circle,
                                                     image: DecorationImage(
                                                         fit: BoxFit.fill,
-                                                        image: AssetImage("assets/pfp.png")
+                                                        image: AssetImage("custom_images/pfp.png")
                                                     ))),
 
                                             errorWidget: (context, url, error) => Container(
@@ -820,7 +820,7 @@ class AlertBox extends StatelessWidget {
                                                     shape: BoxShape.circle,
                                                     image: DecorationImage(
                                                         fit: BoxFit.fill,
-                                                        image: AssetImage("assets/pfp.png")
+                                                        image: AssetImage("custom_images/pfp.png")
                                                     )))),
                                        title: Text(
                                       friendModel.friends!

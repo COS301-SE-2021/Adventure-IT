@@ -49,7 +49,7 @@ class Login extends State<LoginCaller> {
                 shape: BoxShape.circle,
                 image: new DecorationImage(
                     fit: BoxFit.contain,
-                    image: new AssetImage("assets/logo.png")),
+                    image: new AssetImage("custom_images/logo.png")),
                 // border: new Border.all(
                 //   color: Theme.of(context).accentColor,
                 //   width: 3.0,

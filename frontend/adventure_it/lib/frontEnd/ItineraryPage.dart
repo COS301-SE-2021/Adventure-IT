@@ -571,7 +571,8 @@ class _AlertBox extends State<AlertBox> {
                               titleController.text,
                               descriptionController.text,
                               location!,
-                             date!, time!,
+                              date!,
+                              time!,
                               userID);
                           Navigator.pop(context);
                         },
@@ -809,729 +810,434 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                 width: MediaQuery.of(context).size.width <= 500
                     ? MediaQuery.of(context).size.width
                     : MediaQuery.of(context).size.width * 0.9,
-                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width <= 500
-                    ? 0
-                    : MediaQuery.of(context).size.width * 0.05),
-                child:GroupedListView<dynamic, String>(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  elements: entryModel.entries!,
-                  groupBy: (element) =>
-                  DateTime
-                      .parse(element.timestamp)
-                      .day
-                      .toString() +
-                      " " +
-                      months[DateTime
-                          .parse(element.timestamp)
-                          .month - 1] +
-                      " " +
-                      DateTime
-                          .parse(element.timestamp)
-                          .year
-                          .toString(),
-                  useStickyGroupSeparators: false,
-                  groupSeparatorBuilder: (String value) =>
-                      Container(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            value,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color:
-                                Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .color),
-                          )),
-                  indexedItemBuilder: (context, element, index) {
-                    return Card(
-                        color: Theme
-                            .of(context)
-                            .primaryColorDark,
-                        child: InkWell(
-                            hoverColor: Theme
-                                .of(context)
-                                .primaryColorLight,
-                            child: Container(
-                              decoration: new BoxDecoration(
-                                  image: new DecorationImage(
-                                    //TODO: operand can't be null (always false)
-                                      image: entryModel.entries!.elementAt(
-                                          index).location.photoReference ==
-                                          null ? NetworkImage(
-                                          "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                              currentAdventure!.location
-                                                  .photoReference +
-                                              "&maxwidth=700&key=" +
-                                              googleMapsKey) : NetworkImage(
-                                          "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
-                                              entryModel.entries!.elementAt(
-                                                  index).location
-                                                  .photoReference +
-                                              "&maxwidth=500&key=" +
-                                              googleMapsKey),
-                                      fit: BoxFit.cover,
-                                      colorFilter: ColorFilter.mode(
-                                          Theme
-                                              .of(context)
-                                              .backgroundColor
-                                              .withOpacity(0.25),
-                                          BlendMode.dstATop))
-                              ),
-                              child: Row(children: <Widget>[
-                                Expanded(
-                                    flex: 4,
-                                    child: ExpansionTile(
-                                        title: Text(
-                                            entryModel.entries!
-                                                .elementAt(index)
-                                                .title,
-                                            style: TextStyle(
-                                                fontSize: 25 *
-                                                    MediaQuery
-                                                        .of(context)
-                                                        .textScaleFactor,
-                                                fontWeight: FontWeight.bold,
-                                                color: Theme
-                                                    .of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .color)),
-                                        // subtitle:Text(adventures.elementAt(index).description),
-                                        subtitle: RichText(
-                                          text: TextSpan(children: [
-                                            TextSpan(
-                                                text: entryModel.entries!
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width <= 500
+                        ? 0
+                        : MediaQuery.of(context).size.width * 0.05),
+                child: GroupedListView<dynamic, String>(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    elements: entryModel.entries!,
+                    groupBy: (element) =>
+                        DateTime.parse(element.timestamp).day.toString() +
+                        " " +
+                        months[DateTime.parse(element.timestamp).month - 1] +
+                        " " +
+                        DateTime.parse(element.timestamp).year.toString(),
+                    useStickyGroupSeparators: false,
+                    groupSeparatorBuilder: (String value) => Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          value,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color),
+                        )),
+                    indexedItemBuilder: (context, element, index) {
+                      return Card(
+                          color: Theme.of(context).primaryColorDark,
+                          child: InkWell(
+                              hoverColor: Theme.of(context).primaryColorLight,
+                              child: Container(
+                                decoration: new BoxDecoration(
+                                    image: new DecorationImage(
+                                        //TODO: operand can't be null (always false)
+                                        image: entryModel.entries!
                                                     .elementAt(index)
-                                                    .description +
-                                                    "\n",
-                                                style: TextStyle(
-                                                    fontSize: 15 *
-                                                        MediaQuery
-                                                            .of(
-                                                            context)
-                                                            .textScaleFactor,
-                                                    color: Theme
-                                                        .of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color)),
-                                            WidgetSpan(
-                                                child: Icon(
-                                                  Icons.location_on,
-                                                  size: 15,
-                                                  color: Theme
-                                                      .of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color,
-                                                )),
-                                            TextSpan(
-                                                text: " " +
+                                                    .location
+                                                    .photoReference ==
+                                                null
+                                            ? NetworkImage(
+                                                "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
+                                                    currentAdventure!.location
+                                                        .photoReference +
+                                                    "&maxwidth=700&key=" +
+                                                    googleMapsKey)
+                                            : NetworkImage(
+                                                "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                                     entryModel.entries!
                                                         .elementAt(index)
                                                         .location
-                                                        .name,
-                                                style: TextStyle(
-                                                    fontSize: 15 *
-                                                        MediaQuery
-                                                            .of(
-                                                            context)
-                                                            .textScaleFactor,
-                                                    color: Theme
-                                                        .of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .color))
-                                          ]),
-                                        ),
-                                        trailing: Text(
-                                            getTime(entryModel.entries!
-                                                .elementAt(index)),
-                                            style: TextStyle(
-                                                fontSize: 25 *
-                                                    MediaQuery
-                                                        .of(context)
-                                                        .textScaleFactor,
-                                                fontWeight: FontWeight.bold,
-                                                color: Theme
-                                                    .of(context)
+                                                        .photoReference +
+                                                    "&maxwidth=500&key=" +
+                                                    googleMapsKey),
+                                        fit: BoxFit.cover,
+                                        colorFilter: ColorFilter.mode(
+                                            Theme.of(context)
+                                                .backgroundColor
+                                                .withOpacity(0.25),
+                                            BlendMode.dstATop))),
+                                child: Row(children: <Widget>[
+                                  Expanded(
+                                      flex: 4,
+                                      child: ExpansionTile(
+                                          title: Text(
+                                              entryModel.entries!
+                                                  .elementAt(index)
+                                                  .title,
+                                              style: TextStyle(
+                                                  fontSize: 25 *
+                                                      MediaQuery.of(context)
+                                                          .textScaleFactor,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color)),
+                                          // subtitle:Text(adventures.elementAt(index).description),
+                                          subtitle: RichText(
+                                            text: TextSpan(children: [
+                                              TextSpan(
+                                                  text: entryModel.entries!
+                                                          .elementAt(index)
+                                                          .description +
+                                                      "\n",
+                                                  style: TextStyle(
+                                                      fontSize: 15 *
+                                                          MediaQuery.of(context)
+                                                              .textScaleFactor,
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color)),
+                                              WidgetSpan(
+                                                  child: Icon(
+                                                Icons.location_on,
+                                                size: 15,
+                                                color: Theme.of(context)
                                                     .textTheme
                                                     .bodyText1!
-                                                    .color)),
-                                        children: [
-                                          RegisteredUsers(
-                                              entryModel.entries!.elementAt(
-                                                  index))
-                                        ])),
-                                PopupMenuButton(
-                                    color: Theme
-                                        .of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color,
-                                    onSelected: (value) {
-                                      if (value == 1) {
-                                        titleController.text =
-                                            entryModel.entries!.elementAt(
-                                                index).title;
-                                        descriptionController.text =
-                                            entryModel.entries!.elementAt(
-                                                index).description;
-                                        locationController.text =
-                                            entryModel.entries!.elementAt(
-                                                index).location
-                                                .name;
-                                        location =
-                                            entryModel.entries!.elementAt(
-                                                index).location
-                                                .name;
-                                        dateController.text =
-                                            entryModel.entries!.elementAt(
-                                                index).timestamp.substring(
-                                                0, 10);
-                                        date = DateTime(int.parse(
-                                            entryModel.entries!.elementAt(
-                                                index).timestamp.substring(
-                                                0, 4)),
-                                            int.parse(
-                                                entryModel.entries!.elementAt(
-                                                    index).timestamp
-                                                    .substring(5, 7)),
-                                            int.parse(
-                                                entryModel.entries!.elementAt(
-                                                    index).timestamp
-                                                    .substring(8, 10)), 0, 0);
-                                        timeController.text =
-                                            entryModel.entries!.elementAt(
-                                                index).timestamp.substring(
-                                                11, 16);
-                                        time = TimeOfDay(hour: int.parse(
-                                            entryModel.entries!.elementAt(
-                                                index).timestamp.substring(
-                                                11, 13)),
-                                            minute: int.parse(
-                                                entryModel.entries!.elementAt(
-                                                    index).timestamp
-                                                    .substring(14, 16)));
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                  backgroundColor: Theme
-                                                      .of(context)
-                                                      .primaryColorDark,
-                                                  content: Container(
-                                                      height: getSize(
-                                                          context),
-                                                      child: Stack(
-                                                          clipBehavior: Clip
-                                                              .none,
-                                                          children: <Widget>[
-                                                            Positioned(
-                                                              right: -40.0,
-                                                              top: -40.0,
-                                                              child: InkResponse(
-                                                                onTap: () {
-                                                                  Navigator
-                                                                      .of(
-                                                                      context)
-                                                                      .pop(
-                                                                      false);
-                                                                },
-                                                                child: CircleAvatar(
-                                                                  child: Icon(
-                                                                      Icons
-                                                                          .close,
-                                                                      color: Theme
-                                                                          .of(
-                                                                          context)
-                                                                          .primaryColorDark),
-                                                                  backgroundColor: Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .accentColor,
-                                                                ),),),
-                                                            Column(
-                                                                children: <
-                                                                    Widget>[
-                                                                  Text(
-                                                                      "Edit: " +
-                                                                          entryModel
-                                                                              .entries!
-                                                                              .elementAt(
-                                                                              index)
-                                                                              .title,
-                                                                      textAlign: TextAlign
-                                                                          .center,
-                                                                      style: TextStyle(
-                                                                        color: Theme
-                                                                            .of(
+                                                    .color,
+                                              )),
+                                              TextSpan(
+                                                  text: " " +
+                                                      entryModel.entries!
+                                                          .elementAt(index)
+                                                          .location
+                                                          .name,
+                                                  style: TextStyle(
+                                                      fontSize: 15 *
+                                                          MediaQuery.of(context)
+                                                              .textScaleFactor,
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color))
+                                            ]),
+                                          ),
+                                          trailing: Text(
+                                              getTime(entryModel.entries!
+                                                  .elementAt(index)),
+                                              style: TextStyle(
+                                                  fontSize: 25 *
+                                                      MediaQuery.of(context)
+                                                          .textScaleFactor,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color)),
+                                          children: [
+                                            RegisteredUsers(entryModel.entries!
+                                                .elementAt(index))
+                                          ])),
+                                  PopupMenuButton(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color,
+                                      onSelected: (value) {
+                                        if (value == 1) {
+                                          titleController.text = entryModel
+                                              .entries!
+                                              .elementAt(index)
+                                              .title;
+                                          descriptionController.text =
+                                              entryModel.entries!
+                                                  .elementAt(index)
+                                                  .description;
+                                          locationController.text = entryModel
+                                              .entries!
+                                              .elementAt(index)
+                                              .location
+                                              .name;
+                                          location = entryModel.entries!
+                                              .elementAt(index)
+                                              .location
+                                              .name;
+                                          dateController.text = entryModel
+                                              .entries!
+                                              .elementAt(index)
+                                              .timestamp
+                                              .substring(0, 10);
+                                          date = DateTime(
+                                              int.parse(entryModel.entries!
+                                                  .elementAt(index)
+                                                  .timestamp
+                                                  .substring(0, 4)),
+                                              int.parse(entryModel.entries!
+                                                  .elementAt(index)
+                                                  .timestamp
+                                                  .substring(5, 7)),
+                                              int.parse(entryModel.entries!
+                                                  .elementAt(index)
+                                                  .timestamp
+                                                  .substring(8, 10)),
+                                              0,
+                                              0);
+                                          timeController.text = entryModel
+                                              .entries!
+                                              .elementAt(index)
+                                              .timestamp
+                                              .substring(11, 16);
+                                          time = TimeOfDay(
+                                              hour: int.parse(entryModel
+                                                  .entries!
+                                                  .elementAt(index)
+                                                  .timestamp
+                                                  .substring(11, 13)),
+                                              minute: int.parse(entryModel
+                                                  .entries!
+                                                  .elementAt(index)
+                                                  .timestamp
+                                                  .substring(14, 16)));
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                    backgroundColor:
+                                                        Theme.of(context)
+                                                            .primaryColorDark,
+                                                    content: Container(
+                                                        height:
+                                                            getSize(context),
+                                                        child: Stack(
+                                                            clipBehavior:
+                                                                Clip.none,
+                                                            children: <Widget>[
+                                                              Positioned(
+                                                                right: -40.0,
+                                                                top: -40.0,
+                                                                child:
+                                                                    InkResponse(
+                                                                  onTap: () {
+                                                                    Navigator.of(
                                                                             context)
-                                                                            .textTheme
-                                                                            .bodyText1!
-                                                                            .color,
-                                                                        fontSize: 25 *
-                                                                            MediaQuery
-                                                                                .of(
-                                                                                context)
-                                                                                .textScaleFactor,
-                                                                        fontWeight: FontWeight
-                                                                            .bold,
-                                                                      )),
-                                                                  Spacer(),
-                                                                  Container(
-                                                                    width: 300,
-                                                                    padding: EdgeInsets
-                                                                        .symmetric(
-                                                                        horizontal: MediaQuery
-                                                                            .of(
-                                                                            context)
-                                                                            .size
-                                                                            .width *
-                                                                            0.02),
-                                                                    child: TextField(
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                            Theme
-                                                                                .of(
-                                                                                context)
-                                                                                .textTheme
-                                                                                .bodyText1!
-                                                                                .color),
-                                                                        controller: titleController,
-                                                                        decoration: InputDecoration(
-                                                                            hintStyle: TextStyle(
-                                                                                color: Theme
-                                                                                    .of(
-                                                                                    context)
-                                                                                    .textTheme
-                                                                                    .bodyText2!
-                                                                                    .color),
-                                                                            filled: true,
-                                                                            enabledBorder: InputBorder
-                                                                                .none,
-                                                                            errorBorder: InputBorder
-                                                                                .none,
-                                                                            disabledBorder: InputBorder
-                                                                                .none,
-                                                                            fillColor: Theme
-                                                                                .of(
-                                                                                context)
-                                                                                .primaryColorLight,
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                                borderSide: new BorderSide(
-                                                                                    color: Theme
-                                                                                        .of(
-                                                                                        context)
-                                                                                        .accentColor)),
-                                                                            hintText: 'Title')),
+                                                                        .pop(
+                                                                            false);
+                                                                  },
+                                                                  child:
+                                                                      CircleAvatar(
+                                                                    child: Icon(
+                                                                        Icons
+                                                                            .close,
+                                                                        color: Theme.of(context)
+                                                                            .primaryColorDark),
+                                                                    backgroundColor:
+                                                                        Theme.of(context)
+                                                                            .accentColor,
                                                                   ),
-                                                                  SizedBox(
-                                                                      height: MediaQuery
-                                                                          .of(
-                                                                          context)
-                                                                          .size
-                                                                          .height *
-                                                                          0.01),
-                                                                  Container(
-                                                                    width: 300,
-                                                                    padding: EdgeInsets
-                                                                        .symmetric(
-                                                                        horizontal: MediaQuery
-                                                                            .of(
-                                                                            context)
-                                                                            .size
-                                                                            .width *
-                                                                            0.02),
-                                                                    child: TextField(
-                                                                        maxLength: 255,
-                                                                        maxLines: 3,
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                            Theme
-                                                                                .of(
-                                                                                context)
-                                                                                .textTheme
-                                                                                .bodyText1!
-                                                                                .color),
-                                                                        controller: descriptionController,
-                                                                        decoration: InputDecoration(
-                                                                            hintStyle: TextStyle(
-                                                                                color: Theme
-                                                                                    .of(
-                                                                                    context)
-                                                                                    .textTheme
-                                                                                    .bodyText2!
-                                                                                    .color),
-                                                                            filled: true,
-                                                                            enabledBorder: InputBorder
-                                                                                .none,
-                                                                            errorBorder: InputBorder
-                                                                                .none,
-                                                                            disabledBorder: InputBorder
-                                                                                .none,
-                                                                            fillColor: Theme
-                                                                                .of(
-                                                                                context)
-                                                                                .primaryColorLight,
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                                borderSide: new BorderSide(
-                                                                                    color: Theme
-                                                                                        .of(
-                                                                                        context)
-                                                                                        .accentColor)),
-                                                                            hintText: 'Description')),
-                                                                  ),
-                                                                  SizedBox(
-                                                                      height: MediaQuery
-                                                                          .of(
-                                                                          context)
-                                                                          .size
-                                                                          .height *
-                                                                          0.02),
-                                                                  Container(
-                                                                      width: 300,
-                                                                      padding: EdgeInsets
-                                                                          .symmetric(
-                                                                          horizontal: MediaQuery
-                                                                              .of(
-                                                                              context)
-                                                                              .size
-                                                                              .width *
-                                                                              0.02),
+                                                                ),
+                                                              ),
+                                                              Column(
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Text(
+                                                                        "Edit: " +
+                                                                            entryModel.entries!
+                                                                                .elementAt(
+                                                                                    index)
+                                                                                .title,
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .center,
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color: Theme.of(context)
+                                                                              .textTheme
+                                                                              .bodyText1!
+                                                                              .color,
+                                                                          fontSize:
+                                                                              25 * MediaQuery.of(context).textScaleFactor,
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                        )),
+                                                                    Spacer(),
+                                                                    Container(
+                                                                      width:
+                                                                          300,
+                                                                      padding: EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              MediaQuery.of(context).size.width * 0.02),
                                                                       child: TextField(
-
                                                                           style: TextStyle(
-                                                                              color:
-                                                                              Theme
-                                                                                  .of(
-                                                                                  context)
+                                                                              color: Theme.of(context)
                                                                                   .textTheme
                                                                                   .bodyText1!
                                                                                   .color),
-                                                                          controller: dateController,
+                                                                          controller:
+                                                                              titleController,
                                                                           decoration: InputDecoration(
-                                                                              prefixIcon: Icon(
-                                                                                  Icons
-                                                                                      .calendar_today_rounded),
-                                                                              hintStyle: TextStyle(
-                                                                                  color: Theme
-                                                                                      .of(
-                                                                                      context)
-                                                                                      .textTheme
-                                                                                      .bodyText2!
-                                                                                      .color),
+                                                                              hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
                                                                               filled: true,
-                                                                              enabledBorder: InputBorder
-                                                                                  .none,
-                                                                              errorBorder: InputBorder
-                                                                                  .none,
-                                                                              disabledBorder: InputBorder
-                                                                                  .none,
-                                                                              fillColor: Theme
-                                                                                  .of(
-                                                                                  context)
-                                                                                  .primaryColorLight,
-                                                                              focusedBorder: OutlineInputBorder(
-                                                                                  borderSide: new BorderSide(
-                                                                                      color: Theme
-                                                                                          .of(
-                                                                                          context)
-                                                                                          .accentColor)),
-                                                                              hintText: 'Pick a date'),
-                                                                          onTap: () async {
-                                                                            DateTime? picked = await showDate();
-                                                                            date =
+                                                                              enabledBorder: InputBorder.none,
+                                                                              errorBorder: InputBorder.none,
+                                                                              disabledBorder: InputBorder.none,
+                                                                              fillColor: Theme.of(context).primaryColorLight,
+                                                                              focusedBorder: OutlineInputBorder(borderSide: new BorderSide(color: Theme.of(context).accentColor)),
+                                                                              hintText: 'Title')),
+                                                                    ),
+                                                                    SizedBox(
+                                                                        height: MediaQuery.of(context).size.height *
+                                                                            0.01),
+                                                                    Container(
+                                                                      width:
+                                                                          300,
+                                                                      padding: EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              MediaQuery.of(context).size.width * 0.02),
+                                                                      child: TextField(
+                                                                          maxLength:
+                                                                              255,
+                                                                          maxLines:
+                                                                              3,
+                                                                          style: TextStyle(
+                                                                              color: Theme.of(context)
+                                                                                  .textTheme
+                                                                                  .bodyText1!
+                                                                                  .color),
+                                                                          controller:
+                                                                              descriptionController,
+                                                                          decoration: InputDecoration(
+                                                                              hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                                                                              filled: true,
+                                                                              enabledBorder: InputBorder.none,
+                                                                              errorBorder: InputBorder.none,
+                                                                              disabledBorder: InputBorder.none,
+                                                                              fillColor: Theme.of(context).primaryColorLight,
+                                                                              focusedBorder: OutlineInputBorder(borderSide: new BorderSide(color: Theme.of(context).accentColor)),
+                                                                              hintText: 'Description')),
+                                                                    ),
+                                                                    SizedBox(
+                                                                        height: MediaQuery.of(context).size.height *
+                                                                            0.02),
+                                                                    Container(
+                                                                        width:
+                                                                            300,
+                                                                        padding:
+                                                                            EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
+                                                                        child: TextField(
+                                                                            style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color),
+                                                                            controller: dateController,
+                                                                            decoration: InputDecoration(prefixIcon: Icon(Icons.calendar_today_rounded), hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color), filled: true, enabledBorder: InputBorder.none, errorBorder: InputBorder.none, disabledBorder: InputBorder.none, fillColor: Theme.of(context).primaryColorLight, focusedBorder: OutlineInputBorder(borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Pick a date'),
+                                                                            onTap: () async {
+                                                                              DateTime? picked = await showDate();
+                                                                              date = picked;
+                                                                              dateController.text = getTextDate(picked!);
+                                                                            })),
+                                                                    SizedBox(
+                                                                        height: MediaQuery.of(context).size.height *
+                                                                            0.02),
+                                                                    Container(
+                                                                        width:
+                                                                            300,
+                                                                        padding: EdgeInsets.symmetric(
+                                                                            horizontal: MediaQuery.of(context).size.width *
+                                                                                0.02),
+                                                                        child:
+                                                                            TextField(
+                                                                          maxLines:
+                                                                              1,
+                                                                          style:
+                                                                              TextStyle(color: Theme.of(context).textTheme.bodyText1!.color),
+                                                                          controller:
+                                                                              timeController,
+                                                                          decoration: InputDecoration(
+                                                                              prefixIcon: Icon(Icons.access_time_rounded),
+                                                                              hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                                                                              filled: true,
+                                                                              enabledBorder: InputBorder.none,
+                                                                              errorBorder: InputBorder.none,
+                                                                              disabledBorder: InputBorder.none,
+                                                                              fillColor: Theme.of(context).primaryColorLight,
+                                                                              focusedBorder: OutlineInputBorder(borderSide: new BorderSide(color: Theme.of(context).accentColor)),
+                                                                              hintText: 'Pick a time'),
+                                                                          onTap:
+                                                                              () async {
+                                                                            TimeOfDay?
+                                                                                picked =
+                                                                                await showTime();
+                                                                            time =
                                                                                 picked;
-                                                                            dateController
-                                                                                .text =
-                                                                                getTextDate(
-                                                                                    picked!);
-                                                                          }
-                                                                      )),
-                                                                  SizedBox(
-                                                                      height: MediaQuery
-                                                                          .of(
-                                                                          context)
-                                                                          .size
-                                                                          .height *
-                                                                          0.02),
-                                                                  Container(
-                                                                      width: 300,
-                                                                      padding: EdgeInsets
-                                                                          .symmetric(
-                                                                          horizontal: MediaQuery
-                                                                              .of(
-                                                                              context)
-                                                                              .size
-                                                                              .width *
-                                                                              0.02),
-                                                                      child: TextField(
-                                                                        maxLines: 1,
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                            Theme
-                                                                                .of(
-                                                                                context)
-                                                                                .textTheme
-                                                                                .bodyText1!
-                                                                                .color),
-                                                                        controller: timeController,
-                                                                        decoration: InputDecoration(
-                                                                            prefixIcon: Icon(
-                                                                                Icons
-                                                                                    .access_time_rounded),
-                                                                            hintStyle: TextStyle(
-                                                                                color: Theme
-                                                                                    .of(
-                                                                                    context)
-                                                                                    .textTheme
-                                                                                    .bodyText2!
-                                                                                    .color),
-                                                                            filled: true,
-                                                                            enabledBorder: InputBorder
-                                                                                .none,
-                                                                            errorBorder: InputBorder
-                                                                                .none,
-                                                                            disabledBorder: InputBorder
-                                                                                .none,
-                                                                            fillColor: Theme
-                                                                                .of(
-                                                                                context)
-                                                                                .primaryColorLight,
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                                borderSide: new BorderSide(
-                                                                                    color: Theme
-                                                                                        .of(
-                                                                                        context)
-                                                                                        .accentColor)),
-                                                                            hintText: 'Pick a time'),
-                                                                        onTap: () async {
-                                                                          TimeOfDay? picked = await showTime();
-                                                                          time =
-                                                                              picked;
-                                                                          timeController
-                                                                              .text =
-                                                                              getTextTime(
-                                                                                  picked!);
-                                                                        },
-                                                                      )),
-                                                                  SizedBox(
-                                                                      height: MediaQuery
-                                                                          .of(
-                                                                          context)
-                                                                          .size
-                                                                          .height *
-                                                                          0.02),
-                                                                  Container(
-                                                                      width: 300,
-                                                                      padding: EdgeInsets
-                                                                          .symmetric(
-                                                                          horizontal: MediaQuery
-                                                                              .of(
-                                                                              context)
-                                                                              .size
-                                                                              .width *
-                                                                              0.02),
-                                                                      child: TextField(
-                                                                          maxLines: 1,
-                                                                          style: TextStyle(
-                                                                              color:
-                                                                              Theme
-                                                                                  .of(
-                                                                                  context)
-                                                                                  .textTheme
-                                                                                  .bodyText1!
-                                                                                  .color),
-                                                                          controller: locationController,
-                                                                          decoration: InputDecoration(
-                                                                              prefixIcon: Icon(
-                                                                                  Icons
-                                                                                      .location_on_rounded),
-                                                                              hintStyle: TextStyle(
-                                                                                  color: Theme
-                                                                                      .of(
-                                                                                      context)
-                                                                                      .textTheme
-                                                                                      .bodyText2!
-                                                                                      .color),
-                                                                              filled: true,
-                                                                              enabledBorder: InputBorder
-                                                                                  .none,
-                                                                              errorBorder: InputBorder
-                                                                                  .none,
-                                                                              disabledBorder: InputBorder
-                                                                                  .none,
-                                                                              fillColor: Theme
-                                                                                  .of(
-                                                                                  context)
-                                                                                  .primaryColorLight,
-                                                                              focusedBorder: OutlineInputBorder(
-                                                                                  borderSide: new BorderSide(
-                                                                                      color: Theme
-                                                                                          .of(
-                                                                                          context)
-                                                                                          .accentColor)),
-                                                                              hintText: 'Find a location'),
-                                                                          onTap: () async {
-                                                                            showDialog(
-                                                                                context: context,
-                                                                                builder: (
-                                                                                    BuildContext context) {
-                                                                                  return AlertDialog(
-                                                                                      backgroundColor: Theme
-                                                                                          .of(
-                                                                                          context)
-                                                                                          .primaryColorDark,
-                                                                                      title: Stack(
-                                                                                          clipBehavior: Clip
-                                                                                              .none,
-                                                                                          children: <
-                                                                                              Widget>[
-                                                                                            Positioned(
-                                                                                              right: -40.0,
-                                                                                              top: -40.0,
-                                                                                              child: InkResponse(
-                                                                                                onTap: () {
-                                                                                                  Navigator
-                                                                                                      .of(
-                                                                                                      context)
-                                                                                                      .pop();
-                                                                                                },
-                                                                                                child: CircleAvatar(
-                                                                                                  child: Icon(
-                                                                                                      Icons
-                                                                                                          .close,
-                                                                                                      color: Theme
-                                                                                                          .of(
-                                                                                                          context)
-                                                                                                          .primaryColorDark),
-                                                                                                  backgroundColor: Theme
-                                                                                                      .of(
-                                                                                                      context)
-                                                                                                      .accentColor,
-                                                                                                ),
+                                                                            timeController.text =
+                                                                                getTextTime(picked!);
+                                                                          },
+                                                                        )),
+                                                                    SizedBox(
+                                                                        height: MediaQuery.of(context).size.height *
+                                                                            0.02),
+                                                                    Container(
+                                                                        width:
+                                                                            300,
+                                                                        padding:
+                                                                            EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
+                                                                        child: TextField(
+                                                                            maxLines: 1,
+                                                                            style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color),
+                                                                            controller: locationController,
+                                                                            decoration: InputDecoration(prefixIcon: Icon(Icons.location_on_rounded), hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color), filled: true, enabledBorder: InputBorder.none, errorBorder: InputBorder.none, disabledBorder: InputBorder.none, fillColor: Theme.of(context).primaryColorLight, focusedBorder: OutlineInputBorder(borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Find a location'),
+                                                                            onTap: () async {
+                                                                              showDialog(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return AlertDialog(
+                                                                                        backgroundColor: Theme.of(context).primaryColorDark,
+                                                                                        title: Stack(clipBehavior: Clip.none, children: <Widget>[
+                                                                                          Positioned(
+                                                                                            right: -40.0,
+                                                                                            top: -40.0,
+                                                                                            child: InkResponse(
+                                                                                              onTap: () {
+                                                                                                Navigator.of(context).pop();
+                                                                                              },
+                                                                                              child: CircleAvatar(
+                                                                                                child: Icon(Icons.close, color: Theme.of(context).primaryColorDark),
+                                                                                                backgroundColor: Theme.of(context).accentColor,
                                                                                               ),
                                                                                             ),
-                                                                                            Column(
-                                                                                                mainAxisSize: MainAxisSize
-                                                                                                    .min,
-                                                                                                children: [
-                                                                                                  Text(
-                                                                                                      "Find Location",
-                                                                                                      textAlign: TextAlign
-                                                                                                          .center,
-                                                                                                      style: TextStyle(
-                                                                                                        color: Theme
-                                                                                                            .of(
-                                                                                                            context)
-                                                                                                            .textTheme
-                                                                                                            .bodyText1!
-                                                                                                            .color,
-                                                                                                        fontSize: 25 *
-                                                                                                            MediaQuery
-                                                                                                                .of(
-                                                                                                                context)
-                                                                                                                .textScaleFactor,
-                                                                                                        fontWeight: FontWeight
-                                                                                                            .bold,
-                                                                                                      )),
-                                                                                                  SizedBox(
-                                                                                                      height: MediaQuery
-                                                                                                          .of(
-                                                                                                          context)
-                                                                                                          .size
-                                                                                                          .height *
-                                                                                                          0.01,
-                                                                                                      width: 300),
-                                                                                                  TextField(
-                                                                                                    style: TextStyle(
-                                                                                                        color:
-                                                                                                        Theme
-                                                                                                            .of(
-                                                                                                            context)
-                                                                                                            .textTheme
-                                                                                                            .bodyText1!
-                                                                                                            .color),
-                                                                                                    decoration: InputDecoration(
-                                                                                                        hintStyle: TextStyle(
-                                                                                                            color: Theme
-                                                                                                                .of(
-                                                                                                                context)
-                                                                                                                .textTheme
-                                                                                                                .bodyText2!
-                                                                                                                .color),
-                                                                                                        filled: true,
-                                                                                                        enabledBorder: InputBorder
-                                                                                                            .none,
-                                                                                                        errorBorder: InputBorder
-                                                                                                            .none,
-                                                                                                        disabledBorder: InputBorder
-                                                                                                            .none,
-                                                                                                        fillColor: Theme
-                                                                                                            .of(
-                                                                                                            context)
-                                                                                                            .primaryColorLight,
-                                                                                                        focusedBorder: OutlineInputBorder(
-                                                                                                            borderSide: new BorderSide(
-                                                                                                                color: Theme
-                                                                                                                    .of(
-                                                                                                                    context)
-                                                                                                                    .accentColor)),
-                                                                                                        hintText: 'Search for a place of interest'),
-                                                                                                    onChanged: (
-                                                                                                        value) {
-                                                                                                      _debouncer
-                                                                                                          .run(() {
-                                                                                                        Provider
-                                                                                                            .of<
-                                                                                                            LocationModel>(
-                                                                                                            context,
-                                                                                                            listen: false)
-                                                                                                            .fetchAllSuggestions(
-                                                                                                            value);
-                                                                                                      });
-                                                                                                    },
-                                                                                                  ),
-                                                                                                ])
-                                                                                          ]),
-                                                                                      content:
-                                                                                      Container(
-                                                                                          width: 300,
-                                                                                          child: Consumer<
-                                                                                              LocationModel>(
-                                                                                              builder: (
-                                                                                                  context,
-                                                                                                  locationModel,
-                                                                                                  child) {
-                                                                                                return locationModel
-                                                                                                    .suggestions !=
-                                                                                                    null &&
-                                                                                                    locationModel
-                                                                                                        .suggestions!
-                                                                                                        .length >
-                                                                                                        0
-                                                                                                    ?
-                                                                                                ListView
-                                                                                                    .builder(
-                                                                                                    shrinkWrap: true,
-                                                                                                    itemCount: locationModel
-                                                                                                        .suggestions!
-                                                                                                        .length,
-                                                                                                    itemBuilder: (
-                                                                                                        context,
-                                                                                                        index) {
-                                                                                                      return
-                                                                                                        InkWell(
-                                                                                                            hoverColor:
-                                                                                                            Theme
-                                                                                                                .of(
-                                                                                                                context)
-                                                                                                                .primaryColorLight,
+                                                                                          ),
+                                                                                          Column(mainAxisSize: MainAxisSize.min, children: [
+                                                                                            Text("Find Location",
+                                                                                                textAlign: TextAlign.center,
+                                                                                                style: TextStyle(
+                                                                                                  color: Theme.of(context).textTheme.bodyText1!.color,
+                                                                                                  fontSize: 25 * MediaQuery.of(context).textScaleFactor,
+                                                                                                  fontWeight: FontWeight.bold,
+                                                                                                )),
+                                                                                            SizedBox(height: MediaQuery.of(context).size.height * 0.01, width: 300),
+                                                                                            TextField(
+                                                                                              style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color),
+                                                                                              decoration: InputDecoration(hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color), filled: true, enabledBorder: InputBorder.none, errorBorder: InputBorder.none, disabledBorder: InputBorder.none, fillColor: Theme.of(context).primaryColorLight, focusedBorder: OutlineInputBorder(borderSide: new BorderSide(color: Theme.of(context).accentColor)), hintText: 'Search for a place of interest'),
+                                                                                              onChanged: (value) {
+                                                                                                _debouncer.run(() {
+                                                                                                  Provider.of<LocationModel>(context, listen: false).fetchAllSuggestions(value);
+                                                                                                });
+                                                                                              },
+                                                                                            ),
+                                                                                          ])
+                                                                                        ]),
+                                                                                        content: Container(
+                                                                                            width: 300,
+                                                                                            child: Consumer<LocationModel>(builder: (context, locationModel, child) {
+                                                                                              return locationModel.suggestions != null && locationModel.suggestions!.length > 0
+                                                                                                  ? ListView.builder(
+                                                                                                      shrinkWrap: true,
+                                                                                                      itemCount: locationModel.suggestions!.length,
+                                                                                                      itemBuilder: (context, index) {
+                                                                                                        return InkWell(
+                                                                                                            hoverColor: Theme.of(context).primaryColorLight,
                                                                                                             onTap: () {
                                                                                                               this.location = locationModel.suggestions!.elementAt(index).description;
                                                                                                               locationController.text = this.location!;
@@ -2044,8 +1750,9 @@ class RegisteredUsers extends StatelessWidget {
                       return ListTile(
                           leading: CachedNetworkImage(
                               useOldImageOnUrlChange: true,
-                              imageUrl: "http://"+mainApi +
-                                  "/user/viewPicture/" +
+                              imageUrl: "http://" +
+                                  mainApi +
+                                  "user/viewPicture/" +
                                   registeredModel.users!
                                       .elementAt(index)
                                       .user
@@ -2075,7 +1782,8 @@ class RegisteredUsers extends StatelessWidget {
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
-                                          image: AssetImage("assets/pfp.png")))),
+                                          image: AssetImage(
+                                              "custom_images/pfp.png")))),
                               errorWidget: (context, url, error) => Container(
                                   width: 70,
                                   height: 70,
@@ -2087,7 +1795,8 @@ class RegisteredUsers extends StatelessWidget {
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
-                                          image: AssetImage("assets/pfp.png"))))),
+                                          image: AssetImage(
+                                              "custom_images/pfp.png"))))),
                           title: Text(
                               registeredModel.users!
                                   .elementAt(index)
@@ -2217,14 +1926,14 @@ class _RecommendedItems extends StatelessWidget {
                                                                 .photoReference ==
                                                             ""
                                                         ? NetworkImage(
-                                                            "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                                            "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                                                 currentAdventure!
                                                                     .location
                                                                     .photoReference +
                                                                 "&maxwidth=700&key=" +
                                                                 googleMapsKey)
                                                         : NetworkImage(
-                                                            "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                                            "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                                                 entryModel!
                                                                     .popular!
                                                                     .elementAt(
@@ -2401,13 +2110,13 @@ class _RecommendedItems extends StatelessWidget {
                                                                 .photoReference ==
                                                             ""
                                                         ? NetworkImage(
-                                                            "https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                                            "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                                                 currentAdventure!
                                                                     .location
                                                                     .photoReference +
                                                                 "&maxwidth=700&key=" +
                                                                 googleMapsKey)
-                                                        : NetworkImage("https://maps.googleapis.com/maps/api/place/photo?photo_reference=" +
+                                                        : NetworkImage("http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                                             entryModel!
                                                                 .recommendations!
                                                                 .elementAt(index -
@@ -3127,7 +2836,8 @@ class _AlertBoxRecommended extends State<AlertBoxRecommendation> {
                               titleController.text,
                               descriptionController.text,
                               location!,
-                              date!,time!,
+                              date!,
+                              time!,
                               userID);
                           Navigator.pop(context);
                         },
