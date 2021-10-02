@@ -177,7 +177,7 @@ class GetFriends extends StatelessWidget {
                                             leading:
 
                                             CachedNetworkImage( useOldImageOnUrlChange: true, imageUrl:
-                                            "http://"+mainApi +
+                                            mainApi +
                                                 "/user/viewPicture/" +
                                                 friendModel.friends!.elementAt(index).profileID,
                                                 imageBuilder: (context, imageProvider) => Container(
@@ -205,7 +205,7 @@ class GetFriends extends StatelessWidget {
                                                         shape: BoxShape.circle,
                                                         image: DecorationImage(
                                                             fit: BoxFit.fitWidth,
-                                                            image: AssetImage("pfp.png")
+                                                            image: AssetImage("assets/pfp.png")
                                                         ))),
 
                                                 errorWidget: (context, url, error) => Container(
@@ -219,7 +219,7 @@ class GetFriends extends StatelessWidget {
                                                         shape: BoxShape.circle,
                                                         image: DecorationImage(
                                                             fit: BoxFit.fitWidth,
-                                                            image: AssetImage("pfp.png")
+                                                            image: AssetImage("assets/pfp.png")
                                                         )))),
                                             title: Text(
                                                 friendModel.friends!
@@ -370,7 +370,7 @@ class GetFriendRequests extends StatelessWidget {
   {
     UserApi.getInstance().searchUsername(requester,context).then((value){
       UserApi.getInstance().findUser(value,context).then((user){
-    return  "http://"+mainApi +
+    return  mainApi +
         "/user/viewPicture/" +user.profileID;});
     });
     return "";
@@ -439,7 +439,7 @@ class GetFriendRequests extends StatelessWidget {
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                       fit: BoxFit.fill,
-                                                      image: AssetImage("pfp.png")
+                                                      image: AssetImage("assets/pfp.png")
                                                   ))),
 
                                           errorWidget: (context, url, error) => Container(
@@ -453,7 +453,7 @@ class GetFriendRequests extends StatelessWidget {
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                       fit: BoxFit.fill,
-                                                      image: AssetImage("pfp.png")
+                                                      image: AssetImage("assets/pfp.png")
                                                   )))),
                                       title: Text(
                                           friendModel.friends!

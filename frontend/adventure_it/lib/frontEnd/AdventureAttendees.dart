@@ -214,7 +214,7 @@ class _Carousel extends State<Carousel> {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 fit: BoxFit.fitWidth,
-                                image: AssetImage("pfp.png")
+                                image: AssetImage("assets/pfp.png")
                             ))),
 
                     errorWidget: (context, url, error) => Container(
@@ -228,7 +228,7 @@ class _Carousel extends State<Carousel> {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 fit: BoxFit.fitWidth,
-                                image: AssetImage("pfp.png")
+                                image: AssetImage("assets/pfp.png")
                             )))),
           )),
       Row(children: [
