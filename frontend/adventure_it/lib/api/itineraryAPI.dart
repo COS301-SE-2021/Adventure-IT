@@ -333,6 +333,15 @@ class ItineraryApi {
       }),
     );
 
+    print("TEST PARAMETERS");
+    print(id);
+    print(userId);
+    print(entryContainerID);
+    print(title);
+    print(description);
+    print(location);
+    print(timestamp);
+    print("END TEST");
     if (response.statusCode == 200) {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
