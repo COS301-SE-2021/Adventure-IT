@@ -99,7 +99,7 @@ public class MainControllerItineraryReroute {
         LocationResponseDTO locationDTO = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + GET_LOCATION +locationId,LocationResponseDTO.class);
 
         assert locationDTO != null;
-        CreateLocationRequest req3 = new CreateLocationRequest(locationId, locationDTO.getName());
+        CreateLocationRequest req3 = new CreateLocationRequest(locationId, locationDTO.getFormattedAddress());
         restTemplate.postForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/add/location", req3, String.class);
 
         UUID itineraryID = restTemplate.postForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/addEntry", req, UUID.class);
