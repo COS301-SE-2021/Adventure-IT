@@ -315,8 +315,14 @@ class ItineraryApi {
       String title,
       String description,
       String location,
-      String timestamp,
+      DateTime date,
+      TimeOfDay time,
       context) async {
+    String timestamp = (date.toString()).substring(0, 10) +
+        "T" +
+        time.hour.toString().padLeft(2, '0') +
+        ":" +
+        time.minute.toString().padLeft(2, '0');
     final response = await http.post(
       Uri.parse(mainApi + '/itinerary/editEntry'),
       headers: <String, String>{
