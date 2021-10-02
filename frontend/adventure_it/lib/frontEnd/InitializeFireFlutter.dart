@@ -26,37 +26,39 @@ class _AppState extends State<InitializeFireFlutter> {
     this.nextWidget = nextWidget;
   }
 
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: _initialization,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            SnackBar snackBar = SnackBar(
-                content: Text('Failed to initialise Firebase!',
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color,
-                        fontWeight: FontWeight.bold)),
-                backgroundColor: Theme.of(context).primaryColorDark);
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          }
+    FirebaseMessaging.instance
+        .getToken()
+        .then((value) => UserApi.getInstance().setFirebaseID(value!, context));
 
-          // Once complete, display input widget
-          if (snapshot.connectionState != ConnectionState.done) {
-            Center(
-                child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).accentColor)));
-          }
+    FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
+      if (message != null && message.notification != null) {
+        final title = message.notification!.title;
+        final body = message.notification!.body;
+        final data = message.data;
+        print("Handling message title: ${title}");
+        print("Handling message body: ${body}");
+        print("Handling message data: ${data.toString()}");
 
-          FirebaseMessaging.instance.getToken().then(
-              (value) => UserApi.getInstance().setFirebaseID(value!, context));
-          FirebaseMessaging.onMessage.listen(foregroundHandler);
-          FirebaseMessaging.onBackgroundMessage(backgroundHandler);
-          return this.nextWidget;
-        });
+        Fluttertoast.showToast(
+          msg: body!,
+          webBgColor: "linear-gradient(to right, #6A7AC7, #484D64)",
+          webPosition: "center",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Theme.of(context).accentColor,
+          textColor: Theme.of(context).textTheme.bodyText1!.color,
+          fontSize: 15.0,);
+
+        FlutterMessagingChangeNotifier.notifyListeners();
+      }
+    });
+
+    FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+    return this.nextWidget;
   }
 }
 

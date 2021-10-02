@@ -10,16 +10,14 @@ import 'package:theme_provider/theme_provider.dart';
 
 import 'Providers/location_model.dart';
 import 'api/mediaAPI.dart';
-import 'api/userAPI.dart';
-import 'frontEnd/InitializeFireFlutter.dart';
 import 'frontEnd/Login.dart';
 
 void main() async {
   if (!kIsWeb) {
     await FlutterDownloader.initialize();
     FlutterDownloader.registerCallback(MediaApi.downloadCallback);
+    await Firebase.initializeApp();
     runApp(
-
         MyApp(),
     );
   } else {
