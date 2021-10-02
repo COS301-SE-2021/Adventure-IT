@@ -129,7 +129,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
                                     CachedNetworkImage(
                                         useOldImageOnUrlChange: true,
                                         imageUrl: mainApi +
-                                            "user/viewPicture/" +
+                                            "/user/viewPicture/" +
                                             userModel.profile!.profileID,
                                         imageBuilder: (context,
                                                 imageProvider) =>

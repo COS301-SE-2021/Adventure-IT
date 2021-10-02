@@ -1750,9 +1750,8 @@ class RegisteredUsers extends StatelessWidget {
                       return ListTile(
                           leading: CachedNetworkImage(
                               useOldImageOnUrlChange: true,
-                              imageUrl: "http://" +
-                                  mainApi +
-                                  "user/viewPicture/" +
+                              imageUrl: mainApi +
+                                  "/user/viewPicture/" +
                                   registeredModel.users!
                                       .elementAt(index)
                                       .user

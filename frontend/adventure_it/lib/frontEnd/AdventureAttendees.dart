@@ -190,7 +190,7 @@ class _Carousel extends State<Carousel> {
                 CachedNetworkImage(
                     useOldImageOnUrlChange: true,
                     imageUrl: mainApi +
-                        "user/viewPicture/" +
+                        "/user/viewPicture/" +
                         attendeeModel!.attendees!.elementAt(index).profileID,
                     imageBuilder: (context, imageProvider) => Container(
                         width: 100,

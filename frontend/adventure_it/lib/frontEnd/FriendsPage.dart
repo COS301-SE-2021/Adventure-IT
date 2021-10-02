@@ -183,7 +183,7 @@ class GetFriends extends StatelessWidget {
                                               useOldImageOnUrlChange: true,
                                               imageUrl:
                                                   mainApi +
-                                                  "user/viewPicture/" +
+                                                  "/user/viewPicture/" +
                                                   friendModel.friends!
                                                       .elementAt(index)
                                                       .profileID,
@@ -437,7 +437,7 @@ class GetFriendRequests extends StatelessWidget {
   String getUserID(String requester, context) {
     UserApi.getInstance().searchUsername(requester, context).then((value) {
       UserApi.getInstance().findUser(value, context).then((user) {
-        return mainApi + "user/viewPicture/" + user.profileID;
+        return mainApi + "/user/viewPicture/" + user.profileID;
       });
     });
     return "";
