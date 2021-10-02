@@ -31,5 +31,13 @@ services:
       - adventure-it
     hostname: adventure-service.docker
 
+  recommendation-service:
+    image: backend_recommendation-microservice:latest
+    ports:
+      - 9013
+    networks:
+      - adventure-it
+    hostname: recommendation-service.docker
+
 networks:
   adventure-it:
