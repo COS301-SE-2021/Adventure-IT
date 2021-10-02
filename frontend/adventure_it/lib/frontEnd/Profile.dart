@@ -96,9 +96,7 @@ class ProfileFutureBuilder extends State<ProfileFutureBuilderCaller> {
       return ChangeNotifierProvider(
           create: (context) => UserModel(context),
           child: Consumer<UserModel>(builder: (context, userModel, child) {
-            Provider.of<LocationModel>(
-                context,
-                listen: false).getFlags();
+            Provider.of<LocationModel>(context, listen: false).getFlags();
             if (userModel.profile == null) {
               return Center(
                   child: CircularProgressIndicator(
@@ -404,7 +402,7 @@ class Countries extends State<_Countries> {
                                             image: DecorationImage(
                                               fit: BoxFit.cover,
                                               image: NetworkImage(
-                                                  'https://www.countryflags.io/' +
+                                                  'https://app.adventure-it.co.za/flags/' +
                                                       locationModel.flags!
                                                           .elementAt(index) +
                                                       '/flat/64.png'),
