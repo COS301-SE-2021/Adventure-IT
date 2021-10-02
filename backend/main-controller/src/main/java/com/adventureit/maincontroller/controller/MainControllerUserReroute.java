@@ -4,6 +4,7 @@ package com.adventureit.maincontroller.controller;
 import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
+import com.adventureit.shareddtos.chat.responses.DirectChatResponseDTO;
 import com.adventureit.shareddtos.media.responses.MediaResponseDTO;
 import com.adventureit.shareddtos.recommendation.request.CreateUserRequest;
 import com.adventureit.shareddtos.user.requests.*;
@@ -165,9 +166,15 @@ public class MainControllerUserReroute {
 
     @GetMapping(value="removeFriend/{id}/{friendID}")
     public void deleteRequest(@PathVariable UUID id, @PathVariable UUID friendID) throws ControllerNotAvailable, InterruptedException {
-        //add in delete direct chat here
+        DirectChatResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getDirectChat/" + id + "/" + friendID, DirectChatResponseDTO.class);
+        assert responseDTO != null;
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
+        UUID chatID = responseDTO.getId();
+        if(chatID.toString().equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        restTemplate.getForObject( INTERNET_PORT + ":" + CHAT_PORT + "/chat/deleteChat/" + chatID, String.class);
         restTemplate.getForObject( INTERNET_PORT + ":" + USER_PORT + "/user/removeFriend/"+id+"/"+friendID, String.class);
     }
 
