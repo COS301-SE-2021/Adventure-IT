@@ -208,17 +208,17 @@ class _ItinerariesList extends State<ItinerariesList> {
                               image: next != null
                                   ? next!.location.photoReference != ""
                                       ? NetworkImage(
-                                          "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
+                                          "https://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                               next!.location.photoReference +
                                               "&maxwidth=500&key=" +
                                               googleMapsKey)
                                       : NetworkImage(
-                                          "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
+                                          "https://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                               a!.location.photoReference +
                                               "&maxwidth=500&key=" +
                                               googleMapsKey)
                                   : NetworkImage(
-                                      "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
+                                      "https://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                           a!.location.photoReference +
                                           "&maxwidth=500&key=" +
                                           googleMapsKey),

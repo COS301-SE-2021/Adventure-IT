@@ -850,13 +850,13 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                     .photoReference ==
                                                 null
                                             ? NetworkImage(
-                                                "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
+                                                "https://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                                     currentAdventure!.location
                                                         .photoReference +
                                                     "&maxwidth=700&key=" +
                                                     googleMapsKey)
                                             : NetworkImage(
-                                                "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
+                                                "https://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                                     entryModel.entries!
                                                         .elementAt(index)
                                                         .location
@@ -1926,14 +1926,14 @@ class _RecommendedItems extends StatelessWidget {
                                                                 .photoReference ==
                                                             ""
                                                         ? NetworkImage(
-                                                            "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
+                                                            "https://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                                                 currentAdventure!
                                                                     .location
                                                                     .photoReference +
                                                                 "&maxwidth=700&key=" +
                                                                 googleMapsKey)
                                                         : NetworkImage(
-                                                            "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
+                                                            "https://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                                                 entryModel!
                                                                     .popular!
                                                                     .elementAt(
@@ -2110,13 +2110,13 @@ class _RecommendedItems extends StatelessWidget {
                                                                 .photoReference ==
                                                             ""
                                                         ? NetworkImage(
-                                                            "http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
+                                                            "https://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                                                 currentAdventure!
                                                                     .location
                                                                     .photoReference +
                                                                 "&maxwidth=700&key=" +
                                                                 googleMapsKey)
-                                                        : NetworkImage("http://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
+                                                        : NetworkImage("https://app.adventure-it.co.za/googleMapsApi/photo?photo_reference=" +
                                                             entryModel!
                                                                 .recommendations!
                                                                 .elementAt(index -

@@ -26,13 +26,15 @@ class _AppState extends State<InitializeFireFlutter> {
     this.nextWidget = nextWidget;
   }
 
-
   @override
   Widget build(BuildContext context) {
-    FirebaseMessaging.instance
-        .getToken()
-        .then((value) => UserApi.getInstance().setFirebaseID(value!, context));
-
+    print("Attempting to get firebase token");
+    FirebaseMessaging.instance.getToken().then((value) {
+      print("Inside getToken()");
+      print("Got token: " + value!);
+      UserApi.getInstance().setFirebaseID(value!, context);
+    });
+    print("Finished attempt to get firebase token");
     FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
       if (message != null && message.notification != null) {
         final title = message.notification!.title;
@@ -51,7 +53,8 @@ class _AppState extends State<InitializeFireFlutter> {
           timeInSecForIosWeb: 1,
           backgroundColor: Theme.of(context).accentColor,
           textColor: Theme.of(context).textTheme.bodyText1!.color,
-          fontSize: 15.0,);
+          fontSize: 15.0,
+        );
 
         FlutterMessagingChangeNotifier.notifyListeners();
       }
@@ -80,12 +83,21 @@ class _AppStateWeb extends State<InitializeFireFlutterWeb> {
     this.nextWidget = nextWidget;
   }
 
-
   @override
   Widget build(BuildContext context) {
-    FirebaseMessaging.instance
-        .getToken()
-        .then((value) => UserApi.getInstance().setFirebaseID(value!, context));
+    print("Attempting to get firebase token");
+    FirebaseMessaging.instance.requestPermission(alert: true).then((value) {
+      FirebaseMessaging.instance
+          .getToken(
+              vapidKey:
+                  'BIVkd4clRIJSem9cocqtxlSy9fDHmw3KbNcT2-BBgITMtJ8ygQZYnFFGXGf06ZMfM6BxBe5KHAx_Up6N7bSCY38')
+          .then((value) {
+        print("Inside getToken()");
+        print("Got token: " + value!);
+        UserApi.getInstance().setFirebaseID(value!, context);
+      });
+      print("Finished attempt to get firebase token");
+    });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
       if (message != null && message.notification != null) {
@@ -97,15 +109,16 @@ class _AppStateWeb extends State<InitializeFireFlutterWeb> {
         print("Handling message data: ${data.toString()}");
 
         Fluttertoast.showToast(
-            msg: body!,
-            webBgColor: "linear-gradient(to right, #6A7AC7, #484D64)",
-            webPosition: "center",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Theme.of(context).accentColor,
-            textColor: Theme.of(context).textTheme.bodyText1!.color,
-            fontSize: 15.0,);
+          msg: body!,
+          webBgColor: "linear-gradient(to right, #6A7AC7, #484D64)",
+          webPosition: "center",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Theme.of(context).accentColor,
+          textColor: Theme.of(context).textTheme.bodyText1!.color,
+          fontSize: 15.0,
+        );
 
         FlutterMessagingChangeNotifier.notifyListeners();
       }

@@ -38,7 +38,7 @@ class LocationApi {
 
   static Future<http.Response> _getSuggestions(query) async {
     return http.get(Uri.parse(
-        'http://app.adventure-it.co.za/googleMapsApi/autocomplete/json?input=$query&key=$googleMapsKey'));
+        'https://app.adventure-it.co.za/googleMapsApi/autocomplete/json?input=$query&key=$googleMapsKey'));
   }
 
   static Future<List<CurrentLocation>> getAllCurrentLocations(

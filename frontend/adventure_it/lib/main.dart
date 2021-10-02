@@ -16,22 +16,51 @@ void main() async {
   if (!kIsWeb) {
     await FlutterDownloader.initialize();
     FlutterDownloader.registerCallback(MediaApi.downloadCallback);
+    WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
+    await FirebaseMessaging.instance.setAutoInitEnabled(true);
+    NotificationSettings settings =
+        await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    print('User granted permission: ${settings.authorizationStatus}');
     runApp(
-        MyApp(),
+      MyApp(),
     );
   } else {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    await FirebaseMessaging.instance.setAutoInitEnabled(true);
+    NotificationSettings settings =
+        await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    print('User granted permission: ${settings.authorizationStatus}');
     runApp(MyApp());
   }
 }
+
 //
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => LocationModel(context),
-        child: MaterialAppWithTheme(),
+      create: (context) => LocationModel(context),
+      child: MaterialAppWithTheme(),
     );
   }
 }
@@ -43,19 +72,19 @@ class MaterialAppWithTheme extends StatelessWidget {
       defaultThemeId: 'dark_theme',
       loadThemeOnInit: true,
       themes: [
-        AppTheme(id: 'light_theme', description: 'Adventure-IT_Light',
-        data: lightTheme),
-        AppTheme(id: 'dark_theme', description: 'Adventure-IT_Dark',
-            data: darkTheme)
+        AppTheme(
+            id: 'light_theme',
+            description: 'Adventure-IT_Light',
+            data: lightTheme),
+        AppTheme(
+            id: 'dark_theme', description: 'Adventure-IT_Dark', data: darkTheme)
       ],
-        child: ThemeConsumer(
+      child: ThemeConsumer(
           child: Builder(
-            builder: (themeContext) => MaterialApp(
-            home: LoginCaller(),
-            theme: ThemeProvider.themeOf(themeContext).data,
-            )
-          )
-        ),
+              builder: (themeContext) => MaterialApp(
+                    home: LoginCaller(),
+                    theme: ThemeProvider.themeOf(themeContext).data,
+                  ))),
     );
   }
 }
