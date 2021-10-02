@@ -1514,6 +1514,9 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                                                                             .elementAt(index)
                                                                             .id,
                                                                         context);
+                                                                    Navigator.of(
+                                                                        context)
+                                                                        .pop();
                                                                   },
                                                                 ),
                                                                 TextButton(
