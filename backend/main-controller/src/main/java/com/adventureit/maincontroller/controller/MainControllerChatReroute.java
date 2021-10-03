@@ -3,6 +3,7 @@ package com.adventureit.maincontroller.controller;
 import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.adventure.AdventureDTO;
+import com.adventureit.shareddtos.adventure.responses.GetAdventureByUUIDResponse;
 import com.adventureit.shareddtos.chat.MessageDTO;
 import com.adventureit.shareddtos.chat.requests.*;
 import com.adventureit.shareddtos.chat.responses.DirectChatResponseDTO;
@@ -136,7 +137,8 @@ public class MainControllerChatReroute {
 
         // Get associated adventure
         assert chat != null;
-        AdventureDTO adventure = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/getAdventureByUUID/" + chat.getAdventureID(), AdventureDTO.class);
+        GetAdventureByUUIDResponse adventure = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/getAdventureByUUID/" + chat.getAdventureID(), GetAdventureByUUIDResponse.class);
+        AdventureDTO convertedAdventure = adventure.getAdventure();
 
         // Get all participants of chat
         List<UUID> users = chat.getParticipants();
@@ -144,7 +146,7 @@ public class MainControllerChatReroute {
 
         // Send notification to all participants
         assert adventure != null;
-        SendFirebaseNotificationsRequest notifReq = new SendFirebaseNotificationsRequest(users, "New Group Message", "Adventure: " + adventure.getName(), null);
+        SendFirebaseNotificationsRequest notifReq = new SendFirebaseNotificationsRequest(users, "New Group Message", "New Group Message, Adventure: " + convertedAdventure.getName(), null);
         restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/sendFirebaseNotifications",notifReq, String.class);
 
         return restTemplate.postForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/sendGroupMessage",req,String.class);
