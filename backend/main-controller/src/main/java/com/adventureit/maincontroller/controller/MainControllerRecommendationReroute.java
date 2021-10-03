@@ -61,12 +61,15 @@ public class MainControllerRecommendationReroute {
         }
         String[][] locationUUIDs = restTemplate.getForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/get/" + UUID.fromString(id) + "/" + num + "/" + loc, String[][].class);
         List<RecommendedLocationResponseDTO> returnList = new ArrayList<>();
+        if(locationUUIDs[0].length != 0){
         for (int i = 0; i < Objects.requireNonNull(locationUUIDs).length; i++) {
             LocationResponseDTO locationObject = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getLocation/" + locationUUIDs[i][0], LocationResponseDTO.class);
             assert locationObject != null;
             returnList.add(new RecommendedLocationResponseDTO(locationObject.getId(), locationObject.getPhotoReference(), locationObject.getFormattedAddress(), locationObject.getPlaceId(), locationObject.getName(), Boolean.parseBoolean(locationUUIDs[i][1])));
         }
+        }
         return returnList;
+
     }
 
     @GetMapping("like/{userId}/{locationId}")
@@ -125,12 +128,12 @@ public class MainControllerRecommendationReroute {
         for (int i = 0; i < locations.size(); i++) {
             UUID createdLocationUUID = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/create/" + locations.get(i)+" South Africa", UUID.class);
             try {
-                LocationResponseDTO locationDTO = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getLocation/createdLocationUUID" + createdLocationUUID, LocationResponseDTO.class);
+                LocationResponseDTO locationDTO = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + "/location/getLocation/" + createdLocationUUID, LocationResponseDTO.class);
                 assert locationDTO != null;
                 CreateLocationRequest req = new CreateLocationRequest(createdLocationUUID, locationDTO.getFormattedAddress());
-                restTemplate.postForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/add/location", req, ResponseEntity.class);
+                restTemplate.postForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/add/location", req, String.class);
             } catch (Exception e) {
-                return "Error: Malformed create location request";
+                return "Error: Malformed create location request: " + e.getMessage();
             }
             for(int k=0;k<users.size();k++)
             {

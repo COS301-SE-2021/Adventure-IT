@@ -324,7 +324,7 @@ class UserApi {
   }
 
   Future<http.Response> _searchUsername(String username) async {
-    return http.get(Uri.parse(mainApi + 'user/getByUserName/' + username));
+    return http.get(Uri.parse(mainApi + '/user/getByUserName/' + username));
   }
 
   Future createFriendRequest(String from, String to, context) async {
