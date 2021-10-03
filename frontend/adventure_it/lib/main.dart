@@ -26,7 +26,6 @@ void main() async {
   } else {
     WidgetsFlutterBinding.ensureInitialized();
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
-
     runApp(MyApp());
   }
 }
