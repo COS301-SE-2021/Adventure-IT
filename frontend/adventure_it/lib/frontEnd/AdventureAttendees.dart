@@ -147,8 +147,9 @@ class _Carousel extends State<Carousel> {
   String getTime(String timestamp) {
     print(timestamp);
     DateTime date = DateTime.parse(timestamp);
+    date.add(new Duration (hours:2));
 
-    String x = date.hour.toString() + ":";
+    String x = (date.hour).toString() + ":";
 
     if (date.minute < 10) {
       x = x + "0" + date.minute.toString();

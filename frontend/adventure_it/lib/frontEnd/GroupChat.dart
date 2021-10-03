@@ -148,7 +148,9 @@ class _MessageList extends State<MessageList> {
   }
 
   String getTime(DateTime x) {
-    String toReturn = x.hour.toString() + ":";
+    String toReturn="";
+    x.add(new Duration (hours:2));
+    toReturn=x.hour.toString()+":";
 
     if (x.minute < 10) {
       toReturn = toReturn + "0" + x.minute.toString();

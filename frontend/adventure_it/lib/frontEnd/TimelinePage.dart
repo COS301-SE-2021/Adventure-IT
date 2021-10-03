@@ -100,10 +100,9 @@ class TimelineList extends StatelessWidget {
   {
     String dateTime="";
 
-    String hour=DateTime.parse(i.timestamp)
-        .hour
-        .toString();
-
+   DateTime time=DateTime.parse(i.timestamp);
+   time.add(new Duration (hours:2));
+    String hour=time.hour.toString();
     if(hour.length<2)
     {
       dateTime=dateTime+"0"+hour+":";
