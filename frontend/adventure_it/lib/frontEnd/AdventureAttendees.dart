@@ -183,7 +183,7 @@ class _Carousel extends State<Carousel> {
               viewportFraction: 0.2,
               aspectRatio: 2.0,
               initialPage: (attendeeModel!.attendees!.length / 2).toInt(),
-              enableInfiniteScroll: false,
+              enableInfiniteScroll: true,
             ),
             itemCount: attendeeModel!.attendees!.length,
             itemBuilder: (BuildContext context, int index, int pageViewIndex) =>
