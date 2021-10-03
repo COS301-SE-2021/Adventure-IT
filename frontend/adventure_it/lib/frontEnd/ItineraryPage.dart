@@ -2596,8 +2596,8 @@ class _RecommendedItems extends StatelessWidget {
 
   @override
   Widget build(context) {
-    if(entryModel!.popular != null &&
-        entryModel!.recommendations != null)
+    if(entryModel!.popular == null ||
+        entryModel!.recommendations == null)
       {
         return Center(
             child: CircularProgressIndicator(
