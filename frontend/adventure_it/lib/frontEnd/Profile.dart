@@ -402,10 +402,9 @@ class Countries extends State<_Countries> {
                                             image: DecorationImage(
                                               fit: BoxFit.cover,
                                               image: NetworkImage(
-                                                  'https://app.adventure-it.co.za/flags/' +
+                                                  'https://app.adventure-it.co.za/flags/w40/' +
                                                       locationModel.flags!
-                                                          .elementAt(index) +
-                                                      '/flat/64.png'),
+                                                          .elementAt(index).toString().toLowerCase() +".png"),
                                             ))),
                                   ),
                                 ),
