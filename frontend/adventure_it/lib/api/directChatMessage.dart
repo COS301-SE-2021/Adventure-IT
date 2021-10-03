@@ -8,9 +8,7 @@ part 'directChatMessage.g.dart';
 class DirectChatMessage {
   final String id;
   final UserProfile sender;
-  final UserProfile receiver;
   final String message;
-  final bool read;
   final String timestamp;
 
   DirectChatMessage({
@@ -18,8 +16,6 @@ class DirectChatMessage {
     required this.sender,
     required this.message,
     required this.timestamp,
-    required this.receiver,
-    required this.read,
   });
 
   factory DirectChatMessage.fromJson(Map<String, dynamic> json) =>
