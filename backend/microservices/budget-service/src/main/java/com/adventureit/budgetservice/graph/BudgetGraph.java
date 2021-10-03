@@ -26,12 +26,12 @@ public class BudgetGraph{
             if(nodeArrayList.isEmpty()){
                 nodeArrayList.add(new Node(name));
 
-                if(budgets.get(0).getClass().equals(UTUExpense.class)){
+                if(budgets.get(0).getClass().equals(ReportUTUExpense.class)){
                     ReportUTUExpense entry = (ReportUTUExpense)budgets.get(0);
                     if(!checkList(entry.getPayee(),nodeArrayList)){
                         nodeArrayList.add(new Node(entry.getPayee()));
                     }
-                }else if(budgets.get(0).getClass().equals(UTOExpense.class)){
+                }else if(budgets.get(0).getClass().equals(ReportUTOExpense.class)){
                     ReportUTOExpense entry = (ReportUTOExpense)budgets.get(0);
                     if(!checkList(entry.getPayee(),nodeArrayList)){
                         nodeArrayList.add(new Node(entry.getPayee()));
@@ -40,12 +40,12 @@ public class BudgetGraph{
             }
             else{
 
-                if(budgets.get(j).getClass().equals(UTUExpense.class)){
+                if(budgets.get(j).getClass().equals(ReportUTUExpense.class)){
                     ReportUTUExpense entry = (ReportUTUExpense)budgets.get(j);
                     if(!checkList(entry.getPayee(),nodeArrayList)){
                         nodeArrayList.add(new Node(entry.getPayee()));
                     }
-                }else if(budgets.get(j).getClass().equals(UTOExpense.class)){
+                }else if(budgets.get(j).getClass().equals(ReportUTOExpense.class)){
                     ReportUTOExpense entry = (ReportUTOExpense)budgets.get(j);
                     if(!checkList(entry.getPayee(),nodeArrayList)){
                         nodeArrayList.add(new Node(entry.getPayee()));
@@ -64,13 +64,13 @@ public class BudgetGraph{
         for( int j = 0 ; j< budgets.size();j++){
             Node payer = null;
             Node payee = null;
-            if (budgets.get(j).getClass().equals(UTUExpense.class)){
+            if (budgets.get(j).getClass().equals(ReportUTUExpense.class)){
                 ReportUTUExpense entry = (ReportUTUExpense) budgets.get(j);
                 payee = findNode(nodeArrayList, entry.getPayee());
                 payer = findNode(nodeArrayList,entry.getPayer());
                 payer.addEdge(new Edge(payer,payee,entry.getAmount(),entry.getId()));
             }
-            else if (budgets.get(j).getClass().equals(UTOExpense.class)){
+            else if (budgets.get(j).getClass().equals(ReportUTOExpense.class)){
                 ReportUTOExpense entry = (ReportUTOExpense) budgets.get(j);
                 payee = findNode(nodeArrayList, entry.getPayee());
                 payer = findNode(nodeArrayList,entry.getPayer());
