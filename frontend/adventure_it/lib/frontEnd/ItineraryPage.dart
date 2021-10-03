@@ -2596,7 +2596,17 @@ class _RecommendedItems extends StatelessWidget {
 
   @override
   Widget build(context) {
-    if (entryModel!.popular != null &&
+    if(entryModel!.popular != null &&
+        entryModel!.recommendations != null)
+      {
+        return Center(
+            child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                    Theme
+                        .of(context)
+                        .accentColor)));
+      }
+    else if (entryModel!.popular != null &&
         entryModel!.recommendations != null &&
         entryModel!.popular!.length > 0) {
       return Container(
