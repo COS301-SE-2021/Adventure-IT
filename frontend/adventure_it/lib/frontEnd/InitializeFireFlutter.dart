@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:adventure_it/Providers/chat_model.dart';
 import 'package:adventure_it/api/userAPI.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -29,7 +28,8 @@ class _AppState extends State<InitializeFireFlutter> {
   @override
   Widget build(BuildContext context) {
     print("Attempting to get firebase token");
-    FirebaseMessaging.instance.getToken().then((value) {
+    FirebaseMessaging.instance.getToken(vapidKey:
+    'BIVkd4clRIJSem9cocqtxlSy9fDHmw3KbNcT2-BBgITMtJ8ygQZYnFFGXGf06ZMfM6BxBe5KHAx_Up6N7bSCY38').then((value) {
       print("Inside getToken()");
       print("Got token: " + value!);
       UserApi.getInstance().setFirebaseID(value!, context);
@@ -50,7 +50,7 @@ class _AppState extends State<InitializeFireFlutter> {
           webPosition: "center",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
+          timeInSecForIosWeb: 2,
           backgroundColor: Theme.of(context).accentColor,
           textColor: Theme.of(context).textTheme.bodyText1!.color,
           fontSize: 15.0,
@@ -86,7 +86,6 @@ class _AppStateWeb extends State<InitializeFireFlutterWeb> {
   @override
   Widget build(BuildContext context) {
     print("Attempting to get firebase token");
-    FirebaseMessaging.instance.requestPermission(alert: true).then((value) {
       FirebaseMessaging.instance
           .getToken(
               vapidKey:
@@ -97,7 +96,6 @@ class _AppStateWeb extends State<InitializeFireFlutterWeb> {
         UserApi.getInstance().setFirebaseID(value!, context);
       });
       print("Finished attempt to get firebase token");
-    });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
       if (message != null && message.notification != null) {

@@ -36,7 +36,6 @@ void main() async {
     );
   } else {
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
     NotificationSettings settings =
         await FirebaseMessaging.instance.requestPermission(
