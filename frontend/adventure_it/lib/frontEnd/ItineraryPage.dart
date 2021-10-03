@@ -3755,7 +3755,7 @@ class _AlertBoxRecommended extends State<AlertBoxRecommendation> {
                               currentItinerary!.id,
                               titleController.text,
                               descriptionController.text,
-                              location!,
+                              locationController.text,
                               date!,
                               time!,
                               userID);
