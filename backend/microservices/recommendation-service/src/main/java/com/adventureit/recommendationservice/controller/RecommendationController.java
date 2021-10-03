@@ -97,7 +97,13 @@ public class RecommendationController {
     // User requests arbitrary number of recommendations
     @GetMapping("get/{userId}/{numRecommendations}/{location}")
     public String[][] getUserRecommendations(@PathVariable UUID userId, @PathVariable String numRecommendations, @PathVariable String location){
-        return this.recommendationService.getUserRecommendations(userId, numRecommendations, location);
+        String[][] returnValue = this.recommendationService.getUserRecommendations(userId, numRecommendations, location);
+        if(returnValue == null){
+            return new String[][]{{}};
+        }
+        else {
+            return returnValue;
+        }
     }
 
     // User requests arbitrary number of popular locations
