@@ -162,10 +162,12 @@ class ItineraryEntryModel extends ChangeNotifier {
   Future fetchAllRecommendations() async {
     _recommendations =
         await LocationApi.getRecommendations(this.currentAdventure!, context);
+    notifyListeners();
   }
 
   Future fetchAllPopular() async {
     _popular = await LocationApi.getPopular(this.currentAdventure!, context);
+    notifyListeners();
   }
 
   ItineraryEntryModel(Itinerary i, Adventure a, context) {
