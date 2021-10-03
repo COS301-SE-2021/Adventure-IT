@@ -19,36 +19,14 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
-    NotificationSettings settings =
-        await FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
 
-    print('User granted permission: ${settings.authorizationStatus}');
     runApp(
       MyApp(),
     );
   } else {
     WidgetsFlutterBinding.ensureInitialized();
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
-    NotificationSettings settings =
-        await FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
 
-    print('User granted permission: ${settings.authorizationStatus}');
     runApp(MyApp());
   }
 }

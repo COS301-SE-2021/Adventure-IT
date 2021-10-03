@@ -2,6 +2,7 @@ import 'package:adventure_it/api/locationAPI.dart';
 import 'package:adventure_it/api/userAPI.dart';
 import 'package:adventure_it/frontEnd/ForgotPassword.dart';
 import 'package:adventure_it/frontEnd/InitializeFireFlutter.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
@@ -117,6 +118,17 @@ class Login extends State<LoginCaller> {
                   }
 
                   if (success == true) {
+                    NotificationSettings settings =
+                    await FirebaseMessaging.instance.requestPermission(
+                      alert: true,
+                      announcement: false,
+                      badge: true,
+                      carPlay: false,
+                      criticalAlert: false,
+                      provisional: false,
+                      sound: true,
+                    );
+                    print('User granted permission: ${settings.authorizationStatus}');
                     bool serviceEnabled;
                     PermissionStatus permissionGranted;
                     Location location = Location();
