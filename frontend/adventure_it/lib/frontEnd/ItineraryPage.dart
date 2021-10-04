@@ -979,7 +979,7 @@ class ListItineraryItems extends State<_ListItineraryItems> {
                     Theme
                         .of(context)
                         .accentColor)));
-      } else if (entryModel.entries!.length > 0) {
+      } else if (entryModel.entries != null && entryModel.entries!.length > 0) {
         return Column(children: [
           Expanded(
               flex: 4,
