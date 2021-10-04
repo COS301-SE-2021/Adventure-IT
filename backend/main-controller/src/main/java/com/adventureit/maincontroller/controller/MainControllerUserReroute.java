@@ -4,27 +4,38 @@ package com.adventureit.maincontroller.controller;
 import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.chat.requests.CreateDirectChatRequest;
+import com.adventureit.shareddtos.chat.responses.DirectChatResponseDTO;
 import com.adventureit.shareddtos.media.responses.MediaResponseDTO;
 import com.adventureit.shareddtos.recommendation.request.CreateUserRequest;
 import com.adventureit.shareddtos.user.requests.*;
 import com.adventureit.shareddtos.user.responses.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.logging.Level;
 
 @RestController
 @RequestMapping("/user")
 public class MainControllerUserReroute {
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "internal-microservices-473352023.us-east-2.elb.amazonaws.com";
+    private static final String INTERNET_PORT = "http://internal-microservice-load-balancer-1572194202.us-east-2.elb.amazonaws.com";
     private static final String USER_PORT = "9002";
     private static final String LOCATION_PORT = "9006";
     private static final String RECOMMENDATION_PORT = "9013";
@@ -34,6 +45,11 @@ public class MainControllerUserReroute {
     @Autowired
     public MainControllerUserReroute(MainControllerServiceImplementation service) {
         this.service = service;
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/test", String.class);
     }
 
     @PostMapping(value = "registerUser", consumes = "application/json", produces = "application/json")
@@ -50,16 +66,34 @@ public class MainControllerUserReroute {
         return restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/registerUser",req, RegisterUserResponse.class);
     }
 
-    @GetMapping(value="test")
-    public String test(){
-        return "User controller is working";
-    }
-
-    @PostMapping(value = "updatePicture", consumes = "application/json", produces = "application/json")
-    public String updatePicture(@RequestBody UpdatePictureRequest req) throws ControllerNotAvailable, InterruptedException {
+    @PostMapping(value = "/updatePicture")
+    public HttpStatus updatePicture(@RequestPart MultipartFile file, @RequestParam("userid") UUID userId) throws ControllerNotAvailable, InterruptedException, IOException {
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
-       return restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/updatePicture/",req, String.class);
+
+        File convFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
+        try (FileOutputStream fos = new FileOutputStream(convFile)) {
+            Boolean bool = convFile.createNewFile();
+            if (bool.equals(true)) {
+                System.out.println("Successfull");
+            }
+            fos.write(file.getBytes());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
+        bodyMap.add("file", new FileSystemResource(convFile));
+        bodyMap.add("userid", userId.toString());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(bodyMap, headers);
+        restTemplate = new RestTemplate();
+
+        HttpStatus status = restTemplate.postForObject(INTERNET_PORT + ":" + USER_PORT + "/user/updatePicture/",requestEntity, HttpStatus.class);
+        Files.delete(Path.of(convFile.getPath()));
+        return status;
     }
 
     @GetMapping(value="/confirmToken/{token}")
@@ -71,7 +105,6 @@ public class MainControllerUserReroute {
             throw new ControllerNotAvailable(ERROR);
         }
         return restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + "/user/confirmToken/" + tok, String.class);
-
     }
 
     @PostMapping(value = "loginUser", consumes = "application/json", produces = "application/json")
@@ -133,9 +166,15 @@ public class MainControllerUserReroute {
 
     @GetMapping(value="removeFriend/{id}/{friendID}")
     public void deleteRequest(@PathVariable UUID id, @PathVariable UUID friendID) throws ControllerNotAvailable, InterruptedException {
-        //add in delete direct chat here
+        DirectChatResponseDTO responseDTO = restTemplate.getForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/getDirectChat/" + id + "/" + friendID, DirectChatResponseDTO.class);
+        assert responseDTO != null;
         String[] ports = {USER_PORT};
         service.pingCheck(ports,restTemplate);
+        UUID chatID = responseDTO.getId();
+        if(chatID.toString().equals("")) {
+            throw new ControllerNotAvailable(ERROR);
+        }
+        restTemplate.getForObject( INTERNET_PORT + ":" + CHAT_PORT + "/chat/deleteChat/" + chatID, String.class);
         restTemplate.getForObject( INTERNET_PORT + ":" + USER_PORT + "/user/removeFriend/"+id+"/"+friendID, String.class);
     }
 

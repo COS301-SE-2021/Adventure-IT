@@ -5,6 +5,8 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:filesystem_picker/filesystem_picker.dart' as filesystem_picker;
 
+import '../constants.dart';
+
 class MediaDownload {
   // Start: Singleton Design Pattern
   static MediaDownload _instance = new MediaDownload._();
@@ -34,8 +36,7 @@ class MediaDownload {
         pickText: 'Save file to this folder');
     print(targetDirectory);
     final taskId = await FlutterDownloader.enqueue(
-      url:
-          'http://localhost:9005/media/uploaded/1ad40efd-2ea2-4cea-908c-47ee31daa9d1',
+      url: mainApi + '/media/uploaded/1ad40efd-2ea2-4cea-908c-47ee31daa9d1',
       savedDir: targetDirectory!,
       showNotification:
           true, // show download progress in status bar (for Android)

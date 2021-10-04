@@ -19,6 +19,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * The Adventure service implementation
+ * All functions are implemented here here
+ */
 @Service
 public class AdventureServiceImplementation implements AdventureService {
 
@@ -93,6 +97,9 @@ public class AdventureServiceImplementation implements AdventureService {
         return new GetAdventureByUUIDResponse(true, createAdventureDTO(retrievedAdventure));
     }
 
+    /**
+     * This function returns all existing adventures
+     */
     @Override
     public List<GetAllAdventuresResponse> getAllAdventures(){
         List<Adventure> allAdventures = adventureRepository.findAll();
@@ -110,26 +117,49 @@ public class AdventureServiceImplementation implements AdventureService {
         return list;
     }
 
+    /**
+     * @param ownerID
+     * Gets all adventures that a single user is the owner of
+     *
+     * @return List of GetAdventuresByUserUUIDResponse DTOs
+     */
     @Override
     public List<GetAdventuresByUserUUIDResponse> getAdventureByOwnerUUID(UUID ownerID){
         List<Adventure> userAdventures = adventureRepository.findByOwnerId(ownerID);
         return sortAdventures(userAdventures);
     }
 
-
-
+    /**
+     * @param attendeeID
+     * Gets all adventures that a single user is an attendee of
+     *
+     * @return List of GetAdventuresByUserUUIDResponse DTOs
+     */
     @Override
     public List<GetAdventuresByUserUUIDResponse> getAdventureByAttendeeUUID(UUID attendeeID) {
         List<Adventure> userAdventures = adventureRepository.findByAttendees(attendeeID);
         return sortAdventures(userAdventures);
     }
 
+    /**
+     * @param id
+     * Gets all adventures that a UUID is associated with
+     *
+     * @return List of GetAdventuresByUserUUIDResponse DTOs
+     */
     @Override
     public List<GetAdventuresByUserUUIDResponse> getAllAdventuresByUUID(UUID id) {
         List<Adventure> userAdventures = adventureRepository.findAllByOwnerIdOrAttendeesContains(id,id);
         return sortAdventures(userAdventures);
     }
 
+    /**
+     * @param id
+     * @param userID
+     * Removes an adventure from a specific users list and removes them from the adventure
+     *
+     * @return RemoveAdventureResponse
+     */
     @Transactional
     public RemoveAdventureResponse removeAdventure(UUID id, UUID userID) {
         Adventure retrievedAdventure = adventureRepository.findAdventureByAdventureId(id);
@@ -139,16 +169,24 @@ public class AdventureServiceImplementation implements AdventureService {
         if(!retrievedAdventure.getAttendees().contains(userID)){
             throw new UserNotInAdventureException("User does not belong to Adventure");
         }
+        boolean flag = false;
 
         retrievedAdventure.getAttendees().remove(userID);
 
         if(retrievedAdventure.getAttendees().isEmpty()){
             adventureRepository.deleteAdventureByAdventureId(id);
+            flag = true;
         }
 
-        return new RemoveAdventureResponse(true, "Adventure successfully removed");
+        return new RemoveAdventureResponse(true, "Adventure successfully removed", flag);
     }
 
+    /**
+     * @param id
+     * Gets a list of attendees of an adventure
+     *
+     * @return List of UUIDs
+     */
     @Override
     public List<UUID> getAttendees(UUID id) {
         Adventure adventure  = adventureRepository.findAdventureByAdventureId(id);
@@ -159,6 +197,12 @@ public class AdventureServiceImplementation implements AdventureService {
         return adventure.getAttendees();
     }
 
+    /**
+     * @param adventureID
+     * @param locationID
+     * Sets the location UUID of an adventure
+     *
+     */
     @Override
     public void setAdventureLocation(UUID adventureID, UUID locationID) {
         Adventure adventure = adventureRepository.findAdventureByAdventureId(adventureID);
@@ -166,6 +210,12 @@ public class AdventureServiceImplementation implements AdventureService {
         adventureRepository.save(adventure);
     }
 
+    /**
+     * @param adventureID
+     * @param userID
+     *Adds an attendee to an adventure
+     *
+     */
     @Override
     public void addAttendees(UUID adventureID, UUID userID) {
         Adventure adventure = adventureRepository.findAdventureByAdventureId(adventureID);
@@ -181,6 +231,13 @@ public class AdventureServiceImplementation implements AdventureService {
         adventureRepository.save(adventure);
     }
 
+    /**
+     * @param adventureID
+     * @param userID
+     * Removes an attendee from an adventure
+     *
+     * @return String
+     */
     @Override
     public String removeAttendees(UUID adventureID, UUID userID) {
         Adventure adventure = adventureRepository.findAdventureByAdventureId(adventureID);
@@ -193,7 +250,12 @@ public class AdventureServiceImplementation implements AdventureService {
         return "User has been removed";
     }
 
-    // Helper function for sorting adventures, throws an exception if there are no adventures
+    /**
+     * @param userAdventures
+     * Helper function for sorting adventures, throws an exception if there are no adventures
+     *
+     * @return List of GetAdventuresByUserUUIDResponse DTOs
+     */
     private List<GetAdventuresByUserUUIDResponse> sortAdventures(List<Adventure> userAdventures) {
         if(userAdventures.isEmpty()){
             return new ArrayList<>();
@@ -209,6 +271,12 @@ public class AdventureServiceImplementation implements AdventureService {
         return list;
     }
 
+    /**
+     * @param req
+     * Allows a user to edit the details of an adventure
+     *
+     * @return List of GetAdventuresByUserUUIDResponse DTOs
+     */
     @Override
     public String editAdventure(EditAdventureRequest req) {
         Adventure adventure = adventureRepository.findAdventureByAdventureId(req.getAdventureId());
@@ -244,6 +312,12 @@ public class AdventureServiceImplementation implements AdventureService {
         return "Adventure successfully edited";
     }
 
+    /**
+     * @param adv
+     * Helper function for converting an Adventure object into a DTO
+     *
+     * @return AdventureDTO
+     */
     public AdventureDTO createAdventureDTO(Adventure adv){
         return new AdventureDTO(adv.getName(), adv.getDescription(), adv.getAdventureId(), adv.getOwnerId(), adv.getStartDate(), adv.getEndDate(), adv.getLocation());
     }

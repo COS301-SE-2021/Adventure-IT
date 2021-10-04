@@ -1,4 +1,4 @@
-name: Adventure Microservice - Tests
+name: Adventure-IT - Tests
 
 on:
   push:
@@ -9,6 +9,37 @@ on:
       - Sprint*
   workflow_dispatch:
   
+# jobs:
+#   build:
+    
+#     # This job will run on ubuntu virtual machine
+#     runs-on: ubuntu-latest
+#     steps:
+    
+    
+#     # Setup Java environment in order to build the Android app.
+#     - uses: actions/checkout@v1
+      
+#     - uses: actions/setup-java@v1
+#       with:
+#         java-version: '12.x'
+    
+#     # Setup the flutter environment.
+#     - uses: subosito/flutter-action@v1
+#       with:
+#         channel: 'beta' # 'dev', 'alpha', default to: 'stable'
+#         # flutter-version: '1.12.x' # you can also specify exact version of flutter
+        
+#     # Get flutter dependencies.
+#     - name: Set up flutter
+#       working-directory: frontend/adventure_it
+#       run: flutter pub get
+    
+#     # Statically analyze the Dart code for any errors.
+#     - run: flutter analyze .
+    
+#     # Run widget tests for our flutter project.
+#     - run: flutter test
   
 jobs:
   build:
@@ -41,6 +72,22 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: 
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=COS301-SE-2021_Adventure-IT
+      - name: Building docker images
+        working-directory: backend
+        run: |
+          docker-compose build
+      
+        
+      
+#       - uses: subosito/flutter-action@v1
+#       - name: Install dependencies
+#         working-directory: frontend/adventure_it
+#         run: flutter pub get
+#       - name: Analyze project source
+#         run: flutter analyze
+#       - name: Run tests
+#         run: flutter test
+
 # jobs:
 #   build:
 #     runs-on: ubuntu-latest

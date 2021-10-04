@@ -33,7 +33,7 @@ public class MainControllerMediaReroute {
 
     private RestTemplate restTemplate = new RestTemplate();
     private MainControllerServiceImplementation service;
-    private static final String INTERNET_PORT = "internal-microservices-473352023.us-east-2.elb.amazonaws.com";
+    private static final String INTERNET_PORT = "http://internal-microservice-load-balancer-1572194202.us-east-2.elb.amazonaws.com";
     private static final String MEDIA_PORT = "9005";
     private static final String USER_PORT = "9002";
     private static final String STORAGE_EXCEEDED = "Upload Media: User has exceeded storage available";
@@ -44,7 +44,7 @@ public class MainControllerMediaReroute {
 
     @GetMapping("/test")
     public String test(){
-        return "Media Controller is functional";
+        return restTemplate.getForObject(INTERNET_PORT + ":" + MEDIA_PORT + "/media/test", String.class);
     }
 
     public MainControllerMediaReroute(MainControllerServiceImplementation service) {

@@ -78,8 +78,8 @@ flutter:
 
   # The following line specifies the logo dependency
   assets:
-    - assets/adventure.PNG
-    - assets/logo.png
+    - custom_images/
+    - flags/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

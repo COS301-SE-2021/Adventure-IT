@@ -162,10 +162,12 @@ class ItineraryEntryModel extends ChangeNotifier {
   Future fetchAllRecommendations() async {
     _recommendations =
         await LocationApi.getRecommendations(this.currentAdventure!, context);
+    notifyListeners();
   }
 
   Future fetchAllPopular() async {
     _popular = await LocationApi.getPopular(this.currentAdventure!, context);
+    notifyListeners();
   }
 
   ItineraryEntryModel(Itinerary i, Adventure a, context) {
@@ -206,8 +208,8 @@ class ItineraryEntryModel extends ChangeNotifier {
   }
 
   Future editItineraryEntry(ItineraryEntry entry, Itinerary i, String a,
-      String b, String c, String d, String e, String f, String g) async {
-    await ItineraryApi.itineraryEdit(a, b, c, d, e, f, g, context);
+      String b, String c, String d, String e, String f, DateTime g, TimeOfDay h) async {
+    await ItineraryApi.itineraryEdit(a, b, c, d, e, f, g, h, context);
 
     var index = _entries!.indexWhere((element) => element.id == entry.id);
     _entries!.removeAt(index);

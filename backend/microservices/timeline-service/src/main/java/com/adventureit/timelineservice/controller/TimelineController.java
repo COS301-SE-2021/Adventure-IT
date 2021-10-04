@@ -41,7 +41,4 @@ public class TimelineController {
     public String createTimeline(@RequestBody CreateTimelineRequest req){
         return service.createTimelineEntry(req.getAdventureID(),req.getDescription(),req.getType());
     }
-
-
-
 }

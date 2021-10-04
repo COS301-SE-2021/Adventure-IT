@@ -20,6 +20,7 @@ import java.io.*;
 import java.nio.channels.Channels;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -392,6 +393,23 @@ public class MediaServiceImplementation implements MediaService{
             return size;
         }finally {
             inputStream.close();
+        }
+    }
+
+    @Override
+    public void deleteAllByAdventure(UUID id) {
+        List<MediaInfo> mediaInfoList = mediaInfoRepository.findAllByAdventureID(id);
+        if(mediaInfoList != null && !mediaInfoList.isEmpty()){
+            for (MediaInfo mediaInfo:mediaInfoList) {
+                deleteMedia(mediaInfo.getId(),mediaInfo.getOwner());
+            }
+        }
+
+        List<FileInfo> fileInfoList = fileInfoRepository.findAllByAdventureID(id);
+        if(fileInfoList != null && !fileInfoList.isEmpty()){
+            for (FileInfo fileInfo:fileInfoList) {
+                deleteFile(fileInfo.getId(),fileInfo.getOwner());
+            }
         }
     }
 }

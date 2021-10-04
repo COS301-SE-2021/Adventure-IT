@@ -20,4 +20,5 @@ public interface MediaService {
     public long getMediaSize(UUID id) throws IOException;
     public long getFileSize(UUID id) throws IOException;
     public long getDocumentSize(UUID id) throws IOException;
+    public void deleteAllByAdventure(UUID id);
 }

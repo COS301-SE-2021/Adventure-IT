@@ -27,7 +27,7 @@ public class MainControllerChecklistReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "internal-microservices-473352023.us-east-2.elb.amazonaws.com";
+    private static final String INTERNET_PORT = "http://internal-microservice-load-balancer-1572194202.us-east-2.elb.amazonaws.com";
     private static final String TIMELINE_PORT = "9012";
     private static final String CHECKLIST_PORT = "9008";
     private static final String USER_PORT = "9002";
@@ -42,9 +42,10 @@ public class MainControllerChecklistReroute {
         this.service = service;
     }
 
+
     @GetMapping("/test")
     public String test(){
-        return "Checklist Controller is functional";
+        return restTemplate.getForObject(INTERNET_PORT + ":" + CHECKLIST_PORT + "/checklist/test", String.class);
     }
 
     @GetMapping("/viewChecklistsByAdventure/{id}")

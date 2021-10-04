@@ -4,16 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
+import '../constants.dart';
 import 'adventure.dart';
 
 class TimelineAPI {
-  static Future<List<Timeline>> viewTimeline(Adventure? a,context) async {
+  static Future<List<Timeline>> viewTimeline(Adventure? a, context) async {
     http.Response response = await http.get(Uri.parse(
-        'http://localhost:9999/timeline/getTimelineByAdventure/' +
-            a!.adventureId));
+        mainApi + '/timeline/getTimelineByAdventure/' + a!.adventureId));
 
     if (response.statusCode != 200) {
-      SnackBar snackBar=SnackBar(content: Text('Failed to get list of timeline entries for adventure!',style: TextStyle( color: Theme.of(context).textTheme.bodyText1!.color,fontWeight: FontWeight.bold)),backgroundColor: Theme.of(context).primaryColorDark);
+      SnackBar snackBar = SnackBar(
+          content: Text('Failed to get list of timeline entries for adventure!',
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontWeight: FontWeight.bold)),
+          backgroundColor: Theme.of(context).primaryColorDark);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       throw Exception('Failed to load the timeline list: ${response.body}');
     }

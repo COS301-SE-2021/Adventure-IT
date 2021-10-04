@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The Budget Controller
+ * This class defines API endpoints for the Main Controller to communicate with the Budget microservice
+ */
 @RestController
 @RequestMapping("/budget")
 public class BudgetController {
@@ -135,6 +139,8 @@ public class BudgetController {
 		return budgetServiceImplementation.getBudgetByBudgetEntryId(budgetId);
 	}
 
-
-
+	@GetMapping("/deleteAllByAdventure/{id}")
+	public void deleteAllByAdventure(@PathVariable UUID id){
+		budgetServiceImplementation.removeAllByAdventure(id);
+	}
 }

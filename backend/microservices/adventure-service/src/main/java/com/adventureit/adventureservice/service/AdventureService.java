@@ -11,6 +11,10 @@ import com.adventureit.shareddtos.adventure.requests.CreateAdventureRequest;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The Adventure service interface
+ * All functions are defined here
+ */
 public interface AdventureService{
 
     CreateAdventureResponse createAdventure(CreateAdventureRequest req);

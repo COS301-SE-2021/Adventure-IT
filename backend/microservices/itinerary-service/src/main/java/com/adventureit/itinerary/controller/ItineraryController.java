@@ -134,4 +134,9 @@ public class ItineraryController {
     public Map<UUID,Boolean> getRegisteredUsers(@PathVariable UUID id){
         return itineraryServiceImplementation.getRegisteredUsers(id);
     }
+
+    @GetMapping("/deleteAllByAdventure/{id}")
+    public void deleteAllByAdventure(@PathVariable UUID id){
+        itineraryServiceImplementation.deleteAllByAdventure(id);
+    }
 }

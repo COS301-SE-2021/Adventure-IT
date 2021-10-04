@@ -93,4 +93,9 @@ public class ChecklistController {
     public ChecklistDTO getChecklistByChecklistEntryId(@PathVariable UUID id){
         return checklistServiceImplementation.getChecklistByChecklistEntryId(id);
     }
+
+    @GetMapping("/deleteAllByAdventure/{id}")
+    public void deleteAllByAdventure(@PathVariable UUID id){
+        checklistServiceImplementation.deleteAllByAdventure(id);
+    }
 }

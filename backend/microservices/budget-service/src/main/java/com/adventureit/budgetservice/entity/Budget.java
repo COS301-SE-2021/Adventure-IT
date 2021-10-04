@@ -3,9 +3,12 @@ package com.adventureit.budgetservice.entity;
 import javax.persistence.*;
 import java.util.UUID;
 
+/**
+ * The Budget class
+ * This class defines the attributes of the Budget entity to set up the table in the database
+ */
 @Entity
 public class Budget{
-
     @Id
     private UUID budgetID;
     private UUID creatorID;
@@ -14,11 +17,20 @@ public class Budget{
     private boolean deleted;
     private String description;
 
-    public Budget(){
+    /**
+     * Default constructor
+     */
+    public Budget(){}
 
-    }
-
-    public Budget(UUID budgetId,String name, String description, UUID creatorID, UUID adventureID) {
+    /**
+     * Budget model Constructor which takes in the following parameters:
+     * @param budgetId - The UUID of the budget
+     * @param name - The name of the budget
+     * @param description - The description of the budget
+     * @param creatorID - The UUID of the creator of the budget
+     * @param adventureID - The UUID of the adventure the budget belongs to
+     */
+    public Budget(UUID budgetId,String name, String description, UUID creatorID, UUID adventureID){
         this.budgetID = budgetId;
         this.creatorID = creatorID;
         this.adventureID = adventureID;
@@ -27,6 +39,13 @@ public class Budget{
         this.description = description;
     }
 
+    /**
+     * Budget model Constructor which takes in the following parameters:
+     * @param name - The name of the budget
+     * @param description - The description of the budget
+     * @param creatorID - The UUID of the creator of the budget
+     * @param adventureID - The UUID of the adventure the budget belongs to
+     */
     public Budget(String name, String description, UUID creatorID, UUID adventureID) {
         this.budgetID = UUID.randomUUID();
         this.creatorID = creatorID;
@@ -36,6 +55,9 @@ public class Budget{
         this.description = description;
     }
 
+    /**
+     * Getters and Setters
+     */
     public UUID getBudgetId() {
         return budgetID;
     }

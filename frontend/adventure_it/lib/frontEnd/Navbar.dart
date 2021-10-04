@@ -1,6 +1,6 @@
 import 'package:adventure_it/frontEnd/Settings.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-
 import 'HomepageStartup.dart';
 import 'InitializeFireFlutter.dart';
 import 'Login.dart';
@@ -26,7 +26,7 @@ class NavDrawer extends StatelessWidget {
                         color: Theme.of(context).scaffoldBackgroundColor,
                         image: DecorationImage(
                             fit: BoxFit.contain,
-                            image: ExactAssetImage('assets/logo.png'))),
+                            image: AssetImage("custom_images/logo.png"))),
                   )),
               ListTile(
                 leading: Icon(Icons.location_city_outlined,
@@ -94,6 +94,7 @@ class NavDrawer extends StatelessWidget {
                     color: Theme.of(context).accentColor),
                 title: Text('Logout'),
                 onTap: () {
+                  FirebaseMessaging.instance.deleteToken();
                   FlutterMessagingChangeNotifier
                       .setGroupChatChangeNotifier(null);
                   FlutterMessagingChangeNotifier

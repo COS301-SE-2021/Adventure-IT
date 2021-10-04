@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The Adventure Controller
+ * This class defines API endpoints for the Main Controller to communicate with the Adventure microservice
+ */
 
 @RestController
 @RequestMapping("/adventure")
@@ -56,7 +60,7 @@ public class AdventureController {
         return adventureServiceImplementation.createAdventure(req);
     }
 
-    @DeleteMapping("/remove/{id}/{userID}")
+    @GetMapping("/remove/{id}/{userID}")
     public RemoveAdventureResponse removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) {
         return adventureServiceImplementation.removeAdventure(id, userID);
     }
@@ -75,7 +79,6 @@ public class AdventureController {
     public void removeAttendees(@PathVariable UUID adventureID,@PathVariable UUID userID) {
         adventureServiceImplementation.removeAttendees(adventureID,userID);
     }
-
 
     @GetMapping("/getAdventureByUUID/{id}")
     public GetAdventureByUUIDResponse getAdventureByUUID(@PathVariable UUID id) {

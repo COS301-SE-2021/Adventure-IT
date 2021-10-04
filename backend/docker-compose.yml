@@ -186,3 +186,16 @@ services:
       - keycloak
       - db
       - main-controller
+  recommendation-microservice:
+    build: microservices/recommendation-service
+    network_mode: host
+    environment:
+      - spring.config.import=file:/env/backend-environment.yml
+    volumes:
+      - shared-volume:/env/
+    depends_on:
+      - resolve-and-build
+      - service-registry
+      - keycloak
+      - db
+      - main-controller

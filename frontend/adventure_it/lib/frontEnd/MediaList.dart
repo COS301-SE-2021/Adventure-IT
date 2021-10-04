@@ -40,7 +40,7 @@ class MediaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => MediaModel(adventure!,context),
+        create: (context) => MediaModel(adventure!, context),
         builder: (context, widget) => Scaffold(
               drawer: NavDrawer(),
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -52,7 +52,8 @@ class MediaPage extends StatelessWidget {
                                   .textTheme
                                   .bodyText1!
                                   .color))),
-                  iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
+                  iconTheme: IconThemeData(
+                      color: Theme.of(context).textTheme.bodyText1!.color),
                   backgroundColor: Theme.of(context).primaryColorDark),
               body: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -151,9 +152,8 @@ class MediaList extends StatelessWidget {
                                   .elementAt(index)
                                   .type
                                   .contains("mp4")
-                              ? Image.asset("playbutton.png").image
-                              : NetworkImage("http://" +
-                                  mainApi +
+                              ? Image.asset("custom_images/playbutton.png").image
+                              : NetworkImage(mainApi +
                                   "/media/mediaUploaded/" +
                                   mediaModel.media!.elementAt(index).id),
                           fit: BoxFit.cover),
@@ -176,8 +176,9 @@ class MediaList extends StatelessWidget {
                                               .bodyText1!
                                               .color)),
                                   Spacer(),
-                                 Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Spacer(),
                                         Expanded(
@@ -185,7 +186,11 @@ class MediaList extends StatelessWidget {
                                             child: ElevatedButton(
                                                 child: Icon(
                                                   Icons.download,
-                                                  color: Theme.of(context).textTheme.bodyText1!.color,),
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color,
+                                                ),
                                                 style: ElevatedButton.styleFrom(
                                                   primary: Theme.of(context)
                                                       .accentColor,
@@ -219,39 +224,47 @@ class MediaList extends StatelessWidget {
                                                 })),
                                         Spacer(),
                                         Expanded(
-                                          flex: 6,
+                                            flex: 6,
                                             child: ElevatedButton(
                                               child: Icon(
                                                 Icons.delete,
-                                                color: Theme.of(context).textTheme.bodyText1!.color,),
-                                          style: ElevatedButton.styleFrom(
-                                            side: BorderSide(width: 1.0, color: Theme.of(context)
-                                                .accentColor),
-                                            primary:
-                                                Theme.of(context).primaryColorDark,
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal:
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.02,
-                                                vertical: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.005),
-                                          ),
-                                          onPressed: () {
-                                            Provider.of<MediaModel>(context,
-                                                    listen: false)
-                                                .removeMedia(mediaModel.media!
-                                                    .elementAt(index)
-                                                    .id);
-                                          },
-                                        )),
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1!
+                                                    .color,
+                                              ),
+                                              style: ElevatedButton.styleFrom(
+                                                side: BorderSide(
+                                                    width: 1.0,
+                                                    color: Theme.of(context)
+                                                        .accentColor),
+                                                primary: Theme.of(context)
+                                                    .primaryColorDark,
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.02,
+                                                    vertical:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.005),
+                                              ),
+                                              onPressed: () {
+                                                Provider.of<MediaModel>(context,
+                                                        listen: false)
+                                                    .removeMedia(mediaModel
+                                                        .media!
+                                                        .elementAt(index)
+                                                        .id);
+                                              },
+                                            )),
                                         Spacer(),
-
                                       ]),
-                                ]))),Spacer(),
+                                ]))),
+                    Spacer(),
                   ])),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: MediaQuery.of(context).size.height >

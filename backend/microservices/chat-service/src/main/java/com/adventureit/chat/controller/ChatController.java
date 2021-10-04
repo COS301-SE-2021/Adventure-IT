@@ -91,4 +91,9 @@ public class ChatController {
     public void deleteChat(@PathVariable UUID id) {
         service.deleteDirectChat(id);
     }
+
+    @GetMapping("/deleteByAdventure/{id}")
+    public void deleteByAdventure(@PathVariable UUID id) {
+        service.deleteByAdventure(id);
+    }
 }

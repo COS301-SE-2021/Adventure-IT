@@ -35,7 +35,7 @@ public class MainControllerItineraryReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "internal-microservices-473352023.us-east-2.elb.amazonaws.com";
+    private static final String INTERNET_PORT = "http://internal-microservice-load-balancer-1572194202.us-east-2.elb.amazonaws.com";
     private static final String LOCATION_PORT = "9006";
     private static final String ITINERARY_PORT = "9009";
     private static final String TIMELINE_PORT = "9012";
@@ -99,7 +99,7 @@ public class MainControllerItineraryReroute {
         LocationResponseDTO locationDTO = restTemplate.getForObject(INTERNET_PORT + ":" + LOCATION_PORT + GET_LOCATION +locationId,LocationResponseDTO.class);
 
         assert locationDTO != null;
-        CreateLocationRequest req3 = new CreateLocationRequest(locationId, locationDTO.getName());
+        CreateLocationRequest req3 = new CreateLocationRequest(locationId, locationDTO.getFormattedAddress());
         restTemplate.postForObject(INTERNET_PORT + ":" + RECOMMENDATION_PORT + "/recommendation/add/location", req3, String.class);
 
         UUID itineraryID = restTemplate.postForObject(INTERNET_PORT + ":" + ITINERARY_PORT + "/itinerary/addEntry", req, UUID.class);

@@ -1,5 +1,6 @@
 package com.adventureit.maincontroller.controller;
 
+import com.adventureit.maincontroller.Threads.CascadingDeleteThread;
 import com.adventureit.maincontroller.exceptions.ControllerNotAvailable;
 import com.adventureit.maincontroller.service.MainControllerServiceImplementation;
 import com.adventureit.shareddtos.adventure.requests.CreateAdventureRequest;
@@ -29,12 +30,16 @@ public class MainControllerAdventureReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "http://localhost";
+    private static final String INTERNET_PORT = "http://internal-microservice-load-balancer-1572194202.us-east-2.elb.amazonaws.com";
     private static final String ADVENTURE_PORT = "9001";
     private static final String USER_PORT = "9002";
     private static final String CHAT_PORT = "9010";
     private static final String TIMELINE_PORT = "9012";
     private static final String LOCATION_PORT = "9006";
+    private static final String BUDGET_PORT = "9007";
+    private static final String CHECKLIST_PORT = "9008";
+    private static final String ITINERARY_PORT = "9009";
+    private static final String MEDIA_PORT = "9005";
     private static final String GET_USER = "/user/getUser/";
     private static final String CREATE_TIMELINE = "/timeline/createTimeline";
     private static final String ERROR = "Empty Error";
@@ -135,7 +140,17 @@ public class MainControllerAdventureReroute {
     public void removeAdventure(@PathVariable UUID id, @PathVariable UUID userID) throws ControllerNotAvailable, InterruptedException {
         String[] ports = {ADVENTURE_PORT};
         service.pingCheck(ports,restTemplate);
-        restTemplate.delete(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/remove/"+id+"/"+userID, RemoveAdventureResponse.class);
+
+        RemoveAdventureResponse response = restTemplate.getForObject(INTERNET_PORT + ":" + ADVENTURE_PORT + "/adventure/remove/"+id+"/"+userID, RemoveAdventureResponse.class);
+        assert response != null;
+        if(response.isDeleteAdventure()){
+            new CascadingDeleteThread(INTERNET_PORT, BUDGET_PORT, "/budget/deleteAllByAdventure/" ,id);
+            new CascadingDeleteThread(INTERNET_PORT, CHECKLIST_PORT, "/checklist/deleteAllByAdventure/" ,id);
+            new CascadingDeleteThread(INTERNET_PORT, CHAT_PORT, "/chat/deleteByAdventure/" ,id);
+            new CascadingDeleteThread(INTERNET_PORT, ITINERARY_PORT, "/itinerary/deleteAllByAdventure/" ,id);
+            new CascadingDeleteThread(INTERNET_PORT, MEDIA_PORT, "/media/deleteAllByAdventure/" ,id);
+            new CascadingDeleteThread(INTERNET_PORT, TIMELINE_PORT, "/timeline/deleteTimelineByAdventureID/" ,id);
+        }
     }
 
     @GetMapping("/addAttendees/{adventureID}/{userID}")

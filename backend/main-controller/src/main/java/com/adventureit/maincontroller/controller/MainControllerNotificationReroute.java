@@ -18,12 +18,17 @@ public class MainControllerNotificationReroute {
     private final RestTemplate restTemplate = new RestTemplate();
     private final MainControllerServiceImplementation service;
 
-    private static final String INTERNET_PORT = "internal-microservices-473352023.us-east-2.elb.amazonaws.com";
+    private static final String INTERNET_PORT = "http://internal-microservice-load-balancer-1572194202.us-east-2.elb.amazonaws.com";
     private static final String NOTIFICATION_PORT = "9004";
 
     @Autowired
     public MainControllerNotificationReroute(MainControllerServiceImplementation service) {
         this.service = service;
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return restTemplate.getForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/test", String.class);
     }
 
     @PostMapping("/sendemail")

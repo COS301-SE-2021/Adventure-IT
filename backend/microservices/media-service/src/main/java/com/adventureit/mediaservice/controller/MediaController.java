@@ -145,4 +145,9 @@ public class MediaController {
     public long getDocumentSize(@PathVariable UUID id) throws IOException {
         return mediaServiceImplementation.getDocumentSize(id);
     }
+
+    @GetMapping("/deleteAllByAdventure/{id}")
+    public void deleteAllByAdventure(@PathVariable UUID id){
+        mediaServiceImplementation.deleteAllByAdventure(id);
+    }
 }
