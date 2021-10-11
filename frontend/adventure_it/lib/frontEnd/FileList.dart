@@ -57,13 +57,10 @@ class Files extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Spacer(),
-                    Container(
-                        height: MediaQuery.of(context).size.height * 0.80,
-                        width: MediaQuery.of(context).size.width * 0.95,
+                    SizedBox(height: MediaQuery.of(context).size.height / 60),
+                    Expanded(
                         child: MediaList(adventure)),
                     SizedBox(height: MediaQuery.of(context).size.height / 60),
-                    Spacer(),
                     Row(children: [
                       Expanded(
                         flex: 1,
