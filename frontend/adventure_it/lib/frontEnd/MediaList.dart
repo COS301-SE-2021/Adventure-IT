@@ -24,6 +24,7 @@ class MediaPage extends StatelessWidget {
     try {
       return (await FilePicker.platform.pickFiles(
               allowMultiple: true,
+              withData: true,
               type: FileType.custom,
               onFileLoading: (FilePickerStatus status) => print(status),
               allowedExtensions: ['jpg', 'png', 'gif', 'mp4']))
