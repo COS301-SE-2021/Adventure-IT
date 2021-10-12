@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:theme_provider/theme_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../constants.dart';
 import 'ForgotPassword.dart';
 import 'HomepageStartup.dart';
 import 'Register.dart';
@@ -110,16 +112,15 @@ class Login extends State<LoginCaller> {
                   final success = await api.logIn(username, password);
 
                   print(UserApi.getInstance().theme!);
-                  if(UserApi.getInstance().theme!) {
+                  if (UserApi.getInstance().theme!) {
                     ThemeProvider.controllerOf(context).setTheme('light_theme');
-                  }
-                  else {
+                  } else {
                     ThemeProvider.controllerOf(context).setTheme('dark_theme');
                   }
 
                   if (success == true) {
                     NotificationSettings settings =
-                    await FirebaseMessaging.instance.requestPermission(
+                        await FirebaseMessaging.instance.requestPermission(
                       alert: true,
                       announcement: false,
                       badge: true,
@@ -128,7 +129,8 @@ class Login extends State<LoginCaller> {
                       provisional: false,
                       sound: true,
                     );
-                    print('User granted permission: ${settings.authorizationStatus}');
+                    print(
+                        'User granted permission: ${settings.authorizationStatus}');
                     bool serviceEnabled;
                     PermissionStatus permissionGranted;
                     Location location = Location();
@@ -194,12 +196,12 @@ class Login extends State<LoginCaller> {
                     text: 'Forgot Password?',
                     style: new TextStyle(color: Theme.of(context).accentColor),
                     recognizer: new TapGestureRecognizer()
-                      ..onTap = () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ForgotPasswordCaller()),
-                        );
+                      ..onTap = () async {
+                        if (await canLaunch(forgotPasswordLink))
+                          await launch(forgotPasswordLink);
+                        else
+                          // can't launch url, there is some error
+                          throw "Could not launch $forgotPasswordLink";
                       }))
           ],
         ))));
