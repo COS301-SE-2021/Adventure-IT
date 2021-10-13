@@ -1177,102 +1177,102 @@ class GetBudgetEntries extends State<_GetBudgetEntries> {
                                                                   .color)))
                                                 ])),
                                           ),
-                                          PopupMenuButton(
-                                              color: Theme.of(context).textTheme.bodyText1!.color,
-                                              onSelected: (value) {
-                                                if(value==1) {
-                                                  showDialog(
-                                                      context: c,
-                                                      builder: (BuildContext context) {
-                                                        return _EditAlertBox(currentBudget!, currentAdventure!, budgetEntryModel, budgetEntryModel.entries!.elementAt(index), context);
-                                                      }
-                                                  );
-                                                }
-                                                if (value == 2) {
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext context) {
-                                                    return AlertDialog(
-                                                      backgroundColor:
-                                                      Theme
-                                                          .of(context)
-                                                          .primaryColorDark,
-                                                      title: Text("Confirm Removal",
-                                                          style: TextStyle(
-                                                              color: Theme
-                                                                  .of(context)
-                                                                  .textTheme
-                                                                  .bodyText1!
-                                                                  .color)),
-                                                      content: Text(
-                                                          "Are you sure you want to remove this budget item for definite?",
-                                                          style: TextStyle(
-                                                              color: Theme
-                                                                  .of(context)
-                                                                  .textTheme
-                                                                  .bodyText1!
-                                                                  .color)),
-                                                      actions: <Widget>[
-                                                        TextButton(
-                                                            onPressed: (){
-                                                              Provider.of<BudgetEntryModel>(c,
-                                                                  listen: false)
-                                                                  .deleteBudgetEntry(
-                                                                  budgetEntryModel.entries!.elementAt(index));
-                                                              Provider.of<BudgetEntryModel>(c,
-                                                                  listen: false).fetchAllEntries(currentBudget!);
-                                                                Navigator.pop(context);},
-                                                            child: Text("Remove",
-                                                                style: TextStyle(
-                                                                    color: Theme
-                                                                        .of(context)
-                                                                        .textTheme
-                                                                        .bodyText1!
-                                                                        .color))),
-                                                        TextButton(
-                                                          onPressed: () =>
-                                                              Navigator.pop(context),
-                                                          child: Text("Cancel",
-                                                              style: TextStyle(
-                                                                  color: Theme
-                                                                      .of(context)
-                                                                      .textTheme
-                                                                      .bodyText1!
-                                                                      .color)),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },);}},
-                                              itemBuilder: (context) => [
-                                                PopupMenuItem(
-                                                    value: 1,
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Padding(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .all(5),
-                                                          child: Icon(Icons
-                                                              .edit_rounded,color: Theme.of(context).textTheme.bodyText2!.color),
-                                                        ),
-                                                        Text("Edit", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color))
-                                                      ],
-                                                    )),
-                                                PopupMenuItem(
-                                                    value: 2,
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Padding(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .all(5),
-                                                          child: Icon(Icons
-                                                              .delete,color: Theme.of(context).textTheme.bodyText2!.color),
-                                                        ),
-                                                        Text("Delete", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color))
-                                                      ],
-                                                    ))
-                                              ]),
+                                          // PopupMenuButton(
+                                          //     color: Theme.of(context).textTheme.bodyText1!.color,
+                                          //     onSelected: (value) {
+                                          //       if(value==1) {
+                                          //         showDialog(
+                                          //             context: c,
+                                          //             builder: (BuildContext context) {
+                                          //               return _EditAlertBox(currentBudget!, currentAdventure!, budgetEntryModel, budgetEntryModel.entries!.elementAt(index), context);
+                                          //             }
+                                          //         );
+                                          //       }
+                                          //       if (value == 2) {
+                                          //         showDialog(
+                                          //             context: context,
+                                          //             builder: (BuildContext context) {
+                                          //           return AlertDialog(
+                                          //             backgroundColor:
+                                          //             Theme
+                                          //                 .of(context)
+                                          //                 .primaryColorDark,
+                                          //             title: Text("Confirm Removal",
+                                          //                 style: TextStyle(
+                                          //                     color: Theme
+                                          //                         .of(context)
+                                          //                         .textTheme
+                                          //                         .bodyText1!
+                                          //                         .color)),
+                                          //             content: Text(
+                                          //                 "Are you sure you want to remove this budget item for definite?",
+                                          //                 style: TextStyle(
+                                          //                     color: Theme
+                                          //                         .of(context)
+                                          //                         .textTheme
+                                          //                         .bodyText1!
+                                          //                         .color)),
+                                          //             actions: <Widget>[
+                                          //               TextButton(
+                                          //                   onPressed: (){
+                                          //                     Provider.of<BudgetEntryModel>(c,
+                                          //                         listen: false)
+                                          //                         .deleteBudgetEntry(
+                                          //                         budgetEntryModel.entries!.elementAt(index));
+                                          //                     Provider.of<BudgetEntryModel>(c,
+                                          //                         listen: false).fetchAllEntries(currentBudget!);
+                                          //                       Navigator.pop(context);},
+                                          //                   child: Text("Remove",
+                                          //                       style: TextStyle(
+                                          //                           color: Theme
+                                          //                               .of(context)
+                                          //                               .textTheme
+                                          //                               .bodyText1!
+                                          //                               .color))),
+                                          //               TextButton(
+                                          //                 onPressed: () =>
+                                          //                     Navigator.pop(context),
+                                          //                 child: Text("Cancel",
+                                          //                     style: TextStyle(
+                                          //                         color: Theme
+                                          //                             .of(context)
+                                          //                             .textTheme
+                                          //                             .bodyText1!
+                                          //                             .color)),
+                                          //               ),
+                                          //             ],
+                                          //           );
+                                          //         },);}},
+                                          //     itemBuilder: (context) => [
+                                          //       PopupMenuItem(
+                                          //           value: 1,
+                                          //           child: Row(
+                                          //             children: <Widget>[
+                                          //               Padding(
+                                          //                 padding:
+                                          //                 const EdgeInsets
+                                          //                     .all(5),
+                                          //                 child: Icon(Icons
+                                          //                     .edit_rounded,color: Theme.of(context).textTheme.bodyText2!.color),
+                                          //               ),
+                                          //               Text("Edit", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color))
+                                          //             ],
+                                          //           )),
+                                          //       PopupMenuItem(
+                                          //           value: 2,
+                                          //           child: Row(
+                                          //             children: <Widget>[
+                                          //               Padding(
+                                          //                 padding:
+                                          //                 const EdgeInsets
+                                          //                     .all(5),
+                                          //                 child: Icon(Icons
+                                          //                     .delete,color: Theme.of(context).textTheme.bodyText2!.color),
+                                          //               ),
+                                          //               Text("Delete", style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color))
+                                          //             ],
+                                          //           ))
+                                          //     ]),
                                         ],
                                       ),
                                     )))),
