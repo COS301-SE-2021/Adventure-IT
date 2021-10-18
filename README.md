@@ -1,3 +1,4 @@
+# We're Offline
 Hi! Thank you for your interest in Adventure-IT, the future of trip-planning! Adventure-IT implements microservices which can be quite costly when it comes to hosting. Therefore, Adventure-IT is currently not up and running. If you are interested in viewing our application, feel free to contact us at TheSmartPointers@gmail.com and we'll be happy to get it running specially for you!
 
 ![alt text](https://i.ibb.co/WDYrBfH/Adventure-IT-logo.jpg)
