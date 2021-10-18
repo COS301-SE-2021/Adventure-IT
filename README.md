@@ -1,4 +1,9 @@
-cd![alt text](https://i.ibb.co/WDYrBfH/Adventure-IT-logo.jpg)
+
+# We're Offline
+Hi! Thank you for your interest in Adventure-IT, the future of trip-planning! Adventure-IT implements microservices which can be quite costly when it comes to hosting. Therefore, Adventure-IT is currently not up and running. If you are interested in viewing our application, feel free to contact us at TheSmartPointers@gmail.com and we'll be happy to get it running specially for you!
+
+![alt text](https://i.ibb.co/WDYrBfH/Adventure-IT-logo.jpg)
+
 
 # Adventure IT
 
@@ -15,6 +20,14 @@ itinerary planning, check lists, expense tracking, media sharing and more.
 ![GitHub Commits](https://img.shields.io/github/commit-activity/m/COS301-SE-2021/Adventure-IT?style=for-the-badge)
 ![GitHub Tests](https://img.shields.io/github/workflow/status/COS301-SE-2021/Adventure-IT/Backend%20-%20Java%20CI%20with%20Maven/master?label=tests%20on%20master&style=for-the-badge)
 [![GitHub stars](https://img.shields.io/github/stars/COS301-SE-2021/Adventure-IT?style=for-the-badge)](https://github.com/COS301-SE-2021/Adventure-IT/stargazers)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2021_Adventure-IT&metric=alert_status)](https://sonarcloud.io/dashboard?id=COS301-SE-2021_Adventure-IT)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2021_Adventure-IT&metric=bugs)](https://sonarcloud.io/dashboard?id=COS301-SE-2021_Adventure-IT)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2021_Adventure-IT&metric=code_smells)](https://sonarcloud.io/dashboard?id=COS301-SE-2021_Adventure-IT)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2021_Adventure-IT&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=COS301-SE-2021_Adventure-IT)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2021_Adventure-IT&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=COS301-SE-2021_Adventure-IT)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2021_Adventure-IT&metric=security_rating)](https://sonarcloud.io/dashboard?id=COS301-SE-2021_Adventure-IT)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2021_Adventure-IT&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=COS301-SE-2021_Adventure-IT)
+
 
 ---
 
@@ -28,8 +41,9 @@ Flutter
 
 Java<br>
 Keycloak<br>
-Google<br>
+Docker<br>
 Postgresql<br>
+Firebase Cloud<br>
 
 ## Branching Strategy
 
@@ -46,8 +60,9 @@ master(build)<br>
 
 ### Project Boards:
 
-Here you can access all the sprints which we have created through out the development of Adventure it.<br>
+Here you can access all the sprints which we have created throughout the development of Adventure-IT.<br>
 
+- [Documentation](https://github.com/COS301-SE-2021/Adventure-IT/projects/10)
 - [Sprint #7](https://github.com/COS301-SE-2021/Adventure-IT/projects/9)
 - [Sprint #6](https://github.com/COS301-SE-2021/Adventure-IT/projects/8)
 - [Sprint #5](https://github.com/COS301-SE-2021/Adventure-IT/projects/7)
@@ -71,15 +86,24 @@ Here you can see all the information regarding our github insights.<br>
 [SRS Document v1](https://drive.google.com/file/d/1DJac4OXOmo8ij1sMzBcdFF_d9OdwDBye/view?usp=sharing)<br>
 [SRS Document v2](https://drive.google.com/file/d/1LPZtS6qBy6Foezpoy15aoF5_OKYFg4UK/view?usp=sharing)<br>
 [SRS Document v3](https://drive.google.com/file/d/14S4xSWlYOGQaatR34F8VRhzxoVaUYMvc/view?usp=sharing)<br>
+[SRS Document v4](https://drive.google.com/file/d/1ioCTGrOTeViQU40LNZsQ3_5NDi74PYIj/view?usp=sharing)<br>
 [Architectural Document v1](https://drive.google.com/file/d/1XTNPcqGUv0VXY10nnx7jFg6lFLlGLfVY/view?usp=sharing)<br>
-[Architectural Document v2](https://drive.google.com/file/d/1XTNPcqGUv0VXY10nnx7jFg6lFLlGLfVY/view?usp=sharing)<br>
-[Architectural Document v3](https://drive.google.com/file/d/1XTNPcqGUv0VXY10nnx7jFg6lFLlGLfVY/view?usp=sharing)<br>
-[Installation Manual](https://drive.google.com/file/d/1k7nqYo392nESieN9ZB9_9nrLJsucQ3sj/view?usp=sharing)<br>
-[User Manual](https://drive.google.com/file/d/1Emq7qZ7IsgRWLM5CVBmfHSHNnznoFgae/view?usp=sharing)<br>
-[Coding Standards](https://drive.google.com/file/d/1ClujSTTNhTaBaEZyX3D06QsrvCr_glH_/view?usp=sharing)
-[Demo Video v1](https://drive.google.com/file/d/1xA5vm6o-PZxjv8IV9Esl6hzKomYmctHx/view?usp=sharing)
-[Demo Video v2](https://drive.google.com/file/d/10PP2_JCQ90dlmak3jAMOfE-B60tDR8E-/view?usp=sharing)
-[Demo Video v3](https://drive.google.com/file/d/12lckbmYwm47iZtwvPRzNUy0j83XWS4Yc/view?usp=sharing)
+[Architectural Document v2](https://drive.google.com/file/d/1PoXWB4e-1uvPj9MIxqfjWwikUvi6mXPp/view?usp=sharing)<br>
+[Architectural Document v3](https://drive.google.com/file/d/1fhlVY9FbLXD1lzky4d6gkrmjOH5sTdCf/view?usp=sharing)<br>
+[Architectural Document v4](https://drive.google.com/file/d/1h0xZ_ZTqgbtmnPS8htxlOLU-3hORN4AQ/view?usp=sharing)<br>
+[Installation Manual v1](https://drive.google.com/file/d/1k7nqYo392nESieN9ZB9_9nrLJsucQ3sj/view?usp=sharing)<br>
+[Installation Manual v2](https://drive.google.com/file/d/13Qqfhcmj84xPJqKA6hAaKdTTRjfdoP-j/view?usp=sharing)<br>
+[User Manual v1](https://drive.google.com/file/d/1Emq7qZ7IsgRWLM5CVBmfHSHNnznoFgae/view?usp=sharing)<br>
+[User Manual v2](https://drive.google.com/file/d/1miKMDGy3EVlUr7ltEVeujfw6y_3UUZq5/view?usp=sharing)<br>
+[Coding Standards v1](https://drive.google.com/file/d/1ClujSTTNhTaBaEZyX3D06QsrvCr_glH_/view?usp=sharing)<br>
+[Coding Standards v2](https://drive.google.com/file/d/15sJW8ySaGS2ZljuWC6Mq2d5uhyhyLTBq/view?usp=sharing)<br>
+[Testing Policy Document](https://drive.google.com/file/d/1rOf2IZCjyil5tm24A4ERpoVv0VxAEmvV/view?usp=sharing)<br>
+
+<!-- ## Demo Videos
+[Demo Video v1](https://drive.google.com/file/d/1xA5vm6o-PZxjv8IV9Esl6hzKomYmctHx/view?usp=sharing)<br>
+[Demo Video v2](https://drive.google.com/file/d/10PP2_JCQ90dlmak3jAMOfE-B60tDR8E-/view?usp=sharing)<br>
+[Demo Video v3](https://drive.google.com/file/d/12lckbmYwm47iZtwvPRzNUy0j83XWS4Yc/view?usp=sharing)<br>
+[Demo Video v4](https://drive.google.com/file/d/1VnNIiXIVprIyONKrbPAFLwNltiNpigDT/view?usp=sharing)<br> -->
 
 ## Team Members
 
@@ -97,18 +121,20 @@ Here you can see all the information regarding our github insights.<br>
 
 ## Hai-muo Cui (20%)
 
-I was nominated as team lead for TheSmartPointers and thus my main priority was ensuring that the team worked in harmony and mainaining a bridge of communication between the team and our lecturer mentor as well as our industy mentor. This includes scheduling weekly meetings with our industy mentor as well as chairing daily meeting with the team. In terms of work on the project my primary focus is on backend development. This includes developing and working the following:<br><br>
+I was nominated as team lead for TheSmartPointers and thus my main priority was ensuring that the team worked in harmony and mainaining a bridge of communication between the team and our lecturer mentor as well as our industy mentor. This includes scheduling weekly meetings with our industy mentor as well as chairing daily meeting with the team. In terms of work on the project my primary focus is on backend development. This includes developing and working on the following:<br><br>
 - Developing backend services (Chat, Timeline, Notification, Main controller).<br>
 - Integrating micro-services together in the main controller.<br>
 - Creating unit as well as Integration tests for a portion of the micro-services.<br>
 - Debugging possible errors which have occured throughout development.<br>
+- Budget algorithm for the budget microservice
 
 ## Shivek Goodoon (20%)
 
-In terms of work on the project my primary focus is on backend development. This includes developing and working the following:<br><br>
+In terms of work on the project my primary focus is on backend development. This includes developing and working on the following:<br><br>
 - Developing backend services (Budget, Checklist, Itinerary, Location).<br>
 - Creating unit as well as Integration tests for a portion of the micro-services.<br>
 - Debugging possible errors which have occured throughout development.<br>
+- Firebase Cloud for media and documents
 
 ## Ashton Flowerday (20%)
 
@@ -121,6 +147,7 @@ As a front-end developer, I mostly implemented the pages that the user will inte
 - The forms for the creation of itinerary, checklist and budget <br>
 - Group chat and direct chat <br>
 - Media/files/documents <br>
+- Recommendations frontend
 
 
 ## Simran Rathilal (20%)
@@ -131,6 +158,8 @@ I took more of an admin role in the group. I made sure everyone knew when group 
 - Created dart files in the API for each function required on the front-end.<br>
 - I worked on the navigation bar.<br>
 - I worked on certain front-end pages including Login, Register, Timeline and Profile.<br>
+- Implemented user flags
+- App themes
 
 ## Alex Human (20%)
 I was involved in the overall architectural design & implementation of the Adventure-It system, fulfilling a full-stack development role.
@@ -140,3 +169,4 @@ Namely, I was involved in the following:
 - Front-end implementation of functionality.
 - Front-end integration of back-end functionality.
 - Integration of Keycloak for user verification.
+- Recommendation Algorithm
