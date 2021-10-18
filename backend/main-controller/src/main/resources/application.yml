@@ -14,9 +14,8 @@ spring:
           jwt:
             issuer-uri: ${keycloak.oauth2.resourceserver.jwt.issuer-uri}
 
-eureka:
-  client:
-    register-with-eureka: ${service-registry-client.client.register-with-eureka}
-    fetch-registry: ${service-registry-client.client.fetch-registry}
-    service-url:
-      defaultZone: ${service-registry-client.client.service-url.defaultZone}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ${management.endpoints.web.exposure.include}

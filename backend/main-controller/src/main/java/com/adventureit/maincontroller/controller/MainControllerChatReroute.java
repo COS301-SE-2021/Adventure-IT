@@ -166,7 +166,7 @@ public class MainControllerChatReroute {
         }
         GetUserByUUIDDTO user =restTemplate.getForObject(INTERNET_PORT + ":" + USER_PORT + GET_USER + UUID.fromString(send), GetUserByUUIDDTO.class);
         assert user != null;
-        SendFirebaseNotificationRequest notifReq = new SendFirebaseNotificationRequest(UUID.fromString(rec), "New direct message", "From: "+user.getUsername(), null);
+        SendFirebaseNotificationRequest notifReq = new SendFirebaseNotificationRequest(UUID.fromString(rec), "New direct message", "From: "+user.getUsername(), new HashMap<>());
         restTemplate.postForObject(INTERNET_PORT + ":" + NOTIFICATION_PORT + "/notification/sendFirebaseNotification",notifReq, String.class);
         return restTemplate.postForObject(INTERNET_PORT + ":" + CHAT_PORT + "/chat/sendDirectMessage", request,String.class);
     }

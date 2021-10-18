@@ -349,7 +349,7 @@ class Countries extends State<_Countries> {
         child:
             Consumer<LocationModel>(builder: (context, locationModel, child) {
           String percent =
-              ((locationModel.flags!.length / 195) * 100).toStringAsFixed(2);
+              ((locationModel.flags!.length / 245) * 100).toStringAsFixed(2);
           if (locationModel.flags != null) {
             return Container(
               height: MediaQuery.of(context).size.height * 0.3,

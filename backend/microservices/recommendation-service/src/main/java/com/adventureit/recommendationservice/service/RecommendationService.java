@@ -95,7 +95,7 @@ public class RecommendationService {
         List<RecommendedLocation> filteredLocations = new ArrayList<>();
 
         for(RecommendedLocation l : locations){
-            if(l.getLocationString().contains(locationFilter)){
+            if(locationFilter.contains(l.getLocationString())){
                 filteredLocations.add(l);
             }
         }
@@ -210,7 +210,7 @@ public class RecommendationService {
             numRecommendations = recommendedLocations.size();
         }
 
-        String[][] returnMatrix = new String[numRecommendations][2];
+        String[][] returnMatrix = new String[numLocations][2];
         for(int i = 0; i<numRecommendations;i++){
             RecommendedLocation currentLocation = recommendedLocationRepository.findLocationByLocationId(recommendedLocations.get(i));
             returnMatrix[i][0] = recommendedLocations.get(i).toString();
@@ -228,7 +228,7 @@ public class RecommendationService {
         int numPopular=Integer.parseInt(numPop);
         locations.sort(Comparator.comparing(RecommendedLocation::getVisits));
         for(RecommendedLocation location : locations){
-            if(location.getLocationString().contains(locationFilter)){
+            if(locationFilter.contains(location.getLocationString())){
                 filteredLocations.add(location);
             }
         }
@@ -239,18 +239,17 @@ public class RecommendationService {
             locations = filteredLocations;
         }
 
+        String[][] returnMatrix = new String[locations.size()][2];
         List<RecommendedUser> users = this.recommendedUserRepository.findAll();
-
 
         if(locations.isEmpty())
         {
-            return null;
+            return returnMatrix;
         } else if(locations.size()<numPopular)
         {
             numPopular=locations.size();
         }
 
-        String[][] returnMatrix = new String[numPopular][2];
 
         // Find index of current user:
         int userIndex = -1;

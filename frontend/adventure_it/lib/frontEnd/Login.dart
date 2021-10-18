@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:theme_provider/theme_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../constants.dart';
 import 'ForgotPassword.dart';
 import 'HomepageStartup.dart';
 import 'Register.dart';
@@ -25,6 +27,49 @@ class Login extends State<LoginCaller> {
   var storage = FlutterSecureStorage();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      await showDialog<String>(
+          context: context,
+          builder: (BuildContext context) =>
+          new AlertDialog(
+              backgroundColor: Theme
+                  .of(context)
+                  .primaryColorDark,
+              title: Text("We're Offline",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color,
+                ), textAlign: TextAlign.center,),
+              content: Text(
+                  "Hi! Thank you for your interest in Adventure-IT, the future of trip-planning! Adventure-IT implements microservices which can be quite costly when it comes to hosting. Therefore, Adventure-IT is currently not up and running. If you are interested in viewing our application, feel free to contact us at TheSmartPointers@gmail.com and we'll be happy to get it running specially for you!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color,
+                  )),actions: <Widget>[
+            TextButton(
+                onPressed: () =>
+                    Navigator.of(context).pop(),
+                child: Text("OK",
+                    style: TextStyle(
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color)))]));
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -110,16 +155,15 @@ class Login extends State<LoginCaller> {
                   final success = await api.logIn(username, password);
 
                   print(UserApi.getInstance().theme!);
-                  if(UserApi.getInstance().theme!) {
+                  if (UserApi.getInstance().theme!) {
                     ThemeProvider.controllerOf(context).setTheme('light_theme');
-                  }
-                  else {
+                  } else {
                     ThemeProvider.controllerOf(context).setTheme('dark_theme');
                   }
 
                   if (success == true) {
                     NotificationSettings settings =
-                    await FirebaseMessaging.instance.requestPermission(
+                        await FirebaseMessaging.instance.requestPermission(
                       alert: true,
                       announcement: false,
                       badge: true,
@@ -128,7 +172,8 @@ class Login extends State<LoginCaller> {
                       provisional: false,
                       sound: true,
                     );
-                    print('User granted permission: ${settings.authorizationStatus}');
+                    print(
+                        'User granted permission: ${settings.authorizationStatus}');
                     bool serviceEnabled;
                     PermissionStatus permissionGranted;
                     Location location = Location();
@@ -194,12 +239,12 @@ class Login extends State<LoginCaller> {
                     text: 'Forgot Password?',
                     style: new TextStyle(color: Theme.of(context).accentColor),
                     recognizer: new TapGestureRecognizer()
-                      ..onTap = () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ForgotPasswordCaller()),
-                        );
+                      ..onTap = () async {
+                        if (await canLaunch(forgotPasswordLink))
+                          await launch(forgotPasswordLink);
+                        else
+                          // can't launch url, there is some error
+                          throw "Could not launch $forgotPasswordLink";
                       }))
           ],
         ))));

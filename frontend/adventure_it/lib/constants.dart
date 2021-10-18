@@ -11,6 +11,8 @@ final mainApi = kIsWeb
     ? "https://app.adventure-it.co.za/api"
     : "https://app.adventure-it.co.za/api";
 final googleMapsKey = "AIzaSyD8xsVljufOFTmpnVZI2KzobIdAvKjWdTE";
+final forgotPasswordLink =
+    "https://app.adventure-it.co.za/keycloak/auth/realms/adventure-it/login-actions/reset-credentials?client_id=account-console&tab_id=yBk-OhRGVeA";
 
 final darkTheme = ThemeData(
     iconTheme: IconThemeData(color: Color(0xffA7AAB9)),

@@ -1,5 +1,6 @@
 package com.adventureit.shareddtos.notification.requests;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -7,8 +8,9 @@ public class SendFirebaseNotificationRequest {
     private UUID userId;
     private String title;
     private String body;
-    private Map<String, String> data;
+    private Map<String, String> data = new HashMap<>();
 
+    public SendFirebaseNotificationRequest(){}
 
     public SendFirebaseNotificationRequest(UUID userId, String title, String body, Map<String, String> data) {
         this.userId = userId;
